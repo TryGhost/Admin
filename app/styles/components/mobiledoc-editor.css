@@ -1,0 +1,31 @@
+/* Mobiledoc Editor
+/* ------------------------------------------------------------------------- */
+
+/* Toolbar
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-toolbar {
+    margin: 0;
+    padding: 20px 20px 10px 20px;
+}
+
+.mobiledoc-toolbar__control {
+    display: inline;
+    padding-right: 10px;
+    list-style-type: none;
+}
+
+.mobiledoc-toolbar__control:last-of-type {
+    padding-right: 0;
+}
+
+.mobiledoc-toolbar__button.active {
+    font-weight: bold;
+}
+
+/* Wrapper
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-editor__editor-wrapper {
+    margin: 0 20px;
+}
