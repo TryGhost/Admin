@@ -20,11 +20,20 @@
         </section>
     </header>
 
-    {{gh-editor value=model.scratch
-                shouldFocusEditor=shouldFocusEditor
-                previewUrl=model.previewUrl
-                editorFocused=(action "autoSaveNew")
-                onTeardown=(action "cancelTimers")}}
+    {{#if feature.newEditor}}
+        {{#mobiledoc-editor mobiledoc=model.mobiledoc
+                            autofocus=shouldFocusEditor
+                            spellcheck=true
+                            as |editor|}}
+            {{mobiledoc-toolbar editor=editor}}
+        {{/mobiledoc-editor}}
+    {{else}}
+        {{gh-editor value=model.scratch
+                    shouldFocusEditor=shouldFocusEditor
+                    previewUrl=model.previewUrl
+                    editorFocused=(action "autoSaveNew")
+                    onTeardown=(action "cancelTimers")}}
+    {{/if}}
 </section>
 
 {{#if showDeletePostModal}}

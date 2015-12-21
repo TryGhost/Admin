@@ -28,6 +28,7 @@ export default Mixin.create({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
 
+    feature: controller(),
     postSettingsMenuController: controller('post-settings-menu'),
     notifications: service(),
 
