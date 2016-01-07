@@ -21,7 +21,8 @@
     </header>
 
     {{#if feature.newEditor}}
-        {{#mobiledoc-editor mobiledoc=model.mobiledocScratch
+        {{#mobiledoc-editor mobiledoc=(readonly model.mobiledocScratch)
+                            on-change=(action (mut model.mobiledocScratch))
                             autofocus=shouldFocusEditor
                             spellcheck=true
                             as |editor|}}
