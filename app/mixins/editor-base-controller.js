@@ -161,7 +161,7 @@ export default Mixin.create({
             if (markdownScratch !== markdown) {
                 return true;
             }
-            if (mobiledocScratch !== mobiledoc) {
+            if (JSON.stringify(mobiledocScratch) !== JSON.stringify(mobiledoc)) {
                 return true;
             }
 
