@@ -21,14 +21,14 @@
     </header>
 
     {{#if feature.newEditor}}
-        {{#mobiledoc-editor mobiledoc=model.mobiledoc
+        {{#mobiledoc-editor mobiledoc=model.mobiledocScratch
                             autofocus=shouldFocusEditor
                             spellcheck=true
                             as |editor|}}
             {{mobiledoc-toolbar editor=editor}}
         {{/mobiledoc-editor}}
     {{else}}
-        {{gh-editor value=model.scratch
+        {{gh-editor value=model.markdownScratch
                     shouldFocusEditor=shouldFocusEditor
                     previewUrl=model.previewUrl
                     editorFocused=(action "autoSaveNew")

@@ -101,7 +101,7 @@ export default Controller.extend(SettingsMenuMixin, {
         return metaTitle;
     }),
 
-    seoDescription: computed('model.scratch', 'metaDescriptionScratch', function () {
+    seoDescription: computed('model.markdownScratch', 'metaDescriptionScratch', function () {
         let metaDescription = this.get('metaDescriptionScratch') || '';
         let html = '';
         let el, placeholder;
@@ -110,6 +110,11 @@ export default Controller.extend(SettingsMenuMixin, {
             placeholder = metaDescription;
         } else {
             el = $('.rendered-markdown');
+
+            if (!el.length) {
+                // TODO: calculate placeholder from mobiledoc
+                return '';
+            }
 
             // Get rendered markdown
             if (el !== undefined && el.length > 0) {

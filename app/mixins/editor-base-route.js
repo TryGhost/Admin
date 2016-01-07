@@ -40,7 +40,8 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
 
         willTransition(transition) {
             let controller = this.get('controller');
-            let scratch = controller.get('model.scratch');
+            let markdownScratch = controller.get('model.markdownScratch');
+            let mobiledocScratch = controller.get('model.mobiledocScratch');
             let controllerIsDirty = controller.get('hasDirtyAttributes');
             let model = controller.get('model');
             let state = model.getProperties('isDeleted', 'isSaving', 'hasDirtyAttributes', 'isNew');
@@ -76,8 +77,12 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
             // The controller may hold model state that will be lost in the transition,
             // so we need to apply it now.
             if (fromNewToEdit && controllerIsDirty) {
-                if (scratch !== model.get('markdown')) {
-                    model.set('markdown', scratch);
+                if (markdownScratch !== model.get('markdown')) {
+                    model.set('markdown', markdownScratch);
+                }
+
+                if (mobiledocScratch !== model.get('mobiledoc')) {
+                    model.set('mobiledoc', mobiledocScratch);
                 }
             }
 
@@ -126,8 +131,9 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
     setupController(controller, model) {
         let tags = model.get('tags');
 
-        model.set('scratch', model.get('markdown'));
         model.set('titleScratch', model.get('title'));
+        model.set('markdownScratch', model.get('markdown'));
+        model.set('mobiledocScratch', model.get('mobiledoc'));
 
         this._super(...arguments);
 
