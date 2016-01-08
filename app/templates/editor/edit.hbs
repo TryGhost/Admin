@@ -20,7 +20,7 @@
         </section>
     </header>
 
-    {{#if feature.newEditor}}
+    {{#if useNewEditor}}
         {{#mobiledoc-editor mobiledoc=(readonly model.mobiledocScratch)
                             on-change=(action (mut model.mobiledocScratch))
                             autofocus=shouldFocusEditor

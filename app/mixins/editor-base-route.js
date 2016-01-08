@@ -3,7 +3,7 @@ import ShortcutsRoute from 'ghost/mixins/shortcuts-route';
 import styleBody from 'ghost/mixins/style-body';
 import ctrlOrCmd from 'ghost/utils/ctrl-or-cmd';
 
-const {$, Mixin, RSVP, run} = Ember;
+const {$, Mixin, RSVP, isBlank, run} = Ember;
 
 let generalShortcuts = {};
 generalShortcuts[`${ctrlOrCmd}+alt+p`] = 'publish';
@@ -129,11 +129,27 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
     },
 
     setupController(controller, model) {
-        let tags = model.get('tags');
+        let {title, markdown, mobiledoc, tags} = model.getProperties('title', 'markdown', 'mobiledoc', 'tags');
 
-        model.set('titleScratch', model.get('title'));
-        model.set('markdownScratch', model.get('markdown'));
-        model.set('mobiledocScratch', model.get('mobiledoc'));
+        this.controllerFor('editor.edit').get('feature.promise').then(() => {
+            let newEditor = this.controllerFor('editor.edit').get('feature.newEditor');
+
+            if (!isBlank(mobiledoc) && !newEditor) {
+                // mobiledoc post without new editor flag
+                this.send('openModal', 'wrong-editor', 'new');
+                controller.set('editorOverride', true);
+            } else if (!isBlank(markdown) && newEditor) {
+                // markdown post with new editor flag
+                this.send('openModal', 'wrong-editor', 'old');
+                controller.set('editorOverride', true);
+            } else {
+                controller.set('editorOverride', false);
+            }
+        });
+
+        model.set('titleScratch', title);
+        model.set('markdownScratch', markdown);
+        model.set('mobiledocScratch', mobiledoc);
 
         this._super(...arguments);
 
