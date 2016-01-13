@@ -56,3 +56,9 @@
                           close=(action "toggleReAuthenticateModal")
                           modifier="action wide"}}
 {{/if}}
+
+{{#if showWrongEditorModal}}
+    {{gh-fullscreen-modal "wrong-editor"
+                          model=showWrongEditorModal
+                          close=(action "closeWrongEditorModal")}}
+{{/if}}

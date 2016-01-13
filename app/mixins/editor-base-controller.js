@@ -33,6 +33,7 @@ export default Mixin.create({
 
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
+    showWrongEditorModal: false,
 
     feature: controller(),
     postSettingsMenuController: controller('post-settings-menu'),
@@ -439,6 +440,14 @@ export default Mixin.create({
 
         toggleReAuthenticateModal() {
             this.toggleProperty('showReAuthenticateModal');
+        },
+
+        openWrongEditorModal(editorVersion) {
+            this.set('showWrongEditorModal', editorVersion);
+        },
+
+        closeWrongEditorModal() {
+            this.set('showWrongEditorModal', false);
         }
     }
 });

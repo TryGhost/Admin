@@ -136,11 +136,11 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
 
             if (!isBlank(mobiledoc) && !newEditor) {
                 // mobiledoc post without new editor flag
-                this.send('openModal', 'wrong-editor', 'new');
+                controller.send('openWrongEditorModal', 'new');
                 controller.set('editorOverride', true);
             } else if (!isBlank(markdown) && newEditor) {
                 // markdown post with new editor flag
-                this.send('openModal', 'wrong-editor', 'old');
+                controller.send('openWrongEditorModal', 'old');
                 controller.set('editorOverride', true);
             } else {
                 controller.set('editorOverride', false);
