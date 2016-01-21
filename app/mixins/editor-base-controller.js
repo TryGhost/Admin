@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import PostModel from 'ghost/models/post';
 import boundOneWay from 'ghost/utils/bound-one-way';
+import createComponentCard from 'ember-mobiledoc-editor/utils/create-component-card';
 
 const {
     Mixin,
@@ -48,6 +49,12 @@ export default Mixin.create({
 
     shouldFocusTitle: alias('model.isNew'),
     shouldFocusEditor: false,
+
+    cards: computed(function () {
+        return [
+            createComponentCard('simplemde-card')
+        ];
+    }),
 
     autoSave: observer('model.markdownScratch', 'model.mobiledocScratch', function () {
         // Don't save just because we swapped out models

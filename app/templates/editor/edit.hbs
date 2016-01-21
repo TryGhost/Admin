@@ -23,10 +23,20 @@
     {{#if useNewEditor}}
         {{#mobiledoc-editor mobiledoc=(readonly model.mobiledocScratch)
                             on-change=(action (mut model.mobiledocScratch))
+                            cards=cards
                             autofocus=shouldFocusEditor
                             spellcheck=true
                             as |editor|}}
-            {{mobiledoc-toolbar editor=editor}}
+            {{#mobiledoc-toolbar editor=editor}}
+                <li class="mobiledoc-toolbar__control">
+                    <button
+                        title="Add Markdown Section"
+                        class="mobiledoc-toolbar__button"
+                        {{action editor.addCardInEditMode 'simplemde-card'}}>
+                        Add Markdown Section
+                    </button>
+                </li>
+            {{/mobiledoc-toolbar}}
         {{/mobiledoc-editor}}
     {{else}}
         {{gh-editor value=model.markdownScratch

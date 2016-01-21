@@ -45,3 +45,13 @@
 .mobiledoc-editor__editor {
     margin: 20px 1em;
 }
+
+.__mobiledoc-card {
+    display: block;
+    cursor: pointer;
+}
+
+/* TODO: ugh, really need the editor to add view/edit type classes */
+.simplemde-card-editor {
+    cursor: default;
+}
