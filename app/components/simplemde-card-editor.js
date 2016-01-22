@@ -67,6 +67,13 @@ export default Component.extend({
                 this._initSimpleMDE();
             });
         });
+
+        run.scheduleOnce('afterRender', this, function () {
+            this.$().closest('.__mobiledoc-card').addClass('__mobiledoc-card--edit');
+            // this needs to be done here rather than willDestroyElement because
+            // the element is removed/re-used before the class changes take effect
+            this.$().closest('.__mobiledoc-card').removeClass('__mobiledoc-card--preview');
+        });
     },
 
     actions: {

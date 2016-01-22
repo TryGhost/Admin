@@ -8,6 +8,15 @@
     overflow: hidden;
 }
 
+/* override vendor specified styles */
+.__mobiledoc-editor {
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
 /* Toolbar
 /* ------------------------------------------------------------------------- */
 
@@ -47,8 +56,32 @@
 }
 
 .__mobiledoc-card {
+    position: relative;
     display: block;
+    min-height: 1em;
     cursor: pointer;
+}
+
+.__mobiledoc-card--preview:hover:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    border: 1px solid #eee;
+}
+
+.__mobiledoc-card__preview-header {
+    display: none;
+}
+
+.__mobiledoc-card:hover .__mobiledoc-card__preview-header {
+    position: absolute;
+    bottom: 100%;
+    display: block;
+    width: 100%;
 }
 
 /* TODO: ugh, really need the editor to add view/edit type classes */
