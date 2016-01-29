@@ -62,17 +62,6 @@
     cursor: pointer;
 }
 
-.__mobiledoc-card--preview:hover:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    border: 1px solid #eee;
-}
-
 .__mobiledoc-card__preview-header {
     display: none;
 }
