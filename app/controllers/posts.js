@@ -7,6 +7,7 @@ const {compare} = Ember;
 
 export default Controller.extend({
     feature: injectService(),
+    showPopover: false,
 
     showDeletePostModal: false,
 
@@ -21,6 +22,10 @@ export default Controller.extend({
     actions: {
         toggleDeletePostModal() {
             this.toggleProperty('showDeletePostModal');
+        },
+
+        togglePopover() {
+            this.toggleProperty('showPopover');
         }
     }
 });
