@@ -22,10 +22,6 @@ export default Controller.extend({
     actions: {
         toggleDeletePostModal() {
             this.toggleProperty('showDeletePostModal');
-        },
-
-        togglePopover() {
-            this.toggleProperty('showPopover');
         }
     }
 });
