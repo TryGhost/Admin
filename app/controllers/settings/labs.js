@@ -18,16 +18,6 @@ export default Controller.extend({
     session: service(),
     ajax: service(),
 
-    useNewEditor: computed('feature.newEditor', {
-        get() {
-            return this.get('feature.newEditor');
-        },
-        set(key, value) {
-            this.saveLabs('newEditor', value);
-            return value;
-        }
-    }),
-
     actions: {
         onUpload(file) {
             let formData = new FormData();

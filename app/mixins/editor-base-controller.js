@@ -36,7 +36,7 @@ export default Mixin.create({
     showReAuthenticateModal: false,
     showWrongEditorModal: false,
 
-    feature: controller(),
+    feature: service(),
     postSettingsMenuController: controller('post-settings-menu'),
     notifications: service(),
 

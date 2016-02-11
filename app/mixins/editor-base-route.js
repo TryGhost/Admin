@@ -131,9 +131,7 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
     setupController(controller, model) {
         let {title, markdown, mobiledoc, tags} = model.getProperties('title', 'markdown', 'mobiledoc', 'tags');
 
-        this.controllerFor('editor.edit').get('feature.promise').then(() => {
-            let newEditor = this.controllerFor('editor.edit').get('feature.newEditor');
-
+        this.controllerFor('editor.edit').get('feature.newEditor').then((newEditor) => {
             if (!isBlank(mobiledoc) && !newEditor) {
                 // mobiledoc post without new editor flag
                 controller.send('openWrongEditorModal', 'new');

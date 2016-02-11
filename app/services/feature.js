@@ -32,6 +32,7 @@ export default Service.extend({
 
     publicAPI: feature('publicAPI'),
     subscribers: feature('subscribers'),
+    newEditor: feature('newEditor'),
 
     _settings: null,
 
