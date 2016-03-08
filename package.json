@@ -76,6 +76,7 @@
     "ember-load-initializers": "0.6.3",
     "ember-one-way-controls": "2.0.0",
     "ember-power-select": "1.5.0",
+    "ember-power-select-sortable": "0.1.4",
     "ember-resolver": "2.1.1",
     "ember-route-action-helper": "2.0.2",
     "ember-simple-auth": "1.2.0",
