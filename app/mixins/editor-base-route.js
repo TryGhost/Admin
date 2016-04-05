@@ -132,17 +132,21 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
         let {title, markdown, mobiledoc, tags} = model.getProperties('title', 'markdown', 'mobiledoc', 'tags');
 
         this.controllerFor('editor.edit').get('feature.newEditor').then((newEditor) => {
+            let editorOverride = false;
+            let useNewEditor;
+
             if (!isBlank(mobiledoc) && !newEditor) {
                 // mobiledoc post without new editor flag
                 controller.send('openWrongEditorModal', 'new');
-                controller.set('editorOverride', true);
+                editorOverride = true;
             } else if (!isBlank(markdown) && newEditor) {
                 // markdown post with new editor flag
                 controller.send('openWrongEditorModal', 'old');
-                controller.set('editorOverride', true);
-            } else {
-                controller.set('editorOverride', false);
+                editorOverride = true;
             }
+
+            useNewEditor = (newEditor && !editorOverride) || (!newEditor && editorOverride);
+            controller.set('useNewEditor', useNewEditor);
         });
 
         model.set('titleScratch', title);

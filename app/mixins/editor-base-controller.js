@@ -95,13 +95,6 @@ export default Mixin.create({
         return this.get('model.page') ? 'Page' : 'Post';
     }),
 
-    useNewEditor: computed('feature.newEditor', 'editorOverride', function () {
-        let newEditor = this.get('feature.newEditor');
-        let editorOverride = this.get('editorOverride');
-
-        return (newEditor && !editorOverride) || (!newEditor && editorOverride);
-    }),
-
     // compares previousTagNames to tagNames
     tagNamesEqual() {
         let tagNames = this.get('tagNames');
