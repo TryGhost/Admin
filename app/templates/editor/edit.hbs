@@ -33,7 +33,15 @@
                         title="Add Markdown Section"
                         class="mobiledoc-toolbar__button"
                         {{action editor.addCardInEditMode 'simplemde-card'}}>
-                        Add Markdown Section
+                        Markdown
+                    </button>
+                </li>
+                <li class="mobiledoc-toolbar__control">
+                    <button
+                        title="Add Code Section"
+                        class="mobiledoc-toolbar__button"
+                        {{action editor.addCardInEditMode 'codemirror-card'}}>
+                        Code
                     </button>
                 </li>
             {{/mobiledoc-toolbar}}

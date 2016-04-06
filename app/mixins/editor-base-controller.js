@@ -52,7 +52,8 @@ export default Mixin.create({
 
     cards: computed(function () {
         return [
-            createComponentCard('simplemde-card')
+            createComponentCard('simplemde-card'),
+            createComponentCard('codemirror-card')
         ];
     }),
 
