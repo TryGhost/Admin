@@ -111,8 +111,8 @@ export default Controller.extend(SettingsSaveMixin, {
         }).catch((error) => {
             if (error) {
                 notifications.showAPIError(error, {key: 'settings.save'});
+                throw error;
             }
-            throw error;
         });
     },
 
