@@ -6,8 +6,7 @@ const {
     Controller,
     computed,
     inject: {service},
-    observer,
-    run
+    observer
 } = Ember;
 
 export default Controller.extend(SettingsSaveMixin, {
