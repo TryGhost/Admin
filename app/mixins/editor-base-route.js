@@ -3,7 +3,7 @@ import ShortcutsRoute from 'ghost/mixins/shortcuts-route';
 import styleBody from 'ghost/mixins/style-body';
 import ctrlOrCmd from 'ghost/utils/ctrl-or-cmd';
 
-const {$, Mixin, RSVP, run} = Ember;
+const {$, Mixin, RSVP, isBlank, run} = Ember;
 
 let generalShortcuts = {};
 generalShortcuts[`${ctrlOrCmd}+alt+p`] = 'publish';
@@ -40,7 +40,8 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
 
         willTransition(transition) {
             let controller = this.get('controller');
-            let scratch = controller.get('model.scratch');
+            let markdownScratch = controller.get('model.markdownScratch');
+            let mobiledocScratch = controller.get('model.mobiledocScratch');
             let controllerIsDirty = controller.get('hasDirtyAttributes');
             let model = controller.get('model');
             let state = model.getProperties('isDeleted', 'isSaving', 'hasDirtyAttributes', 'isNew');
@@ -76,8 +77,12 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
             // The controller may hold model state that will be lost in the transition,
             // so we need to apply it now.
             if (fromNewToEdit && controllerIsDirty) {
-                if (scratch !== model.get('markdown')) {
-                    model.set('markdown', scratch);
+                if (markdownScratch !== model.get('markdown')) {
+                    model.set('markdown', markdownScratch);
+                }
+
+                if (mobiledocScratch !== model.get('mobiledoc')) {
+                    model.set('mobiledoc', mobiledocScratch);
                 }
             }
 
@@ -124,10 +129,27 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
     },
 
     setupController(controller, model) {
-        let tags = model.get('tags');
+        let {title, markdown, mobiledoc, tags} = model.getProperties('title', 'markdown', 'mobiledoc', 'tags');
+        let newEditor = this.controllerFor('editor.edit').get('feature.newEditor');
+        let editorOverride = false;
+        let useNewEditor;
 
-        model.set('scratch', model.get('markdown'));
-        model.set('titleScratch', model.get('title'));
+        if (!isBlank(mobiledoc) && !newEditor) {
+            // mobiledoc post without new editor flag
+            controller.send('openWrongEditorModal', 'new');
+            editorOverride = true;
+        } else if (!isBlank(markdown) && newEditor) {
+            // markdown post with new editor flag
+            controller.send('openWrongEditorModal', 'old');
+            editorOverride = true;
+        }
+
+        useNewEditor = (newEditor && !editorOverride) || (!newEditor && editorOverride);
+        controller.set('useNewEditor', useNewEditor);
+
+        model.set('titleScratch', title);
+        model.set('markdownScratch', markdown);
+        model.set('mobiledocScratch', mobiledoc);
 
         this._super(...arguments);
 

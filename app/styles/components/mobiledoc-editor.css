@@ -1,0 +1,79 @@
+/* Mobiledoc Editor
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-editor {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* override vendor specified styles */
+.__mobiledoc-editor {
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Toolbar
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-toolbar {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 20px;
+    border-bottom: 1px dashed lightgray;
+}
+
+.mobiledoc-toolbar__control {
+    display: inline;
+    padding-right: 10px;
+    list-style-type: none;
+}
+
+.mobiledoc-toolbar__control:last-of-type {
+    padding-right: 0;
+}
+
+.mobiledoc-toolbar__button.active {
+    font-weight: bold;
+}
+
+/* Editor Wrapper
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-editor__editor-wrapper {
+    overflow: scroll;
+}
+
+/* Editor Content
+/* ------------------------------------------------------------------------- */
+
+.mobiledoc-editor__editor {
+    margin: 20px 1em;
+}
+
+.__mobiledoc-card {
+    position: relative;
+    display: block;
+    min-height: 1em;
+    cursor: pointer;
+}
+
+.__mobiledoc-card__preview-header {
+    display: none;
+}
+
+.__mobiledoc-card:hover .__mobiledoc-card__preview-header {
+    position: absolute;
+    bottom: 100%;
+    display: block;
+    width: 100%;
+}
+
+/* TODO: ugh, really need the editor to add view/edit type classes */
+.simplemde-card-editor {
+    cursor: default;
+}

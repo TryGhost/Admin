@@ -26,6 +26,7 @@ export default Model.extend(ValidationEngine, {
     language: attr('string', {defaultValue: 'en_US'}),
     metaTitle: attr('string'),
     metaDescription: attr('string'),
+    mobiledoc: attr('json-string'),
     author: belongsTo('user', {async: true}),
     authorId: attr('number'),
     updatedAt: attr('moment-date'),
@@ -60,8 +61,9 @@ export default Model.extend(ValidationEngine, {
         return this.get('ghostPaths.url').join(blogUrl, previewKeyword, uuid);
     }),
 
-    scratch: null,
     titleScratch: null,
+    markdownScratch: null,
+    mobiledocScratch: null,
 
     // Computed post properties
 

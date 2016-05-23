@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import PostModel from 'ghost/models/post';
 import boundOneWay from 'ghost/utils/bound-one-way';
+import createComponentCard from 'ember-mobiledoc-editor/utils/create-component-card';
 
 const {
     Mixin,
@@ -14,7 +15,13 @@ const {alias} = computed;
 
 // this array will hold properties we need to watch
 // to know if the model has been changed (`controller.hasDirtyAttributes`)
-const watchedProps = ['model.scratch', 'model.titleScratch', 'model.hasDirtyAttributes', 'model.tags.[]'];
+const watchedProps = [
+    'model.titleScratch',
+    'model.markdownScratch',
+    'model.mobiledocScratch',
+    'model.hasDirtyAttributes',
+    'model.tags.[]'
+];
 
 PostModel.eachAttribute(function (name) {
     watchedProps.push(`model.${name}`);
@@ -27,7 +34,9 @@ export default Mixin.create({
 
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
+    showWrongEditorModal: false,
 
+    feature: service(),
     postSettingsMenuController: controller('post-settings-menu'),
     notifications: service(),
 
@@ -41,7 +50,14 @@ export default Mixin.create({
     shouldFocusTitle: alias('model.isNew'),
     shouldFocusEditor: false,
 
-    autoSave: observer('model.scratch', function () {
+    cards: computed(function () {
+        return [
+            createComponentCard('simplemde-card'),
+            createComponentCard('codemirror-card')
+        ];
+    }),
+
+    autoSave: observer('model.markdownScratch', 'model.mobiledocScratch', function () {
         // Don't save just because we swapped out models
         if (this.get('model.isDraft') && !this.get('model.isNew')) {
             let autoSaveId,
@@ -118,7 +134,8 @@ export default Mixin.create({
         // if the two "scratch" properties (title and content) match the model, then
         // it's ok to set hasDirtyAttributes to false
         if (model.get('titleScratch') === model.get('title') &&
-            model.get('scratch') === model.get('markdown')) {
+            model.get('markdownScratch') === model.get('markdown') &&
+            model.get('mobiledocScratch') === model.get('mobiledoc')) {
             this.set('hasDirtyAttributes', false);
         }
     },
@@ -133,23 +150,27 @@ export default Mixin.create({
                 return false;
             }
 
-            let markdown = model.get('markdown');
             let title = model.get('title');
             let titleScratch = model.get('titleScratch');
-            let scratch = this.get('model.scratch');
+            let markdown = model.get('markdown');
+            let markdownScratch = this.get('model.markdownScratch');
+            let mobiledoc = model.get('mobiledoc');
+            let mobiledocScratch = this.get('model.mobiledocScratch');
             let changedAttributes;
 
             if (!this.tagNamesEqual()) {
                 return true;
             }
 
+            // since `xScratch` properties are not model attributes, we need to
+            // check them explicitly
             if (titleScratch !== title) {
                 return true;
             }
-
-            // since `scratch` is not model property, we need to check
-            // it explicitly against the model's markdown attribute
-            if (markdown !== scratch) {
+            if (markdownScratch !== markdown) {
+                return true;
+            }
+            if (JSON.stringify(mobiledocScratch) !== JSON.stringify(mobiledoc)) {
                 return true;
             }
 
@@ -171,7 +192,7 @@ export default Mixin.create({
                 return false;
             }
 
-            // even though we use the `scratch` prop to show edits,
+            // even though we use the `xScratch` props to show edits,
             // which does *not* change the model's `hasDirtyAttributes` property,
             // `hasDirtyAttributes` will tell us if the other props have changed,
             // as long as the model is not new (model.isNew === false).
@@ -304,7 +325,8 @@ export default Mixin.create({
 
             // Set the properties that are indirected
             // set markdown equal to what's in the editor, minus the image markers.
-            this.set('model.markdown', this.get('model.scratch'));
+            this.set('model.markdown', this.get('model.markdownScratch'));
+            this.set('model.mobiledoc', this.get('model.mobiledocScratch'));
             this.set('model.status', status);
 
             // Set a default title
@@ -419,6 +441,14 @@ export default Mixin.create({
 
         toggleReAuthenticateModal() {
             this.toggleProperty('showReAuthenticateModal');
+        },
+
+        openWrongEditorModal(editorVersion) {
+            this.set('showWrongEditorModal', editorVersion);
+        },
+
+        closeWrongEditorModal() {
+            this.set('showWrongEditorModal', false);
         }
     }
 });
