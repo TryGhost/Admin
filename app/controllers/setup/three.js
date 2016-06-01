@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import isEmail from 'validator/lib/isEmail';
 
 const {
     Controller,
@@ -42,7 +43,7 @@ export default Controller.extend({
         let ownerEmail = this.get('ownerEmail');
 
         return this.get('usersArray').filter(function (user) {
-            return validator.isEmail(user) && user !== ownerEmail;
+            return isEmail(user) && user !== ownerEmail;
         });
     }),
 
@@ -50,7 +51,7 @@ export default Controller.extend({
         let ownerEmail = this.get('ownerEmail');
 
         return this.get('usersArray').reject((user) => {
-            return validator.isEmail(user) || user === ownerEmail;
+            return isEmail(user) || user === ownerEmail;
         });
     }),
 

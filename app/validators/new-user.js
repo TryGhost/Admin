@@ -1,4 +1,7 @@
 import BaseValidator from './base';
+import isBlank from 'ember-utils/isBlank';
+import isEmail from 'validator/lib/isEmail';
+import isLength from 'validator/lib/isLength';
 
 export default BaseValidator.extend({
     properties: ['name', 'email', 'password'],
@@ -6,7 +9,7 @@ export default BaseValidator.extend({
     name(model) {
         let name = model.get('name');
 
-        if (!validator.isLength(name, 1)) {
+        if (!isLength(name, 1)) {
             model.get('errors').add('name', 'Please enter a name.');
             this.invalidate();
         }
@@ -15,10 +18,10 @@ export default BaseValidator.extend({
     email(model) {
         let email = model.get('email');
 
-        if (validator.empty(email)) {
+        if (isBlank(email)) {
             model.get('errors').add('email', 'Please enter an email.');
             this.invalidate();
-        } else if (!validator.isEmail(email)) {
+        } else if (!isEmail(email)) {
             model.get('errors').add('email', 'Invalid Email.');
             this.invalidate();
         }
@@ -27,7 +30,7 @@ export default BaseValidator.extend({
     password(model) {
         let password = model.get('password');
 
-        if (!validator.isLength(password, 8)) {
+        if (!isLength(password, 8)) {
             model.get('errors').add('password', 'Password must be at least 8 characters long');
             this.invalidate();
         }

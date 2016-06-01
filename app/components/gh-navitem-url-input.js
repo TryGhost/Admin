@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import {invokeAction} from 'ember-invoke-action';
+import isEmail from 'validator/lib/isEmail';
+import isURL from 'validator/lib/isURL';
 
 const {TextField, computed, run} = Ember;
 
@@ -16,7 +18,7 @@ let joinUrlParts = function (url, path) {
 let isRelative = function (url) {
     // "protocol://", "//example.com", "scheme:", "#anchor", & invalid paths
     // should all be treated as absolute
-    return !url.match(/\s/) && !validator.isURL(url) && !url.match(/^(\/\/|#|[a-zA-Z0-9\-]+:)/);
+    return !url.match(/\s/) && !isURL(url) && !url.match(/^(\/\/|#|[a-zA-Z0-9\-]+:)/);
 };
 
 export default TextField.extend({
@@ -98,7 +100,7 @@ export default TextField.extend({
         baseUrlParts.href = baseUrl;
 
         // if we have an email address, add the mailto:
-        if (validator.isEmail(url)) {
+        if (isEmail(url)) {
             url = `mailto:${url}`;
             this.set('value', url);
         }

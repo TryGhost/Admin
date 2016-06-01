@@ -24,7 +24,6 @@
     "pretender": "1.0.0",
     "rangyinputs": "1.2.0",
     "selectize": "~0.12.1",
-    "showdown-ghost": "0.3.6",
-    "validator-js": "3.39.0"
+    "showdown-ghost": "0.3.6"
   }
 }

@@ -1,11 +1,13 @@
 import BaseValidator from './base';
+import isLength from 'validator/lib/isLength';
+import isInt from 'validator/lib/isInt';
 
 export default BaseValidator.create({
     properties: ['title', 'description', 'password', 'postsPerPage'],
     title(model) {
         let title = model.get('title');
 
-        if (!validator.isLength(title, 0, 150)) {
+        if (!isLength(title, 0, 150)) {
             model.get('errors').add('title', 'Title is too long');
             this.invalidate();
         }
@@ -14,7 +16,7 @@ export default BaseValidator.create({
     description(model) {
         let desc = model.get('description');
 
-        if (!validator.isLength(desc, 0, 200)) {
+        if (!isLength(desc, 0, 200)) {
             model.get('errors').add('description', 'Description is too long');
             this.invalidate();
         }
@@ -33,7 +35,7 @@ export default BaseValidator.create({
     postsPerPage(model) {
         let postsPerPage = model.get('postsPerPage');
 
-        if (!validator.isInt(postsPerPage)) {
+        if (!isInt(postsPerPage)) {
             model.get('errors').add('postsPerPage', 'Posts per page must be a number');
             this.invalidate();
         } else if (postsPerPage > 1000) {

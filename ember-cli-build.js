@@ -47,7 +47,6 @@ module.exports = function (defaults) {
     });
 
     // 'dem Scripts
-    app.import('bower_components/validator-js/validator.js');
     app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
     app.import('bower_components/showdown-ghost/src/showdown.js');
     app.import('bower_components/showdown-ghost/src/extensions/ghostgfm.js');

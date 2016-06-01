@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import AjaxService from 'ember-ajax/services/ajax';
 import {NotFoundError} from 'ghost/services/ajax';
+import isEmail from 'validator/lib/isEmail';
 
 const {
     Component,
@@ -54,7 +55,7 @@ export default Component.extend({
     trySetValidEmail() {
         if (!this.get('isDestroyed')) {
             let email = this.get('email');
-            this.set('validEmail', validator.isEmail(email) ? email : '');
+            this.set('validEmail', isEmail(email) ? email : '');
         }
     },
 
