@@ -61,6 +61,7 @@
     "liquid-fire": "0.23.1",
     "liquid-tether": "1.1.1",
     "loader.js": "4.0.7",
+    "validator": "5.3.0",
     "walk-sync": "^0.2.6"
   },
   "ember-addon": {

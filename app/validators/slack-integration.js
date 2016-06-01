@@ -1,4 +1,5 @@
 import BaseValidator from './base';
+import isBlank from 'ember-utils/isBlank';
 
 export default BaseValidator.create({
     properties: ['url'],
@@ -9,7 +10,7 @@ export default BaseValidator.create({
 
         let urlRegex = new RegExp(/(^https:\/\/hooks\.slack\.com\/services\/)(\S+)/);
 
-        if (!validator.empty(url) && !url.match(urlRegex)) {
+        if (!isBlank(url) && !url.match(urlRegex)) {
             model.get('errors').add(
                 'url',
                 'The URL must be in a format like ' +

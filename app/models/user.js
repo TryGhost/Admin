@@ -4,6 +4,8 @@ import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
 import ValidationEngine from 'ghost/mixins/validation-engine';
+import equals from 'validator/lib/equals';
+import isLength from 'validator/lib/isLength';
 
 const {
     computed,
@@ -66,11 +68,11 @@ export default Model.extend(ValidationEngine, {
     passwordValidationErrors: computed('password', 'newPassword', 'ne2Password', function () {
         let validationErrors = [];
 
-        if (!validator.equals(this.get('newPassword'), this.get('ne2Password'))) {
+        if (!equals(this.get('newPassword'), this.get('ne2Password'))) {
             validationErrors.push({message: 'Your new passwords do not match'});
         }
 
-        if (!validator.isLength(this.get('newPassword'), 8)) {
+        if (!isLength(this.get('newPassword'), 8)) {
             validationErrors.push({message: 'Your password is not long enough. It must be at least 8 characters long.'});
         }
 
