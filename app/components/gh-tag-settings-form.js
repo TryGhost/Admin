@@ -24,6 +24,7 @@ export default Component.extend({
 
     isViewingSubview: false,
 
+    feature: service(),
     config: service(),
     mediaQueries: service(),
 
@@ -113,11 +114,11 @@ export default Component.extend({
         },
 
         setCoverImage(image) {
-            invokeAction(this, 'setProperty', 'image', image);
+            this.send('setProperty', 'image', image);
         },
 
         clearCoverImage() {
-            invokeAction(this, 'setProperty', 'image', '');
+            this.send('setProperty', 'image', '');
         },
 
         openMeta() {
