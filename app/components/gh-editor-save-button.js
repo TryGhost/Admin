@@ -12,6 +12,7 @@ export default Component.extend({
     willPublish: null,
     postOrPage: null,
     submitting: false,
+    state: false,
 
     // Tracks whether we're going to change the state of the post on save
     isDangerous: computed('isPublished', 'willPublish', function () {

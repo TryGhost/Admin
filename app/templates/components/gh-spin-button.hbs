@@ -1,5 +1,13 @@
 {{#if showSpinner}}
-    <span class="spinner"></span>
+    {{#if state}}
+        {{#if state.resolved}}
+            <i class="icon-check"><span class="hidden">Success</span></i>
+        {{else if state.rejected}}
+            <i class="icon-x"><span class="hidden">Failure</span></i>
+        {{/if}}
+    {{else}}
+        <span class="spinner"></span>
+    {{/if}}
 {{else}}
     {{#if buttonText}}
         {{buttonText}}

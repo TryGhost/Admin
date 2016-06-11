@@ -1,43 +1,57 @@
 import Ember from 'ember';
+import {InvokeActionMixin} from 'ember-invoke-action';
 
 const {Component, computed, observer, run} = Ember;
-const {equal} = computed;
+const {and} = computed;
 
-export default Component.extend({
+export default Component.extend(InvokeActionMixin, {
     tagName: 'button',
+    classNameBindings: ['buttonStyle'],
     buttonText: '',
     submitting: false,
     showSpinner: false,
     showSpinnerTimeout: null,
     autoWidth: true,
+    state: false,
 
     // Disable Button when isLoading equals true
     attributeBindings: ['disabled', 'type', 'tabindex'],
 
     // Must be set on the controller
-    disabled: equal('showSpinner', true),
+    disabled: and('showSpinner', 'submitting'),
+
+    buttonStyle: computed('state', function () {
+        if (this.get('state.resolved')) {
+            return 'btn-green';
+        } else if (this.get('state.rejected')) {
+            return 'btn-red';
+        }
+
+        return '';
+    }),
 
     click() {
-        if (this.get('action')) {
-            this.sendAction('action');
-            return false;
-        }
-        return true;
+        this.invokeAction('action');
     },
 
-    toggleSpinner: observer('submitting', function () {
+    toggleSpinner: observer('submitting', 'state', function () {
         let submitting = this.get('submitting');
+        let state = this.get('state');
         let timeout = this.get('showSpinnerTimeout');
 
-        if (submitting) {
+        if (submitting || state) {
             this.set('showSpinner', true);
             this.set('showSpinnerTimeout', run.later(this, function () {
+                if (this.get('state')) {
+                    this.set('state', false);
+                }
+
                 if (!this.get('submitting')) {
                     this.set('showSpinner', false);
                 }
                 this.set('showSpinnerTimeout', null);
             }, 1000));
-        } else if (!submitting && timeout === null) {
+        } else if (!submitting && !state && timeout === null) {
             this.set('showSpinner', false);
         }
     }),

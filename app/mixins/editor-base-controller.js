@@ -24,6 +24,7 @@ export default Mixin.create({
     _autoSaveId: null,
     _timedSaveId: null,
     submitting: false,
+    state: false,
 
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
@@ -331,6 +332,7 @@ export default Mixin.create({
                     }
 
                     this.toggleProperty('submitting');
+                    this.set('state', {resolved: true});
                     return model;
                 });
             }).catch((errors) => {
@@ -342,6 +344,7 @@ export default Mixin.create({
                 this.set('model.status', prevStatus);
 
                 this.toggleProperty('submitting');
+                this.set('state', {rejected: true});
                 return this.get('model');
             });
 
