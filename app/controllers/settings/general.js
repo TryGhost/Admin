@@ -6,8 +6,7 @@ const {
     Controller,
     computed,
     inject: {service},
-    observer,
-    run
+    observer
 } = Ember;
 
 export default Controller.extend(SettingsSaveMixin, {
@@ -111,8 +110,8 @@ export default Controller.extend(SettingsSaveMixin, {
         }).catch((error) => {
             if (error) {
                 notifications.showAPIError(error, {key: 'settings.save'});
+                throw error;
             }
-            throw error;
         });
     },
 
