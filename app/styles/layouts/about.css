@@ -114,6 +114,17 @@
     opacity: 1;
 }
 
+/* Upgrade
+/* ---------------------------------------------------------- */
+.gh-upgrade-notification {
+    color: var(--red);
+}
+
+.gh-upgrade-notification a {
+    color: var(--red);
+    text-decoration: underline;
+}
+
 /* Copyright Info
 /* ---------------------------------------------------------- */
 
