@@ -28,6 +28,7 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     feature: service(),
     dropdown: service(),
     notifications: service(),
+    upgradeNotification: Ember.inject.service('upgrade-notification'),
 
     afterModel(model, transition) {
         this._super(...arguments);
@@ -116,7 +117,11 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                     if (!user.get('isAuthor') && !user.get('isEditor')) {
                         this.store.findAll('notification', {reload: true}).then((serverNotifications) => {
                             serverNotifications.forEach((notification) => {
-                                this.get('notifications').handleNotification(notification, isDelayed);
+                                if(Ember.get(notification, 'type') === 'upgrade') {
+                                    this.get('upgradeNotification').set('content', notification.get('message'));
+                                } else {
+                                    this.get('notifications').handleNotification(notification, isDelayed);
+                                }
                             });
                         });
                     }
