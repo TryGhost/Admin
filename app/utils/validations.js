@@ -3,7 +3,11 @@ import {assert} from 'ember-metal/utils';
 
 import Changeset from 'ghost-admin/changeset';
 
-const ValidationMap = {};
+import SigninValidations from 'ghost-admin/validations/signin';
+
+const ValidationMap = {
+    signin: SigninValidations
+};
 
 export default function validations(type) {
     let validations = ValidationMap[type];
