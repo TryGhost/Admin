@@ -2,16 +2,10 @@ import Mixin from 'ember-metal/mixin';
 import {assert} from 'ember-metal/utils';
 
 import Changeset from 'ghost-admin/changeset';
-
-// Validation Maps
-import SigninValidations from 'ghost-admin/validations/signin';
-
-const ValidationMap = {
-    signin: SigninValidations
-};
+import Validations from 'ghost-admin/validations';
 
 export default function validations(type) {
-    let validations = ValidationMap[type];
+    let validations = Validations[type];
 
     assert(`The validations for \'${type}\' are not defined!`, validations);
 
