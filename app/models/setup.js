@@ -73,7 +73,7 @@ export default EmberObject.extend(ValidationsMixin, {
      */
     save() {
         let setupUrl = this.get('ghostPaths.url').api('authentication', 'setup');
-        let method = this.get('alreadyCreated') ? 'put' : 'post';
+        let method = this.get('created') ? 'put' : 'post';
         let setupData = this.getProperties('name', 'email', 'password', 'blogTitle');
 
         return this.get('ajax')[method](setupUrl, {
