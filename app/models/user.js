@@ -4,11 +4,8 @@ import attr from 'ember-data/attr';
 import {hasMany} from 'ember-data/relationships';
 import computed, {equal} from 'ember-computed';
 import injectService from 'ember-service/inject';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'user',
-
+export default Model.extend({
     uuid: attr('string'),
     name: attr('string'),
     slug: attr('string'),

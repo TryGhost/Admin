@@ -3,15 +3,11 @@ import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
 import {isEmberArray} from 'ember-array/utils';
 
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 
 const {Promise} = RSVP;
 
-export default Controller.extend(ValidationEngine, {
-    // ValidationEngine settings
-    validationType: 'signup',
-
+export default Controller.extend({
     submitting: false,
     flowErrors: '',
     image: null,

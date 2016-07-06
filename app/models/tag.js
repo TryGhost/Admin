@@ -5,11 +5,8 @@ import injectService from 'ember-service/inject';
 
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'tag',
-
+export default Model.extend({
     uuid: attr('string'),
     name: attr('string'),
     slug: attr('string'),
