@@ -1,19 +1,8 @@
 import {
     validatePresence,
-    validateLength
+    validateLength,
+    validateFormat
 } from 'ember-changeset-validations/validators';
-
-// TODO: temporary, remove once
-// DockYard/ember-changeset-validations#43 is merged/released
-export function validateInverseRegex({regex}) {
-    return (key, newValue) => {
-        if (newValue.match(regex)) {
-            return 'Tag names can\'t start with commas';
-        }
-
-        return true;
-    };
-}
 
 export default {
     name: [
@@ -21,7 +10,11 @@ export default {
             presence: true,
             message: 'You must specify a name for the tag'
         }),
-        validateInverseRegex({regex: /^,/}),
+        validateFormat({
+            regex: /^,/,
+            inverse: true,
+            message: 'Tag names can\'t start with commas'
+        }),
         validateLength({
             max: 150,
             message: 'Tag names cannot be longer than {max} characters'
