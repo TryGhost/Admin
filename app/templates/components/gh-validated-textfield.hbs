@@ -1,0 +1,31 @@
+{{#if label}}
+    <label for="{{inputId}}">{{label}}</label>
+{{/if}}
+
+{{gh-input
+    value
+    class=classes
+    type=type
+    placeholder=placeholder
+    name=name
+    disabled=disabled
+    readonly=readonly
+    size=size
+    maxlength=maxlength
+    autocomplete=autocomplete
+    autofocus=autofocus
+    novalidate=novalidate
+    min=min
+    max=max
+    pattern=pattern
+    focusOut=(action "focusOut")
+    update=(action "update")
+}}
+
+{{#if hasError}}
+    <p class="response">{{error.validation}}</p>
+{{else if hasBlock}}
+    {{yield}}
+{{else if helpText}}
+    <p>{{helpText}}</p>
+{{/if}}

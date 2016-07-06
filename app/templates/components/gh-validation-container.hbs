@@ -1,0 +1,10 @@
+{{yield value (hash
+    update=(action "update")
+    focusOut=(action "focusOut")
+)}}
+
+{{#if hasError}}
+    <p class="response">{{error}}</p>
+{{else if helpText}}
+    <p>{{helpText}}</p>
+{{/if}}
