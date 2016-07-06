@@ -1,10 +1,20 @@
-import {A as emberA} from 'ember-array/utils';
-import {isNone} from 'ember-utils';
+import {A as emberA, isEmberArray} from 'ember-array/utils';
+import {isNone, isPresent} from 'ember-utils';
+import RSVP from 'rsvp';
+import Ember from 'ember';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 import {changeset} from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 
 const {keys} = Object;
+const {typeOf} = Ember;
+const {resolve, all} = RSVP;
+
+// Pulled from ember-changeset
+const CHANGES = '_changes';
+const ERRORS = '_errors';
 
 /**
  * Overrides of the base ember-changeset class. This is
@@ -20,7 +30,6 @@ export default class Changeset {
         let BaseChangeset = changeset(obj, lookupValidator(validationMap));
 
         return BaseChangeset.extend({
-
             /**
              * Array of validated keys
              * @type Array
@@ -35,6 +44,10 @@ export default class Changeset {
             addError(key, validation) {
                 this.get('hasValidated').pushObject(key);
 
+                if (typeOf(validation) === 'object') {
+                    return this._super(key, validation);
+                }
+
                 return this._super(key, {
                     value: this.get(key),
                     validation
@@ -47,16 +60,58 @@ export default class Changeset {
                 return this._super(...arguments);
             },
 
+            /**
+             * re-implementation of super method with hasValidated additions
+             *
+             * This is necessary because calling this._super(...arguments) doesn't
+             * seem to work in this instance for some strange reason
+             *
+             * @method validate
+             * @param  {String|null} key
+             * @return {Promise}
+             */
             validate(key) {
+                if (keys(validationMap).length === 0) {
+                    return resolve(null);
+                }
+
                 let hasValidated = this.get('hasValidated');
 
                 if (isNone(key)) {
-                    hasValidated.pushObjects(keys(validationMap));
-                } else {
-                    hasValidated.pushObject(key);
+                    let maybePromise = keys(validationMap)
+                        .map((validationKey) => {
+                            hasValidated.pushObject(validationKey);
+                            return this._validateAndSet(validationKey, this._valueFor(validationKey));
+                        });
+
+                    return all(maybePromise);
                 }
 
-                return this._super(...arguments);
+                hasValidated.pushObject(key);
+                return resolve(this._validateAndSet(key, this._valueFor(key)));
+            },
+
+            /**
+             * Because the default behavior of ember-changeset doesn't actually set
+             * a changed property _unless_ it is validated, we override it here
+             * to actually do that. A bit hacky, but enables form validation to work correctly.
+             */
+            _setProperty(content, changes, errors, validation, {key, value} = {}) {
+                set(changes, key, value);
+                this.notifyPropertyChange(CHANGES);
+                this.notifyPropertyChange(key);
+
+                if (validation === true || isEmberArray(validation) && validation[0] === true) {
+                    if (isPresent(get(errors, key))) {
+                        delete errors[key];
+                        this.notifyPropertyChange(`${ERRORS}.${key}`);
+                        this.notifyPropertyChange(ERRORS);
+                    }
+
+                    return value;
+                }
+
+                return this.addError(key, {value, validation});
             },
 
             clear(key) {
