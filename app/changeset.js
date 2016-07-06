@@ -38,6 +38,15 @@ export default class Changeset {
                 return this._super(...arguments);
             },
 
+            addError(key, validation) {
+                this.get('hasValidated').pushObject(key);
+
+                return this._super(key, {
+                    value: this.get(key),
+                    validation
+                });
+            },
+
             validate(key) {
                 let hasValidated = this.get('hasValidated');
 
@@ -48,6 +57,10 @@ export default class Changeset {
                 }
 
                 return this._super(...arguments);
+            },
+
+            clear() {
+                this.get('hasValidated').clear();
             }
         }).create();
     }

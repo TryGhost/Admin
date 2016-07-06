@@ -96,4 +96,21 @@ describe('Unit: Changeset', function() {
             done();
         });
     });
+
+    it('clears hasValidated correctly', function (done) {
+        let subject = new Changeset(testObject, {
+            firstName() {return true;},
+            lastName() {return true;}
+        });
+
+        subject.validate().then(() => {
+            expect(subject.get('hasValidated').contains('firstName')).to.be.true;
+            expect(subject.get('hasValidated').contains('lastName')).to.be.true;
+
+            subject.clear();
+
+            expect(subject.get('hasValidated').contains('firstName')).to.be.false;
+            expect(subject.get('hasValidated').contains('lastName')).to.be.false;
+        });
+    });
 });
