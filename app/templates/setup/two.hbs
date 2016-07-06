@@ -30,7 +30,7 @@
         </span>
     {{/gh-validation-container}}
 
-    {{#gh-validation-container "blogTitile" model.changeset validateOnBlank=false as |value actions|}}
+    {{#gh-validation-container "blogTitle" model.changeset validateOnBlank=false as |value actions|}}
         <label for="blog-title">Blog title</label>
         <span class="input-icon icon-content">
             {{gh-input value tabindex="4" type="text" name="blog-title" placeholder="Eg. The Daily Awesome" autocorrect="off" focusOut=actions.focusOut update=actions.update}}

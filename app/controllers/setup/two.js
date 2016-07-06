@@ -43,13 +43,6 @@ export default Controller.extend({
     },
 
     actions: {
-        preValidate(model) {
-            // Only triggers validation if a value has been entered, preventing empty errors on focusOut
-            if (this.get(model)) {
-                this.validate({property: model});
-            }
-        },
-
         submit() {
             let changeset = this.get('model.changeset');
 

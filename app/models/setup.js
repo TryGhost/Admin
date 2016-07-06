@@ -8,10 +8,10 @@ const {Promise, resolve} = RSVP;
 const ValidationsMixin = validations('setup');
 
 export default EmberObject.extend(ValidationsMixin, {
-    blogTitle: null,
-    name: null,
+    blogTitle: '',
+    name: '',
     email: '',
-    password: null,
+    password: '',
     image: null,
 
     /**
