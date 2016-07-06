@@ -1,7 +1,7 @@
 import {
     validatePresence,
     validateFormat
-} from 'ember-changeset-validation/validators';
+} from 'ember-changeset-validations/validators';
 
 const urlValidator = validateFormat({type: 'url'});
 

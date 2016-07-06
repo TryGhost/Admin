@@ -28,6 +28,12 @@ export default Mixin.create({
         defineProperty(this, 'error', computed(`changeset.error.${property}.{value,validation}`, function () {
             let errors = this.get(`changeset.error.${property}.validation`);
 
+            // sometimes an error's validation object can have a recursive
+            // error object. Probably a bug, but handle it anyways
+            if (errors && errors.validation) {
+                errors = errors.validation;
+            }
+
             // return the 1st error if array because they're ordered by importance
             if (isEmberArray(errors)) {
                 return errors[0];
@@ -58,8 +64,10 @@ export default Mixin.create({
     actions: {
         update(value) {
             let property = this.get('property');
+            let changeset = this.get('changeset');
 
-            this.get('changeset').set(property, value);
+            changeset.set(property, value);
+            changeset.clear(property); // clear hasValidated
         },
 
         focusOut() {

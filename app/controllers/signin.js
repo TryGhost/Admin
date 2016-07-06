@@ -96,7 +96,6 @@ export default Controller.extend({
         },
 
         forgotten() {
-            let email = this.get('model.identification');
             let notifications = this.get('notifications');
             let changeset = this.get('model.changeset');
 
@@ -110,6 +109,10 @@ export default Controller.extend({
                     return;
                 }
 
+                // persist property changes to model
+                changeset.execute();
+
+                let email = this.get('model.identification');
                 let forgottenUrl = this.get('ghostPaths.url').api('authentication', 'passwordreset');
                 this.toggleProperty('submitting');
 
@@ -133,7 +136,7 @@ export default Controller.extend({
                         this.set('flowErrors', message);
 
                         if (message.match(/no user with that email/)) {
-                            changeset.addError('identification', 'Invalid username');
+                            changeset.addError('identification', 'Invalid email address');
                         }
                     } else {
                         notifications.showAPIError(error, {defaultErrorText: 'There was a problem with the reset, please try again.', key: 'forgot-password.send'});

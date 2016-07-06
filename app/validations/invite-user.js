@@ -13,5 +13,10 @@ export default {
             type: 'email',
             message: 'Invalid email'
         })
-    ]
+    ],
+
+    role: validatePresence({
+        presence: true,
+        message: 'You must supply a role'
+    })
 };

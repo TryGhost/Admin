@@ -32,12 +32,6 @@ export default class Changeset {
                 this.set('hasValidated', emberA());
             },
 
-            setUnknownProperty(key) {
-                this.get('hasValidated').removeObject(key);
-
-                return this._super(...arguments);
-            },
-
             addError(key, validation) {
                 this.get('hasValidated').pushObject(key);
 
@@ -45,6 +39,12 @@ export default class Changeset {
                     value: this.get(key),
                     validation
                 });
+            },
+
+            rollback() {
+                this.clear();
+
+                return this._super(...arguments);
             },
 
             validate(key) {
@@ -59,8 +59,13 @@ export default class Changeset {
                 return this._super(...arguments);
             },
 
-            clear() {
-                this.get('hasValidated').clear();
+            clear(key) {
+                if (isNone(key)) {
+                    this.get('hasValidated').clear();
+                    return;
+                }
+
+                this.get('hasValidated').removeObject(key);
             }
         }).create();
     }
