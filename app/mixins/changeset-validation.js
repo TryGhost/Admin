@@ -2,7 +2,7 @@ import Mixin from 'ember-metal/mixin';
 import Ember from 'ember';
 import computed, {reads, and} from 'ember-computed';
 import {isEmberArray} from 'ember-array/utils';
-import {isNone} from 'ember-utils';
+import {isBlank} from 'ember-utils';
 
 import {invokeAction} from 'ember-invoke-action';
 
@@ -13,6 +13,7 @@ export default Mixin.create({
     // passed-in properties
     property: '',
     changeset: null,
+    validateOnBlank: true,
 
     didReceiveAttrs() {
         this._super(...arguments);
@@ -72,10 +73,15 @@ export default Mixin.create({
 
         focusOut() {
             let property = this.get('property');
+            let validateOnBlank = this.get('validateOnBlank');
 
-            this.get('changeset').validate(property).then(() => {
-                invokeAction(this, 'focusOut');
-            });
+            if (validateOnBlank || !isBlank(this.get('value'))) {
+                return this.get('changeset').validate(property).then(() => {
+                    invokeAction(this, 'focusOut');
+                });
+            }
+
+            return invokeAction(this, 'focusOut');
         }
     }
 });
