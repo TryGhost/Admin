@@ -80,4 +80,20 @@ describe('Unit: Changeset', function() {
             done();
         });
     });
+
+    it('correctly unsets hasValidated for a property that has changed', function (done) {
+        let subject = new Changeset(testObject, {
+            firstName() {
+                return true;
+            }
+        });
+
+        subject.validate().then(() => {
+            expect(subject.get('hasValidated').contains('firstName')).to.be.true;
+            subject.set('firstName', 'joe');
+            expect(subject.get('hasValidated').contains('firstName')).to.be.false;
+
+            done();
+        });
+    });
 });

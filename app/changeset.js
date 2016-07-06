@@ -32,6 +32,12 @@ export default class Changeset {
                 this.set('hasValidated', emberA());
             },
 
+            setUnknownProperty(key) {
+                this.get('hasValidated').removeObject(key);
+
+                return this._super(...arguments);
+            },
+
             validate(key) {
                 let hasValidated = this.get('hasValidated');
 
