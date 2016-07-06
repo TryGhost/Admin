@@ -1,57 +1,16 @@
 import Controller from 'ember-controller';
-import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
-import injectController from 'ember-controller/inject';
 import {isEmberArray} from 'ember-array/utils';
 
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
-
-const {Promise} = RSVP;
-
-export default Controller.extend(ValidationEngine, {
+export default Controller.extend({
     size: 90,
-    blogTitle: null,
-    name: null,
-    email: '',
-    password: null,
-    image: null,
-    blogCreated: false,
+
     submitting: false,
     flowErrors: '',
 
-    ghostPaths: injectService(),
     notifications: injectService(),
-    application: injectController(),
-    config: injectService(),
     session: injectService(),
-    ajax: injectService(),
-
-    // ValidationEngine settings
-    validationType: 'setup',
-
-    /**
-     * Uploads the given data image, then sends the changed user image property to the server
-     * @param  {Object} user User object, returned from the 'setup' api call
-     * @return {Ember.RSVP.Promise} A promise that takes care of both calls
-     */
-    sendImage(user) {
-        let image = this.get('image');
-
-        return new Promise((resolve, reject) => {
-            image.formData = {};
-            image.submit()
-                .success((response) => {
-                    let usersUrl = this.get('ghostPaths.url').api('users', user.id.toString());
-                    user.image = response;
-                    this.get('ajax').put(usersUrl, {
-                        data: {
-                            users: [user]
-                        }
-                    }).then(resolve).catch(reject);
-                })
-                .error(reject);
-        });
-    },
+    config: injectService(),
 
     _handleSaveError(resp) {
         this.toggleProperty('submitting');
@@ -73,20 +32,14 @@ export default Controller.extend(ValidationEngine, {
         }
     },
 
-    afterAuthentication(result) {
-        if (this.get('image')) {
-            this.sendImage(result.users[0])
-            .then(() => {
-                this.toggleProperty('submitting');
-                this.transitionToRoute('setup.three');
-            }).catch((resp) => {
-                this.toggleProperty('submitting');
-                this.get('notifications').showAPIError(resp, {key: 'setup.blog-details'});
-            });
-        } else {
+    _afterAuthentication() {
+        return this.get('model').saveImage().then(() => {
             this.toggleProperty('submitting');
             this.transitionToRoute('setup.three');
-        }
+        }).catch((resp) => {
+            this.toggleProperty('submitting');
+            this.get('notifications').showAPIError(resp, {key: 'setup.blog-details'});
+        });
     },
 
     actions: {
@@ -97,40 +50,32 @@ export default Controller.extend(ValidationEngine, {
             }
         },
 
-        setup() {
-            let setupProperties = ['blogTitle', 'name', 'email', 'password'];
-            let data = this.getProperties(setupProperties);
-            let config = this.get('config');
-            let method = this.get('blogCreated') ? 'put' : 'post';
+        submit() {
+            let changeset = this.get('model.changeset');
 
             this.toggleProperty('submitting');
             this.set('flowErrors', '');
 
-            this.get('hasValidated').addObjects(setupProperties);
-            this.validate().then(() => {
-                let authUrl = this.get('ghostPaths.url').api('authentication', 'setup');
-                this.get('ajax')[method](authUrl, {
-                    data: {
-                        setup: [{
-                            name: data.name,
-                            email: data.email,
-                            password: data.password,
-                            blogTitle: data.blogTitle
-                        }]
-                    }
-                }).then((result) => {
-                    config.set('blogTitle', data.blogTitle);
+            changeset.validate().then(() => {
+                if (changeset.get('isInvalid')) {
+                    this.toggleProperty('submitting');
+                    this.set('flowErrors', 'Please fill out the form to setup your blog.');
+                    return;
+                }
 
+                changeset.save().then(() => {
                     // don't try to login again if we are already logged in
                     if (this.get('session.isAuthenticated')) {
-                        return this.afterAuthentication(result);
+                        return this._afterAuthentication();
                     }
+
+                    let {email, password} = this.get('model').getProperties('email', 'password');
 
                     // Don't call the success handler, otherwise we will be redirected to admin
                     this.set('session.skipAuthSuccessHandler', true);
-                    this.get('session').authenticate('authenticator:oauth2', this.get('email'), this.get('password')).then(() => {
-                        this.set('blogCreated', true);
-                        return this.afterAuthentication(result);
+                    this.get('session').authenticate('authenticator:oauth2', email, password).then(() => {
+                        this.set('model.created', true);
+                        return this._afterAuthentication();
                     }).catch((error) => {
                         this._handleAuthenticationError(error);
                     }).finally(() => {
@@ -139,14 +84,7 @@ export default Controller.extend(ValidationEngine, {
                 }).catch((error) => {
                     this._handleSaveError(error);
                 });
-            }).catch(() => {
-                this.toggleProperty('submitting');
-                this.set('flowErrors', 'Please fill out the form to setup your blog.');
             });
-        },
-
-        setImage(image) {
-            this.set('image', image);
         }
     }
 });
