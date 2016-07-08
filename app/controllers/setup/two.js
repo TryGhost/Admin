@@ -53,7 +53,7 @@ export default Controller.extend({
     },
 
     actions: {
-        submit() {
+        setup() {
             let changeset = this.get('model.changeset');
 
             this.toggleProperty('submitting');

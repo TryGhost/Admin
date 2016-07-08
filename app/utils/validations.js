@@ -14,6 +14,8 @@ export default function validations(type) {
 
         init() {
             this.set('changeset', new Changeset(this, validations));
+
+            return this._super(...arguments);
         }
     });
 }

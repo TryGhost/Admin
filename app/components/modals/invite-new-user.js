@@ -51,8 +51,11 @@ export default ModalComponent.extend(ValidationsMixin, {
     validate() {
         let changeset = this.get('changeset');
 
+        this.set('submitting', true);
+
         return this.get('changeset').validate().then(() => {
             if (changeset.get('isInvalid')) {
+                this.set('submitting', false);
                 return resolve();
             }
 
@@ -62,6 +65,8 @@ export default ModalComponent.extend(ValidationsMixin, {
                 let invitedUser = result.findBy('email', email);
 
                 if (invitedUser) {
+                    this.set('submitting', false);
+
                     if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
                         changeset.addError('email', 'A user with that email address was already invited');
                     } else {
@@ -88,8 +93,6 @@ export default ModalComponent.extend(ValidationsMixin, {
                 }
 
                 changeset.execute();
-
-                this.set('submitting', true);
 
                 let {email, role} = this.getProperties('email', 'role');
 

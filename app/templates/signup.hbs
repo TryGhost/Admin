@@ -11,33 +11,32 @@
                 <input style="display:none;" type="text" name="fakeusernameremembered"/>
                 <input style="display:none;" type="password" name="fakepasswordremembered"/>
 
-                {{gh-profile-image fileStorage=config.fileStorage email=model.email setImage="setImage"}}
+                {{gh-profile-image fileStorage=config.fileStorage email=model.changeset.email setImage=(action (mut model.image))}}
 
-                {{#gh-form-group}}
-                    <label for="email-address">Email address</label>
+                {{#gh-validation-container "email" model.changeset as |value actions|}}
+                    <label for="email-address">Email Address</label>
                     <span class="input-icon icon-mail">
-                        {{gh-input model.email type="email" name="email" placeholder="Eg. john@example.com" disabled="disabled" autocorrect="off"}}
+                        {{gh-input value id="email-address" type="email" name="email" placeholder="Eg. john@example.com" disabled="disabled" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
                     </span>
-                {{/gh-form-group}}
+                {{/gh-validation-container}}
 
-                {{#gh-form-group errors=model.errors hasValidated=hasValidated property="name"}}
-                    <label for="full-name">Full name</label>
+                {{#gh-validation-container "name" model.changeset as |value actions|}}
+                    <label for="full-name">Full Name</label>
                     <span class="input-icon icon-user">
-                        {{gh-trim-focus-input model.name tabindex="1" type="text" name="name" placeholder="Eg. John H. Watson" onenter=(action "signup") autocorrect="off" focusOut=(action "validate" "name") update=(action (mut model.name))}}
+                        {{gh-trim-focus-input value id="full-name" tabindex="1" type="text" name="name" placeholder="Eg. John H. Watson" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
                     </span>
-                    {{gh-error-message errors=model.errors property="name"}}
-                {{/gh-form-group}}
+                {{/gh-validation-container}}
 
-                {{#gh-form-group errors=model.errors hasValidated=hasValidated property="password"}}
+                {{#gh-validation-container "password" model.changeset as |value actions|}}
                     <label for="password">Password</label>
                     <span class="input-icon icon-lock">
-                        {{gh-input model.password tabindex="2" type="password" name="password" placeholder="At least 8 characters" onenter=(action "signup") autocorrect="off" focusOut=(action "validate" "password") update=(action (mut model.password))}}
+                        {{gh-input value id="password" tabindex="2" type="password" name="password" placeholder="At least 8 characters" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
                     </span>
-                    {{gh-error-message errors=model.errors property="password"}}
-                {{/gh-form-group}}
+                {{/gh-validation-container}}
+
+                {{#gh-spin-button tabindex="3" type="submit" class="btn btn-green btn-lg btn-block" action="signup" submitting=submitting autoWidth="false"}}Create Account{{/gh-spin-button}}
             </form>
 
-            {{#gh-spin-button tabindex="3" type="submit" class="btn btn-green btn-lg btn-block" action="signup" submitting=submitting autoWidth="false"}}Create Account{{/gh-spin-button}}
             <p class="main-error">{{{flowErrors}}}</p>
         </section>
     </div>
