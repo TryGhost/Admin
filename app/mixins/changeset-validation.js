@@ -1,6 +1,6 @@
 import Mixin from 'ember-metal/mixin';
 import Ember from 'ember';
-import computed, {reads, and} from 'ember-computed';
+import computed, {reads, and, not} from 'ember-computed';
 import {isEmberArray} from 'ember-array/utils';
 import {isBlank} from 'ember-utils';
 
@@ -26,6 +26,7 @@ export default Mixin.create({
             return this.get('changeset.hasValidated').contains(property);
         }));
 
+        // always returns a single error
         defineProperty(this, 'error', computed(`changeset.error.${property}.{value,validation}`, function () {
             let errors = this.get(`changeset.error.${property}.validation`);
 
@@ -38,9 +39,10 @@ export default Mixin.create({
         }).readOnly());
     },
 
-    isValid: and('changeset.isValid', 'changeset.isDirty', 'didValidate'),
+    isValid: and('doesNotHaveError', 'changeset.isDirty', 'didValidate'),
     isInvalid: reads('changeset.isInvalid'),
     hasError: and('didValidate', 'isInvalid', 'error'),
+    doesNotHaveError: not('hasError'),
 
     state: computed('isValid', 'hasError', 'didValidate', function () {
         if (!this.get('didValidate')) {
