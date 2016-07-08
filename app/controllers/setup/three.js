@@ -1,112 +1,37 @@
 import Controller from 'ember-controller';
 import RSVP from 'rsvp';
 import computed, {alias} from 'ember-computed';
-import {A as emberA} from 'ember-array/utils';
 import injectService from 'ember-service/inject';
 import injectController from 'ember-controller/inject';
 import {htmlSafe} from 'ember-string';
-import run from 'ember-runloop';
-import DS from 'ember-data';
+import {later, cancel, schedule} from 'ember-runloop';
+import {isEmberArray} from 'ember-array/utils';
 
-const {Errors} = DS;
+const {all} = RSVP;
 
 export default Controller.extend({
     notifications: injectService(),
-    two: injectController('setup/two'),
+    two: injectController('setup.two'),
 
-    errors: Errors.create(),
-    hasValidated: emberA(),
-    users: '',
-    ownerEmail: alias('two.email'),
+    model: alias('two.model'),
     submitting: false,
+    showErrors: false,
 
-    usersArray: computed('users', function () {
-        let errors = this.get('errors');
-        let users = this.get('users').split('\n').filter(function (email) {
-            return email.trim().length > 0;
-        });
+    buttonText: computed('model.changeset.users.[]', 'model.changeset.error.users.validation', 'hasUserErrors', function () {
+        let userErrors = this.get('model.changeset.error.users.validation');
+        let users = this.get('model.changeset.users').without('');
+        let validNum = (users.length > 0 && users[0]) ? users.length : 0;
+        let invalidNum, userCount;
 
-        // remove "no users to invite" error if we have users
-        if (users.uniq().length > 0 && errors.get('users.length') === 1) {
-            if (errors.get('users.firstObject').message.match(/no users/i)) {
-                errors.remove('users');
-            }
+        if (isEmberArray(userErrors)) {
+            invalidNum = userErrors.length;
+        } else if (userErrors && userErrors.match(/no users/i)) {
+            return userErrors;
+        } else if (userErrors && userErrors.length > 1) {
+            invalidNum = 1;
         }
 
-        return users.uniq();
-    }),
-
-    validUsersArray: computed('usersArray', 'ownerEmail', function () {
-        let ownerEmail = this.get('ownerEmail');
-
-        return this.get('usersArray').filter(function (user) {
-            return validator.isEmail(user) && user !== ownerEmail;
-        });
-    }),
-
-    invalidUsersArray: computed('usersArray', 'ownerEmail', function () {
-        let ownerEmail = this.get('ownerEmail');
-
-        return this.get('usersArray').reject((user) => {
-            return validator.isEmail(user) || user === ownerEmail;
-        });
-    }),
-
-    validationResult: computed('invalidUsersArray', function () {
-        let errors = [];
-
-        this.get('invalidUsersArray').forEach((user) => {
-            errors.push({
-                user,
-                error: 'email'
-            });
-        });
-
-        if (errors.length === 0) {
-            // ensure we aren't highlighting fields when everything is fine
-            this.get('errors').clear();
-            return true;
-        } else {
-            return errors;
-        }
-    }),
-
-    validate() {
-        let errors = this.get('errors');
-        let validationResult = this.get('validationResult');
-        let property = 'users';
-
-        errors.clear();
-
-        // If property isn't in the `hasValidated` array, add it to mark that this field can show a validation result
-        this.get('hasValidated').addObject(property);
-
-        if (validationResult === true) {
-            return true;
-        }
-
-        validationResult.forEach((error) => {
-            // Only one error type here so far, but one day the errors might be more detailed
-            switch (error.error) {
-                case 'email':
-                    errors.add(property, `${error.user} is not a valid email.`);
-            }
-        });
-
-        return false;
-    },
-
-    buttonText: computed('errors.users', 'validUsersArray', 'invalidUsersArray', function () {
-        let usersError = this.get('errors.users.firstObject.message');
-        let validNum = this.get('validUsersArray').length;
-        let invalidNum = this.get('invalidUsersArray').length;
-        let userCount;
-
-        if (usersError && usersError.match(/no users/i)) {
-            return usersError;
-        }
-
-        if (invalidNum > 0) {
+        if (invalidNum > 0 && this.get('hasUserErrors')) {
             userCount = invalidNum === 1 ? 'email address' : 'email addresses';
             return `${invalidNum} invalid ${userCount}`;
         }
@@ -121,12 +46,20 @@ export default Controller.extend({
         return `Invite ${userCount}`;
     }),
 
-    buttonClass: computed('validationResult', 'usersArray.length', function () {
-        if (this.get('validationResult') === true && this.get('usersArray.length') > 0) {
+    buttonClass: computed('hasUserErrors', 'model.changeset.users.length', function () {
+        if (!this.get('hasUserErrors') && this.get('model.changeset.users').without('').length > 0) {
             return 'btn-green';
         } else {
             return 'btn-minor';
         }
+    }),
+
+    hasUserErrors: computed('model.changeset.error.users.validation.firstObject', 'model.changeset.hasValidated.[]', function () {
+        let changeset = this.get('model.changeset');
+        let errors = changeset.get('error.users.validation.firstObject');
+
+        return changeset.get('hasValidated').contains('users') &&
+            errors && errors.length > 0;
     }),
 
     authorRole: computed(function () {
@@ -138,92 +71,127 @@ export default Controller.extend({
     _transitionAfterSubmission() {
         if (!this._hasTransitioned) {
             this._hasTransitioned = true;
+            this.get('model').reset();
             this.transitionToRoute('posts.index');
         }
     },
 
     actions: {
-        validate() {
-            this.validate();
+        focusOut() {
+            this.set('showErrors', false);
         },
 
         invite() {
-            let users = this.get('usersArray');
-            let notifications = this.get('notifications');
-            let invitationsString, submissionTimeout;
+            let changeset = this.get('model.changeset');
 
-            if (this.validate() && users.length > 0) {
-                this.set('submitting', true);
-                this._hasTransitioned = false;
+            if (changeset.get('users').length === 0) {
+                changeset.addError('users', 'No users to add');
+                this.toggleProperty('showErrors');
+                return;
+            }
 
-                // wait for 4 seconds, otherwise transition anyway
-                submissionTimeout = run.later(this, function () {
-                    this._transitionAfterSubmission();
-                }, 4000);
+            changeset.validate('users').then(() => {
+                if (changeset.get('isInvalid')) {
+                    return;
+                }
 
-                this.get('authorRole').then((authorRole) => {
-                    RSVP.Promise.all(
-                        users.map((user) => {
+                let ownerEmail = this.get('model.email');
+
+                // filter out & uniqify
+                changeset.prepare((changes) => {
+                    let users = changes.users.filter((email) => {
+                        return email.trim().length > 0;
+                    }).uniq();
+
+                    return {users};
+                });
+
+                changeset.clear('users');
+
+                if (changeset.get('users').contains(ownerEmail)) {
+                    changeset.addError('users', `${ownerEmail} is already in use`);
+                    changeset.get('hasValidated').push('users');
+                    this.toggleProperty('showErrors');
+                    return;
+                }
+
+                changeset.execute();
+
+                let users = this.get('model.users');
+                let notifications = this.get('notifications');
+                let submissionTimeout, invitationsString;
+
+                if (users.length > 0) {
+                    this.set('submitting', true);
+                    this._hasTransitioned = false;
+
+                    // wait for 4 seconds, otherwise transition anyway
+                    submissionTimeout = later(this, function () {
+                        this._transitionAfterSubmission();
+                    }, 4000);
+
+                    this.get('authorRole').then((authorRole) => {
+                        all(users.map((email) => {
                             let newUser = this.store.createRecord('user', {
-                                email: user,
+                                email,
                                 status: 'invited',
                                 role: authorRole
                             });
 
                             return newUser.save().then(() => {
                                 return {
-                                    email: user,
+                                    email,
                                     success: newUser.get('status') === 'invited'
                                 };
                             }).catch(() => {
                                 return {
-                                    email: user,
+                                    email,
                                     success: false
                                 };
                             });
-                        })
-                    ).then((invites) => {
-                        let erroredEmails = [];
-                        let successCount = 0;
-                        let message;
+                        })).then((invites) => {
+                            let erroredEmails = [];
+                            let successCount = 0;
+                            let message;
 
-                        run.cancel(submissionTimeout);
+                            cancel(submissionTimeout);
 
-                        invites.forEach((invite) => {
-                            if (invite.success) {
-                                successCount++;
-                            } else {
-                                erroredEmails.push(invite.email);
+                            invites.forEach((invite) => {
+                                if (invite.success) {
+                                    successCount++;
+                                } else {
+                                    erroredEmails.push(invite.email);
+                                }
+                            });
+
+                            if (erroredEmails.length > 0) {
+                                invitationsString = erroredEmails.length > 1 ? 'invitations: ' : 'invitation ';
+                                message = `Failed to send ${erroredEmails.length} ${invitationsString}`;
+                                message += erroredEmails.join(', ');
+                                message += '. Please check your email configuration, see <a href="http://support.ghost.org/mail" target="_blank">http://support.ghost.org/mail</a> for instructions';
+
+                                message = htmlSafe(message);
+                                notifications.showAlert(message, {type: 'error', delayed: successCount > 0, key: 'setup.send-invitations.failed'});
                             }
-                        });
 
-                        if (erroredEmails.length > 0) {
-                            invitationsString = erroredEmails.length > 1 ? ' invitations: ' : ' invitation: ';
-                            message = `Failed to send ${erroredEmails.length} ${invitationsString}`;
-                            message += erroredEmails.join(', ');
-                            message += ". Please check your email configuration, see <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions";
+                            if (successCount > 0) {
+                                // pluralize
+                                invitationsString = successCount > 1 ? 'invitations' : 'invitation';
+                                notifications.showAlert(`${successCount} ${invitationsString} sent!`, {type: 'success', delayed: true, key: 'setup.send-invitations.success'});
+                            }
 
-                            message = htmlSafe(message);
-                            notifications.showAlert(message, {type: 'error', delayed: successCount > 0, key: 'signup.send-invitations.failed'});
-                        }
+                            this.set('submitting', false);
 
-                        if (successCount > 0) {
-                            // pluralize
-                            invitationsString = successCount > 1 ? 'invitations' : 'invitation';
-                            notifications.showAlert(`${successCount} ${invitationsString} sent!`, {type: 'success', delayed: true, key: 'signup.send-invitations.success'});
-                        }
-
-                        this.set('submitting', false);
-
-                        run.schedule('actions', this, function () {
-                            this.send('loadServerNotifications');
-                            this._transitionAfterSubmission();
+                            schedule('actions', this, function () {
+                                this.send('loadServerNotifications');
+                                this._transitionAfterSubmission();
+                            });
                         });
                     });
-                });
-            } else if (users.length === 0) {
-                this.get('errors').add('users', 'No users to invite');
-            }
+                } else if (users.length === 0) {
+                    changeset.addError('users', 'No users to invite');
+                }
+            });
         },
 
         skipInvite() {

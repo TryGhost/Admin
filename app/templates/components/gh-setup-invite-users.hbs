@@ -1,0 +1,8 @@
+<label for="users">Enter one email address per line, we’ll handle the rest! <i class="icon-mail"></i></label>
+{{gh-textarea rawValue name="users" required="required" focusOut=(action "focusOut") update=(action "update")}}
+
+{{#if showErrors}}
+    {{#if hasError}}
+        <p class="response">{{error}}</p>
+    {{/if}}
+{{/if}}

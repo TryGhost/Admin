@@ -1,5 +1,6 @@
 import EmberObject from 'ember-object';
 import RSVP from 'rsvp';
+import {A as emberA} from 'ember-array/utils';
 import injectService from 'ember-service/inject';
 
 import validations from 'ghost-admin/utils/validations';
@@ -8,18 +9,48 @@ const {Promise, resolve} = RSVP;
 const ValidationsMixin = validations('setup');
 
 export default EmberObject.extend(ValidationsMixin, {
+    /**
+     * Title of the blog
+     * @type {String}
+     */
     blogTitle: '',
+
+    /**
+     * Name of the blog owner
+     * @type {String}
+     */
     name: '',
+
+    /**
+     * Email of the blog owner
+     * @type {String}
+     */
     email: '',
+
+    /**
+     * Password of the blog owner
+     * @type {String}
+     */
     password: '',
+
+    /**
+     * Profile image of the blog owner
+     * @type {Object}
+     */
     image: null,
+
+    /**
+     * Users to invite to the blog
+     * @type {Array}
+     */
+    users: emberA(),
 
     /**
      * After the blog is created, this will hold a reference to the
      * created user data returned from the server
      * @type {Object}
      */
-    user: null,
+    createdOwnerUser: null,
 
     /**
      * After the blog is created, this is set to true to enable
@@ -51,7 +82,7 @@ export default EmberObject.extend(ValidationsMixin, {
             image.formData = {};
             image.submit()
                 .success((response) => {
-                    let user = this.get('user');
+                    let user = this.get('createdOwnerUser');
                     let usersUrl = this.get('ghostPaths.url').api('users', user.id.toString());
                     user.image = response;
 
@@ -81,7 +112,19 @@ export default EmberObject.extend(ValidationsMixin, {
         }).then((result) => {
             this.get('config').set('blogTitle', setupData.blogTitle);
 
-            this.set('user', result.users[0]);
+            this.set('createdOwnerUser', result.users[0]);
+        });
+    },
+
+    reset() {
+        this.setProperties({
+            blogTitle: '',
+            name: '',
+            email: '',
+            password: '',
+            users: emberA(),
+            created: false,
+            createdOwnerUser: null
         });
     }
 });

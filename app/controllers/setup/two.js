@@ -1,16 +1,26 @@
 import Controller from 'ember-controller';
 import injectService from 'ember-service/inject';
 import {isEmberArray} from 'ember-array/utils';
+import getOwner from 'ember-owner/get';
+
+import SetupModel from 'ghost-admin/models/setup';
 
 export default Controller.extend({
     size: 90,
 
+    model: null,
     submitting: false,
     flowErrors: '',
 
     notifications: injectService(),
     session: injectService(),
     config: injectService(),
+
+    init() {
+        this.set('model', SetupModel.create(getOwner(this).ownerInjection()));
+
+        return this._super(...arguments);
+    },
 
     _handleSaveError(resp) {
         this.toggleProperty('submitting');
