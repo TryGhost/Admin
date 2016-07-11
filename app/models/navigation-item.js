@@ -2,12 +2,14 @@ import computed from 'ember-computed';
 import {isBlank} from 'ember-utils';
 import EmberObject from 'ember-object';
 
-export default EmberObject.extend({
+import validations from 'ghost-admin/utils/validations';
+
+const ValidationsMixin = validations('navItem');
+
+export default EmberObject.extend(ValidationsMixin, {
     label: '',
     url: '',
     isNew: false,
-
-    validationType: 'navItem',
 
     isComplete: computed('label', 'url', function () {
         let {label, url} = this.getProperties('label', 'url');

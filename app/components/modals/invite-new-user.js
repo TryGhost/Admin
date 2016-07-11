@@ -87,6 +87,13 @@ export default ModalComponent.extend(ValidationsMixin, {
             let notifications = this.get('notifications');
             let newUser;
 
+            // occasionally if an invite request resolves quickly, two confirmation
+            // events will be fired, resulting in an "email already invited"
+            // validation message. This should prevent that from happening.
+            if (this.get('submitting')) {
+                return;
+            }
+
             this.validate().then(() => {
                 if (changeset.get('isInvalid')) {
                     return;

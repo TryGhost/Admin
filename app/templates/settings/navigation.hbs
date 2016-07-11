@@ -10,10 +10,10 @@
         <form id="settings-navigation" class="gh-blognav" novalidate="novalidate">
             {{#sortable-group onChange=(action 'reorderItems') as |group|}}
                 {{#each model.navigation as |navItem|}}
-                    {{gh-navitem navItem=navItem baseUrl=blogUrl addItem="addItem" deleteItem="deleteItem" updateUrl="updateUrl" group=group}}
+                    {{gh-navitem navItem=navItem baseUrl=blogUrl addItem="addItem" deleteItem="deleteItem" group=group}}
                 {{/each}}
             {{/sortable-group}}
-            {{gh-navitem navItem=newNavItem baseUrl=blogUrl addItem="addItem" updateUrl="updateUrl"}}
+            {{gh-navitem navItem=newNavItem baseUrl=blogUrl addItem="addItem"}}
         </form>
     </section>
 </section>

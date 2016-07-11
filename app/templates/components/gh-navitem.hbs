@@ -5,14 +5,13 @@
 {{/unless}}
 
 <div class="gh-blognav-line">
-    {{#gh-validation-status-container tagName="span" class="gh-blognav-label" errors=navItem.errors property="label" hasValidated=navItem.hasValidated}}
-        {{gh-trim-focus-input navItem.label shouldFocus=navItem.last placeholder="Label" keyPress=(action "clearLabelErrors") update=(action (mut navItem.label))}}
-        {{gh-error-message errors=navItem.errors property="label"}}
-    {{/gh-validation-status-container}}
-    {{#gh-validation-status-container tagName="span" class="gh-blognav-url" errors=navItem.errors property="url" hasValidated=navItem.hasValidated}}
-        {{gh-navitem-url-input baseUrl=baseUrl url=navItem.url isNew=navItem.isNew change="updateUrl" clearErrors=(action "clearUrlErrors")}}
-        {{gh-error-message errors=navItem.errors property="url"}}
-    {{/gh-validation-status-container}}
+    {{#gh-validation-container "label" navItem.changeset formGroup=false tagName="span" class="gh-blognav-label" as |value actions|}}
+        {{gh-trim-focus-input value shouldFocus=navItem.last placeholder="Label" update=actions.update focusOut=actions.focusOut}}
+    {{/gh-validation-container}}
+
+    {{#gh-validation-container "url" navItem.changeset formGroup=false tagName="span" class="gh-blognav-url" as |value actions|}}
+        {{gh-navitem-url-input value baseUrl=baseUrl update=actions.update focusOut=actions.focusOut}}
+    {{/gh-validation-container}}
 </div>
 
 {{#if navItem.isNew}}

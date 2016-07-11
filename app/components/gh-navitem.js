@@ -1,10 +1,10 @@
 import Component from 'ember-component';
-import computed, {alias, readOnly} from 'ember-computed';
+import computed, {alias, bool} from 'ember-computed';
 import run from 'ember-runloop';
-import ValidationState from 'ghost-admin/mixins/validation-state';
 import SortableItem from 'ember-sortable/mixins/sortable-item';
+import {invokeAction} from 'ember-invoke-action';
 
-export default Component.extend(ValidationState, SortableItem, {
+export default Component.extend(SortableItem, {
     classNames: 'gh-blognav-item',
     classNameBindings: ['errorClass', 'navItem.isNew::gh-blognav-item--sortable'],
 
@@ -12,7 +12,7 @@ export default Component.extend(ValidationState, SortableItem, {
     handle: '.gh-blognav-grab',
 
     model: alias('navItem'),
-    errors: readOnly('navItem.errors'),
+    hasError: bool('model.changeset.errors.length'),
 
     errorClass: computed('hasError', function () {
         if (this.get('hasError')) {
@@ -32,23 +32,11 @@ export default Component.extend(ValidationState, SortableItem, {
 
     actions: {
         addItem() {
-            this.sendAction('addItem');
+            invokeAction(this, 'addItem');
         },
 
         deleteItem(item) {
-            this.sendAction('deleteItem', item);
-        },
-
-        updateUrl(value) {
-            this.sendAction('updateUrl', value, this.get('navItem'));
-        },
-
-        clearLabelErrors() {
-            this.get('navItem.errors').remove('label');
-        },
-
-        clearUrlErrors() {
-            this.get('navItem.errors').remove('url');
+            invokeAction(this, 'deleteItem', item);
         }
     }
 });
