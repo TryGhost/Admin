@@ -54,7 +54,7 @@ body > .ember-view:not(.liquid-target-container) {
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
     border-right: #dfe1e3 1px solid;
-    background: #f5f7f8;
+    background: #5e0c64;
     transform: translateX(0);
 }
 
@@ -103,7 +103,7 @@ body > .ember-view:not(.liquid-target-container) {
 
 .gh-nav-menu-details-user {
     overflow: hidden;
-    color: var(--midgrey);
+    color: #5ba4e5;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 1.2rem;
@@ -120,8 +120,31 @@ body > .ember-view:not(.liquid-target-container) {
     margin: 0 15px 10px;
 }
 
-.gh-nav-search .ember-power-select-trigger {
-    outline: 0;
+.gh-nav-search .selectize-control {
+    display: flex;
+}
+
+.gh-nav-search-input .selectize-input {
+    padding: 4px 8px;
+    padding-right: 30px;
+    height: auto;
+}
+.gh-nav-search-input .selectize-input,
+.gh-nav-search-input .selectize-input input,
+.gh-nav-search-input .selectize-dropdown {
+    font-size: 1.3rem;
+}
+
+.gh-nav-search .selectize-input.dropdown-active {
+    border-bottom: #fff 1px solid;
+}
+
+.gh-nav-search .selectize-input.dropdown-active:before {
+    display: none;
+}
+
+.gh-nav-search .selectize-dropdown-content {
+    max-height: calc(100vh - 150px);
 }
 
 .gh-nav-search-button {
@@ -173,7 +196,7 @@ body > .ember-view:not(.liquid-target-container) {
     align-items: center;
     padding: 5px 10px 5px 15px;
     border-radius: 0 4px 4px 0;
-    color: var(--darkgrey);
+    /*color: var(--darkgrey);*/
     transition: none;
 }
 

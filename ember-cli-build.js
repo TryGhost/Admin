@@ -44,6 +44,7 @@ module.exports = function (defaults) {
         'ember-cli-selectize': {
             theme: false
         }
+
     });
 
     // 'dem Scripts
@@ -72,6 +73,8 @@ module.exports = function (defaults) {
     app.import('bower_components/codemirror/mode/javascript/javascript.js');
     app.import('bower_components/password-generator/lib/password-generator.js');
     app.import('bower_components/blueimp-md5/js/md5.js');
+    app.import('bower_components/highcharts/highcharts.js');
+
 
     if (app.env === 'test') {
         app.import(app.bowerDirectory + '/jquery.simulate.drag-sortable/jquery.simulate.drag-sortable.js', {type: 'test'});
