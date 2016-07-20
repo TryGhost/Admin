@@ -91,29 +91,6 @@ export default class Changeset {
                 return resolve(this._validateAndSet(key, this._valueFor(key)));
             },
 
-            /**
-             * Because the default behavior of ember-changeset doesn't actually set
-             * a changed property _unless_ it is validated, we override it here
-             * to actually do that. A bit hacky, but enables form validation to work correctly.
-             */
-            _setProperty(content, changes, errors, validation, {key, value} = {}) {
-                set(changes, key, value);
-                this.notifyPropertyChange(CHANGES);
-                this.notifyPropertyChange(key);
-
-                if (validation === true || isEmberArray(validation) && validation[0] === true) {
-                    if (isPresent(get(errors, key))) {
-                        delete errors[key];
-                        this.notifyPropertyChange(`${ERRORS}.${key}`);
-                        this.notifyPropertyChange(ERRORS);
-                    }
-
-                    return value;
-                }
-
-                return this.addError(key, {value, validation});
-            },
-
             clear(key) {
                 if (isNone(key)) {
                     this.get('hasValidated').clear();
