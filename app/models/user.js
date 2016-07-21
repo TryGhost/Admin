@@ -5,7 +5,11 @@ import {hasMany} from 'ember-data/relationships';
 import computed, {equal} from 'ember-computed';
 import injectService from 'ember-service/inject';
 
-export default Model.extend({
+import validations from 'ghost-admin/utils/validations';
+
+const ValidationsMixin = validations('user');
+
+export default Model.extend(ValidationsMixin, {
     uuid: attr('string'),
     name: attr('string'),
     slug: attr('string'),
