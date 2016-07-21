@@ -1,9 +1,7 @@
-import {A as emberA, isEmberArray} from 'ember-array/utils';
-import {isNone, isPresent} from 'ember-utils';
+import {A as emberA} from 'ember-array/utils';
+import {isNone} from 'ember-utils';
 import RSVP from 'rsvp';
 import Ember from 'ember';
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
 
 import {changeset} from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
@@ -11,10 +9,6 @@ import lookupValidator from 'ember-changeset-validations';
 const {keys} = Object;
 const {typeOf} = Ember;
 const {resolve, all} = RSVP;
-
-// Pulled from ember-changeset
-const CHANGES = '_changes';
-const ERRORS = '_errors';
 
 /**
  * Overrides of the base ember-changeset class. This is
