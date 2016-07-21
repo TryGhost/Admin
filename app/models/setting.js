@@ -2,7 +2,11 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 
-export default Model.extend({
+import validations from 'ghost-admin/utils/validations';
+
+const ValidationsMixin = validations('setting');
+
+export default Model.extend(ValidationsMixin, {
     title: attr('string'),
     description: attr('string'),
     logo: attr('string'),

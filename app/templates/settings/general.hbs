@@ -9,23 +9,18 @@
     <section class="view-content">
         <form id="settings-general" novalidate="novalidate">
             <fieldset>
+                {{gh-validated-textfield
+                    "title"
+                    model.changeset
+                    label="Blog Title"
+                    name="general[title]"
+                    type="text"
+                    placeholder="Blog Title"
+                }}
 
-                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="title"}}
-                    <label for="blog-title">Blog Title</label>
-                    {{gh-input model.title id="blog-title" name="general[title]" type="text" focusOut=(action "validate" "title" target=model) update=(action (mut model.title))}}
-                    {{gh-error-message errors=model.errors property="title"}}
-                    <p>The name of your blog</p>
-                {{/gh-form-group}}
-
-                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="description" class="description-container"}}
-                    <label for="blog-description">Blog Description</label>
-                    {{gh-textarea model.description id="blog-description" name="general[description]" focusOut=(action "validate" "description" target=model) update=(action (mut model.description))}}
-                    {{gh-error-message errors=model.errors property="description"}}
-                    <p>
-                        Describe what your blog is about
-                        {{gh-count-characters model.description}}
-                    </p>
-                {{/gh-form-group}}
+                {{#gh-validated-textarea "description" model.changeset label="Blog Description" name="general[description]"}}
+                    Describe what your blog is about {{gh-count-characters model.changeset.description}}
+                {{/gh-validated-textarea}}
             </fieldset>
 
             <div class="form-group">
@@ -38,10 +33,12 @@
                 <p>Display a logo for your publication</p>
 
                 {{#if showUploadLogoModal}}
-                    {{gh-fullscreen-modal "upload-image"
-                                          model=(hash model=model imageProperty="logo")
-                                          close=(action "toggleUploadLogoModal")
-                                          modifier="action wide"}}
+                    {{gh-fullscreen-modal
+                        "upload-image"
+                        model=(hash model=model imageProperty="logo")
+                        close=(action "toggleUploadLogoModal")
+                        modifier="action wide"
+                    }}
                 {{/if}}
             </div>
 
@@ -55,15 +52,16 @@
                 <p>Display a cover image on your site</p>
 
                 {{#if showUploadCoverModal}}
-                    {{gh-fullscreen-modal "upload-image"
-                                          model=(hash model=model imageProperty="cover")
-                                          close=(action "toggleUploadCoverModal")
-                                          modifier="action wide"}}
+                    {{gh-fullscreen-modal
+                        "upload-image"
+                        model=(hash model=model imageProperty="cover")
+                        close=(action "toggleUploadCoverModal")
+                        modifier="action wide"
+                    }}
                 {{/if}}
             </div>
 
             <fieldset>
-
                 <div class="form-group">
                     <label for="postsPerPage">Posts per page</label>
                     {{! `pattern` brings up numeric keypad allowing any number of digits}}
@@ -90,27 +88,10 @@
                             optionValuePath="name"
                             optionLabelPath="label"
                             selection=selectedTheme
-                            action="setTheme"
+                            action=(action "setTheme")
                         }}
                    </span>
                     <p>Select a theme for your blog</p>
-                </div>
-
-                <div class="form-group">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="facebook"}}
-                        <label for="facebook">Facebook Page</label>
-                        <input value={{model.facebook}} oninput={{action (mut _scratchFacebook) value="target.value"}} {{action "validateFacebookUrl" on="focusOut"}} type="url" class="gh-input" id="facebook" name="general[facebook]"  placeholder="https://www.facebook.com/ghost" autocorrect="off" />
-                        {{gh-error-message errors=model.errors property="facebook"}}
-                        <p>URL of your blog's Facebook Page</p>
-                    {{/gh-form-group}}
-                </div>
-                <div class="form-group">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="twitter"}}
-                        <label for="twitter">Twitter Profile</label>
-                        <input value={{model.twitter}} oninput={{action (mut _scratchTwitter) value="target.value"}} {{action "validateTwitterUrl" on="focusOut"}} type="url" class="gh-input" id="facebook" name="general[twitter]"  placeholder="https://twitter.com/tryghost" autocorrect="off" />
-                        {{gh-error-message errors=model.errors property="twitter"}}
-                        <p>URL of your blog's Twitter profile</p>
-                    {{/gh-form-group}}
                 </div>
 
                 <div class="form-group for-select">
@@ -123,30 +104,54 @@
                             optionValuePath="name"
                             optionLabelPath="label"
                             selection=selectedTimezone
-                            action="setTimezone"
+                            action=(action "setTimezone")
                         }}
                     </span>
                     <p>The local time here is currently {{localTime}}</p>
                 </div>
 
+                {{gh-validated-textfield
+                    "facebook"
+                    model.changeset
+                    type="url"
+                    name="general[facebook]"
+                    placeholder="https://www.facebook.com/ghost"
+                    autocorrect="off"
+                    helpText="URL of your blog's Facebook Page"
+                    focusOut=(action "validateFacebook")
+                }}
+
+                {{gh-validated-textfield
+                    "twitter"
+                    model.changeset
+                    type="url"
+                    name="general[twitter]"
+                    placeholder="https://twitter.com/tryghost"
+                    autocorrect="off"
+                    helpText="URL of your blog's Twitter profile"
+                    focusOut=(action "validateTwitter")
+                }}
+
                 <div class="form-group for-checkbox">
                     <label for="isPrivate">Make this blog private</label>
                     <label class="checkbox" for="isPrivate">
-                        {{one-way-checkbox model.isPrivate id="isPrivate" name="general[isPrivate]" type="checkbox" update=(action (mut model.isPrivate))}}
+                        {{one-way-checkbox model.changeset.isPrivate id="isPrivate" name="general[isPrivate]" type="checkbox" update=(action (mut model.changeset.isPrivate))}}
                         <span class="input-toggle-component"></span>
                         <p>Enable password protection</p>
                     </label>
                 </div>
 
-                {{#if model.isPrivate}}
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="password"}}
-                        {{gh-input model.password name="general[password]" type="text" focusOut=(action "validate" "password" target=model) update=(action (mut model.password))}}
-                        {{gh-error-message errors=model.errors property="password"}}
-                        <p>This password will be needed to access your blog. All search engine optimization and social features are now disabled. This password is stored in plaintext.</p>
-                    {{/gh-form-group}}
+                {{#if model.changeset.isPrivate}}
+                    {{gh-validated-textfield
+                        "password"
+                        model.changeset
+                        name="general[password]"
+                        placeholder="Password"
+                        helpText="This password will be needed to access your blog. All search engine optimization and social features are now disabled. This password is stored in plaintext."
+                        focusOut=(action "validatePrivatePassword")
+                    }}
                 {{/if}}
             </fieldset>
-
         </form>
     </section>
 </section>

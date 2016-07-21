@@ -1,6 +1,8 @@
 import Component from 'ember-component';
 import {reads} from 'ember-computed';
 
+import {invokeAction} from 'ember-invoke-action';
+
 function K() {
     return this;
 }
@@ -34,7 +36,7 @@ export default Component.extend({
             // changes to `selection` out via 2-way binding
             this.set('_selection', selection);
 
-            this.sendAction('action', selection);
+            invokeAction(this, 'action', selection);
         }
     }
 });
