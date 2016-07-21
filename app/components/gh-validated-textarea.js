@@ -14,6 +14,10 @@ const ValidatedTextarea = Component.extend(ChangesetValidationMixin, {
     helpText: '',
     disabled: false,
 
+    // text input mixin parameters
+    selectOnClick: false,
+    stopEnterKeyDownPropagation: false,
+
     didInsertElement() {
         this._super(...arguments);
 

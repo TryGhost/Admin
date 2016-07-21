@@ -15,6 +15,10 @@ const ValidatedTextfield = Component.extend(ChangesetValidationMixin, {
     helpText: '',
     disabled: false,
 
+    // text input mixin parameters
+    selectOnClick: false,
+    stopEnterKeyDownPropagation: false,
+
     // other options
     readonly: null,
     size: null,
