@@ -1,21 +1,18 @@
 import Controller from 'ember-controller';
 import RSVP from 'rsvp';
-import computed, {alias, and, not, or, readOnly} from 'ember-computed';
+import computed, {alias, and, not, or} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import {htmlSafe} from 'ember-string';
 import {isEmberArray} from 'ember-array/utils';
 
 import isNumber from 'ghost-admin/utils/isNumber';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import SocialValidationsMixin from 'ghost-admin/mixins/social-validation';
 
 export default Controller.extend(SocialValidationsMixin, {
     submitting: false,
     updatingPassword: false,
     lastPromise: null,
-
-    // for social validations mixin
-    modelKey: 'user',
+    passwordModel: null,
 
     showDeleteUserModal: false,
     showTransferOwnerModal: false,
@@ -31,9 +28,6 @@ export default Controller.extend(SocialValidationsMixin, {
 
     user: alias('model'),
     currentUser: alias('session.user'),
-
-    email: readOnly('model.email'),
-    slugValue: boundOneWay('model.slug'),
 
     isNotOwnersProfile: not('user.isOwner'),
     isAdminUserOnOwnerProfile: and('currentUser.isAdmin', 'user.isOwner'),
@@ -101,27 +95,23 @@ export default Controller.extend(SocialValidationsMixin, {
         this.get('notifications').showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
     },
 
-    actions: {
-        changeRole(newRole) {
-            this.set('model.role', newRole);
-        },
+    save() {
+        let changeset = this.get('model.changeset');
 
-        save() {
-            let user = this.get('user');
-            let slugValue = this.get('slugValue');
-            let afterUpdateSlug = this.get('lastPromise');
-            let promise,
-                slugChanged;
+        this.toggleProperty('submitting');
 
-            if (user.get('slug') !== slugValue) {
-                slugChanged = true;
-                user.set('slug', slugValue);
+        changeset.validate().then(() => {
+            if (!changeset.get('isValid')) {
+                this.toggleProperty('submitting');
+                return;
             }
 
-            this.toggleProperty('submitting');
+            let afterUpdateSlug = this.get('lastPromise');
+            let slugChanged = changeset.get('change.slug');
+            let promise;
 
             promise = RSVP.resolve(afterUpdateSlug).then(() => {
-                return user.save({format: false});
+                return changeset.save();
             }).then((model) => {
                 let currentPath,
                     newPath;
@@ -138,21 +128,28 @@ export default Controller.extend(SocialValidationsMixin, {
                     window.history.replaceState({path: newPath}, '', newPath);
                 }
 
-                this.toggleProperty('submitting');
                 this.get('notifications').closeAlerts('user.update');
-
-                return model;
             }).catch((error) => {
-                // validation engine returns undefined so we have to check
-                // before treating the failure as an API error
                 if (error) {
                     this.get('notifications').showAPIError(error, {key: 'user.update'});
                 }
+                this.toggleProperty('submitting');
+            }).finally(() => {
                 this.toggleProperty('submitting');
             });
 
             this.set('lastPromise', promise);
             return promise;
+        });
+    },
+
+    actions: {
+        changeRole(newRole) {
+            this.set('model.role', newRole);
+        },
+
+        save() {
+            return this.save();
         },
 
         deleteUser() {
@@ -169,57 +166,49 @@ export default Controller.extend(SocialValidationsMixin, {
             }
         },
 
+        validatePassword() {
+            this.get('passwordModel').validateOldPassword();
+        },
+
         changePassword() {
-            let user = this.get('user');
+            let model = this.get('passwordModel');
+            let changeset = model.get('changeset');
 
-            if (!this.get('updatingPassword')) {
-                this.set('updatingPassword', true);
+            this.toggleProperty('updatingPassword');
 
-                return user.saveNewPassword().then((model) => {
-                    // Clear properties from view
-                    user.setProperties({
-                        password: '',
-                        newPassword: '',
-                        ne2Password: ''
-                    });
+            return model.validate().then(() => {
+                if (!changeset.get('isValid')) {
+                    this.toggleProperty('updatingPassword');
+                    return;
+                }
+
+                return changeset.save().then(() => {
+                    model.clear();
 
                     this.get('notifications').showNotification('Password updated.', {type: 'success', key: 'user.change-password.success'});
-
-                    // clear errors manually for ne2password because validation
-                    // engine only clears the "validated proeprty"
-                    // TODO: clean up once we have a better validations library
-                    user.get('errors').remove('ne2Password');
-
-                    return model;
                 }).catch((error) => {
-                    // error will be undefined if we have a validation error
                     if (error) {
                         this.get('notifications').showAPIError(error, {key: 'user.change-password'});
                     }
                 }).finally(() => {
-                    this.set('updatingPassword', false);
+                    this.toggleProperty('updatingPassword');
                 });
-            }
+            });
         },
 
-        updateSlug(newSlug) {
+        updateSlug() {
             let afterSave = this.get('lastPromise');
+            let changeset = this.get('model.changeset');
             let promise;
 
             promise = RSVP.resolve(afterSave).then(() => {
-                let slug = this.get('model.slug');
+                let slug = changeset.get('slug').trim();
 
-                newSlug = newSlug || slug;
-                newSlug = newSlug.trim();
-
-                // Ignore unchanged slugs or candidate slugs that are empty
-                if (!newSlug || slug === newSlug) {
-                    this.set('slugValue', slug);
-
+                if (!slug || this.get('user.slug') === slug) {
                     return;
                 }
 
-                return this.get('slugGenerator').generateSlug('user', newSlug).then((serverSlug) => {
+                return this.get('slugGenerator').generateSlug('user', slug).then((serverSlug) => {
                     // If after getting the sanitized and unique slug back from the API
                     // we end up with a slug that matches the existing slug, abort the change
                     if (serverSlug === slug) {
@@ -238,15 +227,13 @@ export default Controller.extend(SocialValidationsMixin, {
 
                     // if the candidate slug is the same as the existing slug except
                     // for the incrementor then the existing slug should be used
-                    if (isNumber(check) && check > 0) {
-                        if (slug === slugTokens.join('-') && serverSlug !== newSlug) {
-                            this.set('slugValue', slug);
+                    if (isNumber(check) && check > 0 && slug === slugTokens.join('-')) {
+                        changeset.set('slug', slug);
 
-                            return;
-                        }
+                        return;
                     }
 
-                    this.set('slugValue', serverSlug);
+                    changeset.set('slug', serverSlug);
                 });
             });
 
@@ -295,26 +282,6 @@ export default Controller.extend(SocialValidationsMixin, {
 
         toggleUploadImageModal() {
             this.toggleProperty('showUploadImageModal');
-        },
-
-        // TODO: remove those mutation actions once we have better
-        // inline validations that auto-clear errors on input
-        updatePassword(password) {
-            this.set('user.password', password);
-            this.get('user.hasValidated').removeObject('password');
-            this.get('user.errors').remove('password');
-        },
-
-        updateNewPassword(password) {
-            this.set('user.newPassword', password);
-            this.get('user.hasValidated').removeObject('newPassword');
-            this.get('user.errors').remove('newPassword');
-        },
-
-        updateNe2Password(password) {
-            this.set('user.ne2Password', password);
-            this.get('user.hasValidated').removeObject('ne2Password');
-            this.get('user.errors').remove('ne2Password');
         }
     }
 });

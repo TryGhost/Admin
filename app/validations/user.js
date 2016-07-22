@@ -17,6 +17,7 @@ export default {
     ],
 
     bio: validateLength({
+        allowBlank: true,
         max: 200,
         message: 'Bio cannot be longer than {max} characters'
     }),
@@ -27,6 +28,7 @@ export default {
     }),
 
     location: validateLength({
+        allowBlank: true,
         max: 150,
         message: 'Location cannot be longer than {max} characters'
     }),
@@ -38,6 +40,7 @@ export default {
             message: 'Website is not a valid URL'
         }),
         validateLength({
+            allowBlank: true,
             max: 2000,
             message: 'Website cannot be longer than {max} characters'
         })

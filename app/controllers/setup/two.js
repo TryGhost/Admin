@@ -1,9 +1,9 @@
 import Controller from 'ember-controller';
 import injectService from 'ember-service/inject';
 import {isEmberArray} from 'ember-array/utils';
-import getOwner from 'ember-owner/get';
 
 import SetupModel from 'ghost-admin/models/setup';
+import createContainerObject from 'ghost-admin/utils/container-object';
 
 export default Controller.extend({
     size: 90,
@@ -17,7 +17,7 @@ export default Controller.extend({
     config: injectService(),
 
     init() {
-        this.set('model', SetupModel.create(getOwner(this).ownerInjection()));
+        this.set('model', createContainerObject(SetupModel, this));
 
         return this._super(...arguments);
     },

@@ -75,24 +75,6 @@ export default Model.extend(ValidationsMixin, {
         }
     }),
 
-    saveNewPassword() {
-        let url = this.get('ghostPaths.url').api('users', 'password');
-        let validation = this.get('isLoggedIn') ? 'ownPasswordChange' : 'passwordChange';
-
-        return this.validate({property: validation}).then(() => {
-            return this.get('ajax').put(url, {
-                data: {
-                    password: [{
-                        user_id: this.get('id'),
-                        oldPassword: this.get('password'),
-                        newPassword: this.get('newPassword'),
-                        ne2Password: this.get('ne2Password')
-                    }]
-                }
-            });
-        });
-    },
-
     resendInvite() {
         let fullUserData = this.toJSON();
         let userData = {

@@ -1,12 +1,9 @@
 import Mixin from 'ember-metal/mixin';
 
 export default Mixin.create({
-    modelKey: 'model',
-
     actions: {
         validateFacebook() {
-            let key = this.get('modelKey');
-            let changeset = this.get(`${key}.changeset`);
+            let changeset = this.get('model.changeset');
             let facebookUrl = changeset.get('facebook');
 
             if (!changeset.get('change.facebook')) {
@@ -46,8 +43,7 @@ export default Mixin.create({
         },
 
         validateTwitter() {
-            let key = this.get('modelKey');
-            let changeset = this.get(`${key}.changeset`);
+            let changeset = this.get('model.changeset');
             let twitterUrl = changeset.get('twitter');
 
             if (!changeset.get('change.twitter')) {

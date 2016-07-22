@@ -2,7 +2,6 @@ import EmberObject from 'ember-object';
 import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
 import validations from 'ghost-admin/utils/validations';
-import get from 'ember-metal/get';
 import Model from 'ember-data/model';
 
 const {Promise, resolve} = RSVP;
