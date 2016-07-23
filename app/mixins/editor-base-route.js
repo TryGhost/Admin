@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import Mixin from 'ember-metal/mixin';
-import RSVP from 'rsvp';
 import run from 'ember-runloop';
 
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
@@ -57,11 +56,10 @@ export default Mixin.create(styleBody, ShortcutsRoute, {
             // so we abort the transition and retry after the save has completed.
             if (state.isSaving) {
                 transition.abort();
-                return run.later(this, function () {
-                    RSVP.resolve(controller.get('lastPromise')).then(() => {
-                        transition.retry();
-                    });
-                }, 100);
+
+                this.get('promise').schedule('post', () => {
+                    transition.retry();
+                });
             }
 
             fromNewToEdit = this.get('routeName') === 'editor.new' &&

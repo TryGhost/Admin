@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import Ember from 'ember';
 import Controller from 'ember-controller';
-import RSVP from 'rsvp';
 import computed from 'ember-computed';
 import {guidFor} from 'ember-metal/utils';
 import injectService from 'ember-service/inject';
@@ -9,7 +8,6 @@ import injectController from 'ember-controller/inject';
 import {htmlSafe} from 'ember-string';
 import {isBlank} from 'ember-utils';
 import observer from 'ember-metal/observer';
-import run from 'ember-runloop';
 
 import {parseDateString} from 'ghost-admin/utils/date-formatting';
 import SettingsMenuMixin from 'ghost-admin/mixins/settings-menu-controller';
@@ -20,8 +18,6 @@ import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 const {ArrayProxy, Handlebars, PromiseProxyMixin} = Ember;
 
 export default Controller.extend(SettingsMenuMixin, {
-    debounceId: null,
-    lastPromise: null,
     selectedAuthor: null,
 
     application: injectController(),
@@ -29,6 +25,7 @@ export default Controller.extend(SettingsMenuMixin, {
     ghostPaths: injectService(),
     notifications: injectService(),
     session: injectService(),
+    scheduler: injectService(),
     slugGenerator: injectService(),
     timeZone: injectService(),
 
@@ -61,15 +58,13 @@ export default Controller.extend(SettingsMenuMixin, {
     // Requests slug from title
     generateAndSetSlug(destination) {
         let title = this.get('model.titleScratch');
-        let afterSave = this.get('lastPromise');
-        let promise;
 
         // Only set an "untitled" slug once per post
         if (title === '(Untitled)' && this.get('model.slug')) {
             return;
         }
 
-        promise = RSVP.resolve(afterSave).then(() => {
+        this.get('scheduler').promise('post', () => {
             return this.get('slugGenerator').generateSlug('post', title).then((slug) => {
                 if (!isBlank(slug)) {
                     this.set(destination, slug);
@@ -83,8 +78,6 @@ export default Controller.extend(SettingsMenuMixin, {
                 }
             });
         });
-
-        this.set('lastPromise', promise);
     },
 
     metaTitleScratch: boundOneWay('model.metaTitle'),
@@ -165,15 +158,11 @@ export default Controller.extend(SettingsMenuMixin, {
 
     titleObserver() {
         let title = this.get('model.title');
-        let debounceId;
-
         // generate a slug if a post is new and doesn't have a title yet or
         // if the title is still '(Untitled)' and the slug is unaltered.
         if ((this.get('model.isNew') && !title) || title === '(Untitled)') {
-            debounceId = run.debounce(this, 'generateAndSetSlug', 'model.slug', 700);
+            this.get('scheduler').timer('post', 'debounce', this, 'generateAndSetSlug', 'model.slug', 700);
         }
-
-        this.set('debounceId', debounceId);
     },
 
     // live-query of all tags for tag input autocomplete

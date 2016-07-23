@@ -1,5 +1,4 @@
 import Controller from 'ember-controller';
-import RSVP from 'rsvp';
 import computed, {alias, and, not, or, readOnly} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import {htmlSafe} from 'ember-string';
@@ -13,7 +12,6 @@ import { invoke } from 'ember-invoke-action';
 export default Controller.extend({
     submitting: false,
     updatingPassword: false,
-    lastPromise: null,
     showDeleteUserModal: false,
     showTransferOwnerModal: false,
     showUploadCoverModal: false,
@@ -26,6 +24,7 @@ export default Controller.extend({
     ghostPaths: injectService(),
     notifications: injectService(),
     session: injectService(),
+    scheduler: injectService(),
     slugGenerator: injectService(),
 
     user: alias('model'),
@@ -108,9 +107,7 @@ export default Controller.extend({
         save() {
             let user = this.get('user');
             let slugValue = this.get('slugValue');
-            let afterUpdateSlug = this.get('lastPromise');
-            let promise,
-                slugChanged;
+            let slugChanged;
 
             if (user.get('slug') !== slugValue) {
                 slugChanged = true;
@@ -119,39 +116,36 @@ export default Controller.extend({
 
             this.toggleProperty('submitting');
 
-            promise = RSVP.resolve(afterUpdateSlug).then(() => {
-                return user.save({format: false});
-            }).then((model) => {
-                let currentPath,
-                    newPath;
+            return this.get('scheduler').promise('user', () => {
+                return user.save({format: false}).then((model) => {
+                    let currentPath,
+                        newPath;
 
-                // If the user's slug has changed, change the URL and replace
-                // the history so refresh and back button still work
-                if (slugChanged) {
-                    currentPath = window.history.state.path;
+                    // If the user's slug has changed, change the URL and replace
+                    // the history so refresh and back button still work
+                    if (slugChanged) {
+                        currentPath = window.history.state.path;
 
-                    newPath = currentPath.split('/');
-                    newPath[newPath.length - 2] = model.get('slug');
-                    newPath = newPath.join('/');
+                        newPath = currentPath.split('/');
+                        newPath[newPath.length - 2] = model.get('slug');
+                        newPath = newPath.join('/');
 
-                    window.history.replaceState({path: newPath}, '', newPath);
-                }
+                        window.history.replaceState({path: newPath}, '', newPath);
+                    }
 
-                this.toggleProperty('submitting');
-                this.get('notifications').closeAlerts('user.update');
+                    this.toggleProperty('submitting');
+                    this.get('notifications').closeAlerts('user.update');
 
-                return model;
-            }).catch((error) => {
-                // validation engine returns undefined so we have to check
-                // before treating the failure as an API error
-                if (error) {
-                    this.get('notifications').showAPIError(error, {key: 'user.update'});
-                }
-                this.toggleProperty('submitting');
+                    return model;
+                }).catch((error) => {
+                    // validation engine returns undefined so we have to check
+                    // before treating the failure as an API error
+                    if (error) {
+                        this.get('notifications').showAPIError(error, {key: 'user.update'});
+                    }
+                    this.toggleProperty('submitting');
+                });
             });
-
-            this.set('lastPromise', promise);
-            return promise;
         },
 
         deleteUser() {
@@ -202,10 +196,7 @@ export default Controller.extend({
         },
 
         updateSlug(newSlug) {
-            let afterSave = this.get('lastPromise');
-            let promise;
-
-            promise = RSVP.resolve(afterSave).then(() => {
+            return this.get('scheduler').promise('user', () => {
                 let slug = this.get('model.slug');
 
                 newSlug = newSlug || slug;
@@ -248,8 +239,6 @@ export default Controller.extend({
                     this.set('slugValue', serverSlug);
                 });
             });
-
-            this.set('lastPromise', promise);
         },
 
         validateFacebookUrl() {
