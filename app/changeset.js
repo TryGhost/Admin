@@ -1,13 +1,11 @@
 import {A as emberA} from 'ember-array/utils';
 import {isNone} from 'ember-utils';
 import RSVP from 'rsvp';
-import Ember from 'ember';
 
 import {changeset} from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 
 const {keys} = Object;
-const {typeOf} = Ember;
 const {resolve, all} = RSVP;
 
 /**
@@ -35,17 +33,9 @@ export default class Changeset {
                 this.set('hasValidated', emberA());
             },
 
-            addError(key, validation) {
+            addError(key, options) {
                 this.get('hasValidated').pushObject(key);
-
-                if (typeOf(validation) === 'object') {
-                    return this._super(key, validation);
-                }
-
-                return this._super(key, {
-                    value: this.get(key),
-                    validation
-                });
+                return this._super(key, options);
             },
 
             rollback() {
