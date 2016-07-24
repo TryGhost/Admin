@@ -16,7 +16,7 @@ describeModule(
     'controller:post-settings-menu',
     'Unit: Controller: post-settings-menu',
     {
-        needs: ['controller:application', 'service:notifications', 'service:slug-generator', 'service:timeZone']
+        needs: ['controller:application', 'service:notifications', 'service:slug-generator', 'service:timeZone', 'service:scheduler']
     },
 
     function () {
@@ -394,6 +394,17 @@ describeModule(
                             return RSVP.resolve(`${str}-slug`);
                         }
                     }),
+                    scheduler: EmberObject.create({
+                        lastPromise: null,
+                        promise(name, promiseFn) {
+                            // essentially the same behavior as the service at the moment,
+                            // but customized here to make sure it's controlled
+                            let promise = RSVP.resolve(this.get('lastPromise')).then(promiseFn);
+                            this.set('lastPromise', promise);
+
+                            return promise;
+                        }
+                    }),
                     model: EmberObject.create({slug: ''})
                 });
 
@@ -403,7 +414,7 @@ describeModule(
 
                     expect(controller.get('model.slug')).to.equal('');
 
-                    RSVP.resolve(controller.get('lastPromise')).then(function () {
+                    controller.get('scheduler').promise('test', () => {
                         expect(controller.get('model.slug')).to.equal('title-slug');
 
                         done();

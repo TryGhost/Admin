@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Mixin from 'ember-metal/mixin';
-import RSVP from 'rsvp';
 import computed, {alias} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import injectController from 'ember-controller/inject';
@@ -11,8 +10,6 @@ import {isEmberArray} from 'ember-array/utils';
 
 import PostModel from 'ghost-admin/models/post';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
-
-const {resolve} = RSVP;
 
 // this array will hold properties we need to watch
 // to know if the model has been changed (`controller.hasDirtyAttributes`)
@@ -33,6 +30,7 @@ export default Mixin.create({
     postSettingsMenuController: injectController('post-settings-menu'),
     notifications: injectService(),
     clock: injectService(),
+    scheduler: injectService(),
 
     init() {
         this._super(...arguments);
@@ -346,7 +344,7 @@ export default Mixin.create({
             let prevStatus = this.get('model.status');
             let isNew = this.get('model.isNew');
             let psmController = this.get('postSettingsMenuController');
-            let promise, status;
+            let status;
 
             options = options || {};
             this.toggleProperty('submitting');
@@ -386,12 +384,12 @@ export default Mixin.create({
             if (!this.get('model.slug')) {
                 // Cancel any pending slug generation that may still be queued in the
                 // run loop because we need to run it before the post is saved.
-                run.cancel(psmController.get('debounceId'));
+                this.get('scheduler').cancel('post');
 
                 psmController.generateAndSetSlug('model.slug');
             }
 
-            promise = resolve(psmController.get('lastPromise')).then(() => {
+            return this.get('scheduler').promise('post', () => {
                 return this.get('model').save(options).then((model) => {
                     if (!options.silent) {
                         this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);
@@ -405,31 +403,27 @@ export default Mixin.create({
                         this.set('scheduledWillPublish', false);
                     }
                     return model;
-                });
-            }).catch((error) => {
-                // re-throw if we have a general server error
-                // TODO: use isValidationError(error) once we have
-                // ember-ajax/ember-data integration
-                if (error && error.errors && error.errors[0].errorType !== 'ValidationError') {
+                }).catch((error) => {
+                    // re-throw if we have a general server error
+                    // TODO: use isValidationError(error) once we have
+                    // ember-ajax/ember-data integration
+                    if (error && error.errors && error.errors[0].errorType !== 'ValidationError') {
+                        this.toggleProperty('submitting');
+                        this.send('error', error);
+                        return;
+                    }
+
+                    if (!options.silent) {
+                        error = error || this.get('model.errors.messages');
+                        this.showErrorAlert(prevStatus, this.get('model.status'), error);
+                    }
+
+                    this.set('model.status', prevStatus);
+
                     this.toggleProperty('submitting');
-                    this.send('error', error);
-                    return;
-                }
-
-                if (!options.silent) {
-                    error = error || this.get('model.errors.messages');
-                    this.showErrorAlert(prevStatus, this.get('model.status'), error);
-                }
-
-                this.set('model.status', prevStatus);
-
-                this.toggleProperty('submitting');
-                return this.get('model');
+                    return this.get('model');
+                });
             });
-
-            psmController.set('lastPromise', promise);
-
-            return promise;
         },
 
         setSaveType(newType) {
