@@ -2,6 +2,8 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import styleBody from 'ghost-admin/mixins/style-body';
+import ChangePasswordModel from 'ghost-admin/models/change-password';
+import createContainerObject from 'ghost-admin/utils/container-object';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     titleToken: 'Team - User',
@@ -32,6 +34,12 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
         });
     },
 
+    setupController(controller, user) {
+        this._super(...arguments);
+
+        controller.set('passwordModel', createContainerObject(ChangePasswordModel, this, {user}));
+    },
+
     deactivate() {
         let model = this.modelFor('team.user');
 
@@ -40,14 +48,12 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
             model.rollbackAttributes();
         }
 
-        model.get('errors').clear();
-
         this._super(...arguments);
     },
 
     actions: {
         didTransition() {
-            this.modelFor('team.user').get('errors').clear();
+            this.controller.get('model.changeset').clear();
         },
 
         save() {

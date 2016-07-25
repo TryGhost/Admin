@@ -2,13 +2,14 @@ import $ from 'jquery';
 import computed from 'ember-computed';
 import injectService from 'ember-service/inject';
 import {htmlSafe} from 'ember-string';
+
 import ModalComponent from 'ghost-admin/components/modals/base';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
+import validations from 'ghost-admin/utils/validations';
 
-export default ModalComponent.extend(ValidationEngine, {
-    validationType: 'signin',
+const ValidationsMixin = validations('signin');
 
+export default ModalComponent.extend(ValidationsMixin, {
     submitting: false,
     authenticationError: null,
 
@@ -18,6 +19,7 @@ export default ModalComponent.extend(ValidationEngine, {
     identification: computed('session.user.email', function () {
         return this.get('session.user.email');
     }),
+    password: '',
 
     _authenticate() {
         let session = this.get('session');
@@ -43,8 +45,17 @@ export default ModalComponent.extend(ValidationEngine, {
 
             this.set('authenticationError', null);
 
-            this.validate({property: 'signin'}).then(() => {
+            let changeset = this.get('changeset');
+
+            this.validate().then(() => {
+                if (changeset.get('isInvalid')) {
+                    return;
+                }
+
+                changeset.execute();
+
                 this._authenticate().then(() => {
+                    changeset.rollback();
                     this.get('notifications').closeAlerts('post.save');
                     this.send('closeModal');
                 }).catch((error) => {
@@ -56,13 +67,10 @@ export default ModalComponent.extend(ValidationEngine, {
                             err.message = htmlSafe(err.message);
                         });
 
-                        this.get('errors').add('password', 'Incorrect password');
-                        this.get('hasValidated').pushObject('password');
+                        changeset.addError('password', 'Incorrect password');
                         this.set('authenticationError', error.errors[0].message);
                     }
                 });
-            }, () => {
-                this.get('hasValidated').pushObject('password');
             });
         }
     }

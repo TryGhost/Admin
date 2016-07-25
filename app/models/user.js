@@ -4,11 +4,12 @@ import attr from 'ember-data/attr';
 import {hasMany} from 'ember-data/relationships';
 import computed, {equal} from 'ember-computed';
 import injectService from 'ember-service/inject';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'user',
+import validations from 'ghost-admin/utils/validations';
 
+const ValidationsMixin = validations('user');
+
+export default Model.extend(ValidationsMixin, {
     uuid: attr('string'),
     name: attr('string'),
     slug: attr('string'),
@@ -73,24 +74,6 @@ export default Model.extend(ValidationEngine, {
             return value;
         }
     }),
-
-    saveNewPassword() {
-        let url = this.get('ghostPaths.url').api('users', 'password');
-        let validation = this.get('isLoggedIn') ? 'ownPasswordChange' : 'passwordChange';
-
-        return this.validate({property: validation}).then(() => {
-            return this.get('ajax').put(url, {
-                data: {
-                    password: [{
-                        user_id: this.get('id'),
-                        oldPassword: this.get('password'),
-                        newPassword: this.get('newPassword'),
-                        ne2Password: this.get('ne2Password')
-                    }]
-                }
-            });
-        });
-    },
 
     resendInvite() {
         let fullUserData = this.toJSON();

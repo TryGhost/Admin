@@ -2,17 +2,19 @@
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
             <form id="login" class="gh-signin" method="post" novalidate="novalidate">
-                {{#gh-form-group errors=model.errors hasValidated=hasValidated property="identification"}}
+                {{#gh-validation-container "identification" model.changeset as |value actions|}}
                     <span class="input-icon icon-mail">
-                        {{gh-trim-focus-input model.identification class="email" type="email" placeholder="Email Address" name="identification" autocapitalize="off" autocorrect="off" tabindex="1" focusOut=(action "validate" "identification") update=(action (mut model.identification))}}
+                        {{gh-trim-focus-input value class="email" type="email" placeholder="Email Address" name="identification" autocapitalize="off" autocorrect="off" tabindex="1" focusOut=actions.focusOut update=actions.update}}
                     </span>
-                {{/gh-form-group}}
-                {{#gh-form-group errors=model.errors hasValidated=hasValidated property="password"}}
+                {{/gh-validation-container}}
+
+                {{#gh-validation-container "password" model.changeset as |value actions|}}
                     <span class="input-icon icon-lock forgotten-wrap">
-                        {{gh-input model.password class="password" type="password" placeholder="Password" name="password" tabindex="2" autocorrect="off" update=(action (mut model.password))}}
+                        {{gh-input value class="password" type="password" placeholder="Password" name="password" tabindex="2" autocorrect="off" update=actions.update focusOut=actions.focusOut}}
                         {{#gh-spin-button class="forgotten-link btn btn-link" type="button" action="forgotten" tabindex="4" submitting=submitting autoWidth="true"}}Forgot?{{/gh-spin-button}}
                     </span>
-                {{/gh-form-group}}
+                {{/gh-validation-container}}
+
                 {{#gh-spin-button class="login btn btn-blue btn-block" type="submit" action="validateAndAuthenticate" tabindex="3" submitting=loggingIn autoWidth="false"}}Sign in{{/gh-spin-button}}
             </form>
 

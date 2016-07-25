@@ -1,14 +1,13 @@
 import Route from 'ember-route';
 import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
-import EmberObject from 'ember-object';
+import getOwner from 'ember-owner/get';
 
-import DS from 'ember-data';
 import Configuration from 'ember-simple-auth/configuration';
 import styleBody from 'ghost-admin/mixins/style-body';
+import NewUserModel from 'ghost-admin/models/new-user';
 
 const {Promise} = RSVP;
-const {Errors} = DS;
 
 export default Route.extend(styleBody, {
     classNames: ['ghost-signup'],
@@ -28,25 +27,22 @@ export default Route.extend(styleBody, {
     },
 
     model(params) {
-        let model = EmberObject.create();
         let re = /^(?:[A-Za-z0-9_\-]{4})*(?:[A-Za-z0-9_\-]{2}|[A-Za-z0-9_\-]{3})?$/;
+        let {token} = params;
         let email,
             tokenText;
 
         return new Promise((resolve) => {
-            if (!re.test(params.token)) {
+            if (!re.test(token)) {
                 this.get('notifications').showAlert('Invalid token.', {type: 'error', delayed: true, key: 'signup.create.invalid-token'});
 
                 return resolve(this.transitionTo('signin'));
             }
 
-            tokenText = atob(params.token);
+            tokenText = atob(token);
             email = tokenText.split('|')[1];
 
-            model.set('email', email);
-            model.set('token', params.token);
-            model.set('errors', Errors.create());
-
+            let model = NewUserModel.create(getOwner(this).ownerInjection(), {email, token});
             let authUrl = this.get('ghostPaths.url').api('authentication', 'invitation');
 
             return this.get('ajax').request(authUrl, {
@@ -66,12 +62,5 @@ export default Route.extend(styleBody, {
                 resolve(model);
             });
         });
-    },
-
-    deactivate() {
-        this._super(...arguments);
-
-        // clear the properties that hold the sensitive data from the controller
-        this.controllerFor('signup').setProperties({email: '', password: '', token: ''});
     }
 });

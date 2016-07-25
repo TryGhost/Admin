@@ -1,77 +1,44 @@
 import Controller from 'ember-controller';
-import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
 import {isEmberArray} from 'ember-array/utils';
 
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 
 const {Promise} = RSVP;
 
-export default Controller.extend(ValidationEngine, {
-    // ValidationEngine settings
-    validationType: 'signup',
-
+export default Controller.extend({
     submitting: false,
     flowErrors: '',
-    image: null,
 
-    ghostPaths: injectService(),
-    config: injectService(),
     notifications: injectService(),
     session: injectService(),
-    ajax: injectService(),
-
-    sendImage() {
-        let image = this.get('image');
-
-        this.get('session.user').then((user) => {
-            return new Promise((resolve, reject) => {
-                image.formData = {};
-                image.submit()
-                    .success((response) => {
-                        let usersUrl = this.get('ghostPaths.url').api('users', user.id.toString());
-                        user.image = response;
-                        this.get('ajax').put(usersUrl, {
-                            data: {
-                                users: [user]
-                            }
-                        }).then(resolve).catch(reject);
-                    })
-                    .error(reject);
-            });
-        });
-    },
+    config: injectService(),
 
     actions: {
         signup() {
-            let model = this.get('model');
-            let setupProperties = ['name', 'email', 'password', 'token'];
-            let data = model.getProperties(setupProperties);
-            let image = this.get('image');
-            let notifications = this.get('notifications');
+            let changeset = this.get('model.changeset');
 
+            this.toggleProperty('submitting');
             this.set('flowErrors', '');
 
-            this.get('hasValidated').addObjects(setupProperties);
-            this.validate().then(() => {
-                let authUrl = this.get('ghostPaths.url').api('authentication', 'invitation');
-                this.toggleProperty('submitting');
-                this.get('ajax').post(authUrl, {
-                    dataType: 'json',
-                    data: {
-                        invitation: [{
-                            name: data.name,
-                            email: data.email,
-                            password: data.password,
-                            token: data.token
-                        }]
-                    }
-                }).then(() => {
-                    this.get('session').authenticate('authenticator:oauth2', this.get('model.email'), this.get('model.password')).then(() => {
-                        if (image) {
-                            this.sendImage();
-                        }
+            changeset.validate().then(() => {
+                if (changeset.get('isInvalid')) {
+                    this.toggleProperty('submitting');
+                    this.set('flowErrors', 'Please fill out the form to complete your sign-up');
+                    return;
+                }
+
+                let notifications = this.get('notifications');
+
+                changeset.save().then(() => {
+                    let {email, password} = this.get('model').getProperties('email', 'password');
+
+                    this.get('session').authenticate('authenticator:oauth2', email, password).then(() => {
+                        this.toggleProperty('submitting');
+
+                        return this.get('session.user');
+                    }).then((user) => {
+                        return this.get('model').saveImage(user);
                     }).catch((resp) => {
                         notifications.showAPIError(resp, {key: 'signup.complete'});
                     });
@@ -87,13 +54,7 @@ export default Controller.extend(ValidationEngine, {
                         notifications.showAPIError(error, {key: 'signup.complete'});
                     }
                 });
-            }).catch(() => {
-                this.set('flowErrors', 'Please fill out the form to complete your sign-up');
             });
-        },
-
-        setImage(image) {
-            this.set('image', image);
         }
     }
 });

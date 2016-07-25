@@ -5,6 +5,7 @@ import injectService from 'ember-service/inject';
 import {isBlank} from 'ember-utils';
 import run from 'ember-runloop';
 
+import {invokeAction} from 'ember-invoke-action';
 import AjaxService from 'ember-ajax/services/ajax';
 import {isNotFoundError} from 'ember-ajax/errors';
 
@@ -121,7 +122,7 @@ export default Component.extend({
         let fileName = data.files[0].name;
 
         if ((/\.(gif|jpe?g|png|svg?z)$/i).test(fileName)) {
-            this.sendAction('setImage', data);
+            invokeAction(this, 'setImage', data);
         }
     },
 

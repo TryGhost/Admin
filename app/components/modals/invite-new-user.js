@@ -1,16 +1,20 @@
 import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
-import {A as emberA} from 'ember-array/utils';
-import run from 'ember-runloop';
+import {schedule} from 'ember-runloop';
+
 import ModalComponent from 'ghost-admin/components/modals/base';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import validations from 'ghost-admin/utils/validations';
 
-const {Promise} = RSVP;
+const {resolve} = RSVP;
+const ValidationsMixin = validations('inviteUser');
 
-export default ModalComponent.extend(ValidationEngine, {
+export default ModalComponent.extend(ValidationsMixin, {
     classNames: 'modal-content invite-new-user',
 
+    // Object properties
+    email: '',
     role: null,
+
     roles: null,
     authorRole: null,
     submitting: false,
@@ -24,7 +28,7 @@ export default ModalComponent.extend(ValidationEngine, {
         this._super(...arguments);
 
         // populate roles and set initial value for the dropdown
-        run.schedule('afterRender', this, function () {
+        schedule('afterRender', this, function () {
             this.get('store').query('role', {permissions: 'assign'}).then((roles) => {
                 let authorRole = roles.findBy('name', 'Author');
 
@@ -40,43 +44,35 @@ export default ModalComponent.extend(ValidationEngine, {
 
     willDestroyElement() {
         this._super(...arguments);
-        // TODO: this should not be needed, ValidationEngine acts as a
-        // singleton and so it's errors and hasValidated state stick around
-        this.get('errors').clear();
-        this.set('hasValidated', emberA());
+
+        this.get('changeset').rollback();
     },
 
     validate() {
-        let email = this.get('email');
+        let changeset = this.get('changeset');
 
-        // TODO: either the validator should check the email's existence or
-        // the API should return an appropriate error when attempting to save
-        return new Promise((resolve, reject) => {
-            return this._super().then(() => {
-                this.get('store').findAll('user', {reload: true}).then((result) => {
-                    let invitedUser = result.findBy('email', email);
+        this.set('submitting', true);
 
-                    if (invitedUser) {
-                        this.get('errors').clear('email');
-                        if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
-                            this.get('errors').add('email', 'A user with that email address was already invited.');
-                        } else {
-                            this.get('errors').add('email', 'A user with that email address already exists.');
-                        }
+        return this.get('changeset').validate().then(() => {
+            if (changeset.get('isInvalid')) {
+                this.set('submitting', false);
+                return resolve();
+            }
 
-                        // TODO: this shouldn't be needed, ValidationEngine doesn't mark
-                        // properties as validated when validating an entire object
-                        this.get('hasValidated').addObject('email');
-                        reject();
+            let email = changeset.get('email');
+
+            return this.get('store').findAll('user', {reload: true}).then((result) => {
+                let invitedUser = result.findBy('email', email);
+
+                if (invitedUser) {
+                    this.set('submitting', false);
+
+                    if (invitedUser.get('status') === 'invited' || invitedUser.get('status') === 'invited-pending') {
+                        changeset.addError('email', 'A user with that email address was already invited');
                     } else {
-                        resolve();
+                        changeset.addError('email', 'A user with that email address already exists');
                     }
-                });
-            }, () => {
-                // TODO: this shouldn't be needed, ValidationEngine doesn't mark
-                // properties as validated when validating an entire object
-                this.get('hasValidated').addObject('email');
-                reject();
+                }
             });
         });
     },
@@ -87,13 +83,25 @@ export default ModalComponent.extend(ValidationEngine, {
         },
 
         confirm() {
-            let email = this.get('email');
-            let role = this.get('role');
+            let changeset = this.get('changeset');
             let notifications = this.get('notifications');
             let newUser;
 
+            // occasionally if an invite request resolves quickly, two confirmation
+            // events will be fired, resulting in an "email already invited"
+            // validation message. This should prevent that from happening.
+            if (this.get('submitting')) {
+                return;
+            }
+
             this.validate().then(() => {
-                this.set('submitting', true);
+                if (changeset.get('isInvalid')) {
+                    return;
+                }
+
+                changeset.execute();
+
+                let {email, role} = this.getProperties('email', 'role');
 
                 newUser = this.get('store').createRecord('user', {
                     email,
@@ -115,6 +123,7 @@ export default ModalComponent.extend(ValidationEngine, {
                     newUser.deleteRecord();
                     notifications.showAPIError(error, {key: 'invite.send'});
                 }).finally(() => {
+                    changeset.rollback();
                     this.send('closeModal');
                 });
             });

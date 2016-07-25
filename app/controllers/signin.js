@@ -8,12 +8,10 @@ import {
     VersionMismatchError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Controller.extend(ValidationEngine, {
+export default Controller.extend({
     submitting: false,
     loggingIn: false,
-    authProperties: ['identification', 'password'],
 
     ghostPaths: injectService(),
     notifications: injectService(),
@@ -22,8 +20,14 @@ export default Controller.extend(ValidationEngine, {
     ajax: injectService(),
     flowErrors: '',
 
-    // ValidationEngine settings
-    validationType: 'signin',
+    clearProperties() {
+        let model = this.get('model');
+
+        model.set('identification', '');
+        model.set('password', '');
+
+        model.get('changeset').rollback();
+    },
 
     actions: {
         authenticate() {
@@ -43,6 +47,8 @@ export default Controller.extend(ValidationEngine, {
                         return this.get('notifications').showAPIError(versionMismatchError);
                     }
 
+                    let changeset = this.get('model.changeset');
+
                     error.errors.forEach((err) => {
                         err.message = err.message.htmlSafe();
                     });
@@ -50,11 +56,11 @@ export default Controller.extend(ValidationEngine, {
                     this.set('flowErrors', error.errors[0].message.string);
 
                     if (error.errors[0].message.string.match(/user with that email/)) {
-                        this.get('model.errors').add('identification', '');
+                        changeset.addError('identification', 'Invalid username');
                     }
 
                     if (error.errors[0].message.string.match(/password is incorrect/)) {
-                        this.get('model.errors').add('password', '');
+                        changeset.addError('password', 'Invalid password');
                     }
                 } else {
                     // Connection errors don't return proper status message, only req.body
@@ -69,24 +75,44 @@ export default Controller.extend(ValidationEngine, {
             // browsers and password managers that don't send proper events on autofill
             $('#login').find('input').trigger('change');
 
-            // This is a bit dirty, but there's no other way to ensure the properties are set as well as 'signin'
-            this.get('hasValidated').addObjects(this.authProperties);
-            this.validate({property: 'signin'}).then(() => {
+            let changeset = this.get('model.changeset');
+
+            changeset.validate().then(() => {
+                if (changeset.get('isInvalid')) {
+                    this.set('flowErrors', 'Please fill out the form to sign in.');
+                    return;
+                }
+
+                // apply the property changes to the base object
+                changeset.execute();
+
                 this.toggleProperty('loggingIn');
                 this.send('authenticate');
-            }).catch(() => {
-                this.set('flowErrors', 'Please fill out the form to sign in.');
+            }).catch((error) => {
+                if (error) {
+                    this.get('notifications').showAPIError(error, {key: 'signin.authenticate'});
+                }
             });
         },
 
         forgotten() {
-            let email = this.get('model.identification');
             let notifications = this.get('notifications');
+            let changeset = this.get('model.changeset');
 
             this.set('flowErrors', '');
-            // This is a bit dirty, but there's no other way to ensure the properties are set as well as 'forgotPassword'
-            this.get('hasValidated').addObject('identification');
-            this.validate({property: 'forgotPassword'}).then(() => {
+            changeset.clear();
+
+            changeset.validate('identification').then(() => {
+                // TODO: replace with identification.isInvalid when it is implemented upstream
+                if (changeset.get('error.identification')) {
+                    this.set('flowErrors', 'We need your email address to reset your password!');
+                    return;
+                }
+
+                // persist property changes to model
+                changeset.execute();
+
+                let email = this.get('model.identification');
                 let forgottenUrl = this.get('ghostPaths.url').api('authentication', 'passwordreset');
                 this.toggleProperty('submitting');
 
@@ -110,14 +136,12 @@ export default Controller.extend(ValidationEngine, {
                         this.set('flowErrors', message);
 
                         if (message.match(/no user with that email/)) {
-                            this.get('model.errors').add('identification', '');
+                            changeset.addError('identification', 'Invalid email address');
                         }
                     } else {
                         notifications.showAPIError(error, {defaultErrorText: 'There was a problem with the reset, please try again.', key: 'forgot-password.send'});
                     }
                 });
-            }).catch(() => {
-                this.set('flowErrors', 'We need your email address to reset your password!');
             });
         }
     }

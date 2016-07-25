@@ -7,35 +7,36 @@
     <input style="display:none;" type="text" name="fakeusernameremembered"/>
     <input style="display:none;" type="password" name="fakepasswordremembered"/>
 
-    {{gh-profile-image fileStorage=config.fileStorage email=email setImage="setImage"}}
-    {{#gh-form-group errors=errors hasValidated=hasValidated property="email"}}
-        <label for="email-address">Email address</label>
+    {{gh-profile-image fileStorage=config.fileStorage email=model.changeset.email setImage=(action (mut model.image))}}
+
+    {{#gh-validation-container "email" model.changeset validateOnBlank=false as |value actions|}}
+        <label for="email-address">Email Address</label>
         <span class="input-icon icon-mail">
-            {{gh-trim-focus-input email tabindex="1" type="email" name="email" placeholder="Eg. john@example.com" autocorrect="off" focusOut=(action "preValidate" "email") update=(action (mut email))}}
+            {{gh-trim-focus-input value tabindex="1" type="email" name="email" placeholder="Eg. john@example.com" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
         </span>
-        {{gh-error-message errors=errors property="email"}}
-    {{/gh-form-group}}
-    {{#gh-form-group errors=errors hasValidated=hasValidated property="name"}}
+    {{/gh-validation-container}}
+
+    {{#gh-validation-container "name" model.changeset validateOnBlank=false as |value actions|}}
         <label for="full-name">Full name</label>
         <span class="input-icon icon-user">
-            {{gh-input name tabindex="2" type="text" name="name" placeholder="Eg. John H. Watson"  autocorrect="off" focusOut=(action "preValidate" "name") update=(action (mut name))}}
+            {{gh-input value tabindex="2" type="text" name="name" placeholder="Eg. John H. Watson"  autocorrect="off" focusOut=actions.focusOut update=actions.update}}
         </span>
-        {{gh-error-message errors=errors property="name"}}
-    {{/gh-form-group}}
-    {{#gh-form-group errors=errors hasValidated=hasValidated property="password"}}
+    {{/gh-validation-container}}
+
+    {{#gh-validation-container "password" model.changeset validateOnBlank=false as |value actions|}}
         <label for="password">Password</label>
         <span class="input-icon icon-lock">
-            {{gh-input password tabindex="3" type="password" name="password" placeholder="At least 8 characters" autocorrect="off" focusOut=(action "preValidate" "password") update=(action (mut password))}}
+            {{gh-input value tabindex="3" type="password" name="password" placeholder="At least 8 characters" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
         </span>
-        {{gh-error-message errors=errors property="password"}}
-    {{/gh-form-group}}
-    {{#gh-form-group errors=errors hasValidated=hasValidated property="blogTitle"}}
+    {{/gh-validation-container}}
+
+    {{#gh-validation-container "blogTitle" model.changeset validateOnBlank=false as |value actions|}}
         <label for="blog-title">Blog title</label>
         <span class="input-icon icon-content">
-            {{gh-input blogTitle tabindex="4" type="text" name="blog-title" placeholder="Eg. The Daily Awesome" autocorrect="off" focusOut=(action "preValidate" "blogTitle") update=(action (mut blogTitle))}}
+            {{gh-input value tabindex="4" type="text" name="blog-title" placeholder="Eg. The Daily Awesome" autocorrect="off" focusOut=actions.focusOut update=actions.update}}
         </span>
-        {{gh-error-message errors=errors property="blogTitle"}}
-    {{/gh-form-group}}
+    {{/gh-validation-container}}
+
     {{#gh-spin-button type="submit" tabindex="5" class="btn btn-green btn-lg btn-block" action="setup" submitting=submitting autoWidth="false"}}
         Last step: Invite your team <i class="icon-chevron"></i>
     {{/gh-spin-button}}

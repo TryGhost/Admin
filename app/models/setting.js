@@ -1,11 +1,12 @@
 /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'setting',
+import validations from 'ghost-admin/utils/validations';
 
+const ValidationsMixin = validations('setting');
+
+export default Model.extend(ValidationsMixin, {
     title: attr('string'),
     description: attr('string'),
     logo: attr('string'),

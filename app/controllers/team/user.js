@@ -1,25 +1,23 @@
 import Controller from 'ember-controller';
 import RSVP from 'rsvp';
-import computed, {alias, and, not, or, readOnly} from 'ember-computed';
+import computed, {alias, and, not, or} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import {htmlSafe} from 'ember-string';
-import run from 'ember-runloop';
 import {isEmberArray} from 'ember-array/utils';
 
 import isNumber from 'ghost-admin/utils/isNumber';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
-import { invoke } from 'ember-invoke-action';
+import SocialValidationsMixin from 'ghost-admin/mixins/social-validation';
 
-export default Controller.extend({
+export default Controller.extend(SocialValidationsMixin, {
     submitting: false,
     updatingPassword: false,
     lastPromise: null,
+    passwordModel: null,
+
     showDeleteUserModal: false,
     showTransferOwnerModal: false,
     showUploadCoverModal: false,
     showUplaodImageModal: false,
-    _scratchFacebook: null,
-    _scratchTwitter: null,
 
     ajax: injectService(),
     dropdown: injectService(),
@@ -30,9 +28,6 @@ export default Controller.extend({
 
     user: alias('model'),
     currentUser: alias('session.user'),
-
-    email: readOnly('model.email'),
-    slugValue: boundOneWay('model.slug'),
 
     isNotOwnersProfile: not('user.isOwner'),
     isAdminUserOnOwnerProfile: and('currentUser.isAdmin', 'user.isOwner'),
@@ -100,27 +95,23 @@ export default Controller.extend({
         this.get('notifications').showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
     },
 
-    actions: {
-        changeRole(newRole) {
-            this.set('model.role', newRole);
-        },
+    save() {
+        let changeset = this.get('model.changeset');
 
-        save() {
-            let user = this.get('user');
-            let slugValue = this.get('slugValue');
-            let afterUpdateSlug = this.get('lastPromise');
-            let promise,
-                slugChanged;
+        this.toggleProperty('submitting');
 
-            if (user.get('slug') !== slugValue) {
-                slugChanged = true;
-                user.set('slug', slugValue);
+        changeset.validate().then(() => {
+            if (!changeset.get('isValid')) {
+                this.toggleProperty('submitting');
+                return;
             }
 
-            this.toggleProperty('submitting');
+            let afterUpdateSlug = this.get('lastPromise');
+            let slugChanged = changeset.get('change.slug');
+            let promise;
 
             promise = RSVP.resolve(afterUpdateSlug).then(() => {
-                return user.save({format: false});
+                return changeset.save();
             }).then((model) => {
                 let currentPath,
                     newPath;
@@ -137,21 +128,28 @@ export default Controller.extend({
                     window.history.replaceState({path: newPath}, '', newPath);
                 }
 
-                this.toggleProperty('submitting');
                 this.get('notifications').closeAlerts('user.update');
-
-                return model;
             }).catch((error) => {
-                // validation engine returns undefined so we have to check
-                // before treating the failure as an API error
                 if (error) {
                     this.get('notifications').showAPIError(error, {key: 'user.update'});
                 }
+                this.toggleProperty('submitting');
+            }).finally(() => {
                 this.toggleProperty('submitting');
             });
 
             this.set('lastPromise', promise);
             return promise;
+        });
+    },
+
+    actions: {
+        changeRole(newRole) {
+            this.set('model.role', newRole);
+        },
+
+        save() {
+            return this.save();
         },
 
         deleteUser() {
@@ -168,57 +166,49 @@ export default Controller.extend({
             }
         },
 
+        validatePassword() {
+            this.get('passwordModel').validateOldPassword();
+        },
+
         changePassword() {
-            let user = this.get('user');
+            let model = this.get('passwordModel');
+            let changeset = model.get('changeset');
 
-            if (!this.get('updatingPassword')) {
-                this.set('updatingPassword', true);
+            this.toggleProperty('updatingPassword');
 
-                return user.saveNewPassword().then((model) => {
-                    // Clear properties from view
-                    user.setProperties({
-                        password: '',
-                        newPassword: '',
-                        ne2Password: ''
-                    });
+            return model.validate().then(() => {
+                if (!changeset.get('isValid')) {
+                    this.toggleProperty('updatingPassword');
+                    return;
+                }
+
+                return changeset.save().then(() => {
+                    model.clear();
 
                     this.get('notifications').showNotification('Password updated.', {type: 'success', key: 'user.change-password.success'});
-
-                    // clear errors manually for ne2password because validation
-                    // engine only clears the "validated proeprty"
-                    // TODO: clean up once we have a better validations library
-                    user.get('errors').remove('ne2Password');
-
-                    return model;
                 }).catch((error) => {
-                    // error will be undefined if we have a validation error
                     if (error) {
                         this.get('notifications').showAPIError(error, {key: 'user.change-password'});
                     }
                 }).finally(() => {
-                    this.set('updatingPassword', false);
+                    this.toggleProperty('updatingPassword');
                 });
-            }
+            });
         },
 
-        updateSlug(newSlug) {
+        updateSlug() {
             let afterSave = this.get('lastPromise');
+            let changeset = this.get('model.changeset');
             let promise;
 
             promise = RSVP.resolve(afterSave).then(() => {
-                let slug = this.get('model.slug');
+                let slug = changeset.get('slug').trim();
 
-                newSlug = newSlug || slug;
-                newSlug = newSlug.trim();
-
-                // Ignore unchanged slugs or candidate slugs that are empty
-                if (!newSlug || slug === newSlug) {
-                    this.set('slugValue', slug);
-
+                if (!slug || this.get('user.slug') === slug) {
                     return;
                 }
 
-                return this.get('slugGenerator').generateSlug('user', newSlug).then((serverSlug) => {
+                return this.get('slugGenerator').generateSlug('user', slug).then((serverSlug) => {
                     // If after getting the sanitized and unique slug back from the API
                     // we end up with a slug that matches the existing slug, abort the change
                     if (serverSlug === slug) {
@@ -237,153 +227,17 @@ export default Controller.extend({
 
                     // if the candidate slug is the same as the existing slug except
                     // for the incrementor then the existing slug should be used
-                    if (isNumber(check) && check > 0) {
-                        if (slug === slugTokens.join('-') && serverSlug !== newSlug) {
-                            this.set('slugValue', slug);
+                    if (isNumber(check) && check > 0 && slug === slugTokens.join('-')) {
+                        changeset.set('slug', slug);
 
-                            return;
-                        }
+                        return;
                     }
 
-                    this.set('slugValue', serverSlug);
+                    changeset.set('slug', serverSlug);
                 });
             });
 
             this.set('lastPromise', promise);
-        },
-
-        validateFacebookUrl() {
-            let newUrl = this.get('_scratchFacebook');
-            let oldUrl = this.get('user.facebook');
-            let errMessage = '';
-
-            if (newUrl === '') {
-                // Clear out the Facebook url
-                this.set('user.facebook', '');
-                this.get('user.errors').remove('facebook');
-                return;
-            }
-
-            // _scratchFacebook will be null unless the user has input something
-            if (!newUrl) {
-                newUrl = oldUrl;
-            }
-
-            // If new url didn't change, exit
-            if (newUrl === oldUrl) {
-                this.get('user.errors').remove('facebook');
-                return;
-            }
-
-            // TODO: put the validation here into a validator
-            if (newUrl.match(/(?:facebook\.com\/)(\S+)/) || newUrl.match(/([a-z\d\.]+)/i)) {
-                let username = [];
-
-                if (newUrl.match(/(?:facebook\.com\/)(\S+)/)) {
-                    [ , username ] = newUrl.match(/(?:facebook\.com\/)(\S+)/);
-                } else {
-                    [ , username ] = newUrl.match(/(?:https\:\/\/|http\:\/\/)?(?:www\.)?(?:\w+\.\w+\/+)?(\S+)/mi);
-                }
-
-                // check if we have a /page/username or without
-                if (username.match(/^(?:\/)?(pages?\/\S+)/mi)) {
-                    // we got a page url, now save the username without the / in the beginning
-
-                    [ , username ] = username.match(/^(?:\/)?(pages?\/\S+)/mi);
-                } else if (username.match(/^(http|www)|(\/)/) || !username.match(/^([a-z\d\.]{5,50})$/mi)) {
-                    errMessage = !username.match(/^([a-z\d\.]{5,50})$/mi) ? 'Your Username is not a valid Facebook Username' : 'The URL must be in a format like https://www.facebook.com/yourUsername';
-
-                    this.get('user.errors').add('facebook', errMessage);
-                    this.get('user.hasValidated').pushObject('facebook');
-                    return;
-                }
-
-                newUrl = `https://www.facebook.com/${username}`;
-                this.set('user.facebook', newUrl);
-
-                this.get('user.errors').remove('facebook');
-                this.get('user.hasValidated').pushObject('facebook');
-
-                // User input is validated
-                invoke(this, 'save').then(() => {
-                    // necessary to update the value in the input field
-                    this.set('user.facebook', '');
-                    run.schedule('afterRender', this, function () {
-                        this.set('user.facebook', newUrl);
-                    });
-                });
-            } else {
-                errMessage = 'The URL must be in a format like ' +
-                    'https://www.facebook.com/yourUsername';
-                this.get('user.errors').add('facebook', errMessage);
-                this.get('user.hasValidated').pushObject('facebook');
-                return;
-            }
-        },
-
-        validateTwitterUrl() {
-            let newUrl = this.get('_scratchTwitter');
-            let oldUrl = this.get('user.twitter');
-            let errMessage = '';
-
-            if (newUrl === '') {
-                // Clear out the Twitter url
-                this.set('user.twitter', '');
-                this.get('user.errors').remove('twitter');
-                return;
-            }
-
-            // _scratchTwitter will be null unless the user has input something
-            if (!newUrl) {
-                newUrl = oldUrl;
-            }
-
-            // If new url didn't change, exit
-            if (newUrl === oldUrl) {
-                this.get('user.errors').remove('twitter');
-                return;
-            }
-
-            // TODO: put the validation here into a validator
-            if (newUrl.match(/(?:twitter\.com\/)(\S+)/) || newUrl.match(/([a-z\d\.]+)/i)) {
-                let username = [];
-
-                if (newUrl.match(/(?:twitter\.com\/)(\S+)/)) {
-                    [ , username] = newUrl.match(/(?:twitter\.com\/)(\S+)/);
-                } else {
-                    [username] = newUrl.match(/([^/]+)\/?$/mi);
-                }
-
-                // check if username starts with http or www and show error if so
-                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d\.\_]{1,15}$/mi)) {
-                    errMessage = !username.match(/^[a-z\d\.\_]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
-
-                    this.get('user.errors').add('twitter', errMessage);
-                    this.get('user.hasValidated').pushObject('twitter');
-                    return;
-                }
-
-                newUrl = `https://twitter.com/${username}`;
-                this.set('user.twitter', newUrl);
-
-                this.get('user.errors').remove('twitter');
-                this.get('user.hasValidated').pushObject('twitter');
-
-                // User input is validated
-                invoke(this, 'save').then(() => {
-                    // necessary to update the value in the input field
-                    this.set('user.twitter', '');
-                    run.schedule('afterRender', this, function () {
-                        this.set('user.twitter', newUrl);
-                    });
-                });
-            } else {
-                errMessage = 'The URL must be in a format like ' +
-                    'https://twitter.com/yourUsername';
-                this.get('user.errors').add('twitter', errMessage);
-                this.get('user.hasValidated').pushObject('twitter');
-                return;
-            }
         },
 
         transferOwnership() {
@@ -428,26 +282,6 @@ export default Controller.extend({
 
         toggleUploadImageModal() {
             this.toggleProperty('showUploadImageModal');
-        },
-
-        // TODO: remove those mutation actions once we have better
-        // inline validations that auto-clear errors on input
-        updatePassword(password) {
-            this.set('user.password', password);
-            this.get('user.hasValidated').removeObject('password');
-            this.get('user.errors').remove('password');
-        },
-
-        updateNewPassword(password) {
-            this.set('user.newPassword', password);
-            this.get('user.hasValidated').removeObject('newPassword');
-            this.get('user.errors').remove('newPassword');
-        },
-
-        updateNe2Password(password) {
-            this.set('user.ne2Password', password);
-            this.get('user.hasValidated').removeObject('ne2Password');
-            this.get('user.errors').remove('ne2Password');
         }
     }
 });

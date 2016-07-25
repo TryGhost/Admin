@@ -19,7 +19,7 @@ let isRelative = function (url) {
     return !url.match(/\s/) && !validator.isURL(url) && !url.match(/^(\/\/|#|[a-zA-Z0-9\-]+:)/);
 };
 
-export default TextField.extend(InvokeActionMixin, {
+const NavitemUrlInput = TextField.extend(InvokeActionMixin, {
     classNames: 'gh-input',
 
     isBaseUrl: computed('baseUrl', 'value', function () {
@@ -68,8 +68,6 @@ export default TextField.extend(InvokeActionMixin, {
     },
 
     keyPress(event) {
-        this.invokeAction('clearErrors');
-
         // enter key
         if (event.keyCode === 13) {
             this.notifyUrlChanged();
@@ -82,6 +80,9 @@ export default TextField.extend(InvokeActionMixin, {
         this.set('hasFocus', false);
 
         this.notifyUrlChanged();
+
+        // Validation occurs after this so we return true
+        return true;
     },
 
     notifyUrlChanged() {
@@ -140,6 +141,12 @@ export default TextField.extend(InvokeActionMixin, {
             }
         }
 
-        this.sendAction('change', url);
+        this.invokeAction('update', url);
     }
 });
+
+NavitemUrlInput.reopenClass({
+    positionalParams: ['url']
+});
+
+export default NavitemUrlInput;

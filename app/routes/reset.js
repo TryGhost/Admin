@@ -1,7 +1,17 @@
 import Route from 'ember-route';
+import EmberObject from 'ember-object';
 import injectService from 'ember-service/inject';
 import Configuration from 'ember-simple-auth/configuration';
+
 import styleBody from 'ghost-admin/mixins/style-body';
+import validations from 'ghost-admin/utils/validations';
+
+const ValidationsMixin = validations('reset');
+const ResetObject = EmberObject.extend(ValidationsMixin, {
+    newPassword: '',
+    ne2Password: '',
+    token: ''
+});
 
 export default Route.extend(styleBody, {
     classNames: ['ghost-reset'],
@@ -17,8 +27,8 @@ export default Route.extend(styleBody, {
         }
     },
 
-    setupController(controller, params) {
-        controller.token = params.token;
+    model({token}) {
+        return ResetObject.create({token});
     },
 
     // Clear out any sensitive information
