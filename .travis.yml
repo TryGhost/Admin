@@ -1,6 +1,3 @@
-sudo: required
-dist: trusty
-
 language: node_js
 node_js:
   - "4"
@@ -8,6 +5,8 @@ node_js:
 env:
   global:
     - GITHUB_OAUTH_KEY=003a44d58f12089d0c0261338298af3813330949
+    - SAUCE_USERNAME=acburdine
+    - SAUCE_ACCESS_KEY=970dd0ed-3446-42f1-a49a-83bc951975e0
 
 matrix:
   include:
@@ -22,14 +21,6 @@ cache:
   directories:
     - node_modules
 
-addons:
-  firefox: "latest"
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-
 before_install:
   - npm config --global set spin false
   - npm install -g npm@^2
@@ -40,7 +31,10 @@ install:
   - bower install
 
 before_script:
-  - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 3;
+  - if [ "$TEST_SUITE" != "lint" ]; then ember sauce:connect; fi
 
 script:
-  - if [ "$TEST_SUITE" == "lint" ]; then grunt lint; else npm test; fi
+  - if [ "$TEST_SUITE" == "lint" ]; then grunt lint; else npm test -- --test-port 7000 --config-file testem.sl.js; fi
+
+after_script:
+  - if [ "$TEST_SUITE" != "lint" ]; then ember sauce:disconnect; fi
