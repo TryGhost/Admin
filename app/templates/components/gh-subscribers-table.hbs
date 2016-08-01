@@ -1,7 +1,7 @@
-{{#gh-light-table table scrollContainer=".subscribers-table" scrollBuffer=100 onScrolledToBottom=(action 'onScrolledToBottom') as |t|}}
+{{#light-table table as |t|}}
     {{t.head onColumnClick=(action sortByColumn) iconAscending="icon-ascending" iconDescending="icon-descending"}}
 
-    {{#t.body canSelect=false tableActions=(hash delete=(action delete)) as |body|}}
+    {{#t.body canSelect=false scrollBuffer=100 tableActions=(hash delete=delete) onScrolledToBottom=(action "onScrolledToBottom") as |body|}}
         {{#if isLoading}}
             {{#body.loader}}
                 Loading...
@@ -14,4 +14,4 @@
             {{/if}}
         {{/if}}
     {{/t.body}}
-{{/gh-light-table}}
+{{/light-table}}
