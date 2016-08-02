@@ -46,6 +46,13 @@ export default ModalComponent.extend(ValidationEngine, {
         this.set('hasValidated', emberA());
     },
 
+    didInsertElement() {
+        let emailInput = this;
+        run.later(() => {
+            emailInput.$('#new-user-email').focus();
+        }, 500);
+    },
+
     validate() {
         let email = this.get('email');
 
