@@ -20,6 +20,6 @@ export default EmberObject.extend(ValidationEngine, {
     isBlank: computed('label', 'url', function () {
         let {label, url} = this.getProperties('label', 'url');
 
-        return isBlank(label) && isBlank(url);
+        return isBlank(label) && (isBlank(url) || url === '/');
     })
 });
