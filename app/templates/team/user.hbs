@@ -79,9 +79,9 @@
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="name" class="first-form-group"}}
                     <label for="user-name">Full Name</label>
-                    {{gh-input user.name id="user-name" class="user-name" placeholder="Full Name" autocorrect="off" focusOut=(action "validate" "name" target=user) update=(action (mut user.name))}}
+                    {{gh-input user.name id="user-name" class="user-name light-error" placeholder="Full Name" autocorrect="off" focusOut=(action "validate" "name" target=user) update=(action (mut user.name))}}
                     {{#if user.errors.name}}
-                        {{gh-error-message errors=user.errors property="name"}}
+                        {{gh-error-message errors=user.errors property="name" classNames="light-error"}}
                     {{else}}
                         <p>Use your real name so people can recognise you</p>
                     {{/if}}
@@ -93,7 +93,7 @@
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="slug"}}
                     <label for="user-slug">Slug</label>
-                    {{gh-input slugValue class="user-name" id="user-slug" name="user" focusOut=(action "updateSlug" slugValue) placeholder="Slug" selectOnClick="true" autocorrect="off" update=(action (mut slugValue))}}
+                    {{gh-input slugValue id="user-slug" name="user" focusOut=(action "updateSlug" slugValue) placeholder="Slug" selectOnClick="true" autocorrect="off" update=(action (mut slugValue))}}
                     <p>{{gh-blog-url}}/author/{{slugValue}}</p>
                     {{gh-error-message errors=user.errors property="slug"}}
                 {{/gh-form-group}}

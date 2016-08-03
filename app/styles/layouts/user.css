@@ -117,7 +117,7 @@
     .user-details-top label[for="user-name"] {
         color: transparent;
     }
-    .user-details-top .user-name {
+    .user-name {
         border-color: #fff;
     }
 }

@@ -40,6 +40,9 @@ input {
     color: var(--red);
 }
 
+.error .response.light-error {
+    color: var(--lightred);
+}
 
 /* Form Groups
 /* ---------------------------------------------------------- */
@@ -137,6 +140,10 @@ select {
 .gh-select.error,
 select.error {
     border-color: var(--red);
+}
+
+.error .gh-input.light-error {
+    border-color: var(--lightred);
 }
 
 .gh-input:focus,
