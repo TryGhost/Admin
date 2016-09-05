@@ -104,7 +104,7 @@ module.exports = function(grunt) {
             },
 
             'bower-install': {
-                command: 'bower install'
+                command: 'bower install --allow-root'
             },
 
             ember: {
