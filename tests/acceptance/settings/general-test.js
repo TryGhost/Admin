@@ -571,6 +571,34 @@ describe('Acceptance: Settings - General', function () {
                 ).to.be.true;
             });
 
+            // theme prompts for overwrite
+            click('a:contains("Upload a theme")');
+            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-2.zip', type: 'application/zip'});
+            click('button:contains("Close")');
+            click('a:contains("Upload a theme")');
+            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-2.zip', type: 'application/zip'});
+            return pauseTest();
+             
+            /*click('a:contains("Upload a theme")');
+            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme(3).zip', type: 'application/zip'});
+            click('button:contains("Activate Now")');
+            click('a:contains("Upload a theme")');
+            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme(3).zip', type: 'application/zip'});
+
+            andThen(() => {
+                expect(
+                    find('button:contains("Overwrite")'),
+                    'overwrite theme modal displayed after duplicate theme upload'
+                ).to.not.equal(undefined);
+            
+              
+
+                
+            });
+            click('button:contains("Overwrite")');
+*/
+             
+
             // theme deletion displays modal
             click('.theme-list-item:contains("Test 1") a:contains("Delete")');
             andThen(() => {
