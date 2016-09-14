@@ -573,7 +573,7 @@ describe('Acceptance: Settings - General', function () {
 
             // theme prompts for overwrite
             click('a:contains("Upload a theme")');
-            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-2.zip', type: 'application/zip'});
+            fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-2.zip', type: 'application/zipx'});
             click('button:contains("Close")');
             click('a:contains("Upload a theme")');
             fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-2.zip', type: 'application/zip'});

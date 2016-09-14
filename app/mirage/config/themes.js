@@ -3,8 +3,11 @@ import Mirage from 'ember-cli-mirage';
 let themeCount = 1;
 
 export default function mockThemes(server) {
-    server.post('/themes/upload/', function (db/*, request*/) {
+    server.post('/themes/upload/', function (db, request) {
         let [availableThemes] = db.settings.where({key: 'availableThemes'});
+
+
+        request.requestBody.forEach(item => console.log(item))
         // pretender/mirage doesn't currently process FormData so we can't use
         // any info passed in through the request
         let theme = {
