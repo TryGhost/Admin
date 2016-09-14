@@ -47,7 +47,6 @@ export default ModalComponent.extend({
 
     actions: {
         validateTheme(file) {
-            let accept = this.get('accept');
             let themeName = file.name.replace(/\.zip$/, '').replace(/[^\w@.]/gi, '-');
 
             let availableThemeNames = this.get('availableThemeNames');
