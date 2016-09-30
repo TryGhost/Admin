@@ -208,7 +208,7 @@ describe('Acceptance: Editor', function() {
                 find('#activeTimezone option[value="Pacific/Kwajalein"]').prop('selected', true);
             });
 
-            triggerEvent('#activeTimezone', 'change');
+            triggerEvent('#activeTimezone select', 'change');
             // save the settings
             click('.view-header .btn.btn-blue');
 
