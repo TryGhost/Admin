@@ -2,7 +2,7 @@ import Controller from 'ember-controller';
 import RSVP from 'rsvp';
 import injectService from 'ember-service/inject';
 import injectController from 'ember-controller/inject';
-import {isInvalidError} from 'ember-ajax/errors';
+import {isEmberArray} from 'ember-array/utils';
 
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
@@ -56,7 +56,7 @@ export default Controller.extend(ValidationEngine, {
     _handleSaveError(resp) {
         this.toggleProperty('submitting');
 
-        if (isInvalidError(resp)) {
+        if (resp && resp.errors && isEmberArray(resp.errors)) {
             this.set('flowErrors', resp.errors[0].message);
         } else {
             this.get('notifications').showAPIError(resp, {key: 'setup.blog-details'});
