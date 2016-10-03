@@ -188,8 +188,10 @@
 }
 
 .theme-list-item-body .name {
-    display: inline-block;
+    display: block;
+    overflow: hidden;
     color: var(--darkgrey);
+    text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 400;
     user-select: all;
@@ -203,7 +205,12 @@
 .theme-list-item-body {
     flex: 1 1 auto;
     align-items: stretch;
+    overflow: hidden;
     line-height: 1;
+}
+
+.theme-list-item-aside {
+    flex-shrink: 0;
 }
 
 .theme-list-action:last-child {
