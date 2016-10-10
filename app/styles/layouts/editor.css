@@ -16,6 +16,7 @@
     border: 0;
     background: transparent;
     color: var(--darkgrey);
+    text-overflow: ellipsis;
     font-size: 2.6rem;
     font-weight: bold;
 }
