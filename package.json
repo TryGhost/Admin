@@ -89,7 +89,7 @@
     "lodash": "4.16.2",
     "matchdep": "1.0.1",
     "moment": "2.15.1",
-    "moment-timezone": "0.5.5",
+    "moment-timezone": "0.5.6",
     "password-generator": "2.0.2",
     "top-gh-contribs": "2.0.4",
     "walk-sync": "0.3.1"
