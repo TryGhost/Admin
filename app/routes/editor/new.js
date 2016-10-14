@@ -1,5 +1,6 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import base from 'ghost-admin/mixins/editor-base-route';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 
 export default AuthenticatedRoute.extend(base, {
     titleToken: 'Editor',
@@ -25,7 +26,7 @@ export default AuthenticatedRoute.extend(base, {
         });
     },
 
-    setupController() {
+    setupController(controller) {
         let psm = this.controllerFor('post-settings-menu');
 
         // make sure there are no titleObserver functions hanging around
@@ -36,6 +37,13 @@ export default AuthenticatedRoute.extend(base, {
         psm.send('resetPubDate');
 
         this._super(...arguments);
+
+        controller.set('cards' , []);
+        controller.set('atoms' , []);
+        controller.set('toolbar' , []);
+        controller.set('apiRoot', ghostPaths().apiRoot);
+        controller.set('assetPath', ghostPaths().assetRoot);
+
     },
 
     actions: {
