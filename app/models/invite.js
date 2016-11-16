@@ -1,3 +1,5 @@
+/* eslint camelcase: [2, {properties: "never"}] */
+/* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import {belongsTo} from 'ember-data/relationships';
@@ -19,9 +21,10 @@ export default Model.extend({
 
     resend() {
         let fullInviteData = this.toJSON();
+
         let inviteData = {
             email: fullInviteData.email,
-            role: fullInviteData.role
+            role_id: fullInviteData.role
         };
 
         let inviteUrl = this.get('ghostPaths.url').api('invites');
