@@ -55,7 +55,7 @@ GhostRouter.map(function () {
     this.route('settings.code-injection', {path: '/settings/code-injection'});
     this.route('settings.navigation', {path: '/settings/navigation'});
     this.route('settings.apps', {path: '/settings/apps'}, function () {
-        this.route('slack', {path: 'slack'});
+        this.mount('slack');
     });
 
     this.route('subscribers', function() {

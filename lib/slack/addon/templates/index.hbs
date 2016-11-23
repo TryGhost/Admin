@@ -1,5 +1,5 @@
 <header class="view-header">
-    {{#gh-view-title openMobileMenu="openMobileMenu"}}<span style="padding-left:1px">{{#link-to "settings.apps.index"}}Apps{{/link-to}} <i class="icon-arrow-right" style="display:inline"></i> Slack</span>{{/gh-view-title}}
+    {{#gh-view-title openMobileMenu="openMobileMenu"}}<span style="padding-left:1px">{{#link-to-external "apps"}}Apps{{/link-to-external}} <i class="icon-arrow-right" style="display:inline"></i> Slack</span>{{/gh-view-title}}
     <section class="view-actions">
         {{#gh-spin-button id="saveSlackIntegration" class="btn btn-green" action=(action "save") submitting=isSaving}}
             Save

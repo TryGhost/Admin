@@ -108,6 +108,12 @@ module.exports = function (defaults) {
         },
         'ember-cli-selectize': {
             theme: false
+        },
+
+        assetLoader: {
+            generateURI: function(filePath) {
+                return '/ghost' + filePath;
+            }
         }
     });
 
