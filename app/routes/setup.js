@@ -28,7 +28,7 @@ export default Route.extend(styleBody, {
         // one-time, short expiry token in order to finish the signup flow.
         // Grab the token here, exchange it for a full token set and allow
         // setup to continue
-        let [, token] = window.location.search.match(/token=(.*)/);
+        let [, token] = window.location.search.match(/token=(.*)/) || [];
 
         if (!isBlank(token)) {
             let tokenExchangeUrl = this.get('ghostPaths.url')
