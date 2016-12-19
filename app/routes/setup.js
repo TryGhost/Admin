@@ -37,16 +37,22 @@ export default Route.extend(styleBody, {
             // simulate a completed step 2 and skip other setup bits
             this.controllerFor('setup.two').set('blogCreated', true);
 
+            /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
             return this.get('ajax')
                 .post(tokenExchangeUrl, {data: {
                     token,
                     client_id: this.get('config.clientId'),
                     client_secret: this.get('config.clientSecret')
                 }}).then((data) => {
-                    return this.get('session').session.store.restore(data);
+                    delete data.errors;
+                    data.authenticator = 'authenticator:oauth2';
+
+                    this.get('session.session.store').persist({authenticated: data});
+                    this.get('session.session').restore();
                 }).catch(() => {
                     return this.transitionTo('signin');
                 });
+            /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
         }
 
         let authUrl = this.get('ghostPaths.url').api('authentication', 'setup');
