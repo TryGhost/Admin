@@ -44,8 +44,13 @@ export default Route.extend(styleBody, {
                     client_id: this.get('config.clientId'),
                     client_secret: this.get('config.clientSecret')
                 }}).then((data) => {
+                    let now = (new Date()).getTime();
+
                     delete data.errors;
                     data.authenticator = 'authenticator:oauth2';
+                    data.token_type = 'Bearer';
+                    // server returns seconds, ESA stores expiry in ms
+                    data.expires_at = new Date(now + data.expires_in * 1000).getTime();
 
                     this.get('session.session.store').persist({authenticated: data});
                     this.get('session.session').restore();
