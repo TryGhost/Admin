@@ -148,7 +148,7 @@ describe('Acceptance: Settings - General', function () {
             });
         });
 
-        it('handles private blog settings correctly', function () {
+        it('handles blog settings correctly', function () {
             visit('/settings/general');
 
             // handles private blog settings correctly
@@ -178,6 +178,18 @@ describe('Acceptance: Settings - General', function () {
             andThen(() => {
                 expect(find('#settings-general .error .response').text().trim(), 'inline validation response')
                     .to.equal('');
+            });
+
+            // handles amp checkbox correctly
+
+            andThen(() => {
+                expect(find('input#amp').prop('checked'), 'AMP is enabled').to.be.true;
+            });
+
+            click('input#amp');
+
+            andThen(() => {
+                expect(find('input#amp').prop('checked'), 'AMP is disabled').to.be.false;
             });
 
             // validates a facebook url correctly
