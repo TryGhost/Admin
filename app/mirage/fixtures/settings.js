@@ -3,7 +3,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.805Z',
         created_by: 1,
-        id: 1,
+        id: 7,
         key: 'title',
         type: 'blog',
         updated_at: '2015-10-04T16:26:05.195Z',
@@ -14,7 +14,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.806Z',
         created_by: 1,
-        id: 2,
+        id: 8,
         key: 'description',
         type: 'blog',
         updated_at: '2015-10-04T16:26:05.198Z',
@@ -23,7 +23,7 @@ export default [
         value: 'Thoughts, stories and ideas.'
     },
     {
-        id: 3,
+        id: 9,
         uuid: '4339ce48-b485-418a-acc2-1d34cf17a5e3',
         key: 'logo',
         value: '/content/images/2013/Nov/logo.png',
@@ -34,7 +34,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 4,
+        id: 10,
         uuid: 'e41b6c2a-7f72-45ea-96d8-ee016f06d78b',
         key: 'cover',
         value: '/content/images/2014/Feb/cover.jpg',
@@ -45,7 +45,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 5,
+        id: 11,
         uuid: '4558457e-9f61-47a5-9d45-8b83829bf1cf',
         key: 'defaultLang',
         value: 'en_US',
@@ -58,7 +58,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.809Z',
         created_by: 1,
-        id: 6,
+        id: 12,
         key: 'postsPerPage',
         type: 'blog',
         updated_at: '2015-10-04T16:26:05.211Z',
@@ -67,7 +67,7 @@ export default [
         value: '5'
     },
     {
-        id: 7,
+        id: 14,
         uuid: '3c93b240-d22b-473f-9063-537023e06c2d',
         key: 'forceI18n',
         value: 'true',
@@ -78,7 +78,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 8,
+        id: 28,
         uuid: '4e58389f-f173-4387-b28c-0435623882ad',
         key: 'activeTheme',
         value: 'casper',
@@ -89,7 +89,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 9,
+        id: 15,
         uuid: '8052c2bf-9c19-4d6c-8944-7465321d00be',
         key: 'permalinks',
         value: '/:slug/',
@@ -102,7 +102,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.809Z',
         created_by: 1,
-        id: 10,
+        id: 17,
         key: 'ghost_head',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.858Z',
@@ -113,7 +113,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.809Z',
         created_by: 1,
-        id: 11,
+        id: 18,
         key: 'ghost_foot',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.858Z',
@@ -122,7 +122,7 @@ export default [
         value: ''
     },
     {
-        id: 12,
+        id: 21,
         uuid: 'd806f358-7996-4c74-b153-8876959c4b70',
         key: 'labs',
         value: '{"subscribers":true,"internalTags":true}',
@@ -135,7 +135,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
-        id: 13,
+        id: 22,
         key: 'navigation',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.868Z',
@@ -149,7 +149,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
-        id: 14,
+        id: 26,
         key: 'isPrivate',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.868Z',
@@ -160,7 +160,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
-        id: 15,
+        id: 27,
         key: 'password',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.868Z',
@@ -171,7 +171,7 @@ export default [
     {
         created_at: '2016-05-05T15:04:03.115Z',
         created_by: 1,
-        id: 17,
+        id: 23,
         key: 'slack',
         type: 'blog',
         updated_at: '2016-05-05T18:33:09.168Z',
@@ -182,7 +182,7 @@ export default [
     {
         created_at: '2016-05-05T15:40:12.133Z',
         created_by: 1,
-        id: 23,
+        id: 19,
         key: 'facebook',
         type: 'blog',
         updated_at: '2016-05-08T15:20:25.953Z',
@@ -193,7 +193,7 @@ export default [
     {
         created_at: '2016-05-05T15:40:12.134Z',
         created_by: 1,
-        id: 24,
+        id: 20,
         key: 'twitter',
         type: 'blog',
         updated_at: '2016-05-08T15:20:25.954Z',
@@ -204,7 +204,7 @@ export default [
     {
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
-        id: 16,
+        id: 13,
         key: 'activeTimezone',
         type: 'blog',
         updated_at: '2015-09-23T13:32:49.868Z',
@@ -213,8 +213,19 @@ export default [
         value: 'Etc/UTC'
     },
     {
+        created_at: '2017-01-09T08:40:59.000Z',
+        created_by: 1,
+        id: 16,
+        key: 'amp',
+        type: 'blog',
+        updated_at: '2017-01-09T08:49:42.991Z',
+        updated_by: 1,
+        uuid: '27eb0ac8-a511-4b47-899b-4c1e408dfead',
+        value: 'true'
+    },
+    {
         key: 'availableThemes',
-        id: 18,
+        id: 24,
         value: [
             {
                 name: 'casper',
