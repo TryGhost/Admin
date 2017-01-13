@@ -12,7 +12,24 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 let App = Application.extend({
     Resolver,
     modulePrefix: config.modulePrefix,
-    podModulePrefix: config.podModulePrefix
+    podModulePrefix: config.podModulePrefix,
+
+    engines: {
+        slack: {
+            dependencies: {
+                externalRoutes: {
+                    apps: 'settings.apps.index'
+                },
+                services: [
+                    'ghostPaths',
+                    'ajax',
+                    'notifications',
+                    'store',
+                    'session'
+                ]
+            }
+        }
+    }
 });
 
 loadInitializers(App, config.modulePrefix);
