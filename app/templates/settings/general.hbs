@@ -106,15 +106,6 @@
                         update=(action "setTimezone")}}
 
                 <div class="form-group for-checkbox">
-                    <label for="amp">AMP support</label>
-                    <label class="checkbox" for="amp">
-                        {{one-way-checkbox model.amp id="amp" name="general[amp]" type="checkbox" update=(action (mut model.amp))}}
-                        <span class="input-toggle-component"></span>
-                        <p>Enable AMP support for your blog posts</p>
-                    </label>
-                </div>
-
-                <div class="form-group for-checkbox">
                     <label for="isPrivate">Make this blog private</label>
                     <label class="checkbox" for="isPrivate">
                         {{one-way-checkbox model.isPrivate id="isPrivate" name="general[isPrivate]" type="checkbox" update=(action (mut model.isPrivate))}}
