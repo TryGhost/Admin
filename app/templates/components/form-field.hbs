@@ -1,0 +1,32 @@
+{{yield (hash
+  object=object
+  propertyName=propertyName
+  labelText=labelText
+  scratch=value
+  label=(component 'form-label' labelText
+      for=fieldId
+      classNames=labelClasses
+      required=required
+      form=form)
+  errors=(component 'form-errors'
+      errorId=(concat fieldId "_error")
+      errors=errors
+      errorClasses=errorClasses)
+  hasErrors=hasErrors
+  hint=(component 'form-hint'
+      hint=hint
+      hasErrors=hasErrors
+      hintClasses=hintClasses
+      hintId=(concat fieldId "_hint"))
+  control=(component control value
+      id=fieldId
+      name=fieldName
+      classNames=inputClasses
+      required=required
+      invalid=(if errors true false)
+      aria-invalid=(if errors "true" "false")
+      aria-describedby=describedByValue
+      form=form
+      update=(action "processUpdate" object propertyName)
+      focusOut=(action "processFocusOut" object propertyName value))
+)}}

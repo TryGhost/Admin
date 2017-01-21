@@ -36,6 +36,14 @@ module.exports = function (environment) {
 
         torii: {
 
+        },
+
+        'ember-form-for': {
+            errorsPath: 'error.PROPERTY_NAME.validation',
+            fieldClasses: 'form-group',
+            fieldHasErrorClasses: 'error',
+            inputClasses: 'gh-input',
+            errorClasses: 'response'
         }
     };
 
