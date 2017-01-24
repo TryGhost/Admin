@@ -5,17 +5,13 @@ import {htmlSafe} from 'ember-string';
 import computed, {alias, equal} from 'ember-computed';
 import injectService from 'ember-service/inject';
 
-import ActiveLinkMixin from 'ember-cli-active-link-wrapper/mixins/active-link';
-import {invokeAction} from 'ember-invoke-action';
-
 // ember-cli-shims doesn't export these
 const {Handlebars, ObjectProxy, PromiseProxyMixin} = Ember;
 
 const ObjectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
 
-export default Component.extend(ActiveLinkMixin, {
+export default Component.extend({
     tagName: 'li',
-    classNameBindings: ['isFeatured:featured', 'isPage:page'],
 
     post: null,
     previewIsHidden: false,
@@ -56,18 +52,18 @@ export default Component.extend(ActiveLinkMixin, {
         this.sendAction('onDoubleClick', this.get('post'));
     },
 
-    didInsertElement() {
-        this._super(...arguments);
-        this.addObserver('active', this, this.scrollIntoView);
-    },
-
-    willDestroyElement() {
-        this._super(...arguments);
-        this.removeObserver('active', this, this.scrollIntoView);
-        if (this.get('post.isDeleted') && this.get('onDelete')) {
-            invokeAction(this, 'onDelete');
-        }
-    },
+    // didInsertElement() {
+    //     this._super(...arguments);
+    //     this.addObserver('active', this, this.scrollIntoView);
+    // },
+    //
+    // willDestroyElement() {
+    //     this._super(...arguments);
+    //     this.removeObserver('active', this, this.scrollIntoView);
+    //     if (this.get('post.isDeleted') && this.get('onDelete')) {
+    //         invokeAction(this, 'onDelete');
+    //     }
+    // },
 
     scrollIntoView() {
         if (!this.get('active')) {

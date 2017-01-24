@@ -1,8 +1,20 @@
-<div class="no-posts-box">
-    {{#if noPosts}}
-        <div class="no-posts">
-            <h3>You Haven't Written Any Posts Yet!</h3>
-            {{#link-to "editor.new"}}<button type="button" class="btn btn-green btn-lg" title="New Post">Write a new Post</button>{{/link-to}}
-        </div>
-    {{/if}}
+<div class="view-container">
+    <section class="content-list js-content-list {{if postListFocused 'keyboard-focused'}}">
+        {{#gh-infinite-scroll tagName="section" classNames="content-list-content js-content-scrollbox" fetch="loadNextPage" as |checkScroll|}}
+            <ol class="posts-list">
+                {{#each sortedPosts key="id" as |post|}}
+                    {{gh-posts-list-item post=post previewIsHidden=previewIsHidden onDoubleClick="openEditor" onDelete=(action checkScroll)}}
+                {{/each}}
+            </ol>
+        {{/gh-infinite-scroll}}
+    </section>
 </div>
+
+{{#if showDeletePostModal}}
+    {{gh-fullscreen-modal "delete-post"
+                          model=currentPost
+                          close=(action "toggleDeletePostModal")
+                          modifier="action wide"}}
+{{/if}}
+
+{{outlet}}
