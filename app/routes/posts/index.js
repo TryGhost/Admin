@@ -3,6 +3,7 @@ import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 import InfinityRoute from 'ember-infinity/mixins/route';
 import computed from 'ember-computed';
 import {assign} from 'ember-platform';
+import $ from 'jquery';
 
 export default AuthenticatedRoute.extend(InfinityRoute, ShortcutsRoute, {
 
@@ -84,6 +85,8 @@ export default AuthenticatedRoute.extend(InfinityRoute, ShortcutsRoute, {
     actions: {
         queryParamsDidChange() {
             this.refresh();
+            // reset the scroll position
+            $('.content-list-content').scrollTop(0);
         },
 
         newPost() {
