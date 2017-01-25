@@ -2,7 +2,7 @@
     <section class="content-list js-content-list {{if postListFocused 'keyboard-focused'}}">
         <section class="content-list-content">
             <ol class="posts-list">
-                {{#each sortedPosts key="id" as |post|}}
+                {{#each model as |post|}}
                     {{gh-posts-list-item post=post onDoubleClick="openEditor"}}
                 {{else}}
                     <li class="no-posts-box">
