@@ -3,7 +3,10 @@
         <section class="content-list-content">
             <ol class="posts-list">
                 {{#each model as |post|}}
-                    {{gh-posts-list-item post=post onDoubleClick="openEditor"}}
+                    {{gh-posts-list-item
+                        post=post
+                        onDoubleClick="openEditor"
+                        data-test-posts-list-item-id=post.id}}
                 {{else}}
                     <li class="no-posts-box">
                         <div class="no-posts">

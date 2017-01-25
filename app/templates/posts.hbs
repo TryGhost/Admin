@@ -2,17 +2,39 @@
     <header class="view-header">
         {{#gh-view-title openMobileMenu="openMobileMenu"}}<span>Content</span>{{/gh-view-title}}
         <section class="view-actions">
-            {{#link-to "editor.new" class="btn btn-green" title="New Post"}}New Post{{/link-to}}
+            {{#link-to "editor.new" class="btn btn-green" title="New Post" data-test-new-post-button=true}}
+                New Post
+            {{/link-to}}
         </section>
     </header>
 
     <section class="basic-filter">
         <ul>
-            <li>{{#link-to "posts.index" (query-params type=null)}}All{{/link-to}}</li>
-            <li>{{#link-to "posts.index" (query-params type="draft")}}Drafts{{/link-to}}</li>
-            <li>{{#link-to "posts.index" (query-params type="published")}}Published{{/link-to}}</li>
-            <li>{{#link-to "posts.index" (query-params type="scheduled")}}Scheduled{{/link-to}}</li>
-            <li>{{#link-to "posts.index" (query-params type="page")}}Pages{{/link-to}}</li>
+            <li>
+                {{#link-to "posts.index" (query-params type=null) data-test-all-filter-link=true}}
+                    All
+                {{/link-to}}
+            </li>
+            <li>
+                {{#link-to "posts.index" (query-params type="draft") data-test-drafts-filter-link=true}}
+                    Drafts
+                {{/link-to}}
+            </li>
+            <li>
+                {{#link-to "posts.index" (query-params type="published") data-test-published-filter-link=true}}
+                    Published
+                {{/link-to}}
+            </li>
+            <li>
+                {{#link-to "posts.index" (query-params type="scheduled") data-test-scheduled-filter-link=true}}
+                    Scheduled
+                {{/link-to}}
+            </li>
+            <li>
+                {{#link-to "posts.index" (query-params type="page") data-test-pages-filter-link=true}}
+                    Pages
+                {{/link-to}}
+            </li>
         </ul>
     </section>
 
