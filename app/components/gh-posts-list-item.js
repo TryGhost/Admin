@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import Ember from 'ember';
 import Component from 'ember-component';
 import {htmlSafe} from 'ember-string';
@@ -50,45 +49,5 @@ export default Component.extend({
 
     doubleClick() {
         this.sendAction('onDoubleClick', this.get('post'));
-    },
-
-    // didInsertElement() {
-    //     this._super(...arguments);
-    //     this.addObserver('active', this, this.scrollIntoView);
-    // },
-    //
-    // willDestroyElement() {
-    //     this._super(...arguments);
-    //     this.removeObserver('active', this, this.scrollIntoView);
-    //     if (this.get('post.isDeleted') && this.get('onDelete')) {
-    //         invokeAction(this, 'onDelete');
-    //     }
-    // },
-
-    scrollIntoView() {
-        if (!this.get('active')) {
-            return;
-        }
-
-        let element = this.$();
-        let offset = element.offset().top;
-        let elementHeight = element.height();
-        let container = $('.js-content-scrollbox');
-        let containerHeight = container.height();
-        let currentScroll = container.scrollTop();
-        let isBelowTop, isAboveBottom, isOnScreen;
-
-        isAboveBottom = offset < containerHeight;
-        isBelowTop = offset > elementHeight;
-
-        isOnScreen = isBelowTop && isAboveBottom;
-
-        if (!isOnScreen) {
-            // Scroll so that element is centered in container
-            // 40 is the amount of padding on the container
-            container.clearQueue().animate({
-                scrollTop: currentScroll + offset - 40 - containerHeight / 2
-            });
-        }
     }
 });

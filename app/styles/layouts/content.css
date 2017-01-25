@@ -1,16 +1,22 @@
 /* Content /ghost/
 
-/* Filter Header
+/* Header
 /* ---------------------------------------------------------- */
+
+.gh-content-view-container .view-header {
+    border-bottom: none;
+}
 
 .basic-filter {
     display: flex;
     justify-content: space-between;
+    border-bottom: #dfe1e3 1px solid;
 }
 
 .basic-filter > ul {
     display: flex;
     flex-direction: row;
+    margin-bottom: 0;
 }
 
 .basic-filter > ul li {

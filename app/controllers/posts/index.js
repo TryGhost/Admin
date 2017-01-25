@@ -18,6 +18,10 @@ export default Controller.extend({
         return this.get('model').toArray().sort(compare);
     }),
 
+    showingAll: computed('type', function () {
+        return this.get('type') === null;
+    }),
+
     actions: {
         toggleDeletePostModal() {
             this.toggleProperty('showDeletePostModal');
