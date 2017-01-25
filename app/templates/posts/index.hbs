@@ -1,12 +1,17 @@
 <div class="view-container">
     <section class="content-list js-content-list {{if postListFocused 'keyboard-focused'}}">
-        {{#gh-infinite-scroll tagName="section" classNames="content-list-content js-content-scrollbox" fetch="loadNextPage" as |checkScroll|}}
+        <section class="content-list-content">
             <ol class="posts-list">
                 {{#each sortedPosts key="id" as |post|}}
-                    {{gh-posts-list-item post=post previewIsHidden=previewIsHidden onDoubleClick="openEditor" onDelete=(action checkScroll)}}
+                    {{gh-posts-list-item post=post onDoubleClick="openEditor"}}
                 {{/each}}
+
+                {{infinity-loader
+                    infinityModel=model
+                    scrollable=".content-list-content"
+                    triggerOffset=1000}}
             </ol>
-        {{/gh-infinite-scroll}}
+        </section>
     </section>
 </div>
 

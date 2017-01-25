@@ -1,57 +1,33 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
-import PaginationMixin from 'ghost-admin/mixins/pagination';
+import InfinityRoute from 'ember-infinity/mixins/route';
 import computed from 'ember-computed';
+import {assign} from 'ember-platform';
 
-export default AuthenticatedRoute.extend(ShortcutsRoute, PaginationMixin, {
+export default AuthenticatedRoute.extend(InfinityRoute, ShortcutsRoute, {
 
-    paginationModel: 'post',
+    perPageParam: 'limit',
+    totalPagesParam: 'meta.pagination.pages',
 
     _type: null,
 
     model(params) {
         this.set('_type', params.type);
-        let paginationSettings = this.get('paginationSettings');
+        let filterSettings = this.get('filterSettings');
 
         return this.get('session.user').then((user) => {
             if (user.get('isAuthor')) {
-                paginationSettings.filter = paginationSettings.filter
-                    ? `${paginationSettings.filter}+author:${user.get('slug')}` : `author:${user.get('slug')}`;
+                filterSettings.filter = filterSettings.filter
+                    ? `${filterSettings.filter}+author:${user.get('slug')}` : `author:${user.get('slug')}`;
             }
 
-            return this.loadFirstPage().then(() => {
-                // using `.filter` allows the template to auto-update when new models are pulled in from the server.
-                // we just need to 'return true' to allow all models by default.
-                return this.store.filter('post', (post) => {
-                    let showPost = true;
+            let paginationSettings = assign({perPage: 15, startingPage: 1}, filterSettings);
 
-                    // only show selected status if not 'all'
-                    if (paginationSettings.status !== 'all') {
-                        showPost = post.get('status') === paginationSettings.status;
-                    }
-
-                    // don't show pages if they are filtered out
-                    if (showPost && post.get('page') && paginationSettings.staticPages === false) {
-                        showPost = false;
-                    }
-
-                    // don't show posts if we're filtering pages
-                    if (showPost && !post.get('page') && params.type === 'page') {
-                        showPost = false;
-                    }
-
-                    // only show an authors own posts
-                    if (showPost && user.get('isAuthor')) {
-                        showPost = post.isAuthoredByUser(user);
-                    }
-
-                    return showPost;
-                });
-            });
+            return this.infinityModel('post', paginationSettings);
         });
     },
 
-    paginationSettings: computed('_type', function () {
+    filterSettings: computed('_type', function () {
         let type = this.get('_type');
         let status = 'all';
         let staticPages = 'all';
