@@ -7,6 +7,7 @@ const {compare} = Ember;
 
 export default Controller.extend({
     feature: injectService(),
+    showPopover: false,
 
     showDeletePostModal: false,
 
