@@ -33,7 +33,7 @@ export default Controller.extend(SettingsSaveMixin, {
     }),
 
     iconImageSource: computed('model.icon', function () {
-        return this.get('model.icon') || '';
+        return this.get('model.icon') || '/favicon.ico';
     }),
 
     coverImageSource: computed('model.cover', function () {
