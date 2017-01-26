@@ -74,12 +74,10 @@ describe('Acceptance: Editor', function() {
     });
 
     describe('when logged in', function () {
-
         beforeEach(function () {
             let role = server.create('role', {name: 'Administrator'});
             server.create('user', {roles: [role]});
-
-            server.loadFixtures();
+            server.loadFixtures('settings');
 
             return authenticateSession(application);
         });
@@ -342,7 +340,7 @@ describe('Acceptance: Editor', function() {
         it('handles validation errors when scheduling', function () {
             let saveCount = 0;
 
-            server.put('/posts/:id/', function (db, request) {
+            server.put('/posts/:id/', function ({posts}, {params}) {
                 // we have three saves occurring here :-(
                 // 1. Auto-save of draft
                 // 2. Change of publish time
@@ -356,15 +354,9 @@ describe('Acceptance: Editor', function() {
                         }]
                     });
                 } else {
-                    let {id} = request.params;
-                    let [attrs] = JSON.parse(request.requestBody).posts;
-                    delete attrs.id;
+                    let attrs = this.normalizedRequestAttrs();
 
-                    let post = db.posts.update(id, attrs);
-
-                    return {
-                        posts: [post]
-                    };
+                    return posts.find(params.id).update(attrs);
                 }
             });
 
@@ -421,11 +413,11 @@ describe('Acceptance: Editor', function() {
         });
 
         it('renders first countdown notification before scheduled time', function () {
-            /* eslint-disable camelcase */
             let clock = sinon.useFakeTimers(moment().valueOf());
             let compareDate = moment().tz('Etc/UTC').add(4, 'minutes').format('DD MMM YY @ HH:mm').toString();
-            server.create('post', {published_at: moment.utc().add(4, 'minutes'), status: 'scheduled'});
+            server.create('post', {publishedAt: moment.utc().add(4, 'minutes'), status: 'scheduled'});
             server.create('setting', {activeTimezone: 'Europe/Dublin'});
+            clock.restore();
 
             visit('/editor/1');
 
@@ -447,14 +439,13 @@ describe('Acceptance: Editor', function() {
                 expect(find('.gh-notification.gh-notification-schedule').text().trim(), 'notification countdown')
                     .to.contain('Post will be published in');
             });
-            clock.restore();
         });
 
         it('only shows option to unschedule post 2 minutes before scheduled time', function () {
-            /* eslint-disable camelcase */
             let clock = sinon.useFakeTimers(moment().valueOf());
-            server.create('post', {published_at: moment.utc().add(2, 'minutes'), status: 'scheduled'});
+            server.create('post', {publishedAt: moment.utc().add(2, 'minutes'), status: 'scheduled'});
             server.create('setting', {activeTimezone: 'Europe/Dublin'});
+            clock.restore();
 
             visit('/editor/1');
 
@@ -469,15 +460,13 @@ describe('Acceptance: Editor', function() {
                 expect(find('.btn.btn-sm.dropdown-toggle').hasClass('active'), 'no dropdown menu')
                     .to.be.false;
             });
-
-            clock.restore();
         });
 
         it.skip('lets user unschedule the post shortly before scheduled date', function () {
-            /* eslint-disable camelcase */
             let clock = sinon.useFakeTimers(moment().valueOf());
-            server.create('post', {published_at: moment.utc().add(1, 'minute'), status: 'scheduled'});
+            server.create('post', {publishedAt: moment.utc().add(1, 'minute'), status: 'scheduled'});
             server.create('setting', {activeTimezone: 'Europe/Dublin'});
+            clock.restore();
 
             visit('/editor/1');
 
@@ -512,8 +501,6 @@ describe('Acceptance: Editor', function() {
                 expect(find('.gh-notification.gh-notification-schedule').text().trim(), 'notification countdown')
                     .to.equal('');
             });
-
-            clock.restore();
         });
 
     });

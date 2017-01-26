@@ -64,7 +64,7 @@ codemirrorAssets = function () {
 
 module.exports = function (defaults) {
     var app = new EmberApp(defaults, {
-        babel: {
+        "ember-cli-babel": {
             optional: ['es6.spec.symbols'],
             includePolyfill: true
         },
@@ -93,7 +93,6 @@ module.exports = function (defaults) {
             },
             codemirror: codemirrorAssets(),
             'jquery-deparam': {
-                enabled: EmberApp.env() === 'test',
                 import: ['jquery-deparam.js']
             },
             moment: {

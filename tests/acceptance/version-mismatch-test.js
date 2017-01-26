@@ -9,16 +9,7 @@ import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import {authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import Mirage from 'ember-cli-mirage';
-
-let versionMismatchResponse = function () {
-    return new Mirage.Response(400, {}, {
-        errors: [{
-            errorType: 'VersionMismatchError',
-            statusCode: 400
-        }]
-    });
-};
+import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
 describe('Acceptance: Version Mismatch', function() {
     let application;
@@ -36,8 +27,6 @@ describe('Acceptance: Version Mismatch', function() {
             let role = server.create('role', {name: 'Administrator'});
             server.create('user', {roles: [role]});
 
-            server.loadFixtures();
-
             return authenticateSession(application);
         });
 
@@ -49,7 +38,6 @@ describe('Acceptance: Version Mismatch', function() {
 
             visit('/');
             click('.posts-list li:nth-of-type(2) a'); // select second post
-            click('.post-edit'); // preview edit button
             click('.js-publish-button'); // "Save post"
 
             andThen(() => {
@@ -74,8 +62,8 @@ describe('Acceptance: Version Mismatch', function() {
             click('.gh-nav-settings-tags');
 
             andThen(() => {
-                // navigation is blocked
-                expect(currentPath()).to.equal('posts.index');
+                // navigation is blocked on loading screen
+                expect(currentPath()).to.equal('settings.tags_loading');
 
                 // has the refresh to update alert
                 expect(find('.gh-alert').length).to.equal(1);
@@ -91,7 +79,7 @@ describe('Acceptance: Version Mismatch', function() {
 
             andThen(() => {
                 // navigation is blocked
-                expect(currentPath()).to.equal('settings.tags.index');
+                expect(currentPath()).to.equal('settings.general_loading');
 
                 // has the refresh to update alert
                 expect(find('.gh-alert').length).to.equal(1);

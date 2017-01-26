@@ -13,11 +13,11 @@ import {invalidateSession, authenticateSession} from 'ghost-admin/tests/helpers/
 describe('Acceptance: Settings - Apps', function () {
     let application;
 
-    beforeEach(function() {
+    beforeEach(function () {
         application = startApp();
     });
 
-    afterEach(function() {
+    afterEach(function () {
         destroyApp(application);
     });
 
@@ -25,7 +25,7 @@ describe('Acceptance: Settings - Apps', function () {
         invalidateSession(application);
         visit('/settings/apps');
 
-        andThen(function() {
+        andThen(function () {
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
     });
@@ -59,8 +59,6 @@ describe('Acceptance: Settings - Apps', function () {
             let role = server.create('role', {name: 'Administrator'});
             server.create('user', {roles: [role]});
 
-            server.loadFixtures();
-
             return authenticateSession(application);
         });
 
@@ -70,7 +68,6 @@ describe('Acceptance: Settings - Apps', function () {
             andThen(() => {
                 // has correct url
                 expect(currentURL(), 'currentURL').to.equal('/settings/apps');
-
             });
 
             click('#slack-link');
@@ -79,8 +76,21 @@ describe('Acceptance: Settings - Apps', function () {
                 // has correct url
                 expect(currentURL(), 'currentURL').to.equal('/settings/apps/slack');
             });
-
         });
+        it('it redirects to AMP when clicking on the grid', function () {
+            visit('/settings/apps');
 
+            andThen(() => {
+                // has correct url
+                expect(currentURL(), 'currentURL').to.equal('/settings/apps');
+            });
+
+            click('#amp-link');
+
+            andThen(() => {
+                // has correct url
+                expect(currentURL(), 'currentURL').to.equal('/settings/apps/amp');
+            });
+        });
     });
 });

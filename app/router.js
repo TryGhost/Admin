@@ -31,9 +31,7 @@ GhostRouter.map(function () {
     this.route('reset', {path: '/reset/:token'});
     this.route('about', {path: '/about'});
 
-    this.route('posts', {path: '/'}, function () {
-        this.route('post', {path: ':post_id'});
-    });
+    this.route('posts', {path: '/'}, function() {});
 
     this.route('editor', function () {
         this.route('new', {path: ''});
@@ -56,9 +54,10 @@ GhostRouter.map(function () {
     this.route('settings.navigation', {path: '/settings/navigation'});
     this.route('settings.apps', {path: '/settings/apps'}, function () {
         this.route('slack', {path: 'slack'});
+        this.route('amp', {path: 'amp'});
     });
 
-    this.route('subscribers', function() {
+    this.route('subscribers', function () {
         this.route('new');
         this.route('import');
     });
