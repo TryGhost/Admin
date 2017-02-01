@@ -9,7 +9,7 @@ let GhostOauth2 = Oauth2.extend({
 
     name:    'ghost-oauth2',
     baseUrl: computed(function () {
-        return `${this.get('config.ghostAuthUrl')}/oauth2/authorize`;
+        return `${this.get('config.ghostAuthUrl')}/oauth2/authorize/`;
     }),
     apiKey: computed(function () {
         return this.get('config.ghostAuthId');
