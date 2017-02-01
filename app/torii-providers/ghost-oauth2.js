@@ -1,6 +1,7 @@
 import Oauth2 from 'torii/providers/oauth2-code';
 import injectService from 'ember-service/inject';
 import computed from 'ember-computed';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 
 let GhostOauth2 = Oauth2.extend({
 
@@ -21,7 +22,12 @@ let GhostOauth2 = Oauth2.extend({
     // we want to redirect to the ghost admin app by default
     init() {
         this._super(...arguments);
-        this.set('redirectUri', `${this.get('config.blogUrl')}/ghost/`);
+        let adminPath = ghostPaths().adminRoot;
+        let redirectUri = `${window.location.protocol}//${window.location.host}`;
+
+        redirectUri += adminPath;
+
+        this.set('redirectUri', redirectUri);
     },
 
     open(options) {
