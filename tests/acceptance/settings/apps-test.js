@@ -83,5 +83,21 @@ describe('Acceptance: Settings - Apps', function () {
 
         });
 
+        it('it redirects to AMP when clicking on the grid', function () {
+            visit('/settings/apps');
+
+            andThen(() => {
+                // has correct url
+                expect(currentURL(), 'currentURL').to.equal('/settings/apps');
+            });
+
+            click('#amp-link');
+
+            andThen(() => {
+                // has correct url
+                expect(currentURL(), 'currentURL').to.equal('/settings/apps/amp');
+            });
+        });
+
     });
 });

@@ -180,18 +180,6 @@ describe('Acceptance: Settings - General', function () {
                     .to.equal('');
             });
 
-            // handles amp checkbox correctly
-
-            andThen(() => {
-                expect(find('input#amp').prop('checked'), 'AMP is enabled').to.be.true;
-            });
-
-            click('input#amp');
-
-            andThen(() => {
-                expect(find('input#amp').prop('checked'), 'AMP is disabled').to.be.false;
-            });
-
             // validates a facebook url correctly
 
             andThen(() => {
