@@ -1,19 +1,17 @@
 /* Badges
 /* ---------------------------------------------------------- */
 
-.badge {
+.gh-badge {
     display: inline-block;
-    padding: 2px 4px;
+    padding: 0.3em 0.5em;
     min-width: 10px;
     background-color: #777;
-    border-radius: 10px;
-    box-shadow: 0 0 0 1px #777;
+    border-radius: 3px;
     color: #fff;
-    vertical-align: baseline;
     text-align: center;
     white-space: nowrap;
-    font-size: 1rem;
-    line-height: 1;
+    font-size: 0.85em;
+    line-height: 1em;
     font-weight: inherit;
 }
 
@@ -60,15 +58,12 @@ a.badge:focus {
 
 .badge.badge-blue {
     background-color: var(--blue);
-    box-shadow: 0 0 0 1px var(--blue);
 }
 
 .badge.badge-green {
     background-color: var(--green);
-    box-shadow: 0 0 0 1px var(--green);
 }
 
-.badge.badge-red {
+.gh-badge-red {
     background-color: var(--red);
-    box-shadow: 0 0 0 1px var(--red);
 }

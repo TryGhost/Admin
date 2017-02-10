@@ -1,9 +1,8 @@
 {{#link-to "editor.edit" post.id class="permalink" title="Edit this post"}}
-    <h3 class="entry-title">{{post.title}}</h3>
+    <h3 class="gh-content-entry-title">{{post.title}}</h3>
     <p>{{subText}}</p>
 
-    <section class="entry-meta">
-        <span class="status">
+    <section class="gh-content-entry-meta">
             {{#if isPublished}}
                 {{#if post.page}}
                     <span class="page">Page</span>
@@ -21,12 +20,12 @@
                         </time>
                     </span>
                 {{else}}
-                    <span class="draft">Draft</span>
+                    <span class="gh-badge gh-badge-red">Draft</span>
                 {{/if}}
             {{/if}}
 
+            by {{authorName}} &mdash;
             Last edited {{gh-format-timeago post.updatedAtUTC}}
-            &ndash; by {{authorName}}
-        </span>
+
     </section>
 {{/link-to}}

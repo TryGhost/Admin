@@ -458,6 +458,10 @@ body > .ember-view:not(.liquid-target-container) {
     flex-direction: column;
 }
 
+.gh-canvas {
+    flex-grow: 1;
+}
+
 .view-header {
     flex-shrink: 0;
     display: flex;
