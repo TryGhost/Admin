@@ -14,6 +14,7 @@ import { authenticateSession, currentSession, invalidateSession } from 'ghost-ad
 import Mirage from 'ember-cli-mirage';
 import windowProxy from 'ghost-admin/utils/window-proxy';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import OAuth2Authenticator from 'ghost-admin/authenticators/oauth2';
 
 const Ghost = ghostPaths();
 
@@ -27,6 +28,40 @@ describe('Acceptance: Authentication', function () {
 
     afterEach(function () {
         destroyApp(application);
+    });
+
+    describe('token handling', function () {
+        beforeEach(function () {
+            // replace the default test authenticator with our own authenticator
+            application.register('authenticator:test', OAuth2Authenticator);
+
+            let role = server.create('role', {name: 'Administrator'});
+            server.create('user', {roles: [role], slug: 'test-user'});
+        });
+
+        it('refreshes app tokens on boot', function () {
+            /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+            authenticateSession(application, {
+                access_token: 'testAccessToken',
+                refresh_token: 'refreshAccessToken'
+            });
+
+            visit('/');
+
+            andThen(() => {
+                let requests = server.pretender.handledRequests;
+                let refreshRequest = requests.findBy('url', '/ghost/api/v0.1/authentication/token');
+
+                expect(refreshRequest).to.exist;
+                expect(refreshRequest.method, 'method').to.equal('POST');
+
+                let requestBody = $.deparam(refreshRequest.requestBody);
+                expect(requestBody.grant_type, 'grant_type').to.equal('password');
+                expect(requestBody.username.access_token, 'access_token').to.equal('testAccessToken');
+                expect(requestBody.username.refresh_token, 'refresh_token').to.equal('refreshAccessToken');
+            });
+            /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+        });
     });
 
     describe('general page', function () {
