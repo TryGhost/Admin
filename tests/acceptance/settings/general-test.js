@@ -6,6 +6,7 @@ import {
     afterEach
 } from 'mocha';
 import {expect} from 'chai';
+import testSelector from 'ember-test-selectors';
 import $ from 'jquery';
 import startApp from '../../helpers/start-app';
 import destroyApp from '../../helpers/destroy-app';
@@ -654,7 +655,7 @@ describe('Acceptance: Settings - General', function () {
             click('.theme-list-item:contains("Test 1") a:contains("Delete")');
             andThen(() => {
                 expect(
-                    find('.fullscreen-modal .modal-content:contains("delete this theme")').length,
+                    find(testSelector('delete-theme-modal')).length,
                     'theme deletion modal displayed after button click'
                 ).to.equal(1);
             });
