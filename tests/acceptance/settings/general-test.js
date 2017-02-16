@@ -79,7 +79,7 @@ describe('Acceptance: Settings - General', function () {
                 expect($('.gh-nav-settings-general').hasClass('active'), 'highlights nav menu item')
                     .to.be.true;
 
-                expect(find('.view-header .view-actions .btn-blue').text().trim(), 'save button text').to.equal('Save');
+                expect(find('.view-header .view-actions .gh-btn-blue').text().trim(), 'save button text').to.equal('Save');
 
                 // initial postsPerPage should be 5
                 expect(find('input#postsPerPage').val(), 'post per page value').to.equal('5');
@@ -88,7 +88,7 @@ describe('Acceptance: Settings - General', function () {
             });
 
             fillIn('#settings-general input[name="general[title]"]', 'New Blog Title');
-            click('.view-header .btn.btn-blue');
+            click('.view-header .gh-btn.gh-btn-blue');
 
             andThen(() => {
                 expect(document.title, 'page title').to.equal('Settings - General - New Blog Title');
@@ -108,7 +108,7 @@ describe('Acceptance: Settings - General', function () {
             });
 
             // click cancel button
-            click('.fullscreen-modal .modal-footer .btn.btn-minor');
+            click('.fullscreen-modal .modal-footer .gh-btn');
 
             andThen(() => {
                 expect(find('.fullscreen-modal').length).to.equal(0);
@@ -128,7 +128,7 @@ describe('Acceptance: Settings - General', function () {
             });
 
             // click cancel button
-            click('.fullscreen-modal .modal-footer .btn.btn-minor');
+            click('.fullscreen-modal .modal-footer .gh-btn');
 
             andThen(() => {
                 expect(find('.fullscreen-modal').length).to.equal(0);
@@ -159,7 +159,7 @@ describe('Acceptance: Settings - General', function () {
             });
 
             triggerEvent('#activeTimezone', 'change');
-            click('.view-header .btn.btn-blue');
+            click('.view-header .gh-btn.gh-btn-blue');
 
             andThen(() => {
                 expect(find('#activeTimezone option:selected').text().trim()).to.equal('(GMT +2:00) Cairo, Egypt');
