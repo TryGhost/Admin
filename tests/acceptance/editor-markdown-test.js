@@ -8,27 +8,47 @@ import {
 import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {invalidateSession, authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import Mirage from 'ember-cli-mirage';
-import sinon from 'sinon';
-import testSelector from 'ember-test-selectors';
-import wait from 'ember-test-helpers/wait';
-
-
-Ember.Test.registerAsyncHelper('editorRendered', function(app) {
-    return window.editor.undoDepth > 3;
-});
-
+import {authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import Ember from 'ember';
+function editorRendered() {
+    return Ember.Test.promise(function (resolve) {
+        function checkEditor() {
+            if(window.editor) {
+                return resolve();
+            } else {
+                window.requestAnimationFrame(checkEditor);
+            }
+        }
+        checkEditor();
+    });
+};
 
 Ember.Test.registerAsyncHelper('inputSucceeded', function(app, result) {
      
       if(window.editor && window.editor.element && window.editor.element.innerHTML) {
-          return window.editor.element.innerHTML === result;
+          console.log('aaaaaaaa', 2);
+         // return window.editor.element.innerHTML === result;
+         return false;
       }
+      console.log('aaaaaaaaaaa', 1)
       return false;
   
   });
 
+Ember.Test.registerAsyncHelper('doInput', function(app, text) {
+  return new Promise(function(resolve) {
+    Ember.Test.adapter.asyncStart();
+
+    window.editor.didRender(() => {
+            //alert('input')
+            //window.editor.unregisteralltexthandlers or something like that....
+            // /Ember.run.schedule('afterRender', null, resolve);
+            resolve();
+            Ember.Test.adapter.asyncEnd();
+        });
+    window.editor._eventManager._textInputHandler.handle(text);
+  });
+});
 
 describe.only('Acceptance: Editor', function() {
     let application;
@@ -41,7 +61,6 @@ describe.only('Acceptance: Editor', function() {
         destroyApp(application);
     });
 
-    
     describe('when logged in', function () {
         beforeEach(function () {
             let role = server.create('role', {name: 'Administrator'});
@@ -70,34 +89,59 @@ describe.only('Acceptance: Editor', function() {
             server.createList('post', 1);
 
             visit('/editor/1');
-            editorRendered();
+            andThen(() => {
+                return editorRendered();
+            });
+            
             andThen(() => {
                 window.editor.element.focus(); // for some reason the editor doesn't work until it's focused when run in ghost-admin.
-                Ember.run(() => window.editor.insertText('abcdef'));
+                //Ember.run(() => window.editor.insertText('abcdef'));
             });
-            inputSucceeded('<p>abcdef</p>');
             andThen(() => {
-                expect(window.editor.element.innerHTML).to.equal('<p>abcdef</p>');
+                return Ember.Test.promise(function (resolve) {
+                    window.editor.didRender(() => {
+                        if(window.editor.element.innerHTML === '<p>abcdef</p>') {
+                            expect(window.editor.element.innerHTML).to.equal('<p>abcdef</p>');
+                            return resolve();
+                        }
+                    
+                    });
+                    inputText(window.editor, 'abcdef');  
+                });       
             });
         });
         it('1111shild accelt pamrkdown', function () {
+            expect(1);
             server.createList('post', 1);
             visit('/editor/1');
-            editorRendered();
+            
+            andThen(()=> {
+                return editorRendered();
+            });
             andThen(() => {
                 window.editor.element.focus(); // for some reason the editor doesn't work until it's focused when run in ghost-admin.
             });
             andThen(() => {
-                inputText(window.editor, '**test**');        
+                return Ember.Test.promise(function (resolve) {
+                    window.editor.didRender(() => {
+                        if(window.editor.element.innerHTML === '<p><strong>test</strong></p>') {
+                            expect(window.editor.element.innerHTML).to.equal('<p><strong>test</strong></p>');
+                            return resolve();
+                        }
+                    
+                    });
+                    inputText(window.editor, '**test**');  
+                });       
             });
-            inputSucceeded('<p><strong>test</strong></p>');
-            andThen(() => {
-                expect(window.editor.element.innerHTML).to.equal('<p><strong>test</strong></p>');
-            }) ;    
+            // andThen(() => {
+            //     inputSucceeded('<p><strong>test</strong></p>');
+            // })
+            // andThen(() => {
+            //     expect(window.editor.element.innerHTML).to.equal('<p><strong>test</strong></p>');
+            // }) ;    
         });
     });
 });
-
 
 let runLater = (cb) => window.requestAnimationFrame(cb);
 function selectRangeWithEditor(editor, range) {
