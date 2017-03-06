@@ -192,7 +192,7 @@ describe('Acceptance: Editor', function() {
             });
         });
 
-        // link broken in the test environment because of slash menu changes.
+        // links
         it('[]() creates a link at start of line', function () {
             server.createList('post', 1);
 
@@ -219,6 +219,7 @@ describe('Acceptance: Editor', function() {
             });
         });
     });
+    
     describe('Block markdown support.', function () {
         beforeEach(function () {
             let role = server.create('role', {name: 'Administrator'});
@@ -321,6 +322,7 @@ describe('Acceptance: Editor', function() {
         });
     });
 
+    // card interactions and styling are still a WIP
     describe.skip('Card markdown support.', function () {
         beforeEach(function () {
             let role = server.create('role', {name: 'Administrator'});
