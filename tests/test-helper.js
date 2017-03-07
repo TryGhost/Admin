@@ -5,7 +5,7 @@ setResolver(resolver);
 
 /* jshint ignore:start */
 mocha.setup({
-    timeout: 25000,
+    timeout: 15000,
     slow: 500
 });
 /* jshint ignore:end */
