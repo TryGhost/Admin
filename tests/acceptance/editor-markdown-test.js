@@ -11,8 +11,8 @@ import destroyApp from '../helpers/destroy-app';
 import {editorRendered, testInput} from '../helpers/editor-helpers';
 import {authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
 
-describe('Acceptance: Editor', function() {
-    this.timeout(2500);
+describe.only('Acceptance: Editor', function() {
+    this.timeout(25000);
     let application;
 
     beforeEach(function() {
