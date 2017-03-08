@@ -1,10 +1,27 @@
-/* global Showdown, html_sanitize */
+/* global showdown, html_sanitize */
 import {helper} from 'ember-helper';
 import {htmlSafe} from 'ember-string';
 import cajaSanitizers from 'ghost-admin/utils/caja-sanitizers';
 
 // eslint-disable-next-line new-cap
-let showdown = new Showdown.converter({extensions: ['ghostimagepreview', 'ghostgfm', 'footnotes', 'highlight']});
+let converter = new showdown.Converter({
+    extensions: ['ghostimagepreview', 'showdown-ghost-extra', 'footnotes', 'highlight'],
+    omitExtraWLInCodeBlocks: true,
+    parseImgDimensions: true,
+    simplifiedAutoLink: true,
+    excludeTrailingPunctuationFromURLs: true,
+    literalMidWordUnderscores: true,
+    strikethrough: true,
+    tables: true,
+    tablesHeaderId: true,
+    ghCodeBlocks: true,
+    tasklists: true,
+    smoothLivePreview: true,
+    simpleLineBreaks: true,
+    requireSpaceBeforeHeadingText: true,
+    ghMentions: false,
+    encodeEmails: true
+});
 
 export function formatMarkdown(params) {
     if (!params || !params.length) {
@@ -15,7 +32,7 @@ export function formatMarkdown(params) {
     let escapedhtml = '';
 
     // convert markdown to HTML
-    escapedhtml = showdown.makeHtml(markdown);
+    escapedhtml = converter.makeHtml(markdown);
 
     // replace script and iFrame
     escapedhtml = escapedhtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
