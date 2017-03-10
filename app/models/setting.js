@@ -1,11 +1,8 @@
 /* eslint-disable camelcase */
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'setting',
-
+export default Model.extend({
     title: attr('string'),
     description: attr('string'),
     logo: attr('string'),

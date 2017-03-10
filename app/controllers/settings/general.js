@@ -1,12 +1,15 @@
 import Controller from 'ember-controller';
 import computed from 'ember-computed';
 import injectService from 'ember-service/inject';
-import observer from 'ember-metal/observer';
 import run from 'ember-runloop';
-import randomPassword from 'ghost-admin/utils/random-password';
 import {task} from 'ember-concurrency';
 
-export default Controller.extend({
+import randomPassword from 'ghost-admin/utils/random-password';
+import ValidationMixin from 'ghost-admin/mixins/validation';
+import SettingsValidations from 'ghost-admin/validations/settings';
+
+export default Controller.extend(ValidationMixin, {
+    validationMap: SettingsValidations,
 
     availableTimezones: null,
 
@@ -39,13 +42,6 @@ export default Controller.extend({
         }
     }),
 
-    generatePassword: observer('model.isPrivate', function () {
-        this.get('model.errors').remove('password');
-        if (this.get('model.isPrivate') && this.get('model.hasDirtyAttributes')) {
-            this.get('model').set('password', randomPassword());
-        }
-    }),
-
     _deleteTheme() {
         let theme = this.get('store').peekRecord('theme', this.get('themeToDelete').name);
 
@@ -63,6 +59,8 @@ export default Controller.extend({
         let config = this.get('config');
 
         try {
+            yield this.validate(); // Validate settings
+
             let model = yield this.get('model').save();
             config.set('blogTitle', model.get('title'));
 
@@ -95,6 +93,14 @@ export default Controller.extend({
 
         toggleUploadIconModal() {
             this.toggleProperty('showUploadIconModal');
+        },
+
+        togglePrivate(value) {
+            this.set('model.isPrivate', value);
+
+            if (value && this.get('model.hasDirtyAttributes')) {
+                this.get('changeset').set('password', randomPassword());
+            }
         },
 
         validateFacebookUrl() {
