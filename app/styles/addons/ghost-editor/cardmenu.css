@@ -14,7 +14,29 @@
     text-transform: none;
     font-size: 1.4rem;
     font-weight: normal;
+    display:none;
+    position: absolute;
 }
+
+#gh-cardmenu-button {
+    position:absolute;
+    width: 40px;
+    height: 40px;
+    background-color:pink;
+    font-size:40px;
+    line-height: 40px;
+    color: powderblue;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#gh-cardmenu-button:hover {
+    background-color:red;
+    color: yellow;
+    -webkit-transform: rotate(360deg);
+    -webkit-transition-duration: 1s;
+    -webkit-transition-delay: now;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+} 
 
 .gh-cardmenu-search {
     position: relative;
