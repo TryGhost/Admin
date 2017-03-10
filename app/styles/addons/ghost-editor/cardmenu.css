@@ -14,8 +14,8 @@
     text-transform: none;
     font-size: 1.4rem;
     font-weight: normal;
-    display:none;
     position: absolute;
+    z-index: 9999999; /* have to compete with codemirror */
 }
 
 #gh-cardmenu-button {

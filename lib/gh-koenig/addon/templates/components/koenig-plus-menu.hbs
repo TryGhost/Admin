@@ -1,4 +1,7 @@
+{{#if showButton}}
 <button id="gh-cardmenu-button" {{action "openMenu"}}>+</button>
+{{/if}}
+{{#if isOpen}}
 <div class="gh-cardmenu">
     <div class="gh-cardmenu-search">
         {{inline-svg "search.svg"}}
@@ -11,3 +14,4 @@
         {{koenig-menu-item tool=tool editor=editor range=range selected=tool.selected clicked=(action "closeMenu")}}
     {{/each}}
 </div>
+{{/if}}
