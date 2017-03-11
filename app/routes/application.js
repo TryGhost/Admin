@@ -11,6 +11,9 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import windowProxy from 'ghost-admin/utils/window-proxy';
+import ParseQueryString from 'torii/lib/parse-query-string';
+
+const queryStringParser = ParseQueryString.create({url: window.location.href, keys: ['code']});
 
 function K() {
     return this;
@@ -32,6 +35,36 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     lazyLoader: injectService(),
     notifications: injectService(),
     upgradeNotification: injectService(),
+    torii: injectService(),
+
+    beforeModel(transition) {
+        // TODO: load config from API
+
+        if (this.get('config.ghostOAuth')) {
+            let queryParams = queryStringParser.parse();
+
+            // exchange access grant code for access_token/refresh_token if we have one
+            if (queryParams.code) {
+                // TODO: check for consistent state param
+                let data = {
+                    authorizationCode: queryParams.code
+                };
+                return this.get('session').authenticate('authenticator:oauth2-ghost', data);
+            }
+
+            // redirect to auth server immediately if we have no local session
+            if (!this.get('session.isAuthenticated')) {
+                transition.abort();
+                // TODO: send correct type
+                return this.get('torii').open('ghost-oauth2-redirect', {type: 'setup'});
+            }
+
+            // TODO: handle local but invalid session - can we pre-emptively check
+            // expiry and fetch a fresh token?
+        }
+
+        return this._super(...arguments);
+    },
 
     beforeModel() {
         return this.get('config').fetch();
