@@ -1,7 +1,10 @@
-<div class='koenig-menu'>
-    <ul>
+{{#if isOpen}}
+<div class="gh-cardmenu">
+    <div class="gh-cardmenu-divider">
+        Primary
+    </div>
     {{#each toolbar as |tool index|}}
-        {{koenig-menu-item tool=tool iconURL=iconURL editor=editor range=range selected=tool.selected}}
+        {{koenig-menu-item tool=tool editor=editor range=range selected=tool.selected clicked=(action "closeMenu")}}
     {{/each}}
-    </ul>
 </div>
+{{/if}}
