@@ -3,7 +3,6 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import run from 'ember-runloop';
 import {editorRendered, testInput, waitForRender, inputText} from '../../helpers/editor-helpers';
 import $ from 'jquery';
 
@@ -18,11 +17,11 @@ describe('Integration: Component: gh-cm-editor', function () {
                             assetPath='/assets'
                             containerSelector='.editor-holder'
                         }}`);
-        
+
         editorRendered()
             .then(() => {
-                let editor = window.editor;
-                editor.element.focus(); 
+                let {editor} = window;
+                editor.element.focus();
                 inputText(editor, '/');
                 return waitForRender('.gh-cardmenu');
             })
@@ -30,7 +29,7 @@ describe('Integration: Component: gh-cm-editor', function () {
                 let cardMenu = $('.gh-cardmenu');
                 expect(cardMenu.children().length).to.equal(7);
                 done();
-            })
+            });
     });
     it.skip('searches when a user types', function (done) {
         this.render(hbs`{{gh-koenig
@@ -38,11 +37,11 @@ describe('Integration: Component: gh-cm-editor', function () {
                             assetPath='/assets'
                             containerSelector='.editor-holder'
                         }}`);
-        
+
         editorRendered()
             .then(() => {
-                let editor = window.editor;
-                editor.element.focus(); 
+                let {editor} = window;
+                editor.element.focus();
                 inputText(editor, '/');
                 return waitForRender('.gh-cardmenu');
             })
@@ -55,6 +54,6 @@ describe('Integration: Component: gh-cm-editor', function () {
                 let cardMenu = $('.gh-cardmenu');
                 expect(cardMenu.children().length).to.equal(2);
                 done();
-            });; 
+            });
     });
 });
