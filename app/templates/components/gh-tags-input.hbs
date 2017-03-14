@@ -1,0 +1,13 @@
+<label for="tag-input">Tags</label>
+{{#power-select-multiple
+    id="tag-input"
+    options=availableTags
+    selected=tags
+    searchField="name"
+    onchange=(action "updateTags")
+    onkeydown=(action "handleInput")
+    renderInPlace=true
+    as |tag|
+}}
+    {{tag.name}}
+{{/power-select-multiple}}

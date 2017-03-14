@@ -47,22 +47,7 @@
                 {{gh-error-message errors=model.errors property="post-setting-date"}}
             {{/gh-form-group}}
 
-            <div class="form-group">
-                <label for="tag-input">Tags</label>
-                {{#power-select-multiple
-                    id="tag-input"
-                    options=availableTags
-                    selected=model.tags
-                    searchField="name"
-                    triggerComponent="gh-tags-input/trigger"
-                    onchange=(action (mut model.tags))
-                    onkeydown=(action 'createOnEnter')
-                    renderInPlace=true
-                    as |tag|
-                }}
-                    {{tag.name}}
-                {{/power-select-multiple}}
-            </div>
+            {{gh-tags-input tags=model.tags showSettingsMenu=showSettingsMenu}}
 
             {{#unless session.user.isAuthor}}
             <div class="form-group for-select">
