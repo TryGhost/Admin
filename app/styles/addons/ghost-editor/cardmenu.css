@@ -31,11 +31,6 @@
 #gh-cardmenu-button:hover {
     background-color:red;
     color: yellow;
-    -webkit-transform: rotate(360deg);
-    -webkit-transition-duration: 1s;
-    -webkit-transition-delay: now;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
 } 
 
 .gh-cardmenu-search {
@@ -96,11 +91,11 @@
     font-weight: 200;
 }
 
-.gh-cardmenu-card:hover {
+.gh-cardmenu-card:hover, .gh-cardmenu-card.selected {
     cursor: pointer;
     background: color(var(--lightgrey) l(+3%) s(-10%));
 }
-.gh-cardmenu-card:hover .gh-cardmenu-label {
+.gh-cardmenu-card:hover .gh-cardmenu-label, .gh-cardmenu-card.selected .gh-cardmenu-label {
     color: var(--darkgrey);
     font-weight: 300;
 }
