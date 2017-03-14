@@ -1,8 +1,8 @@
-<section class="gh-canvas">
+{{#form-for changeset class="gh-canvas" as |f|}}
     <header class="gh-canvas-header">
         <h2 class="gh-canvas-title">General</h2>
         <section class="view-actions">
-            {{gh-task-button "Save settings" task=save class="gh-btn gh-btn-blue" data-test-save-button=true}}
+            {{gh-task-button "Save settings" task=save class="gh-btn gh-btn-blue" data-test-save-button=true type="submit"}}
         </section>
     </header>
 
@@ -15,17 +15,8 @@
                 <div class="gh-setting-desc">The details used to identify your publication around the web</div>
                 {{#liquid-if pubInfoOpen}}
                 <div class="gh-setting-content-extended">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="title"}}
-                        {{gh-input model.title type="text" focusOut=(action "validate" "title" target=model) update=(action (mut model.title)) data-test-title-input=true}}
-                        {{gh-error-message errors=model.errors property="title"}}
-                        <p>The name of your site</p>
-                    {{/gh-form-group}}
-
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="description" class="description-container"}}
-                        {{gh-input model.description type="text" focusOut=(action "validate" "description" target=model) update=(action (mut model.description)) data-test-description-input=true}}
-                        {{gh-error-message errors=model.errors property="description"}}
-                        <p>Used in your theme, meta data and search results</p>
-                    {{/gh-form-group}}
+                    {{f.text-field "title" hint="The name of your site"}}
+                    {{f.text-field "description" hint="Used in your theme, meta data and search results" class="description-container"}}
                 </div>
                 {{/liquid-if}}
             </div>
@@ -145,8 +136,12 @@
                 <div class="gh-setting-desc">Include the date in your post URLs, eg. <strong>blogurl.com/2017/01/post-title/</strong></div>
             </div>
             <div class="gh-setting-action">
-                {{one-way-checkbox isDatedPermalinks type="checkbox" update=(action (mut isDatedPermalinks)) data-test-dated-permalinks-checkbox=true}}
-                <span class="input-toggle-component"></span>
+                <div class="for-checkbox">
+                    <label>
+                        {{one-way-checkbox isDatedPermalinks update=(action (mut isDatedPermalinks)) data-test-dated-permalinks-checkbox=true}}
+                        <span class="input-toggle-component"></span>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="gh-setting">
@@ -155,21 +150,21 @@
                 <div class="gh-setting-desc">Enable protection with simple shared password, All search engine optimization and social features will be disabled.</div>
                 {{#if model.isPrivate}}
                 <div class="gh-setting-content-extended">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="password"}}
-                        {{gh-input model.password name="general[password]" type="text" focusOut=(action "validate" "password" target=model) update=(action (mut model.password)) data-test-password-input=true}}
-                        {{gh-error-message errors=model.errors property="password" data-test-password-error=true}}
-                        <p>Set the password for this site</p>
-                    {{/gh-form-group}}
+                    {{f.text-field "password" hint="Set the password for this site"}}
                 </div>
                 {{/if}}
             </div>
             <div class="gh-setting-action">
-                {{one-way-checkbox model.isPrivate type="checkbox" update=(action (mut model.isPrivate)) data-test-private-checkbox=true}}
-                <span class="input-toggle-component"></span>
+                <div class="for-checkbox">
+                    <label>
+                        {{one-way-checkbox model.isPrivate update=(action "togglePrivate") data-test-private-checkbox=true}}
+                        <span class="input-toggle-component"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
     </section>
-</section>
+{{/form-for}}
 
 {{outlet}}

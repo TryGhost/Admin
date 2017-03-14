@@ -8,7 +8,6 @@ import InviteUserValidator from 'ghost-admin/validators/invite-user';
 import NavItemValidator from 'ghost-admin/validators/nav-item';
 import PostValidator from 'ghost-admin/validators/post';
 import ResetValidator from 'ghost-admin/validators/reset';
-import SettingValidator from 'ghost-admin/validators/setting';
 import SetupValidator from 'ghost-admin/validators/setup';
 import SigninValidator from 'ghost-admin/validators/signin';
 import SignupValidator from 'ghost-admin/validators/signup';
@@ -41,7 +40,6 @@ export default Mixin.create({
         navItem: NavItemValidator,
         post: PostValidator,
         reset: ResetValidator,
-        setting: SettingValidator,
         setup: SetupValidator,
         signin: SigninValidator,
         signup: SignupValidator,

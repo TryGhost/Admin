@@ -125,6 +125,9 @@ export default Service.extend({
             msg = resp.detail;
         } else if (!isBlank(get(resp, 'message'))) {
             msg = resp.message;
+        } else if (!isBlank(get(resp, 'validation'))) {
+            // For validation errors
+            msg = resp.validation;
         }
 
         this.showAlert(msg, options);
