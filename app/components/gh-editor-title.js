@@ -73,12 +73,12 @@ export default Component.extend({
                 title.addClass('no-content');
             }
 
-            // sanity check if there is formatting reset it.
             let {textContent} = title[0]; // eslint-disable-line
-            if (title[0].innerHTML !== textContent && title[0].innerHTML) {
-                title[0].innerHTML = textContent;
-                // todo: retain the range position.
-            }
+            // // sanity check if there is formatting reset it.
+            // if (title[0].innerHTML !== textContent && title[0].innerHTML) {
+            //     title[0].innerHTML = textContent;
+            //     // todo: retain the range position.
+            // }
 
             if (this.get('val') !== textContent) {
                 this.set('val', textContent);
