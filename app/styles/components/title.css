@@ -1,4 +1,4 @@
-.gh-title {
+.gh-editor-title {
     padding:0 0 0 1px; /* need some left padding otherwise the cursor isn't visible on the left hand side */
     margin:0;
     outline:none;
@@ -11,7 +11,7 @@
 }
 
 /* Place holder content that displays in the title if it is empty */
-.gh-title.no-content:after {
+.gh-editor-title.no-content:after {
     content: attr(data-placeholder);
     color: #bbb;
     cursor: text;

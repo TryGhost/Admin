@@ -9,7 +9,7 @@ export default Component.extend({
             return;
         }
 
-        let title = this.$('.gh-title');
+        let title = this.$('.gh-editor-title');
         if (!this.get('val')) {
             title.addClass('no-content');
         } else {

@@ -18,7 +18,7 @@ export function editorRendered() {
 export function titleRendered() {
     return Ember.Test.promise(function (resolve) { // eslint-disable-line
         function checkTitle() {
-            let title = $('#gh-title div');
+            let title = $('#gh-editor-title div');
             if (title[0]) {
                 return resolve();
             } else {

@@ -402,7 +402,7 @@ describe('Acceptance: Editor', function() {
             });
 
             andThen(() => {
-                let title = find('#gh-title div');
+                let title = find('#gh-editor-title div');
                 title.html(Array(160).join('a'));
             });
 

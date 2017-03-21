@@ -34,18 +34,15 @@
     </header>
     <div class="gh-editor-container">
         <div class="gh-editor-inner">
-            
-            {{#gh-view-title classNames="gh-editor-title" openMobileMenu="openMobileMenu"}}
-                {{gh-title 
-                    val=(readonly model.titleScratch)
-                    onChange=(action (mut model.titleScratch)) 
-                    tabindex="1" 
-                    shouldFocus=shouldFocusTitle 
-                    focus-out="updateTitle" 
-                    update=(action (perform updateTitle)) 
-                    id='gh-title'
-                }}
-            {{/gh-view-title}}
+            {{gh-editor-title 
+                val=(readonly model.titleScratch)
+                onChange=(action (mut model.titleScratch)) 
+                tabindex="1" 
+                shouldFocus=shouldFocusTitle 
+                focus-out="updateTitle" 
+                update=(action (perform updateTitle)) 
+                id='gh-editor-title'
+            }}
             {{#if scheduleCountdown}}
                 <time datetime="{{post.publishedAtUTC}}" class="gh-notification gh-notification-schedule">
                     Post will be published {{scheduleCountdown}}.
@@ -61,7 +58,7 @@
                 assetPath=assetPath
                 tabindex=2
 		        containerSelector='.gh-editor-container'
-                titleQuery='#gh-title div'
+                titleQuery='#gh-editor-title div'
             }}
         </div>
     </div>
