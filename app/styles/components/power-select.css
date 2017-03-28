@@ -93,30 +93,71 @@
     padding-bottom: 0;
 }
 
-.ember-power-select-group .ember-power-select-option {
+.ember-power-select-option {
     overflow: hidden;
     padding: 7px 8px;
+    margin-bottom: 0;
     line-height: 1.35em;
     cursor: pointer;
 }
 
-.ember-power-select-group .ember-power-select-option .highlight {
+.ember-power-select-option .highlight {
     background: #fff3b8;
     border-radius: 1px;
 }
 
-.ember-power-select-group .ember-power-select-option[aria-current="true"] {
+.ember-power-select-option[aria-current="true"] {
     background: color(var(--blue) alpha(-85%));
     color: var(--darkgrey);
 }
 
-/*
-    HACK: ember-power-select has no separate class for the loading message
-    Issue: https://github.com/cibernox/ember-power-select/issues/479
- */
-.ember-power-select-dropdown > .ember-power-select-options > .ember-power-select-option:first-of-type,
+.ember-power-select-option--loading-message,
 .ember-power-select-option--no-matches-message {
     padding: 7px 8px;
     color: var(--midgrey);
     font-size: 0.9em;
+}
+
+.ember-power-select-multiple-option {
+    position: relative;
+    margin: 0 3px 3px 0;
+    padding: 1px 20px 1px 4px;
+    border: 0;
+    background: var(--blue);
+    color: #fff;
+    line-height: 1.75;
+    cursor: pointer;
+}
+
+.ember-power-select-multiple-trigger {
+    padding: 5px 5px 2px;
+    height: auto;
+}
+
+.ember-power-select-multiple-option .ember-power-select-multiple-remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 17px;
+    border-radius: 0 2px 2px 0;
+    color: inherit;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ember-power-select .ember-power-select-multiple-option .ember-power-select-multiple-remove-btn:not(:hover) {
+    opacity: 1;
+}
+
+.ember-power-select .ember-power-select-multiple-option .ember-power-select-multiple-remove-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
 }

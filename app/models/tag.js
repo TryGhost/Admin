@@ -1,8 +1,6 @@
-/* eslint-disable camelcase */
-import computed, {equal} from 'ember-computed';
+import {equal} from 'ember-computed';
 import observer from 'ember-metal/observer';
 import injectService from 'ember-service/inject';
-import {guidFor} from 'ember-metal/utils';
 
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
@@ -29,13 +27,6 @@ export default Model.extend(ValidationEngine, {
     isPublic: equal('visibility', 'public'),
 
     feature: injectService(),
-
-    // HACK: ugly hack to main compatibility with selectize as used in the
-    // PSM tags input
-    // TODO: remove once we've switched over to EPS for the tags input
-    uuid: computed(function () {
-        return guidFor(this);
-    }),
 
     setVisibility() {
         let internalRegex = /^#.?/;
