@@ -204,3 +204,9 @@
     max-width: 740px;
     height: 100%;
 }
+
+.gh-editor-wordcount {
+    position: fixed;
+    bottom: 0px;
+    padding:10px;
+}
