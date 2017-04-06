@@ -9,7 +9,7 @@ export default Component.extend({
     editor: null,
 
     koenigEditor: computed('editor', {
-        get(key) {
+        get() {
             return this.get('editor');
         },
         set(key, value) {
@@ -23,19 +23,19 @@ export default Component.extend({
         let title = this.$('.gh-editor-title');
         if (!this.get('val')) {
             title.addClass('no-content');
-        } else if(this.get('val') !== this.get('_cachedVal')) {
+        } else if (this.get('val') !== this.get('_cachedVal')) {
             title.html(this.get('val'));
         }
 
-        if(!editor) {
+        if (!editor) {
             return;
         }
-        if(this.get('editorKeyDownListener')) {
+        if (this.get('editorKeyDownListener')) {
             editor.element.removeEventListener('keydown', this.get('editorKeyDownListener'));
         }
-        this.set('editorKeyDownListener', this.editorKeyDown.bind(this))
+        this.set('editorKeyDownListener', this.editorKeyDown.bind(this));
         editor.element.addEventListener('keydown', this.get('editorKeyDownListener'));
-        
+
         title[0].onkeydown = (event) => {
             // block the browser format keys.
             if (event.ctrlKey || event.metaKey) {
@@ -138,9 +138,9 @@ export default Component.extend({
     },
     willDestroyElement() {
         this.get('_mutationObserver').disconnect();
-        let title = this.$('.gh-editor-title')[0].onkeydown = null;
+        this.$('.gh-editor-title')[0].onkeydown = null;
         let editor = this.get('editor');
-        if(editor) {
+        if (editor) {
             editor.element.removeEventListener('keydown', this.get('editorKeyDownListener'));
         }
     },
@@ -155,21 +155,27 @@ export default Component.extend({
             let range = selection.getRangeAt(0); // get the actual range within the DOM.
             let cursorPositionOnScreen = range.getBoundingClientRect();
             let topOfEditor = editor.element.getBoundingClientRect().top;
+
+            // if the current paragraph is empty then the position is 0
+            if (cursorPositionOnScreen.top === 0) {
+                cursorPositionOnScreen = editor.activeSection.renderNode.element.getBoundingClientRect();
+            }
+
             if (cursorPositionOnScreen.top < topOfEditor + 33) {
                 let offset = this.getOffsetAtPosition(cursorPositionOnScreen.left);
                 this.setCursorAtOffset(offset);
-             
+
                 return false;
             }
         }
     },
     // gets the character in the last line of the title that best matches the editor
-    getOffsetAtPosition(horizontal_offset) {
+    getOffsetAtPosition(horizontalOffset) {
         let [title] = this.$('.gh-editor-title')[0].childNodes;
         let len = title.textContent.length;
         let range = document.createRange();
 
-        for(let i = len -1; i > -1; i--) {
+        for (let i = len - 1; i > -1; i--) {
             // console.log(title);
             range.setStart(title, i);
             range.setEnd(title, i + 1);
@@ -177,15 +183,15 @@ export default Component.extend({
             if (rect.top === rect.bottom) {
                 continue;
             }
-            if(rect.left <= horizontal_offset && rect.right >= horizontal_offset) {
-                return  i + (horizontal_offset >= (rect.left + rect.right) / 2 ? 1 : 0);    // if the horizontal_offset is on the left hand side of the
+            if (rect.left <= horizontalOffset && rect.right >= horizontalOffset) {
+                return  i + (horizontalOffset >= (rect.left + rect.right) / 2 ? 1 : 0);     // if the horizontalOffset is on the left hand side of the
                                                                                             // character then return `i`, if it's on the right return `i + 1`
             }
         }
 
         return len;
     },
-    setCursorAtOffset(offset) {
+    setCursorAtOffset() {
         let [title] = this.$('.gh-editor-title');
         title.focus();
         // the following code sets the start point based on the offest provided.
@@ -193,15 +199,12 @@ export default Component.extend({
         // and works in Firefox, but in firefox you can no longer edit the title once this has happened.
         // It's either an issue with ghost-admin or mobiledoc and more investigation needs to be done.
         // Probably after the beta release though.
-        
+
         // let range = document.createRange();
         // let selection = window.getSelection();
         // range.setStart(title.childNodes[0], offset);
         // range.collapse(true);
         // selection.removeAllRanges();
         // selection.addRange(range);
-    },
-    insertText(offset, text) {
-
     }
 });
