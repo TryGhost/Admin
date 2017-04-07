@@ -59,9 +59,11 @@
                 tabindex=2
 		        containerSelector='.gh-editor-container'
                 titleQuery='#gh-editor-title div'
+                wordCount=wordCount
             }}
         </div>
     </div>
+    <div class="gh-editor-wordcount">{{wordCount}} {{word-pluralize wordCount "word"}}.</div>
 </section>
 
 {{#if showDeletePostModal}}
