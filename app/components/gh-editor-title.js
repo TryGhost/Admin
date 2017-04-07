@@ -106,7 +106,7 @@ export default Component.extend({
                     return false;
                 }
             }
-            title.removeClass('no-content');
+            // title.removeClass('no-content');
         };
 
         // setup mutation observer
