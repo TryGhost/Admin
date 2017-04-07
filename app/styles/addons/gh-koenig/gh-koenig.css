@@ -92,7 +92,9 @@
     border-top: color(var(--darkgrey) l(-10%)) 8px solid;
 }
 
-
+.kg-card {
+    min-height: 100px;
+}
 .kg-card.selected .kg-card-toolbar {
     display: flex;
     align-items: stretch;
