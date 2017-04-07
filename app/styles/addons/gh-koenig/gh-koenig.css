@@ -36,6 +36,13 @@
 .kg-card.selected-hard {
     box-shadow: var(--blue) 0 0 0 3px;
 }
+.kg-card.selected.new {
+    transition-property: background-color, transform;
+    transition-duration: 1.5s;
+    transition-timing-function: linear;
+    background-color: red;
+    transform: translateY(50px);
+}
 .kg-card .kg-card-toolbar {
     position: absolute;
     left: 0px;
