@@ -35,13 +35,13 @@
     border: none;
 }
 .gh-toolbar.tick-full-left:after {
-    left: 20%;
+    left: 25%;
 }
 .gh-toolbar.tick-half-left:after {
     left: 40%;
 }
 .gh-toolbar.tick-full-right:after {
-    left: 80%;
+    left: 75%;
 }
 .gh-toolbar.tick-half-right:after {
     left: 60%;
