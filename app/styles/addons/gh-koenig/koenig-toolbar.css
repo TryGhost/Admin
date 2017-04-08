@@ -31,9 +31,8 @@
     border-right: transparent 10px solid;
     border-top: color(var(--darkgrey) l(-10%)) 8px solid;
 }
-.gh-toolbar.tick-above {
-    bottom: auto;
-    top: -8px;
+.gh-toolbar.tick-above:after {
+    border: none;
 }
 .gh-toolbar.tick-full-left:after {
     left: 20%;
