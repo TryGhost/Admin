@@ -6,6 +6,8 @@
     display: flex;
     align-items: center;
     text-align: center;
+    user-select: none;
+    cursor: pointer;
     color: color(var(--lightgrey) l(-10%));
     background: linear-gradient(
         color(var(--darkgrey) l(-3%)),
@@ -13,6 +15,7 @@
     );
     border-radius: 5px;
     box-shadow: 0 0 0 1px color(var(--darkgrey) l(-10%)), 0 8px 16px rgba(26,39,49,0.16), rgba(255,255,255,0.09) 0 1px 0 0 inset;
+    z-index:110; /* places it above the title */
 }
 
 .gh-toolbar:after {
