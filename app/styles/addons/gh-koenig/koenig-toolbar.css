@@ -31,6 +31,22 @@
     border-right: transparent 10px solid;
     border-top: color(var(--darkgrey) l(-10%)) 8px solid;
 }
+.gh-toolbar.tick-above {
+    bottom: auto;
+    top: -8px;
+}
+.gh-toolbar.tick-full-left:after {
+    left: 20%;
+}
+.gh-toolbar.tick-half-left:after {
+    left: 40%;
+}
+.gh-toolbar.tick-full-right:after {
+    left: 80%;
+}
+.gh-toolbar.tick-half-right:after {
+    left: 60%;
+}
 
 .gh-toolbar.is-link {
     width: 263px;
