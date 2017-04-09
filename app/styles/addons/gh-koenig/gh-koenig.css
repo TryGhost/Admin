@@ -126,6 +126,7 @@
     font-size: 1.3rem;
     line-height: 46px;
     text-align:center;
+    justify-content: center;
     vertical-align: middle;
     font-weight: bold;
     padding:0 18px;
@@ -133,7 +134,7 @@
 
 
 .kg-card .kg-card-toolbar button {
-    display: flex;
+    /*display: flex;*/
     justify-content: center;
     align-items: center;
     height: 46px;
@@ -148,6 +149,8 @@
     line-height: 46px;
     width:70px;
     text-align:center;
+    justify-content: center;
+    align-items: center;
     vertical-align: middle;
     padding:0;
 }
@@ -157,6 +160,8 @@
     height:30px;
     width:60px;
     text-align:center;
+    justify-content: center;
+    align-items: center;
     vertical-align: middle;
     margin:8px;
 
