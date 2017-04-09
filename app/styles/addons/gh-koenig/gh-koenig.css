@@ -21,7 +21,16 @@
     resize: none;
     font-weight: 200;
     letter-spacing: 0.1px;
+    -webkit-user-select: text;
+    user-select: text;
+    line-height: normal;
 }
+
+/*.__mobiledoc-editor *,
+.__mobiledoc-editor *:before,
+.__mobiledoc-editor *:after {
+    box-sizing:unset;
+}*/
 
 .kg-card {
     position: relative;
