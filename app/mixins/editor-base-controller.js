@@ -52,7 +52,7 @@ export default Mixin.create({
     apiRoot: ghostPaths().apiRoot,
     assetPath: ghostPaths().assetRoot,
     editor: null,
-    title: null,
+    editorMenuIsOpen: false,
     init() {
         this._super(...arguments);
         window.onbeforeunload = () => {
@@ -567,6 +567,14 @@ export default Mixin.create({
 
         setEditor(editor) {
             this.set('editor', editor);
+        },
+        editorMenuIsOpen() {
+            console.log("OPENING EDITOR MENU");
+            this.set('editorMenuIsOpen', true);
+        },
+        editorMenuIsClosed() {
+            console.log("CLOSING EDITOR MENU");
+            this.set('editorMenuIsOpen', false);
         }
     }
 });

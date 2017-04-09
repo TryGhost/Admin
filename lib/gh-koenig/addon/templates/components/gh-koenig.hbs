@@ -19,6 +19,25 @@
 
 {{yield}}
 
-{{koenig-toolbar editor=editor assetPath=assetPath containerSelector=containerSelector isTouch=isTouch}}
-{{koenig-slash-menu editor=editor assetPath=assetPath containerSelector=containerSelector isTouch=isTouch}}
-{{koenig-plus-menu editor=editor assetPath=assetPath containerSelector=containerSelector isTouch=isTouch}}
+{{koenig-toolbar 
+    editor=editor 
+    assetPath=assetPath 
+    containerSelector=containerSelector 
+    isTouch=isTouch
+}}
+{{koenig-slash-menu 
+    editor=editor 
+    assetPath=assetPath 
+    containerSelector=containerSelector 
+    isTouch=isTouch
+    menuIsOpen=(action "menuIsOpen")
+    menuIsClosed=(action "menuIsClosed")
+}}
+{{koenig-plus-menu 
+    editor=editor 
+    assetPath=assetPath 
+    containerSelector=containerSelector 
+    isTouch=isTouch
+    menuIsOpen=(action "menuIsOpen")
+    menuIsClosed=(action "menuIsClosed")
+}}
