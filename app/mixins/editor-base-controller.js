@@ -569,11 +569,9 @@ export default Mixin.create({
             this.set('editor', editor);
         },
         editorMenuIsOpen() {
-            console.log("OPENING EDITOR MENU");
             this.set('editorMenuIsOpen', true);
         },
         editorMenuIsClosed() {
-            console.log("CLOSING EDITOR MENU");
             this.set('editorMenuIsOpen', false);
         }
     }
