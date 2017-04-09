@@ -66,9 +66,9 @@
     position: absolute;
     left: 0px;
     top: 0px;
-    margin-top: -56px;
-    height: 46px;
+    height: 10px;
     width:100%;
+    overflow: visible;
     display: none;
 }
 .button-group {
@@ -80,30 +80,20 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-radius:5px;
-
+    margin-top:-56px;
     height:46px;
     display:flex;
     box-shadow: 0 0 0 1px color(var(--darkgrey) l(-10%)), 0 8px 16px rgba(26,39,49,0.16), rgba(255,255,255,0.09) 0 1px 0 0 inset;
-}
-
-/* keeps the hover when the cursor is moving from the card to the toolbar */
-.button-group:before {
-    display: block;
-    content: "";
-    position: absolute;
-    bottom:-9px;
-    width: 100%;
-    height: 8px;
 }
 
 .button-group:after {
     display: block;
     content: "";
     position: absolute;
-    bottom:-9px;
+    bottom:11px;
     left: 50%;
     margin-left: -10px;
-
+    
     width: 0;
     height: 0;
     border-left: transparent 10px solid;
@@ -188,6 +178,7 @@
     outline: none;
     border: none;
     resize: none;
+    
 }
 
 .kg-card-toolbar button:hover {
@@ -251,4 +242,9 @@ textarea.ed_code {
     background: color(var(--lightgrey) l(+4%));
     box-shadow: var(--lightgrey) 0 0 0 1px inset, #fff 0 0 0 15px inset;
     border-radius: 3px;
+}
+
+/* markdown card */
+.kg-card-markdown textarea {
+    resize: vertical;
 }
