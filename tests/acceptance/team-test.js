@@ -438,7 +438,8 @@ describe('Acceptance: Team', function () {
                 triggerEvent('#user-facebook', 'blur');
 
                 andThen(() => {
-                    expect(find('#user-facebook').closest('.form-group').hasClass('error'), 'facebook input should be in error state').to.be.true;
+                    expect(find('#user-facebook').val()).to.be.equal('https://www.facebook.com/test');
+                    expect(find('#user-facebook').closest('.form-group').hasClass('error'), 'facebook input should be in error state').to.be.false;
                 });
 
                 fillIn('#user-facebook', '');
