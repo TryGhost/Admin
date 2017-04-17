@@ -391,6 +391,15 @@ export default Mixin.create({
             let promise, status;
 
             options = options || {};
+
+            // don't auto-save save if nothing has changed, this prevents
+            // unnecessary collision errors when reading a post that another
+            // user is editing
+            if (options.backgroundSave && !this.get('hasDirtyAttributes')) {
+                this.send('cancelTimers');
+                return;
+            }
+
             this.toggleProperty('submitting');
             if (options.backgroundSave) {
                 // do not allow a post's status to be set to published by a background save
