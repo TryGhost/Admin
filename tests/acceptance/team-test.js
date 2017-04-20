@@ -132,7 +132,7 @@ describe('Acceptance: Team', function () {
                 click('.view-actions .btn-green');
 
                 andThen(() => {
-                    let roleOptions = find('#new-user-role select option');
+                    let roleOptions = find('#new-user-role option');
 
                     function checkOwnerExists() {
                         for (let i in roleOptions) {
