@@ -551,6 +551,7 @@ body > .ember-view:not(.default-liquid-destination) {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    margin-left: auto;
 }
 
 .view-actions .gh-btn {
