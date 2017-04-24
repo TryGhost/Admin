@@ -255,3 +255,13 @@
 .gh-editor-header-small .post-settings {
     padding: 13px 15px;
 }
+
+.gh-editor-wordcount {
+     position: fixed;
+     bottom: 0px;
+     padding:10px;
+ }
+
+ .gh-editor-header-small .gh-editor-wordcount {
+    display: none;
+ }
