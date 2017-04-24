@@ -30,7 +30,7 @@ describe.skip('Integration: Component: gh-koenig - General Editor Tests.', funct
     });
 
     it('Check that events have fired', function (done) {
-         this.render(hbs`{{gh-koenig
+        this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.editor-holder'
@@ -40,17 +40,17 @@ describe.skip('Integration: Component: gh-koenig - General Editor Tests.', funct
                                 wordcountDidChange=(action 'wordcountDidChange')
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('abcd efg hijk lmnop', '<p>abcd efg hijk lmnop</p>', expect);
-                })
-                .then(() => {
-                    expect(this.get('onFirstChange').calledOnce).to.be.true;
-                    expect(this.get('onChange').calledOnce).to.be.true;
-                    expect(this.get('wordcount')).to.equal(4);
-                    done();
-                });
+        editorRendered()
+            .then(() => {
+                let {editor} = window;
+                editor.element.focus();
+                return testInput('abcd efg hijk lmnop', '<p>abcd efg hijk lmnop</p>', expect);
+            })
+            .then(() => {
+                expect(this.get('onFirstChange').calledOnce).to.be.true;
+                expect(this.get('onChange').calledOnce).to.be.true;
+                expect(this.get('wordcount')).to.equal(4);
+                done();
+            });
     });
 });
