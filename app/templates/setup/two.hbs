@@ -66,18 +66,18 @@
 
     <form id="setup" class="gh-flow-create">
         {{!-- Horrible hack to prevent Chrome from incorrectly auto-filling inputs --}}
-        <input style="display:none;" type="text" name="fakeusernameremembered"/>
-        <input style="display:none;" type="password" name="fakepasswordremembered"/>
+        <input style="display:none;" type="text" name="username"/>
+        <input style="display:none;" type="password" name="password"/>
 
         {{gh-profile-image email=email setImage=(action "setImage")}}
 
         {{#gh-form-group errors=errors hasValidated=hasValidated property="email"}}
-            <label for="email-address">Email address</label>
+            <label for="email">Email address</label>
             <span class="gh-input-icon gh-icon-mail">
                 {{inline-svg "email"}}
                 {{gh-trim-focus-input email
                     tabindex="1"
-                    ype="email"
+                    type="email"
                     name="email"
                     placeholder="Eg. john@example.com"
                     autocorrect="off"
@@ -88,7 +88,7 @@
         {{/gh-form-group}}
 
         {{#gh-form-group errors=errors hasValidated=hasValidated property="name"}}
-            <label for="full-name">Full name</label>
+            <label for="name">Full name</label>
             <span class="gh-input-icon gh-icon-user">
                 {{inline-svg "user-circle"}}
                 {{gh-input name
