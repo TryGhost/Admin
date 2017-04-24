@@ -261,9 +261,6 @@
      padding:10px;
  }
 
- @media (max-width: 1200px) {
-     /* Hide the wordcount when the content window is too small. */
-    .gh-editor-wordcount {
-        display: none;
-    }
+ .gh-editor-header-small .gh-editor-wordcount {
+    display: none;
  }

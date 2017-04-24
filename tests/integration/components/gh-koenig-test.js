@@ -2,7 +2,8 @@
 import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import {editorRendered, inputText} from '../../helpers/editor-helpers';
+import {editorRendered, testInput} from '../../helpers/editor-helpers';
+import sinon from 'sinon';
 
 describe.skip('Integration: Component: gh-koenig - General Editor Tests.', function () {
     setupComponentTest('gh-koenig', {
@@ -11,41 +12,45 @@ describe.skip('Integration: Component: gh-koenig - General Editor Tests.', funct
 
     beforeEach(function () {
         // set defaults
-        this.set('changeFired', false);
-        this.set('firstChangeFired', false);
+        this.set('onFirstChange', sinon.spy());
+        this.set('onChange', sinon.spy());
 
-        this.set('actions.onFirstChange', function () {
-            this.set('firstChangeFired', true);
+        this.set('wordcount', 0);
+        this.set('actions.wordcountDidChange', function (wordcount) {
+            this.set('wordcount', wordcount);
         });
 
-        this.set('actions.onChange', function () {
-            this.set('changeFired', true);
-        });
+        this.set('value', {
+            version: '0.3.1',
+            atoms: [],
+            markups: [],
+            cards: [],
+            sections: []});
 
-        this.set('wordCount', 0);
     });
 
     it('Check that events have fired', function (done) {
-        this.render(hbs`{{gh-koenig
-                            apiRoot='/todo'
-                            assetPath='/assets'
-                            containerSelector='.editor-holder'
-                            onChange=(action "onChange")
-                            onFirstChange=(action "onFirstChange")
-                            wordCount=wordCount
-                        }}`);
+         this.render(hbs`{{gh-koenig
+                                apiRoot='/todo'
+                                assetPath='/assets'
+                                containerSelector='.editor-holder'
+                                value=value
+                                onChange=(action onChange)
+                                onFirstChange=(action onFirstChange)
+                                wordcountDidChange=(action 'wordcountDidChange')
+                            }}`);
 
-        editorRendered()
-            .then(() => {
-                let {editor} = window;
-                editor.element.focus();
-                inputText(editor, 'this is a test.');
-                window.setTimeout(() => {
-                    expect(this.get('wordCount')).to.equal(5);
-                    expect(this.get('changeFired')).to.be.true;
-                    expect(this.get('firstChangeFired')).to.be.true;
+            editorRendered()
+                .then(() => {
+                    let {editor} = window;
+                    editor.element.focus();
+                    return testInput('abcd efg hijk lmnop', '<p>abcd efg hijk lmnop</p>', expect);
+                })
+                .then(() => {
+                    expect(this.get('onFirstChange').calledOnce).to.be.true;
+                    expect(this.get('onChange').calledOnce).to.be.true;
+                    expect(this.get('wordcount')).to.equal(4);
                     done();
-                }, 1100);
-            });
+                });
     });
 });
