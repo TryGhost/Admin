@@ -41,7 +41,7 @@ export default Mixin.create({
     notifications: injectService(),
     clock: injectService(),
     slugGenerator: injectService(),
-
+    wordCount: 0,
     cards: [], // for apps
     atoms: [], // for apps
     toolbar: [], // for apps
