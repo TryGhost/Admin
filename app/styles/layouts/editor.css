@@ -261,6 +261,8 @@
      padding:10px;
  }
 
- .gh-editor-header-small .gh-editor-wordcount {
-    display: none;
- }
+@media (max-width: 1200px) {
+    .gh-editor-wordcount {
+        display: none;
+    }
+}
