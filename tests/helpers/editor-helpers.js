@@ -29,6 +29,29 @@ export function titleRendered() {
     });
 }
 
+// replaces the title text content with HTML and returns once the HTML has been placed.
+// takes into account converting to plaintext.
+export function replaceTitleHTML(HTML) {
+        return Ember.Test.promise(function (resolve, reject) { // eslint-disable-line
+            let startTimestamp = Date.now();
+            let title = $('#gh-editor-title div');
+            title.html(HTML);
+            function checkTitle() {
+                if (!title[0].innerHTML.includes('<')) {
+                    return resolve();
+                } else {
+                    // timeout after 200ms
+                    if (Date.now() + 200 < startTimestamp) {
+                        return reject();
+                    } else {
+                        window.requestAnimationFrame(checkTitle);
+                    }
+                }
+            }
+            checkTitle();
+        });
+}
+
 // simulates text inputs into the editor, unfortunately the helper Ember helper functions
 // don't work on content editable so we have to manipuate the text input event manager
 // in mobiledoc-kit directly. This is a private API.
