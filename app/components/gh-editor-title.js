@@ -161,7 +161,7 @@ export default Component.extend({
             }
             let range = selection.getRangeAt(0); // get the actual range within the DOM.
             let cursorPositionOnScreen = range.getBoundingClientRect();
-            if (cursorPositionOnScreen.bottom === 0) {
+            if (!cursorPositionOnScreen || cursorPositionOnScreen.bottom === 0) {
                 cursorPositionOnScreen = range.getClientRects()[0];
             }
             let topOfEditor = editor.element.getBoundingClientRect().top;
