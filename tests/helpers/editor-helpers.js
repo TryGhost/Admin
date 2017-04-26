@@ -22,7 +22,7 @@ export function editorRendered() {
 export function titleRendered() {
     return Ember.Test.promise(function (resolve) { // eslint-disable-line
         function checkTitle() {
-            let title = $('#gh-editor-title div');
+            let title = $('#koenig-title-input div');
             if (title[0]) {
                 return resolve();
             } else {
@@ -36,7 +36,7 @@ export function titleRendered() {
 // replaces the title text content with HTML and returns once the HTML has been placed.
 // takes into account converting to plaintext.
 export function replaceTitleHTML(HTML) {
-    let el = findWithAssert('#gh-editor-title div');
+    let el = findWithAssert('#koenig-title-input div');
     run(() => el.innerHTML = HTML);
     return (window.wait || wait)();
 }
