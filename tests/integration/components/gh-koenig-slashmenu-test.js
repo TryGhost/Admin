@@ -70,7 +70,7 @@ describe('Integration: Component: gh-koenig-slashmenu', function () {
             });
     });
 
-    it.skip('ul tool', function (done) {
+    it('ul tool', function (done) {
         this.set('editorMenuIsOpen', function () {});
         this.set('editorMenuIsClosed', function () {});
 

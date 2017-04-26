@@ -19,7 +19,7 @@ Like Ghost, Mobiledoc-kit is still moving towards its 1.0 release - it still has
 
 ## Notes on development.
 The unit tests for this in-repo-addon are in the `/lib/gh-koenig/test-support` directory.
-The acceptance and integration tests are in the `/tests/acceptance/` and `/tests/integration` respectively.
+The acceptance and integration tests are in the `/tests/acceptance/` and `/tests/integration/` respectively.
 
 ## If you want to help out:
 
