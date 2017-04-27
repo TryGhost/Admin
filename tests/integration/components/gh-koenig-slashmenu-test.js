@@ -3,74 +3,65 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import {editorRendered, waitForRender, inputText, timeoutPromise} from '../../helpers/editor-helpers';
+import {
+    findEditor,
+    focusEditor,
+    inputText,
+    waitForRender,
+    EMPTY_DOC
+} from '../../helpers/editor-helpers';
 import $ from 'jquery';
 
 describe('Integration: Component: gh-koenig-slashmenu', function () {
     setupComponentTest('gh-koenig', {
         integration: true
     });
+
     beforeEach(function () {
-        this.set('value', {
-            version: '0.3.1',
-            atoms: [],
-            markups: [],
-            cards: [],
-            sections: []});
+        this.set('value', EMPTY_DOC);
     });
 
-    it('the slash menu appears on user input', function (done) {
+    it('shows menu when / is typed', async function () {
         this.render(hbs`{{gh-koenig
                             apiRoot='/todo'
                             assetPath='/assets'
                             containerSelector='.gh-koenig-container'
-                            value=value
+                            mobiledoc=value
                         }}`);
 
-        editorRendered()
-            .then(() => {
-                let {editor} = window;
-                editor.element.focus();
-                inputText(editor, '/');
-                return waitForRender('.gh-cardmenu');
-            })
-            .then(() => {
-                let cardMenu = $('.gh-cardmenu');
-                expect(cardMenu.children().length).to.equal(7);
-                done();
-            });
+        let editor = findEditor();
+        await focusEditor();
+        await inputText(editor, '/');
+        await waitForRender('.gh-cardmenu');
+
+        let cardMenu = $('.gh-cardmenu');
+        expect(cardMenu.children().length).to.equal(7);
     });
 
-    it('searches when a user types', function (done) {
+    it('filters tools when a user types', async function () {
         this.render(hbs`{{gh-koenig
                             apiRoot='/todo'
                             assetPath='/assets'
                             containerSelector='.gh-koenig-container'
-                            value=value
+                            mobiledoc=value
                         }}`);
 
-        editorRendered()
-            .then(() => {
-                let {editor} = window;
-                editor.element.focus();
-                inputText(editor, '/');
-                return waitForRender('.gh-cardmenu');
-            })
-            .then(() => {
-                let {editor} = window;
-                let cardMenu = $('.gh-cardmenu');
-                expect(cardMenu.children().length).to.equal(7);
-                inputText(editor, ' bul');
-                return timeoutPromise(500);
-            })
-            .then(() => {
-                let cardMenu = $('.gh-cardmenu');
-                expect(cardMenu.children().length).to.equal(1);
-                done();
-            });
+        let editor = findEditor();
+        await focusEditor();
+        await inputText(editor, '/');
+        await waitForRender('.gh-cardmenu');
+
+        let cardMenu = $('.gh-cardmenu');
+        expect(cardMenu.children().length).to.equal(7);
+
+        await inputText(editor, ' bul');
+        expect(cardMenu.children().length).to.equal(1);
     });
 
-    it.skip('ul tool', function (done) {
+    it('inserts card/markup when clicked');
+    it('inserts card/markup when enter is pressed');
+
+    it.skip('ul tool', async function () {
         this.set('editorMenuIsOpen', function () {});
         this.set('editorMenuIsClosed', function () {});
 
@@ -78,35 +69,23 @@ describe('Integration: Component: gh-koenig-slashmenu', function () {
                             apiRoot='/todo'
                             assetPath='/assets'
                             containerSelector='.gh-koenig-container'
-                            value=value
+                            mobiledoc=value
                             menuIsOpen=editorMenuIsOpen
                             menuIsClosed=editorMenuIsClosed
                         }}`);
 
-        editorRendered()
-            .then(() => {
-                let {editor} = window;
-                editor.element.focus();
-                inputText(editor, '/');
-                return waitForRender('.gh-cardmenu');
-            })
-            .then(() => {
-                let {editor} = window;
-                let cardMenu = $('.gh-cardmenu');
-                expect(cardMenu.children().length).to.equal(7);
-                inputText(editor, ' bul');
-                return timeoutPromise(500);
-            })
-            .then(() => {
-                $('.gh-cardmenu-card').click();
-                done();
-            });
-            // .then(() => {
-            //
-            // })
-            // .then(() => {
-            //     console.log(editor.element.innerHTML);
-            //     done();
-            // });
+        let editor = findEditor();
+        await focusEditor();
+        await inputText(editor, '/');
+        await waitForRender('.gh-cardmenu');
+
+        let cardMenu = $('.gh-cardmenu');
+        expect(cardMenu.children().length).to.equal(7);
+
+        await inputText(editor, ' bul');
+        expect(cardMenu.children().length).to.equal(1);
+
+        await click('.gh-cardmenu-card');
+        // TODO: check inner HTML
     });
 });

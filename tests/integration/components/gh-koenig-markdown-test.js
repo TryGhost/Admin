@@ -3,7 +3,11 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import {editorRendered, testInput, testInputTimeout} from '../../helpers/editor-helpers';
+import {
+    testEditorInput,
+    testEditorInputTimeout,
+    EMPTY_DOC
+} from '../../helpers/editor-helpers';
 
 describe('Integration: Component: gh-koenig', function () {
     setupComponentTest('gh-koenig', {
@@ -11,442 +15,268 @@ describe('Integration: Component: gh-koenig', function () {
     });
 
     beforeEach(function () {
-        this.set('value', {
-            version: '0.3.1',
-            atoms: [],
-            markups: [],
-            cards: [],
-            sections: []});
+        this.set('value', EMPTY_DOC);
     });
 
-    describe('Makerable markdown support.', function() {
-        it('plain text inputs (placebo)', function (done) {
+    describe('Makerable markdown support.', function () {
+        it('plain text inputs (placebo)', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('abcdef', '<p>abcdef</p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('abcdef', '<p>abcdef</p>', expect);
         });
 
         // bold
-        it('** bolds at start of line', function (done) {
+        it('** bolds at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('**test**', '<p><strong>test</strong></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('**test**', '<p><strong>test</strong></p>', expect);
         });
 
-        it('** bolds in a line', function (done) {
+        it('** bolds in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('123**test**', '<p>123<strong>test</strong></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('123**test**', '<p>123<strong>test</strong></p>', expect);
         });
 
-        it('__ bolds at start of line', function (done) {
+        it('__ bolds at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('__test__', '<p><strong>test</strong></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('__test__', '<p><strong>test</strong></p>', expect);
         });
 
-        it('__ bolds in a line', function (done) {
+        it('__ bolds in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('__test__', '<p><strong>test</strong></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('__test__', '<p><strong>test</strong></p>', expect);
         });
 
         // italic
-        it('* italicises at start of line', function (done) {
+        it('* italicises at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('*test*', '<p><em>test</em></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('*test*', '<p><em>test</em></p>', expect);
         });
 
-        it('* italicises in a line', function (done) {
+        it('* italicises in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('123*test*', '<p>123<em>test</em></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('123*test*', '<p>123<em>test</em></p>', expect);
         });
 
-        it('_ italicises at start of line', function (done) {
+        it('_ italicises at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('_test_', '<p><em>test</em></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('_test_', '<p><em>test</em></p>', expect);
         });
 
-        it('_ italicises in a line', function (done) {
+        it('_ italicises in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('123_test_', '<p>123<em>test</em></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('123_test_', '<p>123<em>test</em></p>', expect);
         });
 
         // strikethrough
-        it('~~ strikethroughs at start of line', function (done) {
+        it('~~ strikethroughs at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('~~test~~', '<p><s>test</s></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('~~test~~', '<p><s>test</s></p>', expect);
         });
-        it('~~ strikethroughs in a line', function (done) {
+        it('~~ strikethroughs in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('123~~test~~', '<p>123<s>test</s></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('123~~test~~', '<p>123<s>test</s></p>', expect);
         });
 
         // links
-        it('[]() creates a link at start of line', function (done) {
+        it('[]() creates a link at start of line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('[ghost](https://www.ghost.org/)', '<p><a href="https://www.ghost.org/">ghost</a></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput(
+                '[ghost](https://www.ghost.org/)',
+                '<p><a href="https://www.ghost.org/">ghost</a></p>',
+                expect);
         });
 
-        it('[]() creates a link in a line', function (done) {
+        it('[]() creates a link in a line', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('123[ghost](https://www.ghost.org/)', '<p>123<a href="https://www.ghost.org/">ghost</a></p>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput(
+                '123[ghost](https://www.ghost.org/)',
+                '<p>123<a href="https://www.ghost.org/">ghost</a></p>',
+                expect);
         });
     });
+
     describe('Block markdown support', function () {
-
         // headings
-        it('# creates an H1', function (done) {
+        it('# creates an H1', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('# ', '<h1><br></h1>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('# ', '<h1><br></h1>', expect);
         });
 
-        it('## creates an H2', function (done) {
+        it('## creates an H2', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('## ', '<h2><br></h2>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('## ', '<h2><br></h2>', expect);
         });
 
-        it('### creates an H3', function (done) {
+        it('### creates an H3', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('### ', '<h3><br></h3>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('### ', '<h3><br></h3>', expect);
         });
 
         // lists
-        it('* creates an UL', function (done) {
+        it('* creates an UL', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('* ', '<ul><li><br></li></ul>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('* ', '<ul><li><br></li></ul>', expect);
         });
 
-        it('- creates an UL', function (done) {
+        it('- creates an UL', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('- ', '<ul><li><br></li></ul>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('- ', '<ul><li><br></li></ul>', expect);
         });
 
-        it('1. creates an OL', function (done) {
+        it('1. creates an OL', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('1. ', '<ol><li><br></li></ol>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('1. ', '<ol><li><br></li></ol>', expect);
         });
 
         // quote
-        it('> creates an blockquote', function (done) {
+        it('> creates an blockquote', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInput('> ', '<blockquote><br></blockquote>', expect);
-                })
-                .then(() => {
-                    done();
-                });
+            await testEditorInput('> ', '<blockquote><br></blockquote>', expect);
         });
     });
 
     describe('Card markdown support.', function () {
-        it('![]() creates an image card', function (done) {
+        it('![]() creates an image card', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInputTimeout('![image of something](https://unsplash.it/200/300/?random)');
-                })
-                .then((value) => {
-                    expect(value).to.have.string('kg-card-image');
-                    done();
-                });
+            let value = await testEditorInputTimeout('![image of something](https://unsplash.it/200/300/?random)');
+            expect(value).to.have.string('kg-card-image');
         });
-        it('``` creates a markdown card.', function (done) {
+
+        it('``` creates a markdown card.', async function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
                                 containerSelector='.gh-koenig-container'
-                                value=value
+                                mobiledoc=value
                             }}`);
 
-            editorRendered()
-                .then(() => {
-                    let {editor} = window;
-                    editor.element.focus();
-                    return testInputTimeout('```some code```');
-                })
-                .then((value) => {
-                    expect(value).to.have.string('kg-card-markdown');
-                    done();
-                });
+            let value = await testEditorInputTimeout('```some code```');
+            expect(value).to.have.string('kg-card-markdown');
         });
     });
 });
