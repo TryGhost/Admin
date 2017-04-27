@@ -24,7 +24,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -44,7 +44,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -63,7 +63,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -82,7 +82,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -101,7 +101,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -121,7 +121,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -140,7 +140,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -159,7 +159,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -178,7 +178,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -198,7 +198,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -216,7 +216,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -236,7 +236,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -255,7 +255,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -277,7 +277,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -296,7 +296,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -315,7 +315,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -335,7 +335,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -354,7 +354,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -373,7 +373,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -393,7 +393,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -414,7 +414,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 
@@ -433,7 +433,7 @@ describe('Integration: Component: gh-koenig', function () {
             this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                             }}`);
 

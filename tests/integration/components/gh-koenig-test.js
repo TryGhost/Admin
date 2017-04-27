@@ -33,7 +33,7 @@ describe.skip('Integration: Component: gh-koenig - General Editor Tests.', funct
         this.render(hbs`{{gh-koenig
                                 apiRoot='/todo'
                                 assetPath='/assets'
-                                containerSelector='.editor-holder'
+                                containerSelector='.gh-koenig-container'
                                 value=value
                                 onChange=(action onChange)
                                 onFirstChange=(action onFirstChange)

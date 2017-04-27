@@ -23,7 +23,7 @@ describe('Integration: Component: gh-koenig-slashmenu', function () {
         this.render(hbs`{{gh-koenig
                             apiRoot='/todo'
                             assetPath='/assets'
-                            containerSelector='.editor-holder'
+                            containerSelector='.gh-koenig-container'
                             value=value
                         }}`);
 
@@ -45,7 +45,7 @@ describe('Integration: Component: gh-koenig-slashmenu', function () {
         this.render(hbs`{{gh-koenig
                             apiRoot='/todo'
                             assetPath='/assets'
-                            containerSelector='.editor-holder'
+                            containerSelector='.gh-koenig-container'
                             value=value
                         }}`);
 
@@ -77,7 +77,7 @@ describe('Integration: Component: gh-koenig-slashmenu', function () {
         this.render(hbs`{{gh-koenig
                             apiRoot='/todo'
                             assetPath='/assets'
-                            containerSelector='.editor-holder'
+                            containerSelector='.gh-koenig-container'
                             value=value
                             menuIsOpen=editorMenuIsOpen
                             menuIsClosed=editorMenuIsClosed

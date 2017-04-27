@@ -2,7 +2,7 @@
 @import "koenig-menu.css";
 @import "../ghost-editor/cardmenu.css";
 
-.editor-holder {
+.gh-koenig-container {
     height: 100%;
 }
 .gh-koenig {
