@@ -88,7 +88,9 @@
                     {{/gh-user-active}}
                 {{else}}
                     {{#gh-user-active user=user as |component|}}
-                        <li class="ember-view active user-list-item">{{partial 'user-list-item'}}</li>
+                        {{#if (is-equal session.user.id user.id)}}
+                            {{partial 'user-list-item'}}
+                        {{/if}}
                     {{/gh-user-active}}
                 {{/unless}}
             {{/each}}
