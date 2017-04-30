@@ -32,7 +32,7 @@ const GhTaskButton = Component.extend({
     buttonText: 'Save',
     runningText: reads('buttonText'),
     idleClass: '',
-    runningClass: '',
+    runningClass: 'gh-btn-blue',
     successText: 'Saved',
     successClass: 'gh-btn-green',
     failureText: 'Retry',
