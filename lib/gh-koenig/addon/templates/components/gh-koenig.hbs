@@ -5,7 +5,10 @@
 )}}
 
 <div class='gh-koenig'>
-    <div class='gh-koenig-surface' tabindex="{{tabindex}}" ondrop={{action "dropImage"}} ondragover={{action "dragOver"}} />
+    <div class='gh-koenig-surface'
+        tabindex="{{tabindex}}"
+        ondrop={{action "dropImage"}}
+        ondragover={{action "dragOver"}} />
 </div>
 
 {{#each emberCards as |card index|}}
@@ -21,28 +24,28 @@
             edit=(action "editCard")
             stopEdit=(action "stopEditingCard")
             editedCard=editedCard
-            resize=resizeEvent
             deleteCard=(action "deleteCard")
         }}
     {{/ember-wormhole}}
 {{/each}}
 
+{{!-- Popup formatting toolbar when text is selected --}}
 {{koenig-toolbar
     editor=editor
     assetPath=assetPath
     containerSelector=containerSelector
     isTouch=isTouch
-    resize=resizeEvent
 }}
+
 {{koenig-slash-menu
     editor=editor
     assetPath=assetPath
     containerSelector=containerSelector
-    isTouch=isTouch
     menuIsOpen=(action "menuOpened")
     menuIsClosed=(action "menuClosed")
-    resize=resizeEvent
+    isTouch=isTouch
 }}
+
 {{koenig-plus-menu
     editor=editor
     assetPath=assetPath
@@ -51,5 +54,4 @@
     menuIsOpen=(action "menuOpened")
     menuIsClosed=(action "menuClosed")
     isTouch=isTouch
-    resize=resizeEvent
 }}
