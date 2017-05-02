@@ -579,6 +579,10 @@ export default Mixin.create({
 
         setWordcount(wordcount) {
             this.set('wordcount', wordcount);
+        },
+
+        toggleAutoNav() {
+            this.get('application').send('toggleAutoNav');
         }
     }
 });

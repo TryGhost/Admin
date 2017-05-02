@@ -6,7 +6,7 @@ export default OneWayInput.extend(TextInputMixin, {
 
     // prevent default TAB behaviour if we have a keyEvent for it
     keyDown(event) {
-        if (this.get('keyEvents.9')) {
+        if (event.keyCode === 9 && this.get('keyEvents.9')) {
             event.preventDefault();
         }
 
