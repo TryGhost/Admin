@@ -136,8 +136,8 @@ module.exports = function (defaults) {
                 import: ['lib/password-generator.js']
             },
             'simplemde': {
-                srcDir: 'dist',
-                import: ['simplemde.min.js', 'simplemde.min.css']
+                srcDir: 'debug',
+                import: ['simplemde.js', 'simplemde.css']
             }
         },
         'ember-cli-selectize': {
