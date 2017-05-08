@@ -233,11 +233,11 @@ export default Component.extend({
     },
 
     willDestroyElement() {
-        this._super(...arguments);
-
         if (this.get('_isSplitScreen')) {
             this._disconnectSplitPreview();
         }
+
+        this._super(...arguments);
     },
 
     actions: {
@@ -320,7 +320,7 @@ export default Component.extend({
         // put the toolbar/statusbar elements back so that SimpleMDE doesn't throw
         // errors when it tries to remove them
         destroyEditor() {
-            let container = this.$();
+            let container = this.$('.gh-markdown-editor-pane');
             this._toolbar.appendTo(container);
             this._statusbar.appendTo(container);
             this._editor = null;
