@@ -2,7 +2,6 @@
     tagName="section"
     class="gh-editor gh-view"
     navIsClosed=navIsClosed
-    toggleAutoNav=(action "toggleAutoNav")
     as |editor|
 }}
     <header class="gh-editor-header {{editor.headerClass}}">
@@ -41,6 +40,7 @@
         autofocus=shouldFocusEditor
         uploadedImageUrls=editor.uploadedImageUrls
         mobiledoc=(readonly model.scratch)
+        isFullScreen=editor.isFullScreen
         onChange=(action "updateScratch")
         onFullScreen=(action editor.toggleFullScreen)
         showMarkdownHelp=(route-action "toggleMarkdownHelpModal")

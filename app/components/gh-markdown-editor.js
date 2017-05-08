@@ -24,6 +24,7 @@ export default Component.extend({
 
     // Public attributes
     autofocus: false,
+    isFullScreen: false,
     mobiledoc: null,
     options: null,
     placeholder: '',
@@ -97,6 +98,17 @@ export default Component.extend({
         // eslint-disable-next-line ember-suave/prefer-destructuring
         let markdown = mobiledoc.cards[0][1].markdown;
         this.set('markdown', markdown);
+
+        // toggle fullscreen button on/off
+        if (this._editor) {
+            let fullScreenButton = this._editor.toolbarElements.fullscreen;
+
+            if (this.get('isFullScreen')) {
+                fullScreenButton.classList.add('active');
+            } else {
+                fullScreenButton.classList.remove('active');
+            }
+        }
     },
 
     _insertImages(urls) {

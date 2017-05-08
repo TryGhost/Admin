@@ -9,7 +9,10 @@ const {debounce} = run;
 
 export default Component.extend({
 
-    classNameBindings: ['isDraggedOver:-drag-over'],
+    classNameBindings: [
+        'isDraggedOver:-drag-over',
+        'isFullScreen:gh-editor-fullscreen'
+    ],
 
     // Public attributes
     navIsClosed: false,
@@ -20,10 +23,8 @@ export default Component.extend({
     imageExtensions: IMAGE_EXTENSIONS,
     imageMimeTypes: IMAGE_MIME_TYPES,
     isDraggedOver: false,
+    isFullScreen: false,
     uploadedImageUrls: null,
-
-    // Closure actions
-    toggleAutoNav() {},
 
     // Private
     _dragCounter: 0,
@@ -128,22 +129,11 @@ export default Component.extend({
     willDestroyElement() {
         this._super(...arguments);
         window.removeEventListener('resize', this._onResizeHandler);
-
-        // reset fullscreen mode if it was turned on
-        if (this._fullScreenEnabled) {
-            this.toggleAutoNav();
-        }
     },
 
     actions: {
         toggleFullScreen() {
-            if (!this._fullScreenWasToggled) {
-                this._fullScreenEnabled = !this.get('isNavOpen');
-                this._fullScreenWasToggled = true;
-            } else {
-                this._fullScreenEnabled = !this._fullScreenEnabled;
-            }
-            this.toggleAutoNav();
+            this.toggleProperty('isFullScreen');
         },
 
         uploadComplete(uploads) {
