@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {editorRendered, testInput} from '../../helpers/editor-helpers';
 import sinon from 'sinon';
 
-describe.skip('Integration: Component: gh-koenig - General Editor Tests.', function () {
+describe('Integration: Component: gh-koenig - General Editor Tests.', function () {
     setupComponentTest('gh-koenig', {
         integration: true
     });
@@ -48,7 +48,7 @@ describe.skip('Integration: Component: gh-koenig - General Editor Tests.', funct
             })
             .then(() => {
                 expect(this.get('onFirstChange').calledOnce).to.be.true;
-                expect(this.get('onChange').calledOnce).to.be.true;
+                expect(this.get('onChange').called).to.be.true;
                 expect(this.get('wordcount')).to.equal(4);
                 done();
             });

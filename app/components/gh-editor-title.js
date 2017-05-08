@@ -22,7 +22,7 @@ export default Component.extend({
     didRender() {
         let editor = this.get('editor');
 
-        let title = this.$('.gh-editor-title');
+        let title = this.$('.js-gh-editor-title');
         if (!this.get('val')) {
             title.addClass('no-content');
         } else if (this.get('val') !== this.get('_cachedVal')) {
@@ -142,7 +142,7 @@ export default Component.extend({
     },
     willDestroyElement() {
         this.get('_mutationObserver').disconnect();
-        this.$('.gh-editor-title')[0].onkeydown = null;
+        this.$('.js-gh-editor-title')[0].onkeydown = null;
         let editor = this.get('editor');
         if (editor) {
             editor.element.removeEventListener('keydown', this.get('editorKeyDownListener'));
@@ -161,7 +161,7 @@ export default Component.extend({
             }
             let range = selection.getRangeAt(0); // get the actual range within the DOM.
             let cursorPositionOnScreen = range.getBoundingClientRect();
-            if (cursorPositionOnScreen.bottom === 0) {
+            if (!cursorPositionOnScreen || cursorPositionOnScreen.bottom === 0) {
                 cursorPositionOnScreen = range.getClientRects()[0];
             }
             let topOfEditor = editor.element.getBoundingClientRect().top;
@@ -186,7 +186,7 @@ export default Component.extend({
     },
     // gets the character in the last line of the title that best matches the editor
     getOffsetAtPosition(horizontalOffset) {
-        let [title] = this.$('.gh-editor-title')[0].childNodes;
+        let [title] = this.$('.js-gh-editor-title')[0].childNodes;
         if (!title || !title.textContent) {
             return 0;
         }
@@ -214,7 +214,7 @@ export default Component.extend({
     // In Chrome it ignores the new range and places the cursor at the start of the element.
     // in Firefox it places the cursor at the correct place but refuses to accept keyboard input.
     setCursorAtOffset(offset) {
-        let [title] = this.$('.gh-editor-title');
+        let [title] = this.$('.js-gh-editor-title');
         title.focus();
         let selection = window.getSelection();
 
