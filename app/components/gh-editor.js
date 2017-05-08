@@ -24,11 +24,11 @@ export default Component.extend({
     imageMimeTypes: IMAGE_MIME_TYPES,
     isDraggedOver: false,
     isFullScreen: false,
+    isSplitScreen: false,
     uploadedImageUrls: null,
 
     // Private
     _dragCounter: 0,
-    _fullScreenEnabled: false,
     _navIsClosed: false,
     _onResizeHandler: null,
     _viewActionsWidth: 190,
@@ -50,7 +50,6 @@ export default Component.extend({
         let navIsClosed = this.get('navIsClosed');
 
         if (navIsClosed !== this._navIsClosed) {
-            this._fullScreenEnabled = navIsClosed;
             run.scheduleOnce('afterRender', this, this._setHeaderClass);
         }
 
@@ -59,13 +58,19 @@ export default Component.extend({
 
     _setHeaderClass() {
         let $editorTitle = this.$('.gh-editor-title');
+        let smallHeaderClass = 'gh-editor-header-small';
+
+        if (this.get('isSplitScreen')) {
+            this.set('headerClass', smallHeaderClass);
+            return;
+        }
 
         if ($editorTitle.length > 0) {
             let boundingRect = $editorTitle[0].getBoundingClientRect();
             let maxRight = window.innerWidth - this._viewActionsWidth;
 
             if (boundingRect.right >= maxRight) {
-                this.set('headerClass', 'gh-editor-header-small');
+                this.set('headerClass', smallHeaderClass);
                 return;
             }
         }
@@ -134,6 +139,12 @@ export default Component.extend({
     actions: {
         toggleFullScreen() {
             this.toggleProperty('isFullScreen');
+            run.scheduleOnce('afterRender', this, this._setHeaderClass);
+        },
+
+        toggleSplitScreen() {
+            this.toggleProperty('isSplitScreen');
+            run.scheduleOnce('afterRender', this, this._setHeaderClass);
         },
 
         uploadComplete(uploads) {
