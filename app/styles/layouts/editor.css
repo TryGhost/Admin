@@ -220,6 +220,14 @@
 /* SimpleMDE editor
 /* ---------------------------------------------------------- */
 
+.gh-editor-title {
+    padding: 0;
+}
+
+.gh-editor-title:placeholder {
+    font-weight: bold;
+}
+
 .gh-editor-container {
     position: relative;
 }
