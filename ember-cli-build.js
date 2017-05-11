@@ -132,6 +132,15 @@ module.exports = function (defaults) {
             'jquery-deparam': {
                 import: ['jquery-deparam.js']
             },
+            'markdown-it': {
+                import: ['dist/markdown-it.js']
+            },
+            'markdown-it-footnote': {
+                import: ['dist/markdown-it-footnote.js']
+            },
+            'markdown-it-mark': {
+                import: ['dist/markdown-it-mark.js']
+            },
             'password-generator': {
                 import: ['lib/password-generator.js']
             },
