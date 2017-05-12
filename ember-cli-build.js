@@ -166,6 +166,11 @@ module.exports = function (defaults) {
     // 'dem Scripts
     app.import('bower_components/validator-js/validator.js');
     app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
+    app.import('bower_components/showdown-ghost/src/showdown.js');
+    app.import('bower_components/showdown-ghost/src/extensions/ghostgfm.js');
+    app.import('bower_components/showdown-ghost/src/extensions/ghostimagepreview.js');
+    app.import('bower_components/showdown-ghost/src/extensions/footnotes.js');
+    app.import('bower_components/showdown-ghost/src/extensions/highlight.js');
     app.import('bower_components/keymaster/keymaster.js');
     app.import('bower_components/devicejs/lib/device.js');
 
