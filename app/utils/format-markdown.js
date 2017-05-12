@@ -1,5 +1,10 @@
-/* global markdownit, markdownitFootnote, markdownitMark, html_sanitize*/
+/* global html_sanitize */
 import cajaSanitizers from './caja-sanitizers';
+import markdownit from 'npm:markdown-it';
+import markdownitFootnote from 'npm:markdown-it-footnote';
+import markdownitLazyHeaders from 'npm:markdown-it-lazy-headers';
+import markdownitMark from 'npm:markdown-it-mark';
+import markdownitNamedHeaders from 'npm:markdown-it-named-headers';
 
 // eslint-disable-next-line new-cap
 let md = markdownit({
@@ -8,7 +13,19 @@ let md = markdownit({
     linkify: true
 })
 .use(markdownitFootnote)
-.use(markdownitMark);
+.use(markdownitLazyHeaders)
+.use(markdownitMark)
+.use(markdownitNamedHeaders, {
+    // match legacy Showdown IDs otherwise default is github style dasherized
+    slugify(inputString, usedHeaders) {
+        let slug = inputString.replace(/[^\w]/g, '').toLowerCase();
+        if (usedHeaders[slug]) {
+            usedHeaders[slug]++;
+            slug += usedHeaders[slug];
+        }
+        return slug;
+    }
+});
 
 export default function formatMarkdown(_markdown) {
     let markdown = _markdown || '';
@@ -24,9 +41,7 @@ export default function formatMarkdown(_markdown) {
         '<pre class="iframe-embed-placeholder">Embedded iFrame</pre>');
 
     // sanitize html
-    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     escapedhtml = html_sanitize(escapedhtml, cajaSanitizers.url, cajaSanitizers.id);
-    // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 
     return escapedhtml;
 }
