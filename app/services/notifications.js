@@ -118,12 +118,13 @@ export default Service.extend({
         options.key = ['api-error', options.key].compact().join('.');
 
         let msg = options.defaultErrorText || 'There was a problem on the server, please try again.';
+        let htmlRegex = new RegExp('html>');
 
-        if (resp instanceof String) {
+        if (resp instanceof String && !htmlRegex.test(resp)) {
             msg = resp;
-        } else if (!isBlank(get(resp, 'detail'))) {
+        } else if (!isBlank(get(resp, 'detail')) && !htmlRegex.test(get(resp, 'detail'))) {
             msg = resp.detail;
-        } else if (!isBlank(get(resp, 'message'))) {
+        } else if (!isBlank(get(resp, 'message')) && !htmlRegex.test(get(resp, 'message'))) {
             msg = resp.message;
         }
 
