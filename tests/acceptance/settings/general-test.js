@@ -255,8 +255,9 @@ describe('Acceptance: Settings - General', function () {
             triggerEvent('#settings-general input[name="general[facebook]"]', 'blur');
 
             andThen(() => {
+                expect(find('#settings-general input[name="general[facebook]"]').val()).to.be.equal('https://www.facebook.com/ab99');
                 expect(find('#settings-general .error .response').text().trim(), 'inline validation response')
-                    .to.equal('Your Page name is not a valid Facebook Page name');
+                    .to.equal('');
             });
 
             fillIn('#settings-general input[name="general[facebook]"]', 'page/ab99');
