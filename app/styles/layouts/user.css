@@ -87,7 +87,7 @@
 }
 
 .user-profile textarea {
-    min-width: 240px;
+    min-width: 100%;
 }
 
 
