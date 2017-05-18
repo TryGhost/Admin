@@ -153,6 +153,7 @@ export default Component.extend({
     _uploadFiles: task(function* (files) {
         let uploads = [];
 
+        this._reset();
         this.onStart();
 
         // NOTE: for...of loop results in a transpilation that errors in Edge,
@@ -269,10 +270,11 @@ export default Component.extend({
     },
 
     _reset() {
-        this.set('errors', null);
+        this.set('errors', []);
         this.set('totalSize', 0);
         this.set('uploadedSize', 0);
         this.set('uploadPercentage', 0);
+        this.set('uploadUrls', []);
         this._uploadTrackers = [];
     },
 

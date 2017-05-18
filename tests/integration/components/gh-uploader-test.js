@@ -118,6 +118,26 @@ describe('Integration: Component: gh-uploader', function() {
             expect(result[1].url).to.equal('/content/images/test.png');
         });
 
+        it('onComplete only passes results for last upload', async function () {
+            this.set('uploadsFinished', sinon.spy());
+
+            this.render(hbs`{{#gh-uploader files=files onComplete=(action uploadsFinished)}}{{/gh-uploader}}`);
+            this.set('files', [
+                createFile(['test'], {name: 'file1.png'})
+            ]);
+            await wait();
+
+            this.set('files', [
+                createFile(['test'], {name: 'file2.png'})
+            ]);
+
+            await wait();
+
+            let [results] = this.get('uploadsFinished').getCall(1).args;
+            expect(results.length).to.equal(1);
+            expect(results[0].fileName).to.equal('file2.png');
+        });
+
         it('doesn\'t allow new files to be set whilst uploading', async function () {
             let errorSpy = sinon.spy(console, 'error');
             stubSuccessfulUpload(server, 100);
