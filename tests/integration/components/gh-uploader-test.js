@@ -162,6 +162,27 @@ describe('Integration: Component: gh-uploader', function() {
             errorSpy.restore();
         });
 
+        it('yields isUploading whilst upload is in progress', async function () {
+            stubSuccessfulUpload(server, 200);
+
+            this.render(hbs`
+            {{#gh-uploader files=files as |uploader|}}
+                {{#if uploader.isUploading}}
+                    <div class="is-uploading-test"></div>
+                {{/if}}
+            {{/gh-uploader}}`);
+
+            this.set('files', [createFile(), createFile()]);
+
+            run.later(() => {
+                expect(find('.is-uploading-test')).to.exist;
+            }, 100);
+
+            await wait();
+
+            expect(find('.is-uploading-test')).to.not.exist;
+        });
+
         it('yields progressBar component with total upload progress', async function () {
             stubSuccessfulUpload(server, 200);
 
