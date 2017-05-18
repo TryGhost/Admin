@@ -11,6 +11,7 @@ import $ from 'jquery';
 import startApp from '../../helpers/start-app';
 import destroyApp from '../../helpers/destroy-app';
 import {invalidateSession, authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 
 describe('Acceptance: Settings - General', function () {
     let application;
@@ -110,7 +111,8 @@ describe('Acceptance: Settings - General', function () {
             await fillIn(testSelector('title-input'), 'CMD-S Test');
             await triggerEvent('.gh-app', 'keydown', {
                 keyCode: 83, // s
-                metaKey: true
+                metaKey: ctrlOrCmd === 'command',
+                ctrlKey: ctrlOrCmd === 'ctrl'
             });
             // we've already saved in this test so there's no on-screen indication
             // that we've had another save, check the request was fired instead
