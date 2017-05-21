@@ -57,6 +57,25 @@
                 <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if timezoneOpen "Close" "Expand"}}</span></button>
             </div>
         </div>
+        <div class="gh-setting">
+            <div class="gh-setting-content">
+                <div class="gh-setting-title">Language</div>
+                <div class="gh-setting-desc">Ghost's frontend and theme language</div>
+                {{#liquid-if defaultLangOpen}}
+                <div class="gh-setting-content-extended">
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="default_lang"}}
+                        {{gh-input model.default_lang type="text" focusOut=(action "validate" "default_lang" target=model) update=(action (mut model.default_lang)) data-test-default_lang-input=true}}
+                        {{gh-error-message errors=model.errors property="default_lang"}}
+                        <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong><br>
+                        (click on the <strong>"Save settings"</strong> button above, and <strong>restart</strong> Ghost to activate the new language)</p>
+                    {{/gh-form-group}}
+                </div>
+                {{/liquid-if}}
+            </div>
+            <div class="gh-setting-action">
+                <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "defaultLangOpen" this)}} data-test-toggle-default-lang><span>{{if defaultLangOpen "Close" "Expand"}}</span></button>
+            </div>
+        </div>
 
         <div class="gh-setting-header">Publication identity</div>
         <div class="gh-setting" data-test-setting="icon">
