@@ -63,9 +63,9 @@
                 <div class="gh-setting-desc">Ghost's frontend and theme language</div>
                 {{#liquid-if defaultLangOpen}}
                 <div class="gh-setting-content-extended">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="default_lang"}}
-                        {{gh-input model.default_lang type="text" focusOut=(action "validate" "default_lang" target=model) update=(action (mut model.default_lang)) data-test-default_lang-input=true}}
-                        {{gh-error-message errors=model.errors property="default_lang"}}
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="defaultLang"}}
+                        {{gh-input model.defaultLang type="text" focusOut=(action "validate" "defaultLang" target=model) update=(action (mut model.defaultLang)) data-test-default-lang-input=true}}
+                        {{gh-error-message errors=model.errors property="defaultLang"}}
                         <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong><br>
                         (click on the <strong>"Save settings"</strong> button above, and <strong>restart</strong> Ghost to activate the new language)</p>
                     {{/gh-form-group}}
