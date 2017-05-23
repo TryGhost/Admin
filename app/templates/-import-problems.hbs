@@ -1,13 +1,17 @@
 {{#if importProblems}}
-<h3 style="color: orange"> Warnings </h3>
-Your import was successful. Warnings show you where Ghost had problems importing certain entries.
 
-<table class="table" style="max-width: 700px">
+<div style="margin-top: 20px;">
+    <p style="font-weight: 500;">Your import was successful ✅ </p>
+
+    <h4 style="color: orange"> Warnings </h4>
+</div>
+
+<table class="table" style="overflow: hidden; display: inline-block;">
 {{#each importProblems as |problem|}}
-    <tr>
-        <td style="max-width: 700px">
+    <tr style="display: inline-block; max-width: 100%;">
+        <td style="display: inline-block; max-width: 100%;">
             {{problem.help}}: {{problem.message}}
-            <pre style="font-size: 10px">{{problem.context}}</pre>
+            <pre style="font-size: 10px; overflow-x: auto; display: inline-block; max-width: 100%;">{{problem.context}}</pre>
         </td>
     </tr>
 {{/each}}

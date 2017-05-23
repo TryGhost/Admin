@@ -1,14 +1,17 @@
 {{#if importErrors}}
-<h3 style="color: red"> Errors </h3>
 
-Your import was not successful. Here is why:
+<div style="margin-top: 20px;">
+    <p style="font-weight: 500;">Your import was not successful ⛔ </p>
 
-<table class="table" style="max-width: 700px">
+    <h4 style="color: red"> Errors </h4>
+</div>
+
+<table class="table" style="overflow: hidden; display: inline-block;">
 {{#each importErrors as |error|}}
-    <tr>
-        <td style="max-width: 700px">
+    <tr style="display: inline-block; max-width: 100%;">
+        <td style="display: inline-block; max-width: 100%;">
             {{error.message}}
-            <pre>{{error.context}}</pre>
+            <pre style="font-size: 10px; overflow-x: auto; display: inline-block; max-width: 100%;">{{error.context}}</pre>
         </td>
     </tr>
 {{/each}}
