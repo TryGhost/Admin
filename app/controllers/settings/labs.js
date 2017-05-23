@@ -13,6 +13,7 @@ const {Promise} = RSVP;
 export default Controller.extend({
     uploadButtonText: 'Import',
     importErrors: '',
+    importProblems: '',
     submitting: false,
     showDeleteAllModal: false,
 
@@ -87,6 +88,7 @@ export default Controller.extend({
 
             this.set('uploadButtonText', 'Importing');
             this.set('importErrors', '');
+            this.set('importProblems', '');
 
             return this._validate(file).then(() => {
                 formData.append('importfile', file);
@@ -98,8 +100,12 @@ export default Controller.extend({
                     contentType: false,
                     processData: false
                 });
-            }).then(() => {
+            }).then((response) => {
                 let store = this.get('store');
+
+                if (response.problems) {
+                  this.set('importProblems', response.problems);
+                }
 
                 // Clear the store, so that all the new data gets fetched correctly.
                 store.unloadAll();

@@ -1,0 +1,15 @@
+{{#if importProblems}}
+<h3 style="color: orange"> Warnings </h3>
+Your import was successful. Warnings show you where Ghost had problems importing certain entries.
+
+<table class="table" style="max-width: 700px">
+{{#each importProblems as |problem|}}
+    <tr>
+        <td style="max-width: 700px">
+            {{problem.help}}: {{problem.message}}
+            <pre style="font-size: 10px">{{problem.context}}</pre>
+        </td>
+    </tr>
+{{/each}}
+</table>
+{{/if}}

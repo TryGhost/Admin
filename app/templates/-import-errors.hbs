@@ -1,7 +1,16 @@
 {{#if importErrors}}
-<table class="table">
+<h3 style="color: red"> Errors </h3>
+
+Your import was not successful. Here is why:
+
+<table class="table" style="max-width: 700px">
 {{#each importErrors as |error|}}
-    <tr><td>{{error.message}}</td></tr>
+    <tr>
+        <td style="max-width: 700px">
+            {{error.message}}
+            <pre>{{error.context}}</pre>
+        </td>
+    </tr>
 {{/each}}
 </table>
 {{/if}}
