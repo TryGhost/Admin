@@ -104,7 +104,7 @@ export default Controller.extend({
                 let store = this.get('store');
 
                 if (response.problems) {
-                  this.set('importProblems', response.problems);
+                    this.set('importProblems', response.problems);
                 }
 
                 // Clear the store, so that all the new data gets fetched correctly.
