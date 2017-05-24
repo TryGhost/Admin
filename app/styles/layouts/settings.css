@@ -15,7 +15,6 @@
 
 .gh-setting-content {
     width: 100%;
-    max-width: 635px;
     margin: 0 50px 0 0;
 }
 
@@ -262,7 +261,17 @@
     }
 }
 
+.gh-setting-content-importer .warning {
+    color: var(--orange);
+}
 
+.gh-setting-content-importer .error {
+    color: var(--red);
+}
+
+.gh-setting-content-importer > pre {
+    font-size: 10px;
+}
 /* Themes
 /* ---------------------------------------------------------- */
 

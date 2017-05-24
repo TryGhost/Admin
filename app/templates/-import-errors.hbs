@@ -1,19 +1,14 @@
 {{#if importErrors}}
+    <div class="gh-setting">
+        <div class="gh-setting-content gh-setting-content-importer">
+            <h4 class="error">Import Error</h4>
+            <p class="gh-setting-entry-meta">Your import was not successful ⛔ </p>
 
-<div style="margin-top: 20px;">
-    <p style="font-weight: 500;">Your import was not successful ⛔ </p>
-
-    <h4 style="color: red"> Errors </h4>
-</div>
-
-<table class="table" style="overflow: hidden; display: inline-block;">
-{{#each importErrors as |error|}}
-    <tr style="display: inline-block; max-width: 100%;">
-        <td style="display: inline-block; max-width: 100%;">
-            {{error.message}}
-            <pre style="font-size: 10px; overflow-x: auto; display: inline-block; max-width: 100%;">{{error.context}}</pre>
-        </td>
-    </tr>
-{{/each}}
-</table>
+            {{#each importErrors as |error|}}
+                <p>{{error.message}}</p>
+                <p>Offending entry:</p>
+                <pre>{{error.context}}</pre>
+            {{/each}}
+        </div>
+    </div>
 {{/if}}

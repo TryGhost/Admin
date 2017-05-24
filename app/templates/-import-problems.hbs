@@ -1,19 +1,14 @@
 {{#if importProblems}}
+    <div class="gh-setting">
+        <div class="gh-setting-content gh-setting-content-importer">
+            <h4 class="warning">Import Warnings</h4>
+            <p class="gh-setting-entry-meta">Your import was successful ✅ </p>
 
-<div style="margin-top: 20px;">
-    <p style="font-weight: 500;">Your import was successful ✅ </p>
-
-    <h4 style="color: orange"> Warnings </h4>
-</div>
-
-<table class="table" style="overflow: hidden; display: inline-block;">
-{{#each importProblems as |problem|}}
-    <tr style="display: inline-block; max-width: 100%;">
-        <td style="display: inline-block; max-width: 100%;">
-            {{problem.help}}: {{problem.message}}
-            <pre style="font-size: 10px; overflow-x: auto; display: inline-block; max-width: 100%;">{{problem.context}}</pre>
-        </td>
-    </tr>
-{{/each}}
-</table>
+            {{#each importProblems as |problem|}}
+                <p>{{problem.help}}: {{problem.message}}</p>
+                <p>Offending entry:</p>
+                <pre>{{problem.context}}</pre>
+            {{/each}}
+        </div>
+    </div>
 {{/if}}
