@@ -128,7 +128,6 @@ export default Controller.extend({
                     notifications.showNotification('Import successful.', {key: 'import.upload.success'});
                 });
             }).catch((response) => {
-                // TODO: this probably won't work - needs testing
                 if (isUnsupportedMediaTypeError(response)) {
                     this.set('importErrors', [response]);
                     return;

@@ -35,9 +35,11 @@
                             {{#if error.help}}{{error.help}}: {{/if}}{{error.message}}
                         </p>
 
-                        <div class="gh-import-error-entry">
-                            <pre>{{error.context}}</pre>
-                        </div>
+                        {{#if error.context}}
+                            <div class="gh-import-error-entry">
+                                <pre>{{error.context}}</pre>
+                            </div>
+                        {{/if}}
                     </div>
                 {{/each}}
             </div>
