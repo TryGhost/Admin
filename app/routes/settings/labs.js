@@ -20,9 +20,9 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
         return this.get('settings').reload();
     },
 
-    actions: {
-        willTransition() {
-            this.get('controller').reset();
+    resetController(controller, isExiting) {
+        if (isExiting) {
+            controller.reset();
         }
     }
 });
