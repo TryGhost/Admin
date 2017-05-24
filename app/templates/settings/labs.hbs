@@ -19,8 +19,29 @@
             </div>
         </div>
 
-        {{partial "import-problems"}}
-        {{partial "import-errors"}}
+        {{#if importErrors}}
+            <div class="gh-import-errors {{if importSuccessful "gh-import-errors-warning"}}">
+                <div class="gh-import-errors-title">
+                    {{#if importSuccessful}}
+                        Import successful with warnings
+                    {{else}}
+                        Import failed
+                    {{/if}}
+                </div>
+
+                {{#each importErrors as |error|}}
+                    <div class="gh-import-error">
+                        <p class="gh-import-error-message">
+                            {{#if error.help}}{{error.help}}: {{/if}}{{error.message}}
+                        </p>
+
+                        <div class="gh-import-error-entry">
+                            <pre>{{error.context}}</pre>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
 
         <div class="gh-setting">
             <div class="gh-setting-content">
