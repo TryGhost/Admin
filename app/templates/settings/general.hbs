@@ -66,8 +66,7 @@
                     {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="defaultLang"}}
                         {{gh-input model.defaultLang type="text" focusOut=(action "validate" "defaultLang" target=model) update=(action (mut model.defaultLang)) data-test-default-lang-input=true}}
                         {{gh-error-message errors=model.errors property="defaultLang"}}
-                        <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong><br>
-                        (click on the <strong>"Save settings"</strong> button above, and <strong>restart</strong> Ghost to activate the new language)</p>
+                        <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong></p>
                     {{/gh-form-group}}
                 </div>
                 {{/liquid-if}}
