@@ -508,6 +508,17 @@ body > .ember-view:not(.default-liquid-destination) {
     letter-spacing: 0.4px;
 }
 
+.gh-canvas-title span {
+    display: inline-block;
+    height: 1.2em;
+    vertical-align: baseline;
+}
+
+.gh-canvas-title svg {
+    height: 0.6em;
+    margin: 0 10px;
+}
+
 .view-header {
     flex-shrink: 0;
     display: flex;
