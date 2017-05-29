@@ -508,6 +508,10 @@ body > .ember-view:not(.default-liquid-destination) {
     letter-spacing: 0.4px;
 }
 
+.gh-canvas-title a {
+    color: var(--darkgrey);
+}
+
 .gh-canvas-title span {
     display: inline-block;
     height: 1.2em;
