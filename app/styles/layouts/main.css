@@ -481,7 +481,7 @@ body > .ember-view:not(.default-liquid-destination) {
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 2.9vw 4vw 3vw 4vw;
+    padding: 20px 4vw 3vw 4vw;
     margin: 0 auto;
     max-width: 1200px;
 }
