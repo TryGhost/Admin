@@ -26,8 +26,8 @@ function getSrcRange(content, index) {
             replacement.start = content.indexOf(']', images[index].index) + 1;
             replacement.end = replacement.start;
         } else {
-            replacement.start = content.indexOf('(', images[index].index) + 1;
-            replacement.end = replacement.start + images[index][2].length;
+            replacement.end = images[index].index + images[index][0].length - 1;
+            replacement.start = content.lastIndexOf('(', replacement.end) + 1;
         }
         return replacement;
     }
