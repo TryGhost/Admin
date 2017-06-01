@@ -17,13 +17,19 @@
 
 <div class="modal-body">
     {{#if theme}}
-        {{#if validationWarnings}}
-            <ul class="theme-validation-errors">
+        {{#if hasWarningsOrErrors}}
+             <ul class="theme-validation-errors">
                 <li>
                     <p>
-                        "{{themeName}}" uploaded successfully but some warnings were generated...
+                        "{{themeName}}" uploaded successfully but some warnings/errors were detected.
+                        You are still able to use and activate the theme. Here is your report...
                     </p>
                 </li>
+
+                {{#each validationErrors as |error|}}
+                    {{gh-theme-error-li error=error}}
+                {{/each}}
+
                 {{#each validationWarnings as |error|}}
                     {{gh-theme-error-li error=error}}
                 {{/each}}

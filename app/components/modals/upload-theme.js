@@ -105,6 +105,14 @@ export default ModalComponent.extend({
                 this.set('validationWarnings', get(theme, 'warnings'));
             }
 
+            // Ghost differentiates between errors and fatal errors
+            // You can't activate a theme with fatal errors, but with errors.
+            if (get(theme, 'errors.length') > 0) {
+                this.set('validationErrors', get(theme, 'errors'));
+            }
+
+            this.set('hasWarningsOrErrors', this.get('validationErrors').length || this.get('validationWarnings').length)
+
             // invoke the passed in confirm action
             invokeAction(this, 'model.uploadSuccess', theme);
         },
@@ -131,7 +139,9 @@ export default ModalComponent.extend({
         },
 
         reset() {
+            this.set('validationWarnings', null);
             this.set('validationErrors', null);
+            this.set('hasWarningsOrErrors', null);
         }
     }
 });
