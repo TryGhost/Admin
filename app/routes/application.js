@@ -3,7 +3,7 @@ import {htmlSafe} from 'ember-string';
 import injectService from 'ember-service/inject';
 import run from 'ember-runloop';
 import {isEmberArray} from 'ember-array/utils';
-
+import RSVP from 'rsvp';
 import AuthConfiguration from 'ember-simple-auth/configuration';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
@@ -32,23 +32,29 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         this._super(...arguments);
 
         if (this.get('session.isAuthenticated')) {
+            let tokenRefreshPromise = RSVP.resolve();
+
             this.set('appLoadTransition', transition);
-            transition.send('loadServerNotifications');
             transition.send('checkForOutdatedDesktopApp');
 
-            // trigger a background refresh of the access token to enable
-            // "infinite" sessions. We also trigger a logout if the refresh
-            // token is invalid to prevent attackers with only the access token
-            // from loading the admin
+            // trigger a refresh of the access token to enable "infinite"
+            // sessions. We also trigger a logout if the refresh is invalid to
+            // prevent attackers with only the access token from loading the admin
             let session = this.get('session.session');
             let authenticator = session._lookupAuthenticator(session.authenticator);
             if (authenticator && authenticator.onOnline) {
-                authenticator.onOnline();
+                tokenRefreshPromise = authenticator.onOnline();
             }
 
-            // return the feature loading promise so that we block until settings
-            // are loaded in order for synchronous access everywhere
-            return this.get('feature').fetch();
+            // token refresh neeeds to be performed synchronously and before other
+            // requests so that they don't hit the server with old credentials
+            return tokenRefreshPromise.then(() => {
+                transition.send('loadServerNotifications');
+
+                // return the feature loading promise so that we block until settings
+                // are loaded in order for synchronous access everywhere
+                return this.get('feature').fetch();
+            });
         }
     },
 
