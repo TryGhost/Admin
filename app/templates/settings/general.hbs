@@ -61,18 +61,18 @@
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Language</div>
                 <div class="gh-setting-desc">Ghost's frontend and theme language</div>
-                {{#liquid-if defaultLangOpen}}
+                {{#liquid-if defaultLocaleOpen}}
                 <div class="gh-setting-content-extended">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="defaultLang"}}
-                        {{gh-input model.defaultLang type="text" focusOut=(action "validate" "defaultLang" target=model) update=(action (mut model.defaultLang)) data-test-default-lang-input=true}}
-                        {{gh-error-message errors=model.errors property="defaultLang"}}
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="defaultLocale"}}
+                        {{gh-input model.defaultLocale type="text" focusOut=(action "validate" "defaultLocale" target=model) update=(action (mut model.defaultLocale)) data-test-default-locale-input=true}}
+                        {{gh-error-message errors=model.errors property="defaultLocale"}}
                         <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong></p>
                     {{/gh-form-group}}
                 </div>
                 {{/liquid-if}}
             </div>
             <div class="gh-setting-action">
-                <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "defaultLangOpen" this)}} data-test-toggle-default-lang><span>{{if defaultLangOpen "Close" "Expand"}}</span></button>
+                <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "defaultLocaleOpen" this)}} data-test-toggle-default-locale><span>{{if defaultLocaleOpen "Close" "Expand"}}</span></button>
             </div>
         </div>
 
