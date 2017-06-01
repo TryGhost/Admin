@@ -20,7 +20,8 @@
     "build": "ember build",
     "test": "ember test",
     "lint": "ember test --launch phantomjs -f 'ESLint'",
-    "coverage": "cat ./coverage/lcov.info | coveralls"
+    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "bower": "bower install"
   },
   "engines": {
     "node": ">= 4"
