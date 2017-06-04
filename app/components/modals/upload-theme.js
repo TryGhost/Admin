@@ -111,7 +111,7 @@ export default ModalComponent.extend({
                 this.set('validationErrors', get(theme, 'errors'));
             }
 
-            this.set('hasWarningsOrErrors', this.get('validationErrors').length || this.get('validationWarnings').length)
+            this.set('hasWarningsOrErrors', this.get('validationErrors').length || this.get('validationWarnings').length);
 
             // invoke the passed in confirm action
             invokeAction(this, 'model.uploadSuccess', theme);
@@ -119,7 +119,24 @@ export default ModalComponent.extend({
 
         uploadFailed(error) {
             if (isThemeValidationError(error)) {
-                this.set('validationErrors', error.errors[0].errorDetails);
+                let errors = error.errors[0].errorDetails;
+                let fatalErrors = [];
+                let normalErrors = [];
+
+                // to have a proper grouping of fatal errors and none fatal, we need to check
+                // our errors for the fatal property
+                if (errors.length > 0) {
+                    for (let i = 0; i < errors.length; i++) {
+                        if (errors[i].fatal) {
+                            fatalErrors.push(errors[i]);
+                        } else {
+                            normalErrors.push(errors[i]);
+                        }
+                    }
+                }
+
+                this.set('fatalValidationErrors', fatalErrors);
+                this.set('validationErrors', normalErrors);
             }
         },
 
@@ -141,6 +158,7 @@ export default ModalComponent.extend({
         reset() {
             this.set('validationWarnings', null);
             this.set('validationErrors', null);
+            this.set('fatalValidationErrors', null);
             this.set('hasWarningsOrErrors', null);
         }
     }
