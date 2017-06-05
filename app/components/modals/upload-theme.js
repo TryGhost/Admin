@@ -156,10 +156,10 @@ export default ModalComponent.extend({
         },
 
         reset() {
-            this.set('validationWarnings', null);
-            this.set('validationErrors', null);
-            this.set('fatalValidationErrors', null);
-            this.set('hasWarningsOrErrors', null);
+            this.set('validationWarnings', []);
+            this.set('validationErrors', []);
+            this.set('fatalValidationErrors', []);
+            this.set('hasWarningsOrErrors', false);
         }
     }
 });
