@@ -25,12 +25,9 @@ export default AuthenticatedRoute.extend(base, {
         });
     },
 
-    setupController() {
+    setupController(controller) {
         let psm = this.controllerFor('post-settings-menu');
-
-        // make sure there are no titleObserver functions hanging around
-        // from previous posts
-        psm.removeObserver('titleScratch', psm, 'titleObserver');
+        psm.set('editorController', controller);
 
         // Ensure that the PSM Publish Date selector resets
         psm.send('resetPubDate');

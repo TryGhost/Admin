@@ -54,6 +54,9 @@ export default AuthenticatedRoute.extend(base, {
         this._super(...arguments);
 
         controller.set('shouldFocusEditor', this.get('_transitionedFromNew'));
+
+        let psm = this.controllerFor('post-settings-menu');
+        psm.set('editorController', controller);
     },
 
     actions: {

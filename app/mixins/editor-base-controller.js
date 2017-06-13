@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Mixin from 'ember-metal/mixin';
-import RSVP from 'rsvp';
 import computed, {alias, mapBy} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import injectController from 'ember-controller/inject';
@@ -10,13 +9,12 @@ import run from 'ember-runloop';
 import {isEmberArray} from 'ember-array/utils';
 import {isBlank} from 'ember-utils';
 
-import {task, timeout} from 'ember-concurrency';
+import {task, timeout, taskGroup} from 'ember-concurrency';
 
 import PostModel from 'ghost-admin/models/post';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
-
-const {resolve} = RSVP;
+import isNumber from 'ghost-admin/utils/isNumber';
 
 // this array will hold properties we need to watch
 // to know if the model has been changed (`controller.hasDirtyAttributes`)
@@ -341,10 +339,10 @@ export default Mixin.create({
         // debounce for 700 milliseconds
         yield timeout(700);
 
-        yield this.get('generateSlug').perform();
+        yield this.get('generateSlugFromTitle').perform();
     }).restartable(),
 
-    generateSlug: task(function* () {
+    generateSlugFromTitle: task(function* () {
         let title = this.get('model.titleScratch');
 
         // Only set an "untitled" slug once per post
@@ -368,6 +366,163 @@ export default Mixin.create({
         }
     }).enqueue(),
 
+    // updateSlug and save should always be enqueued so that we don't run into
+    // problems with concurrency, for example when Cmd-S is pressed whilst the
+    // cursor is in the slug field - that would previously trigger a simultaneous
+    // slug update and save resulting in ember data errors and inconsistent save
+    // results
+    saveTasks: taskGroup().enqueue(),
+
+    updateSlug: task(function* (_newSlug) {
+        let slug = this.get('model.slug');
+        let newSlug, serverSlug;
+
+        newSlug = _newSlug || slug;
+        newSlug = newSlug && newSlug.trim();
+
+        // Ignore unchanged slugs or candidate slugs that are empty
+        if (!newSlug || slug === newSlug) {
+            // reset the input to its previous state
+            this.set('slugValue', slug);
+
+            return;
+        }
+
+        serverSlug = yield this.get('slugGenerator').generateSlug('post', newSlug);
+
+        // If after getting the sanitized and unique slug back from the API
+        // we end up with a slug that matches the existing slug, abort the change
+        if (serverSlug === slug) {
+            return;
+        }
+
+        // Because the server transforms the candidate slug by stripping
+        // certain characters and appending a number onto the end of slugs
+        // to enforce uniqueness, there are cases where we can get back a
+        // candidate slug that is a duplicate of the original except for
+        // the trailing incrementor (e.g., this-is-a-slug and this-is-a-slug-2)
+
+        // get the last token out of the slug candidate and see if it's a number
+        let slugTokens = serverSlug.split('-');
+        let check = Number(slugTokens.pop());
+
+        // if the candidate slug is the same as the existing slug except
+        // for the incrementor then the existing slug should be used
+        if (isNumber(check) && check > 0) {
+            if (slug === slugTokens.join('-') && serverSlug !== newSlug) {
+                this.set('slugValue', slug);
+                return;
+            }
+        }
+
+        this.set('model.slug', serverSlug);
+
+        // If this is a new post.  Don't save the model.  Defer the save
+        // to the user pressing the save button
+        if (this.get('model.isNew')) {
+            return;
+        }
+
+        return yield this.get('model').save();
+    }).group('saveTasks'),
+
+    save: task(function* (options) {
+        let prevStatus = this.get('model.status');
+        let isNew = this.get('model.isNew');
+        let psmController = this.get('postSettingsMenuController');
+        let status;
+
+        options = options || {};
+
+        // don't auto-save save if nothing has changed, this prevents
+        // unnecessary collision errors when reading a post that another
+        // user is editing
+        if (options.backgroundSave && !this.get('hasDirtyAttributes')) {
+            this.send('cancelTimers');
+            return;
+        }
+
+        this.toggleProperty('submitting');
+        if (options.backgroundSave) {
+            // do not allow a post's status to be set to published by a background save
+            status = 'draft';
+        } else {
+            if (this.get('scheduledWillPublish')) {
+                status = (!this.get('willSchedule') && !this.get('willPublish')) ? 'draft' : 'published';
+            } else {
+                if (this.get('willPublish') && !this.get('model.isScheduled') && !this.get('statusFreeze')) {
+                    status = 'published';
+                } else if (this.get('willSchedule') && !this.get('model.isPublished') && !this.get('statusFreeze')) {
+                    status = 'scheduled';
+                } else {
+                    status = 'draft';
+                }
+            }
+        }
+
+        this.send('cancelTimers');
+
+        // Set the properties that are indirected
+        // set markdown equal to what's in the editor, minus the image markers.
+        this.set('model.markdown', this.get('model.scratch'));
+        this.set('model.status', status);
+
+        // Set a default title
+        if (!this.get('model.titleScratch').trim()) {
+            this.set('model.titleScratch', '(Untitled)');
+        }
+
+        this.set('model.title', this.get('model.titleScratch'));
+        this.set('model.metaTitle', psmController.get('metaTitleScratch'));
+        this.set('model.metaDescription', psmController.get('metaDescriptionScratch'));
+
+        try {
+            if (!this.get('model.slug')) {
+                this.get('updateTitle').cancelAll();
+
+                yield this.get('generateSlugFromTitle').perform();
+            }
+
+            let model = yield this.get('model').save(options);
+
+            if (!options.silent) {
+                this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);
+            }
+
+            this.toggleProperty('submitting');
+
+            // reset the helper CP back to false after saving and refetching the new model
+            // which is published by the scheduler process on the server now
+            if (this.get('scheduledWillPublish')) {
+                this.set('scheduledWillPublish', false);
+            }
+
+            return model;
+
+        } catch (_error) {
+            let error = _error;
+
+            // re-throw if we have a general server error
+            // TODO: use isValidationError(error) once we have
+            // ember-ajax/ember-data integration
+            if (error && error.errors && error.errors[0].errorType !== 'ValidationError') {
+                this.toggleProperty('submitting');
+                this.send('error', error);
+                return;
+            }
+
+            if (!options.silent) {
+                error = error || this.get('model.errors.messages');
+                this.showErrorAlert(prevStatus, this.get('model.status'), error);
+            }
+
+            this.set('model.status', prevStatus);
+
+            this.toggleProperty('submitting');
+            return this.get('model');
+        }
+    }).group('saveTasks'),
+
     actions: {
         cancelTimers() {
             let autoSaveId = this._autoSaveId;
@@ -385,96 +540,7 @@ export default Mixin.create({
         },
 
         save(options) {
-            let prevStatus = this.get('model.status');
-            let isNew = this.get('model.isNew');
-            let psmController = this.get('postSettingsMenuController');
-            let promise, status;
-
-            options = options || {};
-
-            // don't auto-save save if nothing has changed, this prevents
-            // unnecessary collision errors when reading a post that another
-            // user is editing
-            if (options.backgroundSave && !this.get('hasDirtyAttributes')) {
-                this.send('cancelTimers');
-                return;
-            }
-
-            this.toggleProperty('submitting');
-            if (options.backgroundSave) {
-                // do not allow a post's status to be set to published by a background save
-                status = 'draft';
-            } else {
-                if (this.get('scheduledWillPublish')) {
-                    status = (!this.get('willSchedule') && !this.get('willPublish')) ? 'draft' : 'published';
-                } else {
-                    if (this.get('willPublish') && !this.get('model.isScheduled') && !this.get('statusFreeze')) {
-                        status = 'published';
-                    } else if (this.get('willSchedule') && !this.get('model.isPublished') && !this.get('statusFreeze')) {
-                        status = 'scheduled';
-                    } else {
-                        status = 'draft';
-                    }
-                }
-            }
-
-            this.send('cancelTimers');
-
-            // Set the properties that are indirected
-            // set markdown equal to what's in the editor, minus the image markers.
-            this.set('model.markdown', this.get('model.scratch'));
-            this.set('model.status', status);
-
-            // Set a default title
-            if (!this.get('model.titleScratch').trim()) {
-                this.set('model.titleScratch', '(Untitled)');
-            }
-
-            this.set('model.title', this.get('model.titleScratch'));
-            this.set('model.metaTitle', psmController.get('metaTitleScratch'));
-            this.set('model.metaDescription', psmController.get('metaDescriptionScratch'));
-
-            if (!this.get('model.slug')) {
-                this.get('updateTitle').cancelAll();
-
-                promise = this.get('generateSlug').perform();
-            }
-
-            return resolve(promise).then(() => {
-                return this.get('model').save(options).then((model) => {
-                    if (!options.silent) {
-                        this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);
-                    }
-
-                    this.toggleProperty('submitting');
-
-                    // reset the helper CP back to false after saving and refetching the new model
-                    // which is published by the scheduler process on the server now
-                    if (this.get('scheduledWillPublish')) {
-                        this.set('scheduledWillPublish', false);
-                    }
-                    return model;
-                });
-            }).catch((error) => {
-                // re-throw if we have a general server error
-                // TODO: use isValidationError(error) once we have
-                // ember-ajax/ember-data integration
-                if (error && error.errors && error.errors[0].errorType !== 'ValidationError') {
-                    this.toggleProperty('submitting');
-                    this.send('error', error);
-                    return;
-                }
-
-                if (!options.silent) {
-                    error = error || this.get('model.errors.messages');
-                    this.showErrorAlert(prevStatus, this.get('model.status'), error);
-                }
-
-                this.set('model.status', prevStatus);
-
-                this.toggleProperty('submitting');
-                return this.get('model');
-            });
+            this.get('save').perform(options);
         },
 
         setSaveType(newType) {
