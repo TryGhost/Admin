@@ -14,7 +14,7 @@ describeComponent(
     },
     function() {
         beforeEach(function() {
-            let upgradeMessage = {'content': 'Ghost 10.02.91 is available! Hot Damn. <a href="http://support.ghost.org/how-to-upgrade/" target="_blank">Click here</a> to upgrade.'};
+            let upgradeMessage = {'content': 'Ghost 10.02.91 is available! Hot Damn. <a href="https://docs.ghost.org/v0.11.9/docs/how-to-upgrade-ghost" target="_blank">Click here</a> to upgrade.'};
             this.subject().set('upgradeNotification', upgradeMessage);
         });
 
@@ -30,7 +30,7 @@ describeComponent(
             expect(this.$().prop('tagName')).to.equal('SECTION');
             expect(this.$().hasClass('gh-upgrade-notification')).to.be.true;
             // caja tools sanitize target='_blank' attribute
-            expect(this.$().html()).to.contain('Hot Damn. <a href="http://support.ghost.org/how-to-upgrade/">Click here</a>');
+            expect(this.$().html()).to.contain('Hot Damn. <a href="https://docs.ghost.org/v0.11.9/docs/how-to-upgrade-ghost">Click here</a>');
         });
     }
 );
