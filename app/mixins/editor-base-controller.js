@@ -32,6 +32,7 @@ export default Mixin.create({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
 
+    ajax: injectService(),
     postSettingsMenuController: injectController('post-settings-menu'),
     notifications: injectService(),
     clock: injectService(),
@@ -458,6 +459,32 @@ export default Mixin.create({
                     status = 'draft';
                 }
             }
+        }
+
+        // HACK: when a user has a scheduled post open in the editor and it's
+        // published automatically by the server we don't get any new values
+        // on the client which results in a collision error when saving (server
+        // has a different updatedAt value than the client sends).
+        //
+        // To work around this we perform a post query outside of Ember Data so
+        // that we can grab the updated_at value from the server in order to
+        // save without a collision error
+        //
+        // NOTE: This has the effect of disabling collision protection in this
+        // particular scenario so it's possible for changes other users have
+        // made since the user opened the post to be overwritten
+        //
+        // TODO: remove/replace when we have more sophisticated collaboration
+        // or collision detection
+        let publishedAtUTC = this.get('model.publishedAtUTC');
+        if (moment.utc().isAfter(publishedAtUTC) && prevStatus === 'scheduled') {
+            let id = this.get('model.id');
+            let postUrl = `${this.get('store').adapterFor('post').urlForFindRecord(id, 'post')}/`;
+            let {posts: [serverModel]} = yield this.get('ajax').request(postUrl);
+
+            /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+            this.set('model.updatedAtUTC', moment.utc(serverModel.updated_at));
+            /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
         }
 
         this.send('cancelTimers');
