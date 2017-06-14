@@ -71,14 +71,14 @@
             </div>
             <div class="gh-setting-action gh-setting-action-smallimg">
                 {{#if model.icon}}
-                    <img class="blog-icon" src="{{model.icon}}" onClick={{action "triggerFileDialog"}} alt="icon" data-test-icon-img>
+                    <img class="blog-icon" src="{{model.icon}}" onclick={{action "triggerFileDialog"}} alt="icon" data-test-icon-img>
                     <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "icon"}} data-test-delete-image="icon">
                         <span>delete</span>
                     </button>
                 {{else if uploader.isUploading}}
                     {{uploader.progressBar}}
                 {{else}}
-                    <button type="button" class="gh-btn" onClick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
+                    <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
                         <span>Upload Image</span>
                     </button>
                 {{/if}}
@@ -106,14 +106,14 @@
             </div>
             <div class="gh-setting-action gh-setting-action-smallimg">
                 {{#if model.logo}}
-                    <img class="blog-logo" src="{{model.logo}}"  onClick={{action "triggerFileDialog"}} alt="logo" data-test-logo-img>
+                    <img class="blog-logo" src="{{model.logo}}"  onclick={{action "triggerFileDialog"}} alt="logo" data-test-logo-img>
                     <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "logo"}} data-test-delete-image="logo">
                         <span>delete</span>
                     </button>
                 {{else if uploader.isUploading}}
                     {{uploader.progressBar}}
                 {{else}}
-                    <button type="button" class="gh-btn" onClick={{action "triggerFileDialog"}} data-test-image-upload-btn="logo">
+                    <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="logo">
                         <span>Upload Image</span>
                     </button>
                 {{/if}}
@@ -141,14 +141,14 @@
             </div>
             <div class="gh-setting-action gh-setting-action-largeimg">
                 {{#if model.coverImage}}
-                    <img class="blog-cover" src="{{model.coverImage}}"  onClick={{action "triggerFileDialog"}} alt="cover photo" data-test-cover-img>
+                    <img class="blog-cover" src="{{model.coverImage}}"  onclick={{action "triggerFileDialog"}} alt="cover photo" data-test-cover-img>
                     <button type="button" class="gh-setting-action-largeimg-delete" {{action "removeImage" "coverImage"}} data-test-delete-image="coverImage">
                         <span>delete</span>
                     </button>
                 {{else if uploader.isUploading}}
                     {{uploader.progressBar}}
                 {{else}}
-                    <button type="button" class="gh-btn" onClick={{action "triggerFileDialog"}} data-test-image-upload-btn="coverImage">
+                    <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="coverImage">
                         <span>Upload Image</span>
                     </button>
                 {{/if}}
