@@ -126,6 +126,13 @@ export default Component.extend({
         },
 
         closeMeta() {
+            let tag = this.get('tag');
+
+            if (tag.get('errors.length') > 0) {
+                tag.rollbackAttributes();
+                tag.get('errors').clear();
+            }
+
             this.set('isViewingSubview', false);
         },
 

@@ -252,6 +252,77 @@ describe('Acceptance: Settings - Tags', function () {
             });
         });
 
+        it('rolls back attrs and clears errors when navigating', function () {
+            server.createList('tag', 2);
+
+            // navigate to first tag
+            // navigate to meta settings
+            // fill in title with too many chars
+            // check for error
+            // navigate back to main tag settings
+            // navigate to meta settings
+            // check error isn't there
+            // navigate to main tag settings
+            // fill in too many chars in the description
+            // check for error
+            // navigate to second tag
+            // navigate back to first tag
+            // check error isn't there
+
+            visit('/settings/tags/tag-0');
+            click('.meta-data-button');
+            fillIn('[name="metaTitle"]', new Array(152).join('x'));
+            triggerEvent('[name="metaTitle"]', 'blur');
+
+            andThen(() => {
+                expect(
+                    find('.tag-meta-settings-pane .form-group:first-of-type .response').text().trim(),
+                    'tag meta title error'
+                ).to.match(/150 characters/i);
+            });
+
+            click('.tag-meta-settings-pane .back');
+            click('.meta-data-button');
+
+            andThen(() => {
+                expect(
+                    find('.tag-meta-settings-pane .form-group:first-of-type .response').text().trim(),
+                    'tag meta title error after navigation'
+                ).to.equal('');
+
+                expect(
+                    find('[name="metaTitle"]').val(),
+                    'tag meta settings title value after navigation'
+                ).to.equal('Meta Title for tag 0');
+            });
+
+            click('.tag-meta-settings-pane .back');
+            fillIn('[name="description"]', new Array(202).join('x'));
+            triggerEvent('[name="description"]', 'blur');
+
+            andThen(() => {
+                expect(
+                    find('.tag-settings-pane .form-group:last-of-type .response').text().trim(),
+                    'tag description error'
+                ).to.match(/200 characters/i);
+            });
+
+            click('.tag-edit-button:last');
+            click('.tag-edit-button:first');
+
+            andThen(() => {
+                expect(
+                    find('.tag-settings-pane .form-group:last-of-type .response').text().trim(),
+                    'tag description error after navigation'
+                ).to.equal('');
+
+                expect(
+                    find('[name="description"]').val(),
+                    'tag description value after navigation'
+                ).to.equal('Description for tag 0.');
+            });
+        });
+
         it('has infinite scroll pagination of tags list', function () {
             server.createList('tag', 32);
 
