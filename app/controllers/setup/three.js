@@ -201,7 +201,7 @@ export default Controller.extend({
                             invitationsString = erroredEmails.length > 1 ? ' invitations: ' : ' invitation: ';
                             message = `Failed to send ${erroredEmails.length} ${invitationsString}`;
                             message += erroredEmails.join(', ');
-                            message += ". Please check your email configuration, see <a href=\'https://docs.ghost.org/v0.11.9/docs/mail-configuration-on-self-hosted-version-of-ghost\' target=\'_blank\'>https://docs.ghost.org/v0.11.9/docs/mail-configuration-on-self-hosted-version-of-ghost</a> for instructions";
+                            message += ". Please check your email configuration, see <a href=\'https://docs.ghost.org/v0.11.9/docs/mail-config\' target=\'_blank\'>https://docs.ghost.org/v0.11.9/docs/mail-config</a> for instructions";
 
                             message = htmlSafe(message);
                             notifications.showAlert(message, {type: 'error', delayed: successCount > 0, key: 'signup.send-invitations.failed'});
