@@ -12,6 +12,7 @@ let md = markdownit({
     breaks: true,
     linkify: true
 })
+.disable(['table'])
 .use(markdownitFootnote)
 .use(markdownitLazyHeaders)
 .use(markdownitMark)
