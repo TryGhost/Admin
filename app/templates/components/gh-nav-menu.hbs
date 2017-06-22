@@ -20,15 +20,19 @@
             <li role="presentation"><a class="dropdown-item help-menu-wishlist" role="menuitem" tabindex="-1" href="http://ideas.ghost.org/" target="_blank">{{inline-svg "idea"}} Wishlist</a></li>
             <li class="divider"></li>
 
-            {{#if session.user.isOwner}}
-            {{#if config.clientExtensions.dropdown}}
+            {{#if showDropdownExtension}}
                 {{#each config.clientExtensions.dropdown.items as |menuItem| }}
-                <li role="presentation">
-                  <a href="https://{{menuItem.href}}/" target="_blank" class="dropdown-item js-nav-item {{menuItem.classes}}" role="menuitem" tabindex="-1">{{inline-svg menuItem.icon}} {{menuItem.text}}</a>
-                </li>
+                    {{#if menuItem.divider}}
+                        <li class="divider"></li>
+                    {{else}}
+                        <li role="presentation">
+                          <a href="{{menuItem.href}}" target="_blank"
+                             class="dropdown-item js-nav-item {{menuItem.classes}}"
+                             role="menuitem" tabindex="-1">{{inline-svg menuItem.icon}}{{menuItem.text}}</a>
+                        </li>
+                    {{/if}}
                 {{/each}}
-            <li class="divider"></li>
-            {{/if}}
+
             {{/if}}
             <li role="presentation">{{#link-to "signout" classNames="dropdown-item user-menu-signout" role="menuitem" tabindex="-1"}}{{inline-svg "signout"}} Sign Out{{/link-to}}</li>
         </ul>
@@ -67,20 +71,20 @@
         </ul>
     {{/if}}
 
-    {{#if session.user.isOwner}}
-    {{#if config.clientExtensions.menu}}
+    {{#if showMenuExtension}}
         <ul class="gh-nav-list gh-nav-settings">
-            <li class="gh-nav-list-h">{{config.clientExtensions.menu.title}}</li>
+            {{#if config.clientExtensions.menu.title}}<li class="gh-nav-list-h">{{config.clientExtensions.menu.title}}</li>{{/if}}
             {{#each config.clientExtensions.menu.items as |menuItem| }}
-                <li><a href="{{menuItem.href}}" target="_blank">{{inline-svg menuItem.icon}}{{menuItem.text}}</a></li>
+                <li>
+                    <a href="{{menuItem.href}}" target="_blank">{{inline-svg menuItem.icon}}{{menuItem.text}}</a>
+                </li>
             {{/each}}
         </ul>
     {{/if}}
 
-    {{#if config.clientExtensions.script}}
+    {{#if showScriptExtension}}
         {{{config.clientExtensions.script.container}}}
         <script src="{{config.clientExtensions.script.src}}"></script>
-    {{/if}}
     {{/if}}
 
 </section>
