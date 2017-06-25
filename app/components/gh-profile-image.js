@@ -60,17 +60,17 @@ export default Component.extend({
     },
 
     imageBackground: computed('validEmail', 'size', function () {
+        let useGravatar = this.get('config.useGravatar');
         let email = this.get('validEmail');
         let size = this.get('size');
         let style = '';
+        let defaultImageUrl = `url("${this.get('ghostPaths.assetRoot')}/img/user-image.png")`;
 
-        if (!isBlank(email)) {
+        if (!isBlank(email) && useGravatar) {
             let gravatarUrl = `//www.gravatar.com/avatar/${window.md5(email)}?s=${size}&d=404`;
 
             this.get('ajax').request(gravatarUrl)
                 .catch((error) => {
-                    let defaultImageUrl = `url("${this.get('ghostPaths.assetRoot')}/img/user-image.png")`;
-
                     if (isNotFoundError(error)) {
                         this.$('.placeholder-img')[0].style.backgroundImage = htmlSafe(defaultImageUrl);
                     } else {
@@ -79,6 +79,8 @@ export default Component.extend({
                 });
 
             style = `background-image: url(${gravatarUrl})`;
+        } else {
+            this.$('.placeholder-img')[0].style.backgroundImage = htmlSafe(defaultImageUrl);
         }
         return htmlSafe(style);
     }),

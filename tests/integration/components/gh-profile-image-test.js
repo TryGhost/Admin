@@ -32,6 +32,10 @@ const stubUnknownGravatar = function (server) {
     });
 };
 
+let configStubuseGravatar = Service.extend({
+    useGravatar: true
+});
+
 describe('Integration: Component: gh-profile-image', function () {
     setupComponentTest('gh-profile-image', {
         integration: true
@@ -42,6 +46,8 @@ describe('Integration: Component: gh-profile-image', function () {
     beforeEach(function () {
         this.register('service:ghost-paths', pathsStub);
         this.inject.service('ghost-paths', {as: 'ghost-paths'});
+        this.register('service:config', configStubuseGravatar);
+        this.inject.service('config', {as: 'config'});
 
         server = new Pretender();
         stubKnownGravatar(server);
@@ -72,7 +78,7 @@ describe('Integration: Component: gh-profile-image', function () {
             .to.be.blank;
     });
 
-    it('renders the gravatar if valid email supplied', function (done) {
+    it('renders the gravatar if valid email supplied and privacy.useGravatar allows it', function (done) {
         let email = 'test@example.com';
         let expectedUrl = `//www.gravatar.com/avatar/${md5(email)}?s=100&d=404`;
 
@@ -88,6 +94,21 @@ describe('Integration: Component: gh-profile-image', function () {
                 .to.equal(`background-image: url(${expectedUrl})`);
             done();
         });
+    });
+
+    it('doesnt\'t render the gravatar if valid email supplied but privacy.useGravatar forbids it', function () {
+        this.set('config.useGravatar', false);
+
+        let email = 'test@example.com';
+
+        this.set('email', email);
+
+        this.render(hbs`
+            {{gh-profile-image email=email size=100 debounce=50}}
+        `);
+
+        expect(this.$('.gravatar-img').attr('style'), 'gravatar image style')
+            .to.be.blank;
     });
 
     it('doesn\'t add background url if gravatar image doesn\'t exist', function (done) {
