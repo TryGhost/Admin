@@ -46,15 +46,6 @@ export default Mixin.create({
         this._super(...arguments);
     },
 
-    keyPress(event) {
-        // prevent default ENTER behaviour if we have a keyEvent for it
-        if (event.keyCode === 13 && this.get('keyEvents.13')) {
-            event.preventDefault();
-        }
-
-        this._super(...arguments);
-    },
-
     _focus() {
         // Until mobile safari has better support
         // for focusing, we just ignore it
