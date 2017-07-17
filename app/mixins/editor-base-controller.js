@@ -567,7 +567,7 @@ export default Mixin.create({
         },
 
         save(options) {
-            this.get('save').perform(options);
+            return this.get('save').perform(options);
         },
 
         setSaveType(newType) {
@@ -585,6 +585,9 @@ export default Mixin.create({
 
         autoSaveNew() {
             if (this.get('model.isNew')) {
+                // force "dirty" state so save task doesn't abort on blank title
+                this.set('hasDirtyAttributes', true);
+
                 this.send('save', {silent: true, backgroundSave: true});
             }
         },
