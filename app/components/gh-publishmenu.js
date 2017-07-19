@@ -49,11 +49,11 @@ export default Component.extend({
         }
 
         if (postState === 'published') {
-            buttonText = saveType === 'publish' ? 'Update' : 'Un-publish';
+            buttonText = saveType === 'publish' ? 'Update' : 'Unpublish';
         }
 
         if (postState === 'scheduled') {
-            buttonText = saveType === 'schedule' ? 'Re-schedule' : 'Un-schedule';
+            buttonText = saveType === 'schedule' ? 'Reschedule' : 'Unschedule';
         }
 
         return buttonText || 'Publish';
@@ -69,11 +69,11 @@ export default Component.extend({
         }
 
         if (previousStatus === 'published') {
-            buttonText = postState === 'draft' ? 'Un-published' : 'Updated';
+            buttonText = postState === 'draft' ? 'Unpublished' : 'Updated';
         }
 
         if (previousStatus === 'scheduled') {
-            buttonText = postState === 'draft' ? 'Un-scheduled' : 'Re-scheduled';
+            buttonText = postState === 'draft' ? 'Unscheduled' : 'Rescheduled';
         }
 
         return buttonText;
