@@ -39,9 +39,31 @@ export default Component.extend({
         }
     }),
 
-    buttonText:  computed('postState', 'saveType', function() {
-        let postState = this.get('postState');
+    _runningText:  computed('postState', 'saveType', function() {
         let saveType = this.get('saveType');
+        let postState = this.get('postState');
+        let runningText;
+
+        if (postState === 'draft') {
+            runningText = saveType === 'publish' ? 'Publishing' : 'Scheduling';
+        }
+
+        if (postState === 'published') {
+            runningText = saveType === 'publish' ? 'Updating' : 'Unpublishing';
+        }
+
+        if (postState === 'scheduled') {
+            runningText = saveType === 'schedule' ? 'Rescheduling' : 'Unscheduling';
+        }
+
+        return runningText || 'Publishing';
+    }),
+
+    runningText: null,
+
+    buttonText:  computed('postState', 'saveType', function() {
+        let saveType = this.get('saveType');
+        let postState = this.get('postState');
         let buttonText;
 
         if (postState === 'draft') {
@@ -80,6 +102,9 @@ export default Component.extend({
     }),
 
     save: task(function* () {
+        // runningText needs to be declared before the other states change during the
+        // save action.
+        this.set('runningText', this.get('_runningText'));
         this.set('_previousStatus', this.get('post.status'));
         this.get('setSaveType')(this.get('saveType'));
 
