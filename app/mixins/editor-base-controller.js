@@ -42,6 +42,7 @@ export default Mixin.create({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
     showDeletePostModal: false,
+    shouldFocusEditor: true,
 
     application: injectController(),
     notifications: injectService(),
