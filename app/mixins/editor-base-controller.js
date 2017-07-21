@@ -29,7 +29,7 @@ const DEFAULT_TITLE = '(Untitled)';
 const TITLE_DEBOUNCE = testing ? 10 : 700;
 
 // time in ms to save after last content edit
-const AUTOSAVE_TIMEOUT = 1000;
+const AUTOSAVE_TIMEOUT = 3000;
 // time in ms to force a save if the user is continuously typing
 const TIMEDSAVE_TIMEOUT = 10000;
 
