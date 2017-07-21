@@ -73,6 +73,7 @@ export default Mixin.create({
 
     // save 3 seconds after the last edit
     _autosave: task(function* () {
+        // force an instant save on first body edit for new posts
         if (this.get('_canAutosave') && this.get('model.isNew')) {
             return this.get('autosave').perform();
         }
