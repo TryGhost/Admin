@@ -29,9 +29,9 @@ const DEFAULT_TITLE = '(Untitled)';
 const TITLE_DEBOUNCE = testing ? 10 : 700;
 
 // time in ms to save after last content edit
-const AUTOSAVE_TIMEOUT = 3000;
+const AUTOSAVE_TIMEOUT = 1000;
 // time in ms to force a save if the user is continuously typing
-const TIMEDSAVE_TIMEOUT = 60000;
+const TIMEDSAVE_TIMEOUT = 10000;
 
 PostModel.eachAttribute(function (name) {
     watchedProps.push(`model.${name}`);
@@ -73,6 +73,10 @@ export default Mixin.create({
 
     // save 3 seconds after the last edit
     _autosave: task(function* () {
+        if (this.get('_canAutosave') && this.get('model.isNew')) {
+            return this.get('autosave').perform();
+        }
+
         yield timeout(AUTOSAVE_TIMEOUT);
 
         if (this.get('_canAutosave')) {
