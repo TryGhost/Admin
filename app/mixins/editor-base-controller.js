@@ -72,13 +72,13 @@ export default Mixin.create({
     _autosave: task(function* () {
         // force an instant save on first body edit for new posts
         if (this.get('_canAutosave') && this.get('model.isNew')) {
-            return yield this.get('autosave').perform();
+            return this.get('autosave').perform();
         }
 
         yield timeout(AUTOSAVE_TIMEOUT);
 
         if (this.get('_canAutosave')) {
-            yield this.get('autosave').perform();
+            this.get('autosave').perform();
         }
     }).restartable(),
 
@@ -89,7 +89,7 @@ export default Mixin.create({
             yield timeout(TIMEDSAVE_TIMEOUT);
 
             if (this.get('_canAutosave')) {
-                yield this.get('autosave').perform();
+                this.get('autosave').perform();
             }
         }
     }).drop(),
@@ -103,6 +103,13 @@ export default Mixin.create({
             });
         }
     }).drop(),
+
+    _autosaveRunning: computed('_autosave.isRunning', '_timedSave.isRunning', function () {
+        let autosave = this.get('_autosave.isRunning');
+        let timedsave = this.get('_timedSave.isRunning');
+
+        return autosave || timedsave;
+    }),
 
     // updateSlug and save should always be enqueued so that we don't run into
     // problems with concurrency, for example when Cmd-S is pressed whilst the
@@ -172,7 +179,9 @@ export default Mixin.create({
 
             // redirect to edit route if saving a new record
             if (isNew && model.get('id')) {
-                this.replaceRoute('editor.edit', model);
+                if (!this.get('leaveEditorTransition')) {
+                    this.replaceRoute('editor.edit', model);
+                }
                 return true;
             }
 
@@ -573,14 +582,36 @@ export default Mixin.create({
         },
 
         toggleLeaveEditorModal(transition) {
-            // cancel autosave when showing the modal to prevent the "leave"
-            // action failing due to deletion of in-flight records
-            if (!this.get('showLeaveEditorModal')) {
-                this.send('cancelAutosave');
+            let leaveTransition = this.get('leaveEditorTransition');
+
+            if (!transition && this.get('showLeaveEditorModal')) {
+                this.set('showLeaveEditorModal', false);
+                return;
             }
 
-            this.set('leaveEditorTransition', transition);
-            this.toggleProperty('showLeaveEditorModal');
+            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+                this.set('leaveEditorTransition', transition);
+
+                // if a save is running, wait for it to finish then transition
+                if (this.get('saveTasks.isRunning')) {
+                    return this.get('saveTasks.last').then(() => {
+                        transition.retry();
+                    });
+                }
+
+                // if an autosave is scheduled, cancel it, save then transition
+                if (this.get('_autosaveRunning')) {
+                    this.send('cancelAutosave');
+                    this.get('autosave').cancelAll();
+
+                    return this.get('autosave').perform().then(() => {
+                        transition.retry();
+                    });
+                }
+
+                // we genuinely have unsaved data, show the modal
+                this.set('showLeaveEditorModal', true);
+            }
         },
 
         leaveEditor() {
