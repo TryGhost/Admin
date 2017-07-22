@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import Mixin from 'ember-metal/mixin';
 import PostModel from 'ghost-admin/models/post';
-import RSVP from 'rsvp';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import computed, {mapBy, reads} from 'ember-computed';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
@@ -15,8 +14,6 @@ import {isEmberArray} from 'ember-array/utils';
 import {isInvalidError} from 'ember-ajax/errors';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {task, taskGroup, timeout} from 'ember-concurrency';
-
-const {resolve} = RSVP;
 
 // ember-cli-shims doesn't export Ember.testing
 const {testing} = Ember;
@@ -67,7 +64,7 @@ export default Mixin.create({
         };
     },
 
-    _canAutosave: computed('model.{isDraft,isNew}', function () {
+    _canAutosave: computed('model.isDraft', function () {
         return !testing && this.get('model.isDraft');
     }),
 
@@ -75,7 +72,7 @@ export default Mixin.create({
     _autosave: task(function* () {
         // force an instant save on first body edit for new posts
         if (this.get('_canAutosave') && this.get('model.isNew')) {
-            return this.get('autosave').perform();
+            return yield this.get('autosave').perform();
         }
 
         yield timeout(AUTOSAVE_TIMEOUT);
@@ -100,7 +97,7 @@ export default Mixin.create({
     // separate task for autosave so that it doesn't override a manual save
     autosave: task(function* () {
         if (!this.get('save.isRunning')) {
-            return yield this._savePromise({
+            return yield this.get('save').perform({
                 silent: true,
                 backgroundSave: true
             });
@@ -116,21 +113,15 @@ export default Mixin.create({
 
     // save tasks cancels autosave before running, although this cancels the
     // _xSave tasks  that will also cancel the autosave task
-    save: task(function* (options) {
-        this.send('cancelAutosave');
-        return yield this._savePromise(options);
-    }).group('saveTasks'),
-
-    // TODO: convert this into a more ember-concurrency flavour
-    _savePromise(options) {
+    save: task(function* (options = {}) {
         let prevStatus = this.get('model.status');
         let isNew = this.get('model.isNew');
-        let promise, status;
+        let status;
 
-        options = options || {};
+        this.send('cancelAutosave');
 
         if (options.backgroundSave && !this.get('hasDirtyAttributes')) {
-            return RSVP.resolve();
+            return;
         }
 
         if (options.backgroundSave) {
@@ -167,27 +158,27 @@ export default Mixin.create({
         if (!this.get('model.slug')) {
             this.get('updateTitle').cancelAll();
 
-            promise = this.get('generateSlug').perform();
+            yield this.get('generateSlug').perform();
         }
 
-        return resolve(promise).then(() => {
-            return this.get('model').save(options).then((model) => {
-                if (!options.silent) {
-                    this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);
-                }
+        try {
+            let model = yield this.get('model').save(options);
 
-                this.get('model').set('statusScratch', null);
+            if (!options.silent) {
+                this.showSaveNotification(prevStatus, model.get('status'), isNew ? true : false);
+            }
 
-                // redirect to edit route if saving a new record
-                if (isNew && model.get('id')) {
-                    this.replaceRoute('editor.edit', model);
-                    return;
-                }
+            this.get('model').set('statusScratch', null);
 
-                return model;
-            });
+            // redirect to edit route if saving a new record
+            if (isNew && model.get('id')) {
+                this.replaceRoute('editor.edit', model);
+                return true;
+            }
 
-        }).catch((error) => {
+            return model;
+
+        } catch (error) {
             // re-throw if we have a general server error
             if (error && !isInvalidError(error)) {
                 this.send('error', error);
@@ -197,15 +188,15 @@ export default Mixin.create({
             this.set('model.status', prevStatus);
 
             if (!options.silent) {
-                error = error || this.get('model.errors.messages');
-                this.showErrorAlert(prevStatus, this.get('model.status'), error);
+                let errorOrMessages = error || this.get('model.errors.messages');
+                this.showErrorAlert(prevStatus, this.get('model.status'), errorOrMessages);
                 // simulate a validation error for upstream tasks
                 throw undefined;
             }
 
             return this.get('model');
-        });
-    },
+        }
+    }).group('saveTasks'),
 
     /*
      * triggered by a user manually changing slug
