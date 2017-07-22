@@ -23,7 +23,6 @@ const {testing} = Ember;
 const watchedProps = ['model.scratch', 'model.titleScratch', 'model.hasDirtyAttributes', 'model.tags.[]'];
 
 const DEFAULT_TITLE = '(Untitled)';
-const TITLE_DEBOUNCE = testing ? 10 : 700;
 
 // time in ms to save after last content edit
 const AUTOSAVE_TIMEOUT = 3000;
@@ -163,7 +162,7 @@ export default Mixin.create({
         this.set('model.metaDescription', this.get('model.metaDescriptionScratch'));
 
         if (!this.get('model.slug')) {
-            this.get('updateTitle').cancelAll();
+            this.get('saveTitle').cancelAll();
 
             yield this.get('generateSlug').perform();
         }
@@ -502,20 +501,28 @@ export default Mixin.create({
         notifications.showAlert(message, {type: 'error', delayed: delay, key: 'post.save'});
     },
 
-    updateTitle: task(function* (newTitle) {
+    saveTitle: task(function* () {
         let model = this.get('model');
+        let currentTitle = model.get('title');
+        let newTitle = model.get('titleScratch').trim();
 
-        model.set('titleScratch', newTitle);
+        if (currentTitle && newTitle && newTitle === currentTitle) {
+            return;
+        }
+
+        // this is necessary to force a save when the title is blank
+        this.set('hasDirtyAttributes', true);
 
         // generate a slug if a post is new and doesn't have a title yet or
-        // if the title is still '(Untitled)' and the slug is unaltered.
-        if ((this.get('model.isNew') && !newTitle) || model.get('title') === DEFAULT_TITLE) {
-            // debounce for 700 milliseconds
-            yield timeout(TITLE_DEBOUNCE);
-
+        // if the title is still '(Untitled)'
+        if ((model.get('isNew') && !currentTitle) || currentTitle === DEFAULT_TITLE) {
             yield this.get('generateSlug').perform();
         }
-    }).restartable(),
+
+        if (this.get('model.isDraft')) {
+            yield this.get('autosave').perform();
+        }
+    }),
 
     generateSlug: task(function* () {
         let title = this.get('model.titleScratch');
@@ -643,23 +650,8 @@ export default Mixin.create({
             return transition.retry();
         },
 
-        saveTitle() {
-            let currentTitle = this.get('model.title');
-            let newTitle = this.get('model.titleScratch').trim();
-
-            if (currentTitle && newTitle && newTitle === currentTitle) {
-                return;
-            }
-
-            // this is necessary to force a save when the title is blank
-            this.set('hasDirtyAttributes', true);
-
-            if (this.get('model.isDraft')) {
-                this.send('save', {
-                    silent: true,
-                    backgroundSave: true
-                });
-            }
+        updateTitle(newTitle) {
+            this.set('model.titleScratch', newTitle);
         },
 
         toggleDeletePostModal() {
