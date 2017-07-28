@@ -129,7 +129,7 @@
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="slug"}}
                     <label for="user-slug">Slug</label>
                     {{gh-input slugValue class="user-name" id="user-slug" name="user" focusOut=(action (perform updateSlug slugValue)) placeholder="Slug" selectOnClick="true" autocorrect="off" update=(action (mut slugValue))}}
-                    <p>{{gh-blog-url}}/author/{{slugValue}}</p>
+                    {{gh-url-preview prefix="author" slug=slugValue tagName="p" classNames="description"}}
                     {{gh-error-message errors=user.errors property="slug"}}
                 {{/gh-form-group}}
 
