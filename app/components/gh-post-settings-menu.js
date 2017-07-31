@@ -157,8 +157,10 @@ export default Component.extend(SettingsMenuMixin, {
     },
 
     actions: {
-        showSubview() {
+        showSubview(subview) {
             this._super(...arguments);
+
+            this.set('subview', subview);
 
             // Chrome appears to have an animation bug that cancels the slide
             // transition unless there's a delay between the animation starting
@@ -170,6 +172,8 @@ export default Component.extend(SettingsMenuMixin, {
 
         closeSubview() {
             this._super(...arguments);
+
+            this.set('subview', null);
             this.get('showThrobbers').perform();
         },
 
