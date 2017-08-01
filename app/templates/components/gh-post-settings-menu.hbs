@@ -76,7 +76,6 @@
             {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="customExcerpt"}}
                 <label for="custom-excerpt">Excerpt</label>
                 {{gh-textarea customExcerptScratch class="post-setting-custom-excerpt" id="custom-excerpt" name="post-setting-custom-excerpt" focusOut=(action "setCustomExcerpt" customExcerptScratch) stopEnterKeyDownPropagation="true" update=(action (mut customExcerptScratch)) data-test-field="custom-excerpt"}}
-                <p>Maximum: <b>300</b> characters. You’ve used {{gh-count-down-characters customExcerptScratch 300}}</p>
                 {{gh-error-message errors=model.errors property="customExcerpt" data-test-error="custom-excerpt"}}
             {{/gh-form-group}}
 
