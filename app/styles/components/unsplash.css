@@ -1,0 +1,57 @@
+/* Unsplash Integration
+/* ---------------------------------------------------------- */
+
+.gh-unsplash {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    overflow: auto;
+    background: #fff;
+}
+
+.gh-unsplash-container {
+    max-width: 1040px;
+    margin: 100px auto;
+}
+
+.gh-unsplash-header {
+    text-align: center;
+}
+
+.gh-unsplash-search {
+    width: 100%;
+    height: 40px;
+    padding: 0 30px 2px 42px;
+    outline: none;
+    border: 1px solid transparent;
+    color: #111;
+    font-size: 14px;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+
+    appearance: none;
+}
+
+.gh-unsplash-search:hover {
+    border-color: #d1d1d1;
+}
+
+.gh-unsplash-search:focus {
+    border-color: #d1d1d1;
+    background: #fff;
+}
+
+.gh-unsplash-grid {
+    column-count: 3;
+    column-gap: 10px;
+}
+
+.gh-unsplash-grid-item {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 1em;
+}
