@@ -12,6 +12,33 @@
     background: #fff;
 }
 
+.gh-unsplash-logo {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    display: block;
+}
+
+.gh-unsplash-logo svg {
+    width: 32px;
+}
+
+.gh-unsplash-close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 25px;
+    height: 25px;
+}
+
+.gh-unsplash-close:hover {
+    cursor: pointer;
+}
+
+.gh-unsplash-close svg {
+    fill: color(var(--midgrey) l(+15%));
+}
+
 .gh-unsplash-container {
     max-width: 1040px;
     margin: 100px auto;
@@ -21,10 +48,22 @@
     text-align: center;
 }
 
+.gh-unsplash-header-desc {
+    font-size: 1.6rem;
+    line-height: 1.6em;
+}
+
+.gh-unsplash-header .gh-input-icon svg {
+    left: 15px;
+    fill: #777;
+}
+
 .gh-unsplash-search {
     width: 100%;
     height: 40px;
-    padding: 0 30px 2px 42px;
+    max-width: none;
+    margin: 50px 0;
+    padding: 0 30px 1px 50px;
     outline: none;
     border: 1px solid transparent;
     color: #111;
@@ -47,7 +86,7 @@
 
 .gh-unsplash-grid {
     column-count: 3;
-    column-gap: 10px;
+    column-gap: 24px;
 }
 
 .gh-unsplash-grid-item {

@@ -1,10 +1,23 @@
 <div class="gh-unsplash">
     <div class="gh-unsplash-container">
+        <a class="gh-unsplash-logo" href="https://unsplash.com" target="_blank">{{inline-svg "unsplash"}}</a>
+        <div class="gh-unsplash-close" aria-role="button">{{inline-svg "close"}}</div>
         <header class="gh-unsplash-header">
-            <h1>Unsplash</h1>
-            <p>Beautiful, free photos.<br>
+            <h1 class="gh-unsplash-header-title">Unsplash</h1>
+            <p class="gh-unsplash-header-desc">Beautiful, free photos.<br>
 Gifted by the world’s most generous community of photographers. 🎁</p>
-            <input type="text" autocorrect="off" class="gh-unsplash-search" name="searchKeyword" id="searchKeyword" data-test="search-input-input" placeholder="Search free high-resolution photos" tabindex="1" value="">
+            <span class="gh-input-icon">
+                {{inline-svg "search"}}
+                {{gh-input model.email
+                    class="gh-unsplash-search"
+                    type="text"
+                    name="searchKeyword"
+                    placeholder="Search free high-resolution photos"
+                    tabindex="1"
+                    autocorrect="off"
+                    value=""
+                }}
+            </span>
         </header>
         <section class="gh-unsplash-grid">
             {{#each unsplash.photos as |photo|}}
