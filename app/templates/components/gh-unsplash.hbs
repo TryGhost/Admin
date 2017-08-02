@@ -7,37 +7,11 @@ Gifted by the world’s most generous community of photographers. 🎁</p>
             <input type="text" autocorrect="off" class="gh-unsplash-search" name="searchKeyword" id="searchKeyword" data-test="search-input-input" placeholder="Search free high-resolution photos" tabindex="1" value="">
         </header>
         <section class="gh-unsplash-grid">
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1481391564276-da6fcacaee31?dpr=2&auto=format&fit=crop&h=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
-            <a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a><a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a><a class="gh-unsplash-grid-item" href="#">
-                <img src="https://images.unsplash.com/photo-1452825152636-89e0f09f1267?dpr=2&auto=format&fit=crop&w=800" alt="" />
-            </a>
+            {{#each unsplash.photos as |photo|}}
+                <a class="gh-unsplash-grid-item" href="#">
+                    <img src="{{photo.urls.regular}}" alt="" />
+                </a>
+            {{/each}}
         </section>
     </div>
 </div>
