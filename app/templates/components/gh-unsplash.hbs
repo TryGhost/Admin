@@ -43,5 +43,8 @@ Gifted by the world’s most generous community of photographers. 🎁</p>
                 </a>
             {{/each}}
         </section>
+
+        {{gh-infinite-scroll-trigger
+            onEnterViewport=(action "loadNextPage")}}
     </div>
 </div>

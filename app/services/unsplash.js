@@ -1,5 +1,8 @@
+import RSVP from 'rsvp';
 import Service from 'ember-service';
 import fetch from 'fetch';
+import {isEmpty} from 'ember-utils';
+import {task} from 'ember-concurrency';
 
 const API_URL = 'https://api.unsplash.com';
 const API_VERSION = 'v1';
@@ -17,23 +20,39 @@ export default Service.extend({
         this._pagination = {};
     },
 
-    listNew() {
-        return this._makeRequest('photos').then((photos) => {
+    loadNew() {
+        return this.get('_loadNew').perform();
+    },
+
+    _loadNew: task(function* () {
+        let url = `${API_URL}/photos`;
+
+        return yield this._makeRequest(url).then((photos) => {
             this.set('photos', photos);
         });
-    },
+    }).drop(),
 
     loadNextPage() {
-        if (this._pagination.next) {
-            return this._makeRequest(this._pagination.next);
+        if (isEmpty(this.get('photos'))) {
+            return this.get('_loadNew').perform();
         }
 
-        // TODO: return actual error
-        return null;
+        if (this._pagination.next) {
+            return this.get('_loadNextPage').perform();
+        }
+
+        // TODO: return error?
+        return RSVP.reject();
     },
 
-    _makeRequest(path) {
-        let url = `${API_URL}/${path}`;
+    _loadNextPage: task(function* () {
+        return yield this._makeRequest(this._pagination.next)
+            .then((photos) => {
+                this.get('photos').pushObjects(photos);
+            });
+    }).drop(),
+
+    _makeRequest(url) {
         let headers = {};
 
         headers.Authorization = `Client-ID ${this.applicationId}`;

@@ -6,8 +6,9 @@ export default Component.extend({
 
     tagName: '',
 
-    didInsertElement() {
-        this._super(...arguments);
-        this.get('unsplash').listNew();
+    actions: {
+        loadNextPage() {
+            this.get('unsplash').loadNextPage();
+        }
     }
 });
