@@ -35,6 +35,10 @@ export default Component.extend(SettingsMenuMixin, {
     codeinjectionHeadScratch: alias('model.codeinjectionHeadScratch'),
     metaDescriptionScratch: alias('model.metaDescriptionScratch'),
     metaTitleScratch: alias('model.metaTitleScratch'),
+    ogDescriptionScratch: alias('model.ogDescriptionScratch'),
+    ogTitleScratch: alias('model.ogTitleScratch'),
+    twitterDescriptionScratch: alias('model.twitterDescriptionScratch'),
+    twitterTitleScratch: alias('model.twitterTitleScratch'),
     slugValue: boundOneWay('model.slug'),
 
     _showSettingsMenu: false,
@@ -89,12 +93,6 @@ export default Component.extend(SettingsMenuMixin, {
 
         metaTitle = metaTitle.length > 0 ? metaTitle : this.get('model.titleScratch');
 
-        if (metaTitle.length > 70) {
-            metaTitle = metaTitle.substring(0, 70).trim();
-            metaTitle = Handlebars.Utils.escapeExpression(metaTitle);
-            metaTitle = htmlSafe(`${metaTitle}&hellip;`);
-        }
-
         return metaTitle;
     }),
 
@@ -116,13 +114,6 @@ export default Component.extend(SettingsMenuMixin, {
             placeholder = placeholder.replace(/\n+/g, ' ').trim();
         }
 
-        if (placeholder.length > 156) {
-            // Limit to 156 characters
-            placeholder = placeholder.substring(0, 156).trim();
-            placeholder = Handlebars.Utils.escapeExpression(placeholder);
-            placeholder = htmlSafe(`${placeholder}&hellip;`);
-        }
-
         return placeholder;
     }),
 
@@ -136,13 +127,59 @@ export default Component.extend(SettingsMenuMixin, {
             seoURL += '/';
         }
 
-        if (seoURL.length > 70) {
-            seoURL = seoURL.substring(0, 70).trim();
-            seoURL = Handlebars.Utils.escapeExpression(seoURL);
-            seoURL = htmlSafe(`${seoURL}&hellip;`);
-        }
-
         return seoURL;
+    }),
+
+    facebookImage: computed('model.ogImage', 'model.featureImage', function () {
+        let facebookImage = this.get('model.ogImage') || '';
+
+        facebookImage = facebookImage ? facebookImage : this.get('model.featureImage');
+
+        return facebookImage;
+    }),
+
+    facebookTitle: computed('seoTitle', 'ogTitleScratch', function () {
+        let facebookTitle = this.get('ogTitleScratch') || '';
+
+        facebookTitle = facebookTitle.length > 0 ? facebookTitle : this.get('seoTitle');
+
+        return facebookTitle;
+    }),
+
+    facebookDescription: computed('seoDescription', 'ogDescriptionScratch', 'customExcerptScratch', function () {
+        let facebookDescription = this.get('ogDescriptionScratch') || '';
+        let customExcerptScratch = this.get('customExcerptScratch');
+
+        facebookDescription = facebookDescription.length > 0 ? facebookDescription
+                                : customExcerptScratch ? customExcerptScratch : this.get('seoDescription');
+
+        return facebookDescription;
+    }),
+
+    twitterImage: computed('model.twitterImage', 'model.featureImage', function () {
+        let twitterImage = this.get('model.twitterImage') || '';
+
+        twitterImage = twitterImage ? twitterImage : this.get('model.featureImage');
+
+        return twitterImage;
+    }),
+
+    twitterTitle: computed('seoTitle', 'twitterTitleScratch', function () {
+        let twitterTitle = this.get('twitterTitleScratch') || '';
+
+        twitterTitle = twitterTitle.length > 0 ? twitterTitle : this.get('seoTitle');
+
+        return twitterTitle;
+    }),
+
+    twitterDescription: computed('seoDescription', 'twitterDescriptionScratch', 'customExcerptScratch', function () {
+        let twitterDescription = this.get('twitterDescriptionScratch') || '';
+        let customExcerptScratch = this.get('customExcerptScratch');
+
+        twitterDescription = twitterDescription.length > 0 ? twitterDescription
+                                : customExcerptScratch ? customExcerptScratch : this.get('seoDescription');
+
+        return twitterDescription;
     }),
 
     // live-query of all tags for tag input autocomplete
@@ -344,6 +381,98 @@ export default Component.extend(SettingsMenuMixin, {
             });
         },
 
+        setOgTitle(ogTitle) {
+            // Grab the model and current stored meta title
+            let model = this.get('model');
+            let currentTitle = model.get('ogTitle');
+
+            // If the title entered matches the stored meta title, do nothing
+            if (currentTitle === ogTitle) {
+                return;
+            }
+
+            // If the title entered is different, set it as the new meta title
+            model.set('ogTitle', ogTitle);
+
+            // Make sure the meta title is valid and if so, save it into the model
+            return model.validate({property: 'ogTitle'}).then(() => {
+                if (model.get('isNew')) {
+                    return;
+                }
+
+                return model.save();
+            });
+        },
+
+        setOgDescription(ogDescription) {
+            // Grab the model and current stored meta description
+            let model = this.get('model');
+            let currentDescription = model.get('ogDescription');
+
+            // If the title entered matches the stored meta title, do nothing
+            if (currentDescription === ogDescription) {
+                return;
+            }
+
+            // If the title entered is different, set it as the new meta title
+            model.set('ogDescription', ogDescription);
+
+            // Make sure the meta title is valid and if so, save it into the model
+            return model.validate({property: 'ogDescription'}).then(() => {
+                if (model.get('isNew')) {
+                    return;
+                }
+
+                return model.save();
+            });
+        },
+
+        setTwitterTitle(twitterTitle) {
+            // Grab the model and current stored meta title
+            let model = this.get('model');
+            let currentTitle = model.get('twitterTitle');
+
+            // If the title entered matches the stored meta title, do nothing
+            if (currentTitle === twitterTitle) {
+                return;
+            }
+
+            // If the title entered is different, set it as the new meta title
+            model.set('twitterTitle', twitterTitle);
+
+            // Make sure the meta title is valid and if so, save it into the model
+            return model.validate({property: 'twitterTitle'}).then(() => {
+                if (model.get('isNew')) {
+                    return;
+                }
+
+                return model.save();
+            });
+        },
+
+        setTwitterDescription(twitterDescription) {
+            // Grab the model and current stored meta description
+            let model = this.get('model');
+            let currentDescription = model.get('twitterDescription');
+
+            // If the title entered matches the stored meta title, do nothing
+            if (currentDescription === twitterDescription) {
+                return;
+            }
+
+            // If the title entered is different, set it as the new meta title
+            model.set('twitterDescription', twitterDescription);
+
+            // Make sure the meta title is valid and if so, save it into the model
+            return model.validate({property: 'twitterDescription'}).then(() => {
+                if (model.get('isNew')) {
+                    return;
+                }
+
+                return model.save();
+            });
+        },
+
         setCoverImage(image) {
             this.set('model.featureImage', image);
 
@@ -359,6 +488,58 @@ export default Component.extend(SettingsMenuMixin, {
 
         clearCoverImage() {
             this.set('model.featureImage', '');
+
+            if (this.get('model.isNew')) {
+                return;
+            }
+
+            this.get('model').save().catch((error) => {
+                this.showError(error);
+                this.get('model').rollbackAttributes();
+            });
+        },
+
+        setOgImage(image) {
+            this.set('model.ogImage', image);
+
+            if (this.get('model.isNew')) {
+                return;
+            }
+
+            this.get('model').save().catch((error) => {
+                this.showError(error);
+                this.get('model').rollbackAttributes();
+            });
+        },
+
+        clearOgImage() {
+            this.set('model.ogImage', '');
+
+            if (this.get('model.isNew')) {
+                return;
+            }
+
+            this.get('model').save().catch((error) => {
+                this.showError(error);
+                this.get('model').rollbackAttributes();
+            });
+        },
+
+        setTwitterImage(image) {
+            this.set('model.twitterImage', image);
+
+            if (this.get('model.isNew')) {
+                return;
+            }
+
+            this.get('model').save().catch((error) => {
+                this.showError(error);
+                this.get('model').rollbackAttributes();
+            });
+        },
+
+        clearTwitterImage() {
+            this.set('model.twitterImage', '');
 
             if (this.get('model.isNew')) {
                 return;
