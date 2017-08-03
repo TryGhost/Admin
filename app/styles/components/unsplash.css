@@ -98,8 +98,8 @@
 }
 
 .gh-unsplash-grid {
-    column-count: 3;
-    column-gap: 24px;
+    /*column-count: 3;*/
+    /*column-gap: 24px;*/
 }
 
 .gh-unsplash-photo {
@@ -113,6 +113,7 @@
 
 .gh-unsplash-photo > img {
     display: block;
+    height: auto;
 }
 
 .gh-unsplash-photo:hover .gh-unsplash-photo-overlay {

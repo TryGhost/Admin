@@ -25,7 +25,7 @@ export default Service.extend({
     },
 
     _loadNew: task(function* () {
-        let url = `${API_URL}/photos`;
+        let url = `${API_URL}/photos?per_page=50`;
 
         return yield this._makeRequest(url).then((photos) => {
             this.set('photos', photos);

@@ -1,0 +1,20 @@
+<a class="gh-unsplash-photo" style="background-color:{{photo.color}};" href="#">
+    <img src="{{photo.urls.regular}}" alt="" width={{width}} height={{height}} />
+    <div class="gh-unsplash-photo-overlay">
+        <div class="gh-unsplash-photo-header">
+            <div class="gh-unsplash-photo-author">
+                <a class="gh-unsplash-photo-author-img" href="{{photo.user.links.html}}" target="_blank">
+                    <img src="{{photo.user.profile_image.medium}}" />
+                </a>
+                <a class="gh-unsplash-photo-author-name" href="{{photo.user.links.html}}" target="_blank">
+                    {{photo.user.name}}
+                </a>
+            </div>
+            <a class="gh-unsplash-button" href="{{photo.links.html}}" target="_blank">{{inline-svg "unsplash-heart"}}{{photo.likes}}</a>
+        </div>
+        <div class="gh-unsplash-photo-footer">
+            <a class="gh-unsplash-button" href="{{photo.links.download}}/?force=true">Download</a>
+            <a class="gh-unsplash-button" href="#">Insert</a>
+        </div>
+    </div>
+</a>

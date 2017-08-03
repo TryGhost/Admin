@@ -2926,6 +2926,13 @@ ember-cli-code-coverage@0.3.12:
     source-map "0.5.6"
     string.prototype.startswith "^0.2.0"
 
+ember-cli-csp-style@^2.1.9:
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/ember-cli-csp-style/-/ember-cli-csp-style-2.1.9.tgz#a514ec875ed38868d441f670a73c6b0f204567c0"
+  dependencies:
+    ember-cli-babel "^5.1.5"
+    ember-string-ishtmlsafe-polyfill "^1.1.0"
+
 ember-cli-dependency-checker@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ember-cli-dependency-checker/-/ember-cli-dependency-checker-1.3.0.tgz#f0e8cb7f0f43c1e560494eaa9372804e7a088a2a"
@@ -3150,6 +3157,13 @@ ember-cli-shims@1.1.0:
     ember-cli-babel "^6.0.0-beta.7"
     ember-cli-version-checker "^1.2.0"
     silent-error "^1.0.1"
+
+ember-cli-simple-grid@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/ember-cli-simple-grid/-/ember-cli-simple-grid-2.5.3.tgz#986627d491e96d0ec33e5ad17b93453c1a83ec54"
+  dependencies:
+    ember-cli-babel "^6.0.0"
+    ember-cli-htmlbars "^1.1.1"
 
 ember-cli-string-helpers@1.0.0:
   version "1.0.0"
@@ -3721,6 +3735,13 @@ ember-source@2.14.1:
     rsvp "^3.5.0"
     simple-dom "^0.3.0"
     simple-html-tokenizer "^0.4.1"
+
+ember-string-ishtmlsafe-polyfill@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ember-string-ishtmlsafe-polyfill/-/ember-string-ishtmlsafe-polyfill-1.1.0.tgz#ecde33419ff912b91dd8acf0640eb74b9758408e"
+  dependencies:
+    ember-cli-babel "^5.1.7"
+    ember-cli-version-checker "^1.2.0"
 
 ember-test-helpers@^0.6.3:
   version "0.6.3"
