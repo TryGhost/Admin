@@ -64,6 +64,7 @@
     "ember-cli-selectize": "0.5.12",
     "ember-cli-shims": "1.1.0",
     "ember-cli-simple-grid": "^2.5.3",
+    "ember-cli-string-helpers": "1.4.0",
     "ember-cli-test-loader": "2.1.0",
     "ember-cli-uglify": "1.2.0",
     "ember-composable-helpers": "2.0.1",
