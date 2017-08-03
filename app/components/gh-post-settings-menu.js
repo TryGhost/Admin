@@ -1,18 +1,14 @@
 import Component from 'ember-component';
-import Ember from 'ember';
 import SettingsMenuMixin from 'ghost-admin/mixins/settings-menu-component';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
-import computed, {alias} from 'ember-computed';
+import computed, {alias, or} from 'ember-computed';
 import formatMarkdown from 'ghost-admin/utils/format-markdown';
 import injectService from 'ember-service/inject';
 import moment from 'moment';
 import run from 'ember-runloop';
 import {guidFor} from 'ember-metal/utils';
-import {htmlSafe} from 'ember-string';
 import {invokeAction} from 'ember-invoke-action';
 import {task, timeout} from 'ember-concurrency';
-
-const {Handlebars} = Ember;
 
 const PSM_ANIMATION_LENGTH = 400;
 
@@ -40,6 +36,14 @@ export default Component.extend(SettingsMenuMixin, {
     twitterDescriptionScratch: alias('model.twitterDescriptionScratch'),
     twitterTitleScratch: alias('model.twitterTitleScratch'),
     slugValue: boundOneWay('model.slug'),
+
+    seoTitle: or('metaTitleScratch', 'model.titleScratch'),
+    twitterImage: or('model.twitterImage', 'model.featureImage'),
+    twitterTitle: or('twitterTitleScratch', 'seoTitle'),
+    twitterDescription: or('twitterDescriptionScratch', 'customExcerptScratch', 'seoDescription'),
+    facebookImage: or('model.ogImage', 'model.featureImage'),
+    facebookTitle: or('ogTitleScratch', 'seoTitle'),
+    facebookDescription: or('ogDescriptionScratch', 'customExcerptScratch', 'seoDescription'),
 
     _showSettingsMenu: false,
     _showThrobbers: false,
@@ -88,21 +92,13 @@ export default Component.extend(SettingsMenuMixin, {
         this.set('_showThrobbers', true);
     }).restartable(),
 
-    seoTitle: computed('model.titleScratch', 'metaTitleScratch', function () {
-        let metaTitle = this.get('metaTitleScratch') || '';
-
-        metaTitle = metaTitle.length > 0 ? metaTitle : this.get('model.titleScratch');
-
-        return metaTitle;
-    }),
-
     seoDescription: computed('model.scratch', 'metaDescriptionScratch', function () {
         let metaDescription = this.get('metaDescriptionScratch') || '';
         let mobiledoc = this.get('model.scratch');
         let markdown = mobiledoc.cards && mobiledoc.cards[0][1].markdown;
         let placeholder;
 
-        if (metaDescription.length > 0) {
+        if (metaDescription) {
             placeholder = metaDescription;
         } else {
             let div = document.createElement('div');
@@ -128,58 +124,6 @@ export default Component.extend(SettingsMenuMixin, {
         }
 
         return seoURL;
-    }),
-
-    facebookImage: computed('model.ogImage', 'model.featureImage', function () {
-        let facebookImage = this.get('model.ogImage') || '';
-
-        facebookImage = facebookImage ? facebookImage : this.get('model.featureImage');
-
-        return facebookImage;
-    }),
-
-    facebookTitle: computed('seoTitle', 'ogTitleScratch', function () {
-        let facebookTitle = this.get('ogTitleScratch') || '';
-
-        facebookTitle = facebookTitle.length > 0 ? facebookTitle : this.get('seoTitle');
-
-        return facebookTitle;
-    }),
-
-    facebookDescription: computed('seoDescription', 'ogDescriptionScratch', 'customExcerptScratch', function () {
-        let facebookDescription = this.get('ogDescriptionScratch') || '';
-        let customExcerptScratch = this.get('customExcerptScratch');
-
-        facebookDescription = facebookDescription.length > 0 ? facebookDescription
-                                : customExcerptScratch ? customExcerptScratch : this.get('seoDescription');
-
-        return facebookDescription;
-    }),
-
-    twitterImage: computed('model.twitterImage', 'model.featureImage', function () {
-        let twitterImage = this.get('model.twitterImage') || '';
-
-        twitterImage = twitterImage ? twitterImage : this.get('model.featureImage');
-
-        return twitterImage;
-    }),
-
-    twitterTitle: computed('seoTitle', 'twitterTitleScratch', function () {
-        let twitterTitle = this.get('twitterTitleScratch') || '';
-
-        twitterTitle = twitterTitle.length > 0 ? twitterTitle : this.get('seoTitle');
-
-        return twitterTitle;
-    }),
-
-    twitterDescription: computed('seoDescription', 'twitterDescriptionScratch', 'customExcerptScratch', function () {
-        let twitterDescription = this.get('twitterDescriptionScratch') || '';
-        let customExcerptScratch = this.get('customExcerptScratch');
-
-        twitterDescription = twitterDescription.length > 0 ? twitterDescription
-                                : customExcerptScratch ? customExcerptScratch : this.get('seoDescription');
-
-        return twitterDescription;
     }),
 
     // live-query of all tags for tag input autocomplete
@@ -382,19 +326,19 @@ export default Component.extend(SettingsMenuMixin, {
         },
 
         setOgTitle(ogTitle) {
-            // Grab the model and current stored meta title
+            // Grab the model and current stored facebook title
             let model = this.get('model');
             let currentTitle = model.get('ogTitle');
 
-            // If the title entered matches the stored meta title, do nothing
+            // If the title entered matches the stored facebook title, do nothing
             if (currentTitle === ogTitle) {
                 return;
             }
 
-            // If the title entered is different, set it as the new meta title
+            // If the title entered is different, set it as the new facebook title
             model.set('ogTitle', ogTitle);
 
-            // Make sure the meta title is valid and if so, save it into the model
+            // Make sure the facebook title is valid and if so, save it into the model
             return model.validate({property: 'ogTitle'}).then(() => {
                 if (model.get('isNew')) {
                     return;
@@ -405,19 +349,19 @@ export default Component.extend(SettingsMenuMixin, {
         },
 
         setOgDescription(ogDescription) {
-            // Grab the model and current stored meta description
+            // Grab the model and current stored facebook description
             let model = this.get('model');
             let currentDescription = model.get('ogDescription');
 
-            // If the title entered matches the stored meta title, do nothing
+            // If the title entered matches the stored facebook description, do nothing
             if (currentDescription === ogDescription) {
                 return;
             }
 
-            // If the title entered is different, set it as the new meta title
+            // If the description entered is different, set it as the new facebook description
             model.set('ogDescription', ogDescription);
 
-            // Make sure the meta title is valid and if so, save it into the model
+            // Make sure the facebook description is valid and if so, save it into the model
             return model.validate({property: 'ogDescription'}).then(() => {
                 if (model.get('isNew')) {
                     return;
@@ -428,19 +372,19 @@ export default Component.extend(SettingsMenuMixin, {
         },
 
         setTwitterTitle(twitterTitle) {
-            // Grab the model and current stored meta title
+            // Grab the model and current stored twitter title
             let model = this.get('model');
             let currentTitle = model.get('twitterTitle');
 
-            // If the title entered matches the stored meta title, do nothing
+            // If the title entered matches the stored twitter title, do nothing
             if (currentTitle === twitterTitle) {
                 return;
             }
 
-            // If the title entered is different, set it as the new meta title
+            // If the title entered is different, set it as the new twitter title
             model.set('twitterTitle', twitterTitle);
 
-            // Make sure the meta title is valid and if so, save it into the model
+            // Make sure the twitter title is valid and if so, save it into the model
             return model.validate({property: 'twitterTitle'}).then(() => {
                 if (model.get('isNew')) {
                     return;
@@ -451,19 +395,19 @@ export default Component.extend(SettingsMenuMixin, {
         },
 
         setTwitterDescription(twitterDescription) {
-            // Grab the model and current stored meta description
+            // Grab the model and current stored twitter description
             let model = this.get('model');
             let currentDescription = model.get('twitterDescription');
 
-            // If the title entered matches the stored meta title, do nothing
+            // If the description entered matches the stored twitter description, do nothing
             if (currentDescription === twitterDescription) {
                 return;
             }
 
-            // If the title entered is different, set it as the new meta title
+            // If the description entered is different, set it as the new twitter description
             model.set('twitterDescription', twitterDescription);
 
-            // Make sure the meta title is valid and if so, save it into the model
+            // Make sure the twitter description is valid and if so, save it into the model
             return model.validate({property: 'twitterDescription'}).then(() => {
                 if (model.get('isNew')) {
                     return;
