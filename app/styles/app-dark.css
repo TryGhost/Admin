@@ -297,6 +297,10 @@ input,
     background: #fff;
 }
 
+.gh-contributors a:before {
+    color: #738a94;
+}
+
 .user-cover-edit {
     color: #fff;
 }
