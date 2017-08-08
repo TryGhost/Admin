@@ -20,17 +20,20 @@ Gifted by the world’s most generous community of photographers. 🎁</p>
             </span>
         </header>
         <section class="gh-unsplash-grid">
-            {{#simple-grid as |grid|}}
-                {{#each unsplash.photos as |photo|}}
-                    {{#grid.image}}
+            {{#each unsplash.columns as |photos|}}
+                <div class="gh-unsplash-grid-column">
+                    {{#each photos as |photo|}}
                         {{gh-unsplash-photo photo=photo}}
-                    {{/grid.image}}
-                {{/each}}
-            {{/simple-grid}}
+                    {{/each}}
+                </div>
+            {{/each}}
         </section>
 
-        {{!-- TODO: re-enable infinite scroll when we have a good masonry solution --}}
-        {{!-- {{gh-infinite-scroll-trigger
-            onEnterViewport=(action "loadNextPage")}} --}}
+        {{#if unsplash.isLoading}}
+            <div class="gh-loading-spinner"></div>
+        {{/if}}
+
+        {{gh-scroll-trigger
+            onEnterViewport=(action "loadNextPage")}}
     </div>
 </div>

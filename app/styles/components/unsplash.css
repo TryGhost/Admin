@@ -98,8 +98,26 @@
 }
 
 .gh-unsplash-grid {
-    /*column-count: 3;*/
-    /*column-gap: 24px;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.gh-unsplash-grid-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: stretch;
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-right: 24px;
+}
+
+.gh-unsplash-grid-column:last-of-type {
+    margin-right: 0;
 }
 
 .gh-unsplash-photo {
@@ -204,4 +222,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+.gh-unsplash .gh-loading-spinner {
+    display: block;
+    margin: 0 auto;
 }

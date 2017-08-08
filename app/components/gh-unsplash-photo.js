@@ -1,4 +1,6 @@
 import Component from 'ember-component';
+import {computed} from '@ember/object';
+import {htmlSafe} from '@ember/string';
 
 export default Component.extend({
 
@@ -7,13 +9,15 @@ export default Component.extend({
     tagName: '',
     width: 1080,
 
+    // avoid "binding style attributes" warnings
+    style: computed('photo.color', function() {
+        return htmlSafe(`background-color: ${this.get('photo.color')}`);
+    }),
+
     didReceiveAttrs() {
         this._super(...arguments);
 
-        let photoHeight = this.get('photo.height');
-        let photoWidth = this.get('photo.width');
-        let ratio = photoHeight / photoWidth;
-        let height = this.get('width') * ratio;
+        let height = this.get('width') * this.get('photo.ratio');
 
         this.set('height', height);
     }

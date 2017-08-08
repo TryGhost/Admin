@@ -6,11 +6,6 @@ export default Component.extend({
 
     tagName: '',
 
-    didInsertElement() {
-        this._super(...arguments);
-        this.send('loadNextPage');
-    },
-
     actions: {
         loadNextPage() {
             this.get('unsplash').loadNextPage();
