@@ -1,39 +1,41 @@
-<div class="gh-unsplash">
-    <div class="gh-unsplash-container">
-        <a class="gh-unsplash-logo" href="https://unsplash.com" target="_blank">{{inline-svg "unsplash"}}</a>
-        <div class="gh-unsplash-close" aria-role="button">{{inline-svg "close"}}</div>
-        <header class="gh-unsplash-header">
-            <h1 class="gh-unsplash-header-title">Unsplash</h1>
-            <p class="gh-unsplash-header-desc">Beautiful, free photos.<br>
-Gifted by the world’s most generous community of photographers. 🎁</p>
-            <span class="gh-input-icon">
-                {{inline-svg "search"}}
-                {{gh-input model.email
-                    class="gh-unsplash-search"
-                    type="text"
-                    name="searchKeyword"
-                    placeholder="Search free high-resolution photos"
-                    tabindex="1"
-                    autocorrect="off"
-                    value=""
-                }}
-            </span>
-        </header>
-        <section class="gh-unsplash-grid">
-            {{#each unsplash.columns as |photos|}}
-                <div class="gh-unsplash-grid-column">
-                    {{#each photos as |photo|}}
-                        {{gh-unsplash-photo photo=photo}}
-                    {{/each}}
-                </div>
-            {{/each}}
-        </section>
+{{#liquid-wormhole class="unsplash"}}
+    <div class="gh-unsplash">
+        <div class="gh-unsplash-container">
+            <a class="gh-unsplash-logo" href="https://unsplash.com" target="_blank">{{inline-svg "unsplash"}}</a>
+            <div class="gh-unsplash-close" aria-role="button" {{action "close"}}>{{inline-svg "close"}}</div>
+            <header class="gh-unsplash-header">
+                <h1 class="gh-unsplash-header-title">Unsplash</h1>
+                <p class="gh-unsplash-header-desc">Beautiful, free photos.<br>
+    Gifted by the world’s most generous community of photographers. 🎁</p>
+                <span class="gh-input-icon">
+                    {{inline-svg "search"}}
+                    {{gh-input model.email
+                        class="gh-unsplash-search"
+                        type="text"
+                        name="searchKeyword"
+                        placeholder="Search free high-resolution photos"
+                        tabindex="1"
+                        autocorrect="off"
+                        value=""
+                    }}
+                </span>
+            </header>
+            <section class="gh-unsplash-grid">
+                {{#each unsplash.columns as |photos|}}
+                    <div class="gh-unsplash-grid-column">
+                        {{#each photos as |photo|}}
+                            {{gh-unsplash-photo photo=photo insert=(action "insert")}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </section>
 
-        {{#if unsplash.isLoading}}
-            <div class="gh-loading-spinner"></div>
-        {{/if}}
+            {{#if unsplash.isLoading}}
+                <div class="gh-loading-spinner"></div>
+            {{/if}}
 
-        {{gh-scroll-trigger
-            onEnterViewport=(action "loadNextPage")}}
+            {{gh-scroll-trigger
+                onEnterViewport=(action "loadNextPage")}}
+        </div>
     </div>
-</div>
+{{/liquid-wormhole}}

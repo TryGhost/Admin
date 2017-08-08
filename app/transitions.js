@@ -24,4 +24,12 @@ export default function () {
         this.use('fade', {duration: 300}),
         this.reverse('fade', {duration: 300})
     );
+
+    // TODO: re-enable once styling is sorted
+    // this.transition(
+    //     this.hasClass('unsplash'),
+    //     this.toValue(true),
+    //     this.use('toUp', {duration: 500}),
+    //     this.reverse('toDown', {duration: 500})
+    // );
 }

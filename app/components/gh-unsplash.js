@@ -6,9 +6,22 @@ export default Component.extend({
 
     tagName: '',
 
+    // closure actions
+    close() {},
+    insert() {},
+
     actions: {
         loadNextPage() {
             this.get('unsplash').loadNextPage();
+        },
+
+        insert(photo) {
+            this.insert(photo);
+            this.close();
+        },
+
+        close() {
+            this.close();
         }
     }
 });

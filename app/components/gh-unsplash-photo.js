@@ -9,6 +9,9 @@ export default Component.extend({
     tagName: '',
     width: 1080,
 
+    // closure actions
+    insert() {},
+
     // avoid "binding style attributes" warnings
     style: computed('photo.color', function() {
         return htmlSafe(`background-color: ${this.get('photo.color')}`);
@@ -20,6 +23,12 @@ export default Component.extend({
         let height = this.get('width') * this.get('photo.ratio');
 
         this.set('height', height);
+    },
+
+    actions: {
+        insert() {
+            this.insert(this.get('photo'));
+        }
     }
 
 });

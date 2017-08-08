@@ -8,7 +8,7 @@ import run from 'ember-runloop';
 import {assign} from 'ember-platform';
 import {copy} from 'ember-metal/utils';
 import {htmlSafe} from 'ember-string';
-import {isEmpty} from 'ember-utils';
+import {isEmpty, typeOf} from 'ember-utils';
 
 const MOBILEDOC_VERSION = '0.3.1';
 
@@ -61,6 +61,7 @@ export default Component.extend(ShortcutsMixin, {
     _isSplitScreen: false,
     _isHemmingwayMode: false,
     _isUploading: false,
+    _showUnsplash: false,
     _statusbar: null,
     _toolbar: null,
     _uploadedImageUrls: null,
@@ -86,6 +87,14 @@ export default Component.extend(ShortcutsMixin, {
                     },
                     className: 'fa fa-picture-o',
                     title: 'Upload Image(s)'
+                },
+                {
+                    name: 'unsplash',
+                    action: () => {
+                        this.send('toggleUnsplash');
+                    },
+                    className: 'fa fa-camera',
+                    title: 'Add Image from Unsplash'
                 },
                 '|',
                 {
@@ -154,7 +163,7 @@ export default Component.extend(ShortcutsMixin, {
         this._super(...arguments);
         let shortcuts = this.get('shortcuts');
 
-        shortcuts[`${ctrlOrCmd}+shift+i`] = {action: 'insertImage'};
+        shortcuts[`${ctrlOrCmd}+shift+i`] = {action: 'openImageFileDialog'};
         shortcuts['ctrl+alt+h'] = {action: 'toggleHemmingway'};
     },
 
@@ -201,15 +210,28 @@ export default Component.extend(ShortcutsMixin, {
 
         // loop through urls and generate image markdown
         let images = urls.map((url) => {
-            let filename = url.split('/').pop();
-            let alt = filename;
+            // plain url string, so extract filename from path
+            if (typeOf(url) === 'string') {
+                let filename = url.split('/').pop();
+                let alt = filename;
 
-            // if we have a normal filename.ext, set alt to filename -ext
-            if (filename.lastIndexOf('.') > 0) {
-                alt = filename.slice(0, filename.lastIndexOf('.'));
+                // if we have a normal filename.ext, set alt to filename -ext
+                if (filename.lastIndexOf('.') > 0) {
+                    alt = filename.slice(0, filename.lastIndexOf('.'));
+                }
+
+                return `![${alt}](${url})`;
+
+            // full url object, use attrs we're given
+            } else {
+                let image = `![${url.alt}](${url.url})`;
+
+                if (url.credit) {
+                    image += `\n${url.credit}`;
+                }
+
+                return image;
             }
-
-            return `![${alt}](${url})`;
         });
         let text = images.join('\n');
 
@@ -452,9 +474,33 @@ export default Component.extend(ShortcutsMixin, {
             return false;
         },
 
-        insertImage() {
+        openImageFileDialog() {
             let captureSelection = this._editor.codemirror.hasFocus();
             this._openImageFileDialog({captureSelection});
+        },
+
+        toggleUnsplash() {
+            if (this.get('_showUnsplash')) {
+                return this.toggleProperty('_showUnsplash');
+            }
+
+            // capture current selection before it's lost by clicking toolbar btn
+            this._imageInsertSelection = {
+                anchor: this._editor.codemirror.getCursor('anchor'),
+                head: this._editor.codemirror.getCursor('head')
+            };
+
+            this.toggleProperty('_showUnsplash');
+        },
+
+        insertUnsplashPhoto(photo) {
+            let url = {
+                alt: photo.description || '',
+                url: photo.urls.regular,
+                credit: `Photo by [${photo.user.name}](${photo.user.links.html})`
+            };
+
+            this._insertImages([url]);
         },
 
         toggleFullScreen() {
