@@ -11,7 +11,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 9000;
     overflow: auto;
     padding: 25px;
     background: #fff;
@@ -55,9 +55,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-height: calc(100vh - 200px);
     max-width: 1200px;
     margin: 100px auto;
-    min-height: calc(100vh - 200px);
 }
 
 .gh-unsplash-header {
@@ -276,4 +276,46 @@
     margin: 2px 0 0 0;
     stroke: #777;
     stroke-width: 3px;
+}
+
+
+/* Photo Zoom Preview
+/* ---------------------------------------------------------- */
+
+.gh-unsplash-zoom {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 25px;
+    background: rgba(255,255,255,0.8);
+
+    backdrop-filter: blur(2px);
+}
+
+.gh-unsplash-zoom .gh-unsplash-photo {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    max-width: 1200px;
+    margin: 0;
+    color: #fff;
+    cursor: zoom-out;
+    background: var(--darkgrey);
+    box-shadow: rgba(39,44,49,0.1) 8px 14px 38px, rgba(39, 44, 49, 0.08) 1px 3px 8px;
+}
+
+.gh-unsplash-zoom .gh-unsplash-photo > img {
+    position: static;
+    display: block;
+}
+
+.gh-unsplash-zoom .gh-unsplash-photo-overlay {
+    opacity: 1;
 }
