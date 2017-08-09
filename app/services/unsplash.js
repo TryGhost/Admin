@@ -185,7 +185,14 @@ export default Service.extend({
         }
 
         let errorText = '';
-        let responseText = await response.text();
+        let responseText = '';
+
+        if (response.headers.map['content-type'] === 'application/json') {
+            let responseBody = await response.json();
+            responseText = responseBody.errors[0];
+        } else if (response.headers.map['content-type'] === 'text/xml') {
+            responseText = await response.text();
+        }
 
         if (response.status === 403 && response.headers.map['x-ratelimit-remaining'] === '0') {
             // we've hit the ratelimit on the API
