@@ -94,7 +94,7 @@
     padding: 2px 6px;
     background: var(--darkgrey);
     border-radius: var(--border-radius);
-    color: #fff;
+    color: var(--lightgrey);
     font-size: 1rem;
     line-height: 1.3em;
     opacity: 0;
