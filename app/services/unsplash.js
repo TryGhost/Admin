@@ -76,13 +76,15 @@ export default Service.extend({
 
     _loadNew: task(function* () {
         let url = `${API_URL}/photos?per_page=30`;
-
         let photos = yield this._makeRequest(url);
+
         photos.forEach((photo) => this._addPhoto(photo));
     }).group('_loadingTasks'),
 
     _loadNextPage: task(function* () {
-        let photos = yield this._makeRequest(this._pagination.next);
+        let result = yield this._makeRequest(this._pagination.next);
+        let photos = result.results || result;
+
         photos.forEach((photo) => this._addPhoto(photo));
     }).group('_loadingTasks'),
 
