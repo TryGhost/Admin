@@ -14,7 +14,13 @@ export default Component.extend({
 
     // avoid "binding style attributes" warnings
     style: computed('photo.color', function() {
-        return htmlSafe(`background-color: ${this.get('photo.color')}`);
+        let styles = [];
+        let ratio = this.get('photo.ratio');
+
+        styles.push(`background-color: ${this.get('photo.color')}`);
+        styles.push(`padding-bottom: ${ratio * 100}%`);
+
+        return htmlSafe(styles.join('; '));
     }),
 
     didReceiveAttrs() {

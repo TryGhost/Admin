@@ -131,6 +131,7 @@
 
 .gh-unsplash-photo > img {
     display: block;
+    position: absolute;
     height: auto;
 }
 
