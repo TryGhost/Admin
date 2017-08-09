@@ -28,6 +28,7 @@ export const BLANK_DOC = {
 export default Component.extend(ShortcutsMixin, {
 
     notifications: injectService(),
+    settings: injectService(),
 
     classNames: ['gh-markdown-editor'],
     classNameBindings: [
@@ -88,14 +89,6 @@ export default Component.extend(ShortcutsMixin, {
                     className: 'fa fa-picture-o',
                     title: 'Upload Image(s)'
                 },
-                {
-                    name: 'unsplash',
-                    action: () => {
-                        this.send('toggleUnsplash');
-                    },
-                    className: 'fa fa-camera',
-                    title: 'Add Image from Unsplash'
-                },
                 '|',
                 {
                     name: 'preview',
@@ -153,6 +146,21 @@ export default Component.extend(ShortcutsMixin, {
             // only include the number of words in the status bar
             status: ['words']
         };
+
+        // if unsplash is active insert the toolbar button after the image button
+        if (this.get('settings.unsplash.firstObject.isActive')) {
+            let image = defaultOptions.toolbar.findBy('name', 'image');
+            let index = defaultOptions.toolbar.indexOf(image) + 1;
+
+            defaultOptions.toolbar.splice(index, 0, {
+                name: 'unsplash',
+                action: () => {
+                    this.send('toggleUnsplash');
+                },
+                className: 'fa fa-camera',
+                title: 'Add Image from Unsplash'
+            });
+        }
 
         return assign(defaultOptions, options);
     }),
