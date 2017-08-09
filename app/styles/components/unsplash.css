@@ -12,7 +12,6 @@
     bottom: 0;
     left: 0;
     z-index: 9999;
-    display: flex;
     overflow: auto;
     padding: 25px;
     background: #fff;
@@ -53,12 +52,12 @@
 }
 
 .gh-unsplash-container {
-    flex-grow: 1px;
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 1200px;
     margin: 100px auto;
+    min-height: calc(100vh - 200px);
 }
 
 .gh-unsplash-header {
