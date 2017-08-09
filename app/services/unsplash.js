@@ -67,13 +67,7 @@ export default Service.extend({
         headers['Accept-Version'] = API_VERSION;
 
         return fetch(url, {headers})
-            .then((response) => {
-                if (response && response.status === 200) {
-                    return;
-                } else {
-                    throw new Error(`Invalid Application ID: ${testApplicationId}`);
-                }
-            });
+            .then((response) => this._checkStatus(response));
     },
 
     actions: {

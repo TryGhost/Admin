@@ -34,14 +34,9 @@ export default Controller.extend({
         try {
             yield this.get('save').perform();
             yield this.get('unsplash').sendTestRequest(applicationId);
-            notifications.showNotification('Check your Slack channel for the test message!', {type: 'info', key: 'unsplash-test.send.success'});
             return true;
         } catch (error) {
             notifications.showAPIError(error, {key: 'unsplash-test:send'});
-
-            if (!isInvalidError(error)) {
-                throw error;
-            }
         }
     }).drop(),
 
