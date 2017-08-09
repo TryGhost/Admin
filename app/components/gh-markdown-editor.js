@@ -497,7 +497,7 @@ export default Component.extend(ShortcutsMixin, {
             let image = {
                 alt: photo.description || '',
                 url: photo.urls.regular,
-                credit: `Photo by [${photo.user.name}](${photo.user.links.html})`
+                credit: `<small>Photo by [${photo.user.name}](${photo.user.links.html}?utm_source=ghost&utm_medium=referral&utm_campaign=api-credit) / [Unsplash](https://unsplash.com/?utm_source=ghost&utm_medium=referral&utm_campaign=api-credit)</small>`
             };
 
             this._insertImages([image]);
