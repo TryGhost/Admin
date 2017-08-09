@@ -6,7 +6,15 @@ export default Component.extend(InViewportMixin, {
     onEnterViewport() {},
 
     didInsertElement() {
+        let offset = this.get('triggerOffset');
+
         this.set('viewportSpy', true);
+        this.set('viewportTolerance', {
+            top: offset,
+            bottom: offset,
+            left: offset,
+            right: offset
+        });
 
         this._super(...arguments);
     },
