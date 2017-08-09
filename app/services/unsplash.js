@@ -1,6 +1,7 @@
 import RSVP from 'rsvp';
 import Service from '@ember/service';
 import fetch from 'fetch';
+import injectService from 'ember-service/inject';
 import {isEmpty} from '@ember/utils';
 import {or} from '@ember/object/computed';
 import {task, taskGroup, timeout} from 'ember-concurrency';
@@ -10,7 +11,8 @@ const API_VERSION = 'v1';
 const DEBOUNCE_MS = 600;
 
 export default Service.extend({
-    applicationId: '36b2f94f00d2e400b18b13ac793274c6800d4edce9eb6983310ec9b38aa59bb7',
+    config: injectService(),
+    settings: injectService(),
 
     columnCount: 3,
     columns: null,
@@ -21,6 +23,7 @@ export default Service.extend({
     _columnHeights: null,
     _pagination: null,
 
+    applicationId: or('config.unsplashAPI', 'settings.unsplash.firstObject.applicationId'),
     isLoading: or('_search.isRunning', '_loadingTasks.isRunning'),
 
     init() {
@@ -56,8 +59,21 @@ export default Service.extend({
         this._resetColumns();
     },
 
-    retryLastRequest() {
-        return this._makeRequest(this._lastRequestUrl);
+    sendTestRequest(testApplicationId) {
+        let url = `${API_URL}/photos/random`;
+        let headers = {};
+
+        headers.Authorization = `Client-ID ${testApplicationId}`;
+        headers['Accept-Version'] = API_VERSION;
+
+        return fetch(url, {headers})
+            .then((response) => {
+                if (response && response.status === 200) {
+                    return;
+                } else {
+                    throw new Error(`Invalid Application ID: ${testApplicationId}`);
+                }
+            });
     },
 
     actions: {
@@ -161,7 +177,7 @@ export default Service.extend({
         // store the url so it can be retried if needed
         this._lastRequestUrl = url;
 
-        headers.Authorization = `Client-ID ${this.applicationId}`;
+        headers.Authorization = `Client-ID ${this.get('applicationId')}`;
         headers['Accept-Version'] = API_VERSION;
 
         return fetch(url, {headers})
