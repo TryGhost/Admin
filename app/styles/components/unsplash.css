@@ -13,8 +13,20 @@
     left: 0;
     z-index: 9000;
     overflow: auto;
+}
+
+.gh-unsplash-window {
     padding: 25px;
     background: #fff;
+}
+
+.gh-unsplash-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    max-width: 1200px;
+    margin: 100px auto;
 }
 
 .gh-unsplash-logo {
@@ -49,15 +61,6 @@
 
 .gh-unsplash-close svg {
     fill: color(var(--midgrey) l(+15%));
-}
-
-.gh-unsplash-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: calc(100vh - 200px);
-    max-width: 1200px;
-    margin: 100px auto;
 }
 
 .gh-unsplash-header {
