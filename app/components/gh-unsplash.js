@@ -22,6 +22,10 @@ export default Component.extend({
 
         close() {
             this.close();
+        },
+
+        retry() {
+            this.get('unsplash').retryLastRequest();
         }
     }
 });

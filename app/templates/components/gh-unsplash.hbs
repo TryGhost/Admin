@@ -16,7 +16,7 @@
                         placeholder="Search free high-resolution photos"
                         tabindex="1"
                         autocorrect="off"
-                        update=(action 'updateSearch' target=unsplash)
+                        update=(action "updateSearch" target=unsplash)
                     }}
                 </span>
             </header>
@@ -31,10 +31,18 @@
                         </div>
                     {{/each}}
                 </section>
-            {{else if (not unsplash.isLoading)}}
+            {{else if (and unsplash.searchTerm (not unsplash.isLoading))}}
                 <section class="gh-unsplash-error">
                     <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="No photos found" />
                     <h4>No photos found for '{{unsplash.searchTerm}}'</h4>
+                </section>
+            {{/if}}
+
+            {{#if unsplash.error}}
+                {{!-- TODO: add better error styles? --}}
+                <section class="gh-unsplash-error">
+                    <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="Network error" />
+                    <h4>{{unsplash.error}} (<a href="#" {{action "retry"}}>retry</a>)</h4>
                 </section>
             {{/if}}
 

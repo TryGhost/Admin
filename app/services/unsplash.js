@@ -14,6 +14,7 @@ export default Service.extend({
 
     columnCount: 3,
     columns: null,
+    error: '',
     photos: null,
     searchTerm: '',
 
@@ -55,6 +56,10 @@ export default Service.extend({
         this._resetColumns();
     },
 
+    retryLastRequest() {
+        return this._makeRequest(this._lastRequestUrl);
+    },
+
     actions: {
         updateSearch(term) {
             if (term === this.get('searchTerm')) {
@@ -76,26 +81,29 @@ export default Service.extend({
 
     _loadNew: task(function* () {
         let url = `${API_URL}/photos?per_page=30`;
-        let photos = yield this._makeRequest(url);
-
-        photos.forEach((photo) => this._addPhoto(photo));
+        yield this._makeRequest(url);
     }).group('_loadingTasks'),
 
     _loadNextPage: task(function* () {
-        let result = yield this._makeRequest(this._pagination.next);
-        let photos = result.results || result;
+        yield this._makeRequest(this._pagination.next);
+    }).group('_loadingTasks'),
 
-        photos.forEach((photo) => this._addPhoto(photo));
+    _retryLastRequest: task(function* () {
+        yield this._makeRequest(this._lastRequestUrl);
     }).group('_loadingTasks'),
 
     _search: task(function* (term) {
         yield timeout(DEBOUNCE_MS);
 
         let url = `${API_URL}/search/photos?query=${term}&per_page=30`;
-        let result = yield this._makeRequest(url);
-
-        result.results.forEach((photo) => this._addPhoto(photo));
+        yield this._makeRequest(url);
     }).restartable(),
+
+    _addPhotosFromResponse(response) {
+        let photos = response.results || response;
+
+        photos.forEach((photo) => this._addPhoto(photo));
+    },
 
     _addPhoto(photo) {
         // pre-calculate ratio for later use
@@ -147,12 +155,52 @@ export default Service.extend({
     _makeRequest(url) {
         let headers = {};
 
+        // clear any previous error
+        this.set('error', '');
+
+        // store the url so it can be retried if needed
+        this._lastRequestUrl = url;
+
         headers.Authorization = `Client-ID ${this.applicationId}`;
         headers['Accept-Version'] = API_VERSION;
 
         return fetch(url, {headers})
+            .then((response) => this._checkStatus(response))
             .then((response) => this._extractPagination(response))
-            .then((response) => response.json());
+            .then((response) => response.json())
+            .then((response) => this._addPhotosFromResponse(response))
+            .catch(() => {
+                // if the error text isn't already set then we've get a connection error from `fetch`
+                if (!this.get('error')) {
+                    this.set('error', 'Uh-oh! Trouble reaching the Unsplash API, please check your connection');
+                }
+            });
+    },
+
+    // async to work around response.text() returning a promise
+    async _checkStatus(response) {
+        // successful request
+        if (response.status >= 200 && response.status < 300) {
+            return response;
+        }
+
+        let errorText = '';
+        let responseText = await response.text();
+
+        if (response.status === 403 && response.headers.map['x-ratelimit-remaining'] === '0') {
+            // we've hit the ratelimit on the API
+            errorText = 'Unsplash API rate limit reached, please try again later.';
+        }
+
+        errorText = errorText || response.statusText || responseText || `Error ${response.status}: Uh-oh! Trouble reaching the Unsplash API`;
+
+        // set error text for display in UI
+        this.set('error', errorText);
+
+        // throw error to prevent further processing
+        let error = new Error(errorText);
+        error.response = response;
+        throw error;
     },
 
     _extractPagination(response) {
