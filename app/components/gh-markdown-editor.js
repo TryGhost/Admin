@@ -494,13 +494,13 @@ export default Component.extend(ShortcutsMixin, {
         },
 
         insertUnsplashPhoto(photo) {
-            let url = {
+            let image = {
                 alt: photo.description || '',
                 url: photo.urls.regular,
                 credit: `Photo by [${photo.user.name}](${photo.user.links.html})`
             };
 
-            this._insertImages([url]);
+            this._insertImages([image]);
         },
 
         toggleFullScreen() {

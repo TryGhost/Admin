@@ -9,26 +9,32 @@
     Gifted by the world’s most generous community of photographers. 🎁</p>
                 <span class="gh-input-icon">
                     {{inline-svg "search"}}
-                    {{gh-input model.email
+                    {{gh-input unsplash.searchTerm
                         class="gh-unsplash-search"
                         type="text"
                         name="searchKeyword"
                         placeholder="Search free high-resolution photos"
                         tabindex="1"
                         autocorrect="off"
-                        value=""
+                        update=(action 'updateSearch' target=unsplash)
                     }}
                 </span>
             </header>
-            <section class="gh-unsplash-grid">
-                {{#each unsplash.columns as |photos|}}
-                    <div class="gh-unsplash-grid-column">
-                        {{#each photos as |photo|}}
-                            {{gh-unsplash-photo photo=photo insert=(action "insert")}}
-                        {{/each}}
-                    </div>
-                {{/each}}
-            </section>
+
+            {{#if unsplash.photos}}
+                <section class="gh-unsplash-grid">
+                    {{#each unsplash.columns as |photos|}}
+                        <div class="gh-unsplash-grid-column">
+                            {{#each photos as |photo|}}
+                                {{gh-unsplash-photo photo=photo insert=(action "insert")}}
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </section>
+            {{else if (not unsplash.isLoading)}}
+                {{!-- TODO: improve styles --}}
+                <h4>No photos found for '{{unsplash.searchTerm}}'</h4>
+            {{/if}}
 
             {{#if unsplash.isLoading}}
                 <div class="gh-loading-spinner"></div>

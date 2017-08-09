@@ -2,11 +2,12 @@ import RSVP from 'rsvp';
 import Service from '@ember/service';
 import fetch from 'fetch';
 import {isEmpty} from '@ember/utils';
-import {readOnly} from '@ember/object/computed';
-import {task, taskGroup} from 'ember-concurrency';
+import {or} from '@ember/object/computed';
+import {task, taskGroup, timeout} from 'ember-concurrency';
 
 const API_URL = 'https://api.unsplash.com';
 const API_VERSION = 'v1';
+const DEBOUNCE_MS = 600;
 
 export default Service.extend({
     applicationId: '36b2f94f00d2e400b18b13ac793274c6800d4edce9eb6983310ec9b38aa59bb7',
@@ -14,11 +15,12 @@ export default Service.extend({
     columnCount: 3,
     columns: null,
     photos: null,
+    searchTerm: '',
 
     _columnHeights: null,
     _pagination: null,
 
-    isLoading: readOnly('_loadingTasks.isRunning'),
+    isLoading: or('_search.isRunning', '_loadingTasks.isRunning'),
 
     init() {
         this._super(...arguments);
@@ -31,6 +33,11 @@ export default Service.extend({
     },
 
     loadNextPage() {
+        // protect against scroll trigger firing when the photos are reset
+        if (this.get('_search.isRunning')) {
+            return;
+        }
+
         if (isEmpty(this.get('photos'))) {
             return this.get('_loadNew').perform();
         }
@@ -48,22 +55,45 @@ export default Service.extend({
         this._resetColumns();
     },
 
+    actions: {
+        updateSearch(term) {
+            if (term === this.get('searchTerm')) {
+                return;
+            }
+
+            this.set('searchTerm', term);
+            this._reset();
+
+            if (term) {
+                return this.get('_search').perform(term);
+            } else {
+                return this.get('_loadNew').perform();
+            }
+        }
+    },
+
     _loadingTasks: taskGroup().drop(),
 
     _loadNew: task(function* () {
         let url = `${API_URL}/photos?per_page=30`;
 
-        return yield this._makeRequest(url).then((photos) => {
-            photos.forEach((photo) => this._addPhoto(photo));
-        });
+        let photos = yield this._makeRequest(url);
+        photos.forEach((photo) => this._addPhoto(photo));
     }).group('_loadingTasks'),
 
     _loadNextPage: task(function* () {
-        return yield this._makeRequest(this._pagination.next)
-            .then((photos) => {
-                photos.forEach((photo) => this._addPhoto(photo));
-            });
+        let photos = yield this._makeRequest(this._pagination.next);
+        photos.forEach((photo) => this._addPhoto(photo));
     }).group('_loadingTasks'),
+
+    _search: task(function* (term) {
+        yield timeout(DEBOUNCE_MS);
+
+        let url = `${API_URL}/search/photos?query=${term}&per_page=30`;
+        let result = yield this._makeRequest(url);
+
+        result.results.forEach((photo) => this._addPhoto(photo));
+    }).restartable(),
 
     _addPhoto(photo) {
         // pre-calculate ratio for later use
@@ -80,7 +110,8 @@ export default Service.extend({
         let min = Math.min(...this._columnHeights);
         let columnIndex = this._columnHeights.indexOf(min);
 
-        // use a fixed with * ratio to compensate for different overall image sizes
+        // use a fixed width when calculating height to compensate for different
+        // overall image sizes
         this._columnHeights[columnIndex] += 300 * photo.ratio;
         this.get('columns')[columnIndex].pushObject(photo);
     },
@@ -125,12 +156,15 @@ export default Service.extend({
     _extractPagination(response) {
         let pagination = {};
         let linkRegex = new RegExp('<(.*)>; rel="(.*)"');
+        let {link} = response.headers.map;
 
-        response.headers.map.link.split(',').forEach((link) => {
-            let [, url, rel] = linkRegex.exec(link);
+        if (link) {
+            link.split(',').forEach((link) => {
+                let [, url, rel] = linkRegex.exec(link);
 
-            pagination[rel] = url;
-        });
+                pagination[rel] = url;
+            });
+        }
 
         this._pagination = pagination;
 
