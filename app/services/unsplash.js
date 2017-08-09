@@ -13,7 +13,6 @@ const DEBOUNCE_MS = 600;
 export default Service.extend({
     config: injectService(),
     settings: injectService(),
-    applicationId: or('config.unsplashAPI', 'settings.unsplash.applicationId'),
 
     columnCount: 3,
     columns: null,
@@ -24,6 +23,7 @@ export default Service.extend({
     _columnHeights: null,
     _pagination: null,
 
+    applicationId: or('config.unsplashAPI', 'settings.unsplash.firstObject.applicationId'),
     isLoading: or('_search.isRunning', '_loadingTasks.isRunning'),
 
     init() {
@@ -170,9 +170,6 @@ export default Service.extend({
 
     _makeRequest(url) {
         let headers = {};
-        console.log('config:', this.get('config.unsplashAPI'));
-        console.log('settings:', this.get('settings.unsplash.applicationId'));
-        console.log('applicationId:', this.get('applicationId'));
 
         // clear any previous error
         this.set('error', '');
@@ -180,6 +177,7 @@ export default Service.extend({
         // store the url so it can be retried if needed
         this._lastRequestUrl = url;
 
+        headers.Authorization = `Client-ID ${this.get('applicationId')}`;
         headers['Accept-Version'] = API_VERSION;
 
         return fetch(url, {headers})
