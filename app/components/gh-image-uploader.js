@@ -18,6 +18,10 @@ export const IMAGE_MIME_TYPES = 'image/gif,image/jpg,image/jpeg,image/png,image/
 export const IMAGE_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
 
 export default Component.extend({
+    ajax: injectService(),
+    notifications: injectService(),
+    settings: injectService(),
+
     tagName: 'section',
     classNames: ['gh-image-uploader'],
     classNameBindings: ['dragClass'],
@@ -30,6 +34,7 @@ export default Component.extend({
     extensions: null,
     uploadUrl: null,
     validate: null,
+    allowUnsplash: false,
 
     dragClass: null,
     failureMessage: null,
@@ -37,12 +42,10 @@ export default Component.extend({
     url: null,
     uploadPercentage: 0,
 
-    ajax: injectService(),
-    notifications: injectService(),
-
     _defaultAccept: IMAGE_MIME_TYPES,
     _defaultExtensions: IMAGE_EXTENSIONS,
     _defaultUploadUrl: '/uploads/',
+    _showUnsplash: false,
 
     // TODO: this wouldn't be necessary if the server could accept direct
     // file uploads
@@ -242,6 +245,11 @@ export default Component.extend({
             } else {
                 this._uploadFailed(validationResult);
             }
+        },
+
+        addUnsplashPhoto(photo) {
+            this.set('url', photo.urls.regular);
+            this.send('saveUrl');
         },
 
         reset() {
