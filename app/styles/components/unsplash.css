@@ -176,7 +176,7 @@
     cursor: zoom-in;
 }
 
-.gh-unsplash-photo > img {
+.gh-unsplash-photo-container > img {
     position: absolute;
     display: block;
     height: auto;
@@ -315,7 +315,7 @@
     box-shadow: rgba(39,44,49,0.1) 8px 14px 38px, rgba(39, 44, 49, 0.08) 1px 3px 8px;
 }
 
-.gh-unsplash-zoom .gh-unsplash-photo > img {
+.gh-unsplash-zoom .gh-unsplash-photo-container > img {
     position: static;
     display: block;
     width: auto;
