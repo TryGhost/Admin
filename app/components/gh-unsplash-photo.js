@@ -46,7 +46,9 @@ export default Component.extend({
     },
 
     actions: {
-        insert() {
+        insert(event) {
+            event.preventDefault();
+            event.stopPropagation();
             this.insert(this.get('photo'));
         },
 
