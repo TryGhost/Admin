@@ -50,8 +50,15 @@ export default Component.extend({
             this.insert(this.get('photo'));
         },
 
-        zoom() {
-            this.zoom(this.get('photo'));
+        zoom(event) {
+            // only zoom when it wasn't one of the child links clicked
+            if (!event.target.matches('a') && event.target.closest('a').classList.contains('gh-unsplash-photo')) {
+                event.preventDefault();
+                this.zoom(this.get('photo'));
+            }
+
+            // don't propagate otherwise we can trigger the closeZoom action on the overlay
+            event.stopPropagation();
         }
     }
 
