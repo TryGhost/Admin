@@ -7,7 +7,7 @@ export default Component.extend({
     height: 0,
     photo: null,
     tagName: '',
-    width: 1080,
+    width: 1200,
     zoomed: false,
 
     // closure actions
@@ -27,6 +27,14 @@ export default Component.extend({
         }
 
         return htmlSafe(styles.join('; '));
+    }),
+
+    imageUrl: computed('photo.urls.regular', function () {
+        let url = this.get('photo.urls.regular');
+
+        url = url.replace(/&w=1080/, '&w=1200');
+
+        return url;
     }),
 
     didReceiveAttrs() {
