@@ -1,7 +1,10 @@
 import Component from 'ember-component';
 import injectService from 'ember-service/inject';
+import {computed} from '@ember/object';
+import {run} from '@ember/runloop';
 
 export default Component.extend({
+    mediaQueries: injectService(),
     unsplash: injectService(),
 
     tagName: '',
@@ -10,6 +13,33 @@ export default Component.extend({
     // closure actions
     close() {},
     insert() {},
+
+    columnCount: computed('mediaQueries.{unsplash1col,unsplash2col}', function() {
+        let mediaQueries = this.get('mediaQueries');
+
+        if (mediaQueries.get('unsplash1col')) {
+            return 1;
+        } else if (mediaQueries.get('unsplash2col')) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }),
+
+    init() {
+        this._super(...arguments);
+        this._setColumnCount();
+    },
+
+    didInsertElement() {
+        this._super(...arguments);
+        this.get('mediaQueries').on('change', this, this._handleMediaQueryChange);
+    },
+
+    willDestroyElement() {
+        this._super(...arguments);
+        this.get('mediaQueries').off('change', this, this._handleMediaQueryChange);
+    },
 
     actions: {
         loadNextPage() {
@@ -36,5 +66,15 @@ export default Component.extend({
         retry() {
             this.get('unsplash').retryLastRequest();
         }
+    },
+
+    _handleMediaQueryChange(breakpoint) {
+        if (breakpoint.indexOf('unsplash') === 0) {
+            run.scheduleOnce('actions', this, this._setColumnCount);
+        }
+    },
+
+    _setColumnCount() {
+        this.get('unsplash').changeColumnCount(this.get('columnCount'));
     }
 });
