@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Component from 'ember-component';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
@@ -53,8 +54,10 @@ export default Component.extend({
         },
 
         zoom(event) {
+            let $target = $(event.target);
+
             // only zoom when it wasn't one of the child links clicked
-            if (!event.target.matches('a') && event.target.closest('a').classList.contains('gh-unsplash-photo')) {
+            if (!$target.is('a') && $target.closest('a').hasClass('gh-unsplash-photo')) {
                 event.preventDefault();
                 this.zoom(this.get('photo'));
             }
