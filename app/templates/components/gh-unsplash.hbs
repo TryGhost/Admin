@@ -61,7 +61,7 @@
     </div>
 
     {{#if zoomedPhoto}}
-        <div class="gh-unsplash-zoom">
+        <div class="gh-unsplash-zoom" {{action "closeZoom"}}>
             {{gh-unsplash-photo
                 photo=zoomedPhoto
                 zoomed=true
