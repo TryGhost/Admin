@@ -31,7 +31,7 @@
             <div class="gh-setting-action">
                 <div class="for-checkbox">
                     <label for="isActive" class="checkbox">
-                        {{one-way-checkbox model.isActive id="isActive" name="isActive" type="checkbox" update=(action "update") data-test-unsplash-checkbox=true}}
+                        {{one-way-checkbox model.isActive id="isActive" name="isActive" hasValidated=model.hasValidated property="isActive" type="checkbox" update=(action "update") data-test-unsplash-checkbox=true}}
                         <span class="input-toggle-component"></span>
                     </label>
                 </div>
@@ -39,28 +39,26 @@
         </div>
 
         {{#unless config.unsplashAPI}}
-            {{#if model.isActive}}
-                <form class="app-config-form" id="unsplash-settings" novalidate="novalidate" {{action "save" on="submit"}}>
-                    <div class="gh-setting">
-                        <div class="gh-setting-content">
+            <form class="app-config-form" id="unsplash-settings" novalidate="novalidate" {{action "save" on="submit"}}>
+                <div class="gh-setting">
+                    <div class="gh-setting-content">
 
-                            <div class="gh-setting-title">Unsplash integration</div>
-                            <div class="gh-setting-desc">Access Unsplash images from within the editor.</div>
-                            <div class="gh-setting-content-extended">
-                                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="applicationId"}}
-                                    {{gh-input model.applicationId name="unsplash" update=(action "updateId") onenter=(action "save") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-unsplash-url-input=true}}
-                                    {{#unless model.errors}}
-                                        <p>Set up a new Unsplash application <a href="https://unsplash.com/documentation#registering-your-application" target="_blank">here</a>, and grab the Application ID.</p>
-                                    {{else}}
-                                        {{gh-error-message errors=model.errors property="model.applicationId"}}
-                                    {{/unless}}
-                                {{/gh-form-group}}
-                            </div>
+                        <div class="gh-setting-title">Unsplash integration</div>
+                        <div class="gh-setting-desc">Access Unsplash images from within the editor.</div>
+                        <div class="gh-setting-content-extended">
+                            {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="applicationId"}}
+                                {{gh-input model.applicationId name="unsplash" update=(action "updateId") onenter=(action "save") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-unsplash-url-input=true}}
+                                {{#unless model.errors}}
+                                    <p>Set up a new Unsplash application <a href="https://unsplash.com/documentation#registering-your-application" target="_blank">here</a>, and grab the Application ID.</p>
+                                {{else}}
+                                    {{gh-error-message errors=model.errors property="model.applicationId"}}
+                                {{/unless}}
+                            {{/gh-form-group}}
                         </div>
                     </div>
-                </form>
-                {{gh-task-button "Test Application ID" task=sendTestRequest runningText="Validating" successText="Valid Id" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-send-request-button=true}}
-            {{/if}}
+                </div>
+            </form>
+            {{gh-task-button "Test Application ID" task=sendTestRequest runningText="Validating" successText="Valid Id" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-send-request-button=true}}
         {{/unless}}
     </section>
 </section>

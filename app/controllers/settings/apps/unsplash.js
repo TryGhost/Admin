@@ -16,9 +16,10 @@ export default Controller.extend({
         let unsplash = this.get('model');
         let settings = this.get('settings');
 
-        settings.set('unsplash', unsplash);
-
         try {
+            // TODO: Make validation work:
+            // yield unsplash.validate();
+            settings.set('unsplash', unsplash);
             return yield settings.save();
         } catch (error) {
             if (error) {
