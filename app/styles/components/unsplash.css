@@ -171,7 +171,7 @@
     position: relative;
     display: block;
     width: 100%;
-    margin: 0 0 1em;
+    margin: 0 0 24px;
     color: #fff;
     cursor: zoom-in;
 }
@@ -317,8 +317,8 @@
 
 .gh-unsplash-zoom .gh-unsplash-photo > img {
     position: static;
-    width: auto;
     display: block;
+    width: auto;
     max-height: calc(100vh - 50px);
 }
 
