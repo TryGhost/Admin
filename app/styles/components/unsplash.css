@@ -304,9 +304,10 @@
 
 .gh-unsplash-zoom .gh-unsplash-photo {
     position: relative;
-    width: 100%;
+    width: auto;
     min-height: 400px;
     max-width: 1200px;
+    max-height: calc(100vh - 50px);
     margin: 0;
     color: #fff;
     cursor: zoom-out;
@@ -316,7 +317,9 @@
 
 .gh-unsplash-zoom .gh-unsplash-photo > img {
     position: static;
+    width: auto;
     display: block;
+    max-height: calc(100vh - 50px);
 }
 
 .gh-unsplash-zoom .gh-unsplash-photo-overlay {

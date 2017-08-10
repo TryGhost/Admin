@@ -8,17 +8,23 @@ export default Component.extend({
     photo: null,
     tagName: '',
     width: 1080,
+    zoomed: false,
 
     // closure actions
     insert() {},
+    zoom() {},
 
     // avoid "binding style attributes" warnings
-    style: computed('photo.color', function() {
+    style: computed('photo.color', 'zoomed', function() {
         let styles = [];
         let ratio = this.get('photo.ratio');
+        let zoomed = this.get('zoomed');
 
         styles.push(`background-color: ${this.get('photo.color')}`);
-        styles.push(`padding-bottom: ${ratio * 100}%`);
+
+        if (!zoomed) {
+            styles.push(`padding-bottom: ${ratio * 100}%`);
+        }
 
         return htmlSafe(styles.join('; '));
     }),
@@ -34,6 +40,10 @@ export default Component.extend({
     actions: {
         insert() {
             this.insert(this.get('photo'));
+        },
+
+        zoom() {
+            this.zoom(this.get('photo'));
         }
     }
 

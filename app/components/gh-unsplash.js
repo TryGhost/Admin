@@ -5,6 +5,7 @@ export default Component.extend({
     unsplash: injectService(),
 
     tagName: '',
+    zoomedPhoto: null,
 
     // closure actions
     close() {},
@@ -13,6 +14,14 @@ export default Component.extend({
     actions: {
         loadNextPage() {
             this.get('unsplash').loadNextPage();
+        },
+
+        zoomPhoto(photo) {
+            this.set('zoomedPhoto', photo);
+        },
+
+        closeZoom() {
+            this.set('zoomedPhoto', null);
         },
 
         insert(photo) {
