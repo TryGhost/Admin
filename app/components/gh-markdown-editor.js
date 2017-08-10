@@ -58,6 +58,7 @@ export default Component.extend(ShortcutsMixin, {
 
     // Private
     _editor: null,
+    _editorFocused: false,
     _isFullScreen: false,
     _isSplitScreen: false,
     _isHemmingwayMode: false,
@@ -241,7 +242,7 @@ export default Component.extend(ShortcutsMixin, {
                 return image;
             }
         });
-        let text = images.join('\n');
+        let text = images.join('\n\n');
 
         // clicking the image toolbar button will lose the selection so we use
         // the captured selection to re-select here
@@ -261,7 +262,7 @@ export default Component.extend(ShortcutsMixin, {
         // focus editor and place cursor at end if not already focused
         if (!cm.hasFocus()) {
             this.send('focusEditor');
-            text = `\n\n${text}`;
+            text = `\n\n${text}\n\n`;
         }
 
         // insert at cursor or replace selection then position cursor at end
@@ -482,6 +483,28 @@ export default Component.extend(ShortcutsMixin, {
             return false;
         },
 
+        // HACK FIXME (PLEASE):
+        // - clicking toolbar buttons will cause the editor to lose focus
+        // - this is painful because we often want to know if the editor has focus
+        //   so that we can insert images and so on in the correct place
+        // - the blur event will always fire before the button action is triggered 😞
+        // - to work around this we track focus state manually and set it to false
+        //   after an arbitrary period that's long enough to allow the button action
+        //   to trigger first
+        // - this _may_ well have unknown issues due to browser differences,
+        //   variations in performance, moon cycles, sun spots, or cosmic rays
+        // - here be 🐲
+        // - (please let it work 🙏)
+        updateFocusState(focused) {
+            if (focused) {
+                this._editorFocused = true;
+            } else {
+                run.later(this, function () {
+                    this._editorFocused = false;
+                }, 100);
+            }
+        },
+
         openImageFileDialog() {
             let captureSelection = this._editor.codemirror.hasFocus();
             this._openImageFileDialog({captureSelection});
@@ -493,10 +516,12 @@ export default Component.extend(ShortcutsMixin, {
             }
 
             // capture current selection before it's lost by clicking toolbar btn
-            this._imageInsertSelection = {
-                anchor: this._editor.codemirror.getCursor('anchor'),
-                head: this._editor.codemirror.getCursor('head')
-            };
+            if (this._editorFocused) {
+                this._imageInsertSelection = {
+                    anchor: this._editor.codemirror.getCursor('anchor'),
+                    head: this._editor.codemirror.getCursor('head')
+                };
+            }
 
             this.toggleProperty('_showUnsplash');
         },

@@ -4,6 +4,8 @@
         placeholder=placeholder
         autofocus=autofocus
         onChange=(action "updateMarkdown")
+        onFocus=(action "updateFocusState" true)
+        onBlur=(action "updateFocusState" false)
         onEditorInit=(action "setEditor")
         onEditorDestroy=(action "destroyEditor")
         options=simpleMDEOptions)
