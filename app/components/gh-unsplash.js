@@ -1,14 +1,19 @@
 import Component from 'ember-component';
+import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
 import injectService from 'ember-service/inject';
 import {computed} from '@ember/object';
 import {run} from '@ember/runloop';
 
-export default Component.extend({
+export default Component.extend(ShortcutsMixin, {
     mediaQueries: injectService(),
     unsplash: injectService(),
 
     tagName: '',
     zoomedPhoto: null,
+
+    shortcuts: {
+        escape: 'handleEscape'
+    },
 
     // closure actions
     close() {},
@@ -34,11 +39,13 @@ export default Component.extend({
     didInsertElement() {
         this._super(...arguments);
         this.get('mediaQueries').on('change', this, this._handleMediaQueryChange);
+        this.registerShortcuts();
     },
 
     willDestroyElement() {
         this._super(...arguments);
         this.get('mediaQueries').off('change', this, this._handleMediaQueryChange);
+        this.removeShortcuts();
     },
 
     actions: {
@@ -65,6 +72,12 @@ export default Component.extend({
 
         retry() {
             this.get('unsplash').retryLastRequest();
+        },
+
+        handleEscape() {
+            if (!this.get('zoomedPhoto')) {
+                this.close();
+            }
         }
     },
 
