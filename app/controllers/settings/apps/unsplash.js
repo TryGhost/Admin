@@ -9,15 +9,16 @@ export default Controller.extend({
     config: injectService(),
     unsplash: injectService(),
 
-    model: alias('settings.unsplash.firstObject'),
+    model: alias('settings.unsplash'),
     testRequestDisabled: empty('model.applicationId'),
 
     save: task(function* () {
         let unsplash = this.get('model');
         let settings = this.get('settings');
 
+        settings.set('unsplash', unsplash);
+
         try {
-            settings.get('unsplash').clear().pushObject(unsplash);
             return yield settings.save();
         } catch (error) {
             if (error) {

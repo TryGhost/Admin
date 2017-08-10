@@ -149,7 +149,7 @@ export default Component.extend(ShortcutsMixin, {
         };
 
         // if unsplash is active insert the toolbar button after the image button
-        if (this.get('settings.unsplash.firstObject.isActive')) {
+        if (this.get('settings.unsplash.isActive')) {
             let image = defaultOptions.toolbar.findBy('name', 'image');
             let index = defaultOptions.toolbar.indexOf(image) + 1;
 

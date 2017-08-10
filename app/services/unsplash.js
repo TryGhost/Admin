@@ -23,7 +23,7 @@ export default Service.extend({
     _columnHeights: null,
     _pagination: null,
 
-    applicationId: or('config.unsplashAPI', 'settings.unsplash.firstObject.applicationId'),
+    applicationId: or('config.unsplashAPI', 'settings.unsplash.applicationId'),
     isLoading: or('_search.isRunning', '_loadingTasks.isRunning'),
 
     init() {

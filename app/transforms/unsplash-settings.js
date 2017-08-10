@@ -1,35 +1,20 @@
 /* eslint-disable camelcase */
 import Transform from 'ember-data/transform';
 import UnsplashObject from 'ghost-admin/models/unsplash-integration';
-import {A as emberA, isEmberArray} from 'ember-array/utils';
 
 export default Transform.extend({
     deserialize(serialized) {
-        let unsplashObj, settingsArray;
+        let settingsObject;
         try {
-            settingsArray = JSON.parse(serialized) || [];
+            settingsObject = JSON.parse(serialized) || {};
         } catch (e) {
-            settingsArray = [];
+            settingsObject = {};
         }
 
-        unsplashObj = settingsArray.map((itemDetails) => {
-            return UnsplashObject.create(itemDetails);
-        });
-        return emberA(unsplashObj);
+        return UnsplashObject.create(settingsObject);
     },
 
     serialize(deserialized) {
-        let settingsArray;
-        if (isEmberArray(deserialized)) {
-            settingsArray = deserialized.map((item) => {
-                let applicationId = (item.get('applicationId') || '').trim();
-                let isActive = (item.get('isActive'));
-
-                return {applicationId, isActive};
-            }).compact();
-        } else {
-            settingsArray = [];
-        }
-        return JSON.stringify(settingsArray);
+        return deserialized ? JSON.stringify(deserialized) : {};
     }
 });
