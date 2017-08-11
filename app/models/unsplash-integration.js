@@ -7,5 +7,5 @@ export default EmberObject.extend(ValidationEngine, {
 
     validationType: 'unsplashIntegration',
 
-    isActive: true
+    isActive: false
 });

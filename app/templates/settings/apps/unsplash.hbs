@@ -31,13 +31,15 @@
             <div class="gh-setting-action">
                 <div class="for-checkbox">
                     <label for="isActive" class="checkbox">
-                        {{one-way-checkbox model.isActive id="isActive" name="isActive" hasValidated=model.hasValidated property="isActive" type="checkbox" update=(action "update") data-test-unsplash-checkbox=true}}
+                        {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="isActive"}}
+                        {{one-way-checkbox model.isActive id="isActive" name="isActive" type="checkbox" update=(action "update") data-test-unsplash-checkbox=true}}
                         <span class="input-toggle-component"></span>
+                        {{/gh-form-group}}
                     </label>
                 </div>
             </div>
         </div>
-
+        {{log config.unsplashAPI}}
         {{#unless config.unsplashAPI}}
             <form class="app-config-form" id="unsplash-settings" novalidate="novalidate" {{action "save" on="submit"}}>
                 <div class="gh-setting">
