@@ -12,17 +12,38 @@ export default Controller.extend({
     model: alias('settings.unsplash'),
     testRequestDisabled: empty('model.applicationId'),
 
+    _triggerValidations() {
+        let isActive = this.get('model.isActive');
+        let applicationId = this.get('model.applicationId');
+
+        this.get('model.hasValidated').clear();
+
+        // api key field is hidden if set via config so don't validate in that case
+        if (!this.get('config.unsplashAPI')) {
+            // CASE: application id is empty but unsplash is enabled
+            if (isActive && !applicationId) {
+                this.get('model.errors').add(
+                    'isActive',
+                    'You need to enter an Application Id before enabling it'
+                );
+
+                this.get('model.hasValidated').pushObject('isActive');
+            } else {
+                // run the validation for application id
+                this.get('model').validate();
+            }
+        }
+
+        this.get('model.hasValidated').pushObject('isActive');
+    },
+
     save: task(function* () {
         let unsplash = this.get('model');
         let settings = this.get('settings');
-        let hasValidated = unsplash.get('hasValidated');
-        console.log(this.get('model'));
 
-        if (this.get('config.unsplashAPI')) {
-            hasValidated.pushObject('applicationId');
-        } else {
-            // TODO: Make validation work:
-            yield unsplash.validate({property: 'applicationId'});
+        // Don't save when we have errors and properties are not validated
+        if ((this.get('model.errors.isActive') || this.get('model.errors.applicationId'))) {
+            return;
         }
 
         try {
@@ -41,12 +62,15 @@ export default Controller.extend({
         let applicationId = this.get('model.applicationId');
 
         try {
-            yield this.get('save').perform();
             yield this.get('unsplash').sendTestRequest(applicationId);
-            return true;
         } catch (error) {
             notifications.showAPIError(error, {key: 'unsplash-test:send'});
+            return false;
         }
+
+        // save the application id when it's valid
+        yield this.get('save').perform();
+        return true;
     }).drop(),
 
     actions: {
@@ -55,26 +79,23 @@ export default Controller.extend({
         },
 
         update(value) {
-            console.log('value:', value);
-            console.log('applicationId:', this.get('model.applicationId'));
-            this.get('model.errors').remove('isActive');
-
-            if (value && !this.get('model.applicationId')) {
-                console.log('is invalid');
-                this.get('model.errors').add(
-                    'applicationId',
-                    'Please enter a Application Id before enabling it'
-                );
-                this.get('model.hasValidated').pushObject('isActive');
-                return;
-            } else {
-                this.set('model.isActive', value);
+            if (this.get('model.errors.isActive')) {
+                this.get('model.errors.isActive').clear();
             }
+
+            this.set('model.isActive', value);
+            this._triggerValidations();
         },
 
         updateId(value) {
+            value = value ? value.toString().trim() : '';
+
+            if (this.get('model.errors.applicationId')) {
+                this.get('model.errors.applicationId').clear();
+            }
+
             this.set('model.applicationId', value);
-            this.get('model.errors').remove('applicationId');
+            this._triggerValidations();
         }
     }
 });
