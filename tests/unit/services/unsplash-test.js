@@ -4,8 +4,10 @@ import {setupTest} from 'ember-mocha';
 
 describe('Unit: Service: unsplash', function() {
     setupTest('service:unsplash', {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
+        needs: [
+            'service:config',
+            'service:settings'
+        ]
     });
 
   // Replace this with your real tests.

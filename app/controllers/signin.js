@@ -36,7 +36,6 @@ export default Controller.extend(ValidationEngine, {
             promises.pushObject(this.get('settings').fetch());
             promises.pushObject(this.get('config').fetchPrivate());
 
-            console.log('authenticate');
             // fetch settings and private config for synchronous access
             yield RSVP.all(promises);
 

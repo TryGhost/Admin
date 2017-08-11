@@ -29,7 +29,7 @@ export default function mockConfiguration(server) {
         }
 
         return {
-            configuration: [db.private.find(1)]
+            configuration: [db.private]
         };
     });
 }
