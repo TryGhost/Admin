@@ -169,15 +169,11 @@ export default Controller.extend(ValidationEngine, {
     _oauthSetup() {
         let blogTitle = this.get('blogTitle');
         let config = this.get('config');
-        let promises = [];
-
-        promises.pushObject(this.get('settings').fetch());
-        promises.pushObject(this.get('config').fetchPrivate());
 
         this.get('hasValidated').addObjects(['blogTitle', 'session']);
 
         return this.validate().then(() => {
-            return RSVP.all(promises)
+            return this.get('settings').fetch()
                 .then((settings) => {
                     settings.set('title', blogTitle);
 
