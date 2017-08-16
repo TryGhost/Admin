@@ -56,6 +56,7 @@ GhostRouter.map(function () {
         this.route('slack', {path: 'slack'});
         this.route('amp', {path: 'amp'});
         this.route('unsplash', {path: 'unsplash'});
+        this.route('mailchimp', {path: 'mailchimp'});
     });
 
     this.route('subscribers', function () {

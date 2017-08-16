@@ -1,0 +1,65 @@
+<section class="gh-canvas">
+    <header class="gh-canvas-header">
+        <h2 class="gh-canvas-title" data-test-screen-title>
+            {{#link-to "settings.apps.index"}}Apps{{/link-to}}
+            <span>{{inline-svg "arrow-right"}}</span>
+            MailChimp
+        </h2>
+        <section class="view-actions">
+            {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
+        </section>
+    </header>
+
+    <section class="view-container">
+        <br>
+        <section class="app-grid">
+            <div class="app-cell">
+                <img class="app-icon" src="assets/img/mailchimpicon.png" />
+            </div>
+            <div class="app-cell">
+                <h3>MailChimp</h3>
+                <p>Email integration</p>
+            </div>
+        </section>
+
+        <div class="gh-setting-header">MailChimp configuration</div>
+        <div class="gh-setting" id="mailchimp-toggle">
+            <div class="gh-setting-content">
+                <div class="gh-setting-title">Enable MailChimp</div>
+                <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscriber.</div>
+            </div>
+            <div class="gh-setting-action">
+                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="isActive" class="right"}}
+                    <div class="for-checkbox">
+                        <label for="isActive" class="checkbox">
+                                {{one-way-checkbox model.isActive id="isActive" name="isActive" type="checkbox" update=(action "update") data-test-checkbox="mailchimp"}}
+                                <span class="input-toggle-component"></span>
+                        </label>
+                    </div>
+                    {{gh-error-message errors=model.errors property="isActive"}}
+                {{/gh-form-group}}
+            </div>
+        </div>
+
+        <form class="app-config-form" id="mailchimp-settings" novalidate="novalidate" {{action "save" on="submit"}}>
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+
+                    <div class="gh-setting-title">MailChimp integration</div>
+                    <div class="gh-setting-desc">Send campaign email to your subscribers</div>
+                    <div class="gh-setting-content-extended">
+                        {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="applicationId"}}
+                            {{gh-input model.applicationId name="mailchimp" update=(action "update") onenter=(action "save") focusOut=(action "validate" "applicationId" target=model) placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
+                            {{#unless model.errors.applicationId}}
+                                <p>Get your MailChimp API key <a href="https://mailchimp.com/documentation#registering-your-application" target="_blank">here</a>.</p>
+                            {{else}}
+                                {{gh-error-message errors=model.errors property="applicationId"}}
+                            {{/unless}}
+                        {{/gh-form-group}}
+                    </div>
+                </div>
+            </div>
+        </form>
+        {{gh-task-button "Valitate API key" task=sendTestRequest runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
+    </section>
+</section>

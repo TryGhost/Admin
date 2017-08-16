@@ -77,6 +77,31 @@
                 </article>
                 {{/link-to}}
             </div>
+
+            <div class="apps-grid-cell">
+                {{#link-to "settings.apps.mailchimp" id="mailchimp-link"}}
+                <article class="apps-card-app">
+                    <div class="apps-card-left">
+                        <figure class="apps-card-app-icon" style="background-image:url(assets/img/mailchimpicon.png);background-size:45px;"></figure>
+                        <div class="apps-card-meta">
+                            <h3 class="apps-card-app-title">Mailchimp</h3>
+                            <p class="apps-card-app-desc">Email integration</p>
+                        </div>
+                    </div>
+                    <div class="gh-card-right">
+                        <div class="apps-configured">
+                            {{#if mailchimp.isActive}}
+                                <span class="green">Active</span>
+                            {{else}}
+                                <span>Configure</span>
+                            {{/if}}
+                            {{inline-svg "arrow-right"}}
+                        </div>
+                    </div>
+                </article>
+                {{/link-to}}
+            </div>
+
         </div>
         <p class="apps-grid-note">(More coming soon!)</p>
     </section>
