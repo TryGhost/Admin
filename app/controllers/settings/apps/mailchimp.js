@@ -47,11 +47,16 @@ export default Controller.extend({
     _fetchMailingLists: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
         let data = {apiKey: this.get('model.apiKey')};
+        let result;
 
         yield this.get('model').validate({property: 'apiKey'});
 
-        // TODO: error handling
-        let result = yield this.get('ajax').request(url, {data});
+        try {
+            result = yield this.get('ajax').request(url, {data});
+        } catch (error) {
+            // TODO: handle a ValidationError (invalid/missing api key)
+            console.log(error);
+        }
 
         this.set('availableLists', result.lists);
     }).drop(),
