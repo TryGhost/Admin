@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import InviteUserValidator from 'ghost-admin/validators/invite-user';
+import MailChimpIntegrationValidator from 'ghost-admin/validators/mailchimp-integration';
 import Mixin from 'ember-metal/mixin';
 import Model from 'ember-data/model';
 import NavItemValidator from 'ghost-admin/validators/nav-item';
@@ -48,7 +49,8 @@ export default Mixin.create({
         subscriber: SubscriberValidator,
         tag: TagSettingsValidator,
         user: UserValidator,
-        unsplashIntegration: UnsplashIntegrationValidator
+        unsplashIntegration: UnsplashIntegrationValidator,
+        mailchimpIntegration: MailChimpIntegrationValidator
     },
 
     // This adds the Errors object to the validation engine, and shouldn't affect
