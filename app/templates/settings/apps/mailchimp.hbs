@@ -71,12 +71,12 @@
                     {{inline-svg "user-circle"}}
                     <span class="gh-select" tabindex="0">
                     {{one-way-select
-                        selectedList
                         id="mailchimp-list"
                         name="mailchimp-setting-list"
                         options=availableLists
                         optionValuePath="id"
                         optionLabelPath="name"
+                        value=selectedList
                         update=(action "changeList")
                     }}
                     {{inline-svg "arrow-down-small"}}

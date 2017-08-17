@@ -1,22 +1,19 @@
 import Controller from 'ember-controller';
-import fetch from 'fetch';
 import injectService from 'ember-service/inject';
 import {alias, empty} from 'ember-computed';
-import {resolve} from 'rsvp';
 import {task} from 'ember-concurrency';
-
-const API_URL = 'https://us16.api.mailchimp.com/3.0';
 
 export default Controller.extend({
     notifications: injectService(),
     settings: injectService(),
-    config: injectService(),
 
     model: alias('settings.mailchimp'),
     testRequestDisabled: empty('model.apiKey'),
+    apiUrl: 'https://us16.api.mailchimp.com/3.0',
 
     isFetchingLists: false,
     availableLists: [],
+    _scratchApiKey: null,
 
     _triggerValidations() {
         let isActive = this.get('model.isActive');
@@ -40,100 +37,42 @@ export default Controller.extend({
         this.get('model.hasValidated').pushObject('isActive');
     },
 
-    _checkStatus(response) {
-        // successful request
-        if (response.status >= 200 && response.status < 300) {
-            console.log('resolve response in checkStatus');
-            return resolve(response);
-        }
-
-        let errorText = '';
-        let responseTextPromise = resolve();
-
-        if (response.headers.map['content-type'] === 'application/json') {
-            responseTextPromise = response.json().then((json) => {
-                return json.errors[0];
-            });
-        } else if (response.headers.map['content-type'] === 'text/xml') {
-            responseTextPromise = response.text();
-        }
-
-        return responseTextPromise.then((responseText) => {
-            if (response.status === 403 && response.headers.map['x-ratelimit-remaining'] === '0') {
-                // we've hit the ratelimit on the API
-                errorText = 'Unsplash API rate limit reached, please try again later.';
-            }
-
-            errorText = errorText || responseText || `Error ${response.status}: Uh-oh! Trouble reaching the Unsplash API`;
-
-            // set error text for display in UI
-            this.set('error', errorText);
-
-            // throw error to prevent further processing
-            let error = new Error(errorText);
-            error.response = response;
-            throw error;
-        });
-    },
-
     _makeRequest(url) {
-        let options = {};
+        let headers = {};
 
         // clear any previous error
         this.set('error', '');
 
-        options.url = url;
-        options.headers = {
-            Authorization: `apikey ${this.get('model.apiKey')}`,
-            'Access-Control-Allow-Origin': 'origin',
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        };
-
-        return fetch(options)
-            .then((response) => this._checkStatus(response))
-            .then((response) => this._extractPagination(response))
-            .then((response) => response.json())
-            .then((response) => this._addListsFromResponse(response))
-            .catch(() => {
-                // if the error text isn't already set then we've get a connection error from `fetch`
-                if (!this.get('error')) {
-                    this.set('error', 'Uh-oh! Trouble reaching the Unsplash API, please check your connection');
-                }
-            });
+        headers.Authorization = `apikey ${this.get('model.apiKey')}`;
+        // TODO: make request to mailchimp/lists enpoint with added _scratchApiKey
+        // return fetch(url, {headers})
+        //     .then((response) => response.json())
+        //     .then((response) => this._addListsFromResponse(response))
+        //     .catch(() => {
+        //         // if the error text isn't already set then we've get a connection error from `fetch`
+        //         if (!this.get('error')) {
+        //             this.set('error', 'Uh-oh! Trouble reaching the Unsplash API, please check your connection');
+        //         }
+        //     });
     },
 
     _addListsFromResponse(response) {
-        console.log('response in _addListsFromResponse:', response);
         let lists = response.results || response;
 
-        console.log('lists in _addListsFromResponse:', lists);
-
-        lists.forEach((list) => {
-            console.log('list:', list);
-            this.get('availableLists').pushObject(list);
-        });
-
         this.set('isFetchingLists', false);
+
+        lists.forEach((list) => this.get('availableLists').pushObject(list));
     },
 
-    _extractPagination(response) {
-        let pagination = {};
-        let linkRegex = new RegExp('<(.*)>; rel="(.*)"');
-        let {link} = response.headers.map;
+    _fetchMailingLists: task(function* () {
+        let url = `${this.get('apiUrl')}/lists`;
 
-        if (link) {
-            link.split(',').forEach((link) => {
-                let [, url, rel] = linkRegex.exec(link);
+        yield this.get('model').validate({property: 'apiKey'});
 
-                pagination[rel] = url;
-            });
-        }
-
-        this._pagination = pagination;
-        console.log('extract pagination returns');
-        return response;
-    },
+        this.set('isFetchingLists', true);
+        yield this._makeRequest(url);
+        this.set('isFetchingLists', false);
+    }).drop(),
 
     save: task(function* () {
         let mailchimp = this.get('model');
@@ -153,28 +92,6 @@ export default Controller.extend({
                 throw error;
             }
         }
-    }).drop(),
-
-    _fetchMailingLists: task(function* () {
-        let url = `${API_URL}/lists`;
-
-        yield this.get('model').validate({property: 'apiKey'});
-        yield this.get('save').perform();
-
-        this.set('isFetchingLists', true);
-        return this._makeRequest(url);
-        // let notifications = this.get('notifications');
-        // let apiKey = this.get('model.apiKey');
-
-        // try {
-        //     yield this.get('unsplash').sendTestRequest(apiKey);
-        // } catch (error) {
-        //     notifications.showAPIError(error, {key: 'unsplash-test:send'});
-        //     return false;
-        // }
-
-        // save the application id when it's valid
-
     }).drop(),
 
     actions: {
@@ -206,8 +123,8 @@ export default Controller.extend({
             this.get('_fetchMailingLists').perform();
         },
 
-        changeList(value) {
-
+        changeList() {
+            // TODO: change selected list value here
         }
     }
 });

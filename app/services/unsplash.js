@@ -112,6 +112,7 @@ export default Service.extend({
     }).restartable(),
 
     _addPhotosFromResponse(response) {
+        console.log('response in add photos:', response);
         let photos = response.results || response;
 
         photos.forEach((photo) => this._addPhoto(photo));
@@ -190,6 +191,7 @@ export default Service.extend({
     },
 
     _checkStatus(response) {
+        console.log('response in checkStatus:', response);
         // successful request
         if (response.status >= 200 && response.status < 300) {
             return resolve(response);
