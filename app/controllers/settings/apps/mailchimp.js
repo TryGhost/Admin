@@ -60,8 +60,10 @@ export default Controller.extend({
         try {
             result = yield this.get('ajax').request(url, {data});
         } catch (error) {
-            // TODO: handle a ValidationError (invalid/missing api key)
-            console.log(error);
+            if (error) {
+                this.get('notifications').showAPIError(error);
+                throw error;
+            }
         }
 
         this.set('availableLists', result.lists);
