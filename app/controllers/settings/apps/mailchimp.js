@@ -66,7 +66,12 @@ export default Controller.extend({
             }
         }
 
-        this.set('availableLists', result.lists);
+        if (result && result.lists) {
+            // populate dropdown with an empty default value
+            this.get('availableLists').pushObject({id: '1', name: ''});
+
+            result.lists.forEach((list) => this.get('availableLists').pushObject(list));
+        }
     }).drop(),
 
     save: task(function* () {
