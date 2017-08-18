@@ -18,19 +18,19 @@
             </div>
             <div class="app-cell">
                 <h3>MailChimp</h3>
-                <p>Email integration</p>
+                <p>Email integration for subscribers</p>
             </div>
         </section>
 
         {{#unless feature.subscribers}}
-            <p class="gh-box gh-box-info">{{inline-svg "idea"}}Subscribers feature is not enabled. To use the MailChimp integration you would need to enable it in Labs.</p>
+            <p class="gh-box gh-box-info">{{inline-svg "idea"}}Subscribers feature is not enabled. To use the MailChimp integration you need to enable it in Labs.</p>
         {{/unless}}
 
         <div class="gh-setting-header">MailChimp configuration</div>
         <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Enable MailChimp</div>
-                <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscriber.</div>
+                <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscribers.</div>
             </div>
             <div class="gh-setting-action">
                 {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="isActive" class="right"}}
@@ -50,7 +50,7 @@
                 <div class="gh-setting-content">
 
                     <div class="gh-setting-title">MailChimp integration</div>
-                    <div class="gh-setting-desc">Send campaign email to your subscribers</div>
+                    <div class="gh-setting-desc">Send campaign emails to your subscribers</div>
                     <div class="gh-setting-content-extended">
                         {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="apiKey"}}
                             {{gh-input model.apiKey name="mailchimp" update=(action "updateApi") onenter=(action "save") focusOut=(action "fetchLists") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
@@ -69,25 +69,30 @@
                     <div class="gh-loading-spinner"></div>
                 </div>
             {{else}}
-                <div class="form-group for-select">
-                    <label for="author-list">Lists</label>
-                    <span class="gh-input-icon gh-icon-user">
-                        {{inline-svg "user-circle"}}
-                        <span class="gh-select" data-select-text="{{selectedList.name}}" tabindex="0">
-                            {{one-way-select
-                                id="mailchimp-list"
-                                name="mailchimp-setting-list"
-                                options=availableLists
-                                optionValuePath="id"
-                                optionLabelPath="name"
-                                value=selectedList
-                                update=(action "changeList")
-                            }}
-                            {{inline-svg "arrow-down-small"}}
-                        </span>
-                    </span>
-                </div>
-                {{gh-task-button "Sync Lists" task=syncLists runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
+                {{#if availableLists}}
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="selectedList"}}
+                        <div class="form-group for-select">
+                            <label for="author-list">MailChimp mailing lists</label>
+                            <span class="gh-input-icon gh-icon-user">
+                                {{inline-svg "user-circle"}}
+                                <span class="gh-select" data-select-text="{{selectedList.name}}" tabindex="0">
+                                    {{one-way-select
+                                        id="mailchimp-list"
+                                        name="mailchimp-setting-list"
+                                        options=availableLists
+                                        optionValuePath="id"
+                                        optionLabelPath="name"
+                                        value=model.selectedList
+                                        update=(action "changeList")
+                                    }}
+                                    {{inline-svg "arrow-down-small"}}
+                                </span>
+                            </span>
+                            {{gh-error-message errors=model.errors property="selectedList"}}
+                        </div>
+                        {{gh-task-button "Sync Lists" task=syncLists runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
+                    {{/gh-form-group}}
+                {{/if}}
             {{/if}}
         </form>
     </section>
