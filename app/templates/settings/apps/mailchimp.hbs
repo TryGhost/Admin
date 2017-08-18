@@ -22,6 +22,10 @@
             </div>
         </section>
 
+        {{#unless feature.subscribers}}
+            <p class="gh-box gh-box-info">{{inline-svg "idea"}}Subscribers feature is not enabled. To use the MailChimp integration you would need to enable it in Labs.</p>
+        {{/unless}}
+
         <div class="gh-setting-header">MailChimp configuration</div>
         <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">

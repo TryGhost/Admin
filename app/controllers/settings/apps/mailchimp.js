@@ -9,6 +9,7 @@ export default Controller.extend({
     ghostPaths: injectService(),
     notifications: injectService(),
     settings: injectService(),
+    feature: injectService(),
 
     model: alias('settings.mailchimp'),
     testRequestDisabled: empty('model.apiKey'),
@@ -49,6 +50,7 @@ export default Controller.extend({
         let data = {apiKey: this.get('model.apiKey')};
         let result;
 
+        // don't fetch mailing lists, when no API key is entered
         if (!this.get('model.apiKey')) {
             return;
         }
