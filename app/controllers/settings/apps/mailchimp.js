@@ -49,6 +49,10 @@ export default Controller.extend({
         let data = {apiKey: this.get('model.apiKey')};
         let result;
 
+        if (!this.get('model.apiKey')) {
+            return;
+        }
+
         yield this.get('model').validate({property: 'apiKey'});
 
         try {
@@ -110,8 +114,9 @@ export default Controller.extend({
             this.get('_fetchMailingLists').perform();
         },
 
-        changeList() {
-            // TODO: change selected list value here
+        changeList(list) {
+            this.set('model.selectedList.id', list.id);
+            this.set('model.selectedList.name', list.name);
         }
     }
 });

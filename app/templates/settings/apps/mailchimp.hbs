@@ -69,7 +69,7 @@
                     <label for="author-list">Lists</label>
                     <span class="gh-input-icon gh-icon-user">
                         {{inline-svg "user-circle"}}
-                        <span class="gh-select" tabindex="0">
+                        <span class="gh-select" data-select-text="{{selectedList.name}}" tabindex="0">
                             {{one-way-select
                                 id="mailchimp-list"
                                 name="mailchimp-setting-list"
@@ -83,9 +83,8 @@
                         </span>
                     </span>
                 </div>
+                {{gh-task-button "Sync Lists" task=syncLists runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
             {{/if}}
-
         </form>
-        {{gh-task-button "Validate API key" task=sendTestRequest runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
     </section>
 </section>
