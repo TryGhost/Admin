@@ -60,7 +60,12 @@ export default Controller.extend({
         try {
             result = yield this.get('ajax').request(url, {data});
         } catch (error) {
-            if (error) {
+            if (error && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
+                this.get('model.errors').add(
+                    'apiKey',
+                    'The MailChimp API key is invalid.'
+                );
+            } else if (error) {
                 this.get('notifications').showAPIError(error);
                 throw error;
             }
