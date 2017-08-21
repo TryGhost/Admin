@@ -124,6 +124,16 @@ export default Controller.extend({
         }
     }).drop(),
 
+    // TODO: replace with real implementation
+    sync: task(function* () {
+        let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
+
+        return yield this.get('ajax').request(url).then((results) => {
+            // TODO: display sync statistics
+            console.log(results);
+        });
+    }).drop(),
+
     actions: {
         save() {
             this.get('save').perform();
@@ -171,15 +181,6 @@ export default Controller.extend({
             this.set('model.activeList.id', list.id);
             this.set('model.activeList.name', list.name);
             this._triggerValidations();
-        },
-
-        // TODO: replace with real implementation
-        sync() {
-            let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
-
-            this.get('ajax').request(url).then((results) => {
-                console.log(results);
-            });
         }
     }
 });
