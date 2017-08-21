@@ -1,6 +1,6 @@
 import Controller from 'ember-controller';
-import computed, {alias, empty} from 'ember-computed';
 import injectService from 'ember-service/inject';
+import computed, {alias, empty} from 'ember-computed';
 import {isEmpty} from '@ember/utils';
 import {readOnly} from '@ember/object/computed';
 import {task} from 'ember-concurrency';
