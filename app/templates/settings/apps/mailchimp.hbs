@@ -69,30 +69,21 @@
                     <div class="gh-loading-spinner"></div>
                 </div>
             {{else}}
-                {{#if availableLists}}
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="selectedList"}}
+                {{#unless noAvailableListsFetched}}
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
                         <div class="form-group for-select">
                             <label for="author-list">MailChimp mailing lists</label>
-                            <span class="gh-input-icon gh-icon-user">
-                                {{inline-svg "user-circle"}}
-                                <span class="gh-select" data-select-text="{{selectedList.name}}" tabindex="0">
-                                    {{one-way-select
-                                        id="mailchimp-list"
-                                        name="mailchimp-setting-list"
-                                        options=availableLists
-                                        optionValuePath="id"
-                                        optionLabelPath="name"
-                                        value=model.selectedList
-                                        update=(action "changeList")
-                                    }}
-                                    {{inline-svg "arrow-down-small"}}
-                                </span>
-                            </span>
-                            {{gh-error-message errors=model.errors property="selectedList"}}
+                                {{gh-mailchimp-list-select
+                                        activeList=model.activeList
+                                        availableLists=model.availableLists
+                                        update=(action "setList")}}
+                            {{gh-error-message errors=model.errors property="activeList"}}
                         </div>
-                        {{gh-task-button "Sync Lists" task=syncLists runningText="Validating" successText="Valid API key" failureText="Invalid API key" class="gh-btn gh-btn-green gh-btn-icon" disabled=testRequestDisabled data-test-button="send-request"}}
+                        {{#if feature.subscribers}}
+                            {{gh-task-button "Sync Lists" task=syncLists runningText="Syncing Lists" successText="Lists are synced" failureText="Sync failed" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+                        {{/if}}
                     {{/gh-form-group}}
-                {{/if}}
+                {{/unless}}
             {{/if}}
         </form>
     </section>

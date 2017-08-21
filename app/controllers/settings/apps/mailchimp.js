@@ -13,45 +13,44 @@ export default Controller.extend({
     feature: injectService(),
 
     model: alias('settings.mailchimp'),
-    testRequestDisabled: empty('model.apiKey'),
-
-    availableLists: null,
+    syncButtonDisabled: empty('model.apiKey'),
+    noAvailableListsFetched: empty('model.availableLists'),
+    noActiveList: computed('model.activeList', function () {
+        return (isEmpty(this.get('model.activeList.id') || this.get('model.activeList.name')));
+    }),
 
     isFetchingLists: readOnly('_fetchMailingLists.isRunning'),
-
-    init() {
-        this._super(...arguments);
-        this.set('availableLists', []);
-    },
 
     _triggerValidations() {
         let isActive = this.get('model.isActive');
         let apiKey = this.get('model.apiKey');
-        let selectedList = !isEmpty(this.get('model.selectedList.id') || this.get('model.selectedList.name'));
+        // the CP `noActiveList` didn't change on model changes...
+        let noActiveList = isEmpty(this.get('model.activeList.id') || this.get('model.activeList.name'));
 
         this.get('model.hasValidated').clear();
 
-        // CASE: API key is empty but MailChimp is enabled
         if (isActive && !apiKey) {
+            // CASE: API key is empty but MailChimp is enabled
             this.get('model.errors').add(
                 'isActive',
                 'You need to enter an API key before enabling it'
             );
             this.get('model.hasValidated').pushObject('isActive');
         } else if (apiKey && this.get('model.errors.apiKey')) {
+            // CASE: API key was entered but we received an error message from the server
+            // because the key is not valid. We don't want to overwrite this error
             this.get('model.hasValidated').pushObject('apiKey');
-        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && !selectedList) {
+        } else if (!apiKey && !isActive && !noActiveList) {
+            // CASE: when API key is empty and the app is disabled, we want to reset the saved list
+            this.set('model.activeList.id', '');
+            this.set('model.activeList.name', '');
+        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList) {
+            // CASE: App is enabled and a valid API key is entered but no list is selected
             this.get('model.errors').add(
-                'selectedList',
+                'activeList',
                 'Please select a list'
             );
-            this.get('model.hasValidated').pushObject('selectedList');
-        } else if (isActive && selectedList && this.get('model.selectedList.id') === '1') {
-            this.get('model.errors').add(
-                'selectedList',
-                'Please select a valid MailChimp list'
-            );
-            this.get('model.hasValidated').pushObject('selectedList');
+            this.get('model.hasValidated').pushObject('activeList');
         } else {
             // run the validation for API key
             this.get('model').validate();
@@ -62,6 +61,9 @@ export default Controller.extend({
         let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
         let data = {apiKey: this.get('model.apiKey')};
         let result;
+
+        // clear available lists
+        this.set('model.availableLists', []);
 
         // don't fetch mailing lists, when no API key is entered
         if (!this.get('model.apiKey')) {
@@ -87,10 +89,7 @@ export default Controller.extend({
         }
 
         if (result && result.lists) {
-            // populate dropdown with an empty default value
-            this.get('availableLists').pushObject({id: '1', name: ''});
-
-            result.lists.forEach((list) => this.get('availableLists').pushObject(list));
+            result.lists.forEach((list) => this.get('model.availableLists').pushObject(list));
         }
     }).drop(),
 
@@ -101,7 +100,7 @@ export default Controller.extend({
         yield this._triggerValidations();
 
         // Don't save when we have errors and properties are not validated
-        if (this.get('model.errors.isActive') || this.get('model.errors.apiKey') || this.get('model.errors.selectedList')) {
+        if (this.get('model.errors.isActive') || this.get('model.errors.apiKey') || this.get('model.errors.activeList')) {
             return;
         }
 
@@ -150,13 +149,13 @@ export default Controller.extend({
             this.get('_fetchMailingLists').perform();
         },
 
-        changeList(list) {
-            if (this.get('model.errors.selectedList')) {
-                this.get('model.errors.selectedList').clear();
+        setList(list) {
+            if (this.get('model.errors.activeList')) {
+                this.get('model.errors.activeList').clear();
             }
 
-            this.set('model.selectedList.id', list.id);
-            this.set('model.selectedList.name', list.name);
+            this.set('model.activeList.id', list.id);
+            this.set('model.activeList.name', list.name);
             this._triggerValidations();
         }
     }
