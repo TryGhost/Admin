@@ -5,7 +5,6 @@ import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {inject as injectService} from '@ember/service';
 
-// ember-cli-shims doesn't export these
 const {Handlebars} = Ember;
 
 export default Component.extend({

@@ -8,7 +8,6 @@ import {inject as injectService} from '@ember/service';
 import {invokeAction} from 'ember-invoke-action';
 import {reads} from '@ember/object/computed';
 
-// ember-cli-shims doesn't export this
 const {Handlebars} = Ember;
 
 export default Component.extend({
