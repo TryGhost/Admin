@@ -1,8 +1,7 @@
 import Controller from 'ember-controller';
-import computed, {alias, empty} from 'ember-computed';
+import computed, {alias, empty, or} from 'ember-computed';
 import injectService from 'ember-service/inject';
 import {isEmpty} from '@ember/utils';
-import {readOnly} from '@ember/object/computed';
 import {task} from 'ember-concurrency';
 
 export default Controller.extend({
@@ -12,14 +11,20 @@ export default Controller.extend({
     settings: injectService(),
     feature: injectService(),
 
-    model: alias('settings.mailchimp'),
-    syncButtonDisabled: empty('model.apiKey'),
-    noAvailableListsFetched: empty('model.availableLists'),
-    noActiveList: computed('model.activeList', function () {
-        return (isEmpty(this.get('model.activeList.id') || this.get('model.activeList.name')));
-    }),
+    availableLists: null,
 
-    isFetchingLists: readOnly('_fetchMailingLists.isRunning'),
+    listSelectDisabled: or('noAvailableLists', 'syncButtonDisabled', 'fetchLists.isRunning'),
+    model: alias('settings.mailchimp'),
+    noActiveList: empty('model.activeList.id'),
+    noAvailableLists: empty('availableLists'),
+    syncButtonDisabled: empty('model.apiKey'),
+
+    selectedList: computed('model.activeList.id', 'availableLists.[]', function () {
+        let selectedId = this.get('model.activeList.id');
+        let availableLists = this.get('availableLists');
+
+        return availableLists.findBy('id', selectedId);
+    }),
 
     _triggerValidations() {
         let isActive = this.get('model.isActive');
@@ -57,17 +62,17 @@ export default Controller.extend({
         }
     },
 
-    _fetchMailingLists: task(function* () {
+    fetchLists: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
         let data = {apiKey: this.get('model.apiKey')};
         let result;
 
         // clear available lists
-        this.set('model.availableLists', []);
+        this.set('availableLists', []);
 
         // don't fetch mailing lists, when no API key is entered
         if (!this.get('model.apiKey')) {
-            return;
+            return false;
         }
 
         yield this.get('model').validate({property: 'apiKey'});
@@ -81,6 +86,7 @@ export default Controller.extend({
                     'The MailChimp API key is invalid.'
                 );
                 this.get('model.hasValidated').pushObject('apiKey');
+                return false;
             } else if (error) {
                 this.get('notifications').showAPIError(error);
                 this.get('model.hasValidated').pushObject('apiKey');
@@ -89,8 +95,11 @@ export default Controller.extend({
         }
 
         if (result && result.lists) {
-            result.lists.forEach((list) => this.get('model.availableLists').pushObject(list));
+            result.lists.forEach((list) => this.get('availableLists').pushObject(list));
         }
+
+        // ensure we return a truthy value so the task button as a success state
+        return true;
     }).drop(),
 
     save: task(function* () {
@@ -120,7 +129,7 @@ export default Controller.extend({
             this.get('save').perform();
         },
 
-        update(value) {
+        updateIsActive(value) {
             if (this.get('model.errors.isActive')) {
                 this.get('model.errors.isActive').clear();
             }
@@ -146,7 +155,12 @@ export default Controller.extend({
 
         fetchLists() {
             this._triggerValidations();
-            this.get('_fetchMailingLists').perform();
+
+            if (this.get('model.apiKey')) {
+                this.get('fetchLists').perform();
+            } else {
+                this.set('availableLists', []);
+            }
         },
 
         setList(list) {
@@ -157,6 +171,15 @@ export default Controller.extend({
             this.set('model.activeList.id', list.id);
             this.set('model.activeList.name', list.name);
             this._triggerValidations();
+        },
+
+        // TODO: replace with real implementation
+        sync() {
+            let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
+
+            this.get('ajax').request(url).then((results) => {
+                console.log(results);
+            });
         }
     }
 });
