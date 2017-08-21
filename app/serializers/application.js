@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import RESTSerializer from 'ember-data/serializers/rest';
-import {decamelize} from 'ember-string';
+import {decamelize} from '@ember/string';
 
 const {String: {pluralize}} = Ember;
 

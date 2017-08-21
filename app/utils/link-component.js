@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import computed from 'ember-computed';
+import {computed} from '@ember/object';
 import {invokeAction} from 'ember-invoke-action';
 
 const {LinkComponent} = Ember;
