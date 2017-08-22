@@ -64,32 +64,42 @@
                 </div>
             </div>
 
-            {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
-                <div class="form-group for-select">
-                    <label for="author-list">MailChimp mailing list</label>
-                    <span class="gh-select">
-                        {{one-way-select selectedList
-                            prompt="Select the MailChimp list to sync subscribers with..."
-                            options=availableLists
-                            optionValuePath="id"
-                            optionLabelPath="name"
-                            update=(action "setList")
-                            disabled=listSelectDisabled}}
-                        {{inline-svg "arrow-down-small"}}
-                    </span>
-
-                    {{!-- TODO: display button beside select --}}
-                    {{gh-task-button "Refresh" task=fetchLists runningText="Refreshing..." successText="Refresh" class="gh-btn gh-btn-green gh-btn-icon" disabled=refreshButtonDisabled data-test-button="refresh-lists"}}
-
-                    {{gh-error-message errors=model.errors property="activeList"}}
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
+                        <div class="form-group for-select">
+                            <span class="gh-select">
+                                {{one-way-select selectedList
+                                    prompt="Select the MailChimp list to sync subscribers with..."
+                                    options=availableLists
+                                    optionValuePath="id"
+                                    optionLabelPath="name"
+                                    update=(action "setList")
+                                    disabled=listSelectDisabled}}
+                                {{inline-svg "arrow-down-small"}}
+                            </span>
+                            {{#unless model.errors.activeList}}
+                                <p>MailChimp list to sync subscribers with</p>
+                            {{else}}
+                                {{gh-error-message errors=model.errors property="activeList"}}
+                            {{/unless}}
+                        </div>
+                    {{/gh-form-group}}
                 </div>
-            {{/gh-form-group}}
 
-            <hr>
-            <p>
-                TODO: replace with real UI:<br>
-                {{gh-task-button "Sync Members" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
-            </p>
+                <div class="gh-setting-action">
+                    {{gh-task-button "Refresh" task=fetchLists runningText="Refreshing..." successText="Refresh" class="gh-btn gh-btn-green gh-btn-icon" disabled=refreshButtonDisabled data-test-button="refresh-lists"}}
+                </div>
+            </div>
+
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-desc">Sync your subscribers with the selected MailChimp list</div>
+                    <div class="gh-setting-content-extended">
+                        {{gh-task-button "Sync Members" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+                    </div>
+                </div>
+            </div>
         </form>
     </section>
 </section>
