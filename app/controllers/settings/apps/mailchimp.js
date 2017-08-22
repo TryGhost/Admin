@@ -1,7 +1,6 @@
 import Controller from 'ember-controller';
-import computed, {alias, empty, or} from 'ember-computed';
+import computed, {alias, empty, not, or} from 'ember-computed';
 import injectService from 'ember-service/inject';
-import {isEmpty} from '@ember/utils';
 import {task} from 'ember-concurrency';
 
 export default Controller.extend({
@@ -13,11 +12,13 @@ export default Controller.extend({
 
     availableLists: null,
 
-    listSelectDisabled: or('noAvailableLists', 'syncButtonDisabled', 'fetchLists.isRunning'),
+    listSelectDisabled: or('noAvailableLists', 'refreshButtonDisabled', 'fetchLists.isRunning'),
     model: alias('settings.mailchimp'),
     noActiveList: empty('model.activeList.id'),
     noAvailableLists: empty('availableLists'),
-    syncButtonDisabled: empty('model.apiKey'),
+    subscribersDisabled: not('feature.subscribers'),
+    refreshButtonDisabled: empty('model.apiKey'),
+    syncButtonDisabled: or('subscribersDisabled', 'noActiveList', 'refreshButtonDisabled'),
 
     selectedList: computed('model.activeList.id', 'availableLists.[]', function () {
         let selectedId = this.get('model.activeList.id');
@@ -29,8 +30,8 @@ export default Controller.extend({
     _triggerValidations() {
         let isActive = this.get('model.isActive');
         let apiKey = this.get('model.apiKey');
-        // the CP `noActiveList` didn't change on model changes...
-        let noActiveList = isEmpty(this.get('model.activeList.id') || this.get('model.activeList.name'));
+        let noActiveList = this.get('noActiveList');
+        let noAvailableLists = this.get('noAvailableLists');
 
         this.get('model.hasValidated').clear();
 
@@ -49,7 +50,7 @@ export default Controller.extend({
             // CASE: when API key is empty and the app is disabled, we want to reset the saved list
             this.set('model.activeList.id', '');
             this.set('model.activeList.name', '');
-        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList) {
+        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList && !noAvailableLists) {
             // CASE: App is enabled and a valid API key is entered but no list is selected
             this.get('model.errors').add(
                 'activeList',
@@ -98,7 +99,7 @@ export default Controller.extend({
             result.lists.forEach((list) => this.get('availableLists').pushObject(list));
         }
 
-        // ensure we return a truthy value so the task button as a success state
+        // ensure we return a truthy value so the task button has a success state
         return true;
     }).drop(),
 
@@ -128,10 +129,19 @@ export default Controller.extend({
     sync: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
 
-        return yield this.get('ajax').request(url).then((results) => {
-            // TODO: display sync statistics
-            console.log(results);
-        });
+        try {
+            return yield this.get('ajax').request(url).then((results) => {
+                // TODO: display sync statistics
+                console.log(results);
+                return true;
+            });
+        } catch (error) {
+            if (error) {
+                this.get('notifications').showAPIError(error);
+                this.get('model.hasValidated').pushObject('apiKey');
+                throw error;
+            }
+        }
     }).drop(),
 
     actions: {
@@ -164,8 +174,6 @@ export default Controller.extend({
         },
 
         fetchLists() {
-            this._triggerValidations();
-
             if (this.get('model.apiKey')) {
                 this.get('fetchLists').perform();
             } else {

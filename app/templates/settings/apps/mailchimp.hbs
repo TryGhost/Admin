@@ -79,7 +79,7 @@
                     </span>
 
                     {{!-- TODO: display button beside select --}}
-                    {{gh-task-button "Refresh" task=fetchLists runningText="Refreshing..." successText="Refresh" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+                    {{gh-task-button "Refresh" task=fetchLists runningText="Refreshing..." successText="Refresh" class="gh-btn gh-btn-green gh-btn-icon" disabled=refreshButtonDisabled data-test-button="refresh-lists"}}
 
                     {{gh-error-message errors=model.errors property="activeList"}}
                 </div>
@@ -88,7 +88,7 @@
             <hr>
             <p>
                 TODO: replace with real UI:<br>
-                {{gh-task-button "Sync Members" task=sync class="gh-btn gh-btn-blue gh-btn-icon"}}
+                {{gh-task-button "Sync Members" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
             </p>
         </form>
     </section>
