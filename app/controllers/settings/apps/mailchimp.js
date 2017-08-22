@@ -131,9 +131,8 @@ export default Controller.extend({
         let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
 
         try {
-            return yield this.get('ajax').request(url).then((results) => {
+            return yield this.get('ajax').request(url).then(() => {
                 // TODO: display sync statistics
-                console.log(results);
                 return true;
             });
         } catch (error) {
