@@ -27,8 +27,8 @@
         {{/unless}}
 
         <div class="gh-setting-header">MailChimp configuration</div>
-        <div class="gh-setting" id="mailchimp-toggle">
 
+        <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Enable MailChimp</div>
                 <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscribers.</div>
@@ -103,29 +103,53 @@
                         <div class="gh-setting-content">
                             <div class="gh-setting-title">Sync Subscribers with MailChimp list</div>
                             <div class="gh-setting-desc">Sync your subscribers with the selected MailChimp list</div>
+
+
                             <div class="gh-setting-content-extended">
-                                {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
-
                                 {{#if syncResults.stats}}
-                                {{#each syncResults.stats as |stat|}}
-                                    <p>MailChimp created: {{stat.mailchimp.created}}</p>
-                                    <p>MailChimp updated: {{stat.mailchimp.updated}}</p>
-                                    <p>MailChimp errored: {{stat.mailchimp.errored}}</p>
+                                <div class="app-results">
+                                    <div class="app-results-grid">
+                                        <div class="app-results-cell">
+                                            <div class="app-results-header">MailChimp results:</div>
+                                            <div class="app-results-details">Created: <span>{{syncResults.stats.mailchimp.created}}</span></div>
+                                            <div class="app-results-details">Errored: <span>{{syncResults.stats.mailchimp.errored}}</span></div>
+                                        </div>
 
-                                    <p>Subscribers created: {{stat.subscribers.created}}</p>
-                                    <p>Subscribers updated: {{stat.subscribers.updated}}</p>
-                                    <p>Subscribers errored: {{stat.subscribers.errored}}</p>
-                                {{/each}}
+                                        <div class="app-results-cell">
+                                            <div class="app-results-header">Subscribers results:</div>
+                                            <div class="app-results-details">Created: <span>{{syncResults.stats.subscribers.created}}</span></div>
+                                            <div class="app-results-details">Updated: <span>{{syncResults.stats.subscribers.updated}}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{/if}}
 
                                 {{#if syncResults.errors}}
-                                {{log "syncResults errors" syncResults.errors}}
-                                {{#each syncResults.errors as |error|}}
-                                    <li>Error: {{error}}</li>
-                                {{/each}}
+                                    <div class="app-results">
+                                        <div class="app-error-grid">
+                                            <div class="app-error-header">Error details:</div>
+                                            {{#each syncResults.errors as |error|}}
+                                            <div class="app-error-details">
+                                                <div class="app-error-desc">Email:</div>
+                                                <div class="app-error-message">{{error.email_address}}</div>
+                                            </div>
+                                            <div class="app-error-details">
+                                                <div class="app-error-desc">Message:</div>
+                                                <div class="app-error-message">{{error.error}}</div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
                                 {{/if}}
-
                             </div>
+                        </div>
+                        <div class="gh-setting-action">
+                            {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="syncList"  class="right"}}
+                                {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+                                {{#if model.errors.syncList}}
+                                    {{gh-error-message errors=model.errors property="syncList"}}
+                                {{/if}}
+                            {{/gh-form-group}}
                         </div>
                     </div>
                 {{/unless}}

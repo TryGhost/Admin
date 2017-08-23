@@ -225,3 +225,81 @@
 .app-config-form > .gh-btn-grey:focus {
     border-color: rgb(223, 225, 227);
 }
+
+.app-results {
+    width: 100%;
+    max-width: 700px;
+}
+
+.app-results-grid,
+.app-error-grid {
+    display: flex;
+    margin-bottom: 1.6em;
+    padding: 10px 12px;
+    border: color(var(--lightgrey) l(-5%) s(-10%)) 1px solid;
+    color: color(var(--midgrey) l(-18%));
+    border-radius: var(--border-radius);
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.6rem;
+}
+
+.app-results-cell {
+    margin-right: 50px;
+}
+
+.app-results-header,
+.app-error-header {
+    margin-bottom: 2px;
+    font-weight: 500;
+    color: var(--darkgrey);
+    margin-bottom: 10px;
+    line-height: 1.15em;
+}
+
+.app-results-details {
+    color: var(--midgrey);
+    margin-bottom: 0;
+    letter-spacing: 0.3px;
+    line-height: 1.3em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.app-error-grid {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.app-error-details {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.app-error-desc {
+    color: var(--midgrey);
+    margin-bottom: 0;
+    letter-spacing: 0.3px;
+    line-height: 1.3em;
+    flex: 0 0 90px;
+}
+
+.app-error-message {
+    color: var(--red);
+    flex: 0 1 auto;
+}
+
+
+@media (max-width: 930px) {
+    .app-results-grid {
+        flex-direction: column;
+    }
+    .app-results-cell {
+        margin-right: 0;
+    }
+    .app-results-cell:not(:first-child) {
+        margin-top: 3rem;
+    }
+}

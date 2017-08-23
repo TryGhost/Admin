@@ -130,25 +130,38 @@ export default Controller.extend({
         }
     }).drop(),
 
-    // TODO: replace with real implementation
     sync: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
 
-        this.set('syncResults.stats', []);
-        this.set('syncResults.errors', []);
+        yield this.get('save').perform();
 
         try {
             return yield this.get('ajax').request(url).then((results) => {
-                // TODO: display sync statistics
-                this.get('syncResults.stats').pushObject(results.stats);
-                this.get('syncResults.errors').pushObject(results.errors);
+                if (results.stats) {
+                    this.set('syncResults.stats', {});
+                    this.set('syncResults.stats.mailchimp', results.stats.mailchimp);
+                    this.set('syncResults.stats.subscribers', results.stats.subscribers);
+                }
+
+                if (results.errors.length) {
+                    this.set('syncResults.errors', []);
+                    results.errors.forEach((error) => this.get('syncResults.errors').pushObject(error));
+                }
 
                 return true;
             });
         } catch (error) {
-            if (error) {
+            //  TODO: specific error for inline validation?
+            if (error && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
+                this.get('model.errors').add(
+                    'syncList',
+                    'Subscribers sync failed.'
+                );
+                this.get('model.hasValidated').pushObject('syncList');
+                return false;
+            } else if (error) {
                 this.get('notifications').showAPIError(error);
-                this.get('model.hasValidated').pushObject('apiKey');
+                this.get('model.hasValidated').pushObject('syncList');
                 throw error;
             }
         }
