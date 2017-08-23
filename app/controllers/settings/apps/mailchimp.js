@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import {alias, empty, not, or} from '@ember/object/computed';
+import {alias, empty, not, or, readOnly} from '@ember/object/computed';
 import {computed} from '@ember/object';
 import {inject as injectService} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -12,8 +12,10 @@ export default Controller.extend({
     feature: injectService(),
 
     availableLists: null,
+    syncResults: {},
 
     listSelectDisabled: or('noAvailableLists', 'refreshButtonDisabled', 'fetchLists.isRunning'),
+    isFetchingLists: readOnly('fetchLists.isRunning'),
     model: alias('settings.mailchimp'),
     noActiveList: empty('model.activeList.id'),
     noAvailableLists: empty('availableLists'),
@@ -52,11 +54,13 @@ export default Controller.extend({
             this.set('model.activeList.id', '');
             this.set('model.activeList.name', '');
         } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList && !noAvailableLists) {
+            let firstList = this.get('availableLists').objectAt(0);
+
             // CASE: App is enabled and a valid API key is entered but no list is selected
-            this.get('model.errors').add(
-                'activeList',
-                'Please select a list'
-            );
+            // set first returned value as default
+            this.set('model.activeList.id', firstList.id);
+            this.set('model.activeList.name', firstList.name);
+
             this.get('model.hasValidated').pushObject('activeList');
         } else {
             // run the validation for API key
@@ -130,9 +134,15 @@ export default Controller.extend({
     sync: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
 
+        this.set('syncResults.stats', []);
+        this.set('syncResults.errors', []);
+
         try {
-            return yield this.get('ajax').request(url).then(() => {
+            return yield this.get('ajax').request(url).then((results) => {
                 // TODO: display sync statistics
+                this.get('syncResults.stats').pushObject(results.stats);
+                this.get('syncResults.errors').pushObject(results.errors);
+
                 return true;
             });
         } catch (error) {

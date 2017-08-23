@@ -28,6 +28,7 @@
 
         <div class="gh-setting-header">MailChimp configuration</div>
         <div class="gh-setting" id="mailchimp-toggle">
+
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Enable MailChimp</div>
                 <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscribers.</div>
@@ -49,11 +50,11 @@
             <div class="gh-setting">
                 <div class="gh-setting-content">
 
-                    <div class="gh-setting-title">MailChimp integration</div>
-                    <div class="gh-setting-desc">Send campaign emails to your subscribers</div>
+                    <div class="gh-setting-title">MailChimp API key</div>
+                    <div class="gh-setting-desc">Enter your MailChimp API key</div>
                     <div class="gh-setting-content-extended">
                         {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="apiKey"}}
-                            {{gh-input model.apiKey name="mailchimp" update=(action "updateApi") onenter=(action "save") focusOut=(action "fetchLists") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
+                            {{gh-input model.apiKey name="mailchimp" update=(action "updateApi") onenter=(action "fetchLists") focusOut=(action "fetchLists") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
                             {{#unless model.errors.apiKey}}
                                 <p>Get your MailChimp API key <a href="https://us16.admin.mailchimp.com/account/api/" target="_blank">here</a>.</p>
                             {{else}}
@@ -64,42 +65,71 @@
                 </div>
             </div>
 
-            <div class="gh-setting">
-                <div class="gh-setting-content">
-                    {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
-                        <div class="form-group for-select">
-                            <span class="gh-select">
-                                {{one-way-select selectedList
-                                    prompt="Select the MailChimp list to sync subscribers with..."
-                                    options=availableLists
-                                    optionValuePath="id"
-                                    optionLabelPath="name"
-                                    update=(action "setList")
-                                    disabled=listSelectDisabled}}
-                                {{inline-svg "arrow-down-small"}}
-                            </span>
-                            {{#unless model.errors.activeList}}
-                                <p>MailChimp list to sync subscribers with</p>
-                            {{else}}
-                                {{gh-error-message errors=model.errors property="activeList"}}
-                            {{/unless}}
+            {{#if isFetchingLists}}
+                <div class="gh-unsplash-loading">
+                    <div class="gh-loading-spinner"></div>
+                </div>
+            {{else}}
+                {{#unless listSelectDisabled}}
+                    <div class="gh-setting">
+                        <div class="gh-setting-content">
+                            <div class="gh-setting-title">MailChimp mailing lists</div>
+                            <div class="gh-setting-desc">MailChimp list to sync subscribers with</div>
+
+                            <div class="gh-setting-content-extended">
+                                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
+                                    <div class="form-group for-select">
+                                        <span class="gh-select">
+                                            {{one-way-select selectedList
+                                                options=availableLists
+                                                optionValuePath="id"
+                                                optionLabelPath="name"
+                                                update=(action "setList")
+                                                disabled=listSelectDisabled}}
+                                            {{inline-svg "arrow-down-small"}}
+                                        </span>
+                                        {{#unless model.errors.activeList}}
+                                            <p>Select a MailChimp list to sync your subscribers with</p>
+                                        {{else}}
+                                            {{gh-error-message errors=model.errors property="activeList"}}
+                                        {{/unless}}
+                                    </div>
+                                {{/gh-form-group}}
+                            </div>
                         </div>
-                    {{/gh-form-group}}
-                </div>
-
-                <div class="gh-setting-action">
-                    {{gh-task-button "Refresh" task=fetchLists runningText="Refreshing..." successText="Refresh" class="gh-btn gh-btn-green gh-btn-icon" disabled=refreshButtonDisabled data-test-button="refresh-lists"}}
-                </div>
-            </div>
-
-            <div class="gh-setting">
-                <div class="gh-setting-content">
-                    <div class="gh-setting-desc">Sync your subscribers with the selected MailChimp list</div>
-                    <div class="gh-setting-content-extended">
-                        {{gh-task-button "Sync Members" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
                     </div>
-                </div>
-            </div>
+
+                    <div class="gh-setting">
+                        <div class="gh-setting-content">
+                            <div class="gh-setting-title">Sync Subscribers with MailChimp list</div>
+                            <div class="gh-setting-desc">Sync your subscribers with the selected MailChimp list</div>
+                            <div class="gh-setting-content-extended">
+                                {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-blue gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+
+                                {{#if syncResults.stats}}
+                                {{#each syncResults.stats as |stat|}}
+                                    <p>MailChimp created: {{stat.mailchimp.created}}</p>
+                                    <p>MailChimp updated: {{stat.mailchimp.updated}}</p>
+                                    <p>MailChimp errored: {{stat.mailchimp.errored}}</p>
+
+                                    <p>Subscribers created: {{stat.subscribers.created}}</p>
+                                    <p>Subscribers updated: {{stat.subscribers.updated}}</p>
+                                    <p>Subscribers errored: {{stat.subscribers.errored}}</p>
+                                {{/each}}
+                                {{/if}}
+
+                                {{#if syncResults.errors}}
+                                {{log "syncResults errors" syncResults.errors}}
+                                {{#each syncResults.errors as |error|}}
+                                    <li>Error: {{error}}</li>
+                                {{/each}}
+                                {{/if}}
+
+                            </div>
+                        </div>
+                    </div>
+                {{/unless}}
+            {{/if}}
         </form>
     </section>
 </section>
