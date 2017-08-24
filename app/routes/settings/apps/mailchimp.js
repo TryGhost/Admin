@@ -9,6 +9,9 @@ export default AuthenticatedRoute.extend(styleBody, {
     setupController(controller) {
         this._super(...arguments);
 
+        // reset previous sync results when transitioning to mailchimp route
+        controller.set('syncResults', {});
+
         // start fetching lists asynchronously - UI will disable the select
         // and show a spinner until it's finished
         controller.get('fetchLists').perform();

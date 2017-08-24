@@ -64,7 +64,7 @@ export default Controller.extend({
             this.get('model.hasValidated').pushObject('activeList');
         } else {
             // run the validation for API key
-            this.get('model').validate();
+            this.get('model').validate({property: 'apiKey'});
         }
     },
 
