@@ -12,6 +12,8 @@ export default Controller.extend({
     feature: injectService(),
 
     availableLists: null,
+    showErrorDetails: false,
+    showSyncDetails: false,
     syncResults: {},
 
     listSelectDisabled: or('noAvailableLists', 'refreshButtonDisabled', 'fetchLists.isRunning'),
@@ -209,9 +211,16 @@ export default Controller.extend({
                 this.get('model.errors.activeList').clear();
             }
 
+            // reset sync results when selecting a new list
+            this.set('syncResults', {});
+
             this.set('model.activeList.id', list.id);
             this.set('model.activeList.name', list.name);
             this._triggerValidations();
+        },
+
+        toggleDetails(property) {
+            this.toggleProperty(property);
         }
     }
 });

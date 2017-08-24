@@ -106,50 +106,90 @@
 
 
                             <div class="gh-setting-content-extended">
+
+                                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="syncList"}}
+                                    {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
+                                    {{#if model.errors.syncList}}
+                                        {{gh-error-message errors=model.errors property="syncList"}}
+                                    {{/if}}
+                                {{/gh-form-group}}
+
                                 {{#if syncResults.stats}}
                                 <div class="app-results">
                                     <div class="app-results-grid">
-                                        <div class="app-results-cell">
-                                            <div class="app-results-header">MailChimp results:</div>
-                                            <div class="app-results-details">Created: <span>{{syncResults.stats.mailchimp.created}}</span></div>
-                                            <div class="app-results-details">Errored: <span>{{syncResults.stats.mailchimp.errored}}</span></div>
+                                        <a href="#" {{action "toggleDetails" "showSyncDetails"}} data-test-toggle-details>
+                                            <div class="app-results-header">Sync results</div>
+                                            <div class="theme-validation-rule-icon">
+                                                {{#if showSyncDetails}}
+                                                    {{inline-svg "arrow-down"}}
+                                                {{else}}
+                                                    {{inline-svg "arrow-right"}}
+                                                {{/if}}
+                                            </div>
+                                        </a>
+                                        {{#if showSyncDetails}}
+                                        <div class="app-results-card">
+                                            <div class="app-results-left">
+                                                <div class="app-results-card-header">MailChimp ({{model.activeList.name}})</div>
+                                                <div class="app-results-content">
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Created: </div>
+                                                        <div class="app-results-details-message">{{syncResults.stats.mailchimp.created}}</div>
+                                                    </div>
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Errored: </div>
+                                                        <div class="app-results-details-message">{{syncResults.stats.mailchimp.errored}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="app-results-right">
+                                                <div class="app-results-card-header">Ghost Subscribers</div>
+                                                <div class="app-results-content">
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Created: </div>
+                                                        <div class="app-results-details-message">{{syncResults.stats.subscribers.created}}</div>
+                                                    </div>
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Updated: </div>
+                                                        <div class="app-results-details-message">{{syncResults.stats.subscribers.updated}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div class="app-results-cell">
-                                            <div class="app-results-header">Subscribers results:</div>
-                                            <div class="app-results-details">Created: <span>{{syncResults.stats.subscribers.created}}</span></div>
-                                            <div class="app-results-details">Updated: <span>{{syncResults.stats.subscribers.updated}}</span></div>
-                                        </div>
+                                        {{/if}}
                                     </div>
+                                    {{#if syncResults.errors}}
+                                    <div class="app-results-grid">
+                                        <a href="#" {{action "toggleDetails" "showErrorDetails"}} data-test-toggle-details>
+                                            <div class="app-results-header error">Error details</div>
+                                            <div class="theme-validation-rule-icon">
+                                                {{#if showErrorDetails}}
+                                                    {{inline-svg "arrow-down"}}
+                                                {{else}}
+                                                    {{inline-svg "arrow-right"}}
+                                                {{/if}}
+                                            </div>
+                                        </a>
+                                        {{#if showErrorDetails}}
+                                            {{#each syncResults.errors as |error|}}
+                                                <div class="app-results-content">
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Email: </div>
+                                                        <div class="app-results-details-message">{{error.email_address}}</div>
+                                                    </div>
+                                                    <div class="app-results-details">
+                                                        <div class="app-results-details-desc">Message: </div>
+                                                        <div class="app-results-details-message">{{error.error}}</div>
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+                                    {{/if}}
                                 </div>
                                 {{/if}}
 
-                                {{#if syncResults.errors}}
-                                    <div class="app-results">
-                                        <div class="app-error-grid">
-                                            <div class="app-error-header">Error details:</div>
-                                            {{#each syncResults.errors as |error|}}
-                                            <div class="app-error-details">
-                                                <div class="app-error-desc">Email:</div>
-                                                <div class="app-error-message">{{error.email_address}}</div>
-                                            </div>
-                                            <div class="app-error-details">
-                                                <div class="app-error-desc">Message:</div>
-                                                <div class="app-error-message">{{error.error}}</div>
-                                            </div>
-                                            {{/each}}
-                                        </div>
-                                    </div>
-                                {{/if}}
                             </div>
-                        </div>
-                        <div class="gh-setting-action">
-                            {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="syncList"  class="right"}}
-                                {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
-                                {{#if model.errors.syncList}}
-                                    {{gh-error-message errors=model.errors property="syncList"}}
-                                {{/if}}
-                            {{/gh-form-group}}
                         </div>
                     </div>
                 {{/unless}}
