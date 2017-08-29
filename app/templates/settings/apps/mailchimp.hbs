@@ -18,20 +18,19 @@
             </div>
             <div class="app-cell">
                 <h3>MailChimp</h3>
-                <p>Email integration for subscribers</p>
+                <p>Email list synchronisation for subscribers</p>
             </div>
         </section>
 
         {{#unless feature.subscribers}}
-            <p class="gh-box gh-box-info">{{inline-svg "idea"}}Subscribers feature is not enabled. To use the MailChimp integration you need to enable it in Labs.</p>
+            <p class="gh-box gh-box-red">{{inline-svg "idea"}} Subscribers feature is not enabled. To use the MailChimp integration you need to enable it in {{#link-to "settings.labs"}}Labs{{/link-to}}.</p>
         {{/unless}}
 
         <div class="gh-setting-header">MailChimp configuration</div>
-
         <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Enable MailChimp</div>
-                <div class="gh-setting-desc">Enable <a href="https://mailchimp.com" target="_blank">MailChimp</a> to send emails to your subscribers.</div>
+                <div class="gh-setting-desc">Synchronise subscriber e-mail addresses daily with your <a href="https://mailchimp.com" target="_blank">MailChimp</a> mailing list.</div>
             </div>
             <div class="gh-setting-action">
                 {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="isActive" class="right"}}
@@ -49,14 +48,13 @@
         <form class="app-config-form" id="mailchimp-settings" novalidate="novalidate" {{action "fetchLists" on="submit"}}>
             <div class="gh-setting">
                 <div class="gh-setting-content">
-
                     <div class="gh-setting-title">MailChimp API key</div>
                     <div class="gh-setting-desc">Enter your MailChimp API key</div>
                     <div class="gh-setting-content-extended">
                         {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="apiKey"}}
-                            {{gh-input model.apiKey name="mailchimp" update=(action "updateApi") onenter=(action "fetchLists") focusOut=(action "fetchLists") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
+                            {{gh-input model.apiKey name="mailchimp" update=(action "updateApiKey") onenter=(action "fetchLists") focusOut=(action "fetchLists") placeholder="0f387e82271755665bd49683e914856b1e34..." data-test-input="mailchimp"}}
                             {{#unless model.errors.apiKey}}
-                                <p>Get your MailChimp API key <a href="https://us16.admin.mailchimp.com/account/api/" target="_blank">here</a>.</p>
+                                <p>Get your MailChimp API key <a href="https://admin.mailchimp.com/account/api/" target="_blank">here</a>.</p>
                             {{else}}
                                 {{gh-error-message errors=model.errors property="apiKey"}}
                             {{/unless}}
@@ -73,8 +71,8 @@
                 {{#unless listSelectDisabled}}
                     <div class="gh-setting">
                         <div class="gh-setting-content">
-                            <div class="gh-setting-title">MailChimp mailing lists</div>
-                            <div class="gh-setting-desc">MailChimp list to sync subscribers with</div>
+                            <div class="gh-setting-title">MailChimp mailing list</div>
+                            <div class="gh-setting-desc">Select the MailChimp list to sync subscribers with</div>
 
                             <div class="gh-setting-content-extended">
                                 {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="activeList"}}
@@ -88,107 +86,9 @@
                                                 disabled=listSelectDisabled}}
                                             {{inline-svg "arrow-down-small"}}
                                         </span>
-                                        {{#unless model.errors.activeList}}
-                                            <p>Select a MailChimp list to sync your subscribers with</p>
-                                        {{else}}
-                                            {{gh-error-message errors=model.errors property="activeList"}}
-                                        {{/unless}}
+                                        {{gh-error-message errors=model.errors property="activeList"}}
                                     </div>
                                 {{/gh-form-group}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="gh-setting">
-                        <div class="gh-setting-content">
-                            <div class="gh-setting-title">Sync Subscribers with MailChimp list</div>
-                            <div class="gh-setting-desc">Sync your subscribers with the selected MailChimp list</div>
-
-
-                            <div class="gh-setting-content-extended">
-
-                                {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="syncList"}}
-                                    {{gh-task-button "Sync Subscribers" task=sync runningText="Syncing..." successText="Synced" class="gh-btn gh-btn-green gh-btn-icon" disabled=syncButtonDisabled data-test-button="sync-lists"}}
-                                    {{#if model.errors.syncList}}
-                                        {{gh-error-message errors=model.errors property="syncList"}}
-                                    {{/if}}
-                                {{/gh-form-group}}
-
-                                {{#if syncResults.stats}}
-                                <div class="app-results">
-                                    <div class="app-results-grid">
-                                        <a href="#" {{action "toggleDetails" "showSyncDetails"}} data-test-toggle-details>
-                                            <div class="app-results-header">Sync results</div>
-                                            <div class="theme-validation-rule-icon">
-                                                {{#if showSyncDetails}}
-                                                    {{inline-svg "arrow-down"}}
-                                                {{else}}
-                                                    {{inline-svg "arrow-right"}}
-                                                {{/if}}
-                                            </div>
-                                        </a>
-                                        {{#if showSyncDetails}}
-                                        <div class="app-results-card">
-                                            <div class="app-results-left">
-                                                <div class="app-results-card-header">MailChimp ({{model.activeList.name}})</div>
-                                                <div class="app-results-content">
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Created: </div>
-                                                        <div class="app-results-details-message">{{syncResults.stats.mailchimp.created}}</div>
-                                                    </div>
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Errored: </div>
-                                                        <div class="app-results-details-message">{{syncResults.stats.mailchimp.errored}}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="app-results-right">
-                                                <div class="app-results-card-header">Ghost Subscribers</div>
-                                                <div class="app-results-content">
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Created: </div>
-                                                        <div class="app-results-details-message">{{syncResults.stats.subscribers.created}}</div>
-                                                    </div>
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Updated: </div>
-                                                        <div class="app-results-details-message">{{syncResults.stats.subscribers.updated}}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{/if}}
-                                    </div>
-                                    {{#if syncResults.errors}}
-                                    <div class="app-results-grid">
-                                        <a href="#" {{action "toggleDetails" "showErrorDetails"}} data-test-toggle-details>
-                                            <div class="app-results-header error">Error details</div>
-                                            <div class="theme-validation-rule-icon">
-                                                {{#if showErrorDetails}}
-                                                    {{inline-svg "arrow-down"}}
-                                                {{else}}
-                                                    {{inline-svg "arrow-right"}}
-                                                {{/if}}
-                                            </div>
-                                        </a>
-                                        {{#if showErrorDetails}}
-                                            {{#each syncResults.errors as |error|}}
-                                                <div class="app-results-content">
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Email: </div>
-                                                        <div class="app-results-details-message">{{error.email_address}}</div>
-                                                    </div>
-                                                    <div class="app-results-details">
-                                                        <div class="app-results-details-desc">Message: </div>
-                                                        <div class="app-results-details-message">{{error.error}}</div>
-                                                    </div>
-                                                </div>
-                                            {{/each}}
-                                        {{/if}}
-                                    </div>
-                                    {{/if}}
-                                </div>
-                                {{/if}}
-
                             </div>
                         </div>
                     </div>

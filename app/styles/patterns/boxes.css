@@ -28,3 +28,12 @@
 .gh-box-info svg {
     fill: var(--blue);
 }
+
+.gh-box-red {
+    border-color: color(var(--red) lightness(+28%));
+    border-left-color: var(--red);
+}
+
+.gh-box-red svg {
+    fill: var(--red);
+}

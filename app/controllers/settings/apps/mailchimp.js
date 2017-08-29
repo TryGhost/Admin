@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import {alias, empty, not, or, readOnly} from '@ember/object/computed';
+import {assign} from '@ember/polyfills';
 import {computed} from '@ember/object';
 import {inject as injectService} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -13,17 +14,13 @@ export default Controller.extend({
 
     availableLists: null,
     showErrorDetails: false,
-    showSyncDetails: false,
-    syncResults: {},
 
-    listSelectDisabled: or('noAvailableLists', 'refreshButtonDisabled', 'fetchLists.isRunning'),
+    listSelectDisabled: or('noAvailableLists', 'fetchLists.isRunning'),
     isFetchingLists: readOnly('fetchLists.isRunning'),
     model: alias('settings.mailchimp'),
     noActiveList: empty('model.activeList.id'),
     noAvailableLists: empty('availableLists'),
     subscribersDisabled: not('feature.subscribers'),
-    refreshButtonDisabled: empty('model.apiKey'),
-    syncButtonDisabled: or('subscribersDisabled', 'noActiveList', 'refreshButtonDisabled'),
 
     selectedList: computed('model.activeList.id', 'availableLists.[]', function () {
         let selectedId = this.get('model.activeList.id');
@@ -122,48 +119,17 @@ export default Controller.extend({
         }
 
         try {
-            settings.set('mailchimp', mailchimp);
+            // ensure we aren't saving the hasValidated array to settings
+            // TODO: remove once we have a better validations system
+            let _mailchimp = assign({}, mailchimp);
+            delete _mailchimp.hasValidated;
+            delete _mailchimp.errors;
+
+            settings.set('mailchimp', _mailchimp);
             return yield settings.save();
         } catch (error) {
             if (error) {
                 this.get('notifications').showAPIError(error);
-                throw error;
-            }
-        }
-    }).drop(),
-
-    sync: task(function* () {
-        let url = this.get('ghostPaths.url').api('mailchimp', 'sync');
-
-        yield this.get('save').perform();
-
-        try {
-            return yield this.get('ajax').request(url).then((results) => {
-                if (results.stats) {
-                    this.set('syncResults.stats', {});
-                    this.set('syncResults.stats.mailchimp', results.stats.mailchimp);
-                    this.set('syncResults.stats.subscribers', results.stats.subscribers);
-                }
-
-                if (results.errors.length) {
-                    this.set('syncResults.errors', []);
-                    results.errors.forEach((error) => this.get('syncResults.errors').pushObject(error));
-                }
-
-                return true;
-            });
-        } catch (error) {
-            //  TODO: specific error for inline validation?
-            if (error && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
-                this.get('model.errors').add(
-                    'syncList',
-                    'Subscribers sync failed.'
-                );
-                this.get('model.hasValidated').pushObject('syncList');
-                return false;
-            } else if (error) {
-                this.get('notifications').showAPIError(error);
-                this.get('model.hasValidated').pushObject('syncList');
                 throw error;
             }
         }
@@ -183,7 +149,7 @@ export default Controller.extend({
             this._triggerValidations();
         },
 
-        updateApi(value) {
+        updateApiKey(value) {
             value = value ? value.toString().trim() : '';
 
             if (this.get('model.errors.apiKey')) {
@@ -210,9 +176,6 @@ export default Controller.extend({
             if (this.get('model.errors.activeList')) {
                 this.get('model.errors.activeList').clear();
             }
-
-            // reset sync results when selecting a new list
-            this.set('syncResults', {});
 
             this.set('model.activeList.id', list.id);
             this.set('model.activeList.name', list.name);
