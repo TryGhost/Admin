@@ -3,7 +3,9 @@ import {alias, empty, not, or, readOnly} from '@ember/object/computed';
 import {assign} from '@ember/polyfills';
 import {computed} from '@ember/object';
 import {inject as injectService} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task, timeout} from 'ember-concurrency';
+
+const SYNC_POLL_MS = 5000;
 
 export default Controller.extend({
     ajax: injectService(),
@@ -28,44 +30,6 @@ export default Controller.extend({
 
         return availableLists.findBy('id', selectedId);
     }),
-
-    _triggerValidations() {
-        let isActive = this.get('model.isActive');
-        let apiKey = this.get('model.apiKey');
-        let noActiveList = this.get('noActiveList');
-        let noAvailableLists = this.get('noAvailableLists');
-
-        this.get('model.hasValidated').clear();
-
-        if (isActive && !apiKey) {
-            // CASE: API key is empty but MailChimp is enabled
-            this.get('model.errors').add(
-                'isActive',
-                'You need to enter an API key before enabling it'
-            );
-            this.get('model.hasValidated').pushObject('isActive');
-        } else if (apiKey && this.get('model.errors.apiKey')) {
-            // CASE: API key was entered but we received an error message from the server
-            // because the key is not valid. We don't want to overwrite this error
-            this.get('model.hasValidated').pushObject('apiKey');
-        } else if (!apiKey && !isActive && !noActiveList) {
-            // CASE: when API key is empty and the app is disabled, we want to reset the saved list
-            this.set('model.activeList.id', '');
-            this.set('model.activeList.name', '');
-        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList && !noAvailableLists) {
-            let firstList = this.get('availableLists').objectAt(0);
-
-            // CASE: App is enabled and a valid API key is entered but no list is selected
-            // set first returned value as default
-            this.set('model.activeList.id', firstList.id);
-            this.set('model.activeList.name', firstList.name);
-
-            this.get('model.hasValidated').pushObject('activeList');
-        } else {
-            // run the validation for API key
-            this.get('model').validate({property: 'apiKey'});
-        }
-    },
 
     fetchLists: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
@@ -108,7 +72,6 @@ export default Controller.extend({
     }).drop(),
 
     save: task(function* () {
-        let mailchimp = this.get('model');
         let settings = this.get('settings');
 
         yield this._triggerValidations();
@@ -121,18 +84,38 @@ export default Controller.extend({
         try {
             // ensure we aren't saving the hasValidated array to settings
             // TODO: remove once we have a better validations system
-            let _mailchimp = assign({}, mailchimp);
-            delete _mailchimp.hasValidated;
-            delete _mailchimp.errors;
+            let mailchimp = assign({}, this.get('model'));
+            delete mailchimp.hasValidated;
+            delete mailchimp.errors;
 
-            settings.set('mailchimp', _mailchimp);
-            return yield settings.save();
+            settings.set('mailchimp', mailchimp);
+
+            let saveResult = yield settings.save();
+
+            if (this._immediateSync) {
+                yield this.get('pollForSync').perform();
+            }
+
+            return saveResult;
         } catch (error) {
             if (error) {
                 this.get('notifications').showAPIError(error);
                 throw error;
             }
         }
+    }).drop(),
+
+    pollForSync: task(function* () {
+        let settings = this.get('settings');
+        let nextSyncAt = settings.get('mailchimp.nextSyncAt');
+
+        while (settings.get('mailchimp.nextSyncAt') !== nextSyncAt) {
+            yield timeout(SYNC_POLL_MS);
+            yield settings.reload();
+        }
+
+        this._immedateSync = false;
+        return true;
     }).drop(),
 
     actions: {
@@ -147,6 +130,10 @@ export default Controller.extend({
 
             this.set('model.isActive', value);
             this._triggerValidations();
+
+            // server performs an immediate sync when activating mailchimp so we
+            // want to poll until sync is finished when saving
+            this._immediateSync = value;
         },
 
         updateApiKey(value) {
@@ -184,6 +171,44 @@ export default Controller.extend({
 
         toggleDetails(property) {
             this.toggleProperty(property);
+        }
+    },
+
+    _triggerValidations() {
+        let isActive = this.get('model.isActive');
+        let apiKey = this.get('model.apiKey');
+        let noActiveList = this.get('noActiveList');
+        let noAvailableLists = this.get('noAvailableLists');
+
+        this.get('model.hasValidated').clear();
+
+        if (isActive && !apiKey) {
+            // CASE: API key is empty but MailChimp is enabled
+            this.get('model.errors').add(
+                'isActive',
+                'You need to enter an API key before enabling it'
+            );
+            this.get('model.hasValidated').pushObject('isActive');
+        } else if (apiKey && this.get('model.errors.apiKey')) {
+            // CASE: API key was entered but we received an error message from the server
+            // because the key is not valid. We don't want to overwrite this error
+            this.get('model.hasValidated').pushObject('apiKey');
+        } else if (!apiKey && !isActive && !noActiveList) {
+            // CASE: when API key is empty and the app is disabled, we want to reset the saved list
+            this.set('model.activeList.id', '');
+            this.set('model.activeList.name', '');
+        } else if (isActive && (apiKey && !this.get('model.errors.apiKey')) && noActiveList && !noAvailableLists) {
+            let firstList = this.get('availableLists').objectAt(0);
+
+            // CASE: App is enabled and a valid API key is entered but no list is selected
+            // set first returned value as default
+            this.set('model.activeList.id', firstList.id);
+            this.set('model.activeList.name', firstList.name);
+
+            this.get('model.hasValidated').pushObject('activeList');
+        } else {
+            // run the validation for API key
+            this.get('model').validate({property: 'apiKey'});
         }
     }
 });
