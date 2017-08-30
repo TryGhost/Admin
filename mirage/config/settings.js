@@ -1,3 +1,5 @@
+import {Response} from 'ember-cli-mirage';
+
 export default function mockSettings(server) {
     // These endpoints use the raw database & fixtures without going
     // through the ORM at all (meaning no setting model). This is due
@@ -26,6 +28,15 @@ export default function mockSettings(server) {
 
     server.put('/settings/', function ({db}, {requestBody}) {
         let newSettings = JSON.parse(requestBody).settings;
+
+        if (newSettings.findBy('key', 'scheduling')) {
+            return new Response(403, {}, {
+                errors: [{
+                    errorType: 'NoPermissionError',
+                    message: 'You do not have permission to edit scheduling.'
+                }]
+            });
+        }
 
         newSettings.forEach((newSetting) => {
             let {key} = newSetting;

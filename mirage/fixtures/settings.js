@@ -202,5 +202,14 @@ export default [
         updated_at: '2017-08-11T08:00:14.000Z',
         updated_by: 1,
         value: '{"applicationId":"","isActive":false}'
+    },
+    {
+        id: 24,
+        created_at: '2017-08-30T16:05:00.000Z',
+        created_by: 1,
+        key: 'scheduling',
+        type: 'blog',
+        updated_by: 1,
+        value: '{"readonly":true,"subscribers":{"lastSyncAt":null,"nextSyncAt":null}}'
     }
 ];
