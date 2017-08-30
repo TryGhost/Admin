@@ -73,7 +73,8 @@ describe('Acceptance: Settings - Apps - Slack', function () {
                 ctrlKey: ctrlOrCmd === 'ctrl'
             });
 
-            let [newRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [newRequest] = server.pretender.handledRequests.slice(-2);
             let params = JSON.parse(newRequest.requestBody);
             let [result] = JSON.parse(params.settings.findBy('key', 'slack').value);
 

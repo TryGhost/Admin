@@ -103,7 +103,8 @@ describe('Acceptance: Settings - Apps - Unsplash', function () {
                 ctrlKey: ctrlOrCmd === 'ctrl'
             });
 
-            let [firstRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [firstRequest] = server.pretender.handledRequests.slice(-2);
             let params = JSON.parse(firstRequest.requestBody);
             let result = JSON.parse(params.settings.findBy('key', 'unsplash').value);
 
@@ -148,7 +149,8 @@ describe('Acceptance: Settings - Apps - Unsplash', function () {
             expect(find('[data-test-save-button]').text().trim(), 'task button saved response')
                 .to.equal('Saved');
 
-            let [thirdRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [thirdRequest] = server.pretender.handledRequests.slice(-2);
             params = JSON.parse(thirdRequest.requestBody);
             result = JSON.parse(params.settings.findBy('key', 'unsplash').value);
 

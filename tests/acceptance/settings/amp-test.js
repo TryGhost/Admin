@@ -72,7 +72,8 @@ describe('Acceptance: Settings - Apps - AMP', function () {
 
             await click('[data-test-save-button]');
 
-            let [lastRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [lastRequest] = server.pretender.handledRequests.slice(-2);
             let params = JSON.parse(lastRequest.requestBody);
 
             expect(params.settings.findBy('key', 'amp').value).to.equal(false);
@@ -86,8 +87,9 @@ describe('Acceptance: Settings - Apps - AMP', function () {
             });
 
             // we've already saved in this test so there's no on-screen indication
-            // that we've had another save, check the request was fired instead
-            let [newRequest] = server.pretender.handledRequests.slice(-1);
+            // that we've had another save, check the request was fired instead.
+            // -2 because saving settings triggers an immediate reload
+            let [newRequest] = server.pretender.handledRequests.slice(-2);
             params = JSON.parse(newRequest.requestBody);
 
             expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.true;
