@@ -14,7 +14,10 @@ export default ApplicationSerializer.extend({
         delete data.id;
 
         Object.keys(data).forEach((k) => {
-            payload.push({key: k, value: data[k]});
+            // scheduling is read-only so we want prevent sending it to the API
+            if (k !== 'scheduling') {
+                payload.push({key: k, value: data[k]});
+            }
         });
 
         hash[root] = payload;

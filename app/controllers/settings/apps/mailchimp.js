@@ -17,9 +17,11 @@ export default Controller.extend({
     availableLists: null,
     showErrorDetails: false,
 
-    listSelectDisabled: or('noAvailableLists', 'fetchLists.isRunning'),
     isFetchingLists: readOnly('fetchLists.isRunning'),
+    lastSyncAt: readOnly('settings.scheduling.subscribers.lastSyncAt'),
+    listSelectDisabled: or('noAvailableLists', 'fetchLists.isRunning'),
     model: alias('settings.mailchimp'),
+    nextSyncAt: readOnly('settings.scheduling.subscribers.nextSyncAt'),
     noActiveList: empty('model.activeList.id'),
     noAvailableLists: empty('availableLists'),
     subscribersDisabled: not('feature.subscribers'),
@@ -107,9 +109,10 @@ export default Controller.extend({
 
     pollForSync: task(function* () {
         let settings = this.get('settings');
-        let nextSyncAt = settings.get('mailchimp.nextSyncAt');
+        let nextSyncAt = this.get('nextSyncAt');
 
-        while (settings.get('mailchimp.nextSyncAt') !== nextSyncAt) {
+        // keep reloading settings until we have a new `nextSyncAt` value
+        while (this.get('nextSyncAt') === nextSyncAt) {
             yield timeout(SYNC_POLL_MS);
             yield settings.reload();
         }

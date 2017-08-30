@@ -35,16 +35,22 @@
         <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Enable MailChimp</div>
-                <div class="gh-setting-desc">Synchronise subscriber e-mail addresses daily with your <a href="https://mailchimp.com" target="_blank">MailChimp</a> mailing list.</div>
-                {{!-- TODO: move/style this properly --}}
-                <p>
+                <div class="gh-setting-desc">
+                    Synchronise subscriber e-mail addresses daily with your <a href="https://mailchimp.com" target="_blank">MailChimp</a> mailing list.
+
                     {{#if pollForSync.isRunning}}
+                        <br><br>
                         Syncing...
                     {{else}}
-                        {{#if model.lastSyncAt}}Last synced {{gh-format-timeago model.lastSyncAt}}{{if (and model.isActive model.nextSyncAt) ";"}}{{/if}}
-                        {{#if (and model.isActive model.nextSyncAt)}}Next sync {{gh-format-timeago model.nextSyncAt}}{{/if}}
+                        {{#if lastSyncAt}}
+                            <br><br>
+                            Last synced {{gh-format-timeago lastSyncAt}}{{if (and model.isActive nextSyncAt) "."}}
+                        {{/if}}
+                        {{#if (and model.isActive nextSyncAt)}}
+                            Next sync {{gh-format-timeago nextSyncAt}}.
+                        {{/if}}
                     {{/if}}
-                </p>
+                </div>
             </div>
             <div class="gh-setting-action">
                 {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="isActive" class="right"}}

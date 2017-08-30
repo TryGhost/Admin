@@ -26,5 +26,8 @@ export default Model.extend(ValidationEngine, {
     slack: attr('slack-settings'),
     amp: attr('boolean'),
     unsplash: attr('unsplash-settings'),
-    mailchimp: attr('mailchimp-settings')
+    mailchimp: attr('mailchimp-settings'),
+
+    // read-only
+    scheduling: attr('json-string')
 });

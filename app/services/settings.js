@@ -61,9 +61,13 @@ export default Service.extend(_ProxyMixin, ValidationEngine, {
             return false;
         }
 
-        return settings.save().then((settings) => {
-            this.set('settledIcon', get(settings, 'icon'));
-            return settings;
+        return settings.save().then(() => {
+            // need to reload settings after saving because read-only attrs won't
+            // be returned from the API
+            return this.reload().then((settings) => {
+                this.set('settledIcon', get(settings, 'icon'));
+                return settings;
+            });
         });
     },
 
