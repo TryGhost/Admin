@@ -78,8 +78,8 @@
                 {{/link-to}}
             </div>
 
-            <div class="apps-grid-cell">
-                {{#link-to "settings.apps.mailchimp" id="mailchimp-link"}}
+            <div class="apps-grid-cell" data-test-app="mailchimp">
+                {{#link-to "settings.apps.mailchimp" data-test-link="mailchimp"}}
                 <article class="apps-card-app">
                     <div class="apps-card-left">
                         <figure class="apps-card-app-icon" style="background-image:url(assets/img/mailchimpicon.png);background-size:45px;"></figure>
@@ -90,10 +90,10 @@
                     </div>
                     <div class="gh-card-right">
                         <div class="apps-configured">
-                            {{#if mailchimp.isActive}}
-                                <span class="green">Active</span>
+                            {{#if settings.mailchimp.isActive}}
+                                <span class="green" data-test-app-status>Active</span>
                             {{else}}
-                                <span>Configure</span>
+                                <span data-test-app-status>Configure</span>
                             {{/if}}
                             {{inline-svg "arrow-right"}}
                         </div>

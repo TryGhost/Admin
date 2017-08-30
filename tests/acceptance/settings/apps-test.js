@@ -72,40 +72,26 @@ describe('Acceptance: Settings - Apps', function () {
             ).to.equal('Active');
         });
 
-        it('it redirects to Slack when clicking on the grid', async function () {
+        it('has working links', async function () {
             await visit('/settings/apps');
-
-            // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/apps');
-
             await click('[data-test-link="slack"]');
 
-            // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/apps/slack');
-        });
+            expect(currentURL(), 'slack URL').to.equal('/settings/apps/slack');
 
-        it('it redirects to AMP when clicking on the grid', async function () {
-            await visit('/settings/apps');
-
-            // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/apps');
-
+            await click('[data-test-screen-title] a');
             await click('[data-test-link="amp"]');
 
-            // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/apps/amp');
-        });
+            expect(currentURL(), 'amp URL').to.equal('/settings/apps/amp');
 
-        it('it redirects to Unsplash when clicking on the grid', async function () {
-            await visit('/settings/apps');
-
-            // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/apps');
-
+            await click('[data-test-screen-title] a');
             await click('[data-test-link="unsplash"]');
 
-            // has correct url
             expect(currentURL(), 'currentURL').to.equal('/settings/apps/unsplash');
+
+            await click('[data-test-screen-title] a');
+            await click('[data-test-link="mailchimp"]');
+
+            expect(currentURL(), 'currentURL').to.equal('/settings/apps/mailchimp');
         });
     });
 });
