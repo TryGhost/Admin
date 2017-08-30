@@ -81,7 +81,8 @@ describe('Acceptance: Settings - Code-Injection', function() {
 
             await click('[data-test-save-button]');
 
-            let [lastRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [lastRequest] = server.pretender.handledRequests.slice(-2);
             let params = JSON.parse(lastRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');
@@ -95,7 +96,8 @@ describe('Acceptance: Settings - Code-Injection', function() {
             });
             // we've already saved in this test so there's no on-screen indication
             // that we've had another save, check the request was fired instead
-            let [newRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [newRequest] = server.pretender.handledRequests.slice(-2);
             params = JSON.parse(newRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');

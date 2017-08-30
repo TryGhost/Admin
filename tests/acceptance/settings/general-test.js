@@ -301,7 +301,8 @@ describe('Acceptance: Settings - General', function () {
             });
             // we've already saved in this test so there's no on-screen indication
             // that we've had another save, check the request was fired instead
-            let [lastRequest] = server.pretender.handledRequests.slice(-1);
+            // -2 because saving settings triggers an immediate reload
+            let [lastRequest] = server.pretender.handledRequests.slice(-2);
             let params = JSON.parse(lastRequest.requestBody);
             expect(params.settings.findBy('key', 'title').value).to.equal('CMD-S Test');
         });
