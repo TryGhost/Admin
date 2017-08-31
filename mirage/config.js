@@ -1,6 +1,7 @@
 import mockAuthentication from './config/authentication';
 import mockConfiguration from './config/configuration';
 import mockInvites from './config/invites';
+import mockMailchimp from './config/mailchimp';
 import mockPosts from './config/posts';
 import mockRoles from './config/roles';
 import mockSettings from './config/settings';
@@ -42,6 +43,7 @@ export function testConfig() {
     mockAuthentication(this);
     mockConfiguration(this);
     mockInvites(this);
+    mockMailchimp(this);
     mockPosts(this);
     mockRoles(this);
     mockSettings(this);

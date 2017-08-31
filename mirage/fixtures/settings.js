@@ -211,5 +211,14 @@ export default [
         type: 'blog',
         updated_by: 1,
         value: '{"readonly":true,"subscribers":{"lastSyncAt":null,"nextSyncAt":null}}'
+    },
+    {
+        id: 25,
+        created_at: '2017-08-30T16:05:00.000Z',
+        created_by: 1,
+        key: 'mailchimp',
+        type: 'blog',
+        updated_by: 1,
+        value: '{"isActive":true,"apiKey":"valid-us16","activeList":{"id":"1","name":"Test List One"}}'
     }
 ];

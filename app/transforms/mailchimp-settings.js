@@ -19,6 +19,16 @@ export default Transform.extend({
     },
 
     serialize(deserialized) {
-        return deserialized ? JSON.stringify(deserialized) : {};
+        // TODO: remove the workaround for hasValidated/errors once we have a
+        // better validations system
+        let serialized = JSON.stringify(deserialized);
+        let json = JSON.parse(serialized);
+
+        delete json.hasValidated;
+        delete json.errors;
+
+        serialized = JSON.stringify(json);
+
+        return deserialized ? serialized : {};
     }
 });
