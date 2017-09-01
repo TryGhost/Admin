@@ -2,6 +2,7 @@ import MailchimpIntegration from 'ghost-admin/models/mailchimp-integration';
 import Pretender from 'pretender';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+import moment from 'moment';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
@@ -16,6 +17,21 @@ const settingsStub = Service.extend({
             id: 'list1',
             name: 'List One'
         }
+    },
+
+    scheduling: {
+        subscribers: {
+            lastSyncAt: null,
+            nextSyncAt: null
+        }
+    },
+
+    init() {
+        this._super(...arguments);
+        let lastSyncAt = moment().subtract(1, 'hour');
+        let nextSyncAt = lastSyncAt.add(1, 'day');
+        this.set('lastSyncAt', lastSyncAt.valueOf());
+        this.set('nextSyncAt', nextSyncAt.valueOf());
     },
 
     save() {
