@@ -4,6 +4,7 @@ import PaginationMixin from 'ghost-admin/mixins/pagination';
 import Table from 'ember-light-table';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {assign} from '@ember/polyfills';
+import {capitalize} from '@ember/string';
 import {computed} from '@ember/object';
 import {inject as injectService} from '@ember/service';
 
@@ -66,6 +67,9 @@ export default Controller.extend(PaginationMixin, {
         }, {
             label: 'Status',
             valuePath: 'status',
+            format(value) {
+                return capitalize(value);
+            },
             sorted: order === 'status',
             ascending: direction === 'asc',
             classNames: ['gh-subscribers-table-status-cell'],
