@@ -82,7 +82,7 @@ export default Component.extend(ShortcutsMixin, {
         try {
             result = yield this.get('ajax').request(url, {data});
         } catch (error) {
-            if (error && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
+            if (error && error.errors && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
                 this.get('mailchimp.errors').add(
                     'apiKey',
                     'The MailChimp API key is invalid.'
