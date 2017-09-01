@@ -29,9 +29,9 @@ const settingsStub = Service.extend({
     init() {
         this._super(...arguments);
         let lastSyncAt = moment().subtract(1, 'hour');
-        let nextSyncAt = lastSyncAt.add(1, 'day');
-        this.set('lastSyncAt', lastSyncAt.valueOf());
-        this.set('nextSyncAt', nextSyncAt.valueOf());
+        let nextSyncAt = moment(lastSyncAt).add(1, 'day');
+        this.set('scheduling.subscribers.lastSyncAt', lastSyncAt.valueOf());
+        this.set('scheduling.subscribers.nextSyncAt', nextSyncAt.valueOf());
     },
 
     save() {
@@ -166,10 +166,53 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
     });
 
     describe('sync details', function () {
-        it('isn\'t shown when scheduling is empty');
-        it('shows next sync in hours');
-        it('shows next sync in minutes when < 1 hour');
-        it('shows last sync in bold when < 5 minutes ago');
+        it('shows last and next sync', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            let syncDetails = find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, '');
+
+            expect(syncDetails)
+                .to.have.string('Last synced an hour ago.');
+            expect(syncDetails)
+                .to.have.string('Next sync in a day.');
+        });
+
+        it('isn\'t shown when scheduling is empty', async function () {
+            this.set('settings.scheduling', {});
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            expect(find('[data-test-sync-info]').textContent).to.be.blank;
+        });
+
+        it('shows next sync in hours or minutes', async function () {
+            this.set('settings.scheduling.nextSyncAt', moment().add(5, 'hours').add(30, 'minutes').valueOf());
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            expect(find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, ''))
+                .to.have.string('Next sync in: 5 hours.');
+
+            this.set('settings.scheduling.nextSyncAt', moment().add(30, 'minutes').valueOf());
+
+            expect(find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, ''))
+                .to.have.string('Next sync in: 30 minutes.');
+        });
+
+        it('shows last sync in bold when < 5 minutes ago', async function () {
+            this.set('settings.scheduling.subscribers.lastSyncAt', moment().subtract(4, 'minutes').valueOf());
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            expect(find('[data-test-sync-info] strong').textContent)
+                .to.have.string('a few minutes ago');
+
+            this.set('settings.scheduling.subscribers.lastSyncAt', moment().subtract(6, 'minutes').valueOf());
+
+            expect(find('[data-test-sync-info] strong')).to.not.exist;
+        });
+
         it('hides last sync after list changes');
         it('hides next sync when disabled');
         it('hides next sync when re-enabled');
