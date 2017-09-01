@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 dist: trusty
 
 language: node_js
@@ -21,11 +21,7 @@ cache:
 
 addons:
   firefox: "latest"
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: "stable"
 
 install:
   - npm i -g yarn
