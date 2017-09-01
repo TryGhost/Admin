@@ -123,12 +123,12 @@ export default Component.extend(ShortcutsMixin, {
         let immediateSync = false;
 
         // if just activated there's an immediate background sync
-        if (mailchimp.get('isActive') && !settings.get('isActive')) {
+        if (mailchimp.get('isActive') && !settings.get('mailchimp.isActive')) {
             immediateSync = true;
         }
 
         // if the active list changes there's an immediate bacground sync
-        if (mailchimp.get('isActive') && mailchimp.get('activeList.id') !== settings.get('activeList.id')) {
+        if (mailchimp.get('isActive') && mailchimp.get('activeList.id') !== settings.get('mailchimp.activeList.id')) {
             immediateSync = true;
         }
 
