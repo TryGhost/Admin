@@ -39,21 +39,6 @@
                 <div class="gh-setting-title">Enable MailChimp</div>
                 <div class="gh-setting-desc">
                     Synchronise subscriber e-mail addresses daily with your <a href="https://mailchimp.com" target="_blank">MailChimp</a> mailing list.
-
-                    <span data-test-sync-info>
-                        {{#if pollForSync.isRunning}}
-                            <br><br>
-                            Syncing...
-                        {{else}}
-                            {{#if lastSyncAt}}
-                                <br><br>
-                                Last synced {{gh-format-timeago lastSyncAt}}{{if (and mailchimp.isActive nextSyncAt) "."}}
-                            {{/if}}
-                            {{#if (and mailchimp.isActive nextSyncAt)}}
-                                Next sync {{gh-format-timeago nextSyncAt}}.
-                            {{/if}}
-                        {{/if}}
-                    </span>
                 </div>
             </div>
             <div class="gh-setting-action">
@@ -123,7 +108,23 @@
                                                 data-test-select="lists"}}
                                             {{inline-svg "arrow-down-small"}}
                                         </span>
-                                        {{gh-error-message errors=mailchimp.errors property="activeList" data-test-error="activeList"}}
+
+                                        {{#if mailchimp.errors.activeList}}
+                                            {{gh-error-message errors=mailchimp.errors property="activeList" data-test-error="activeList"}}
+                                        {{else}}
+                                            <p data-test-sync-info>
+                                                {{#if pollForSync.isRunning}}
+                                                    Syncing...
+                                                {{else}}
+                                                    {{#if lastSyncAt}}
+                                                        Last synced {{gh-format-timeago lastSyncAt}}{{if (and mailchimp.isActive nextSyncAt) "."}}
+                                                    {{/if}}
+                                                    {{#if (and mailchimp.isActive nextSyncAt)}}
+                                                        Next sync {{gh-format-timeago nextSyncAt}}.
+                                                    {{/if}}
+                                                {{/if}}
+                                            </p>
+                                        {{/if}}
                                     </div>
                                 {{/gh-form-group}}
                             </div>
