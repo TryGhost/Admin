@@ -16,13 +16,16 @@ export default Component.extend(ShortcutsMixin, {
     ghostPaths: injectService(),
     notifications: injectService(),
 
-    availableLists: null,
+    // Public attributes
     feature: null,
     mailchimp: null,
     settings: null,
-    shortcuts: {},
-    showErrorDetails: false,
 
+    // Internal attributes
+    availableLists: null,
+    shortcuts: {},
+
+    // Computed properties
     isFetchingLists: readOnly('fetchLists.isRunning'),
     lastSyncAt: readOnly('settings.scheduling.subscribers.lastSyncAt'),
     listSelectDisabled: or('noAvailableLists', 'fetchLists.isRunning'),
@@ -37,6 +40,7 @@ export default Component.extend(ShortcutsMixin, {
         return availableLists.findBy('id', selectedId);
     }),
 
+    // Hooks
     init() {
         this._super(...arguments);
 
@@ -59,6 +63,7 @@ export default Component.extend(ShortcutsMixin, {
         this._super(...arguments);
     },
 
+    // Tasks
     fetchLists: task(function* () {
         let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
         let data = {apiKey: this.get('mailchimp.apiKey')};
@@ -218,6 +223,7 @@ export default Component.extend(ShortcutsMixin, {
         }
     },
 
+    // Internal functions
     _triggerValidations() {
         let isActive = this.get('mailchimp.isActive');
         let apiKey = this.get('mailchimp.apiKey');
