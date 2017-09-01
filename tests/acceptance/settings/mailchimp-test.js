@@ -53,28 +53,6 @@ describe('Acceptance: Settings - Apps - Mailchimp', function() {
             return authenticateSession(application);
         });
 
-        it('shows warning if subscribers is disabled', async function () {
-            // disable subscribers because it's enabled in fixtures
-            server.db.settings.update({key: 'labs'}, {value: '{}'});
-
-            await visit('/settings/apps/mailchimp');
-
-            expect(find('[data-test-subscribers-warning]')).to.exist;
-        });
-
-        it('loads mailchimp lists when accessing route', async function () {
-            await visit('/settings/apps/mailchimp');
-
-            let select = find('[data-test-select="lists"]');
-
-            expect(select, 'lists select element').to.exist;
-            expect(select.options.length, 'number of options').to.equal(2);
-            expect(select.options.item(0).value, 'first item value').to.equal('test1');
-            expect(select.options.item(0).text, 'first item text').to.equal('Test List One');
-            expect(select.options.item(1).value, 'second item value').to.equal('test2');
-            expect(select.options.item(1).text, 'second item text').to.equal('Test List Two');
-        });
-
         it('can be set up from a blank state', async function () {
             // set mailchimp setting to the default API fixture value
             server.db.settings.update({key: 'mailchimp'}, {value: '{"isActive": false, "apiKey": "", "activeList": {}}'});
