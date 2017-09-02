@@ -135,19 +135,9 @@ module.exports = function (defaults) {
             extensions: ['js', 'css', 'png', 'jpg', 'jpeg', 'gif', 'map']
         },
         nodeAssets: {
-            'blueimp-md5': {
-                import: ['js/md5.js']
-            },
             codemirror: codemirrorAssets(),
-            'jquery-deparam': {
-                import: ['jquery-deparam.js']
-            },
-            'password-generator': {
-                import: ['lib/password-generator.js']
-            },
             'simplemde': {
-                srcDir: 'debug',
-                import: ['simplemde.js', 'simplemde.css']
+                import: ['debug/simplemde.css']
             }
         },
         'ember-cli-selectize': {
@@ -172,6 +162,11 @@ module.exports = function (defaults) {
             }
         }
     });
+
+    app.import('node_modules/blueimp-md5/js/md5.js');
+    app.import('node_modules/jquery-deparam/jquery-deparam.js');
+    app.import('node_modules/password-generator/lib/password-generator.js');
+    app.import('node_modules/simplemde/debug/simplemde.js');
 
     // 'dem Scripts
     app.import('bower_components/validator-js/validator.js');
