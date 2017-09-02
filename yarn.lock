@@ -3472,9 +3472,9 @@ ember-data-filter@1.13.0:
   dependencies:
     ember-cli-babel "^5.0.0"
 
-ember-data@2.14.11:
-  version "2.14.11"
-  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.14.11.tgz#b03247b3f35523e2b3bd8cff0ce098d6bc069b1c"
+ember-data@2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.15.0.tgz#8d9e308b0312086b2af109ac57e32c3cb7264834"
   dependencies:
     amd-name-resolver "0.0.7"
     babel-plugin-feature-flags "^0.3.1"
@@ -3483,13 +3483,12 @@ ember-data@2.14.11:
     babel6-plugin-strip-class-callcheck "^6.0.0"
     babel6-plugin-strip-heimdall "^6.0.1"
     broccoli-babel-transpiler "^6.0.0"
-    broccoli-debug "^0.6.2"
     broccoli-file-creator "^1.0.0"
     broccoli-funnel "^1.2.0"
     broccoli-merge-trees "^1.0.0"
     broccoli-rollup "^1.2.0"
     chalk "^1.1.1"
-    ember-cli-babel "^6.4.1"
+    ember-cli-babel "^6.1.0"
     ember-cli-path-utils "^1.0.0"
     ember-cli-string-utils "^1.0.0"
     ember-cli-test-info "^1.0.0"
