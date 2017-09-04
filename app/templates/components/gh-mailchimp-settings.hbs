@@ -117,10 +117,10 @@
                                                     Syncing...
                                                 {{else}}
                                                     {{#if lastSyncAt}}
-                                                        Last synced {{gh-format-timeago lastSyncAt}}{{if (and mailchimp.isActive nextSyncAt) "."}}
+                                                        Last synced {{timeSinceLastSync}}{{if (and mailchimp.isActive nextSyncAt) "."}}
                                                     {{/if}}
                                                     {{#if (and mailchimp.isActive nextSyncAt)}}
-                                                        Next sync {{gh-format-timeago nextSyncAt}}.
+                                                        Next sync in: {{timeUntilNextSync}}.
                                                     {{/if}}
                                                 {{/if}}
                                             </p>

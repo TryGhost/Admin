@@ -175,7 +175,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(syncDetails)
                 .to.have.string('Last synced an hour ago.');
             expect(syncDetails)
-                .to.have.string('Next sync in a day.');
+                .to.have.string('Next sync in: 23 hours.');
         });
 
         it('isn\'t shown when scheduling is empty', async function () {
@@ -187,17 +187,23 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         });
 
         it('shows next sync in hours or minutes', async function () {
-            this.set('settings.scheduling.nextSyncAt', moment().add(5, 'hours').add(30, 'minutes').valueOf());
+            this.set('settings.scheduling.subscribers.nextSyncAt', moment().add(5, 'hours').add(30, 'minutes').valueOf());
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
             await wait();
 
+            // shows hours if > 1 hour
             expect(find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, ''))
                 .to.have.string('Next sync in: 5 hours.');
 
-            this.set('settings.scheduling.nextSyncAt', moment().add(30, 'minutes').valueOf());
-
+            // shows minutes if < 1 hour
+            this.set('settings.scheduling.subscribers.nextSyncAt', moment().add(30, 'minutes').valueOf());
             expect(find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, ''))
                 .to.have.string('Next sync in: 30 minutes.');
+
+            // if < 0.5 minutes, shows 1 minute not 0
+            this.set('settings.scheduling.subscribers.nextSyncAt', moment().add(10, 'seconds').valueOf());
+            expect(find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, ''))
+                .to.have.string('Next sync in: 1 minute.');
         });
 
         it('shows last sync in bold when < 5 minutes ago', async function () {
@@ -206,7 +212,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             await wait();
 
             expect(find('[data-test-sync-info] strong').textContent)
-                .to.have.string('a few minutes ago');
+                .to.have.string('4 minutes ago');
 
             this.set('settings.scheduling.subscribers.lastSyncAt', moment().subtract(6, 'minutes').valueOf());
 

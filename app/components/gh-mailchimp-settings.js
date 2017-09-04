@@ -2,9 +2,12 @@ import Component from '@ember/component';
 import Ember from 'ember';
 import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
+import moment from 'moment';
 import {computed} from '@ember/object';
 import {empty, or, readOnly} from '@ember/object/computed';
+import {htmlSafe} from '@ember/string';
 import {inject as injectService} from '@ember/service';
+import {pluralize} from 'ember-inflector';
 import {task, timeout} from 'ember-concurrency';
 
 const {testing} = Ember;
@@ -38,6 +41,50 @@ export default Component.extend(ShortcutsMixin, {
         let availableLists = this.get('availableLists');
 
         return availableLists.findBy('id', selectedId);
+    }),
+
+    nextSyncInHours: computed('nextSyncAt', function () {
+        let nextSyncAt = moment(this.get('nextSyncAt'));
+        let hours = nextSyncAt.diff(moment()) / 1000 / 60 / 60;
+
+        return hours;
+    }),
+
+    timeUntilNextSync: computed('nextSyncInHours', function () {
+        let hours = this.get('nextSyncInHours');
+        let word = 'hour';
+
+        // display minutes if next sync in < 1 hr
+        if (hours < 1) {
+            let minutes = Math.round(hours * 60);
+            word = 'minute';
+
+            if (minutes === 0) {
+                minutes = 1;
+            }
+
+            hours = minutes;
+        }
+
+        if (hours !== 1) {
+            word = pluralize(word);
+        }
+
+        // display hours
+        return `${Math.round(hours)} ${word}`;
+    }),
+
+    timeSinceLastSync: computed('lastSyncAt', function () {
+        let lastSyncAt = moment(this.get('lastSyncAt'));
+        let now = moment();
+        let timeAgo = lastSyncAt.from(now);
+
+        // highlight time ago if it was less than five minutes ago
+        if (moment().diff(lastSyncAt) / 1000 / 60 <= 5) {
+            return htmlSafe(`<strong>${timeAgo}</strong>`);
+        }
+
+        return timeAgo;
     }),
 
     // Hooks
