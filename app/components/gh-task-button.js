@@ -107,6 +107,7 @@ const GhTaskButton = Component.extend({
         }
 
         invokeAction(this, 'action');
+        this.set('hasRun', true);
         task.perform();
 
         this.get('_restartAnimation').perform();
