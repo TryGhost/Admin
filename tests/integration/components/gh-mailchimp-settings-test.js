@@ -4,9 +4,9 @@ import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import wait from 'ember-test-helpers/wait';
+import {click, find, triggerEvent} from 'ember-native-dom-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {find, triggerEvent} from 'ember-native-dom-helpers';
 import {setupComponentTest} from 'ember-mocha';
 
 const settingsStub = Service.extend({
@@ -219,7 +219,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(find('[data-test-sync-info] strong')).to.not.exist;
         });
 
-        it('hides last sync after list changes', async function () {
+        it('hides sync details after list changes', async function () {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
             await wait();
 
@@ -235,9 +235,22 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(find('[data-test-sync-info]')).to.not.exist;
         });
 
-        it('hides next sync when disabled');
-        it('hides next sync when re-enabled');
-        it('hides next sync after list changes');
+        it('hides next sync when disabled', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            // verify enabled at start
+            expect(find('[data-test-sync-info]').textContent, 'initial state').to.have.string('Next sync in');
+
+            // disable
+            await click('[data-test-checkbox="isActive"]');
+            expect(find('[data-test-sync-info]').textContent).to.not.have.string('Next sync in');
+
+            // re-enable
+            await click('[data-test-checkbox="isActive"]');
+            expect(find('[data-test-sync-info]').textContent).to.have.string('Next sync in');
+        });
+
         it('shows next sync after sync polling');
     });
 });

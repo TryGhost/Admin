@@ -43,6 +43,8 @@ export default Component.extend(ShortcutsMixin, {
         return availableLists.findBy('id', selectedId);
     }),
 
+    // if the API key is changed the list ID will also have changed so this is
+    // sufficient for always hiding the sync details when settings are not saved
     showSyncDetails: computed('mailchimp.activeList.id', 'settings.mailchimp.activeList.id', function () {
         return this.get('mailchimp.activeList.id') === this.get('settings.mailchimp.activeList.id');
     }),
