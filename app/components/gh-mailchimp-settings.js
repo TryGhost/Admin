@@ -22,6 +22,7 @@ export default Component.extend(ShortcutsMixin, {
     feature: injectService(),
 
     // Public attributes
+    tagName: '',
     mailchimp: null,
 
     // Internal attributes
