@@ -11,12 +11,15 @@ export default AuthenticatedRoute.extend(styleBody, {
 
     model() {
         let settings = this.get('settings.mailchimp');
-        let mailchimp = new MailchimpIntegration({
+        let factory = getOwner(this).factoryFor('object:mailchimp-integration');
+
+        return factory.create({
             isActive: settings.isActive,
             apiKey: settings.apiKey,
-            activeList: settings.activeList
+            activeList: {
+                id: settings.activeList.id,
+                name: settings.activeList.name
+            }
         });
-
-        return mailchimp;
     }
 });

@@ -8,6 +8,7 @@ import {empty, or, readOnly} from '@ember/object/computed';
 import {htmlSafe} from '@ember/string';
 import {inject as injectService} from '@ember/service';
 import {pluralize} from 'ember-inflector';
+import {reject} from 'rsvp';
 import {task, timeout} from 'ember-concurrency';
 
 const {testing} = Ember;
@@ -160,7 +161,7 @@ export default Component.extend(ShortcutsMixin, {
                 this.set('mailchimp.activeList.name', null);
             }
 
-            this._triggerValidations();
+            return this.get('mailchimp').validate();
         }
 
         // ensure we return a truthy value so the task button has a success state
@@ -182,12 +183,11 @@ export default Component.extend(ShortcutsMixin, {
             immediateSync = true;
         }
 
-        yield this._triggerValidations();
-
-        // Don't save when we have errors and properties are not validated
-        if (mailchimp.get('errors.isActive') || mailchimp.get('errors.apiKey') || mailchimp.get('errors.activeList')) {
-            return;
-        }
+        // necessary to return a rejection with `false` so that the task button
+        // will show a retru button
+        yield mailchimp.validate().catch(() => {
+            return reject(false);
+        });
 
         try {
             settings.set('mailchimp', mailchimp);
@@ -206,6 +206,8 @@ export default Component.extend(ShortcutsMixin, {
             if (error) {
                 this.get('notifications').showAPIError(error);
                 throw error;
+            } else {
+                return reject(false);
             }
         }
     }).drop(),
@@ -230,88 +232,31 @@ export default Component.extend(ShortcutsMixin, {
         },
 
         updateIsActive(value) {
-            if (this.get('mailchimp.errors.isActive')) {
-                this.get('mailchimp.errors.isActive').clear();
-            }
-
-            this.set('mailchimp.isActive', value);
-            this._triggerValidations();
+            return this.get('mailchimp').validate().then(() => {
+                return this.set('mailchimp.isActive', value);
+            });
         },
 
         updateApiKey(value) {
             value = value ? value.toString().trim() : '';
 
-            if (this.get('mailchimp.errors.apiKey')) {
-                this.get('mailchimp.errors.apiKey').clear();
-            }
-
-            if (this.get('mailchimp.errors.isActive')) {
-                this.get('mailchimp.errors.isActive').clear();
-            }
-
             this.set('mailchimp.apiKey', value);
-            this._triggerValidations();
+            return this.get('mailchimp').validate({property: 'apiKey'});
         },
 
         fetchLists() {
             if (this.get('mailchimp.apiKey')) {
-                this.get('fetchLists').perform();
+                return this.get('fetchLists').perform();
             } else {
-                this.set('availableLists', []);
+                return this.set('availableLists', []);
             }
         },
 
         setList(list) {
-            if (this.get('mailchimp.errors.activeList')) {
-                this.get('mailchimp.errors.activeList').clear();
-            }
-
             this.set('mailchimp.activeList.id', list.id);
             this.set('mailchimp.activeList.name', list.name);
-            this._triggerValidations();
-        },
 
-        toggleDetails(property) {
-            this.toggleProperty(property);
-        }
-    },
-
-    // Internal functions
-    _triggerValidations() {
-        let isActive = this.get('mailchimp.isActive');
-        let apiKey = this.get('mailchimp.apiKey');
-        let noActiveList = this.get('noActiveList');
-        let noAvailableLists = this.get('noAvailableLists');
-
-        this.get('mailchimp.hasValidated').clear();
-
-        if (isActive && !apiKey) {
-            // CASE: API key is empty but MailChimp is enabled
-            this.get('mailchimp.errors').add(
-                'isActive',
-                'You need to enter an API key before enabling it'
-            );
-            this.get('mailchimp.hasValidated').pushObject('isActive');
-        } else if (apiKey && this.get('mailchimp.errors.apiKey')) {
-            // CASE: API key was entered but we received an error message from the server
-            // because the key is not valid. We don't want to overwrite this error
-            this.get('mailchimp.hasValidated').pushObject('apiKey');
-        } else if (!apiKey && !isActive && !noActiveList) {
-            // CASE: when API key is empty and the app is disabled, we want to reset the saved list
-            this.set('mailchimp.activeList.id', '');
-            this.set('mailchimp.activeList.name', '');
-        } else if (isActive && (apiKey && !this.get('mailchimp.errors.apiKey')) && noActiveList && !noAvailableLists) {
-            let firstList = this.get('availableLists').objectAt(0);
-
-            // CASE: App is enabled and a valid API key is entered but no list is selected
-            // set first returned value as default
-            this.set('mailchimp.activeList.id', firstList.id);
-            this.set('mailchimp.activeList.name', firstList.name);
-
-            this.get('mailchimp.hasValidated').pushObject('activeList');
-        } else {
-            // run the validation for API key
-            this.get('mailchimp').validate({property: 'apiKey'});
+            return this.get('mailchimp').validate({property: 'activeList'});
         }
     }
 });
