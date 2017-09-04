@@ -17,6 +17,27 @@ const featureStub = Service.extend({
     subscribers: true
 });
 
+let mockSettingsPoll = function (server) {
+    // enabling and hitting save updates the settings value and polls for updates
+    // request 1 = refresh after settings save
+    // request 2 = first poll request
+    let requestCount = 0;
+    server.get('/settings/', function ({db}) {
+        requestCount++;
+
+        // update nextSyncAt on second request to simulate background sync
+        if (requestCount === 2) {
+            let lastSyncAt = moment().valueOf();
+            let nextSyncAt = moment().add(24, 'hours').valueOf();
+            db.settings.update({key: 'scheduling'}, {value: `{"readonly":true,"subscribers":{"lastSyncAt":${lastSyncAt},"nextSyncAt":${nextSyncAt}}}`});
+        }
+
+        return {
+            settings: db.settings
+        };
+    });
+};
+
 describe('Integration: Component: gh-mailchimp-settings', function() {
     setupComponentTest('gh-mailchimp-settings', {
         integration: true
@@ -225,7 +246,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
-            // verify enabled at start
+            // verify initial state
             expect(find('[data-test-sync-info]').textContent, 'initial state').to.have.string('Next sync in');
 
             // disable
@@ -237,6 +258,28 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(find('[data-test-sync-info]').textContent).to.have.string('Next sync in');
         });
 
-        it('shows next sync after sync polling');
+        it('shows next sync after sync polling', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            // verify initial state
+            expect(
+                find('[data-test-sync-info]').textContent, 'initial state'
+            ).to.have.string('Last synced an hour ago.');
+
+            // change the list
+            let select = find('[data-test-select="lists"]');
+            select.options.item(1).selected = true;
+            await triggerEvent(select, 'change');
+
+            // save and poll
+            mockSettingsPoll(server);
+            await click('[data-test-button="save"]');
+
+            // check details were updated and displayed
+            let syncDetails = find('[data-test-sync-info]').textContent.trim();
+            expect(syncDetails).to.have.string('Last synced a few seconds ago.');
+            expect(syncDetails).to.have.string('Next sync in: 24 hours');
+        });
     });
 });
