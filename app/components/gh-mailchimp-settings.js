@@ -43,6 +43,10 @@ export default Component.extend(ShortcutsMixin, {
         return availableLists.findBy('id', selectedId);
     }),
 
+    showSyncDetails: computed('mailchimp.activeList.id', 'settings.mailchimp.activeList.id', function () {
+        return this.get('mailchimp.activeList.id') === this.get('settings.mailchimp.activeList.id');
+    }),
+
     nextSyncInHours: computed('nextSyncAt', function () {
         let nextSyncAt = moment(this.get('nextSyncAt'));
         let hours = nextSyncAt.diff(moment()) / 1000 / 60 / 60;

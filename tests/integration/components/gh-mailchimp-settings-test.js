@@ -6,7 +6,7 @@ import moment from 'moment';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {find} from 'ember-native-dom-helpers';
+import {find, triggerEvent} from 'ember-native-dom-helpers';
 import {setupComponentTest} from 'ember-mocha';
 
 const settingsStub = Service.extend({
@@ -15,7 +15,7 @@ const settingsStub = Service.extend({
         apiKey: 'valid',
         activeList: {
             id: 'list1',
-            name: 'List One'
+            name: 'Test List One'
         }
     },
 
@@ -53,7 +53,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             apiKey: 'valid',
             activeList: {
                 id: 'list1',
-                name: 'List One'
+                name: 'Test List One'
             }
         }));
 
@@ -70,10 +70,10 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             if (request.queryParams.apiKey === 'valid') {
                 let response = {
                     lists: [{
-                        id: 'test1',
+                        id: 'list1',
                         name: 'Test List One'
                     }, {
-                        id: 'test2',
+                        id: 'list2',
                         name: 'Test List Two'
                     }],
                     statusCode: 200,
@@ -126,9 +126,9 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
         expect(select, 'lists select element').to.exist;
         expect(select.options.length, 'number of options').to.equal(2);
-        expect(select.options.item(0).value, 'first item value').to.equal('test1');
+        expect(select.options.item(0).value, 'first item value').to.equal('list1');
         expect(select.options.item(0).text, 'first item text').to.equal('Test List One');
-        expect(select.options.item(1).value, 'second item value').to.equal('test2');
+        expect(select.options.item(1).value, 'second item value').to.equal('list2');
         expect(select.options.item(1).text, 'second item text').to.equal('Test List Two');
     });
 
@@ -219,7 +219,22 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(find('[data-test-sync-info] strong')).to.not.exist;
         });
 
-        it('hides last sync after list changes');
+        it('hides last sync after list changes', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            await wait();
+
+            expect(find('[data-test-sync-info]')).to.exist;
+
+            let select = find('[data-test-select="lists"]');
+
+            expect(select.options.item(0).selected).to.be.true;
+
+            select.options.item(1).selected = true;
+            await triggerEvent(select, 'change');
+
+            expect(find('[data-test-sync-info]')).to.not.exist;
+        });
+
         it('hides next sync when disabled');
         it('hides next sync when re-enabled');
         it('hides next sync after list changes');

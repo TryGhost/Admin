@@ -111,7 +111,7 @@
 
                                         {{#if mailchimp.errors.activeList}}
                                             {{gh-error-message errors=mailchimp.errors property="activeList" data-test-error="activeList"}}
-                                        {{else}}
+                                        {{else if showSyncDetails}}
                                             <p data-test-sync-info>
                                                 {{#if pollForSync.isRunning}}
                                                     Syncing...
