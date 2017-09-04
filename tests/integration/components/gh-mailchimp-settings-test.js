@@ -4,10 +4,11 @@ import hbs from 'htmlbars-inline-precompile';
 import mockMailchimp from '../../../mirage/config/mailchimp';
 import mockSettings from '../../../mirage/config/settings';
 import moment from 'moment';
-import sinon from 'sinon';
 import wait from 'ember-test-helpers/wait';
+import {Response} from 'ember-cli-mirage';
 import {click, find, triggerEvent} from 'ember-native-dom-helpers';
 import {describe, it} from 'mocha';
+import {errorOverride, errorReset} from '../../helpers/adapter-error';
 import {expect} from 'chai';
 import {setupComponentTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
@@ -123,6 +124,31 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         it('handles server error');
         it('triggers sync poll when becoming active');
         it('triggers sync poll when active list has changed');
+
+        it('resets settings if save fails', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            // change the list ID then save
+            this.set('mailchimp.activeList.id', 'new');
+            expect(this.get('settings.mailchimp.activeList.id')).to.equal('test1');
+
+            server.put('/settings/', function () {
+                return new Response(422, {}, {
+                    errors: [{
+                        errorType: 'ValidationError',
+                        message: 'API Key Invalid'
+                    }]
+                });
+            });
+            errorOverride();
+            await click('[data-test-button="save"]');
+            errorReset();
+
+            // save updates settings but the attributes should have been rolled
+            // back on failure
+            expect(this.get('settings.mailchimp.activeList.id')).to.equal('test1');
+        });
     });
 
     describe('sync details', function () {

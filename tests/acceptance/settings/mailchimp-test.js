@@ -141,7 +141,7 @@ describe('Acceptance: Settings - Apps - Mailchimp', function() {
             await click('[data-test-checkbox="isActive"]');
             let promise = click('[data-test-button="save"]');
 
-            await timeout(100);
+            await timeout(50);
             expect(
                 find('[data-test-button="save"]').textContent,
                 'syncing button text'

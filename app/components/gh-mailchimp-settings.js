@@ -12,7 +12,7 @@ import {task, timeout} from 'ember-concurrency';
 
 const {testing} = Ember;
 
-const SYNC_POLL_MS = testing ? 100 : 5000;
+const SYNC_POLL_MS = testing ? 50 : 5000;
 
 export default Component.extend(ShortcutsMixin, {
     ajax: injectService(),
@@ -203,6 +203,9 @@ export default Component.extend(ShortcutsMixin, {
 
             return saveResult;
         } catch (error) {
+            // rollback settings to avoid incorrect saves elsewhere
+            this.get('settings').rollbackAttributes();
+
             if (error) {
                 this.get('notifications').showAPIError(error);
                 throw error;
