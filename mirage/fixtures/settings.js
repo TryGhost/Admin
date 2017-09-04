@@ -219,6 +219,6 @@ export default [
         key: 'mailchimp',
         type: 'blog',
         updated_by: 1,
-        value: '{"isActive":true,"apiKey":"valid-us16","activeList":{"id":"1","name":"Test List One"}}'
+        value: '{"isActive":true,"apiKey":"valid","activeList":{"id":"test1","name":"Test List One"}}'
     }
 ];

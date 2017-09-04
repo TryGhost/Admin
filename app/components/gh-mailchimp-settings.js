@@ -18,11 +18,11 @@ export default Component.extend(ShortcutsMixin, {
     ajax: injectService(),
     ghostPaths: injectService(),
     notifications: injectService(),
+    settings: injectService(),
+    feature: injectService(),
 
     // Public attributes
-    feature: null,
     mailchimp: null,
-    settings: null,
 
     // Internal attributes
     availableLists: null,

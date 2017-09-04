@@ -1,42 +1,19 @@
 import MailchimpIntegration from 'ghost-admin/models/mailchimp-integration';
-import Pretender from 'pretender';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+import mockMailchimp from '../../../mirage/config/mailchimp';
+import mockSettings from '../../../mirage/config/settings';
 import moment from 'moment';
+import sinon from 'sinon';
 import wait from 'ember-test-helpers/wait';
 import {click, find, triggerEvent} from 'ember-native-dom-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupComponentTest} from 'ember-mocha';
+import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 
-const settingsStub = Service.extend({
-    mailchimp: {
-        isActive: true,
-        apiKey: 'valid',
-        activeList: {
-            id: 'list1',
-            name: 'Test List One'
-        }
-    },
-
-    scheduling: {
-        subscribers: {
-            lastSyncAt: null,
-            nextSyncAt: null
-        }
-    },
-
-    init() {
-        this._super(...arguments);
-        let lastSyncAt = moment().subtract(1, 'hour');
-        let nextSyncAt = moment(lastSyncAt).add(1, 'day');
-        this.set('scheduling.subscribers.lastSyncAt', lastSyncAt.valueOf());
-        this.set('scheduling.subscribers.nextSyncAt', nextSyncAt.valueOf());
-    },
-
-    save() {
-        console.log('stub me');
-    }
+const featureStub = Service.extend({
+    subscribers: true
 });
 
 describe('Integration: Component: gh-mailchimp-settings', function() {
@@ -46,55 +23,40 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
     let server;
 
-    beforeEach(function () {
+    beforeEach(async function () {
         // stub new mailchimp integration (normally created in route model hook)
         this.set('mailchimp', new MailchimpIntegration({
             isActive: true,
             apiKey: 'valid',
             activeList: {
-                id: 'list1',
+                id: 'test1',
                 name: 'Test List One'
             }
         }));
 
-        // stub feature service (we only care about subscribers flag)
-        this.set('feature', {subscribers: true});
+        // stub and inject feature service (we only care about subscribers flag)
+        this.register('service:feature', featureStub);
+        this.inject.service('feature', {as: 'feature'});
 
-        // stub settings service
-        this.set('settings', settingsStub.create());
+        // inject real settings to give access to it in the test context
+        this.inject.service('settings');
 
-        server = new Pretender();
+        // load mirage, fixtures, and mock the endpoints we care about
+        server = startMirage();
+        server.loadFixtures();
+        mockMailchimp(server);
+        mockSettings(server);
 
-        server.get('/ghost/api/v0.1/mailchimp/lists/', function (request) {
-            /* eslint-disable camelcase */
-            if (request.queryParams.apiKey === 'valid') {
-                let response = {
-                    lists: [{
-                        id: 'list1',
-                        name: 'Test List One'
-                    }, {
-                        id: 'list2',
-                        name: 'Test List Two'
-                    }],
-                    statusCode: 200,
-                    total_items: 2
-                };
+        // update scheduling fixtures with some known values for the tests
+        let lastSyncAt = moment().subtract(1, 'hour').valueOf();
+        let nextSyncAt = moment(lastSyncAt).add(1, 'day').valueOf();
+        server.db.settings.update(
+            {key: 'scheduling'},
+            {value: `{"readonly":true,"subscribers":{"lastSyncAt":${lastSyncAt},"nextSyncAt":${nextSyncAt}}}`}
+        );
 
-                return [200, {}, JSON.stringify(response)];
-
-            } else if (request.queryParams.apiKey === 'invalid') {
-                let response = {
-                    errors: [{
-                        errorType: 'ValidationError',
-                        message: 'API Key Invalid',
-                        context: "Your API key may be invalid, or you've attempted to access the wrong datacenter. (http://developer.mailchimp.com/documentation/mailchimp/guides/error-glossary/)"
-                    }]
-                };
-
-                return [422, {}, JSON.stringify(response)];
-            }
-            /* eslint-enable camelcase */
-        });
+        // fetch settings to simulate synchronous access
+        await this.get('settings').fetch();
     });
 
     afterEach(function () {
@@ -104,35 +66,32 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
     describe('subscribers disabled warning', function () {
         it('isn\'t shown when enabled', function () {
             this.set('feature', {subscribers: true});
-            this.render(hbs`{{gh-mailchimp-settings feature=feature}}`);
+            this.render(hbs`{{gh-mailchimp-settings}}`);
 
             expect(find('[data-test-subscribers-warning]')).to.not.exist;
         });
 
         it('is shown when disabled', function () {
-            this.set('feature', {subscribers: false});
-            this.render(hbs`{{gh-mailchimp-settings feature=feature}}`);
+            this.set('feature.subscribers', false);
+            this.render(hbs`{{gh-mailchimp-settings}}`);
 
             expect(find('[data-test-subscribers-warning]')).to.exist;
         });
     });
 
     it('loads mailchimp lists when rendering', async function () {
-        this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp feature=feature}}`);
-
+        this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
         await wait();
 
         let select = find('[data-test-select="lists"]');
 
         expect(select, 'lists select element').to.exist;
         expect(select.options.length, 'number of options').to.equal(2);
-        expect(select.options.item(0).value, 'first item value').to.equal('list1');
+        expect(select.options.item(0).value, 'first item value').to.equal('test1');
         expect(select.options.item(0).text, 'first item text').to.equal('Test List One');
-        expect(select.options.item(1).value, 'second item value').to.equal('list2');
+        expect(select.options.item(1).value, 'second item value').to.equal('test2');
         expect(select.options.item(1).text, 'second item text').to.equal('Test List Two');
     });
-
-    it('saves when pressing CMD-S');
 
     describe('enable checkbox', function () {
         it('toggles mailchimp.isActive');
@@ -156,6 +115,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
     });
 
     describe('saving', function () {
+        it('is triggered by CMD-S');
         it('is prevented when api key is missing');
         it('is prevented when api key is invalid');
         it('is prevented when list is missing');
@@ -167,7 +127,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
     describe('sync details', function () {
         it('shows last and next sync', async function () {
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             let syncDetails = find('[data-test-sync-info]').textContent.trim().replace(/\s\s/g, '');
@@ -180,7 +140,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
         it('isn\'t shown when scheduling is empty', async function () {
             this.set('settings.scheduling', {});
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             expect(find('[data-test-sync-info]').textContent).to.be.blank;
@@ -188,7 +148,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
         it('shows next sync in hours or minutes', async function () {
             this.set('settings.scheduling.subscribers.nextSyncAt', moment().add(5, 'hours').add(30, 'minutes').valueOf());
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             // shows hours if > 1 hour
@@ -208,7 +168,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
         it('shows last sync in bold when < 5 minutes ago', async function () {
             this.set('settings.scheduling.subscribers.lastSyncAt', moment().subtract(4, 'minutes').valueOf());
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             expect(find('[data-test-sync-info] strong').textContent)
@@ -220,7 +180,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         });
 
         it('hides sync details after list changes', async function () {
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             expect(find('[data-test-sync-info]')).to.exist;
@@ -236,7 +196,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         });
 
         it('hides next sync when disabled', async function () {
-            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp settings=settings}}`);
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
             // verify enabled at start
