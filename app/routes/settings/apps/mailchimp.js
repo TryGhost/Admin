@@ -1,6 +1,6 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import MailchimpIntegration from 'ghost-admin/models/mailchimp-integration';
 import styleBody from 'ghost-admin/mixins/style-body';
+import {getOwner} from '@ember/application';
 import {inject as injectService} from '@ember/service';
 
 export default AuthenticatedRoute.extend(styleBody, {

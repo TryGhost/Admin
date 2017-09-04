@@ -5,20 +5,21 @@ import mockMailchimp from '../../../mirage/config/mailchimp';
 import mockSettings from '../../../mirage/config/settings';
 import moment from 'moment';
 import wait from 'ember-test-helpers/wait';
-import {Response} from 'ember-cli-mirage';
-import {click, find, triggerEvent} from 'ember-native-dom-helpers';
+import {click, fillIn, find, keyEvent, triggerEvent} from 'ember-native-dom-helpers';
 import {describe, it} from 'mocha';
 import {errorOverride, errorReset} from '../../helpers/adapter-error';
 import {expect} from 'chai';
+import {getOwner} from '@ember/application';
 import {setupComponentTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
+import {timeout} from 'ember-concurrency';
 
 const featureStub = Service.extend({
     subscribers: true
 });
 
 let mockSettingsPoll = function (server) {
-    // enabling and hitting save updates the settings value and polls for updates
+    // enabling or updating and hitting save updates the settings value and polls for updates
     // request 1 = refresh after settings save
     // request 2 = first poll request
     let requestCount = 0;
@@ -47,7 +48,11 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
     beforeEach(async function () {
         // stub new mailchimp integration (normally created in route model hook)
-        this.set('mailchimp', new MailchimpIntegration({
+
+        this.register('object:mailchimp-integration', MailchimpIntegration, {singleton: false});
+        let factory = getOwner(this).factoryFor('object:mailchimp-integration');
+
+        this.set('mailchimp', factory.create({
             isActive: true,
             apiKey: 'valid',
             activeList: {
@@ -62,6 +67,7 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
         // inject real settings to give access to it in the test context
         this.inject.service('settings');
+        this.inject.service('notifications');
 
         // load mirage, fixtures, and mock the endpoints we care about
         server = startMirage();
@@ -116,14 +122,32 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
     });
 
     describe('enable checkbox', function () {
-        it('toggles mailchimp.isActive');
+        it('toggles mailchimp.isActive', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            expect(this.get('mailchimp.isActive')).to.be.true;
+            await click('[data-test-checkbox="isActive"]');
+            expect(this.get('mailchimp.isActive')).to.be.false;
+            await click('[data-test-checkbox="isActive"]');
+            expect(this.get('mailchimp.isActive')).to.be.true;
+        });
+
         it('can\'t be checked with missing api key');
         it('can\'t be checked invalid api key');
         it('can\'t be checked with no active list');
     });
 
     describe('api key input', function () {
-        it('updates mailchimp.apiKey');
+        it('updates mailchimp.apiKey', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            expect(this.get('mailchimp.apiKey')).to.equal('valid');
+            await(fillIn('[data-test-input="apiKey"]', 'new'));
+            expect(this.get('mailchimp.apiKey')).to.equal('new');
+        });
+
         it('triggers fetchLists on blur');
         it('shows error for invalid format');
         it('shows error for invalid key');
@@ -133,16 +157,87 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         it('selects active list after load');
         it('selects first list if no list matches active list');
         it('clears mailchimp.activeList if no lists are returned');
-        it('handles server error');
+        it('handles validation error');
+        it('handles other server errors');
     });
 
     describe('saving', function () {
-        it('is triggered by CMD-S');
-        it('is prevented when api key is missing');
+        it('is triggered by CMD-S', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await keyEvent(document, 'keydown', 83, {metaKey: true});
+
+            expect(
+                find('[data-test-button="save"]').textContent.trim()
+            ).to.have.string('Saved');
+        });
+
+        it('is prevented when api key is missing', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.apiKey', '');
+
+            await click('[data-test-button="save"]');
+
+            expect(
+                find('[data-test-button="save"]').textContent.trim()
+            ).to.have.string('Retry');
+
+            expect(
+                server.pretender.handledRequests.filterBy('method', 'PUT').length
+            ).to.equal(0);
+        });
+
         it('is prevented when api key is invalid');
         it('is prevented when list is missing');
-        it('correctly updates settings');
-        it('handles server error');
+
+        it('correctly updates settings', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'valid2');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            let select = find('[data-test-select="lists"]');
+            select.options.item(0).selected = true;
+            await triggerEvent(select, 'change');
+
+            mockSettingsPoll(server);
+            await click('[data-test-button="save"]');
+
+            let settings = JSON.parse(server.db.settings.findBy({key: 'mailchimp'}).value);
+            expect(settings.apiKey).to.equal('valid2');
+            expect(settings.activeList.id).to.equal('test3');
+            expect(settings.activeList.name).to.equal('Test List Three');
+        });
+
+        it('handles server error', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            server.put('/settings/', {
+                errors: [{
+                    errorType: 'InternalServerError',
+                    message: 'A test error occurred'
+                }]
+            }, 500);
+
+            errorOverride();
+            await click('[data-test-button="save"]');
+            errorReset();
+
+            // alerts aren't rendered in integration tests so check the service
+            expect(
+                this.get('notifications.alerts.length'),
+                'number of alerts'
+            ).to.equal(1);
+            expect(
+                this.get('notifications.alerts.firstObject.message')
+            ).to.have.string('A test error occurred');
+        });
+
         it('triggers sync poll when becoming active');
         it('triggers sync poll when active list has changed');
 
@@ -154,14 +249,13 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             this.set('mailchimp.activeList.id', 'new');
             expect(this.get('settings.mailchimp.activeList.id')).to.equal('test1');
 
-            server.put('/settings/', function () {
-                return new Response(422, {}, {
-                    errors: [{
-                        errorType: 'ValidationError',
-                        message: 'API Key Invalid'
-                    }]
-                });
-            });
+            server.put('/settings/', {
+                errors: [{
+                    errorType: 'ValidationError',
+                    message: 'API Key Invalid'
+                }]
+            }, 422);
+
             errorOverride();
             await click('[data-test-button="save"]');
             errorReset();

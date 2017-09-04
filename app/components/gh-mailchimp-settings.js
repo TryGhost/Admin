@@ -15,8 +15,6 @@ const {testing} = Ember;
 const SYNC_POLL_MS = testing ? 50 : 5000;
 
 export default Component.extend(ShortcutsMixin, {
-    ajax: injectService(),
-    ghostPaths: injectService(),
     notifications: injectService(),
     settings: injectService(),
     feature: injectService(),
@@ -119,8 +117,6 @@ export default Component.extend(ShortcutsMixin, {
 
     // Tasks
     fetchLists: task(function* () {
-        let url = this.get('ghostPaths.url').api('mailchimp', 'lists');
-        let data = {apiKey: this.get('mailchimp.apiKey')};
         let result;
 
         // clear available lists
@@ -134,7 +130,7 @@ export default Component.extend(ShortcutsMixin, {
         yield this.get('mailchimp').validate({property: 'apiKey'});
 
         try {
-            result = yield this.get('ajax').request(url, {data});
+            result = yield this.get('mailchimp').fetchLists();
         } catch (error) {
             if (error && error.errors && error.errors[0] && error.errors[0].errorType === 'ValidationError') {
                 this.get('mailchimp.errors').add(

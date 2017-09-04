@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import MailChimpObject from 'ghost-admin/models/mailchimp-integration';
 import Transform from 'ember-data/transform';
+import {getOwner} from '@ember/application';
 
 export default Transform.extend({
     deserialize(serialized) {
@@ -12,7 +12,8 @@ export default Transform.extend({
                 settingsObject = {};
             }
 
-            return MailChimpObject.create(settingsObject);
+            let factory = getOwner(this).factoryFor('object:mailchimp-integration');
+            return factory.create(settingsObject);
         }
 
         return null;
