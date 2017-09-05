@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import RSVP from 'rsvp';
 
 /**
  * Base validator that all validators should extend
@@ -17,18 +18,22 @@ export default EmberObject.extend({
      *                        false if not
      */
     check(model, prop) {
+        let promises = [];
         this.set('passed', true);
 
         if (prop && this[prop]) {
-            this[prop](model);
+            promises.push(this[prop](model));
         } else {
             this.get('properties').forEach((property) => {
                 if (this[property]) {
-                    this[property](model);
+                    promises.push(this[property](model));
                 }
             });
         }
-        return this.get('passed');
+
+        return RSVP.all(promises).then(() => {
+            return this.get('passed');
+        });
     },
 
     invalidate() {

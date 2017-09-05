@@ -102,8 +102,6 @@ export default Mixin.create({
         opts.validationType = type;
 
         return new RSVP.Promise((resolve, reject) => {
-            let passed;
-
             if (!type || !validator) {
                 return reject([`The validator specified, "${type}", did not exist!`]);
             }
@@ -116,9 +114,9 @@ export default Mixin.create({
                 model.get('errors').clear();
             }
 
-            passed = validator.check(model, opts.property);
-
-            return (passed) ? resolve() : reject();
+            return validator.check(model, opts.property).then((passed) => {
+                return (passed) ? resolve() : reject();
+            });
         });
     },
 
