@@ -22,7 +22,7 @@ export default Transform.extend({
     serialize(deserialized) {
         // TODO: remove the workaround for hasValidated/errors once we have a
         // better validations system
-        let serialized = JSON.stringify(deserialized);
+        let serialized = JSON.stringify(deserialized || {});
         let json = JSON.parse(serialized);
 
         delete json.hasValidated;
@@ -30,6 +30,6 @@ export default Transform.extend({
 
         serialized = JSON.stringify(json);
 
-        return deserialized ? serialized : {};
+        return serialized;
     }
 });
