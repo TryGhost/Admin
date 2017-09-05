@@ -4,19 +4,19 @@ import {getOwner} from '@ember/application';
 
 export default Transform.extend({
     deserialize(serialized) {
-        if (serialized) {
-            let settingsObject;
-            try {
-                settingsObject = JSON.parse(serialized) || {};
-            } catch (e) {
-                settingsObject = {};
-            }
+        let settings = {};
 
-            let factory = getOwner(this).factoryFor('object:mailchimp-integration');
-            return factory.create(settingsObject);
+        if (serialized) {
+            try {
+                settings = JSON.parse(serialized) || {};
+            } catch (e) {
+                settings = {};
+            }
         }
 
-        return null;
+        let factory = getOwner(this).factoryFor('object:mailchimp-integration');
+        return factory.create(settings);
+
     },
 
     serialize(deserialized) {

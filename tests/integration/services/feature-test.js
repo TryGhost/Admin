@@ -1,5 +1,6 @@
 import EmberError from '@ember/error';
 import FeatureService, {feature} from 'ghost-admin/services/feature';
+import MailchimpIntegration from 'ghost-admin/models/mailchimp-integration';
 import Pretender from 'pretender';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
@@ -9,7 +10,7 @@ import {setupTest} from 'ember-mocha';
 function stubSettings(server, labs, validSave = true) {
     let settings = [
         {
-            id: '1',
+            id: 12,
             type: 'blog',
             key: 'labs',
             value: JSON.stringify(labs)
@@ -22,6 +23,12 @@ function stubSettings(server, labs, validSave = true) {
 
     server.put('/ghost/api/v0.1/settings/', function (request) {
         let statusCode = (validSave) ? 200 : 400;
+
+        // settings array needs updating because the settings service now
+        // re-fetches after saving to ensure it always contains all keys
+        let body = JSON.parse(request.requestBody);
+        settings[0].value = body.settings.findBy('key', 'labs').value;
+
         let response = (validSave) ? request.requestBody : JSON.stringify({
             errors: [{
                 message: 'Test Error'
@@ -78,6 +85,9 @@ describe('Integration: Service: feature', function () {
 
     beforeEach(function () {
         server = new Pretender();
+
+        // this is needed to prevent "you can only unload a record which is not inFlight" errrors
+        this.register('object:mailchimp-integration', MailchimpIntegration, {singleton: false});
     });
 
     afterEach(function () {
