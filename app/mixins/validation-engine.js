@@ -115,7 +115,7 @@ export default Mixin.create({
             }
 
             return validator.check(model, opts.property).then((passed) => {
-                return (passed) ? resolve() : reject();
+                return passed ? resolve() : reject();
             });
         });
     },

@@ -39,7 +39,11 @@ export default Controller.extend({
         let validationPromises = [];
 
         if (!newNavItem.get('isBlank')) {
-            validationPromises.pushObject(this.send('addNavItem'));
+            try {
+                yield this.send('addNavItem');
+            } catch (e) {
+                return;
+            }
         }
 
         navItems.map((item) => {
