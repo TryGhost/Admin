@@ -1,9 +1,9 @@
 import BaseValidator from './base';
 
 export default BaseValidator.create({
-    properties: ['apiKey', 'activeList'],
+    properties: ['apiKey', 'apiKeyIsValid', 'activeList'],
 
-    async apiKey(model) {
+    apiKey(model) {
         let apiKey = model.get('apiKey');
         let hasValidated = model.get('hasValidated');
 
@@ -26,9 +26,24 @@ export default BaseValidator.create({
             this.invalidate();
         }
 
-        // TODO; check API key is actually valid
-
         hasValidated.addObject('apiKey');
+    },
+
+    apiKeyIsValid(model) {
+        let hasValidated = model.get('hasValidated');
+
+        if (model.get('errors').errorsFor('apiKey').length === 0) {
+            return model.fetchLists().catch(() => {
+                model.get('errors').add(
+                    'apiKey',
+                    'The MailChimp API key is invalid.'
+                );
+
+                this.invalidate();
+            }).finally(() => {
+                hasValidated.addObject('apiKey');
+            });
+        }
     },
 
     activeList(model) {

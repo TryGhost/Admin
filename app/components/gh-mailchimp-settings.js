@@ -161,11 +161,9 @@ export default Component.extend(ShortcutsMixin, {
                 this.set('mailchimp.activeList.name', null);
             }
 
-            return this.get('mailchimp').validate();
+            // no need to revalidate the apiKeyIsValid
+            this.get('mailchimp').validate({property: 'activeList'});
         }
-
-        // ensure we return a truthy value so the task button has a success state
-        return true;
     }).drop(),
 
     save: task(function* () {
