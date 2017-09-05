@@ -68,7 +68,7 @@ export default Controller.extend(PaginationMixin, {
             label: 'Status',
             valuePath: 'status',
             format(value) {
-                return capitalize(value);
+                return value ? capitalize(value) : '';
             },
             sorted: order === 'status',
             ascending: direction === 'asc',
