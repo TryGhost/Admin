@@ -64,19 +64,6 @@ describe('Acceptance: Settings - Apps - Mailchimp', function() {
             expect(find('[data-test-input="apiKey"]').value, 'initial api field value').to.be.blank;
             expect(find('[data-test-select="lists"]'), 'initial lists select state').to.not.exist;
 
-            // checking checkbox shows "missing api key" error
-            await click('[data-test-checkbox="isActive"]');
-            expect(
-                find('[data-test-error="isActive"]').textContent,
-                'isActive error after enabling with missing API key'
-            ).to.have.string('enter an API key');
-
-            await click('[data-test-checkbox="isActive"]');
-            expect(
-                find('[data-test-error="isActive"]').textContent,
-                'missing api error after disabling'
-            ).to.be.blank;
-
             // adding api key with spaces shows invalid api key error
             await fillIn('[data-test-input="apiKey"]', 'invalid key');
             await triggerEvent('[data-test-input="apiKey"]', 'blur');
@@ -84,14 +71,6 @@ describe('Acceptance: Settings - Apps - Mailchimp', function() {
                 find('[data-test-error="apiKey"]').textContent,
                 'apiKey error with invalid key format'
             ).to.have.string('valid API key');
-
-            // clearing api key removes error
-            await fillIn('[data-test-input="apiKey"]', '');
-            await triggerEvent('[data-test-input="apiKey"]', 'blur');
-            expect(
-                find('[data-test-error="apiKey"]'),
-                'apiKey error when blank'
-            ).to.not.exist;
 
             // adding invalid api key shows error from server
             await fillIn('[data-test-input="apiKey"]', 'invalid');

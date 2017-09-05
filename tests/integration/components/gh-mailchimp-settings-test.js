@@ -12,7 +12,6 @@ import {expect} from 'chai';
 import {getOwner} from '@ember/application';
 import {setupComponentTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
-import {timeout} from 'ember-concurrency';
 
 const featureStub = Service.extend({
     subscribers: true
