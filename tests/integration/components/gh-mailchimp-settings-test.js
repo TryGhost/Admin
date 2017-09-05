@@ -125,16 +125,88 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
-            expect(this.get('mailchimp.isActive')).to.be.true;
+            expect(this.get('mailchimp.isActive'), 'initial state').to.be.true;
             await click('[data-test-checkbox="isActive"]');
-            expect(this.get('mailchimp.isActive')).to.be.false;
+            expect(this.get('mailchimp.isActive'), 'first click').to.be.false;
             await click('[data-test-checkbox="isActive"]');
-            expect(this.get('mailchimp.isActive')).to.be.true;
+            expect(this.get('mailchimp.isActive'), 'second click').to.be.true;
         });
 
-        it('can\'t be checked with missing api key');
-        it('can\'t be checked invalid api key');
-        it('can\'t be checked with no active list');
+        it('triggers validation when checked', async function () {
+            this.set('mailchimp.isActive', false);
+
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.apiKey', 'invalid');
+
+            expect(this.get('mailchimp.isActive'), 'initial state').to.be.false;
+            await click('[data-test-checkbox="isActive"]');
+
+            expect(
+                find('[data-test-error="apiKey"]').textContent.trim()
+            ).to.have.string('key is invalid');
+        });
+
+        it('can\'t be checked with missing api key', async function () {
+            this.set('mailchimp.isActive', false);
+
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.apiKey', '');
+            await click('[data-test-checkbox="isActive"]');
+
+            expect(
+                this.get('mailchimp.isActive'),
+                'mailchimp.isActive'
+            ).to.be.false;
+
+            expect(
+                find('[data-test-checkbox="isActive"]').checked,
+                'checkbox is checked'
+            ).to.be.false;
+        });
+
+        it('can\'t be checked with invalid api key', async function () {
+            this.set('mailchimp.isActive', false);
+
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.apiKey', 'invalid');
+            await click('[data-test-checkbox="isActive"]');
+
+            expect(
+                this.get('mailchimp.isActive'),
+                'mailchimp.isActive'
+            ).to.be.false;
+
+            expect(
+                find('[data-test-checkbox="isActive"]').checked,
+                'checkbox is checked'
+            ).to.be.false;
+        });
+
+        it('can\'t be checked with no active list', async function () {
+            this.set('mailchimp.isActive', false);
+
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.activeList', null);
+            await click('[data-test-checkbox="isActive"]');
+
+            expect(
+                this.get('mailchimp.isActive'),
+                'mailchimp.isActive'
+            ).to.be.false;
+
+            expect(
+                find('[data-test-checkbox="isActive"]').checked,
+                'checkbox is checked'
+            ).to.be.false;
+        });
     });
 
     describe('api key input', function () {
@@ -143,13 +215,28 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             await wait();
 
             expect(this.get('mailchimp.apiKey')).to.equal('valid');
-            await(fillIn('[data-test-input="apiKey"]', 'new'));
+            await fillIn('[data-test-input="apiKey"]', 'new');
             expect(this.get('mailchimp.apiKey')).to.equal('new');
         });
 
-        it('triggers fetchLists on blur');
+        it('triggers fetchLists on blur', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'valid2');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            let select = find('[data-test-select="lists"]');
+
+            expect(select, 'lists select element').to.exist;
+            expect(select.options.length, 'number of options').to.equal(1);
+            expect(select.options.item(0).value).to.equal('test3');
+        });
+
         it('shows error for invalid format');
         it('shows error for invalid key');
+        it('disables checkbox when empty');
+        it('disables checkbox when invalid');
     });
 
     describe('fetchLists', function () {
@@ -263,6 +350,9 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             // back on failure
             expect(this.get('settings.mailchimp.activeList.id')).to.equal('test1');
         });
+
+        it('handles sync failure');
+        it('doesn\'t reset settings if sync fails');
     });
 
     describe('sync details', function () {

@@ -229,10 +229,19 @@ export default Component.extend(ShortcutsMixin, {
             this.get('save').perform();
         },
 
-        updateIsActive(value) {
-            return this.get('mailchimp').validate().then(() => {
-                return this.set('mailchimp.isActive', value);
-            });
+        updateIsActive(isActive) {
+            if (isActive) {
+                return this.get('mailchimp').validate().then(() => {
+                    this.set('mailchimp.isActive', true);
+                }).catch(() => {
+                    this.set('mailchimp.isActive', false);
+                    // TODO: this is required due to a bug in ember-one-way-controls
+                    // https://github.com/DockYard/ember-one-way-controls/issues/143
+                    document.querySelector('#isActive').checked = false;
+                });
+            } else {
+                return this.set('mailchimp.isActive', false);
+            }
         },
 
         updateApiKey(value) {
