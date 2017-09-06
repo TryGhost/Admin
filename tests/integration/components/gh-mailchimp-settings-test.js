@@ -378,10 +378,53 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(
                 server.pretender.handledRequests.filterBy('method', 'PUT').length
             ).to.equal(0);
+
+            expect(
+                this.get('settings.mailchimp.apiKey')
+            ).to.equal('valid');
         });
 
-        it('is prevented when api key is invalid');
-        it('is prevented when list is missing');
+        it('is prevented when api key is invalid', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.apiKey', 'invalid');
+
+            await click('[data-test-button="save"]');
+
+            expect(
+                find('[data-test-button="save"]').textContent.trim()
+            ).to.have.string('Retry');
+
+            expect(
+                server.pretender.handledRequests.filterBy('method', 'PUT').length
+            ).to.equal(0);
+
+            expect(
+                this.get('settings.mailchimp.apiKey')
+            ).to.equal('valid');
+        });
+
+        it('is prevented when list is missing', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            this.set('mailchimp.activeList.id', '');
+
+            await click('[data-test-button="save"]');
+
+            expect(
+                find('[data-test-button="save"]').textContent.trim()
+            ).to.have.string('Retry');
+
+            expect(
+                server.pretender.handledRequests.filterBy('method', 'PUT').length
+            ).to.equal(0);
+
+            expect(
+                this.get('settings.mailchimp.activeList.id')
+            ).to.equal('test1');
+        });
 
         it('correctly updates settings', async function () {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
@@ -428,9 +471,6 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             ).to.have.string('A test error occurred');
         });
 
-        it('triggers sync poll when becoming active');
-        it('triggers sync poll when active list has changed');
-
         it('resets settings if save fails', async function () {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
@@ -455,6 +495,8 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(this.get('settings.mailchimp.activeList.id')).to.equal('test1');
         });
 
+        it('triggers sync poll when becoming active');
+        it('triggers sync poll when active list has changed');
         it('handles sync failure');
         it('doesn\'t reset settings if sync fails');
     });
