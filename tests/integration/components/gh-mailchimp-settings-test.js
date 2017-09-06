@@ -234,10 +234,29 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             expect(select.options.item(0).value).to.equal('test3');
         });
 
-        it('shows error for invalid format');
-        it('shows error for invalid key');
-        it('disables checkbox when empty');
-        it('disables checkbox when invalid');
+        it('shows error for invalid format', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'not an api key');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(
+                find('[data-test-error="apiKey"]').textContent.trim()
+            ).to.have.string('enter a valid API key');
+        });
+
+        it('shows error for invalid key', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'invalid');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(
+                find('[data-test-error="apiKey"]').textContent.trim()
+            ).to.have.string('API key is invalid');
+        });
     });
 
     describe('fetchLists', function () {
