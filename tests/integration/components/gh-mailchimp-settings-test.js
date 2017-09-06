@@ -1,5 +1,6 @@
 import MailchimpIntegration from 'ghost-admin/models/mailchimp-integration';
 import Service from '@ember/service';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import hbs from 'htmlbars-inline-precompile';
 import mockMailchimp from '../../../mirage/config/mailchimp';
 import mockSettings from '../../../mirage/config/settings';
@@ -252,7 +253,10 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
             await wait();
 
-            await keyEvent(document, 'keydown', 83, {metaKey: true});
+            await keyEvent(document, 'keydown', 83, {
+                metaKey: ctrlOrCmd === 'command',
+                ctrlKey: ctrlOrCmd === 'ctrl'
+            });
 
             expect(
                 find('[data-test-button="save"]').textContent.trim()
