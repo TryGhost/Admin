@@ -259,12 +259,93 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
         });
     });
 
+    describe('list select', function () {
+        it('is not shown if api key has errors', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', '');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(find('[data-test-select="lists"]')).to.not.exist;
+        });
+    });
+
     describe('fetchLists', function () {
-        it('selects active list after load');
-        it('selects first list if no list matches active list');
-        it('clears mailchimp.activeList if no lists are returned');
-        it('handles validation error');
-        it('handles other server errors');
+        it('selects active list after load', async function () {
+            this.set('mailchimp.activeList.id', 'test2');
+            this.set('mailchimp.activeList.name', 'Test List Two');
+
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            let [selectedOption] = find('[data-test-select="lists"]').selectedOptions;
+            expect(selectedOption.value).to.equal('test2');
+        });
+
+        it('selects first list if no list matches active list', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+            await fillIn('[data-test-input="apiKey"]', 'valid2');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(this.get('mailchimp.activeList.id')).to.equal('test3');
+
+            let [selectedOption] = find('[data-test-select="lists"]').selectedOptions;
+            expect(selectedOption.value).to.equal('test3');
+        });
+
+        it('clears mailchimp.activeList if no lists are returned', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'nolists');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(this.get('mailchimp.activeList.id')).to.be.null;
+            expect(this.get('mailchimp.activeList.name')).to.be.null;
+            expect(find('[data-test-select="lists"]').options.length).to.equal(0);
+            expect(
+                find('[data-test-error="activeList"]').textContent.trim()
+            ).to.have.string('is required');
+        });
+
+        it('handles validation error', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            await fillIn('[data-test-input="apiKey"]', 'invalid');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+
+            expect(this.get('mailchimp.activeList.id')).to.be.null;
+            expect(this.get('mailchimp.activeList.name')).to.be.null;
+            expect(
+                find('[data-test-error="apiKey"]').textContent.trim()
+            ).to.have.string('API key is invalid');
+            expect(find('[data-test-select="lists"]')).to.not.exist;
+        });
+
+        it('handles server error', async function () {
+            this.render(hbs`{{gh-mailchimp-settings mailchimp=mailchimp}}`);
+            await wait();
+
+            server.get('/mailchimp/lists/', {
+                errors: [{
+                    errorType: 'InternalServerError',
+                    message: 'Testing Error',
+                    status: 500
+                }]
+            }, 500);
+
+            errorOverride();
+            await fillIn('[data-test-input="apiKey"]', 'error');
+            await triggerEvent('[data-test-input="apiKey"]', 'blur');
+            errorReset();
+
+            let alert = this.get('notifications.alerts.firstObject');
+            expect(alert).to.exist;
+            expect(alert.message).to.equal('Testing Error');
+        });
     });
 
     describe('saving', function () {

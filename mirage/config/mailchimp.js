@@ -25,6 +25,8 @@ export default function mockMailchimp(server) {
                 statusCode: 200,
                 total_items: 1
             };
+        } else if (apiKey === 'nolists') {
+            result = {lists: [], statusCode: 200, total_items: 0};
         } else {
             result = {
                 lists: [{

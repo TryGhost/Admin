@@ -4,9 +4,9 @@ import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import moment from 'moment';
 import {computed} from '@ember/object';
-import {empty, or, readOnly} from '@ember/object/computed';
 import {htmlSafe} from '@ember/string';
 import {inject as injectService} from '@ember/service';
+import {or, readOnly} from '@ember/object/computed';
 import {pluralize} from 'ember-inflector';
 import {reject} from 'rsvp';
 import {task, timeout} from 'ember-concurrency';
@@ -31,10 +31,8 @@ export default Component.extend(ShortcutsMixin, {
     // Computed properties
     isFetchingLists: readOnly('fetchLists.isRunning'),
     lastSyncAt: readOnly('settings.scheduling.subscribers.lastSyncAt'),
-    listSelectDisabled: or('noAvailableLists', 'fetchLists.isRunning'),
+    listSelectHidden: or('mailchimp.errors.apiKey.length', 'fetchLists.isRunning'),
     nextSyncAt: readOnly('settings.scheduling.subscribers.nextSyncAt'),
-    noActiveList: empty('mailchimp.activeList.id'),
-    noAvailableLists: empty('availableLists'),
 
     selectedList: computed('mailchimp.activeList.id', 'availableLists.[]', function () {
         let selectedId = this.get('mailchimp.activeList.id');
@@ -98,8 +96,9 @@ export default Component.extend(ShortcutsMixin, {
         this._super(...arguments);
 
         let shortcuts = this.get('shortcuts');
-
         shortcuts[`${ctrlOrCmd}+s`] = {action: 'save'};
+
+        this.set('availableLists', []);
     },
 
     didInsertElement() {
@@ -139,6 +138,8 @@ export default Component.extend(ShortcutsMixin, {
                     'The MailChimp API key is invalid.'
                 );
                 this.get('mailchimp.hasValidated').pushObject('apiKey');
+                this.set('mailchimp.activeList.id', null);
+                this.set('mailchimp.activeList.name', null);
                 return false;
             } else if (error) {
                 this.get('notifications').showAPIError(error);

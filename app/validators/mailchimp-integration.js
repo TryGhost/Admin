@@ -53,7 +53,7 @@ export default BaseValidator.create({
         if (!id) {
             model.get('errors').add(
                 'activeList',
-                'A list to synchronise must be selected'
+                'A mailing list to synchronise with is required'
             );
 
             this.invalidate();
