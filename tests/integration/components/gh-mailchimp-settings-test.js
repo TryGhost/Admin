@@ -14,10 +14,6 @@ import {getOwner} from '@ember/application';
 import {setupComponentTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 
-const featureStub = Service.extend({
-    subscribers: true
-});
-
 let mockSettingsPoll = function (server) {
     // enabling or updating and hitting save updates the settings value and polls for updates
     // request 1 = refresh after settings save
@@ -61,10 +57,6 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
             }
         }));
 
-        // stub and inject feature service (we only care about subscribers flag)
-        this.register('service:feature', featureStub);
-        this.inject.service('feature', {as: 'feature'});
-
         // inject real settings to give access to it in the test context
         this.inject.service('settings');
         this.inject.service('notifications');
@@ -89,22 +81,6 @@ describe('Integration: Component: gh-mailchimp-settings', function() {
 
     afterEach(function () {
         server.shutdown();
-    });
-
-    describe('subscribers disabled warning', function () {
-        it('isn\'t shown when enabled', function () {
-            this.set('feature', {subscribers: true});
-            this.render(hbs`{{gh-mailchimp-settings}}`);
-
-            expect(find('[data-test-subscribers-warning]')).to.not.exist;
-        });
-
-        it('is shown when disabled', function () {
-            this.set('feature.subscribers', false);
-            this.render(hbs`{{gh-mailchimp-settings}}`);
-
-            expect(find('[data-test-subscribers-warning]')).to.exist;
-        });
     });
 
     it('loads mailchimp lists when rendering', async function () {

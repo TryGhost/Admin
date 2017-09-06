@@ -53,10 +53,8 @@
             {{/if}}
         </li>
         <li>{{#link-to "team" classNames="gh-nav-main-users"}}{{inline-svg "account-group"}}Team{{/link-to}}</li>
-        {{#if feature.subscribers}}
-            {{#if (gh-user-can-admin session.user)}}
-                <li>{{#link-to "subscribers" classNames="gh-nav-main-subscribers"}}{{inline-svg "email"}}Subscribers{{/link-to}}</li>
-            {{/if}}
+        {{#if (gh-user-can-admin session.user)}}
+            <li>{{#link-to "subscribers" classNames="gh-nav-main-subscribers"}}{{inline-svg "email"}}Subscribers{{/link-to}}</li>
         {{/if}}
     </ul>
     {{#if (gh-user-can-admin session.user)}}

@@ -27,12 +27,6 @@
             </div>
         </section>
 
-        {{#unless feature.subscribers}}
-            <p class="gh-box gh-box-red" data-test-subscribers-warning>
-                {{inline-svg "idea"}} Subscribers feature is not enabled. To use the MailChimp integration you need to enable it in {{#link-to "settings.labs"}}Labs{{/link-to}}.
-            </p>
-        {{/unless}}
-
         <div class="gh-setting-header">MailChimp configuration</div>
         <div class="gh-setting" id="mailchimp-toggle">
             <div class="gh-setting-content">

@@ -1,5 +1,4 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import RSVP from 'rsvp';
 import {inject as injectService} from '@ember/service';
 
 export default AuthenticatedRoute.extend({
@@ -10,15 +9,9 @@ export default AuthenticatedRoute.extend({
     // redirect if subscribers is disabled or user isn't owner/admin
     beforeModel() {
         this._super(...arguments);
-        let promises = {
-            user: this.get('session.user'),
-            subscribers: this.get('feature.subscribers')
-        };
 
-        return RSVP.hash(promises).then((hash) => {
-            let {user, subscribers} = hash;
-
-            if (!subscribers || !(user.get('isOwner') || user.get('isAdmin'))) {
+        return this.get('session.user').then((user) => {
+            if (!(user.get('isOwner') || user.get('isAdmin'))) {
                 return this.transitionTo('posts');
             }
         });

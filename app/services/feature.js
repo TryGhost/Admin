@@ -36,7 +36,6 @@ export default Service.extend({
     notifications: injectService(),
 
     publicAPI: feature('publicAPI'),
-    subscribers: feature('subscribers'),
     nightShift: feature('nightShift', true),
 
     _user: null,
