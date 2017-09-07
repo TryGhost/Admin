@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import Ember from 'ember';
 import {alias, equal} from '@ember/object/computed';
 import {computed} from '@ember/object';
+import moment from 'moment';
 import {htmlSafe} from '@ember/string';
 import {inject as injectService} from '@ember/service';
 import {isBlank} from '@ember/utils';
@@ -34,6 +35,10 @@ export default Component.extend({
 
     authorAvatar: computed('post.author.profileImage', function () {
         return this.get('post.author.profileImage') || `${this.get('ghostPaths.assetRoot')}/img/user-image.png`;
+    }),
+
+    postDate: computed('post.publishedAtUTC', function () {
+        return moment(this.get('post.publishedAtUTC')).format('MMM Do YYYY');
     }),
 
     authorAvatarBackground: computed('authorAvatar', function () {
