@@ -12,20 +12,20 @@ let md = markdownit({
     breaks: true,
     linkify: true
 })
-.use(markdownitFootnote)
-.use(markdownitLazyHeaders)
-.use(markdownitMark)
-.use(markdownitNamedHeaders, {
-    // match legacy Showdown IDs otherwise default is github style dasherized
-    slugify(inputString, usedHeaders) {
-        let slug = inputString.replace(/[^\w]/g, '').toLowerCase();
-        if (usedHeaders[slug]) {
-            usedHeaders[slug]++;
-            slug += usedHeaders[slug];
+    .use(markdownitFootnote)
+    .use(markdownitLazyHeaders)
+    .use(markdownitMark)
+    .use(markdownitNamedHeaders, {
+        // match legacy Showdown IDs otherwise default is github style dasherized
+        slugify(inputString, usedHeaders) {
+            let slug = inputString.replace(/[^\w]/g, '').toLowerCase();
+            if (usedHeaders[slug]) {
+                usedHeaders[slug]++;
+                slug += usedHeaders[slug];
+            }
+            return slug;
         }
-        return slug;
-    }
-});
+    });
 
 export default function formatMarkdown(_markdown, replaceJS = true) {
     let markdown = _markdown || '';
