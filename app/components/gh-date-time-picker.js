@@ -20,6 +20,9 @@ export default Component.extend({
     _previousTime: '',
     _minDate: null,
     _maxDate: null,
+    // used to populate the initial date value in the date picker, before
+    // it gets updated and re-rendered to reflect those changes.
+    _initialDate: null,
 
     blogTimezone: reads('settings.activeTimezone'),
     hasError: or('dateError', 'timeError'),
@@ -55,13 +58,13 @@ export default Component.extend({
         let blogTimezone = this.get('blogTimezone');
 
         if (!isBlank(date)) {
-            this.set('_date', moment(date));
+            this.set('_initialDate', moment(date));
         } else {
-            this.set('_date', moment().tz(blogTimezone));
+            this.set('_initialDate', moment().tz(blogTimezone));
         }
 
         if (isBlank(time)) {
-            this.set('_time', this.get('_date').format('HH:mm'));
+            this.set('_time', this.get('_initialDate').format('HH:mm'));
         } else {
             this.set('_time', this.get('time'));
         }
@@ -83,6 +86,25 @@ export default Component.extend({
         } else {
             this.set('_maxDate', null);
         }
+    },
+
+    didUpdateAttrs() {
+        let date = this.get('date');
+        let time = this.get('time');
+        let blogTimezone = this.get('blogTimezone');
+
+        if (!isBlank(date)) {
+            this.set('_date', moment(date));
+        } else {
+            this.set('_date', moment().tz(blogTimezone));
+        }
+
+        if (isBlank(time)) {
+            this.set('_time', this.get('_date').format('HH:mm'));
+        } else {
+            this.set('_time', this.get('time'));
+        }
+        this.set('_previousTime', this.get('_time'));
     },
 
     actions: {
