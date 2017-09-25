@@ -63,7 +63,7 @@ export default Component.extend({
 
         this._icon = icon;
 
-        if (icon && icon.match(/^http(s)?:\/\//i)) {
+        if (icon && icon.match(/^https?:\/\//i)) {
             this.set('iconStyle', htmlSafe(`background-image: url(${icon})`));
             return;
         }
