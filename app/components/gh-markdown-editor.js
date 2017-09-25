@@ -452,12 +452,48 @@ export default Component.extend(ShortcutsMixin, {
         setEditor(editor) {
             this._editor = editor;
 
+            let cm = this._editor.codemirror;
+
             // disable CodeMirror's drag/drop handling as we want to handle that
             // in the parent gh-editor component
-            this._editor.codemirror.setOption('dragDrop', false);
+            cm.setOption('dragDrop', false);
 
             // default to spellchecker being off
-            this._editor.codemirror.setOption('mode', 'gfm');
+            cm.setOption('mode', 'gfm');
+
+            function textAreaHome() {
+                cm.execCommand('goLineLeft');
+                // goLineLeft will move the cursor to the very start of the visual line, so the cursor
+                // may end up between a space and a gutter. goWordRight and goWordLeft ensures
+                // the cursor is touching the non-whitespace character closest to the end of the
+                // visual line
+                cm.execCommand('goWordRight');
+                cm.execCommand('goWordLeft');
+            }
+
+            function textAreaEnd() {
+                cm.execCommand('goLineRight');
+
+                // see comment in textAreaHome()
+                cm.execCommand('goWordLeft');
+                cm.execCommand('goWordRight');
+            }
+
+            function shift(keyBehavior) {
+                return function () {
+                    let doc = cm.getDoc();
+                    doc.setExtending(true);
+                    keyBehavior();
+                    doc.setExtending(false);
+                };
+            }
+
+            let extraKeys = cm.getOption('extraKeys');
+            extraKeys.End = textAreaEnd;
+            extraKeys.Home = textAreaHome;
+            extraKeys['Shift-Home'] = shift(textAreaHome);
+            extraKeys['Shift-End'] = shift(textAreaEnd);
+            cm.setOption('extraKeys', extraKeys);
 
             // HACK: move the toolbar & status bar elements outside of the
             // editor container so that they can be aligned in fixed positions
