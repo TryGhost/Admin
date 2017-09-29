@@ -22,7 +22,7 @@ export default Component.extend({
                 run.scheduleOnce('afterRender', this, isBlank(term) ? this.close : this.open);
             }
 
-            invokeAction(this, 'select.actions.search', term);
+            !!term && invokeAction(this, 'select.actions.search', term);
         },
 
         focusInput() {
