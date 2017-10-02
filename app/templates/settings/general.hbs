@@ -59,14 +59,14 @@
         </div>
         <div class="gh-setting">
             <div class="gh-setting-content">
-                <div class="gh-setting-title">Language</div>
-                <div class="gh-setting-desc">Ghost's frontend and theme language</div>
+                <div class="gh-setting-title">Language and locale</div>
+                <div class="gh-setting-desc">Ghost's frontend and theme language/locale</div>
                 {{#liquid-if defaultLocaleOpen}}
                 <div class="gh-setting-content-extended">
                     {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="defaultLocale"}}
                         {{gh-input model.defaultLocale type="text" focusOut=(action "validate" "defaultLocale" target=model) update=(action (mut model.defaultLocale)) data-test-default-locale-input=true}}
                         {{gh-error-message errors=model.errors property="defaultLocale"}}
-                        <p>Default: <strong>English (en)</strong>; currently available: <strong>Spanish (es)</strong>; you can add translation files for <strong>any language</strong></p>
+                        <p>Default: English (<strong>en</strong>); you can add translation files for <strong>any language</strong></p>
                     {{/gh-form-group}}
                 </div>
                 {{/liquid-if}}
