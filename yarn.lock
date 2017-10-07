@@ -3114,7 +3114,7 @@ ember-cli-babel@6.8.2, ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.10, e
     clone "^2.0.0"
     ember-cli-version-checker "^2.0.0"
 
-ember-cli-babel@^5.0.0, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7:
+ember-cli-babel@^5.0.0, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7, ember-cli-babel@^5.2.4:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-5.2.4.tgz#5ce4f46b08ed6f6d21e878619fb689719d6e8e13"
   dependencies:
@@ -3634,6 +3634,12 @@ ember-data@2.16.2:
     silent-error "^1.0.0"
     testem "^1.15.0"
 
+ember-drag-drop@0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/ember-drag-drop/-/ember-drag-drop-0.4.6.tgz#f1101a288fd35d5127c13320650196004b2ea36b"
+  dependencies:
+    ember-cli-babel "^5.2.4"
+
 ember-element-resize-detector@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/ember-element-resize-detector/-/ember-element-resize-detector-0.1.5.tgz#4b1cdd63c0d42c42c78f0ac0cc8cff3e1e095611"
@@ -3758,7 +3764,7 @@ ember-inline-svg@0.1.11:
     svgo "^0.6.3"
     walk-sync "^0.3.1"
 
-ember-invoke-action@1.4.0, ember-invoke-action@^1.4.0:
+ember-invoke-action@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ember-invoke-action/-/ember-invoke-action-1.4.0.tgz#2899854bd755f9331ca86c902bf6d4dbf8bdfcb3"
   dependencies:
@@ -3848,7 +3854,7 @@ ember-native-dom-helpers@0.5.4, ember-native-dom-helpers@^0.5.3:
     broccoli-funnel "^1.1.0"
     ember-cli-babel "^6.6.0"
 
-ember-new-computed@^1.0.0, ember-new-computed@^1.0.2:
+ember-new-computed@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/ember-new-computed/-/ember-new-computed-1.0.3.tgz#592af8a778e0260ce7e812687c3aedface1622bf"
   dependencies:
@@ -3971,15 +3977,6 @@ ember-sinon@1.0.1:
     broccoli-merge-trees "^2.0.0"
     ember-cli-babel "^6.3.0"
     sinon "^3.2.1"
-
-ember-sortable@1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/ember-sortable/-/ember-sortable-1.9.1.tgz#e5053866a7547c1ce369700a43cb570f8ac84519"
-  dependencies:
-    ember-cli-babel "^5.1.7"
-    ember-cli-htmlbars "^1.0.10"
-    ember-invoke-action "^1.4.0"
-    ember-new-computed "^1.0.2"
 
 ember-source@2.16.0:
   version "2.16.0"
