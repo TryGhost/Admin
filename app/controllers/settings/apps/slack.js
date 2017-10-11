@@ -22,10 +22,17 @@ export default Controller.extend({
             yield slack.validate();
             settings.get('slack').clear().pushObject(slack);
             return yield settings.save();
-
         } catch (error) {
             if (error) {
                 this.get('notifications').showAPIError(error);
+                throw error;
+            }
+
+            // CASE: settings didn't save because of invalid data, we need to return
+            // and error to prevent `sendTestNotification` from proceeding to post
+            if (!error && slack.get('hasValidated') && slack.get('errors.url')) {
+                let error = new Error('Invalid Slack Webhook URL');
+
                 throw error;
             }
         }
@@ -40,7 +47,6 @@ export default Controller.extend({
             yield this.get('ajax').post(slackApi);
             notifications.showNotification('Check your Slack channel for the test message!', {type: 'info', key: 'slack-test.send.success'});
             return true;
-
         } catch (error) {
             notifications.showAPIError(error, {key: 'slack-test:send'});
 
