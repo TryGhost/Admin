@@ -1,13 +1,14 @@
 import Component from '@ember/component';
-import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
 export default Component.extend({
-    tagName: 'section',
+    upgrades: service(),
 
-    classNames: ['gh-upgrade-notification'],
+    tagName: '',
+    version: '0.0.0',
 
-    upgradeNotification: service('upgrade-notification'),
-
-    message: alias('upgradeNotification.content')
+    didInsertElement() {
+        this._super(...arguments);
+        this.get('upgrades.check').perform(this.get('version'));
+    }
 });
