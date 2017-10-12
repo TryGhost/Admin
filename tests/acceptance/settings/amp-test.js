@@ -107,14 +107,14 @@ describe('Acceptance: Settings - Apps - AMP', function () {
 
             expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.false;
 
-            await visit('/settings/team');
+            await visit('/team');
 
             expect(find('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await(click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/team');
+            expect(currentURL(), 'currentURL').to.equal('/team');
 
             await visit('/settings/apps/amp');
 

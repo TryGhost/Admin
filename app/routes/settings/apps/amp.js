@@ -16,7 +16,7 @@ export default AuthenticatedRoute.extend(styleBody, {
 
         willTransition(transition) {
             let controller = this.get('controller');
-            let settings = this.get('settings');
+            let settings = controller.get('settings');
             let modelIsDirty = settings.get('hasDirtyAttributes');
 
             if (modelIsDirty) {
