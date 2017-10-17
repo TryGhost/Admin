@@ -1,8 +1,11 @@
 <div class="form-group">
     <label for="tag-input">Tags</label>
+    {{!-- TODO: handle tag removal so that new tags can be destroyed --}}
     {{gh-token-input
         selectedTokens=post.tags
         availableTokens=availableTags
+        onChange=(action (mut post.tags))
+        onCreate=(action "createTag")
         renderInPlace=true
     }}
     {{!-- {{gh-selectize

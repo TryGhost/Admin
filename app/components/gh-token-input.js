@@ -17,6 +17,7 @@ export default Component.extend({
 
     // closure actions
     onChange() {},
+    onCreate() {},
 
     tokensWithoutSelected: computed('availableTokens.[]', 'selectedTokens.[]', function () {
         return this.get('tokensWithoutSelectedTask').perform();
@@ -31,6 +32,15 @@ export default Component.extend({
     actions: {
         onChange(tokens) {
             this._update(tokens);
+        },
+
+        onCreate(term, select) {
+            if (this.attrs.onCreate) {
+                this.onCreate(term, select);
+
+                // clear select search
+                select.actions.search('');
+            }
         },
 
         handleKeydown(select, event) {

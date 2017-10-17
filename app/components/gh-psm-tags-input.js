@@ -16,7 +16,8 @@ export default Component.extend({
     }),
 
     actions: {
-        addTag(tagName, index) {
+        addTag(tagName, /* select */) {
+        createTag(tagName, /* select */) {
             let currentTags = this.get('post.tags');
             let currentTagNames = currentTags.map((tag) => {
                 return tag.get('name').toLowerCase();
@@ -49,7 +50,7 @@ export default Component.extend({
 
                 // push tag onto post relationship
                 if (tagToAdd) {
-                    this.get('post.tags').insertAt(index, tagToAdd);
+                    this.get('post.tags').pushObject(tagToAdd);
                 }
             });
         },

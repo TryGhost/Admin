@@ -1,20 +1,20 @@
 {{!--
     TODO:
     - don't display dropdown when input is empty
-    - allow creation of tokens
     - ensure input is empty after selection
     - allow input to move between tokens using cursor
 --}}
 
-{{#power-select-multiple
+{{#power-select-multiple-with-create
     options=tokensWithoutSelected
     selected=selectedTokens
     searchField="name"
     closeOnSelect=false
     renderInPlace=renderInPlace
     onchange=(action "onChange")
+    oncreate=(action "onCreate")
     onkeydown=(action "handleKeydown")
-    as |token|
+    as |token term|
 }}
     {{get token labelPath}}
-{{/power-select-multiple}}
+{{/power-select-multiple-with-create}}

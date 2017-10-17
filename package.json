@@ -83,6 +83,7 @@
     "ember-one-way-controls": "2.0.1",
     "ember-power-datepicker": "0.4.0",
     "ember-power-select": "1.9.9",
+    "ember-power-select-with-create": "0.4.5",
     "ember-resolver": "4.5.0",
     "ember-responsive": "2.0.5",
     "ember-route-action-helper": "2.0.6",
