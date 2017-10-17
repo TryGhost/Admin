@@ -152,3 +152,30 @@
 .ember-power-select-option[aria-current="true"] {
 
 }
+
+
+/* Multiple */
+.ember-power-select-multiple-trigger {
+    background: #fff;
+    padding: 5px;
+    border: rgb(214, 227, 235) 1px solid;
+    border-radius: 3px;
+}
+
+.ember-power-select-multiple-option {
+    margin: 2px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border: 0;
+    background: #3eb0ef;
+    color: white;
+}
+
+.ember-power-select-trigger-multiple-input {
+    height: 24px;
+    margin: 2px;
+}
+
+.ember-power-select-status-icon {
+    right: 10px;
+}

@@ -9,6 +9,7 @@ export default Component.extend({
 
     // public attrs
     post: null,
+    tagName: '',
 
     // live-query of all tags for tag input autocomplete
     availableTags: computed(function () {
