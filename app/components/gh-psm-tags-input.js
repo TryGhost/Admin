@@ -15,9 +15,19 @@ export default Component.extend({
         return this.get('store').filter('tag', {limit: 'all'}, () => true);
     }),
 
+    availableTagNames: computed('availableTags.@each.name', function () {
+        return this.get('availableTags').map((tag) => {
+            return tag.get('name').toLowerCase();
+        });
+    }),
+
     actions: {
         matchTags(tagName, term) {
             return tagName.toLowerCase() === term.trim().toLowerCase();
+        },
+
+        hideCreateOptionOnMatchingTag(term) {
+            return !this.get('availableTagNames').includes(term.toLowerCase());
         },
 
         updateTags(newTags) {

@@ -3,6 +3,7 @@
     {{gh-token-input
         selectedTokens=post.tags
         availableTokens=availableTags
+        showCreateWhen=(action "hideCreateOptionOnMatchingTag")
         onChange=(action "updateTags")
         onCreate=(action "createTag")
         renderInPlace=true
