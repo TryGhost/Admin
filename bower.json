@@ -11,7 +11,6 @@
     "normalize.css": "3.0.3",
     "pretender": "1.1.0",
     "rangyinputs": "1.2.0",
-    "selectize": "~0.12.1",
     "validator-js": "3.39.0"
   }
 }

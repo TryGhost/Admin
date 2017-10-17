@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
-import {guidFor} from '@ember/object/internals';
 import {inject as service} from '@ember/service';
 
 export default Component.extend({
@@ -46,11 +45,6 @@ export default Component.extend({
                     tagToAdd = this.get('store').createRecord('tag', {
                         name: tagName
                     });
-
-                    // we need to set a UUID so that selectize has a unique value
-                    // it will be ignored when sent to the server
-                    // TODO: uuid not needed once moved to EPS
-                    tagToAdd.set('uuid', guidFor(tagToAdd));
                 }
 
                 // push tag onto post relationship

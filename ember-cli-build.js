@@ -157,9 +157,6 @@ module.exports = function (defaults) {
                 import: ['simplemde.js', 'simplemde.css']
             }
         },
-        'ember-cli-selectize': {
-            theme: false
-        },
         svg: {
             paths: [
                 'public/assets/icons'

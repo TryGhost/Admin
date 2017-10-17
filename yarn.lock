@@ -3393,15 +3393,6 @@ ember-cli-pretender@1.0.1:
     pretender "^1.4.2"
     resolve "^1.2.0"
 
-ember-cli-selectize@0.5.12:
-  version "0.5.12"
-  resolved "https://registry.yarnpkg.com/ember-cli-selectize/-/ember-cli-selectize-0.5.12.tgz#38af65b12d01d8ff20ba252235105bed10b7111a"
-  dependencies:
-    ember-cli-babel "^5.1.6"
-    ember-cli-import-polyfill "^0.2.0"
-    ember-getowner-polyfill "^1.1.1"
-    ember-new-computed "^1.0.0"
-
 ember-cli-shims@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-cli-shims/-/ember-cli-shims-1.1.0.tgz#0e3b8a048be865b4f81cc81d397ff1eeb13f75b6"
@@ -3853,12 +3844,6 @@ ember-native-dom-helpers@0.5.4, ember-native-dom-helpers@^0.5.3:
   dependencies:
     broccoli-funnel "^1.1.0"
     ember-cli-babel "^6.6.0"
-
-ember-new-computed@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ember-new-computed/-/ember-new-computed-1.0.3.tgz#592af8a778e0260ce7e812687c3aedface1622bf"
-  dependencies:
-    ember-cli-babel "^5.1.5"
 
 ember-one-way-controls@2.0.1:
   version "2.0.1"
