@@ -184,10 +184,6 @@ module.exports = function (defaults) {
     app.import('bower_components/devicejs/lib/device.js');
     app.import('bower_components/google-caja/html-css-sanitizer-bundle.js');
 
-    if (app.env !== 'production') {
-        app.import(`${app.bowerDirectory}/jquery.simulate.drag-sortable/jquery.simulate.drag-sortable.js`, {type: 'test'});
-    }
-
     // pull things we rely on via lazy-loading into the test-support.js file so
     // that tests don't break when running via http://localhost:4200/tests
     if (app.env === 'development') {
