@@ -27,7 +27,7 @@ export default Component.extend({
             });
 
             // update tags
-            this.set('post.tags', newTags);
+            return this.set('post.tags', newTags);
         },
 
         createTag(tagName, /* select */) {
@@ -35,8 +35,7 @@ export default Component.extend({
             let currentTagNames = currentTags.map((tag) => {
                 return tag.get('name').toLowerCase();
             });
-            let availableTagNames,
-                tagToAdd;
+            let tagToAdd;
 
             tagName = tagName.trim();
 
@@ -45,27 +44,30 @@ export default Component.extend({
                 return;
             }
 
-            this.get('availableTags').then((availableTags) => {
-                availableTagNames = availableTags.map((tag) => {
-                    return tag.get('name').toLowerCase();
-                });
+            // add existing tag or create new one
+            return this._findTagByName(tagName).then((matchedTag) => {
+                tagToAdd = matchedTag;
 
-                // find existing tag or create new
-                if (availableTagNames.includes(tagName.toLowerCase())) {
-                    tagToAdd = availableTags.find((tag) => {
-                        return tag.get('name').toLowerCase() === tagName.toLowerCase();
-                    });
-                } else {
+                // create new tag if no match
+                if (!tagToAdd) {
                     tagToAdd = this.get('store').createRecord('tag', {
                         name: tagName
                     });
                 }
 
                 // push tag onto post relationship
-                if (tagToAdd) {
-                    this.get('post.tags').pushObject(tagToAdd);
-                }
+                return currentTags.pushObject(tagToAdd);
             });
         }
+    },
+
+    // methods
+
+    _findTagByName(name) {
+        return this.get('availableTags').then((availableTags) => {
+            return availableTags.find((tag) => {
+                return tag.get('name').toLowerCase() === name.toLowerCase();
+            });
+        });
     }
 });
