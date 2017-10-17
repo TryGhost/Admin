@@ -182,16 +182,7 @@ module.exports = function (defaults) {
     app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
     app.import('bower_components/keymaster/keymaster.js');
     app.import('bower_components/devicejs/lib/device.js');
-
-    // jquery-ui partial build
-    app.import('bower_components/jquery-ui/ui/core.js');
-    app.import('bower_components/jquery-ui/ui/widget.js');
-    app.import('bower_components/jquery-ui/ui/mouse.js');
-    app.import('bower_components/jquery-ui/ui/draggable.js');
-    app.import('bower_components/jquery-ui/ui/droppable.js');
-    app.import('bower_components/jquery-ui/ui/sortable.js');
     app.import('bower_components/google-caja/html-css-sanitizer-bundle.js');
-    app.import('bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.js');
 
     if (app.env !== 'production') {
         app.import(`${app.bowerDirectory}/jquery.simulate.drag-sortable/jquery.simulate.drag-sortable.js`, {type: 'test'});
