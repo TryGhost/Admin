@@ -16,7 +16,20 @@ export default Component.extend({
     }),
 
     actions: {
-        addTag(tagName, /* select */) {
+        updateTags(newTags) {
+            let currentTags = this.get('post.tags');
+
+            // destroy new+unsaved tags that are no longer selected
+            currentTags.forEach(function (tag) {
+                if (!newTags.includes(tag) && tag.get('isNew')) {
+                    tag.destroyRecord();
+                }
+            });
+
+            // update tags
+            this.set('post.tags', newTags);
+        },
+
         createTag(tagName, /* select */) {
             let currentTags = this.get('post.tags');
             let currentTagNames = currentTags.map((tag) => {
@@ -53,14 +66,6 @@ export default Component.extend({
                     this.get('post.tags').pushObject(tagToAdd);
                 }
             });
-        },
-
-        removeTag(tag) {
-            this.get('post.tags').removeObject(tag);
-
-            if (tag.get('isNew')) {
-                tag.destroyRecord();
-            }
         }
     }
 });
