@@ -32,6 +32,12 @@ export default Component.extend({
     }),
 
     actions: {
+        hideCreateOptionOnSameTerm(term) {
+            let searchField = this.get('searchField');
+            let existingOption = this.get('availableTokens').findBy(searchField, term);
+            return !existingOption;
+        },
+
         onChange(tokens) {
             this._update(tokens);
         },
