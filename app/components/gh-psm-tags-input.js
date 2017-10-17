@@ -16,6 +16,10 @@ export default Component.extend({
     }),
 
     actions: {
+        matchTags(tagName, term) {
+            return tagName.toLowerCase() === term.trim().toLowerCase();
+        },
+
         updateTags(newTags) {
             let currentTags = this.get('post.tags');
 

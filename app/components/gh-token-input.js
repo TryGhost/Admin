@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
+import {defaultMatcher} from 'ember-power-select/utils/group-utils';
 import {isBlank} from '@ember/utils';
 import {task} from 'ember-concurrency';
 
@@ -10,6 +11,7 @@ export default Component.extend({
     // public attrs
     availableTokens: null,
     labelPath: 'name',
+    matcher: defaultMatcher,
     renderInPlace: false,
     searchField: 'name',
     selectedTokens: null,
