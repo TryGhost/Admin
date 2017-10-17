@@ -9,40 +9,39 @@ const BACKSPACE = 8;
 export default Component.extend({
 
     // public attrs
-    availableTokens: null,
     labelPath: 'name',
     matcher: defaultMatcher,
-    renderInPlace: false,
+    options: null,
     searchField: 'name',
-    selectedTokens: null,
+    selected: null,
     tagName: '',
 
     // closure actions
-    onChange() {},
-    onCreate() {},
+    onchange() {},
+    oncreate() {},
 
-    tokensWithoutSelected: computed('availableTokens.[]', 'selectedTokens.[]', function () {
-        return this.get('tokensWithoutSelectedTask').perform();
+    optionsWithoutSelected: computed('options.[]', 'selected.[]', function () {
+        return this.get('optionsWithoutSelectedTask').perform();
     }),
 
-    tokensWithoutSelectedTask: task(function* () {
-        let tokens = yield this.get('availableTokens');
-        let selected = yield this.get('selectedTokens');
-        return tokens.filter((t) => !selected.includes(t));
+    optionsWithoutSelectedTask: task(function* () {
+        let options = yield this.get('options');
+        let selected = yield this.get('selected');
+        return options.filter((o) => !selected.includes(o));
     }),
 
     actions: {
         hideCreateOptionOnSameTerm(term) {
             let searchField = this.get('searchField');
-            let existingOption = this.get('availableTokens').findBy(searchField, term);
+            let existingOption = this.get('options').findBy(searchField, term);
             return !existingOption;
         },
 
-        onChange(tokens) {
-            this._update(tokens);
+        onchange(options) {
+            this._update(options);
         },
 
-        onCreate(term, select) {
+        oncreate(term, select) {
             if (this.attrs.onCreate) {
                 this.onCreate(term, select);
 
@@ -74,11 +73,11 @@ export default Component.extend({
 
     // methods
 
-    _update(tokens) {
+    _update(options) {
         if (this.attrs.onChange) {
-            this.onChange(tokens);
+            this.onChange(options);
         } else {
-            this.set('selectedTokens', tokens);
+            this.set('selected', options);
         }
     }
 

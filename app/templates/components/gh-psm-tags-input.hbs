@@ -1,8 +1,8 @@
 <div class="form-group">
     <label for="tag-input">Tags</label>
     {{gh-token-input
-        selectedTokens=post.tags
-        availableTokens=availableTags
+        selected=post.tags
+        options=availableTags
         showCreateWhen=(action "hideCreateOptionOnMatchingTag")
         onChange=(action "updateTags")
         onCreate=(action "createTag")

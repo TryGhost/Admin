@@ -1,20 +1,23 @@
 {{!--
     TODO:
+    - drag-n-drop sorting
+    - allow all ember-power-select options to be specified
+    - only select "create" option when no partial matches exist
     - don't display dropdown when input is empty
     - ensure input is empty after selection
     - allow input to move between tokens using cursor
 --}}
 
 {{#power-select-multiple-with-create
-    options=tokensWithoutSelected
-    selected=selectedTokens
-    searchField="name"
+    options=optionsWithoutSelected
+    selected=selected
+    searchField=searchField
     closeOnSelect=false
     renderInPlace=renderInPlace
     matcher=matcher
     showCreateWhen=(or showCreateWhen (action "hideCreateOptionOnSameTerm"))
-    onchange=(action "onChange")
-    oncreate=(action "onCreate")
+    onchange=(action "onchange")
+    oncreate=(action "oncreate")
     onkeydown=(action "handleKeydown")
     as |token term|
 }}
