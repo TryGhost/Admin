@@ -4,6 +4,7 @@
     sortableObjectList=select.selected
     enableSort=true
     useSwap=false
+    sortEndAction=(action "reorderItems")
 }}
     {{#each select.selected as |opt idx|}}
         {{#draggable-object
