@@ -32,7 +32,21 @@ export default PowerSelectMultiple.extend({
             this._denyFocus(event);
         },
 
-        handleFocus() {
+        handleFocus(select, event) {
+            // allow shift-tab to tab back out of the input
+            let {relatedTarget, target} = event;
+            if (relatedTarget && relatedTarget.type === 'search' && relatedTarget.closest(`#${target.id}`)) {
+                let focusable = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                let newFocusIndex = [].indexOf.call(focusable, target) - 1;
+
+                // focus the last focusable element before the select if possible
+                if (newFocusIndex) {
+                    return focusable[newFocusIndex].focus();
+                }
+
+                return;
+            }
+
             if (this._canFocus) {
                 this._super(...arguments);
             }
