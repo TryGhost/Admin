@@ -6,7 +6,14 @@
     useSwap=false
 }}
     {{#each select.selected as |opt idx|}}
-        {{#draggable-object tagName="li" class="ember-power-select-multiple-option" content=opt isSortable=true}}
+        {{#draggable-object
+            tagName="li"
+            class="ember-power-select-multiple-option"
+            content=opt
+            isSortable=true
+            mouseDown=(action "handleOptionMouseDown")
+            touchStart=(action "handleOptionTouchStart")
+        }}
             {{#unless select.disabled }}
                 <span role="button"
                     aria-label="remove element"
