@@ -180,3 +180,8 @@
 .ember-power-select-status-icon {
     right: 10px;
 }
+
+/* Tag input */
+.tag-token--primary {
+    background: color(#3eb0ef lightness(-20%));
+}

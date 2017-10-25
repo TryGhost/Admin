@@ -7,15 +7,22 @@
     sortEndAction=(action "reorderItems")
 }}
     {{#each select.selected as |opt idx|}}
-        {{#draggable-object
+        {{#component (or extra.tokenComponent draggable-object)
             tagName="li"
             class="ember-power-select-multiple-option"
-            content=opt
+            select=select
+            option=(readonly opt)
+            idx=idx
             isSortable=true
             mouseDown=(action "handleOptionMouseDown")
             touchStart=(action "handleOptionTouchStart")
         }}
-            {{#unless select.disabled }}
+            {{#if selectedItemComponent}}
+                {{component selectedItemComponent option=(readonly opt) select=(readonly select)}}
+            {{else}}
+                {{yield opt select}}
+            {{/if}}
+            {{#unless select.disabled}}
                 <span role="button"
                     aria-label="remove element"
                     class="ember-power-select-multiple-remove-btn"
@@ -23,12 +30,7 @@
                     &times;
                 </span>
             {{/unless}}
-            {{#if selectedItemComponent}}
-                {{component selectedItemComponent option=(readonly opt) select=(readonly select)}}
-            {{else}}
-                {{yield opt select}}
-            {{/if}}
-        {{/draggable-object}}
+        {{/component}}
     {{else}}
         {{#if (and placeholder (not searchEnabled))}}
             <span class="ember-power-select-placeholder">{{placeholder}}</span>

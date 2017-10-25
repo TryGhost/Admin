@@ -1,6 +1,6 @@
 {{!--
-    NOTE: this is lifted verbatim from ember-power-select but adapted to use
-    our own select component override
+    NOTE: changes from ember-power-select:
+    - `extra` has our custom drag-tracking actions assigned to it
  --}}
 {{#if (hasBlock "inverse")}}
   {{#gh-token-input/select
@@ -20,10 +20,10 @@
     dir=dir
     disabled=disabled
     dropdownClass=dropdownClass
-    extra=(hash
+    extra=(assign extra (hash
         optionMouseDown=(action "optionMouseDown")
         optionTouchStart=(action "optionTouchStart")
-    )
+    ))
     horizontalPosition=horizontalPosition
     initiallyOpened=initiallyOpened
     loadingMessage=loadingMessage
@@ -81,10 +81,10 @@
     dir=dir
     disabled=disabled
     dropdownClass=dropdownClass
-    extra=(hash
+    extra=(assign extra (hash
         optionMouseDown=(action "optionMouseDown")
         optionTouchStart=(action "optionTouchStart")
-    )
+    ))
     horizontalPosition=horizontalPosition
     initiallyOpened=initiallyOpened
     loadingMessage=loadingMessage

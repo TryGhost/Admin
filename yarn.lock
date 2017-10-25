@@ -3042,7 +3042,7 @@ ember-ajax@2.5.6:
   dependencies:
     ember-cli-babel "^5.1.5"
 
-ember-assign-helper@0.1.2:
+ember-assign-helper@0.1.2, ember-assign-helper@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ember-assign-helper/-/ember-assign-helper-0.1.2.tgz#3d1d575f3d4457b3662b214d4c6e671bd462cad0"
   dependencies:
