@@ -160,6 +160,7 @@
     padding: 5px;
     border: rgb(214, 227, 235) 1px solid;
     border-radius: 3px;
+    outline: none;
 }
 
 .ember-power-select-multiple-option {
