@@ -1,3 +1,4 @@
+/* global key */
 import Component from '@ember/component';
 import Ember from 'ember';
 import {A} from '@ember/array';
@@ -48,6 +49,22 @@ export default Component.extend({
 
             // fallback to default
             return true;
+        },
+
+        onfocus() {
+            key.setScope('gh-token-input');
+
+            if (this.get('onfocus')) {
+                this.get('onfocus')(...arguments);
+            }
+        },
+
+        onblur() {
+            key.setScope('default');
+
+            if (this.get('onblur')) {
+                this.get('onblur')(...arguments);
+            }
         }
     },
 
