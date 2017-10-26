@@ -1,7 +1,11 @@
 import Component from '@ember/component';
 import {A} from '@ember/array';
+import {
+    advanceSelectableOption,
+    defaultMatcher,
+    filterOptions
+} from 'ember-power-select/utils/group-utils';
 import {computed} from '@ember/object';
-import {defaultMatcher, filterOptions} from 'ember-power-select/utils/group-utils';
 import {get} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {task} from 'ember-concurrency';
@@ -137,6 +141,18 @@ export default Component.extend({
             return buildSuggestion(term);
         }
         return `Add "${term}"...`;
+    },
+
+    // always select the first item in the list that isn't the "Add x" option
+    defaultHighlighted(select) {
+        let {results} = select;
+        let option = advanceSelectableOption(results, undefined, 1);
+
+        if (results.length > 1 && option.__isSuggestion__) {
+            option = advanceSelectableOption(results, option, 1);
+        }
+
+        return option;
     }
 
 });
