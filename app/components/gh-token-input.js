@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import Ember from 'ember';
 import {A} from '@ember/array';
 import {
     advanceSelectableOption,
@@ -7,8 +8,11 @@ import {
 } from 'ember-power-select/utils/group-utils';
 import {computed} from '@ember/object';
 import {get} from '@ember/object';
+import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {task} from 'ember-concurrency';
+
+const {Handlebars} = Ember;
 
 const BACKSPACE = 8;
 
@@ -140,7 +144,7 @@ export default Component.extend({
         if (buildSuggestion) {
             return buildSuggestion(term);
         }
-        return `Add "${term}"...`;
+        return htmlSafe(`Add <strong>"${Handlebars.Utils.escapeExpression(term)}"...</strong>`);
     },
 
     // always select the first item in the list that isn't the "Add x" option
