@@ -25,6 +25,7 @@ export default Component.extend({
     labelField: 'name',
     matcher: defaultMatcher,
     searchField: 'name',
+    tagName: '',
     triggerComponent: 'gh-token-input/trigger',
 
     optionsWithoutSelected: computed('options.[]', 'selected.[]', function () {

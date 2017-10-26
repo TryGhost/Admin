@@ -65,7 +65,10 @@
                     }}
                 </div>
 
-                {{gh-psm-tags-input post=model}}
+                <div class="form-group">
+                    <label for="tag-input">Tags</label>
+                    {{gh-psm-tags-input post=model triggerId="tag-input"}}
+                </div>
 
                 {{#gh-form-group errors=model.errors hasValidated=model.hasValidated property="customExcerpt"}}
                     <label for="custom-excerpt">Excerpt</label>

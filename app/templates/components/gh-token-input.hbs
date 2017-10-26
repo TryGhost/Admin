@@ -1,11 +1,3 @@
-{{!--
-    TODO:
-    - only select "create" option when no partial matches exist
-    - don't display dropdown when input is empty
-    - ensure input is empty after selection
-    - allow input to move between tokens using cursor
---}}
-
 {{#gh-token-input/select-multiple
     afterOptionsComponent=afterOptionsComponent
     allowClear=allowClear
@@ -50,6 +42,7 @@
     tabindex=tabindex
     triggerClass=triggerClass
     triggerComponent=triggerComponent
+    triggerId=triggerId
     verticalPosition=verticalPosition
     as |option term|
 }}

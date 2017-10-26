@@ -1,14 +1,12 @@
-<div class="form-group">
-    <label for="tag-input">Tags</label>
-    {{gh-token-input
-        selected=post.tags
-        options=availableTags
-        showCreateWhen=(action "hideCreateOptionOnMatchingTag")
-        onchange=(action "updateTags")
-        oncreate=(action "createTag")
-        renderInPlace=true
-        extra=(hash
-            tokenComponent="gh-token-input/tag-token"
-        )
-    }}
-</div>
+{{gh-token-input
+    extra=(hash
+        tokenComponent="gh-token-input/tag-token"
+    )
+    onchange=(action "updateTags")
+    oncreate=(action "createTag")
+    options=availableTags
+    renderInPlace=true
+    selected=post.tags
+    showCreateWhen=(action "hideCreateOptionOnMatchingTag")
+    triggerId=triggerId
+}}
