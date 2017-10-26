@@ -44,7 +44,7 @@ export default Component.extend({
             return this.set('post.tags', newTags);
         },
 
-        createTag(tagName, /* select */) {
+        createTag(tagName) {
             let currentTags = this.get('post.tags');
             let currentTagNames = currentTags.map((tag) => {
                 return tag.get('name').toLowerCase();
