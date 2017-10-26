@@ -16,6 +16,7 @@ import {task} from 'ember-concurrency';
 const {Handlebars} = Ember;
 
 const BACKSPACE = 8;
+const TAB = 9;
 
 export default Component.extend({
 
@@ -45,6 +46,14 @@ export default Component.extend({
 
                 // prevent default
                 return false;
+            }
+
+            // Tab should work the same as Enter if there's a highlighted option
+            if (event.keyCode === TAB && !isBlank(event.target.value) && select.highlighted) {
+                if (!select.selected || select.selected.indexOf(select.highlighted) === -1) {
+                    select.actions.choose(select.highlighted, event);
+                    return false;
+                }
             }
 
             // fallback to default
