@@ -3,7 +3,7 @@ dist: trusty
 
 language: node_js
 node_js:
-  - "6" # TODO: put this back to 4, 6 is needed to install ember-drag-drop
+  - "4"
 
 env:
   global:
