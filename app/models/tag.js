@@ -1,9 +1,9 @@
 import Model from 'ember-data/model';
-import Service, {inject as service} from '@ember/service';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
 import {equal} from '@ember/object/computed';
 import {observer} from '@ember/object';
+import {inject as service} from '@ember/service';
 
 export default Model.extend(ValidationEngine, {
     validationType: 'tag',
