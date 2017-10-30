@@ -3625,9 +3625,9 @@ ember-data@2.16.2:
     silent-error "^1.0.0"
     testem "^1.15.0"
 
-ember-drag-drop@0.4.6:
+"ember-drag-drop@https://github.com/kevinansfield/ember-drag-drop.git#node-4":
   version "0.4.6"
-  resolved "https://registry.yarnpkg.com/ember-drag-drop/-/ember-drag-drop-0.4.6.tgz#f1101a288fd35d5127c13320650196004b2ea36b"
+  resolved "https://github.com/kevinansfield/ember-drag-drop.git#28d063ef5ccf613c5db556e4660db50b4557b68d"
   dependencies:
     ember-cli-babel "^5.2.4"
 

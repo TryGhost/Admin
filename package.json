@@ -69,7 +69,7 @@
     "ember-concurrency": "0.8.10",
     "ember-data": "2.16.2",
     "ember-data-filter": "1.13.0",
-    "ember-drag-drop": "0.4.6",
+    "ember-drag-drop": "https://github.com/kevinansfield/ember-drag-drop.git#node-4",
     "ember-element-resize-detector": "0.1.5",
     "ember-export-application-global": "2.0.0",
     "ember-fetch": "3.4.0",
