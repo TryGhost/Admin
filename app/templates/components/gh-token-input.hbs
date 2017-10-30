@@ -6,7 +6,7 @@
     ariaLabel=ariaLabel
     ariaLabelledBy=ariaLabelledBy
     beforeOptionsComponent=beforeOptionsComponent
-    class=class
+    class=(concat "gh-token-input " class)
     closeOnSelect=closeOnSelect
     defaultHighlighted=defaultHighlighted
     destination=destination
@@ -28,7 +28,7 @@
     onkeydown=(action "handleKeydown")
     onopen=onopen
     options=optionsWithoutSelected
-    optionsComponent=optionsComponent
+    optionsComponent=(or optionsComponent "power-select-vertical-collection-options")
     placeholder=placeholder
     registerAPI=registerAPI
     renderInPlace=renderInPlace

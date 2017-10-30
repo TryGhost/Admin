@@ -181,6 +181,11 @@
     right: 10px;
 }
 
+/* Token input */
+.gh-token-input .ember-power-select-options {
+    max-height: 172px; /* 5.5 options */
+}
+
 /* Tag input */
 .tag-token--primary {
     background: color(#3eb0ef lightness(-20%));
