@@ -347,35 +347,23 @@ describe('Acceptance: Settings - General', function () {
         });
 
         it('handles social blog settings correctly', async function () {
-            let testFacebookValidation = async function(input, expectedValue, expectedError = '') {
-                await fillIn('[data-test-facebook-input]', input);
-                await triggerEvent('[data-test-facebook-input]', 'blur');
+            let testSocialInput = async function(type, input, expectedValue, expectedError = '') {
+                await fillIn(`[data-test-${type}-input]`, input);
+                await triggerEvent(`[data-test-${type}-input]`, 'blur');
 
                 expect(
-                    find('[data-test-facebook-input]').val(),
-                    `facebook value for ${input}`
+                    find(`[data-test-${type}-input]`).val(),
+                    `${type} value for ${input}`
                 ).to.equal(expectedValue);
 
                 expect(
-                    find('[data-test-facebook-error]').text().trim(),
-                    `facebook validation response for ${input}`
+                    find(`[data-test-${type}-error]`).text().trim(),
+                    `${type} validation response for ${input}`
                 ).to.equal(expectedError);
             };
 
-            let testTwitterValidation = async function(input, expectedValue, expectedError = '') {
-                await fillIn('[data-test-twitter-input]', input);
-                await triggerEvent('[data-test-twitter-input]', 'blur');
-
-                expect(
-                    find('[data-test-twitter-input]').val(),
-                    `twitter value for ${input}`
-                ).to.equal(expectedValue);
-
-                expect(
-                    find('[data-test-twitter-error]').text().trim(),
-                    `twitter validation response for ${input}`
-                ).to.equal(expectedError);
-            };
+            let testFacebookValidation = async (...args) => testSocialInput('facebook', ...args);
+            let testTwitterValidation = async (...args) => testSocialInput('twitter', ...args);
 
             await visit('/settings/general');
             await click('[data-test-toggle-social]');
