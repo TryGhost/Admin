@@ -360,6 +360,11 @@ describe('Acceptance: Settings - General', function () {
                     find(`[data-test-${type}-error]`).text().trim(),
                     `${type} validation response for ${input}`
                 ).to.equal(expectedError);
+
+                expect(
+                    find(`[data-test-${type}-input]`).closest('.form-group').hasClass('error'),
+                    `${type} input should be in error state with '${input}'`
+                ).to.equal(!!expectedError);
             };
 
             let testFacebookValidation = async (...args) => testSocialInput('facebook', ...args);
