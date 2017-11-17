@@ -33,6 +33,14 @@ export default Controller.extend({
                 this.get('notifications').showAPIError(error);
                 throw error;
             }
+
+            // CASE: settings didn't save because of invalid data, we need to return
+            // and error to prevent `sendTestNotification` from proceeding to post
+            if (!error && slack.get('hasValidated') && slack.get('errors.url')) {
+                let error = new Error('Invalid Slack Webhook URL');
+
+                throw error;
+            }
         }
     }).drop(),
 
