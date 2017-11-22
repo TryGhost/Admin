@@ -3853,14 +3853,7 @@ ember-weakmap@^3.0.0, ember-weakmap@^3.1.0:
     debug "^3.1.0"
     ember-cli-babel "^6.3.0"
 
-ember-wormhole@0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.5.2.tgz#cc0ceb7db4f8b8da0fd852edc81d75cb1dcd92f1"
-  dependencies:
-    ember-cli-babel "^6.0.0"
-    ember-cli-htmlbars "^1.1.1"
-
-ember-wormhole@^0.5.1, ember-wormhole@^0.5.2:
+ember-wormhole@0.5.3, ember-wormhole@^0.5.1, ember-wormhole@^0.5.2:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.5.3.tgz#441fdd7729a3b5eed3b0103db84f0ab880ac7f87"
   dependencies:

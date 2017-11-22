@@ -92,7 +92,7 @@
     "ember-source": "2.16.2",
     "ember-test-selectors": "0.3.8",
     "ember-truth-helpers": "2.0.0",
-    "ember-wormhole": "0.5.2",
+    "ember-wormhole": "0.5.3",
     "emberx-file-input": "1.1.2",
     "eslint-plugin-ember": "4.6.2",
     "eslint-plugin-ember-suave": "1.0.0",
