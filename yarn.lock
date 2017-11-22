@@ -1173,7 +1173,7 @@ bower-endpoint-parser@0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/bower-endpoint-parser/-/bower-endpoint-parser-0.2.2.tgz#00b565adbfab6f2d35addde977e97962acbcb3f6"
 
-bower@1.8.2, bower@^1.8.2:
+bower@1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.2.tgz#adf53529c8d4af02ef24fb8d5341c1419d33e2f7"
 
@@ -2877,7 +2877,7 @@ ember-assign-helper@0.1.2:
   dependencies:
     ember-cli-babel "^6.0.0-beta.9"
 
-ember-basic-dropdown@^0.33.2, ember-basic-dropdown@^0.33.9:
+ember-basic-dropdown@^0.33.10, ember-basic-dropdown@^0.33.2:
   version "0.33.10"
   resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-0.33.10.tgz#6c08f9a83e5d657144fd5b0d6a3e170ee269587e"
   dependencies:
@@ -3384,7 +3384,7 @@ ember-composable-helpers@2.0.3, ember-composable-helpers@^2.0.1:
     broccoli-funnel "^1.0.1"
     ember-cli-babel "^6.1.0"
 
-ember-concurrency@0.8.12, ember-concurrency@^0.8.1:
+ember-concurrency@0.8.12, ember-concurrency@^0.8.1, ember-concurrency@^0.8.12:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-0.8.12.tgz#fb91180e5efeb1024cfa2cfb99d2fe6721930c91"
   dependencies:
@@ -3671,15 +3671,14 @@ ember-power-datepicker@0.4.0:
     ember-cli-htmlbars "^2.0.1"
     ember-power-calendar "^0.5.0"
 
-ember-power-select@1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-1.10.1.tgz#c4978638b78a82a895a79e3231f1e7a25b18e86c"
+ember-power-select@1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-1.10.2.tgz#db91dc6bfde583bb873d3146bddf9226e10b9d5b"
   dependencies:
-    bower "^1.8.2"
-    ember-basic-dropdown "^0.33.9"
-    ember-cli-babel "^6.8.2"
+    ember-basic-dropdown "^0.33.10"
+    ember-cli-babel "^6.9.0"
     ember-cli-htmlbars "^2.0.1"
-    ember-concurrency "^0.8.1"
+    ember-concurrency "^0.8.12"
     ember-text-measurer "^0.4.0"
     ember-truth-helpers "^2.0.0"
 
