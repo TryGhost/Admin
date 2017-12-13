@@ -74,6 +74,7 @@ describe('Integration: Component: gh-psm-tags-input', function() {
 
         await this.render(hbs`{{gh-psm-tags-input post=post}}`);
         await clickTrigger();
+        await wait();
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(4);
