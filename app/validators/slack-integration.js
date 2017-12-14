@@ -5,7 +5,7 @@ export default BaseValidator.create({
     properties: ['url'],
 
     url(model) {
-        let url = model.get('url');
+        let url = model.getWithDefault('url', '').trim();
         let hasValidated = model.get('hasValidated');
 
         // eslint-disable-next-line camelcase
