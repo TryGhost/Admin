@@ -337,3 +337,6 @@ input,
 .CodeMirror .CodeMirror-code .cm-string {
     color: color(#183691 l(+25%));
 }
+.ember-power-calendar-weekdays {
+    color: #fff;
+}
