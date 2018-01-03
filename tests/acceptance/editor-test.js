@@ -7,6 +7,7 @@ import startApp from '../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
 import {expect} from 'chai';
+import {timeout} from 'ember-concurrency';
 
 describe('Acceptance: Editor', function() {
     let application;
@@ -297,6 +298,7 @@ describe('Acceptance: Editor', function() {
             ).to.equal('Scheduled');
 
             await click('[data-test-publishmenu-cancel]');
+            await timeout(100);
 
             expect(
                 find('[data-test-publishmenu-scheduled]'),

@@ -217,8 +217,10 @@ describe('Acceptance: Settings - Tags', function () {
 
             await visit('/settings/tags/tag-1');
 
-            // second wait is needed for the vertical-collection to settle
+            // wait is needed for the vertical-collection to settle and for the
+            // background tags load to finish
             await wait();
+            await timeout(100);
 
             expect(currentURL(), 'URL after direct load').to.equal('/settings/tags/tag-1');
 
