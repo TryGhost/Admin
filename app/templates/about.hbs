@@ -16,19 +16,13 @@
             </div>
         </section>
 
-        {{#gh-upgrade-notification version=model.version as |upgradeCheck|}}
+        {{#if upgradeStatus.message}}
             <section class="gh-upgrade-notification">
                 <span>
-                    {{#if upgradeCheck.isRunning}}
-                        Checking for updates...
-                    {{else if upgradeCheck.isError}}
-                        Update check failed. <a href="https://github.com/TryGhost/Ghost/releases" target="_blank" rel="noopener">Click here</a> to see latest releases.
-                    {{else}}
-                        {{gh-format-html upgradeCheck.message}}
-                    {{/if}}
+                    {{upgradeStatus.message}}
                 </span>
             </section>
-        {{/gh-upgrade-notification}}
+        {{/if}}
 
         <section class="gh-credits">
             <h2>The People Who Made it Possible</h2>

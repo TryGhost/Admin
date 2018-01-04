@@ -1,7 +1,0 @@
-{{#if upgrades.isAllowed}}
-    {{yield (hash
-        isRunning=upgrades.check.isRunning
-        isError=upgrades.check.last.isError
-        message=upgrades.upgradeMessage
-    )}}
-{{/if}}

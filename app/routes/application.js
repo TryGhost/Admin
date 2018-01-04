@@ -174,6 +174,8 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                             serverNotifications.forEach((notification) => {
                                 if (notification.get('top') || notification.get('custom')) {
                                     this.get('notifications').handleNotification(notification, isDelayed);
+                                } else {
+                                    this.get('upgradeStatus').handleUpgradeNotification(notification);
                                 }
                             });
                         });
