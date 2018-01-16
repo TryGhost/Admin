@@ -77,6 +77,7 @@ const messageMap = {
 
 export default Controller.extend({
     application: controller(),
+    feature: service(),
     notifications: service(),
     router: service(),
     slugGenerator: service(),
