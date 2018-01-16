@@ -4,7 +4,8 @@ import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import moment from 'moment';
-import {BLANK_DOC} from 'ghost-admin/components/gh-markdown-editor';
+import {BLANK_DOC as BLANK_MARKDOWN} from 'ghost-admin/components/gh-markdown-editor';
+import {BLANK_DOC as BLANK_MOBILEDOC} from 'gh-koenig/components/gh-koenig';
 import {belongsTo, hasMany} from 'ember-data/relationships';
 import {compare} from '@ember/utils';
 import {computed} from '@ember/object';
@@ -69,6 +70,7 @@ function publishedAtCompare(postA, postB) {
 
 export default Model.extend(Comparable, ValidationEngine, {
     config: service(),
+    feature: service(),
     ghostPaths: service(),
     clock: service(),
     settings: service(),
@@ -93,7 +95,7 @@ export default Model.extend(Comparable, ValidationEngine, {
     locale: attr('string'),
     metaDescription: attr('string'),
     metaTitle: attr('string'),
-    mobiledoc: attr('json-string', {defaultValue: () => BLANK_DOC}),
+    mobiledoc: attr('json-string'),
     page: attr('boolean', {defaultValue: false}),
     plaintext: attr('string'),
     publishedAtUTC: attr('moment-utc'),

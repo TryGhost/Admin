@@ -91,6 +91,9 @@ export default Controller.extend({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
 
+    // koenig related properties
+    wordcount: 0,
+
     /* private properties ----------------------------------------------------*/
 
     // set by setPost and _postSaved, used in hasDirtyAttributes
@@ -241,6 +244,11 @@ export default Controller.extend({
 
         toggleReAuthenticateModal() {
             this.toggleProperty('showReAuthenticateModal');
+        },
+
+        // TODO: this should be part of the koenig component
+        setWordcount(count) {
+            this.set('wordcount', count);
         }
     },
 
