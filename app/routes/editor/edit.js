@@ -20,7 +20,7 @@ export default AuthenticatedRoute.extend({
         this._super(...arguments);
 
         return this.get('session.user').then((user) => {
-            if (user.get('isAuthor') && !post.isAuthoredByUser(user)) {
+            if (user.get('isAuthorOrContributor') && !post.isAuthoredByUser(user)) {
                 return this.replaceWith('posts.index');
             }
         });

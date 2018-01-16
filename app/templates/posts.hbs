@@ -7,6 +7,7 @@
     </header>
     <div class="gh-contentfilter">
         <div class="gh-contentfilter-left">
+            {{#unless session.user.isContributor}}
             {{#power-select
                 selected=selectedType
                 options=availableTypes
@@ -22,8 +23,9 @@
             }}
                 {{type.name}}
             {{/power-select}}
+            {{/unless}}
 
-            {{#unless session.user.isAuthor}}
+            {{#unless session.user.isAuthorOrContributor}}
             {{#power-select
                 selected=selectedAuthor
                 options=availableAuthors
