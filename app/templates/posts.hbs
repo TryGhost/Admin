@@ -44,6 +44,7 @@
             {{/power-select}}
             {{/unless}}
 
+            {{#unless session.user.isContributor}}
             {{#power-select
                 selected=selectedTag
                 options=availableTags
@@ -61,6 +62,7 @@
             }}
                 {{tag.name}}
             {{/power-select}}
+            {{/unless}}
         </div>
 
         <div class="gh-contentfilter-right">
