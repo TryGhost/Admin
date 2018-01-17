@@ -115,6 +115,28 @@ export default Model.extend(Comparable, ValidationEngine, {
         async: false
     }),
 
+    init() {
+        // we can't use the defaultValue property on the attr because it won't
+        // have access to `this` for the feature check so we do it manually here.
+        if (!this.get('mobiledoc')) {
+            let defaultValue;
+
+            if (this.get('feature.koenigEditor')) {
+                defaultValue = BLANK_MOBILEDOC;
+            } else {
+                defaultValue = BLANK_MARKDOWN;
+            }
+
+            // using this.set() adds the property to the changedAttributes list
+            // which means the editor always sees new posts as dirty. Assigning
+            // the value directly works around that so you can exit the editor
+            // without a warning
+            this.mobiledoc = defaultValue;
+        }
+
+        this._super(...arguments);
+    },
+
     scratch: null,
     titleScratch: null,
 
