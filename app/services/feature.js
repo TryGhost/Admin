@@ -19,7 +19,7 @@ export function feature(name, options = {}) {
             } else if (this.get(`config.${name}`)) {
                 enabled = this.get(`config.${name}`);
             } else {
-                enabled = this.get(`labd.${name}`) || false;
+                enabled = this.get(`labs.${name}`) || false;
             }
 
             if (options.developer) {
