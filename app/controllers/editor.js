@@ -650,10 +650,16 @@ export default Controller.extend({
         }
 
         // scratch isn't an attr so needs a manual dirty check
-        let mobiledoc = JSON.stringify(post.get('mobiledoc'));
-        let scratch = JSON.stringify(post.get('scratch'));
-        if (scratch !== mobiledoc) {
-            return true;
+        let mobiledoc = post.get('mobiledoc');
+        let scratch = post.get('scratch');
+        // additional guard in case we are trying to compare null with undefined
+        if (scratch || mobiledoc) {
+            let mobiledocJSON = JSON.stringify(mobiledoc);
+            let scratchJSON = JSON.stringify(scratch);
+
+            if (scratchJSON !== mobiledocJSON) {
+                return true;
+            }
         }
 
         // new+unsaved posts always return `hasDirtyAttributes: true`
