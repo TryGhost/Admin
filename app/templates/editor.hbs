@@ -39,9 +39,15 @@
                         NOTE: the mobiledoc property is unbound so that the setting the
                         serialized version onChange doesn't cause a deserialization and
                         re-render of the editor on every key press / editor change
+
+                        TODO: note above is no longer correct, changed to readonly to
+                        fix a persistent editor content bug that occurred due to the
+                        editor not being re-rendered on edit->new transition.
+
+                        Needs perf investigation!
                     --}}
                     {{#gh-koenig
-                        mobiledoc=(unbound model.scratch)
+                        mobiledoc=(readonly model.scratch)
                         onChange=(action "updateScratch")
                         autofocus=shouldFocusEditor
                         tabindex="2"
