@@ -53,11 +53,10 @@
                         {{koenig-title-input
                             id="koenig-title-input"
                             val=(readonly model.titleScratch)
-                            onChange=(action (mut model.titleScratch))
+                            onChange=(action "updateTitleScratch")
                             tabindex="1"
                             autofocus=shouldFocusTitle
-                            focus-out="updateTitle"
-                            update=(action (perform updateTitle))
+                            focusOut=(action (perform saveTitle))
                             editor=(readonly koenig.editor)
                             editorHasRendered=koenig.hasRendered
                             editorMenuIsOpen=koenig.isMenuOpen
