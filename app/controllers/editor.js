@@ -495,7 +495,7 @@ export default Controller.extend({
                 alert('This post will be opened with the Koenig editor because it\'s not compatible with the markdown editor');
             }
         } else {
-            this.get('useKoenig', false);
+            this.set('useKoenig', false);
         }
 
         // autofocus the editor if we have a new post, this also acts as a
