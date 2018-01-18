@@ -5,9 +5,9 @@
 
 <div class="modal-body">
     {{#if user.count.posts}}
-        <strong>WARNING:</strong> <span class="red">This user is the author of {{pluralize user.count.posts 'post'}}.</span> All posts and user data will be deleted. There is no way to recover this.
+        <strong>WARNING:</strong> <span class="red">This user is the author of {{pluralize user.count.posts 'post'}}.</span> All user data and posts by this user will be deleted. There is no way to recover this.
     {{else}}
-        <strong>WARNING:</strong> All user data will be deleted. There is no way to recover this.
+        <strong>WARNING:</strong> All user data and posts by this user will be deleted. There is no way to recover this.
     {{/if}}
 </div>
 
