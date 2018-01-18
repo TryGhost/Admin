@@ -90,6 +90,7 @@ export default Controller.extend({
     showDeletePostModal: false,
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
+    useKoenig: false,
 
     // koenig related properties
     wordcount: 0,
@@ -481,6 +482,22 @@ export default Controller.extend({
 
     // called by the new/edit routes to change the post model
     setPost(post) {
+        // switch between markdown/koenig depending on feature flag and post
+        // compatibility
+        let koenigEnabled = this.get('feature.koenigEditor');
+        let postIsMarkdownCompatible = post.isCompatibleWithMarkdownEditor();
+        if (koenigEnabled || !postIsMarkdownCompatible) {
+            this.set('useKoenig', true);
+
+            // display an alert if koenig is disabled but we use it anyway
+            // because the post is incompatible with the markdown editor
+            if (!koenigEnabled) {
+                alert('This post will be opened with the Koenig editor because it\'s not compatible with the markdown editor');
+            }
+        } else {
+            this.get('useKoenig', false);
+        }
+
         // autofocus the editor if we have a new post, this also acts as a
         // change signal to the persistent editor on new->edit
         this.set('shouldFocusEditor', post.get('isNew'));

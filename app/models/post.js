@@ -337,5 +337,25 @@ export default Model.extend(Comparable, ValidationEngine, {
         let publishedAtBlogTZ = this.get('publishedAtBlogTZ');
         let publishedAtUTC = publishedAtBlogTZ ? publishedAtBlogTZ.utc() : null;
         this.set('publishedAtUTC', publishedAtUTC);
+    },
+
+    // the markdown editor expects a very specific mobiledoc format, if it
+    // doesn't match then we'll need to handle it by forcing Koenig
+    isCompatibleWithMarkdownEditor() {
+        let mobiledoc = this.get('mobiledoc');
+
+        if (
+            mobiledoc.markups.length === 0
+            && mobiledoc.cards.length === 1
+            && mobiledoc.cards[0][0] === 'card-markdown'
+            && mobiledoc.sections.length === 1
+            && mobiledoc.sections[0].length === 2
+            && mobiledoc.sections[0][0] === 10
+            && mobiledoc.sections[0][1] === 0
+        ) {
+            return true;
+        }
+
+        return false;
     }
 });
