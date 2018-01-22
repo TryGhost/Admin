@@ -5,10 +5,10 @@
 
 <div class="modal-body">
     {{#if user.count.posts}}
-        <p><strong>WARNING:</strong> There is no way to recover this.</p>
+        <p><strong>WARNING:</strong>  You are about to delete the user '<strong>{{user.name}}</strong>'. There is no way to recover this data.</p>
         <ul>
-            <li>User will not have access to this blog anymore</li>
-            <li>{{pluralize user.count.posts 'post'}} created by this user will be deleted</li>
+            <li>The user will not have access to this blog anymore</li>
+            <li><strong>{{pluralize user.count.posts 'post'}}</strong> created by this user will be deleted</li>
             <li>All other user data will be deleted</li>
         </ul>
     {{else}}
@@ -23,7 +23,7 @@
 <div class="modal-footer">
     <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
     {{#if user.count.posts}}
-        {{gh-task-button "Delete user and posts" successText="Deleted" task=deleteUser class="gh-btn gh-btn-red gh-btn-icon"}}
+        {{gh-task-button "Delete user and their posts" successText="Deleted" task=deleteUser class="gh-btn gh-btn-red gh-btn-icon"}}
     {{else}}
         {{gh-task-button "Delete user" successText="Deleted" task=deleteUser class="gh-btn gh-btn-red gh-btn-icon"}}
     {{/if}}
