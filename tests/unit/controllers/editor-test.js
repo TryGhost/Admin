@@ -14,6 +14,7 @@ describe('Unit: Controller: editor', function () {
             'service:notifications',
             // 'service:router',
             'service:slugGenerator',
+            'service:session',
             'service:ui'
         ]
     });
