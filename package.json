@@ -122,7 +122,8 @@
   },
   "ember-addon": {
     "paths": [
-      "lib/asset-delivery"
+      "lib/asset-delivery",
+      "lib/koenig-editor"
     ]
   }
 }
