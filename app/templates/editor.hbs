@@ -33,44 +33,7 @@
         </header>
 
         {{#if useKoenig}}
-            <div class="gh-editor-container needsclick">
-                <div class="gh-editor-inner">
-                    {{!--
-                        NOTE: the mobiledoc property is unbound so that the setting the
-                        serialized version onChange doesn't cause a deserialization and
-                        re-render of the editor on every key press / editor change
-
-                        TODO: note above is no longer correct, changed to readonly to
-                        fix a persistent editor content bug that occurred due to the
-                        editor not being re-rendered on edit->new transition.
-
-                        Needs perf investigation!
-                    --}}
-                    {{#gh-koenig
-                        mobiledoc=(readonly model.scratch)
-                        onChange=(action "updateScratch")
-                        autofocus=shouldFocusEditor
-                        tabindex="2"
-                        titleSelector="#kg-title-input"
-                        containerSelector=".gh-editor-container"
-                        wordcountDidChange=(action "setWordcount")
-                        as |koenig|
-                    }}
-                        {{koenig-title-input
-                            id="koenig-title-input"
-                            val=(readonly model.titleScratch)
-                            onChange=(action "updateTitleScratch")
-                            tabindex="1"
-                            autofocus=shouldFocusTitle
-                            focusOut=(action (perform saveTitle))
-                            editor=(readonly koenig.editor)
-                            editorHasRendered=koenig.hasRendered
-                            editorMenuIsOpen=koenig.isMenuOpen
-                        }}
-                    {{/gh-koenig}}
-                </div>
-            </div>
-            <div class="gh-editor-wordcount">{{pluralize wordcount 'word'}}.</div>
+            <h1>Replace me with Koenig!</h1>
 
         {{else}}
 
