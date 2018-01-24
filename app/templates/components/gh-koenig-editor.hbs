@@ -1,7 +1,7 @@
 {{!-- scrollable container --}}
 <div class="gh-koenig-editor">
     {{!-- full height content pane --}}
-    <div class="gh-koenig-editor-pane">
+    <div class="gh-koenig-editor-pane" onclick={{action "focusEditor"}}>
         {{gh-textarea title
             class="gh-editor-title"
             placeholder=titlePlaceholder

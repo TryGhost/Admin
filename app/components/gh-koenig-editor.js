@@ -20,6 +20,13 @@ export default Component.extend({
     onBodyChange() {},
 
     actions: {
+        focusEditor(event) {
+            if (event.target.tagName === 'ARTICLE' && event.target.classList.contains('koenig-editor')) {
+                event.preventDefault();
+                this._editor.focus();
+            }
+        },
+
         /* title related actions -------------------------------------------- */
 
         onTitleCreated(titleElement) {

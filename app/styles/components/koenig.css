@@ -12,6 +12,9 @@
 
 /* padded container housing title + editor canvas */
 .gh-koenig-editor-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
     padding: 10vw 4vw;
 }
 
@@ -19,6 +22,14 @@
     .gh-koenig-editor-pane {
         padding: 15vw 4vw;
     }
+}
+
+/* use flex-grow to fill the available vertical space so clicks outside the
+   editor content can trigger focus */
+.gh-koenig-editor-pane .koenig-editor {
+    width: 100%;
+    flex-grow: 1;
+    cursor: text;
 }
 
 /* NOTE: everything from this point should be Koenig addon specific */
