@@ -1,4 +1,33 @@
+/* TODO: move these back into the editor.css layout? */
+
+/* scrollable container */
+.gh-koenig-editor {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* padded container housing title + editor canvas */
+.gh-koenig-editor-pane {
+    padding: 10vw 4vw;
+}
+
+@media (max-width: 500px) {
+    .gh-koenig-editor-pane {
+        padding: 15vw 4vw;
+    }
+}
+
+/* NOTE: everything from this point should be Koenig addon specific */
 /* Editor canvas layout ----------------------------------------------------- */
+
+.koenig-editor {
+    max-width: 760px;
+    margin: 0 auto;
+}
 
 /* Formatting Toolbar ------------------------------------------------------- */
 

@@ -33,9 +33,20 @@
         </header>
 
         {{#if useKoenig}}
-            {{#koenig-editor}}
-                <h1>Replace me with Koenig!</h1>
-            {{/koenig-editor}}
+            {{!--
+                gh-koenig-editor acts as a wrapper around the title input and
+                koenig editor canvas to support Ghost-specific editor behaviour
+            --}}
+            {{gh-koenig-editor
+                title=(readonly post.titleScratch)
+                titlePlaceholder="Story Title"
+                onTitleChange=(action "updateTitleScratch")
+                onTitleBlur=(action (perform saveTitle))
+                body=(readonly post.scratch)
+                bodyPlaceholder="Begin writing your story..."
+                bodyAutofocus=shouldFocusEditor
+                onBodyChange=(action "updateScratch")
+            }}
 
         {{else}}
 
