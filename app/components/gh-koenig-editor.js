@@ -48,7 +48,11 @@ export default Component.extend({
             // enter will always focus the editor
             // down arrow will only focus the editor when the cursor is at the
             // end of the input to preserve the default OS behaviour
-            if (event.key === 'Enter' || (event.key === 'ArrowDown' && (!value || selectionStart === value.length))) {
+            if (
+                event.key === 'Enter' ||
+                event.key === 'Tab' ||
+                (event.key === 'ArrowDown' && (!value || selectionStart === value.length))
+            ) {
                 event.preventDefault();
                 this._editor.focus();
             }
@@ -90,6 +94,15 @@ export default Component.extend({
                 }
 
                 return false;
+            }
+        });
+
+        // focus the title when pressing SHIFT+TAB
+        editor.registerKeyCommand({
+            str: 'SHIFT+TAB',
+            run() {
+                component._title.focus();
+                return true;
             }
         });
     }
