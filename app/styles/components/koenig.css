@@ -90,6 +90,11 @@
     white-space: nowrap;
 }
 
+/* override of global.css block display */
+.__mobiledoc-editor i {
+    display: inline;
+}
+
 .__mobiledoc-editor h1,
 .__mobiledoc-editor h2,
 .__mobiledoc-editor h3,
