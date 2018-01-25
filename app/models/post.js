@@ -344,8 +344,8 @@ export default Model.extend(Comparable, ValidationEngine, {
     isCompatibleWithMarkdownEditor() {
         let mobiledoc = this.get('mobiledoc');
 
-        if (
-            mobiledoc.markups.length === 0
+        if (mobiledoc
+            && mobiledoc.markups.length === 0
             && mobiledoc.cards.length === 1
             && mobiledoc.cards[0][0] === 'card-markdown'
             && mobiledoc.sections.length === 1

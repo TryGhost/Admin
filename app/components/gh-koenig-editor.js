@@ -52,8 +52,8 @@ export default Component.extend({
             this._setupEditor(editor);
         },
 
-        onBodyChange() {
-            this.onBodyChange();
+        onBodyChange(newMobiledoc) {
+            this.onBodyChange(newMobiledoc);
         }
     },
 
