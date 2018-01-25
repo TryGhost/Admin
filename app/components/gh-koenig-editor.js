@@ -42,8 +42,16 @@ export default Component.extend({
         },
 
         onTitleKeydown(event) {
-            // TODO: handle ENTER and DOWN keys
-            console.log('onTitleKeydown', event);
+            let value = event.target.value;
+            let selectionStart = event.target.selectionStart;
+
+            // enter will always focus the editor
+            // down arrow will only focus the editor when the cursor is at the
+            // end of the input to preserve the default OS behaviour
+            if (event.key === 'Enter' || (event.key === 'ArrowDown' && (!value || selectionStart === value.length))) {
+                event.preventDefault();
+                this._editor.focus();
+            }
         },
 
         /* body related actions --------------------------------------------- */
@@ -62,7 +70,27 @@ export default Component.extend({
     /* internal methods ----------------------------------------------------- */
 
     _setupEditor(editor) {
-        // TODO: add handling for UP key so that the title can be focused
+        let component = this;
+
         this._editor = editor;
+
+        // focus the title when pressing UP if cursor is at the beginning of doc
+        editor.registerKeyCommand({
+            str: 'UP',
+            run(editor) {
+                let cursorHead = editor.cursor.offsets.head;
+
+                if (
+                    editor.hasCursor()
+                    && cursorHead.offset === 0
+                    && (!cursorHead.section || !cursorHead.section.prev)
+                ) {
+                    component._title.focus();
+                    return true;
+                }
+
+                return false;
+            }
+        });
     }
 });
