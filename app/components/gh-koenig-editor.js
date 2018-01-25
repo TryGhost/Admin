@@ -20,10 +20,21 @@ export default Component.extend({
     onBodyChange() {},
 
     actions: {
+        // triggered when a click is registered on .gh-koenig-editor-pane
         focusEditor(event) {
+            // if a click occurs on the editor canvas, focus the editor and put
+            // the cursor at the end of the document. Allows for a much larger
+            // hit area for focusing the editor when it has no or little content
             if (event.target.tagName === 'ARTICLE' && event.target.classList.contains('koenig-editor')) {
+                let {post} = this._editor;
+                let range = post.toRange();
+
                 event.preventDefault();
+
                 this._editor.focus();
+                this._editor.run((postEditor) => {
+                    postEditor.setRange(range.tail.section.tailPosition());
+                });
             }
         },
 
