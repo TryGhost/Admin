@@ -29,7 +29,7 @@ export default OneWayTextarea.extend(TextInputMixin, {
         }
 
         if (this.get('didCreateTextarea')) {
-            this.get('didCreateTextarea', this.element);
+            this.get('didCreateTextarea')(this.element);
         }
     },
 
