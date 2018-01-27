@@ -47,8 +47,6 @@
 .koenig-toolbar {
     position: absolute;
     display: flex;
-    top: -10000px;
-    left: -10000px;
     align-items: center;
     text-align: center;
     user-select: none;
@@ -84,21 +82,11 @@
     border-left: transparent 10px solid;
     border-right: transparent 10px solid;
     border-top: color(var(--darkgrey) l(-10%)) 8px solid;
+    transition-property: left;
+    transition-duration: 100ms;
 }
 .koenig-toolbar.tick-above:after {
     border: none;
-}
-.koenig-toolbar.tick-full-left:after {
-    left: 25%;
-}
-.koenig-toolbar.tick-half-left:after {
-    left: 40%;
-}
-.koenig-toolbar.tick-full-right:after {
-    left: 75%;
-}
-.koenig-toolbar.tick-half-right:after {
-    left: 60%;
 }
 
 .koenig-toolbar.is-link {
