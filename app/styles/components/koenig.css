@@ -139,7 +139,8 @@
     stroke: color(var(--lightgrey) l(-10%));
 }
 
-.koenig-toolbar-btn:hover {
+.koenig-toolbar-btn:hover,
+.koenig-toolbar-btn.selected {
     color: #fff;
     cursor: pointer;
     text-shadow: #000 0 1px 6px;
