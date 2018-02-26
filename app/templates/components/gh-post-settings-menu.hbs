@@ -139,25 +139,27 @@
 
                 <div class="form-group for-checkbox">
                     <label class="checkbox" for="static-page" {{action "togglePage" bubbles="false"}}>
-                        {{one-way-checkbox post.page
+                        <input
+                            type="checkbox"
+                            checked={{post.page}}
+                            class="gh-input post-setting-static-page"
                             name="static-page"
                             id="static-page"
-                            class="gh-input post-setting-static-page"
-                            update=(action (mut post.page))
+                            onclick={{action (mut post.page) value="target.checked"}}
                             data-test-checkbox="static-page"
-                        }}
+                        >
                         <span class="input-toggle-component"></span>
                         <p>Turn this post into a page</p>
                     </label>
 
                     <label class="checkbox" for="featured" {{action "toggleFeatured" bubbles="false"}}>
-                        {{one-way-checkbox post.featured
-                            name="featured"
-                            id="featured"
-                            class="gh-input post-setting-featured"
-                            update=(action (mut post.featured))
+                        <input
+                            type="checkbox"
+                            checked={{post.featured}}
+                            class="gh-input post-settings-featured"
+                            onclick={{action (mut post.featured) value="target.checked"}}
                             data-test-checkbox="featured"
-                        }}
+                        >
                         <span class="input-toggle-component"></span>
                         <p>Feature this post</p>
                     </label>

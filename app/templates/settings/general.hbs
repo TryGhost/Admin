@@ -209,7 +209,13 @@
             <div class="gh-setting-action">
                 <div class="for-checkbox">
                     <label class="checkbox" for="settings-dated-permalinks">
-                        {{one-way-checkbox isDatedPermalinks id="settings-dated-permalinks" type="checkbox" update=(action (mut isDatedPermalinks)) data-test-dated-permalinks-checkbox=true}}
+                        <input
+                            type="checkbox"
+                            checked={{isDatedPermalinks}}
+                            id="settings-dated-permalinks"
+                            onclick={{action (mut isDatedPermalinks) value="target.checked"}}
+                            data-test-dated-permalinks-checkbox
+                        >
                         <span class="input-toggle-component"></span>
                     </label>
                 </div>
@@ -243,7 +249,13 @@
             <div class="gh-setting-action">
                 <div class="for-checkbox">
                     <label class="checkbox" for="settings-private">
-                        {{one-way-checkbox settings.isPrivate id="settings-private" type="checkbox" update=(action "toggleIsPrivate") data-test-private-checkbox=true}}
+                        <input
+                            type="checkbox"
+                            checked={{settings.isPrivate}}
+                            id="settings-private"
+                            onclick={{action "toggleIsPrivate" value="target.checked"}}
+                            data-test-private-checkbox
+                        >
                         <span class="input-toggle-component"></span>
                     </label>
                 </div>
