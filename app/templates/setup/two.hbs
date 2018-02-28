@@ -30,14 +30,14 @@
         <label for="name">Full name</label>
         <span class="gh-input-icon gh-icon-user">
             {{inline-svg "user-circle"}}
-            {{gh-input name
+            {{gh-text-input
                 tabindex="2"
-                type="text"
                 name="name"
                 placeholder="Eg. John H. Watson"
                 autocorrect="off"
+                value=(readonly name)
+                input=(action (mut name) value="target.value")
                 focusOut=(action "preValidate" "name")
-                update=(action (mut name))
                 data-test-name-input=true}}
         </span>
         {{gh-error-message errors=errors property="name"}}
@@ -47,14 +47,15 @@
         <label for="email">Email address</label>
         <span class="gh-input-icon gh-icon-mail">
             {{inline-svg "email"}}
-            {{gh-input email
+            {{gh-text-input
                 tabindex="3"
                 type="email"
                 name="email"
                 placeholder="Eg. john@example.com"
                 autocorrect="off"
+                value=(readonly email)
+                input=(action (mut email) value="target.value")
                 focusOut=(action "preValidate" "email")
-                update=(action (mut email))
                 data-test-email-input=true}}
         </span>
         {{gh-error-message errors=errors property="email"}}
@@ -64,14 +65,15 @@
         <label for="password">Password</label>
         <span class="gh-input-icon gh-icon-lock">
             {{inline-svg "lock"}}
-            {{gh-input password
+            {{gh-text-input
                 tabindex="4"
                 type="password"
                 name="password"
                 placeholder="At least 10 characters"
                 autocorrect="off"
+                value=(readonly password)
+                input=(action (mut password) value="target.value")
                 focusOut=(action "preValidate" "password")
-                update=(action (mut password))
                 data-test-password-input=true}}
         </span>
         {{gh-error-message errors=errors property="password"}}

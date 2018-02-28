@@ -18,13 +18,23 @@
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="name"}}
                 <label for="tag-name">Name</label>
-                {{gh-input scratchName id="tag-name" name="name" type="text" focusOut=(action 'setProperty' 'name' scratchName) update=(action (mut scratchName))}}
+                {{gh-text-input
+                    id="tag-name"
+                    name="name"
+                    value=(readonly scratchName)
+                    input=(action (mut scratchName) value="target.value")
+                    focusOut=(action 'setProperty' 'name' scratchName)}}
                 {{gh-error-message errors=tag.errors property="name"}}
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="slug"}}
                 <label for="tag-slug">URL</label>
-                {{gh-input scratchSlug id="tag-slug" name="slug" type="text" focusOut=(action 'setProperty' 'slug' scratchSlug) update=(action (mut scratchSlug))}}
+                {{gh-text-input
+                    value=(readonly scratchSlug)
+                    id="tag-slug"
+                    name="slug"
+                    focusOut=(action 'setProperty' 'slug' scratchSlug)
+                    input=(action (mut scratchSlug) value="target.value")}}
                 {{gh-url-preview prefix="tag" slug=scratchSlug tagName="p" classNames="description"}}
                 {{gh-error-message errors=activeTag.errors property="slug"}}
             {{/gh-form-group}}
@@ -64,7 +74,12 @@
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="metaTitle"}}
                 <label for="meta-title">Meta Title</label>
-                {{gh-input scratchMetaTitle id="meta-title" name="metaTitle" type="text" focusOut=(action 'setProperty' 'metaTitle' scratchMetaTitle) update=(action (mut scratchMetaTitle))}}
+                {{gh-text-input
+                    id="meta-title"
+                    name="metaTitle"
+                    value=(readonly scratchMetaTitle)
+                    input=(action (mut scratchMetaTitle) value="target.value")
+                    focusOut=(action 'setProperty' 'metaTitle' scratchMetaTitle)}}
                 {{gh-error-message errors=tag.errors property="metaTitle"}}
                 <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters scratchMetaTitle 70}}</p>
             {{/gh-form-group}}

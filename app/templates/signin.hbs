@@ -20,14 +20,15 @@
                 {{#gh-form-group errors=signin.errors hasValidated=hasValidated property="password"}}
                     <span class="gh-input-icon gh-icon-lock forgotten-wrap">
                         {{inline-svg "lock"}}
-                        {{gh-input signin.password
+                        {{gh-text-input
                             class="password"
                             type="password"
                             placeholder="Password"
                             name="password"
                             tabindex="2"
                             autocorrect="off"
-                            update=(action (mut signin.password))}}
+                            value=(readonly signin.password)
+                            input=(action (mut signin.password) value="target.value")}}
 
                         {{#gh-task-button
                             task=forgotten

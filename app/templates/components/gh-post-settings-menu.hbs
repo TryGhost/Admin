@@ -33,13 +33,14 @@
 
                     <div class="gh-input-icon gh-icon-link">
                         {{inline-svg "link"}}
-                        {{gh-input slugValue
+                        {{gh-text-input
                             class="post-setting-slug"
                             id="url"
                             name="post-setting-slug"
+                            value=(readonly slugValue)
+                            input=(action (mut slugValue) value="target.value")
                             focusOut=(action "updateSlug" slugValue)
-                            stopEnterKeyDownPropagation="true"
-                            update=(action (mut slugValue))}}
+                            stopEnterKeyDownPropagation=true}}
                     </div>
                     {{gh-url-preview slug=slugValue tagName="p" classNames="description"}}
                 </div>
@@ -191,13 +192,14 @@
                             <form {{action "discardEnter" on="submit"}}>
                                 {{#gh-form-group errors=post.errors hasValidated=post.hasValidated property="metaTitle"}}
                                     <label for="meta-title">Meta Title</label>
-                                    {{gh-input metaTitleScratch
+                                    {{gh-text-input
                                         class="post-setting-meta-title"
                                         id="meta-title"
                                         name="post-setting-meta-title"
+                                        value=(readonly metaTitleScratch)
+                                        input=(action (mut metaTitleScratch) value="target.value")
                                         focusOut=(action "setMetaTitle" metaTitleScratch)
-                                        stopEnterKeyDownPropagation="true"
-                                        update=(action (mut metaTitleScratch))
+                                        stopEnterKeyDownPropagation=true
                                         data-test-field="meta-title"}}
                                     <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters metaTitleScratch 70}}</p>
                                     {{gh-error-message errors=post.errors property="meta-title"}}
@@ -248,14 +250,15 @@
                                 }}
                                 {{#gh-form-group errors=post.errors hasValidated=post.hasValidated property="twitterTitle"}}
                                     <label for="twitter-title">Twitter Title</label>
-                                    {{gh-input twitterTitleScratch
+                                    {{gh-text-input
                                         class="post-setting-twitter-title"
                                         id="twitter-title"
                                         name="post-setting-twitter-title"
                                         placeholder=(truncate twitterTitle 40)
+                                        value=(readonly twitterTitleScratch)
+                                        input=(action (mut twitterTitleScratch) value="target.value")
                                         focusOut=(action "setTwitterTitle" twitterTitleScratch)
-                                        stopEnterKeyDownPropagation="true"
-                                        update=(action (mut twitterTitleScratch))
+                                        stopEnterKeyDownPropagation=true
                                         data-test-field="twitter-title"}}
                                     {{gh-error-message errors=post.errors property="twitterTitle" data-test-error="twitter-title"}}
                                 {{/gh-form-group}}
@@ -316,14 +319,15 @@
                                 }}
                                 {{#gh-form-group errors=post.errors hasValidated=post.hasValidated property="ogTitle"}}
                                     <label for="og-title">Facebook Title</label>
-                                    {{gh-input ogTitleScratch
+                                    {{gh-text-input
                                         class="post-setting-og-title"
                                         id="og-title"
                                         name="post-setting-og-title"
                                         placeholder=(truncate facebookTitle 40)
+                                        value=(readonly ogTitleScratch)
+                                        input=(action (mut ogTitleScratch) value="target.value")
                                         focusOut=(action "setOgTitle" ogTitleScratch)
-                                        stopEnterKeyDownPropagation="true"
-                                        update=(action (mut ogTitleScratch))
+                                        stopEnterKeyDownPropagation=true
                                         data-test-field="og-title"}}
                                     {{gh-error-message errors=post.errors property="ogTitle" data-test-error="og-title"}}
                                 {{/gh-form-group}}

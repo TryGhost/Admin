@@ -19,13 +19,13 @@
     {{/power-datepicker}}
 
     <div class="gh-date-time-picker-time {{if hasError "error"}}">
-        <input
-            value={{_time}}
-            oninput={{action (mut _time) value="target.value"}}
-            onblur={{action "setTime" _time}}
-            disabled={{disabled}}
-            data-test-date-time-pitcker-time-input
-        >
+        {{gh-text-input
+            value=(readonly _time)
+            input=(action (mut _time) value="target.value")
+            focusOut=(action "setTime" _time)
+            disabled=disabled
+            data-test-date-time-picker-time-input=true
+        }}
         <small class="gh-date-time-picker-timezone">({{timezone}})</small>
     </div>
 </div>
