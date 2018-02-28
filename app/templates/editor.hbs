@@ -85,7 +85,7 @@
                         autoExpand=".gh-markdown-editor-pane"
                         value=(readonly post.titleScratch)
                         input=(action "updateTitleScratch" value="target.value")
-                        focusOut=(action (perform saveTitle))
+                        focus-out=(action (perform saveTitle))
                         keyEvents=(hash
                             Tab=(action markdown.focus 'bottom')
                             Enter=(action markdown.focus 'top')

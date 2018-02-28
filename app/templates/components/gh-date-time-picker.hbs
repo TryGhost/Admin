@@ -22,7 +22,7 @@
         {{gh-text-input
             value=(readonly _time)
             input=(action (mut _time) value="target.value")
-            focusOut=(action "setTime" _time)
+            focus-out=(action "setTime" _time)
             disabled=disabled
             data-test-date-time-picker-time-input=true
         }}

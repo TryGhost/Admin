@@ -26,7 +26,7 @@
                         {{gh-text-input
                             value=(readonly settings.title)
                             input=(action (mut settings.title) value="target.value")
-                            focusOut=(action "validate" "title" target=settings)
+                            focus-out=(action "validate" "title" target=settings)
                             data-test-title-input=true
                         }}
                         {{gh-error-message errors=settings.errors property="title"}}
@@ -37,7 +37,7 @@
                         {{gh-text-input
                             value=(readonly settings.description)
                             input=(action (mut settings.description) value="target.value")
-                            focusOut=(action "validate" "description" target=settings)
+                            focus-out=(action "validate" "description" target=settings)
                             data-test-description-input=true
                         }}
                         {{gh-error-message errors=settings.errors property="description"}}
@@ -77,7 +77,7 @@
                         {{gh-text-input
                             value=(readonly settings.defaultLocale)
                             input=(action (mut settings.defaultLocale) value="target.value")
-                            focusOut=(action "validate" "defaultLocale" target=settings)
+                            focus-out=(action "validate" "defaultLocale" target=settings)
                             data-test-default-locale-input=true
                         }}
                         {{gh-error-message errors=settings.errors property="defaultLocale"}}
@@ -204,7 +204,7 @@
                             autocorrect="off"
                             value=(readonly settings.facebook)
                             input=(action (mut _scratchFacebook) value="target.value")
-                            focusOut=(action "validateFacebookUrl")
+                            focus-out=(action "validateFacebookUrl")
                             data-test-facebook-input=true
                         }}
                         {{gh-error-message errors=settings.errors property="facebook" data-test-facebook-error=true}}
@@ -217,7 +217,7 @@
                             autocorrect="off"
                             value=(readonly settings.twitter)
                             input=(action (mut _scratchTwitter) value="target.value")
-                            focusOut=(action "validateTwitterUrl")
+                            focus-out=(action "validateTwitterUrl")
                             data-test-twitter-input=true
                         }}
                         {{gh-error-message errors=settings.errors property="twitter" data-test-twitter-error=true}}
@@ -273,7 +273,7 @@
                             {{gh-text-input
                                 value=(readonly settings.password)
                                 name="general[password]"
-                                focusOut=(action "validate" "password" target=settings)
+                                focus-out=(action "validate" "password" target=settings)
                                 input=(action (mut settings.password) value="target.value")
                                 data-test-password-input=true
                             }}

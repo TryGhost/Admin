@@ -39,7 +39,7 @@
                             name="post-setting-slug"
                             value=(readonly slugValue)
                             input=(action (mut slugValue) value="target.value")
-                            focusOut=(action "updateSlug" slugValue)
+                            focus-out=(action "updateSlug" slugValue)
                             stopEnterKeyDownPropagation=true}}
                     </div>
                     {{gh-url-preview slug=slugValue tagName="p" classNames="description"}}
@@ -81,7 +81,7 @@
                         name="post-setting-custom-excerpt"
                         value=(readonly customExcerptScratch)
                         input=(action (mut customExcerptScratch) value="target.value")
-                        focusOut=(action "setCustomExcerpt" customExcerptScratch)
+                        focus-out=(action "setCustomExcerpt" customExcerptScratch)
                         stopEnterKeyDownPropagation="true"
                         data-test-field="custom-excerpt"}}
                     {{gh-error-message errors=post.errors property="customExcerpt" data-test-error="custom-excerpt"}}
@@ -199,7 +199,7 @@
                                         name="post-setting-meta-title"
                                         value=(readonly metaTitleScratch)
                                         input=(action (mut metaTitleScratch) value="target.value")
-                                        focusOut=(action "setMetaTitle" metaTitleScratch)
+                                        focus-out=(action "setMetaTitle" metaTitleScratch)
                                         stopEnterKeyDownPropagation=true
                                         data-test-field="meta-title"}}
                                     <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters metaTitleScratch 70}}</p>
@@ -214,7 +214,7 @@
                                         name="post-setting-meta-description"
                                         value=(readonly metaDescriptionScratch)
                                         input=(action (mut metaDescriptionScratch) value="target.value")
-                                        focusOut=(action "setMetaDescription" metaDescriptionScratch)
+                                        focus-out=(action "setMetaDescription" metaDescriptionScratch)
                                         stopEnterKeyDownPropagation="true"
                                         data-test-field="meta-description"}}
                                     <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters metaDescriptionScratch 156}}</p>
@@ -259,7 +259,7 @@
                                         placeholder=(truncate twitterTitle 40)
                                         value=(readonly twitterTitleScratch)
                                         input=(action (mut twitterTitleScratch) value="target.value")
-                                        focusOut=(action "setTwitterTitle" twitterTitleScratch)
+                                        focus-out=(action "setTwitterTitle" twitterTitleScratch)
                                         stopEnterKeyDownPropagation=true
                                         data-test-field="twitter-title"}}
                                     {{gh-error-message errors=post.errors property="twitterTitle" data-test-error="twitter-title"}}
@@ -275,7 +275,7 @@
                                         stopEnterKeyDownPropagation="true"
                                         value=(readonly twitterDescriptionScratch)
                                         input=(action (mut twitterDescriptionScratch) value="target.value")
-                                        focusOut=(action "setTwitterDescription" twitterDescriptionScratch)
+                                        focus-out=(action "setTwitterDescription" twitterDescriptionScratch)
                                         data-test-field="twitter-description"}}
                                     {{gh-error-message errors=post.errors property="twitterDescription" data-test-error="twitter-description"}}
                                 {{/gh-form-group}}
@@ -329,7 +329,7 @@
                                         placeholder=(truncate facebookTitle 40)
                                         value=(readonly ogTitleScratch)
                                         input=(action (mut ogTitleScratch) value="target.value")
-                                        focusOut=(action "setOgTitle" ogTitleScratch)
+                                        focus-out=(action "setOgTitle" ogTitleScratch)
                                         stopEnterKeyDownPropagation=true
                                         data-test-field="og-title"}}
                                     {{gh-error-message errors=post.errors property="ogTitle" data-test-error="og-title"}}
@@ -344,7 +344,7 @@
                                         placeholder=(truncate facebookDescription 160)
                                         value=(readonly ogDescriptionScratch)
                                         input=(action (mut ogDescriptionScratch) value="target.value")
-                                        focusOut=(action "setOgDescription" ogDescriptionScratch)
+                                        focus-out=(action "setOgDescription" ogDescriptionScratch)
                                         stopEnterKeyDownPropagation="true"
                                         data-test-field="og-description"}}
                                     {{gh-error-message errors=post.errors property="ogDescription" data-test-error="og-description"}}

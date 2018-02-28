@@ -132,7 +132,7 @@
                         autocorrect="off"
                         value=(readonly user.name)
                         input=(action (mut user.name) value="target.value")
-                        focusOut=(action "validate" "name" target=user)
+                        focus-out=(action "validate" "name" target=user)
                         data-test-name-input=true
                     }}
                     {{#if user.errors.name}}
@@ -153,7 +153,7 @@
                         autocorrect="off"
                         value=(readonly slugValue)
                         input=(action (mut slugValue) value="target.value")
-                        focusOut=(action (perform updateSlug slugValue))
+                        focus-out=(action (perform updateSlug slugValue))
                         data-test-slug-input=true
                     }}
                     <p>{{gh-blog-url}}/author/{{slugValue}}</p>
@@ -174,7 +174,7 @@
                             autocomplete="off"
                             value=(readonly user.email)
                             input=(action (mut user.email) value="target.value")
-                            focusOut=(action "validate" "email" target=user)
+                            focus-out=(action "validate" "email" target=user)
                             data-test-email-input=true}}
                         {{gh-error-message errors=user.errors property="email"}}
                     {{else}}
@@ -206,7 +206,7 @@
                         id="user-location"
                         value=(readonly user.location)
                         input=(action (mut user.location) value="target.value")
-                        focusOut=(action "validate" "location" target=user)
+                        focus-out=(action "validate" "location" target=user)
                         data-test-location-input=true}}
                     {{gh-error-message errors=user.errors property="location" data-test-location-error=true}}
                     <p>Where in the world do you live?</p>
@@ -222,7 +222,7 @@
                         autocomplete="off"
                         value=(readonly user.website)
                         input=(action (mut user.website) value="target.value")
-                        focusOut=(action "validate" "website" target=user)
+                        focus-out=(action "validate" "website" target=user)
                         data-test-website-input=true}}
                     {{gh-error-message errors=user.errors property="website" data-test-website-error=true}}
                     <p>Have a website or blog other than this one? Link it!</p>
@@ -238,7 +238,7 @@
                         name="user[facebook]"
                         value=(readonly user.facebook)
                         input=(action (mut _scratchFacebook) value="target.value")
-                        focusOut=(action "validateFacebookUrl")
+                        focus-out=(action "validateFacebookUrl")
                         data-test-facebook-input=true
                     }}
                     {{gh-error-message errors=user.errors property="facebook" data-test-facebook-error=true}}
@@ -255,7 +255,7 @@
                         name="user[twitter]"
                         value=(readonly user.twitter)
                         input=(action (mut _scratchTwitter) value="target.value")
-                        focusOut=(action "validateTwitterUrl")
+                        focus-out=(action "validateTwitterUrl")
                         data-test-twitter-input=true
                     }}
                     {{gh-error-message errors=user.errors property="twitter" data-test-twitter-error=true}}
@@ -268,7 +268,7 @@
                         id="user-bio"
                         value=(readonly user.bio)
                         input=(action (mut user.bio) value="target.value")
-                        focusOut=(action "validate" "bio" target=user)
+                        focus-out=(action "validate" "bio" target=user)
                         data-test-bio-input=true
                     }}
                     {{gh-error-message errors=user.errors property="bio" data-test-bio-error=true}}

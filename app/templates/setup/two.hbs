@@ -38,7 +38,7 @@
                 autocorrect="off"
                 value=(readonly name)
                 input=(action (mut name) value="target.value")
-                focusOut=(action "preValidate" "name")
+                focus-out=(action "preValidate" "name")
                 data-test-name-input=true}}
         </span>
         {{gh-error-message errors=errors property="name"}}
@@ -56,7 +56,7 @@
                 autocorrect="off"
                 value=(readonly email)
                 input=(action (mut email) value="target.value")
-                focusOut=(action "preValidate" "email")
+                focus-out=(action "preValidate" "email")
                 data-test-email-input=true}}
         </span>
         {{gh-error-message errors=errors property="email"}}
@@ -74,7 +74,7 @@
                 autocorrect="off"
                 value=(readonly password)
                 input=(action (mut password) value="target.value")
-                focusOut=(action "preValidate" "password")
+                focus-out=(action "preValidate" "password")
                 data-test-password-input=true}}
         </span>
         {{gh-error-message errors=errors property="password"}}

@@ -63,7 +63,7 @@
                             autocorrect="off"
                             value=(readonly signupDetails.password)
                             input=(action (mut signupDetails.password) value="target.value")
-                            focusOut=(action "validate" "password")}}
+                            focus-out=(action "validate" "password")}}
                     </span>
                     {{gh-error-message errors=signupDetails.errors property="password"}}
                 {{/gh-form-group}}
