@@ -1,11 +1,12 @@
 {{!-- full height content pane --}}
 <div class="gh-koenig-editor-pane" onclick={{action "focusEditor"}}>
-    {{gh-textarea title
+    {{gh-textarea
         class="gh-editor-title"
         placeholder=titlePlaceholder
         tabindex="1"
         autoExpand=".gh-koenig-editor"
-        update=(action "onTitleChange")
+        value=(readonly title)
+        input=(action "onTitleChange" value="target.value")
         focusOut=(action "onTitleFocusOut")
         keyDown=(action "onTitleKeydown")
         didCreateTextarea=(action "onTitleCreated")

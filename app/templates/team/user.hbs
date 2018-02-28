@@ -264,7 +264,13 @@
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="bio" class="bio-container"}}
                     <label for="user-bio">Bio</label>
-                    {{gh-textarea user.bio id="user-bio" focusOut=(action "validate" "bio" target=user) update=(action (mut user.bio)) data-test-bio-input=true}}
+                    {{gh-textarea
+                        id="user-bio"
+                        value=(readonly user.bio)
+                        input=(action (mut user.bio) value="target.value")
+                        focusOut=(action "validate" "bio" target=user)
+                        data-test-bio-input=true
+                    }}
                     {{gh-error-message errors=user.errors property="bio" data-test-bio-error=true}}
                     <p>
                         Write about you, in 200 characters or less.
