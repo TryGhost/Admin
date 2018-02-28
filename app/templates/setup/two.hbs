@@ -13,14 +13,15 @@
         <label for="blog-title">Blog title</label>
         <span class="gh-input-icon gh-icon-content">
             {{inline-svg "content"}}
-            {{gh-trim-focus-input blogTitle
+            {{gh-trim-focus-input
                 tabindex="1"
                 type="text"
                 name="blog-title"
                 placeholder="Eg. The Daily Awesome"
                 autocorrect="off"
-                focusOut=(action "preValidate" "blogTitle")
-                update=(action (mut blogTitle))
+                value=(readonly blogTitle)
+                input=(action (mut blogTitle) value="target.value")
+                focus-out=(action "preValidate" "blogTitle")
                 data-test-blog-title-input=true}}
         </span>
         {{gh-error-message errors=errors property="blogTitle"}}

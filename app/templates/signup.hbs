@@ -33,15 +33,19 @@
                     <label for="full-name">Full name</label>
                     <span class="gh-input-icon gh-icon-user">
                         {{inline-svg "user-circle"}}
-                        {{gh-trim-focus-input signupDetails.name
+                        {{gh-trim-focus-input
                             tabindex="1"
                             type="text"
                             name="name"
                             placeholder="Eg. John H. Watson"
                             autocorrect="off"
-                            onenter=(action "signup")
-                            focusOut=(action "validate" "name")
-                            update=(action (mut signupDetails.name))}}
+                            value=(readonly signupDetails.name)
+                            input=(action (mut signupDetails.name) value="target.value")
+                            keyEvents=(hash
+                                Enter=(action "signup")
+                            )
+                            focus-out=(action "validate" "name")
+                        }}
                     </span>
                     {{gh-error-message errors=signupDetails.errors property="name"}}
                 {{/gh-form-group}}
