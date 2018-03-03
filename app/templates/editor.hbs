@@ -19,11 +19,19 @@
             {{/gh-scheduled-post-countdown}}
             <section class="view-actions">
                 {{#unless post.isNew}}
-                    {{gh-publishmenu
-                        post=post
-                        saveTask=save
-                        setSaveType=(action "setSaveType")
-                        onOpen=(action "cancelAutosave")}}
+                    {{#if session.user.isContributor}}
+                        {{gh-task-button "Save"
+                            task=save
+                            runningText="Saving"
+                            class="gh-btn gh-btn-blue gh-btn-icon contributor-save-button"
+                            data-test-contributor-save=true}}
+                    {{else}}
+                        {{gh-publishmenu
+                            post=post
+                            saveTask=save
+                            setSaveType=(action "setSaveType")
+                            onOpen=(action "cancelAutosave")}}
+                    {{/if}}
                 {{/unless}}
 
                 <button type="button" class="post-settings" title="Settings" {{action "openSettingsMenu" target=ui}} data-test-psm-trigger>
@@ -70,16 +78,17 @@
                 as |markdown|
             }}
                 <div class="gh-markdown-editor-pane">
-                    {{gh-textarea post.titleScratch
+                    {{gh-textarea
                         class="gh-editor-title"
                         placeholder="Post Title"
                         tabindex="1"
                         autoExpand=".gh-markdown-editor-pane"
-                        update=(action "updateTitleScratch")
-                        focusOut=(action (perform saveTitle))
+                        value=(readonly post.titleScratch)
+                        input=(action "updateTitleScratch" value="target.value")
+                        focus-out=(action (perform saveTitle))
                         keyEvents=(hash
-                            9=(action markdown.focus 'bottom')
-                            13=(action markdown.focus 'top')
+                            Tab=(action markdown.focus 'bottom')
+                            Enter=(action markdown.focus 'top')
                         )
                         data-test-editor-title-input=true
                     }}

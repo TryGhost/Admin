@@ -11,8 +11,6 @@ import {inject as service} from '@ember/service';
 // should be able to replace the duplicated upload logic in:
 // - gh-image-uploader
 // - gh-file-uploader
-// - gh-koenig/cards/card-image
-// - gh-koenig/cards/card-markdown
 //
 // In order to support the above components we'll need to introduce an
 // "allowMultiple" attribute so that single-image uploads don't allow multiple
@@ -185,7 +183,7 @@ export default Component.extend({
         let uploads = [];
 
         this._reset();
-        this.onStart();
+        this.onStart(files);
 
         // NOTE: for...of loop results in a transpilation that errors in Edge,
         // once we drop IE11 support we should be able to use native for...of
