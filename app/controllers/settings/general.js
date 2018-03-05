@@ -34,6 +34,8 @@ export default Controller.extend({
     _scratchFacebook: null,
     _scratchTwitter: null,
 
+    _initialPasswordVal: null,
+
     isDatedPermalinks: computed('settings.permalinks', {
         set(key, value) {
             this.set('settings.permalinks', value ? '/:year/:month/:day/:slug/' : '/:slug/');
@@ -109,6 +111,8 @@ export default Controller.extend({
             // set a new random password when isPrivate is enabled
             if (isPrivate && this.get('settings.hasDirtyAttributes')) {
                 this.get('settings').set('password', randomPassword());
+            } else {
+                this.get('settings').set('password', this._initialPasswordVal);
             }
         },
 
