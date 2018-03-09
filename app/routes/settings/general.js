@@ -29,7 +29,6 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
         // reset the leave setting transition
         controller.set('leaveSettingsTransition', null);
         controller.set('availableTimezones', models.availableTimezones);
-        controller.set('_initialPasswordVal', models.settings.get('password'));
     },
 
     actions: {
