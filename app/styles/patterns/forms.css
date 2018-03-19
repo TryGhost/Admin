@@ -15,7 +15,7 @@ form .word-count {
 }
 
 fieldset {
-    margin: 0 0 3em 0;
+    margin: 0 0 0.5em 0;
     padding: 0;
     border: none;
     user-select: text;
