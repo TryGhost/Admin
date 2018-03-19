@@ -65,6 +65,11 @@ module.exports = function (environment) {
         ENV.browserify = {
             tests: true
         };
+
+        // Withuot manually setting this, pretender won't track requests
+        ENV['ember-cli-mirage'] = {
+            trackRequests: true
+        };
     }
 
     return ENV;
