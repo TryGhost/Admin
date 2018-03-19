@@ -181,10 +181,13 @@ module.exports = function (defaults) {
         }
     });
 
+    // Stop: Normalize
+    app.import('node_modules/normalize.css/normalize.css');
+
     // 'dem Scripts
     app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
-    app.import('bower_components/keymaster/keymaster.js');
-    app.import('bower_components/google-caja/html-css-sanitizer-bundle.js');
+    app.import('node_modules/keymaster/keymaster.js');
+    app.import('node_modules/google-caja-bower/html-css-sanitizer-bundle.js');
 
     // pull things we rely on via lazy-loading into the test-support.js file so
     // that tests don't break when running via http://localhost:4200/tests
