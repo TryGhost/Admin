@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Component from '@ember/component';
+import md5 from 'npm:blueimp-md5';
 import request from 'ember-ajax/request';
 import validator from 'npm:validator';
 import {htmlSafe} from '@ember/string';
@@ -123,7 +124,7 @@ export default Component.extend({
 
         if (validator.isEmail(email || '')) {
             let size = this.get('size');
-            let gravatarUrl = `//www.gravatar.com/avatar/${window.md5(email)}?s=${size}&d=404`;
+            let gravatarUrl = `//www.gravatar.com/avatar/${md5(email)}?s=${size}&d=404`;
 
             try {
                 // HEAD request is needed otherwise jquery attempts to process
