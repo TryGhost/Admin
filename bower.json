@@ -5,7 +5,6 @@
     "google-caja": "6005.0.0",
     "keymaster": "1.6.3",
     "normalize.css": "3.0.3",
-    "rangyinputs": "1.2.0",
-    "validator-js": "3.39.0"
+    "rangyinputs": "1.2.0"
   }
 }
