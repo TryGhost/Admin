@@ -151,6 +151,10 @@
 /* Content Modifiers
 /* ---------------------------------------------------------- */
 
+.modal-body fieldset {
+    margin: 0;
+}
+
 /* Login styles */
 .modal-body .login-form {
     display: block;
