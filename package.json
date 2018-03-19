@@ -41,6 +41,7 @@
     "coveralls": "3.0.0",
     "csscomb": "4.2.0",
     "cssnano": "4.0.0-rc.2",
+    "current-device": "0.7.2",
     "deparam": "1.0.5",
     "ember-ajax": "3.1.0",
     "ember-assign-helper": "0.1.2",

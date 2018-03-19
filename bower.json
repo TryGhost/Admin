@@ -1,7 +1,6 @@
 {
   "name": "ghost-admin",
   "dependencies": {
-    "devicejs": "0.2.7",
     "google-caja": "6005.0.0",
     "keymaster": "1.6.3",
     "normalize.css": "3.0.3",
