@@ -29,7 +29,6 @@
     "@html-next/vertical-collection": "1.0.0-beta.8",
     "autoprefixer": "8.1.0",
     "blueimp-md5": "2.10.0",
-    "bower": "1.8.2",
     "broccoli-asset-rev": "2.6.0",
     "broccoli-clean-css": "^2.0.1",
     "broccoli-concat": "3.2.2",

@@ -185,7 +185,6 @@ module.exports = function (defaults) {
     app.import('node_modules/normalize.css/normalize.css');
 
     // 'dem Scripts
-    app.import('bower_components/rangyinputs/rangyinputs-jquery-src.js');
     app.import('node_modules/keymaster/keymaster.js');
     app.import('node_modules/google-caja-bower/html-css-sanitizer-bundle.js');
 
