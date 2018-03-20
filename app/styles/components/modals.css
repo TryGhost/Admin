@@ -82,7 +82,6 @@
 }
 
 .modal-content .close {
-    position: absolute;
     top: 19px;
     right: 19px;
     z-index: 9999;
@@ -91,6 +90,7 @@
     width: 16px;
     height: 16px;
     border: none;
+    float: right;
 }
 
 .modal-content .close svg {
