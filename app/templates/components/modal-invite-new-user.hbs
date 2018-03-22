@@ -1,5 +1,5 @@
 <header class="modal-header">
-    <h1>Invite a New User</h1>
+    <h1>Invite a Team Member</h1>
 </header>
 <a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
@@ -45,5 +45,6 @@
 </div>
 
 <div class="modal-footer">
-    {{gh-task-button "Send invitation now" successText="Sent" task=sendInvitation class="gh-btn gh-btn-green gh-btn-icon"}}
+    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    {{gh-task-button "Send Invite" successText="Sent" task=sendInvitation class="gh-btn gh-btn-green gh-btn-icon"}}
 </div>
