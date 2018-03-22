@@ -328,3 +328,14 @@ input,
 .CodeMirror .CodeMirror-code .cm-string {
     color: color(#183691 l(+25%));
 }
+
+.settings-code-editor .CodeMirror {
+    background: rgb(51, 63, 68);
+    border-color: rgb(51, 63, 68);
+    color: #e5eff5;
+}
+
+.CodeMirror-gutters {
+    background: #212A2E;
+    border-right-color: rgb(48, 59, 64);
+}
