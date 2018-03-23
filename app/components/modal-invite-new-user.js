@@ -4,7 +4,7 @@ import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {A as emberA} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task, timeout} from 'ember-concurrency';
 
 const {Promise} = RSVP;
 
@@ -53,6 +53,11 @@ export default ModalComponent.extend(ValidationEngine, {
 
         confirm() {
             this.get('sendInvitation').perform();
+        },
+
+        setEmail(email) {
+            this.set('email', email);
+            this.get('debounceAndValidate').perform();
         }
     },
 
@@ -90,6 +95,12 @@ export default ModalComponent.extend(ValidationEngine, {
             reject();
         }));
     },
+
+    debounceAndValidate: task(function* () {
+        yield timeout(500);
+
+        yield this.validate();
+    }).restartable(),
 
     sendInvitation: task(function* () {
         let email = this.get('email');

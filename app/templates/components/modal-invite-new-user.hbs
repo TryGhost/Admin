@@ -17,11 +17,10 @@
                 autocapitalize="off"
                 autocorrect="off"
                 value=(readonly email)
-                input=(action (mut email) value="target.value")
+                input=(action 'setEmail' value="target.value")
                 keyEvents=(hash
                     Enter=(action "confirm")
                 )
-                focus-out=(action "validate" "email")
             }}
             {{gh-error-message errors=errors property="email"}}
         {{/gh-form-group}}
