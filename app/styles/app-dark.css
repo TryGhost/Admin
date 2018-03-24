@@ -333,3 +333,7 @@ input,
 .CodeMirror .CodeMirror-code .cm-string {
     color: color(#183691 l(+25%));
 }
+
+.subscribers-table table .gh-btn svg {
+    fill: #fff;
+}
