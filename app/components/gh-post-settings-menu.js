@@ -27,6 +27,10 @@ export default Component.extend(SettingsMenuMixin, {
     _showSettingsMenu: false,
     _showThrobbers: false,
 
+    // closure actions
+    onMenuOpen() {},
+    onMenuClose() {},
+
     customExcerptScratch: alias('post.customExcerptScratch'),
     codeinjectionFootScratch: alias('post.codeinjectionFootScratch'),
     codeinjectionHeadScratch: alias('post.codeinjectionHeadScratch'),
@@ -99,6 +103,9 @@ export default Component.extend(SettingsMenuMixin, {
         // with something more ember-like
         if (this.get('showSettingsMenu') && !this._showSettingsMenu) {
             this.get('showThrobbers').perform();
+
+            // trigger onMenuOpen closure action
+            this.onMenuOpen();
         }
 
         // fired when menu is closed
@@ -111,6 +118,9 @@ export default Component.extend(SettingsMenuMixin, {
                 post.set('publishedAtBlogTZ', post.get('publishedAtUTC'));
                 post.validate({attribute: 'publishedAtBlog'});
             }
+
+            // save tags if they've changed
+            this.onMenuClose();
 
             // remove throbbers
             this.set('_showThrobbers', false);

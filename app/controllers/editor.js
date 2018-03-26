@@ -234,7 +234,7 @@ export default Controller.extend({
                     this.send('cancelAutosave');
                     this.get('autosave').cancelAll();
 
-                    return this.get('autosave').perform().then(() => {
+                    return this.get('autosave').perform({silent: false}).then(() => {
                         transition.retry();
                     });
                 }
@@ -278,11 +278,11 @@ export default Controller.extend({
     /* Public tasks ----------------------------------------------------------*/
 
     // separate task for autosave so that it doesn't override a manual save
-    autosave: task(function* () {
+    autosave: task(function* ({silent = true, backgroundSave = true} = {}) {
         if (!this.get('save.isRunning')) {
             return yield this.get('save').perform({
-                silent: true,
-                backgroundSave: true
+                silent,
+                backgroundSave
             });
         }
     }).drop(),

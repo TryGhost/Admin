@@ -186,6 +186,7 @@
             deletePost=(action "toggleDeletePostModal")
             updateSlug=updateSlug
             savePost=savePost
+            onMenuClose=(perform autosave (hash silent=false))
         }}
     {{/liquid-wormhole}}
 {{/if}}
