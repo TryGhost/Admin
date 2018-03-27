@@ -11,12 +11,12 @@
                     post=post
                     isSaving=(or autosave.isRunning saveTasks.isRunning)
                 }}
-            </div>
             {{#gh-scheduled-post-countdown post=post as |post countdown|}}
-                <time datetime="{{post.publishedAtUTC}}" class="gh-notification gh-notification-schedule" data-test-schedule-countdown>
-                    Post will be published {{countdown}}.
+                <time datetime="{{post.publishedAtUTC}}" data-test-schedule-countdown class="gh-scheduled-time">
+                    Published {{countdown}}
                 </time>
-            {{/gh-scheduled-post-countdown}}
+            {{/gh-scheduled-post-countdown}}                
+            </div>
             <section class="view-actions">
                 {{#unless post.isNew}}
                     {{#if session.user.isContributor}}
