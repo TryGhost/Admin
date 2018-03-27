@@ -73,7 +73,7 @@ describe('Acceptance: Team', function () {
             admin = server.create('user', {email: 'admin@example.com', roles: [adminRole]});
 
             // add an expired invite
-            server.create('invite', {expires: moment.utc().subtract(1, 'day').valueOf()});
+            server.create('invite', {expires: moment.utc().subtract(1, 'day').valueOf(), role: adminRole});
 
             // add a suspended user
             suspendedUser = server.create('user', {email: 'suspended@example.com', roles: [adminRole], status: 'inactive'});
@@ -409,9 +409,12 @@ describe('Acceptance: Team', function () {
         it('can delete users', async function () {
             let user1 = server.create('user');
             let user2 = server.create('user');
-            let post = server.create('post');
+            let post = server.create('post', {authors: [user2]});
 
+            // we don't have a full many-to-many relationship in mirage so we
+            // need to add the inverse manually
             user2.posts = [post];
+            user2.save();
 
             await visit('/team');
             await click(`[data-test-user-id="${user1.id}"]`);
@@ -766,12 +769,12 @@ describe('Acceptance: Team', function () {
                 expect(
                     find('[data-test-new-pass-input]').val(),
                     'password field after submit'
-                ).to.be.blank;
+                ).to.be.empty;
 
                 expect(
                     find('[data-test-ne2-pass-input]').val(),
                     'password verification field after submit'
-                ).to.be.blank;
+                ).to.be.empty;
 
                 // displays a notification
                 expect(
@@ -891,7 +894,7 @@ describe('Acceptance: Team', function () {
 
         it('can access the team page', async function () {
             server.create('user', {roles: [adminRole]});
-            server.create('invite', {roles: [authorRole]});
+            server.create('invite', {role: authorRole});
 
             errorOverride();
 

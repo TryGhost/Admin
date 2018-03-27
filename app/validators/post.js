@@ -1,10 +1,12 @@
 import BaseValidator from './base';
 import moment from 'moment';
-import {isEmpty, isPresent} from '@ember/utils';
+import validator from 'npm:validator';
+import {isBlank, isEmpty, isPresent} from '@ember/utils';
 
 export default BaseValidator.create({
     properties: [
         'title',
+        'authors',
         'customExcerpt',
         'codeinjectionHead',
         'codeinjectionFoot',
@@ -21,13 +23,22 @@ export default BaseValidator.create({
     title(model) {
         let title = model.get('title');
 
-        if (validator.empty(title)) {
+        if (isBlank(title)) {
             model.get('errors').add('title', 'You must specify a title for the post.');
             this.invalidate();
         }
 
-        if (!validator.isLength(title, 0, 255)) {
+        if (!validator.isLength(title || '', 0, 255)) {
             model.get('errors').add('title', 'Title cannot be longer than 255 characters.');
+            this.invalidate();
+        }
+    },
+
+    authors(model) {
+        let authors = model.get('authors');
+
+        if (isEmpty(authors)) {
+            model.get('errors').add('authors', 'At least one author is required.');
             this.invalidate();
         }
     },
@@ -35,7 +46,7 @@ export default BaseValidator.create({
     customExcerpt(model) {
         let customExcerpt = model.get('customExcerpt');
 
-        if (!validator.isLength(customExcerpt, 0, 300)) {
+        if (!validator.isLength(customExcerpt || '', 0, 300)) {
             model.get('errors').add('customExcerpt', 'Excerpt cannot be longer than 300 characters.');
             this.invalidate();
         }
@@ -44,7 +55,7 @@ export default BaseValidator.create({
     codeinjectionFoot(model) {
         let codeinjectionFoot = model.get('codeinjectionFoot');
 
-        if (!validator.isLength(codeinjectionFoot, 0, 65535)) {
+        if (!validator.isLength(codeinjectionFoot || '', 0, 65535)) {
             model.get('errors').add('codeinjectionFoot', 'Footer code cannot be longer than 65535 characters.');
             this.invalidate();
         }
@@ -53,7 +64,7 @@ export default BaseValidator.create({
     codeinjectionHead(model) {
         let codeinjectionHead = model.get('codeinjectionHead');
 
-        if (!validator.isLength(codeinjectionHead, 0, 65535)) {
+        if (!validator.isLength(codeinjectionHead || '', 0, 65535)) {
             model.get('errors').add('codeinjectionHead', 'Header code cannot be longer than 65535 characters.');
             this.invalidate();
         }
@@ -62,7 +73,7 @@ export default BaseValidator.create({
     metaTitle(model) {
         let metaTitle = model.get('metaTitle');
 
-        if (!validator.isLength(metaTitle, 0, 300)) {
+        if (!validator.isLength(metaTitle || '', 0, 300)) {
             model.get('errors').add('metaTitle', 'Meta Title cannot be longer than 300 characters.');
             this.invalidate();
         }
@@ -71,7 +82,7 @@ export default BaseValidator.create({
     metaDescription(model) {
         let metaDescription = model.get('metaDescription');
 
-        if (!validator.isLength(metaDescription, 0, 500)) {
+        if (!validator.isLength(metaDescription || '', 0, 500)) {
             model.get('errors').add('metaDescription', 'Meta Description cannot be longer than 500 characters.');
             this.invalidate();
         }
@@ -80,7 +91,7 @@ export default BaseValidator.create({
     ogTitle(model) {
         let ogTitle = model.get('ogTitle');
 
-        if (!validator.isLength(ogTitle, 0, 300)) {
+        if (!validator.isLength(ogTitle || '', 0, 300)) {
             model.get('errors').add('ogTitle', 'Facebook Title cannot be longer than 300 characters.');
             this.invalidate();
         }
@@ -89,7 +100,7 @@ export default BaseValidator.create({
     ogDescription(model) {
         let ogDescription = model.get('ogDescription');
 
-        if (!validator.isLength(ogDescription, 0, 500)) {
+        if (!validator.isLength(ogDescription || '', 0, 500)) {
             model.get('errors').add('ogDescription', 'Facebook Description cannot be longer than 500 characters.');
             this.invalidate();
         }
@@ -98,7 +109,7 @@ export default BaseValidator.create({
     twitterTitle(model) {
         let twitterTitle = model.get('twitterTitle');
 
-        if (!validator.isLength(twitterTitle, 0, 300)) {
+        if (!validator.isLength(twitterTitle || '', 0, 300)) {
             model.get('errors').add('twitterTitle', 'Twitter Title cannot be longer than 300 characters.');
             this.invalidate();
         }
@@ -107,7 +118,7 @@ export default BaseValidator.create({
     twitterDescription(model) {
         let twitterDescription = model.get('twitterDescription');
 
-        if (!validator.isLength(twitterDescription, 0, 500)) {
+        if (!validator.isLength(twitterDescription || '', 0, 500)) {
             model.get('errors').add('twitterDescription', 'Twitter Description cannot be longer than 500 characters.');
             this.invalidate();
         }
@@ -149,7 +160,7 @@ export default BaseValidator.create({
         }
 
         // we have a time string but no date string
-        if (validator.empty(publishedAtBlogDate) && !validator.empty(publishedAtBlogTime)) {
+        if (isBlank(publishedAtBlogDate) && !isBlank(publishedAtBlogTime)) {
             model.get('errors').add('publishedAtBlogDate', 'Can\'t be blank');
             return this.invalidate();
         }
