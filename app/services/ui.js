@@ -10,6 +10,7 @@ export default Service.extend({
     isFullScreen: false,
     showMobileMenu: false,
     showSettingsMenu: false,
+    skipMenuClose: false,
 
     hasSideNav: not('isSideNavHidden'),
     isMobile: reads('mediaQueries.isMobile'),
@@ -28,6 +29,10 @@ export default Service.extend({
     }),
 
     closeMenus() {
+        if (this.skipMenuClose) {
+            return this.set('skipMenuClose', false);
+        }
+
         this.get('dropdown').closeDropdowns();
         this.setProperties({
             showSettingsMenu: false,

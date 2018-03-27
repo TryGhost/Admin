@@ -188,8 +188,8 @@
             showSettingsMenu=ui.showSettingsMenu
             deletePost=(action "toggleDeletePostModal")
             updateSlug=updateSlug
-            savePost=savePost
-            onMenuClose=(perform autosave (hash silent=false))
+            savePost=psmSave
+            onMenuClose=(perform psmSave)
         }}
     {{/liquid-wormhole}}
 {{/if}}

@@ -3,10 +3,14 @@ import RSVP from 'rsvp';
 
 export default ModalComponent.extend({
     actions: {
-        confirm() {
-            this.confirm().finally(() => {
-                this.send('closeModal');
-            });
+        save() {
+            let save = this.get('model.save') || RSVP.resolve();
+            return save();
+        },
+
+        discard() {
+            let discard = this.get('model.discard') || RSVP.resolve();
+            return discard();
         }
     },
 

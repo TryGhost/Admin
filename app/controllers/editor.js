@@ -27,6 +27,15 @@ const TIMEDSAVE_TIMEOUT = 60000;
 let watchedProps = [
     'post.scratch',
     'post.titleScratch',
+    'post.customExcerptScratch',
+    'post.codeinjectionFootScratch',
+    'post.codeinjectionHeadScratch',
+    'post.metaDescriptionScratch',
+    'post.metaTitleScratch',
+    'post.ogDescriptionScratch',
+    'post.ogTitleScratch',
+    'post.twitterDescriptionScratch',
+    'post.twitterTitleScratch',
     'post.hasDirtyAttributes',
     'post.tags.[]',
     'post.isError'
@@ -154,6 +163,7 @@ export default Controller.extend({
         return autosave || timedsave;
     }),
 
+    // only allow timed autosaves on draft posts when not in testing
     _canAutosave: computed('post.isDraft', function () {
         return config.environment !== 'test' && this.get('post.isDraft');
     }),
@@ -300,13 +310,16 @@ export default Controller.extend({
     // save tasks cancels autosave before running, although this cancels the
     // _xSave tasks  that will also cancel the autosave task
     save: task(function* (options = {}) {
+        console.log('save.perform');
         let prevStatus = this.get('post.status');
         let isNew = this.get('post.isNew');
         let status;
 
+        console.log('cancelling autosave');
         this.send('cancelAutosave');
 
         if (options.backgroundSave && !this.get('hasDirtyAttributes')) {
+            console.log('save guard !hasDirtyAttributes');
             return;
         }
 
@@ -353,11 +366,15 @@ export default Controller.extend({
         if (!this.get('post.slug')) {
             this.get('saveTitle').cancelAll();
 
+            console.log('start generateSlug');
             yield this.get('generateSlug').perform();
+            console.log('finish generateSlug');
         }
 
         try {
+            console.log('save started');
             let post = yield this.get('post').save(options);
+            console.log('save finished', post);
 
             if (!options.silent) {
                 this._showSaveNotification(prevStatus, post.get('status'), isNew ? true : false);
@@ -368,6 +385,7 @@ export default Controller.extend({
             // redirect to edit route if saving a new record
             if (isNew && post.get('id')) {
                 if (!this.get('leaveEditorTransition')) {
+                    this.ui.set('skipMenuClose', true);
                     this.replaceRoute('editor.edit', post);
                 }
                 return true;
@@ -452,10 +470,26 @@ export default Controller.extend({
 
     // used in the PSM so that saves are sequential and don't trigger collision
     // detection errors
-    savePost: task(function* () {
+    psmSave: task(function* () {
+        console.log('psmSave');
+        let post = this.get('post');
+        console.log('post', post);
+
+        // we only want to autosave updated new/draft posts when editing via the PSM
+        if ((!post.get('isNew') && !post.get('isDraft')) || !this.get('hasDirtyAttributes')) {
+            console.log('skip psmSave', post.get('isNew'), post.get('isDraft'), this.get('hasDirtyAttributes'));
+            return;
+        }
+
         try {
-            return yield this.get('post').save();
+            console.log('psmSave.try');
+            let save = this.get('save');
+            console.log('psmSave save', save);
+            let post = yield this.get('save').perform();
+            console.log('post', post);
+            return post;
         } catch (error) {
+            console.log('error', error);
             if (error) {
                 let status = this.get('post.status');
                 this._showErrorAlert(status, status, error);
@@ -463,7 +497,7 @@ export default Controller.extend({
 
             throw error;
         }
-    }).group('saveTasks'),
+    }),
 
     saveTitle: task(function* () {
         let post = this.get('post');

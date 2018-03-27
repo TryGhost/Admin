@@ -23,6 +23,8 @@ export default Component.extend(SettingsMenuMixin, {
     ui: service(),
 
     post: null,
+    savePost: null, // EC task
+    selectedAuthor: null,
 
     _showSettingsMenu: false,
     _showThrobbers: false,
@@ -157,12 +159,6 @@ export default Component.extend(SettingsMenuMixin, {
         togglePage() {
             this.toggleProperty('post.page');
 
-            // If this is a new post.  Don't save the post.  Defer the save
-            // to the user pressing the save button
-            if (this.get('post.isNew')) {
-                return;
-            }
-
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
                 this.get('post').rollbackAttributes();
@@ -171,12 +167,6 @@ export default Component.extend(SettingsMenuMixin, {
 
         toggleFeatured() {
             this.toggleProperty('post.featured');
-
-            // If this is a new post.  Don't save the post.  Defer the save
-            // to the user pressing the save button
-            if (this.get('post.isNew')) {
-                return;
-            }
 
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
@@ -276,13 +266,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('metaTitle', metaTitle);
 
             // Make sure the meta title is valid and if so, save it into the post
-            return post.validate({property: 'metaTitle'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'metaTitle'}).then(() => this.get('savePost').perform());
         },
 
         setMetaDescription(metaDescription) {
@@ -299,13 +283,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('metaDescription', metaDescription);
 
             // Make sure the meta title is valid and if so, save it into the post
-            return post.validate({property: 'metaDescription'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'metaDescription'}).then(() => this.get('savePost').perform());
         },
 
         setOgTitle(ogTitle) {
@@ -322,13 +300,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('ogTitle', ogTitle);
 
             // Make sure the facebook title is valid and if so, save it into the post
-            return post.validate({property: 'ogTitle'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'ogTitle'}).then(() => this.get('savePost').perform());
         },
 
         setOgDescription(ogDescription) {
@@ -345,13 +317,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('ogDescription', ogDescription);
 
             // Make sure the facebook description is valid and if so, save it into the post
-            return post.validate({property: 'ogDescription'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'ogDescription'}).then(() => this.get('savePost').perform());
         },
 
         setTwitterTitle(twitterTitle) {
@@ -368,13 +334,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('twitterTitle', twitterTitle);
 
             // Make sure the twitter title is valid and if so, save it into the post
-            return post.validate({property: 'twitterTitle'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'twitterTitle'}).then(() => this.get('savePost').perform());
         },
 
         setTwitterDescription(twitterDescription) {
@@ -391,21 +351,11 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('twitterDescription', twitterDescription);
 
             // Make sure the twitter description is valid and if so, save it into the post
-            return post.validate({property: 'twitterDescription'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
-
-                return this.get('savePost').perform();
-            });
+            return post.validate({property: 'twitterDescription'}).then(() => this.get('savePost').perform());
         },
 
         setCoverImage(image) {
             this.set('post.featureImage', image);
-
-            if (this.get('post.isNew')) {
-                return;
-            }
 
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
@@ -416,10 +366,6 @@ export default Component.extend(SettingsMenuMixin, {
         clearCoverImage() {
             this.set('post.featureImage', '');
 
-            if (this.get('post.isNew')) {
-                return;
-            }
-
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
                 this.get('post').rollbackAttributes();
@@ -428,10 +374,6 @@ export default Component.extend(SettingsMenuMixin, {
 
         setOgImage(image) {
             this.set('post.ogImage', image);
-
-            if (this.get('post.isNew')) {
-                return;
-            }
 
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
@@ -442,10 +384,6 @@ export default Component.extend(SettingsMenuMixin, {
         clearOgImage() {
             this.set('post.ogImage', '');
 
-            if (this.get('post.isNew')) {
-                return;
-            }
-
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
                 this.get('post').rollbackAttributes();
@@ -455,10 +393,6 @@ export default Component.extend(SettingsMenuMixin, {
         setTwitterImage(image) {
             this.set('post.twitterImage', image);
 
-            if (this.get('post.isNew')) {
-                return;
-            }
-
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
                 this.get('post').rollbackAttributes();
@@ -467,10 +401,6 @@ export default Component.extend(SettingsMenuMixin, {
 
         clearTwitterImage() {
             this.set('post.twitterImage', '');
-
-            if (this.get('post.isNew')) {
-                return;
-            }
 
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
@@ -488,11 +418,6 @@ export default Component.extend(SettingsMenuMixin, {
 
             post.set('authors', newAuthors);
             post.validate({property: 'authors'});
-
-            // if this is a new post (never been saved before), don't try to save it
-            if (post.get('isNew')) {
-                return;
-            }
 
             this.get('savePost').perform().catch((error) => {
                 this.showError(error);
