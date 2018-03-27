@@ -183,9 +183,9 @@ export default Model.extend(Comparable, ValidationEngine, {
     twitterDescriptionScratch: boundOneWay('twitterDescription'),
     twitterTitleScratch: boundOneWay('twitterTitle'),
 
+    internalTags: filterBy('tags', 'isInternal', true),
     isPublished: equal('status', 'published'),
     isDraft: equal('status', 'draft'),
-    internalTags: filterBy('tags', 'isInternal', true),
     isScheduled: equal('status', 'scheduled'),
 
     absoluteUrl: computed('url', 'ghostPaths.url', 'config.blogUrl', function () {

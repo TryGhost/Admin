@@ -272,6 +272,16 @@ export default Controller.extend({
         // TODO: this should be part of the koenig component
         setWordcount(count) {
             this.set('wordcount', count);
+        },
+
+        rollbackAndLeave() {
+            this.send('leaveEditor');
+        },
+
+        saveAndLeave() {
+            this.get('save').perform().then(() => {
+                this.send('leaveEditor');
+            });
         }
     },
 
@@ -629,6 +639,7 @@ export default Controller.extend({
         this.set('hasDirtyAttributes', false);
         this.set('shouldFocusEditor', false);
         this.set('leaveEditorTransition', null);
+        this.set('showLeaveEditorModal', false);
 
         // remove the onbeforeunload handler as it's only relevant whilst on
         // the editor route

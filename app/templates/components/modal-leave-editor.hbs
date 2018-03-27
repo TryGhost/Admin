@@ -1,18 +1,14 @@
 <header class="modal-header">
-    <h1>Are you sure you want to leave this page?</h1>
+    <h1>Review changes</h1>
 </header>
 <a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
 <div class="modal-body">
-    <p>
-        Hey there! It looks like you're in the middle of writing something and
-        you haven't saved all of your content.
-    </p>
-
-    <p>Save before you go!</p>
+    <p>You have made changes. Do you want to discard or save them?</p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Stay</span></button>
-    <button {{action "confirm"}} class="gh-btn gh-btn-red"><span>Leave</span></button>
+    <button {{action "closeModal"}} class="gh-btn modal-btn-left"><span>Cancel</span></button>
+    <button {{action "discard"}} class="gh-btn gh-btn-hover-red"><span>Discard</span></button>
+    <button {{action "save"}} class="gh-btn gh-btn-blue"><span>Save</span></button>
 </div>

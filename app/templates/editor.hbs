@@ -168,7 +168,10 @@
 
     {{#if showLeaveEditorModal}}
         {{gh-fullscreen-modal "leave-editor"
-            confirm=(action "leaveEditor")
+            model=(hash
+                discard=(action "rollbackAndLeave")
+                save=(action "saveAndLeave")
+            )
             close=(action "toggleLeaveEditorModal")
             modifier="action wide"}}
     {{/if}}
