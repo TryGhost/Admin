@@ -283,7 +283,7 @@ describe('Acceptance: Team', function () {
             expect(
                 find('.fullscreen-modal .error .response').text().trim(),
                 'inviting existing user error'
-            ).to.equal('A user with that email address already exists.');
+            ).to.equal('Email already exists.');
 
             // submit invite form with existing invite
             await fillIn('.fullscreen-modal input[name="email"]', 'invite1@example.com');
@@ -293,7 +293,7 @@ describe('Acceptance: Team', function () {
             expect(
                 find('.fullscreen-modal .error .response').text().trim(),
                 'inviting invited user error'
-            ).to.equal('A user with that email address was already invited.');
+            ).to.equal('Email already invited.');
 
             // submit invite form with an invalid email
             await fillIn('.fullscreen-modal input[name="email"]', 'test');
@@ -303,7 +303,7 @@ describe('Acceptance: Team', function () {
             expect(
                 find('.fullscreen-modal .error .response').text().trim(),
                 'inviting invalid email error'
-            ).to.equal('Invalid Email.');
+            ).to.equal('Invalid email.');
 
             await click('.fullscreen-modal a.close');
             // revoke latest invite

@@ -71,9 +71,9 @@ export default ModalComponent.extend(ValidationEngine, {
             if (existingUser || existingInvite) {
                 this.get('errors').clear('email');
                 if (existingUser) {
-                    this.get('errors').add('email', 'A user with that email address already exists.');
+                    this.get('errors').add('email', 'Email already taken.');
                 } else {
-                    this.get('errors').add('email', 'A user with that email address was already invited.');
+                    this.get('errors').add('email', 'Email already invited.');
                 }
 
                 // TODO: this shouldn't be needed, ValidationEngine doesn't mark

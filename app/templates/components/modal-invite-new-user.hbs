@@ -44,6 +44,6 @@
     </fieldset>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer" style="{{if errors.email "margin-top: calc(40px - 27px)"}}">
     {{gh-task-button "Send invitation now" successText="Sent" task=sendInvitation class="gh-btn gh-btn-green gh-btn-icon"}}
 </div>

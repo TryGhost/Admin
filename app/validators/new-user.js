@@ -24,7 +24,7 @@ export default PasswordValidator.extend({
             model.get('errors').add('email', 'Please enter an email.');
             this.invalidate();
         } else if (!validator.isEmail(email)) {
-            model.get('errors').add('email', 'Invalid Email.');
+            model.get('errors').add('email', 'Invalid email.');
             this.invalidate();
         }
     },
