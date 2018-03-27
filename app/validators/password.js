@@ -64,7 +64,7 @@ export default BaseValidator.extend({
 
         // password must be longer than 10 characters
         if (!validator.isLength(password, 10)) {
-            model.get('errors').add(errorTarget, 'Password must be at least 10 characters long');
+            model.get('errors').add(errorTarget, 'Please enter a valid password.');
             return this.invalidate();
         }
 
