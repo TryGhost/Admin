@@ -207,7 +207,6 @@
 
 .gh-flow-content .gh-flow-screenshot img {
     position: relative;
-    left: -3%;
     flex-shrink: 0;
     display: block;
     margin: 0 auto;
