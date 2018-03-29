@@ -300,6 +300,7 @@
     display: block;
     width: 90px;
     height: 90px;
+    background: url(assets/img/user-image.png);
     background-color: #f8fbfd;
     background-position: center center;
     background-size: cover;
