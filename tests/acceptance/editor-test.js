@@ -6,6 +6,7 @@ import startApp from '../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
 import {expect} from 'chai';
+// import {selectChoose} from 'ember-power-select/test-support';
 
 describe('Acceptance: Editor', function () {
     let application;
@@ -19,8 +20,8 @@ describe('Acceptance: Editor', function () {
     });
 
     it('redirects to signin when not authenticated', async function () {
-        server.create('user'); // necesary for post-author association
-        server.create('post');
+        let author = server.create('user'); // necesary for post-author association
+        server.create('post', {authors: [author]});
 
         invalidateSession(application);
         await visit('/editor/1');
@@ -30,8 +31,8 @@ describe('Acceptance: Editor', function () {
 
     it('does not redirect to team page when authenticated as contributor', async function () {
         let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
-        server.create('post');
+        let author = server.create('user', {roles: [role], slug: 'test-user'});
+        server.create('post', {authors: [author]});
 
         authenticateSession(application);
         await visit('/editor/1');
@@ -41,8 +42,8 @@ describe('Acceptance: Editor', function () {
 
     it('does not redirect to team page when authenticated as author', async function () {
         let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
-        server.create('post');
+        let author = server.create('user', {roles: [role], slug: 'test-user'});
+        server.create('post', {authors: [author]});
 
         authenticateSession(application);
         await visit('/editor/1');
@@ -52,8 +53,8 @@ describe('Acceptance: Editor', function () {
 
     it('does not redirect to team page when authenticated as editor', async function () {
         let role = server.create('role', {name: 'Editor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
-        server.create('post');
+        let author = server.create('user', {roles: [role], slug: 'test-user'});
+        server.create('post', {authors: [author]});
 
         authenticateSession(application);
         await visit('/editor/1');
@@ -72,56 +73,52 @@ describe('Acceptance: Editor', function () {
         expect(currentURL()).to.equal('/editor/1');
     });
 
-    describe('when logged in as contributor', function () {
-        beforeEach(function () {
-            let role = server.create('role', {name: 'Contributor'});
-            server.create('user', {roles: [role]});
-            server.loadFixtures('settings');
+    it('when logged in as a contributor, renders a save button instead of a publish menu & hides tags input', async function () {
+        let role = server.create('role', {name: 'Contributor'});
+        let author = server.create('user', {roles: [role]});
+        server.createList('post', 2, {authors: [author]});
+        server.loadFixtures('settings');
+        authenticateSession(application);
 
-            return authenticateSession(application);
-        });
+        // post id 1 is a draft, checking for draft behaviour now
+        await visit('/editor/1');
 
-        it('renders a save button instead of a publish menu & hides tags input', async function () {
-            server.createList('post', 2);
+        expect(currentURL(), 'currentURL').to.equal('/editor/1');
 
-            // post id 1 is a draft, checking for draft behaviour now
-            await visit('/editor/1');
+        // Expect publish menu to not exist
+        expect(
+            find('[data-test-publishmenu-trigger]'),
+            'publish menu trigger'
+        ).to.not.exist;
 
-            expect(currentURL(), 'currentURL').to.equal('/editor/1');
+        // Open post settings menu
+        await click('[data-test-psm-trigger]');
 
-            // Expect publish menu to not exist
-            expect(
-                find('[data-test-publishmenu-trigger]'),
-                'publish menu trigger'
-            ).to.not.exist;
+        // Check to make sure that tags input doesn't exist
+        expect(
+            find('[data-test-token-input]'),
+            'tags input'
+        ).to.not.exist;
 
-            // Open post settings menu
-            await click('[data-test-psm-trigger]');
+        // post id 2 is published, we should be redirected to index
+        await visit('/editor/2');
 
-            // Check to make sure that tags input doesn't exist
-            expect(
-                find('[data-test-token-input]'),
-                'tags input'
-            ).to.not.exist;
-
-            // post id 2 is published, we should be redirected to index
-            await visit('/editor/2');
-
-            expect(currentURL(), 'currentURL').to.equal('/');
-        });
+        expect(currentURL(), 'currentURL').to.equal('/');
     });
 
     describe('when logged in', function () {
+        let author;
+
         beforeEach(function () {
             let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+            author = server.create('user', {roles: [role]});
             server.loadFixtures('settings');
 
             return authenticateSession(application);
         });
 
         it('renders the editor correctly, PSM Publish Date and Save Button', async function () {
-            let [post1] = server.createList('post', 2);
+            let [post1] = server.createList('post', 2, {authors: [author]});
             let futureTime = moment().tz('Etc/UTC').add(10, 'minutes');
 
             // post id 1 is a draft, checking for draft behaviour now
@@ -437,7 +434,7 @@ describe('Acceptance: Editor', function () {
                 });
             });
 
-            let post = server.create('post', 1);
+            let post = server.create('post', 1, {authors: [author], status: 'draft'});
             let plusTenMin = moment().utc().add(10, 'minutes');
 
             await visit(`/editor/${post.id}`);
@@ -447,6 +444,7 @@ describe('Acceptance: Editor', function () {
             await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', plusTenMin);
             await fillIn('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]', plusTenMin.format('HH:mm'));
             await triggerEvent('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]', 'blur');
+
             await click('[data-test-publishmenu-save]');
 
             expect(
@@ -461,7 +459,7 @@ describe('Acceptance: Editor', function () {
         });
 
         it('handles title validation errors correctly', async function () {
-            server.createList('post', 1);
+            server.create('post', {authors: [author]});
 
             // post id 1 is a draft, checking for draft behaviour now
             await visit('/editor/1');
@@ -528,7 +526,7 @@ describe('Acceptance: Editor', function () {
             let compareDate = moment().tz('Etc/UTC').add(4, 'minutes');
             let compareDateString = compareDate.format('MM/DD/YYYY');
             let compareTimeString = compareDate.format('HH:mm');
-            server.create('post', {publishedAt: moment.utc().add(4, 'minutes'), status: 'scheduled'});
+            server.create('post', {publishedAt: moment.utc().add(4, 'minutes'), status: 'scheduled', authors: [author]});
             server.create('setting', {activeTimezone: 'Europe/Dublin'});
             clock.restore();
 
@@ -548,10 +546,12 @@ describe('Acceptance: Editor', function () {
                 .to.contain('Published in');
         });
 
-        it('shows author list and allows switching of author in PSM', async function () {
-            server.create('post', {authorId: 1});
-            let role = server.create('role', {name: 'Author'});
-            let author = server.create('user', {name: 'Waldo', roles: [role]});
+        it('shows author token input and allows changing of authors in PSM', async function () {
+            let adminRole = server.create('role', {name: 'Adminstrator'});
+            let authorRole = server.create('role', {name: 'Author'});
+            let user1 = server.create('user', {name: 'Primary', roles: [adminRole]});
+            server.create('user', {name: 'Waldo', roles: [authorRole]});
+            server.create('post', {authors: [user1]});
 
             await visit('/editor/1');
 
@@ -560,13 +560,18 @@ describe('Acceptance: Editor', function () {
 
             await click('button.post-settings');
 
-            expect(find('select[name="post-setting-author"]').val()).to.equal('1');
-            expect(find('select[name="post-setting-author"] option[value="2"]')).to.be.ok;
+            let tokens = find('[data-test-input="authors"] .ember-power-select-multiple-option');
 
-            await fillIn('select[name="post-setting-author"]', '2');
+            expect(tokens.length).to.equal(1);
+            expect(tokens[0].textContent.trim()).to.have.string('Primary');
 
-            expect(find('select[name="post-setting-author"]').val()).to.equal('2');
-            expect(server.db.posts[0].authorId).to.equal(author.id);
+            await selectChoose('[data-test-input="authors"]', 'Waldo');
+
+            let savedAuthors = server.schema.posts.find('1').authors.models;
+
+            expect(savedAuthors.length).to.equal(2);
+            expect(savedAuthors[0].name).to.equal('Primary');
+            expect(savedAuthors[1].name).to.equal('Waldo');
         });
 
         it('autosaves when title loses focus', async function () {
@@ -598,7 +603,7 @@ describe('Acceptance: Editor', function () {
         });
 
         it('saves post settings fields', async function () {
-            let post = server.create('post');
+            let post = server.create('post', {authors: [author]});
 
             await visit(`/editor/${post.id}`);
 
@@ -618,7 +623,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).customExcerpt,
                 'saved excerpt after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing custom excerpt auto-saves
             await fillIn('[data-test-field="custom-excerpt"]', 'Testing excerpt');
@@ -647,7 +652,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).codeinjectionHead,
                 'saved header injection after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing header injection auto-saves
             await headerCM.setValue('<script src="http://example.com/inject-head.js"></script>');
@@ -671,7 +676,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).codeinjectionFoot,
                 'saved footer injection after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing footer injection auto-saves
             await footerCM.setValue('<script src="http://example.com/inject-foot.js"></script>');
@@ -707,7 +712,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).twitterTitle,
                 'saved twitter title after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing twitter title auto-saves
             // twitter title has validation
@@ -731,7 +736,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).twitterDescription,
                 'saved twitter description after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing twitter description auto-saves
             // twitter description has validation
@@ -768,7 +773,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).ogTitle,
                 'saved facebook title after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing facebook title auto-saves
             // facebook title has validation
@@ -792,7 +797,7 @@ describe('Acceptance: Editor', function () {
             expect(
                 server.db.posts.find(post.id).ogDescription,
                 'saved facebook description after validation error'
-            ).to.be.blank;
+            ).to.be.null;
 
             // changing facebook description auto-saves
             // facebook description has validation
@@ -814,7 +819,7 @@ describe('Acceptance: Editor', function () {
         });
 
         it('has unsplash icon when server doesn\'t return unsplash settings key', async function () {
-            server.createList('post', 1);
+            server.createList('post', 1, {authors: [author]});
 
             await visit('/editor/1');
 
