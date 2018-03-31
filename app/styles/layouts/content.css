@@ -228,3 +228,34 @@
     animation: keyboard-focus-style-fade-out 1.5s 1 forwards;
     pointer-events: none;
 }
+
+@media only screen and (max-width: 600px) {
+    .gh-contentfilter {
+        display: inline-block;
+        overflow-y: scroll;
+        height: 60px;
+        margin-bottom: 0px;
+    }
+
+    .gh-contentfilter-left {
+        float: left;
+    }
+
+    .gh-contentfilter-right {
+        display: -webkit-box;
+        white-space: nowrap;
+    }
+
+    .ember-power-select-trigger {
+        line-height: 1.65;
+    }
+
+    .ember-power-select-selected-item,
+    .ember-power-select-trigger svg {
+        margin-left: 0;
+    }
+
+    .gh-editor-status {
+        line-height: 15px;
+    }
+}

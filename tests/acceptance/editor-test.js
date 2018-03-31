@@ -351,7 +351,7 @@ describe('Acceptance: Editor', function () {
 
             // expect countdown to show warning, that post will be published in x minutes
             expect(find('[data-test-schedule-countdown]').text().trim(), 'notification countdown')
-                .to.contain('Post will be published in');
+                .to.contain('Published in');
 
             expect(
                 find('[data-test-publishmenu-trigger]').text().trim(),
@@ -543,7 +543,7 @@ describe('Acceptance: Editor', function () {
                 .to.equal('Scheduled');
             // expect countdown to show warning, that post will be published in x minutes
             expect(find('[data-test-schedule-countdown]').text().trim(), 'notification countdown')
-                .to.contain('Post will be published in');
+                .to.contain('Published in');
         });
 
         it('shows author token input and allows changing of authors in PSM', async function () {

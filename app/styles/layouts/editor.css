@@ -666,3 +666,13 @@
 .CodeMirror .CodeMirror-selected {
     background: color(var(--blue) lightness(+30%));
 }
+
+.gh-scheduled-time {
+    color: #3eb0ef;
+}
+
+@media only screen and (max-width: 600px) {
+    .gh-scheduled-time {
+        font-size: 12px;
+    }
+}
