@@ -101,7 +101,7 @@ describe('Acceptance: Signup', function () {
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
             'password field error text'
-        ).to.match(/Please enter a valid password/);
+        ).to.match(/must be at least 10 characters/);
 
         // password too short
         await fillIn('input[name="password"]', 'short');
@@ -110,7 +110,7 @@ describe('Acceptance: Signup', function () {
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
             'password field error text'
-        ).to.match(/Please enter a valid password/);
+        ).to.match(/must be at least 10 characters/);
 
         // password must not be a bad password
         await fillIn('input[name="password"]', '1234567890');

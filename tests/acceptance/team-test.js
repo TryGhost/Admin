@@ -708,7 +708,7 @@ describe('Acceptance: Team', function () {
                 expect(
                     find('[data-test-new-pass-input]').siblings('.response').text(),
                     'confirm password error when it\'s too short'
-                ).to.match(/Please enter a valid password/);
+                ).to.match(/at least 10 characters long/);
 
                 // validates unsafe password
                 await fillIn('#user-password-new', 'ghostisawesome');
