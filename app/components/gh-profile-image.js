@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import Component from '@ember/component';
+import md5 from 'npm:blueimp-md5';
 import request from 'ember-ajax/request';
+import validator from 'npm:validator';
 import {htmlSafe} from '@ember/string';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
@@ -43,7 +45,8 @@ export default Component.extend({
     init() {
         this._super(...arguments);
 
-        this._defaultImageUrl = `${this.get('ghostPaths.assetRoot')}img/user-image.png`;
+        let defaultImage = '/img/user-image.png';
+        this._defaultImageUrl = `${this.get('ghostPaths.assetRoot')}${defaultImage}`;
         this._setPlaceholderImage(this._defaultImageUrl);
     },
 
@@ -120,9 +123,9 @@ export default Component.extend({
 
         let email = this.get('email');
 
-        if (validator.isEmail(email)) {
+        if (validator.isEmail(email || '')) {
             let size = this.get('size');
-            let gravatarUrl = `//www.gravatar.com/avatar/${window.md5(email)}?s=${size}&d=404`;
+            let gravatarUrl = `//www.gravatar.com/avatar/${md5(email)}?s=${size}&d=404`;
 
             try {
                 // HEAD request is needed otherwise jquery attempts to process

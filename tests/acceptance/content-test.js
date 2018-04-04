@@ -35,11 +35,11 @@ describe('Acceptance: Content', function () {
             let editorRole = server.create('role', {name: 'Editor'});
             editor = server.create('user', {roles: [editorRole]});
 
-            publishedPost = server.create('post', {authorId: admin.id, status: 'published', title: 'Published Post'});
-            scheduledPost = server.create('post', {authorId: admin.id, status: 'scheduled', title: 'Scheduled Post'});
-            draftPost = server.create('post', {authorId: admin.id, status: 'draft', title: 'Draft Post'});
-            publishedPage = server.create('post', {authorId: admin.id, status: 'published', page: true, title: 'Published Page'});
-            authorPost = server.create('post', {authorId: editor.id, status: 'published', title: 'Editor Published Post'});
+            publishedPost = server.create('post', {authors: [admin], status: 'published', title: 'Published Post'});
+            scheduledPost = server.create('post', {authors: [admin], status: 'scheduled', title: 'Scheduled Post'});
+            draftPost = server.create('post', {authors: [admin], status: 'draft', title: 'Draft Post'});
+            publishedPage = server.create('post', {authors: [admin], status: 'published', page: true, title: 'Published Page'});
+            authorPost = server.create('post', {authors: [editor], status: 'published', title: 'Editor Published Post'});
 
             return authenticateSession(application);
         });
@@ -112,7 +112,7 @@ describe('Acceptance: Content', function () {
             expect(lastRequest.queryParams.status, '"all" request status param').to.equal('all');
             expect(lastRequest.queryParams.staticPages, '"all" request staticPages param').to.equal('all');
             expect(lastRequest.queryParams.filter, '"editor" request filter param')
-                .to.equal(`author:${editor.slug}`);
+                .to.equal(`authors:${editor.slug}`);
 
             // Displays editor post
             // TODO: implement "filter" param support and fix mirage post->author association
@@ -138,8 +138,8 @@ describe('Acceptance: Content', function () {
             let admin = server.create('user', {roles: [adminRole]});
 
             // create posts
-            authorPost = server.create('post', {authorId: author.id, status: 'published', title: 'Author Post'});
-            server.create('post', {authorId: admin.id, status: 'scheduled', title: 'Admin Post'});
+            authorPost = server.create('post', {authors: [author], status: 'published', title: 'Author Post'});
+            server.create('post', {authors: [admin], status: 'scheduled', title: 'Admin Post'});
 
             return authenticateSession(application);
         });
@@ -151,7 +151,7 @@ describe('Acceptance: Content', function () {
 
             // API request includes author filter
             let [lastRequest] = server.pretender.handledRequests.slice(-1);
-            expect(lastRequest.queryParams.filter).to.equal(`author:${author.slug}`);
+            expect(lastRequest.queryParams.filter).to.equal(`authors:${author.slug}`);
 
             // only author's post is shown
             expect(find('[data-test-post-id]').length, 'post count').to.equal(1);
@@ -169,9 +169,9 @@ describe('Acceptance: Content', function () {
             let admin = server.create('user', {roles: [adminRole]});
 
             // Create posts
-            contributorPost = server.create('post', {authorId: contributor.id, status: 'draft', title: 'Contributor Post Draft'});
-            server.create('post', {authorId: contributor.id, status: 'published', title: 'Contributor Published Post'});
-            server.create('post', {authorId: admin.id, status: 'scheduled', title: 'Admin Post'});
+            contributorPost = server.create('post', {authors: [contributor], status: 'draft', title: 'Contributor Post Draft'});
+            server.create('post', {authors: [contributor], status: 'published', title: 'Contributor Published Post'});
+            server.create('post', {authors: [admin], status: 'scheduled', title: 'Admin Post'});
 
             return authenticateSession(application);
         });
@@ -189,7 +189,7 @@ describe('Acceptance: Content', function () {
 
             // API request includes author filter
             let [lastRequest] = server.pretender.handledRequests.slice(-1);
-            expect(lastRequest.queryParams.filter).to.equal(`author:${contributor.slug}`);
+            expect(lastRequest.queryParams.filter).to.equal(`authors:${contributor.slug}`);
 
             // only contributor's post is shown
             expect(find('[data-test-post-id]').length, 'post count').to.equal(1);
