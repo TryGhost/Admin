@@ -5,7 +5,10 @@
     <section class="view-container">
         <section class="gh-env-details">
             <ul class="gh-env-list">
-                <li class="gh-env-list-version"><strong>Version</strong> {{about.version}}</li>
+                <li class="gh-env-list-version">
+                    <strong>Version</strong> 
+                    <a href="https://github.com/TryGhost/Ghost/releases/tag/{{about.version}}">{{about.version}}</a>
+                </li>
                 <li><strong>Environment</strong> {{about.environment}}</li>
                 <li class="gh-env-list-database-type"><strong>Database</strong> {{about.database}}</li>
                 <li><strong>Mail</strong> {{#if about.mail}}{{about.mail}}{{else}}Native{{/if}}</li>
