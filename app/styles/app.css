@@ -1,7 +1,10 @@
-/* Stop: Normalize.
+/* Spirit - Ghost's CSS framework
 /* ---------------------------------------------------------- */
-@import "../../bower_components/normalize.css/normalize.css";
-
+/*
+    includes normalize v7 so must come first to avoid clobbering
+    our old non-Spirit classes
+*/
+@import "spirit/spirit-product.css";
 
 /* Patterns: Groups of Styles
 /* ---------------------------------------------------------- */

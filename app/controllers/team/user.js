@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import Ember from 'ember';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import isNumber from 'ghost-admin/utils/isNumber';
+import validator from 'npm:validator';
 import windowProxy from 'ghost-admin/utils/window-proxy';
 import {alias, and, not, or, readOnly} from '@ember/object/computed';
 import {computed} from '@ember/object';
@@ -65,7 +66,8 @@ export default Controller.extend({
 
     // duplicated in gh-user-active -- find a better home and consolidate?
     userDefault: computed('ghostPaths', function () {
-        return `${this.get('ghostPaths.assetRoot')}/img/user-image.png`;
+        let defaultImage = '/img/user-image.png';
+        return `${this.get('ghostPaths.assetRoot')}${defaultImage}`;
     }),
 
     userImageBackground: computed('user.profileImage', 'userDefault', function () {
@@ -77,7 +79,8 @@ export default Controller.extend({
     // end duplicated
 
     coverDefault: computed('ghostPaths', function () {
-        return `${this.get('ghostPaths.assetRoot')}/img/user-cover.png`;
+        let defaultCover = '/img/user-cover.png';
+        return `${this.get('ghostPaths.assetRoot')}${defaultCover}`;
     }),
 
     coverImageBackground: computed('user.coverImage', 'coverDefault', function () {
