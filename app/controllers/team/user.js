@@ -72,9 +72,7 @@ export default Controller.extend({
 
     userImageBackground: computed('user.profileImage', 'userDefault', function () {
         let url = this.get('user.profileImage') || this.get('userDefault');
-        let safeUrl = Handlebars.Utils.escapeExpression(url);
-
-        return htmlSafe(`background-image: url(${safeUrl})`);
+        return htmlSafe(`background-image: url(${url})`);
     }),
     // end duplicated
 
