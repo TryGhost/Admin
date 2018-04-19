@@ -105,6 +105,12 @@
 }
 
 
+/* Mobiledoc cards can be selected by their wrapper div element */
+.koenig-editor__editor div + p {
+    margin: 2.8rem 0 0;
+}
+
+
 /* Heading rhythm */
 
 .koenig-editor__editor p + h1,
@@ -200,4 +206,25 @@
 .koenig-editor__editor h6 + h5,
 .koenig-editor__editor h6 + h6 {
     margin: 0.4rem 0 0;
+}
+
+/* Cards */
+
+.koenig-editor__editor div + div {
+    margin: 3.2rem 0 0;
+}
+
+.koenig-editor__editor p + div {
+    margin: 3.2rem 0 0;
+    line-height: 0;
+}
+
+.koenig-editor__editor h1 + div,
+.koenig-editor__editor h2 + div,
+.koenig-editor__editor h3 + div,
+.koenig-editor__editor h4 + div,
+.koenig-editor__editor h5 + div,
+.koenig-editor__editor h6 + div {
+    margin: 2.8rem 0 0;
+    line-height: 0;
 }
