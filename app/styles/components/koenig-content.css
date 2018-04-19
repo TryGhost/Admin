@@ -1,0 +1,203 @@
+/* Global Koenig content styles
+/* -------------------------------------------------------------------- */
+.koenig-editor__editor {
+    color: var(--darkgrey);
+}
+
+
+/* Headings
+/* -------------------------------------------------------------------- */
+
+.koenig-editor__editor h1,
+.koenig-editor__editor h2,
+.koenig-editor__editor h3,
+.koenig-editor__editor h4,
+.koenig-editor__editor h5,
+.koenig-editor__editor h6 {
+    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+    font-weight: 700;
+}
+
+.koenig-editor__editor h1 {
+    font-size: 2.8rem;
+    line-height: 1.4em;
+    letter-spacing: .04rem;
+}
+
+.koenig-editor__editor h2 {
+    font-size: 2.3rem;
+    line-height: 1.6em;
+    letter-spacing: .04rem;
+}
+
+.koenig-editor__editor h3 {
+    font-size: 2.0rem;
+    line-height: 1.4em;
+    letter-spacing: .04rem;
+}
+
+.koenig-editor__editor h4 {
+    font-size: 1.82rem;
+    line-height: 1.4em;
+    letter-spacing: .06rem;
+}
+
+.koenig-editor__editor h5 {
+    font-size: 1.7rem;
+    line-height: 1.6em;
+    letter-spacing: .04rem;
+}
+
+.koenig-editor__editor h6 {
+    font-size: 1.6rem;
+    line-height: 1.6em;
+    letter-spacing: .06rem;
+}
+
+
+/* Paragraph
+/* -------------------------------------------------------------------- */
+
+.koenig-editor__editor p {
+    font-family: georgia,serif;
+    font-weight: 300;
+    letter-spacing: .02rem;
+    line-height: 1.6em;
+    font-size: 2rem;
+}
+
+
+/* Vertical riddim
+/*
+/* We use only margin-top to set the vertical spacings. The styles below
+/* set up the margin for content pairs (e.g. paragraph preceded by a heading).
+/* -------------------------------------------------------------------- */
+
+/* Reset margins */
+
+.koenig-editor__editor p,
+.koenig-editor__editor h1,
+.koenig-editor__editor h2,
+.koenig-editor__editor h3,
+.koenig-editor__editor h4,
+.koenig-editor__editor h5,
+.koenig-editor__editor h6 {
+    margin: 1.4rem 0 0;
+}
+
+
+/* Paragraph rhythm */
+
+.koenig-editor__editor h1 + p,
+.koenig-editor__editor h2 + p {
+    margin: .8rem 0 0;
+}
+
+.koenig-editor__editor h3 + p,
+.koenig-editor__editor h4 + p,
+.koenig-editor__editor h5 + p,
+.koenig-editor__editor h6 + p {
+    margin: .4rem 0 0;
+}
+
+.koenig-editor__editor p + p {
+    margin: 3.2rem 0 0;
+}
+
+
+/* Heading rhythm */
+
+.koenig-editor__editor p + h1,
+.koenig-editor__editor p + h2,
+.koenig-editor__editor p + h3,
+.koenig-editor__editor p + h4,
+.koenig-editor__editor p + h5,
+.koenig-editor__editor p + h6 {
+    margin: 4.8rem 0 0;
+}
+
+/* Heading 1 */
+
+.koenig-editor__editor h1 + h1 {
+    margin: 1.4rem 0 0;
+}
+
+.koenig-editor__editor h2 + h1,
+.koenig-editor__editor h3 + h1 {
+    margin: 1.0rem 0 0;
+}
+
+.koenig-editor__editor h4 + h1,
+.koenig-editor__editor h5 + h1 {
+    margin: 0.8rem 0 0;
+}
+
+.koenig-editor__editor h6 + h1 {
+    margin: 0.6rem 0 0;
+}
+
+
+/* Heading 2 */
+
+.koenig-editor__editor h1 + h2 {
+    margin: 1.6rem 0 0;
+}
+
+.koenig-editor__editor h2 + h2,
+.koenig-editor__editor h3 + h2,
+.koenig-editor__editor h4 + h2,
+.koenig-editor__editor h5 + h2 {
+    margin: 0.8rem 0 0;
+}
+
+.koenig-editor__editor h6 + h2 {
+    margin: 0.4rem 0 0;
+}
+
+
+/* Heading 3 - 6 (share common styles) */
+
+.koenig-editor__editor h1 + h3,
+.koenig-editor__editor h2 + h3,
+
+.koenig-editor__editor h1 + h4,
+.koenig-editor__editor h2 + h4,
+
+.koenig-editor__editor h1 + h5,
+.koenig-editor__editor h2 + h5,
+
+.koenig-editor__editor h1 + h6,
+.koenig-editor__editor h2 + h6 {
+    margin: 1.2rem 0 0;
+}
+
+.koenig-editor__editor h3 + h4 {
+    margin: 1.0rem 0 0;
+}
+
+.koenig-editor__editor h3 + h3,
+.koenig-editor__editor h4 + h3,
+.koenig-editor__editor h5 + h3,
+
+.koenig-editor__editor h4 + h4,
+.koenig-editor__editor h5 + h4,
+
+.koenig-editor__editor h3 + h5,
+.koenig-editor__editor h4 + h5,
+.koenig-editor__editor h5 + h5,
+
+.koenig-editor__editor h3 + h6,
+.koenig-editor__editor h4 + h6 {
+    margin: 0.8rem 0 0;
+}
+
+.koenig-editor__editor h5 + h6 {
+    margin: 0.65rem 0 0;
+}
+
+.koenig-editor__editor h6 + h3,
+.koenig-editor__editor h6 + h4,
+.koenig-editor__editor h6 + h5,
+.koenig-editor__editor h6 + h6 {
+    margin: 0.4rem 0 0;
+}
