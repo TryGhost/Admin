@@ -1,3 +1,9 @@
+/* Vertical riddim
+/*
+/* We use only margin-top to set the vertical spacings. The styles below
+/* set up the margin for content pairs (e.g. paragraph preceded by a heading).
+
+
 /* Global Koenig content styles
 /* -------------------------------------------------------------------- */
 .koenig-editor__editor {
@@ -9,7 +15,20 @@
 }
 
 
-/* Headings
+/* Reset margins */
+
+.koenig-editor__editor p,
+.koenig-editor__editor h1,
+.koenig-editor__editor h2,
+.koenig-editor__editor h3,
+.koenig-editor__editor h4,
+.koenig-editor__editor h5,
+.koenig-editor__editor h6 {
+    margin: 1.6rem 0 0;
+}
+
+
+/* Heading
 /* -------------------------------------------------------------------- */
 
 .koenig-editor__editor h1,
@@ -59,66 +78,6 @@
 }
 
 
-/* Paragraph
-/* -------------------------------------------------------------------- */
-
-.koenig-editor__editor p,
-.koenig-editor__editor blockquote {
-    font-family: georgia,serif;
-    font-weight: 300;
-    letter-spacing: .02rem;
-    line-height: 1.6em;
-    font-size: 2rem;
-}
-
-
-/* Vertical riddim
-/*
-/* We use only margin-top to set the vertical spacings. The styles below
-/* set up the margin for content pairs (e.g. paragraph preceded by a heading).
-/* -------------------------------------------------------------------- */
-
-/* Reset margins */
-
-.koenig-editor__editor p,
-.koenig-editor__editor h1,
-.koenig-editor__editor h2,
-.koenig-editor__editor h3,
-.koenig-editor__editor h4,
-.koenig-editor__editor h5,
-.koenig-editor__editor h6 {
-    margin: 1.6rem 0 0;
-}
-
-
-/* Paragraph rhythm */
-
-.koenig-editor__editor h1 + p,
-.koenig-editor__editor h2 + p {
-    margin: .8rem 0 0;
-}
-
-.koenig-editor__editor h3 + p,
-.koenig-editor__editor h4 + p,
-.koenig-editor__editor h5 + p,
-.koenig-editor__editor h6 + p {
-    margin: .4rem 0 0;
-}
-
-.koenig-editor__editor p + p,
-.koenig-editor__editor blockquote + p {
-    margin: 3.2rem 0 0;
-}
-
-
-/* Mobiledoc cards can be selected by their wrapper div element */
-.koenig-editor__editor div + p {
-    margin: 2.8rem 0 0;
-}
-
-
-/* Heading rhythm */
-
 .koenig-editor__editor p + h1,
 .koenig-editor__editor p + h2,
 .koenig-editor__editor p + h3,
@@ -131,11 +90,25 @@
 .koenig-editor__editor blockquote + h3,
 .koenig-editor__editor blockquote + h4,
 .koenig-editor__editor blockquote + h5,
-.koenig-editor__editor blockquote + h6 {
+.koenig-editor__editor blockquote + h6,
+
+.koenig-editor__editor ul + h1,
+.koenig-editor__editor ul + h2,
+.koenig-editor__editor ul + h3,
+.koenig-editor__editor ul + h4,
+.koenig-editor__editor ul + h5,
+.koenig-editor__editor ul + h6,
+
+.koenig-editor__editor ol + h1,
+.koenig-editor__editor ol + h2,
+.koenig-editor__editor ol + h3,
+.koenig-editor__editor ol + h4,
+.koenig-editor__editor ol + h5,
+.koenig-editor__editor ol + h6 {
     margin: 4.8rem 0 0;
 }
 
-/* Heading 1 */
+/* Heading 1 vertical rhythm */
 
 .koenig-editor__editor h1 + h1 {
     margin: 1.4rem 0 0;
@@ -236,6 +209,69 @@
     margin: 2.4rem 0 0;
 }
 
+
+/* Paragraph
+/* -------------------------------------------------------------------- */
+
+.koenig-editor__editor p,
+.koenig-editor__editor blockquote,
+.koenig-editor__editor ul:not(.kg-action-bar),
+.koenig-editor__editor ol
+ {
+    font-family: georgia,serif;
+    font-weight: 300;
+    letter-spacing: .02rem;
+    line-height: 1.6em;
+    font-size: 2rem;
+}
+
+.koenig-editor__editor h1 + p,
+.koenig-editor__editor h2 + p {
+    margin: .8rem 0 0;
+}
+
+.koenig-editor__editor h3 + p,
+.koenig-editor__editor h4 + p,
+.koenig-editor__editor h5 + p,
+.koenig-editor__editor h6 + p {
+    margin: .4rem 0 0;
+}
+
+.koenig-editor__editor p + p,
+.koenig-editor__editor blockquote + p,
+.koenig-editor__editor ul + p,
+.koenig-editor__editor ol + p
+ {
+    margin: 3.2rem 0 0;
+}
+
+.koenig-editor__editor div + p { /* Mobiledoc cards can be addressed by their wrapper div element */
+    margin: 2.8rem 0 0;
+}
+
+
+/* Lists
+/* -------------------------------------------------------------------- */
+
+/* .koenig-editor__editor ul, */
+.koenig-editor__editor ul:not(.kg-action-bar),
+.koenig-editor__editor ol {
+    padding: 0;
+    margin: 2.4rem 0 0;
+}
+
+.koenig-editor__editor ul:not(.kg-action-bar) li,
+.koenig-editor__editor ol li {
+    margin: 0.8rem 0 0 2.8rem;
+    line-height: 3.2rem;
+}
+
+.koenig-editor__editor ul:not(.kg-action-bar) li:first-child,
+.koenig-editor__editor ol li:first-child {
+    margin: 0 0 0 2.8rem;
+}
+
+
 /* Cards in general
 /* -------------------------------------------------------------------- */
 
@@ -248,7 +284,9 @@
 }
 
 .koenig-editor__editor p + div,
-.koenig-editor__editor blockquote + div {
+.koenig-editor__editor blockquote + div,
+.koenig-editor__editor ul + div,
+.koenig-editor__editor ol + div {
     margin: 3.2rem 0 0;
 }
 
@@ -269,7 +307,7 @@
 }
 
 
-/* Link
+/* Links
 /* -------------------------------------------------------------------- */
 
 .koenig-editor__editor a {
