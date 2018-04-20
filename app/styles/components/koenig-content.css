@@ -253,11 +253,9 @@
 /* Lists
 /* -------------------------------------------------------------------- */
 
-/* .koenig-editor__editor ul, */
 .koenig-editor__editor ul:not(.kg-action-bar),
 .koenig-editor__editor ol {
     padding: 0;
-    margin: 2.4rem 0 0;
 }
 
 .koenig-editor__editor ul:not(.kg-action-bar) li,
@@ -269,6 +267,40 @@
 .koenig-editor__editor ul:not(.kg-action-bar) li:first-child,
 .koenig-editor__editor ol li:first-child {
     margin: 0 0 0 2.8rem;
+}
+
+.koenig-editor__editor p + ul:not(.kg-action-bar),
+.koenig-editor__editor p + ol,
+.koenig-editor__editor ul:not(.kg-action-bar) + ul:not(.kg-action-bar),
+.koenig-editor__editor ul:not(.kg-action-bar) + ol,
+.koenig-editor__editor ol + ul:not(.kg-action-bar),
+.koenig-editor__editor ol + ol,
+.koenig-editor__editor blockquote + ul:not(.kg-action-bar),
+.koenig-editor__editor blockquote + ol {
+    margin: 3.2rem 0 0;
+}
+
+.koenig-editor__editor h1 + ul:not(.kg-action-bar),
+.koenig-editor__editor h1 + ol,
+.koenig-editor__editor h2 + ul:not(.kg-action-bar),
+.koenig-editor__editor h2 + ol {
+    margin: .8rem 0 0;
+}
+
+.koenig-editor__editor h3 + ul:not(.kg-action-bar),
+.koenig-editor__editor h3 + ol,
+.koenig-editor__editor h4 + ul:not(.kg-action-bar),
+.koenig-editor__editor h4 + ol,
+.koenig-editor__editor h5 + ul:not(.kg-action-bar),
+.koenig-editor__editor h5 + ol,
+.koenig-editor__editor h6 + ul:not(.kg-action-bar),
+.koenig-editor__editor h6 + ol {
+    margin: .4rem 0 0;
+}
+
+.koenig-editor__editor div + ul:not(.kg-action-bar),
+.koenig-editor__editor div + ol {
+    margin: 2.8rem 0 0;
 }
 
 
@@ -357,7 +389,8 @@
 
 /* Code
 /* ------------------------------------------------------------------ */
-.koenig-editor__editor code, pre {
+.koenig-editor__editor code,
+.koenig-editor__editor pre {
     font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
     background: color-mod(var(--lightgrey) lightness(+4%));
     border: 1px solid var(--lightgrey);
