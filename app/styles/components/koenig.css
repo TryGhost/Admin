@@ -322,21 +322,9 @@ textarea.koenig-card-markdown {
     top: 0;
 }
 
-.__mobiledoc-editor a {
-    color: #0b8bff;
-    white-space: nowrap;
-}
-
 /* override of global.css block display */
 .__mobiledoc-editor i {
     display: inline;
-}
-
-.__mobiledoc-editor blockquote {
-    border-left: 4px solid #0b8bff;
-    margin: 1em 0 1em -1.2em;
-    padding-left: 1.05em;
-    color: #a0a0a0;
 }
 
 .__mobiledoc-editor hr {
