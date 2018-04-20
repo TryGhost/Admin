@@ -236,7 +236,7 @@
     margin: 2.4rem 0 0;
 }
 
-/* Cards
+/* Cards in general
 /* -------------------------------------------------------------------- */
 
 .koenig-editor__editor > div {
@@ -264,6 +264,10 @@
     margin: 1.6rem 0 0;
 }
 
+.koenig-editor__editor hr {
+    margin: 0;
+}
+
 
 /* Link
 /* -------------------------------------------------------------------- */
@@ -278,6 +282,10 @@
 
 /* Blockquote
 /* -------------------------------------------------------------------- */
+
+.koenig-editor__editor blockquote p {
+    margin: 0;
+}
 
 .koenig-editor__editor blockquote {
     border-left: 0.25rem solid var(--blue);
@@ -306,4 +314,65 @@
 /* Mobiledoc cards can be selected by their wrapper div element */
 .koenig-editor__editor div + blockquote {
     margin: 2.8rem 0 0;
+}
+
+
+/* Code
+/* ------------------------------------------------------------------ */
+.koenig-editor__editor code, pre {
+    font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
+    background: color-mod(var(--lightgrey) lightness(+4%));
+    border: 1px solid var(--lightgrey);
+}
+
+.koenig-editor__editor code {
+    border-radius: 2px;
+    color: var(--pink);
+    font-size: 1.75rem;
+    line-height: 1em;
+    padding: .4rem .4rem .2rem;
+    vertical-align: middle;
+    white-space: pre-wrap;
+}
+
+.koenig-editor__editor pre code {
+    border: none;
+    font-size: 1.6rem;
+    color: var(--darkgrey);
+    padding: 0;
+}
+
+.koenig-editor__editor pre {
+    margin: 0;
+    line-height: 1.4em;
+    padding: .8rem .8rem .4rem;
+    border-radius: .4rem;
+    font-size: 1.6rem;
+    overflow: auto;
+    white-space: pre;
+    width: 100%;
+    color: var(--darkgrey);
+}
+
+
+/* Markdown
+/* --------------------------------------------------------------- */
+
+/*
+  Resetting the default top margin of the redered markdown content. This is
+  needed because the top margin is applied to the card itself. It's the 2nd
+  child because there's an SVG at the first place.
+  NOTE: this is not too elegant.
+*/
+
+.koenig-card-markdown-rendered > :nth-child(2) {
+    margin: 0;
+}
+
+.koenig-card-markdown-rendered hr {
+    margin: 3.2rem 0 0;
+}
+
+.koenig-card-markdown-rendered hr + p {
+    margin: 3.2rem 0 0;
 }
