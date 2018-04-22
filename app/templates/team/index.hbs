@@ -20,19 +20,19 @@
     {{!-- Show invited users to everyone except authors --}}
     {{#unless session.user.isAuthorOrContributor}}
         {{#if invites}}
-        <section class="apps-grid-container gh-invited-users" data-test-invited-users>
-            <span class="apps-grid-title">Invited users</span>
-            <div class="apps-grid">
+        <section class="grid-container gh-invited-users" data-test-invited-users>
+            <span class="grid-title">Invited users</span>
+            <div class="grid">
 
                 {{#each sortedInvites as |invite|}}
                     {{#gh-user-invited invite=invite reload=(route-action "reload") as |component|}}
-                        <div class="apps-grid-cell" data-test-invite-id="{{invite.id}}">
-                            <article class="apps-card-app">
-                                <div class="apps-card-left">
+                        <div class="grid-cell" data-test-invite-id="{{invite.id}}">
+                            <article class="card">
+                                <div class="card-left">
                                     <span class="user-list-item-icon">{{svg-jar "email"}}ic</span>
-                                    <div class="apps-card-meta">
-                                        <h3 class="apps-card-app-title" data-test-email>{{invite.email}}</h3>
-                                        <p class="apps-card-app-desc">
+                                    <div class="card-meta">
+                                        <h3 class="card-title" data-test-email>{{invite.email}}</h3>
+                                        <p class="card-desc">
                                             {{#if invite.pending}}
                                                 <span class="description-error">
                                                     Invitation not sent - please try again
@@ -46,19 +46,19 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="apps-card-right">
-                                    <div class="apps-configured">
+                                <div class="card-right">
+                                    <div class="configured">
                                         {{#if component.isSending}}
                                             <span>Sending Invite...</span>
                                         {{else}}
-                                            <a class="apps-configured-action red-hover" href="#revoke" {{action "revoke" target=component}} data-test-revoke-button>
+                                            <a class="configured-action red-hover" href="#revoke" {{action "revoke" target=component}} data-test-revoke-button>
                                                 Revoke
                                             </a>
-                                            <a class="apps-configured-action green-hover" href="#resend" {{action "resend" target=component}} data-test-resend-button>
+                                            <a class="configured-action green-hover" href="#resend" {{action "resend" target=component}} data-test-resend-button>
                                                 Resend
                                             </a>
 
-                                            <span class="apps-configured-action gh-badge {{invite.role.lowerCaseName}}" data-test-role-name>{{invite.role.name}}</span>
+                                            <span class="configured-action gh-badge {{invite.role.lowerCaseName}}" data-test-role-name>{{invite.role.name}}</span>
                                         {{/if}}
                                     </div>
                                 </div>
@@ -72,9 +72,9 @@
         {{/if}}
     {{/unless}}
 
-    <section class="apps-grid-container gh-active-users" data-test-active-users>
-        <span class="apps-grid-title">Active users</span>
-        <div class="apps-grid">
+    <section class="grid-container gh-active-users" data-test-active-users>
+        <span class="grid-title">Active users</span>
+        <div class="grid">
             {{!-- For authors/contributors only show their own user --}}
             {{#if session.user.isAuthorOrContributor}}
                 {{#with session.user as |user|}}
@@ -92,18 +92,11 @@
         </div>
     </section>
 
-    {{infinity-loader
-        infinityModel=activeUsers
-        scrollable=".gh-main"
-        triggerOffset=500}}
-
-    </section>
-
     {{!-- Don't show if we have no suspended users or logged in as an author --}}
     {{#if (and suspendedUsers (not session.user.isAuthorOrContributor))}}
-    <section class="apps-grid-container gh-active-users" data-test-suspended-users>
-        <span class="apps-grid-title">Suspended users</span>
-        <div class="apps-grid">
+    <section class="grid-container gh-suspended-users" data-test-suspended-users>
+        <span class="grid-title">Suspended users</span>
+        <div class="grid">
             {{#each sortedSuspendedUsers key="id" as |user|}}
                 {{#gh-user-active user=user as |component|}}
                     {{gh-user-list-item user=user component=component}}
@@ -112,4 +105,12 @@
         </div>
     </section>
     {{/if}}
+
+    {{infinity-loader
+        infinityModel=activeUsers
+        scrollable=".gh-main"
+        triggerOffset=500}}
+
+    </section>
+
 </section>
