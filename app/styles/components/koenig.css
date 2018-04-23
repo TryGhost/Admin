@@ -317,6 +317,9 @@
 
 /* TODO: update to match Ghost styles */
 .__mobiledoc-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
     font-family: var(--font-family);
     font-size: 1.7rem;

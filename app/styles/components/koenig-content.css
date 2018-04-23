@@ -26,6 +26,7 @@
 .koenig-editor__editor h6,
 .koenig-editor__editor blockquote {
     margin: 1.6rem 0 0;
+    min-width: 100%;
 }
 
 
@@ -257,6 +258,7 @@
 .koenig-editor__editor ul:not(.kg-action-bar),
 .koenig-editor__editor ol {
     padding: 0;
+    min-width: 100%;
 }
 
 .koenig-editor__editor ul:not(.kg-action-bar) li,
@@ -310,6 +312,7 @@
 
 .koenig-editor__editor > div {
     line-height: 0;
+    min-width: 100%;
 }
 
 .koenig-editor__editor > div + div {
