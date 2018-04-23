@@ -1,9 +1,10 @@
 /* Shame
 /* ---------------------------------------------------------- */
-/* TODO: Kill with fire */
+/* TODO: Kill with fire 🔥 */
 
 .kg-card-selected {
     border: 1px solid var(--blue);
+    box-shadow: 0 0 0 1px #3eb0ef;
 }
 
 /* force a 16:10 aspect ratio */
