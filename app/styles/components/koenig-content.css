@@ -261,15 +261,24 @@
     min-width: 100%;
 }
 
-.koenig-editor__editor ul:not(.kg-action-bar) li,
-.koenig-editor__editor ol li {
-    margin: 0.8rem 0 0 2.8rem;
+.koenig-editor__editor ul:not(.kg-action-bar) li {
+    margin: 1.6rem 0 0 2.4rem;
+    padding: 0 0 0 0.6rem;
     line-height: 3.2rem;
 }
 
-.koenig-editor__editor ul:not(.kg-action-bar) li:first-child,
+.koenig-editor__editor ul:not(.kg-action-bar) li:first-child {
+    margin: 0 0 0 2.4rem;
+}
+
+.koenig-editor__editor ol li {
+    margin: 1.6rem 0 0 2.2rem;
+    padding: 0 0 0 0.8rem;
+    line-height: 3.2rem;
+}
+
 .koenig-editor__editor ol li:first-child {
-    margin: 0 0 0 2.8rem;
+    margin: 0 0 0 2.2rem;
 }
 
 .koenig-editor__editor p + ul:not(.kg-action-bar),
