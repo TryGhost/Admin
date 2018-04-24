@@ -227,16 +227,19 @@
     font-size: 2rem;
 }
 
-.koenig-editor__editor h1 + p,
+.koenig-editor__editor h1 + p {
+    margin: 1.2rem 0 0;
+}
+
 .koenig-editor__editor h2 + p {
-    margin: .8rem 0 0;
+    margin: 0.8rem 0 0;
 }
 
 .koenig-editor__editor h3 + p,
 .koenig-editor__editor h4 + p,
 .koenig-editor__editor h5 + p,
 .koenig-editor__editor h6 + p {
-    margin: .4rem 0 0;
+    margin: .8rem 0 0;
 }
 
 .koenig-editor__editor p + p,
