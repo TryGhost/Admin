@@ -58,22 +58,32 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     border: var(--midgrey) 1px solid;
     background: #fff;
     border-radius: 100%;
-    margin-left: -40px;
+    margin-left: -48px;
+    margin-top: -2px;
+}
+
+.koenig-plus-menu-button:hover {
+    border: var(--blue) 1px solid;
+    background: rgba(62, 176, 239, .05);
 }
 
 .koenig-plus-menu-button svg {
-    height: 15px;
-    width: 15px;
+    height: 16px;
+    width: 16px;
 }
 
 .koenig-plus-menu-button svg path {
     stroke: var(--midgrey);
     stroke-width: 2px;
+}
+
+.koenig-plus-menu-button:hover svg path {
+    stroke: var(--middarkgrey);
 }
 
 @media (max-width: 1024px) {
