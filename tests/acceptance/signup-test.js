@@ -161,5 +161,5 @@ describe('Acceptance: Signup', function () {
 
     it('redirects if already logged in');
     it('redirects with alert on invalid token');
-    it('redirects with alert on non-existant or expired token');
+    it('redirects with alert on non-existent or expired token');
 });
