@@ -14,15 +14,15 @@
             </div>
             {{#gh-scheduled-post-countdown post=post as |post countdown|}}
                 <time datetime="{{post.publishedAtUTC}}" class="gh-notification gh-notification-schedule" data-test-schedule-countdown>
-                    Post will be published {{countdown}}.
+                    {{t "Post will be published"}} {{countdown}}.
                 </time>
             {{/gh-scheduled-post-countdown}}
             <section class="view-actions">
                 {{#unless post.isNew}}
                     {{#if session.user.isContributor}}
-                        {{gh-task-button "Save"
+                        {{gh-task-button (t "Save")
                             task=save
-                            runningText="Saving"
+                            runningText=(t "Saving")
                             class="gh-btn gh-btn-blue gh-btn-icon contributor-save-button"
                             data-test-contributor-save=true}}
                     {{else}}
@@ -35,7 +35,7 @@
                     {{/if}}
                 {{/unless}}
 
-                <button type="button" class="post-settings" title="Settings" {{action "openSettingsMenu" target=ui}} data-test-psm-trigger>
+                <button type="button" class="post-settings" title="{{t "Settings"}}" {{action "openSettingsMenu" target=ui}} data-test-psm-trigger>
                     {{svg-jar "settings"}}
                 </button>
             </section>

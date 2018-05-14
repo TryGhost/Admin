@@ -5,27 +5,27 @@
     <section class="view-container">
         <section class="gh-env-details">
             <ul class="gh-env-list">
-                <li class="gh-env-list-version"><strong>Version</strong> {{about.version}}</li>
-                <li><strong>Environment</strong> {{about.environment}}</li>
-                <li class="gh-env-list-database-type"><strong>Database</strong> {{about.database}}</li>
-                <li><strong>Mail</strong> {{#if about.mail}}{{about.mail}}{{else}}Native{{/if}}</li>
+                <li class="gh-env-list-version"><strong>{{t "Version"}}</strong> {{about.version}}</li>
+                <li><strong>{{t "Environment"}}</strong> {{about.environment}}</li>
+                <li class="gh-env-list-database-type"><strong>{{t "Database"}}</strong> {{about.database}}</li>
+                <li><strong>{{t "Mail"}}</strong> {{#if about.mail}}{{about.mail}}{{else}}{{t "Native"}}{{/if}}</li>
             </ul>
             <div class="gh-env-help">
-                <a class="gh-btn" href="https://help.ghost.org" target="_blank"><span>User Documentation</span></a>
-                <a class="gh-btn" href="https://forum.ghost.org/" target="_blank"><span>Get Help With Ghost</span></a>
+                <a class="gh-btn" href="https://help.ghost.org" target="_blank"><span>{{t "User Documentation"}}</span></a>
+                <a class="gh-btn" href="https://forum.ghost.org/" target="_blank"><span>{{t "Get Help With Ghost"}}</span></a>
             </div>
         </section>
 
         {{#if upgradeStatus.message}}
             <section class="gh-upgrade-notification">
                 <p>
-                    <strong>Update available!</strong> {{upgradeStatus.message}}
+                    <strong>{{t "Update available!"}}</strong> {{upgradeStatus.message}}
                 </p>
             </section>
         {{/if}}
 
         <section class="gh-credits">
-            <h2>The People Who Made it Possible</h2>
+            <h2>{{t "The People Who Made it Possible"}}</h2>
 
             <section class="gh-contributors">
                 {{partial "contributors"}}

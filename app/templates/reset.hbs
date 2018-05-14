@@ -8,7 +8,7 @@
                         {{gh-text-input
                             type="password"
                             name="newpassword"
-                            placeholder="Password"
+                            placeholder=(t "Password")
                             class="password"
                             autocorrect="off"
                             autofocus="autofocus"
@@ -22,7 +22,7 @@
                         {{gh-text-input
                             type="password"
                             name="ne2password"
-                            placeholder="Confirm Password"
+                            placeholder=(t "Confirm Password")
                             class="password"
                             autocorrect="off"
                             autofocus="autofocus"
@@ -31,7 +31,7 @@
                     </span>
                 {{/gh-form-group}}
 
-                {{gh-task-button "Reset Password" task=resetPassword class="gh-btn gh-btn-blue gh-btn-block gh-btn-icon" type="submit" autoWidth="false"}}
+                {{gh-task-button (t "Reset Password") task=resetPassword class="gh-btn gh-btn-blue gh-btn-block gh-btn-icon" type="submit" autoWidth="false"}}
             </form>
 
             <p class="main-error">{{flowErrors}}&nbsp;</p>

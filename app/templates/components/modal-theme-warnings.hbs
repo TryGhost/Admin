@@ -3,11 +3,12 @@
         {{#unless canActivate}}
             {{title}}
         {{else}}
+            {{!-- TODO: find solution for translation here --}}
             {{title}} with {{#if errors}}errors{{else}}warnings{{/if}}
         {{/unless}}
     </h1>
 </header>
-<a class="close" href="#" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="#" title="{{t "Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Close"}}</span></a>
 
 <div class="modal-body">
     <ul class="theme-validation-errors" data-test-theme-warnings>
@@ -18,8 +19,8 @@
         {{/if}}
         {{#if fatalErrors}}
             <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                <p><em>(Must-fix to activate theme)</em></p>
+                <h2 class="theme-validation-errortype fatal">{{t "Fatal Errors"}}</h2>
+                <p>{{{t "<em>(Must-fix to activate theme)</em>"}}}</p>
             </div>
         {{/if}}
         {{#each fatalErrors as |error|}}
@@ -30,8 +31,8 @@
 
         {{#if errors}}
             <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype">Errors</h2>
-                <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                <h2 class="theme-validation-errortype">{{t "Errors"}}</h2>
+                <p>{{{t "<em>(Very recommended to fix, functionality <span>could</span> be restricted)</em>"}}}</p>
             </div>
         {{/if}}
         {{#each errors as |error|}}
@@ -42,7 +43,7 @@
 
         {{#if warnings}}
             <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype">Warnings</h2>
+                <h2 class="theme-validation-errortype">{{t "Warnings"}}</h2>
             </div>
         {{/if}}
         {{#each warnings as |error|}}
@@ -56,6 +57,6 @@
 
 <div class="modal-footer">
     <button {{action "closeModal"}} class="gh-btn" data-test-modal-close-button>
-        <span>Close</span>
+        <span>{{t "Close"}}</span>
     </button>
 </div>

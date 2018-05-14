@@ -1,11 +1,11 @@
 {{#if _isSaving}}
-    Saving...
+    {{t "Saving..."}}
 {{else if isPublished}}
-    Published
+    {{t "Published"}}
 {{else if isScheduled}}
-    Scheduled
+    {{t "Scheduled"}}
 {{else if isNew}}
-    New
+    {{t "New"}}
 {{else}}
-    Draft
+    {{t "Draft"}}
 {{/if}}

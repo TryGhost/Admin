@@ -1,13 +1,13 @@
 <header class="modal-header">
-    <h1>Would you really like to delete all content from your blog?</h1>
+    <h1>{{t "Would you really like to delete all content from your blog?"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Close"}}</span></a>
 
 <div class="modal-body">
-    <p>This is permanent! No backups, no restores, no magic undo button. We warned you, k?</p>
+    <p>{{t "This is permanent! No backups, no restores, no magic undo button. We warned you, k?"}}</p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    {{gh-task-button "Delete" successText="Deleted" task=deleteAll class="gh-btn gh-btn-red gh-btn-icon"}}
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Cancel"}}</span></button>
+    {{gh-task-button (t "Delete") successText=(t "Deleted") task=deleteAll class="gh-btn gh-btn-red gh-btn-icon"}}
 </div>
