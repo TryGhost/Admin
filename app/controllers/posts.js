@@ -5,30 +5,30 @@ import {get} from '@ember/object';
 import {inject as service} from '@ember/service';
 
 const TYPES = [{
-    name: 'All posts',
+    name: 'filter.All posts',
     value: null
 }, {
-    name: 'Draft posts',
+    name: 'filter.Draft posts',
     value: 'draft'
 }, {
-    name: 'Published posts',
+    name: 'filter.Published posts',
     value: 'published'
 }, {
-    name: 'Scheduled posts',
+    name: 'filter.Scheduled posts',
     value: 'scheduled'
 }, {
-    name: 'Featured posts',
+    name: 'filter.Featured posts',
     value: 'featured'
 }, {
-    name: 'Pages',
+    name: 'filter.Pages',
     value: 'page'
 }];
 
 const ORDERS = [{
-    name: 'Newest',
+    name: 'order.Newest',
     value: null
 }, {
-    name: 'Oldest',
+    name: 'order.Oldest',
     value: 'published_at asc'
 }];
 
@@ -36,6 +36,7 @@ export default Controller.extend({
 
     session: service(),
     store: service(),
+    i18n: service(),
 
     queryParams: ['type', 'author', 'tag', 'order'],
 
@@ -52,8 +53,8 @@ export default Controller.extend({
 
     init() {
         this._super(...arguments);
-        this.availableTypes = TYPES;
-        this.availableOrders = ORDERS;
+        this.availableTypes = TYPES.map(({name, value}) => Object({name: this.get('i18n').t(name).toString(), value}));
+        this.availableOrders = ORDERS.map(({name, value}) => Object({name: this.get('i18n').t(name).toString(), value}));
     },
 
     postsInfinityModel: alias('model'),
@@ -82,7 +83,7 @@ export default Controller.extend({
         let tags = this.get('_availableTags').filter(tag => tag.get('id') !== null);
         let options = tags.toArray();
 
-        options.unshiftObject({name: 'All tags', slug: null});
+        options.unshiftObject({name: this.get('i18n').t('filter.All tags').toString(), slug: null});
 
         return options;
     }),
@@ -102,7 +103,7 @@ export default Controller.extend({
         let authors = this.get('_availableAuthors');
         let options = authors.toArray();
 
-        options.unshiftObject({name: 'All authors', slug: null});
+        options.unshiftObject({name: this.get('i18n').t('filter.All authors').toString(), slug: null});
 
         return options;
     }),

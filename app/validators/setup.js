@@ -8,12 +8,12 @@ export default NewUserValidator.create({
         let blogTitle = model.get('blogTitle');
 
         if (!validator.isLength(blogTitle || '', 1)) {
-            model.get('errors').add('blogTitle', 'Please enter a blog title.');
+            model.get('errors').add('blogTitle', this.t('validation.Please enter a blog title.'));
             this.invalidate();
         }
 
         if (!validator.isLength(blogTitle || '', 0, 150)) {
-            model.get('errors').add('blogTitle', 'Title is too long');
+            model.get('errors').add('blogTitle', this.t('validation.Title is too long'));
             this.invalidate();
         }
     }

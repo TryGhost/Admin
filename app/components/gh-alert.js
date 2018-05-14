@@ -4,6 +4,7 @@ import {inject as service} from '@ember/service';
 
 export default Component.extend({
     notifications: service(),
+    i18n: service(),
 
     classNameBindings: ['typeClass'],
     classNames: ['gh-alert'],

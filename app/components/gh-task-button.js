@@ -2,6 +2,8 @@ import Component from '@ember/component';
 import {computed} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {reads} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 import {task, timeout} from 'ember-concurrency';
 
 /**
@@ -16,6 +18,8 @@ import {task, timeout} from 'ember-concurrency';
  * component is removed from the DOM
  */
 const GhTaskButton = Component.extend({
+    i18n: service(),
+
     tagName: 'button',
     classNameBindings: [
         'isRunning:appear-disabled',
@@ -28,16 +32,17 @@ const GhTaskButton = Component.extend({
 
     task: null,
     disabled: false,
-    buttonText: 'Save',
     idleClass: '',
     runningClass: '',
-    successText: 'Saved',
     successClass: 'gh-btn-green',
-    failureText: 'Retry',
     failureClass: 'gh-btn-red',
 
     // Allowed actions
     action: () => {},
+
+    failureText: t('taskButton.Retry'),
+    successText: t('taskButton.Saved'),
+    buttonText: t('taskButton.Save'),
 
     isRunning: reads('task.last.isRunning'),
     runningText: reads('buttonText'),

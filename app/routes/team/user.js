@@ -2,11 +2,15 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import styleBody from 'ghost-admin/mixins/style-body';
+import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: 'Team - User',
+    i18n: service(),
 
     classNames: ['team-view-user'],
+
+    titleToken: t('pageTitle.Team - User'),
 
     model(params) {
         return this.store.queryRecord('user', {slug: params.user_slug, include: 'count.posts'});

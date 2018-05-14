@@ -20,6 +20,7 @@ export default Controller.extend({
     notifications: service(),
     session: service(),
     settings: service(),
+    i18n: service(),
 
     availableTimezones: null,
     iconExtensions: null,
@@ -135,7 +136,7 @@ export default Controller.extend({
             let settings = this.get('settings');
 
             if (!transition) {
-                this.get('notifications').showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+                this.get('notifications').showAlert(this.get('i18n').t('Sorry, there was an error in the application. Please let the Ghost team know what happened.'), {type: 'error'});
                 return;
             }
 
@@ -189,8 +190,7 @@ export default Controller.extend({
                 });
             } catch (e) {
                 if (e === 'invalid url') {
-                    errMessage = 'The URL must be in a format like '
-                               + 'https://www.facebook.com/yourPage';
+                    errMessage = this.get('i18n').t('validation.The URL must be in a format like https://www.facebook.com/yourPage');
                     this.get('settings.errors').add('facebook', errMessage);
                     return;
                 }
@@ -232,7 +232,9 @@ export default Controller.extend({
 
                 // check if username starts with http or www and show error if so
                 if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
-                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
+                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi)
+                        ? this.get('i18n').t('validation.Your Username is not a valid Twitter Username')
+                        : this.get('i18n').t('validation.The URL must be in a format like https://twitter.com/yourUsername');
 
                     this.get('settings.errors').add('twitter', errMessage);
                     this.get('settings.hasValidated').pushObject('twitter');
@@ -248,8 +250,7 @@ export default Controller.extend({
                     this.set('settings.twitter', newUrl);
                 });
             } else {
-                errMessage = 'The URL must be in a format like '
-                           + 'https://twitter.com/yourUsername';
+                errMessage = this.get('i18n').t('validation.The URL must be in a format like https://twitter.com/yourUsername');
                 this.get('settings.errors').add('twitter', errMessage);
                 this.get('settings.hasValidated').pushObject('twitter');
                 return;

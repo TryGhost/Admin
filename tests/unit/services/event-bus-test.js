@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import {setupTest} from 'ember-mocha';
 
 describe('Unit: Service: event-bus', function () {
-    setupTest('service:event-bus', {});
+    setupTest('service:event-bus', {needs: ['service:i18n']});
     it('works', function () {
         let service = this.subject();
         let eventHandler = sinon.spy();

@@ -1,11 +1,11 @@
 {{#if _isSaving}}
-    Saving...
+    {{t "postStatus.Saving..."}}
 {{else if isPublished}}
-    Published
+    {{t "postStatus.Published"}}
 {{else if isScheduled}}
-    Scheduled
+    {{t "postStatus.Scheduled"}}
 {{else if isNew}}
-    New
+    {{t "postStatus.New"}}
 {{else}}
-    Draft
+    {{t "postStatus.Draft"}}
 {{/if}}

@@ -6,7 +6,7 @@ describe('Unit: Component: gh-user-active', function () {
     setupComponentTest('gh-user-active', {
         unit: true,
         // specify the other units that are required for this test
-        needs: ['service:ghostPaths']
+        needs: ['service:ghostPaths', 'service:i18n']
     });
 
     it('renders', function () {

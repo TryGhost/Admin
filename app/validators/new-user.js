@@ -12,7 +12,7 @@ export default PasswordValidator.extend({
         let name = model.get('name');
 
         if (!validator.isLength(name || '', 1)) {
-            model.get('errors').add('name', 'Please enter a name.');
+            model.get('errors').add('name', this.t('validation.Please enter a name.'));
             this.invalidate();
         }
     },
@@ -21,10 +21,10 @@ export default PasswordValidator.extend({
         let email = model.get('email');
 
         if (isBlank(email)) {
-            model.get('errors').add('email', 'Please enter an email.');
+            model.get('errors').add('email', this.t('validation.Please enter an email.'));
             this.invalidate();
         } else if (!validator.isEmail(email)) {
-            model.get('errors').add('email', 'Invalid Email.');
+            model.get('errors').add('email', this.t('validation.Invalid Email.'));
             this.invalidate();
         }
     },

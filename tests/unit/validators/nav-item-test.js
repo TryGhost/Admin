@@ -1,10 +1,13 @@
 import NavItem from 'ghost-admin/models/navigation-item';
+import localeConfig from 'ember-i18n/config/en';
 import validator from 'ghost-admin/validators/nav-item';
 import {
     describe,
     it
 } from 'mocha';
 import {expect} from 'chai';
+import {getOwner} from '@ember/application';
+import {setupComponentTest} from 'ember-mocha';
 
 const testInvalidUrl = function (url) {
     let navItem = NavItem.create({url});
@@ -29,6 +32,26 @@ const testValidUrl = function (url) {
 };
 
 describe('Unit: Validator: nav-item', function () {
+    setupComponentTest('gh-app', {
+        unit: true,
+        // specify the other units that are required for this test
+        needs: [
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
+        ]
+    });
+
+    beforeEach(function () {
+        this.register('locale:en/config', localeConfig);
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+        validator.set('i18n', getOwner(this).lookup('service:i18n'));
+    });
+
     it('requires label presence', function () {
         let navItem = NavItem.create();
 

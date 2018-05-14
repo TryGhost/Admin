@@ -7,7 +7,7 @@ export default BaseValidator.create({
         let title = model.get('title');
 
         if (!validator.isLength(title || '', 0, 150)) {
-            model.get('errors').add('title', 'Title is too long');
+            model.get('errors').add('title', this.t('validation.Title is too long'));
             this.invalidate();
         }
     },
@@ -16,7 +16,7 @@ export default BaseValidator.create({
         let desc = model.get('description');
 
         if (!validator.isLength(desc || '', 0, 200)) {
-            model.get('errors').add('description', 'Description is too long');
+            model.get('errors').add('description', this.t('validation.Description is too long'));
             this.invalidate();
         }
     },
@@ -26,7 +26,7 @@ export default BaseValidator.create({
         let password = model.get('password');
 
         if (isPrivate && password === '') {
-            model.get('errors').add('password', 'Password must be supplied');
+            model.get('errors').add('password', this.t('validation.Password must be supplied'));
             this.invalidate();
         }
     }

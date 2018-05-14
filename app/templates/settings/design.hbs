@@ -1,6 +1,6 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
-        <h2 class="gh-canvas-title" data-test-screen-title>Design</h2>
+        <h2 class="gh-canvas-title" data-test-screen-title>{{t "Design"}}</h2>
         <section class="view-actions">
             {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
         </section>
@@ -14,7 +14,7 @@
     {{/if}}
 
     <section class="view-container">
-        <div class="gh-setting-header">Navigation</div>
+        <div class="gh-setting-header">{{t "Navigation"}}</div>
         <div class="gh-blognav-container">
             <form id="settings-navigation" class="gh-blognav" novalidate="novalidate">
                 {{#sortable-objects sortableObjectList=settings.navigation useSwap=false}}
@@ -28,7 +28,7 @@
             </form>
         </div>
 
-        <div class="gh-setting-header">Themes</div>
+        <div class="gh-setting-header">{{t "Themes"}}</div>
         <div class="gh-themes-container">
             {{gh-theme-table
                 themes=themes
@@ -37,7 +37,7 @@
                 deleteTheme=(action "deleteTheme")}}
 
             {{#link-to "settings.design.uploadtheme" class="gh-btn gh-btn-green gh-themes-uploadbtn" data-test-upload-theme-button=true}}
-                <span>Upload a theme</span>
+                <span>{{t "Upload a theme"}}</span>
             {{/link-to}}
 
 
@@ -55,7 +55,7 @@
             {{#if showThemeWarningsModal}}
                 {{gh-fullscreen-modal "theme-warnings"
                     model=(hash
-                        title="Activation successful"
+                        title=(t "Activation successful")
                         warnings=themeWarnings
                         errors=themeErrors
                         message=message
@@ -68,7 +68,7 @@
             {{#if showThemeErrorsModal}}
                 {{gh-fullscreen-modal "theme-warnings"
                     model=(hash
-                        title="Activation failed"
+                        title=(t "Activation failed")
                         errors=themeErrors
                         fatalErrors=themeFatalErrors
                         canActivate=false

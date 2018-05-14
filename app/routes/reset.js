@@ -6,12 +6,13 @@ import {inject as service} from '@ember/service';
 export default Route.extend(styleBody, UnauthenticatedRouteMixin, {
     notifications: service(),
     session: service(),
+    i18n: service(),
 
     classNames: ['ghost-reset'],
 
     beforeModel() {
         if (this.get('session.isAuthenticated')) {
-            this.get('notifications').showAlert('You can\'t reset your password while you\'re signed in.', {type: 'warn', delayed: true, key: 'password.reset.signed-in'});
+            this.get('notifications').showAlert(this.get('i18n').t('You can\'t reset your password while you\'re signed in.'), {type: 'warn', delayed: true, key: 'password.reset.signed-in'});
         }
 
         this._super(...arguments);

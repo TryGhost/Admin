@@ -1,12 +1,15 @@
 import EmberObject from '@ember/object';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import localeConfig from 'ember-i18n/config/en';
 import {
     describe,
     it
 } from 'mocha';
 import {expect} from 'chai';
 // import validator from 'ghost-admin/validators/tag-settings';
+import {getOwner} from '@ember/application';
 import {run} from '@ember/runloop';
+import {setupComponentTest} from 'ember-mocha';
 
 const Tag = EmberObject.extend(ValidationEngine, {
     validationType: 'tag',
@@ -24,8 +27,28 @@ const Tag = EmberObject.extend(ValidationEngine, {
 // and replace these tests with specific validator tests
 
 describe('Unit: Validator: tag-settings', function () {
+    setupComponentTest('gh-app', {
+        unit: true,
+        // specify the other units that are required for this test
+        needs: [
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
+        ]
+    });
+
+    beforeEach(function () {
+        this.register('locale:en/config', localeConfig);
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+    });
+
     it('validates all fields by default', function () {
         let tag = Tag.create({});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let properties = tag.get('validators.tag.properties');
 
         // TODO: This is checking implementation details rather than expected
@@ -53,6 +76,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('passes with valid name', function () {
         // longest valid name
         let tag = Tag.create({name: (new Array(192).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
 
         expect(tag.get('name').length, 'name length').to.equal(191);
@@ -69,6 +93,7 @@ describe('Unit: Validator: tag-settings', function () {
 
     it('validates name presence', function () {
         let tag = Tag.create();
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let nameErrors;
 
@@ -96,6 +121,7 @@ describe('Unit: Validator: tag-settings', function () {
 
     it('validates names starting with a comma', function () {
         let tag = Tag.create({name: ',test'});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let nameErrors;
 
@@ -116,6 +142,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('validates name length', function () {
         // shortest invalid name
         let tag = Tag.create({name: (new Array(193).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let nameErrors;
 
@@ -138,6 +165,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('passes with valid slug', function () {
         // longest valid slug
         let tag = Tag.create({slug: (new Array(192).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
 
         expect(tag.get('slug').length, 'slug length').to.equal(191);
@@ -155,6 +183,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('validates slug length', function () {
         // shortest invalid slug
         let tag = Tag.create({slug: (new Array(193).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let slugErrors;
 
@@ -177,6 +206,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('passes with a valid description', function () {
         // longest valid description
         let tag = Tag.create({description: (new Array(501).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
 
         expect(tag.get('description').length, 'description length').to.equal(500);
@@ -194,6 +224,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('validates description length', function () {
         // shortest invalid description
         let tag = Tag.create({description: (new Array(502).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let errors;
 
@@ -224,6 +255,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('passes with a valid metaTitle', function () {
         // longest valid metaTitle
         let tag = Tag.create({metaTitle: (new Array(301).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
 
         expect(tag.get('metaTitle').length, 'metaTitle length').to.equal(300);
@@ -241,6 +273,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('validates metaTitle length', function () {
         // shortest invalid metaTitle
         let tag = Tag.create({metaTitle: (new Array(302).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let errors;
 
@@ -265,6 +298,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('passes with a valid metaDescription', function () {
         // longest valid description
         let tag = Tag.create({metaDescription: (new Array(501).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
 
         expect(tag.get('metaDescription').length, 'metaDescription length').to.equal(500);
@@ -282,6 +316,7 @@ describe('Unit: Validator: tag-settings', function () {
     it('validates metaDescription length', function () {
         // shortest invalid metaDescription
         let tag = Tag.create({metaDescription: (new Array(502).join('x'))});
+        tag.validators.tag.set('i18n', getOwner(this).lookup('service:i18n'));
         let passed = false;
         let errors;
 

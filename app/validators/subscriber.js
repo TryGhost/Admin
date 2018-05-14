@@ -9,15 +9,15 @@ export default BaseValidator.create({
         let email = model.get('email');
 
         if (isBlank(email)) {
-            model.get('errors').add('email', 'Please enter an email.');
+            model.get('errors').add('email', this.t('validation.Please enter an email.'));
             model.get('hasValidated').pushObject('email');
             this.invalidate();
         } else if (!validator.isEmail(email)) {
-            model.get('errors').add('email', 'Invalid email.');
+            model.get('errors').add('email', this.t('validation.Invalid Email.'));
             model.get('hasValidated').pushObject('email');
             this.invalidate();
         } else if (!validator.isLength(email, 0, 191)) {
-            model.get('errors').add('email', 'Email is too long');
+            model.get('errors').add('email', this.t('validation.Email is too long'));
             model.get('hasValidated').pushObject('email');
             this.invalidate();
         }

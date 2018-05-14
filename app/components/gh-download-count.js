@@ -7,7 +7,6 @@ export default Component.extend({
     ajax: service(),
     ghostPaths: service(),
 
-    tagName: '',
     count: '',
 
     didInsertElement() {

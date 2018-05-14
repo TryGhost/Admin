@@ -11,6 +11,7 @@ export default ModalComponent.extend(ValidationEngine, {
     config: service(),
     notifications: service(),
     session: service(),
+    i18n: service(),
 
     validationType: 'signin',
 
@@ -62,7 +63,7 @@ export default ModalComponent.extend(ValidationEngine, {
                     err.message = htmlSafe(err.context || err.message);
                 });
 
-                this.get('errors').add('password', 'Incorrect password');
+                this.get('errors').add('password', this.get('i18n').t('validation.Incorrect password'));
                 this.get('hasValidated').pushObject('password');
                 this.set('authenticationError', error.payload.errors[0].message);
             }

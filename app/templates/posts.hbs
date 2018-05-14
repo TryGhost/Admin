@@ -1,8 +1,8 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
-        <h2 class="gh-canvas-title" data-test-screen-title>Your stories</h2>
+        <h2 class="gh-canvas-title" data-test-screen-title>{{t "Your stories"}}</h2>
         <section class="view-actions">
-            {{#link-to "editor.new" class="gh-btn gh-btn-green" data-test-new-post-button=true}}<span>New story</span>{{/link-to}}
+            {{#link-to "editor.new" class="gh-btn gh-btn-green" data-test-new-post-button=true}}<span>{{t "New story"}}</span>{{/link-to}}
         </section>
     </header>
     <div class="gh-contentfilter">
@@ -35,7 +35,7 @@
                 classNames="gh-contentfilter-menu gh-contentfilter-author"
                 triggerClass="gh-contentfilter-menu-trigger"
                 dropdownClass="gh-contentfilter-menu-dropdown"
-                searchPlaceholder="Search authors"
+                searchPlaceholder=(t "filter.Search authors")
                 matchTriggerWidth=false
                 data-test-author-select=true
                 as |author|
@@ -54,7 +54,7 @@
                 classNames="gh-contentfilter-menu gh-contentfilter-tag"
                 triggerClass="gh-contentfilter-menu-trigger"
                 dropdownClass="gh-contentfilter-menu-dropdown"
-                searchPlaceholder="Search tags"
+                searchPlaceholder=(t "filter.Search tags")
                 matchTriggerWidth=false
                 optionsComponent="power-select-vertical-collection-options"
                 data-test-tag-select=true
@@ -66,7 +66,7 @@
         </div>
 
         <div class="gh-contentfilter-right">
-            Sort by:
+            {{t "order.Sort by"}}:
             {{#power-select
                 selected=selectedOrder
                 options=availableOrders
@@ -97,11 +97,11 @@
                 <li class="no-posts-box">
                     <div class="no-posts">
                         {{#if showingAll}}
-                            <h3>You haven't written any stories yet!</h3>
-                            {{#link-to "editor.new"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>Write a new Story</span></button>{{/link-to}}
+                            <h3>{{t "You haven't written any stories yet!"}}</h3>
+                            {{#link-to "editor.new"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>{{t "Write a new Story"}}</span></button>{{/link-to}}
                         {{else}}
-                            <h3>No stories match the current filter</h3>
-                            {{#link-to "posts.index" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>Show all stories</span></button>{{/link-to}}
+                            <h3>{{t "No stories match the current filter"}}</h3>
+                            {{#link-to "posts.index" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>{{t "Show all stories"}}</span></button>{{/link-to}}
                         {{/if}}
                     </div>
                 </li>

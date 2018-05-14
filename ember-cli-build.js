@@ -103,7 +103,16 @@ module.exports = function (defaults) {
             }
         },
         nodeAssets: {
-            codemirror: codemirrorAssets()
+            codemirror: codemirrorAssets(),
+            moment: {
+                public: {
+                    include: ['locale/*'],
+                    destDir: '/assets/moment',
+                    processTree(tree) {
+                        return tree;
+                    }
+                }
+            }
         },
         svgJar: {
             strategy: 'inline',

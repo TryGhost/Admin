@@ -11,7 +11,7 @@
                     <div class="{{ui-text "ts"}} h9 br b--lightgrey pl3 pr4 flex items-center br2 br--left {{unless infoMessage "bg-white"}}">
                         {{#link-to "posts" classNames="blue link fw4 flex items-center"}}
                             {{svg-jar "arrow-left" class="w3 fill-blue mr1 nudge-right--2"}}
-                            Stories
+                            {{t "Stories"}}
                         {{/link-to}}
                     </div>
                 {{/if}}
@@ -24,7 +24,7 @@
                     </span>
                 {{#gh-scheduled-post-countdown post=post as |post countdown|}}
                     <time datetime="{{post.publishedAtUTC}}" class="green f8 ml5" data-test-schedule-countdown>
-                        Post will go live {{countdown}}.
+                        {{t "Post will go live {{countdown}}." countdown=countdown}}
                     </time>
                 {{/gh-scheduled-post-countdown}}
                 </div>
@@ -36,7 +36,7 @@
                     {{svg-jar "idea" class="w7 h7 fill-blue"}}
                     <p class="ma0 pa0 ml1 nudge-top--2">
                         {{infoMessage}}
-                        <button type="button" class="blue fw5" {{action (mut infoMessage "")}}>Got it</button>
+                        <button type="button" class="blue fw5" {{action (mut infoMessage "")}}>{{t "Got it"}}</button>
                     </p>
                 </div>
             </div>
@@ -45,9 +45,9 @@
             <section class="view-actions br2 {{unless infoMessage "bg-white"}}" style="pointer-events: auto">
                 {{#unless post.isNew}}
                     {{#if session.user.isContributor}}
-                        {{gh-task-button "Save"
+                        {{gh-task-button (t "taskButton.Save")
                             task=save
-                            runningText="Saving"
+                            runningText=(t "taskButton.Saving")
                             class="gh-btn gh-btn-blue gh-btn-icon contributor-save-button"
                             data-test-contributor-save=true}}
                     {{else}}
@@ -60,7 +60,7 @@
                     {{/if}}
                 {{/unless}}
 
-                <button type="button" class="post-settings" title="Settings" {{action "openSettingsMenu" target=ui}} data-test-psm-trigger>
+                <button type="button" class="post-settings" title="{{t "Settings"}}" {{action "openSettingsMenu" target=ui}} data-test-psm-trigger>
                     {{svg-jar "settings"}}
                 </button>
             </section>
@@ -72,11 +72,11 @@
         --}}
         {{gh-koenig-editor
             title=(readonly post.titleScratch)
-            titlePlaceholder="Story Title"
+            titlePlaceholder=(t "editor.Story Title")
             onTitleChange=(action "updateTitleScratch")
             onTitleBlur=(action (perform saveTitle))
             body=(readonly post.scratch)
-            bodyPlaceholder="Begin writing your story..."
+            bodyPlaceholder=(t "editor.Begin writing your story...")
             bodyAutofocus=shouldFocusEditor
             onBodyChange=(action "updateScratch")
             headerOffset=editor.headerHeight
@@ -89,7 +89,7 @@
 
         <div class="absolute flex items-center br3 bg-white {{if editor.headerClass "right-4 bottom-4" "right-6 bottom-6"}}">
             <div class="midgrey-l2 {{if editor.headerClass "f-supersmall pl2 pr2" "f8 pl4 pr3"}} fw3">
-                {{pluralize wordCount.wordCount "word"}}
+                {{t "editor.word" count=wordCount.wordCount}}
             </div>
             <a href="https://help.ghost.org/article/29-ghost-editor-overview" class="flex {{if editor.headerClass "pa2" "pa3"}}" target="_blank">{{svg-jar "help" class="w4 h4 stroke-midgrey-l2"}}</a>
         </div>

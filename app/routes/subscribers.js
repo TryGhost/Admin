@@ -1,11 +1,13 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import RSVP from 'rsvp';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend({
     feature: service(),
+    i18n: service(),
 
-    titleToken: 'Subscribers',
+    titleToken: t('pageTitle.Subscribers'),
 
     // redirect if subscribers is disabled or user isn't owner/admin
     beforeModel() {

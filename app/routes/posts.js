@@ -3,9 +3,11 @@ import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import {assign} from '@ember/polyfills';
 import {isBlank} from '@ember/utils';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend({
     infinity: service(),
+    i18n: service(),
 
     queryParams: {
         type: {
@@ -26,11 +28,11 @@ export default AuthenticatedRoute.extend({
         }
     },
 
-    titleToken: 'Content',
-
     perPage: 30,
 
     _type: null,
+
+    titleToken: t('pageTitle.Content'),
 
     model(params) {
         return this.get('session.user').then((user) => {

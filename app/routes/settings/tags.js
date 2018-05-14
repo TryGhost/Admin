@@ -3,10 +3,11 @@ import $ from 'jquery';
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
+import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
-
-    titleToken: 'Settings - Tags',
+    i18n: service(),
 
     shortcuts: null,
 
@@ -20,6 +21,8 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
             c: 'newTag'
         };
     },
+
+    titleToken: t('pageTitle.Settings - Tags'),
 
     // authors aren't allowed to manage tags
     beforeModel() {

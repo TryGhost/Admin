@@ -1,10 +1,10 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
-        <h2 class="gh-canvas-title" data-test-screen-title>Subscribers <span style="font-weight:200;margin-left:10px;display:inline-block;" data-test-total-subscribers> ({{total}})</span></h2>
+        <h2 class="gh-canvas-title" data-test-screen-title>{{t "Subscribers"}} <span style="font-weight:200;margin-left:10px;display:inline-block;" data-test-total-subscribers> ({{total}})</span></h2>
         <div class="view-actions">
-            {{#link-to "subscribers.import" class="gh-btn gh-btn-hover-green"}}<span>Import CSV</span>{{/link-to}}
-            <a href="#" {{action 'exportData'}} class="gh-btn gh-btn-hover-blue"><span>Export CSV</span></a>
-            {{#link-to "subscribers.new" class="gh-btn gh-btn-green"}}<span>Add Subscriber</span>{{/link-to}}
+            {{#link-to "subscribers.import" class="gh-btn gh-btn-hover-green"}}<span>{{t "Import CSV"}}</span>{{/link-to}}
+            <a href="#" {{action 'exportData'}} class="gh-btn gh-btn-hover-blue"><span>{{t "Export CSV"}}</span></a>
+            {{#link-to "subscribers.new" class="gh-btn gh-btn-green"}}<span>{{t "Add Subscriber"}}</span>{{/link-to}}
         </div>
     </header>
 

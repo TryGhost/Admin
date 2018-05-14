@@ -2,7 +2,7 @@
     <header class="gh-flow-head">
         <nav class="gh-flow-nav">
             {{#if showBackLink}}
-                {{#link-to backRoute classNames="gh-flow-back"}}{{svg-jar "arrow-left-small"}} Back{{/link-to}}
+                {{#link-to backRoute classNames="gh-flow-back"}}{{svg-jar "arrow-left-small"}} {{t "common.Back"}}{{/link-to}}
             {{/if}}
             <ol>
                 {{#gh-activating-list-item route="setup.one" linkClasses="step"}}

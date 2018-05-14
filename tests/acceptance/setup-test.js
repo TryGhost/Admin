@@ -307,7 +307,7 @@ describe('Acceptance: Setup', function () {
                 .to.be.true;
 
             expect(button.text().trim(), 'single invalid button text')
-                .to.equal('1 invalid email address');
+                .to.equal('an invalid email address');
 
             expect(button.hasClass('gh-btn-minor'), 'invalid email button is disabled')
                 .to.be.true;
@@ -327,7 +327,7 @@ describe('Acceptance: Setup', function () {
                 .to.be.false;
 
             expect(button.text().trim(), 'single valid button text')
-                .to.equal('Invite 1 user');
+                .to.equal('Invite user');
 
             expect(button.hasClass('gh-btn-green'), 'valid email button is enabled')
                 .to.be.true;

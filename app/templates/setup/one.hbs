@@ -1,6 +1,6 @@
 <header>
-    <h1>Welcome to <strong>Ghost</strong>!</h1>
-    <p>All over the world, people have started <em>{{gh-download-count}}</em> incredible blogs with Ghost. Today, we’re starting yours.</p>
+    <h1>{{{t "Welcome to <strong>Ghost</strong>!"}}}</h1>
+    <p>{{gh-download-count}}</p>
 </header>
 
 <figure class="gh-flow-screenshot">
@@ -8,5 +8,5 @@
 </figure>
 
 {{#link-to "setup.two" classNames="gh-btn gh-btn-green gh-btn-lg gh-btn-icon gh-btn-icon-right"}}
-    <span>Create your account {{svg-jar "arrow-right-small"}}</span>
+    <span>{{t "Create your account"}} {{svg-jar "arrow-right-small"}}</span>
 {{/link-to}}

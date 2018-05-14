@@ -2,18 +2,18 @@
     <h1>
         {{#if theme}}
             {{#if hasWarningsOrErrors}}
-                Upload successful with {{#if validationErrors}}errors{{else}}warnings{{/if}}
+                {{t "Upload successful with {{type}}" type=(if validationErrors (t "errors") (t "warnings"))}}
             {{else}}
-                Upload successful!
+                {{t "Upload successful!"}}
             {{/if}}
         {{else if (or validationErrors fatalValidationErrors)}}
-            Invalid theme
+            {{t "Invalid theme"}}
         {{else}}
-            Upload a theme
+            {{t "Upload a theme"}}
         {{/if}}
     </h1>
 </header>
-<a class="close" href="#" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="#" title="{{t "common.Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "common.Close"}}</span></a>
 
 <div class="modal-body">
     {{#if theme}}
@@ -21,15 +21,15 @@
              <ul class="theme-validation-errors">
                 <li>
                     <p>
-                        "{{themeName}}" uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected.
-                        You are still able to use and activate the theme. Here's your report...
+                        {{t "\"{{themeName}}\" uploaded successfully but some {{type}} were detected." themeName=themeName type=(if validationErrors (t "errors") (t "warnings"))}}
+                        {{t "You are still able to use and activate the theme. Here's your report..."}}
                     </p>
                 </li>
 
                 {{#if validationErrors}}
                     <div class="theme-validation-errordescription">
-                        <h2 class="theme-validation-errortype">Errors</h2>
-                        <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                        <h2 class="theme-validation-errortype">{{t "Errors"}}</h2>
+                        <p><em>{{{t "(Very recommended to fix, functionality <span>could</span> be restricted)"}}}</em></p>
                     </div>
                 {{/if}}
                 {{#each validationErrors as |error|}}
@@ -40,7 +40,7 @@
 
                 {{#if validationWarnings}}
                     <div class="theme-validation-errordescription">
-                        <h2 class="theme-validation-errortype">Warnings</h2>
+                        <h2 class="theme-validation-errortype">{{t "Warnings"}}</h2>
                     </div>
                 {{/if}}
                 {{#each validationWarnings as |error|}}
@@ -51,20 +51,20 @@
             </ul>
         {{else}}
             <p>
-                "{{themeName}}" uploaded successfully.
-                {{#if canActivateTheme}}Do you want to activate it now?{{/if}}
+                {{t "\"{{themeName}}\" uploaded successfully." themeName=themeName}}
+                {{#if canActivateTheme}}{{t "Do you want to activate it now?"}}{{/if}}
             </p>
         {{/if}}
     {{else if displayOverwriteWarning}}
         <p>
-            "{{fileThemeName}}" will overwrite an existing theme of the same name. Are you sure?
+            {{t "\"{{fileThemeName}}\" will overwrite an existing theme of the same name. Are you sure?" fileThemeName=fileThemeName}}
         </p>
     {{else if (or validationErrors fatalValidationErrors)}}
         <ul class="theme-validation-errors">
             {{#if fatalValidationErrors}}
                 <div class="theme-validation-errordescription">
-                    <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                    <p><em>(Must-fix to activate theme)</em></p>
+                    <h2 class="theme-validation-errortype fatal">{{t "Fatal Errors"}}</h2>
+                    <p><em>{{t "(Must-fix to activate theme)"}}</em></p>
                 </div>
             {{/if}}
             {{#each fatalValidationErrors as |error|}}
@@ -75,8 +75,8 @@
 
             {{#if validationErrors}}
                 <div class="theme-validation-errordescription">
-                    <h2 class="theme-validation-errortype">Errors</h2>
-                    <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                    <h2 class="theme-validation-errortype">{{t "Errors"}}</h2>
+                    <p><em>{{{t "(Very recommended to fix, functionality <span>could</span> be restricted)</em>"}}}</em></p>
                 </div>
             {{/if}}
             {{#each validationErrors as |error|}}
@@ -90,7 +90,7 @@
             url=uploadUrl
             paramName="theme"
             accept=accept
-            labelText="Click to select or drag-and-drop your theme zip file here."
+            labelText=(t "Click to select or drag-and-drop your theme zip file here.")
             validate=(action "validateTheme")
             uploadStarted=(action "uploadStarted")
             uploadFinished=(action "uploadFinished")
@@ -102,21 +102,21 @@
 
 <div class="modal-footer">
     <button {{action "closeModal"}} disabled={{closeDisabled}} class="gh-btn" data-test-close-button>
-        <span>{{#if theme}}Close{{else}}Cancel{{/if}}</span>
+        <span>{{#if theme}}{{t "common.Close"}}{{else}}{{t "common.Cancel"}}{{/if}}</span>
     </button>
     {{#if displayOverwriteWarning}}
         <button {{action "confirmOverwrite"}} class="gh-btn gh-btn-red" data-test-overwrite-button>
-            <span>Overwrite</span>
+            <span>{{t "Overwrite"}}</span>
         </button>
     {{/if}}
     {{#if validationErrors}}
         <button {{action "reset"}} class="gh-btn gh-btn-green" data-test-try-again-button>
-            <span>Try Again</span>
+            <span>{{t "Try Again"}}</span>
         </button>
     {{/if}}
     {{#if canActivateTheme}}
         <button {{action "activate"}} class="gh-btn gh-btn-green" data-test-activate-now-button>
-            <span>Activate Now</span>
+            <span>{{t "Activate Now"}}</span>
         </button>
     {{/if}}
 </div>

@@ -9,13 +9,13 @@ export default BaseValidator.create({
         let name = model.get('name');
 
         if (isBlank(name)) {
-            model.get('errors').add('name', 'You must specify a name for the tag.');
+            model.get('errors').add('name', this.t('validation.You must specify a name for the tag.'));
             this.invalidate();
         } else if (name.match(/^,/)) {
-            model.get('errors').add('name', 'Tag names can\'t start with commas.');
+            model.get('errors').add('name', this.t('validation.Tag names can\'t start with commas.'));
             this.invalidate();
         } else if (!validator.isLength(name, 0, 191)) {
-            model.get('errors').add('name', 'Tag names cannot be longer than 191 characters.');
+            model.get('errors').add('name', this.t('validation.Tag names cannot be longer than 191 characters.'));
             this.invalidate();
         }
     },
@@ -24,7 +24,7 @@ export default BaseValidator.create({
         let slug = model.get('slug');
 
         if (!validator.isLength(slug || '', 0, 191)) {
-            model.get('errors').add('slug', 'URL cannot be longer than 191 characters.');
+            model.get('errors').add('slug', this.t('validation.URL cannot be longer than 191 characters.'));
             this.invalidate();
         }
     },
@@ -33,7 +33,7 @@ export default BaseValidator.create({
         let description = model.get('description');
 
         if (!validator.isLength(description || '', 0, 500)) {
-            model.get('errors').add('description', 'Description cannot be longer than 500 characters.');
+            model.get('errors').add('description', this.t('validation.Description cannot be longer than 500 characters.'));
             this.invalidate();
         }
     },
@@ -42,7 +42,7 @@ export default BaseValidator.create({
         let metaTitle = model.get('metaTitle');
 
         if (!validator.isLength(metaTitle || '', 0, 300)) {
-            model.get('errors').add('metaTitle', 'Meta Title cannot be longer than 300 characters.');
+            model.get('errors').add('metaTitle', this.t('validation.Meta Title cannot be longer than 300 characters.'));
             this.invalidate();
         }
     },
@@ -51,7 +51,7 @@ export default BaseValidator.create({
         let metaDescription = model.get('metaDescription');
 
         if (!validator.isLength(metaDescription || '', 0, 500)) {
-            model.get('errors').add('metaDescription', 'Meta Description cannot be longer than 500 characters.');
+            model.get('errors').add('metaDescription', this.t('validation.Meta Description cannot be longer than 500 characters.'));
             this.invalidate();
         }
     }

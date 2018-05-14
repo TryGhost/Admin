@@ -13,6 +13,7 @@ const DEBOUNCE_MS = 600;
 export default Service.extend({
     config: service(),
     settings: service(),
+    i18n: service(),
 
     columnCount: 3,
     columns: null,
@@ -23,6 +24,7 @@ export default Service.extend({
     _columnHeights: null,
     _pagination: null,
 
+    //TODO: (ololoken) admin must have ability to update it
     applicationId: '8672af113b0a8573edae3aa3713886265d9bb741d707f6c01a486cde8c278980',
     isLoading: or('_search.isRunning', '_loadingTasks.isRunning'),
 
@@ -195,7 +197,7 @@ export default Service.extend({
             .catch(() => {
                 // if the error text isn't already set then we've get a connection error from `fetch`
                 if (!options.ignoreErrors && !this.get('error')) {
-                    this.set('error', 'Uh-oh! Trouble reaching the Unsplash API, please check your connection');
+                    this.set('error', this.get('i18n').t('Uh-oh! Trouble reaching the Unsplash API, please check your connection'));
                 }
             });
     },
@@ -218,10 +220,10 @@ export default Service.extend({
         return responseTextPromise.then((responseText) => {
             if (response.status === 403 && response.headers.map['x-ratelimit-remaining'] === '0') {
                 // we've hit the ratelimit on the API
-                errorText = 'Unsplash API rate limit reached, please try again later.';
+                errorText = this.get('i18n').t('Unsplash API rate limit reached, please try again later.');
             }
 
-            errorText = errorText || responseText || `Error ${response.status}: Uh-oh! Trouble reaching the Unsplash API`;
+            errorText = errorText || responseText || this.get('i18n').t('Error {{status}}: Uh-oh! Trouble reaching the Unsplash API', {status: response.status});
 
             // set error text for display in UI
             this.set('error', errorText);

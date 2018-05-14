@@ -1,10 +1,13 @@
 import SlackObject from 'ghost-admin/models/slack-integration';
+import localeConfig from 'ember-i18n/config/en';
 import validator from 'ghost-admin/validators/slack-integration';
 import {
     describe,
     it
 } from 'mocha';
 import {expect} from 'chai';
+import {getOwner} from '@ember/application';
+import {setupComponentTest} from 'ember-mocha';
 
 const testInvalidUrl = function (url) {
     let slackObject = SlackObject.create({url});
@@ -29,6 +32,26 @@ const testValidUrl = function (url) {
 };
 
 describe('Unit: Validator: slack-integration', function () {
+    setupComponentTest('gh-app', {
+        unit: true,
+        // specify the other units that are required for this test
+        needs: [
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
+        ]
+    });
+
+    beforeEach(function () {
+        this.register('locale:en/config', localeConfig);
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+        validator.set('i18n', getOwner(this).lookup('service:i18n'));
+    });
+
     it('fails on invalid url values', function () {
         let invalidUrls = [
             'test@example.com',
@@ -37,9 +60,7 @@ describe('Unit: Validator: slack-integration', function () {
             'http://example.com/with spaces'
         ];
 
-        invalidUrls.forEach(function (url) {
-            testInvalidUrl(url);
-        });
+        invalidUrls.forEach(testInvalidUrl);
     });
 
     it('passes on valid url values', function () {
@@ -50,9 +71,7 @@ describe('Unit: Validator: slack-integration', function () {
             'https://discordapp.com/api/webhooks/380692408364433418/mGLHSRyEoUaTvY91Te16WOT8Obn-BrJoiTNoxeUqhb6klKERb9xaZkUBYC5AeduwYCCy/slack'
         ];
 
-        validUrls.forEach(function (url) {
-            testValidUrl(url);
-        });
+        validUrls.forEach(testValidUrl);
     });
 
     it('validates url by default', function () {

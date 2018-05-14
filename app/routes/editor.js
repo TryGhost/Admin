@@ -5,19 +5,22 @@ import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {htmlSafe} from '@ember/string';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 let generalShortcuts = {};
 generalShortcuts[`${ctrlOrCmd}+shift+p`] = 'publish';
 
 export default AuthenticatedRoute.extend(ShortcutsRoute, {
+
     feature: service(),
     notifications: service(),
     userAgent: service(),
     ui: service(),
+    i18n: service(),
 
     classNames: ['editor'],
     shortcuts: generalShortcuts,
-    titleToken: 'Editor',
+    titleToken: t('pageTitle.Editor'),
 
     activate() {
         this._super(...arguments);
@@ -30,7 +33,7 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
         // edge has known issues
         if (this.userAgent.browser.isEdge) {
             this.notifications.showAlert(
-                htmlSafe('Microsoft Edge is not currently supported. Please switch to <a href="https://ghost.org/downloads/" target="_blank" rel="noopener">Ghost Desktop</a> or a recent version of Chrome/Firefox/Safari.'),
+                htmlSafe(this.service('i18n').t('koenig.Microsoft Edge is not currently supported. Please switch to <a href="https://ghost.org/downloads/" target="_blank" rel="noopener">Ghost Desktop</a> or a recent version of Chrome/Firefox/Safari.')),
                 {type: 'info', key: 'koenig.browserSupport'}
             );
         }
@@ -38,7 +41,7 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
         // mobile browsers are not currently supported
         if (this.userAgent.device.isMobile || this.userAgent.device.isTablet) {
             this.notifications.showAlert(
-                htmlSafe('Mobile editing is not currently supported. Please use a desktop browser or <a href="https://ghost.org/downloads/" target="_blank" rel="noopener">Ghost Desktop</a>.'),
+                htmlSafe(this.service('i18n').t('koenig.Mobile editing is not currently supported. Please use a desktop browser or <a href="https://ghost.org/downloads/" target="_blank" rel="noopener">Ghost Desktop</a>.')),
                 {type: 'info', key: 'koenig.browserSupport'}
             );
         }

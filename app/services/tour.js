@@ -7,6 +7,7 @@ export default Service.extend(Evented, {
 
     ghostPaths: service(),
     session: service(),
+    i18n: service(),
 
     // this service is responsible for managing tour item visibility and syncing
     // the viewed state with the server
@@ -47,24 +48,24 @@ export default Service.extend(Evented, {
 
         this.throbbers = [{
             id: 'getting-started',
-            title: 'Getting started with Ghost',
-            message: `This is your admin area! You'll find all of your content, users and settings right here. You can come back any time by visiting <a href="${adminUrl}" target="_blank">${adminDisplayUrl}</a>`
+            title: this.get('i18n').t('tour.Getting started with Ghost'),
+            message: this.get('i18n').t('tour.This is your admin area! You\'ll find all of your content, users and settings right here. You can come back any time by visiting <a href="{{adminUrl}}" target="_blank">{{adminDisplayUrl}}</a>', {adminUrl, adminDisplayUrl})
         }, {
             id: 'using-the-editor',
-            title: 'Using the Ghost editor',
-            message: 'Ghost uses Markdown to allow you to write and format content quickly and easily. This toolbar also helps! Hit the <strong>?</strong> icon for more editor shortcuts.'
+            title: this.get('i18n').t('tour.Using the Ghost editor'),
+            message: this.get('i18n').t('tour.Ghost uses Markdown to allow you to write and format content quickly and easily. This toolbar also helps! Hit the <strong>?</strong> icon for more editor shortcuts.')
         }, {
             id: 'static-post',
-            title: 'Turning posts into pages',
-            message: 'Static pages are permanent pieces of content which live outside of your usual stream of posts, for example an \'about\' or \'contact\' page.'
+            title: this.get('i18n').t('tour.Turning posts into pages'),
+            message: this.get('i18n').t('tour.Static pages are permanent pieces of content which live outside of your usual stream of posts, for example an \'about\' or \'contact\' page.')
         }, {
             id: 'featured-post',
-            title: 'Setting a featured post',
-            message: 'Depending on your theme, featured posts receive special styling to make them stand out as a particularly important or emphasised story.'
+            title: this.get('i18n').t('tour.Setting a featured post'),
+            message: this.get('i18n').t('tour.Depending on your theme, featured posts receive special styling to make them stand out as a particularly important or emphasised story.')
         }, {
             id: 'upload-a-theme',
-            title: 'Customising your publication',
-            message: 'Using custom themes, you can completely control the look and feel of your site to suit your branch. Here\'s a full guide to help: <strong><a href="https://themes.ghost.org" target="_blank">https://themes.ghost.org</a></strong>'
+            title: this.get('i18n').t('tour.Customising your publication'),
+            message: this.get('i18n').t('tour.Using custom themes, you can completely control the look and feel of your site to suit your branch. Here\'s a full guide to help: <strong><a href="{{link}}" target="_blank">{{link}}</a></strong>', {link: 'https://themes.ghost.org'})
         }];
     },
 

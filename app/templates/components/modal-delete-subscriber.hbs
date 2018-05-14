@@ -1,13 +1,13 @@
 <header class="modal-header">
-    <h1>Are you sure?</h1>
+    <h1>{{t "Are you sure?"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "common.Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "common.Close"}}</span></a>
 
 <div class="modal-body">
-    <strong>WARNING:</strong> All data for this subscriber will be deleted. There is no way to recover this.
+    {{{t "<strong>WARNING:</strong> All data for this subscriber will be deleted. There is no way to recover this."}}}
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    {{gh-task-button "Delete" successText="Deleted" task=deleteSubscriber class="gh-btn gh-btn-red gh-btn-icon"}}
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "common.Cancel"}}</span></button>
+    {{gh-task-button (t "taskButton.Delete") successText=(t "taskButton.Deleted") task=deleteSubscriber class="gh-btn gh-btn-red gh-btn-icon"}}
 </div>
