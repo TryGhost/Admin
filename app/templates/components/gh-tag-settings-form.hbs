@@ -1,7 +1,7 @@
 <div class="{{if isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane tag-settings-pane">
     <div class="settings-menu-header {{if isMobile 'subview'}}">
         {{#if isMobile}}
-            {{#link-to 'settings.tags' class="back settings-menu-header-action"}}{{svg-jar "arrow-left"}}<span class="hidden">Back</span>{{/link-to}}
+            {{#link-to 'settings.tags' class="back settings-menu-header-action"}}{{svg-jar "arrow-left"}}<span class="hidden">{{t "Back"}}</span>{{/link-to}}
             <h4>{{title}}</h4>
             <div style="width:23px;">{{!flexbox space-between}}</div>
         {{else}}
@@ -11,13 +11,13 @@
     <div class="settings-menu-content">
         {{gh-image-uploader-with-preview
             image=tag.featureImage
-            text="Upload tag image"
+            text=(t "Upload tag image")
             allowUnsplash=true
             update=(action "setCoverImage")
             remove=(action "clearCoverImage")}}
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="name"}}
-                <label for="tag-name">Name</label>
+                <label for="tag-name">{{t "Name"}}</label>
                 {{gh-text-input
                     id="tag-name"
                     name="name"
@@ -28,7 +28,7 @@
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="slug"}}
-                <label for="tag-slug">URL</label>
+                <label for="tag-slug">{{t "URL"}}</label>
                 {{gh-text-input
                     value=(readonly scratchSlug)
                     id="tag-slug"
@@ -40,7 +40,7 @@
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="description"}}
-                <label for="tag-description">Description</label>
+                <label for="tag-description">{{t "Description"}}</label>
                 {{gh-textarea
                     id="tag-description"
                     name="description"
@@ -49,21 +49,21 @@
                     focus-out=(action 'setProperty' 'description' scratchDescription)
                 }}
                 {{gh-error-message errors=tag.errors property="description"}}
-                <p>Maximum: <b>500</b> characters. You’ve used {{gh-count-down-characters scratchDescription 500}}</p>
+                {{{t "<p>Maximum: <b>{{max}}</b> characters. You’ve used {{count}}</p>" max=500 count=(gh-count-down-characters scratchDescription 500)}}}
             {{/gh-form-group}}
 
             <ul class="nav-list nav-list-block">
                 <li class="nav-list-item" {{action 'openMeta'}}>
                     <button type="button" class="meta-data-button">
-                        <b>Meta Data</b>
-                        <span>Extra content for SEO and social media.</span>
+                        <b>{{t "Meta Data"}}</b>
+                        <span>{{t "Extra content for SEO and social media."}}</span>
                     </button>
                     {{svg-jar "arrow-right"}}
                 </li>
             </ul>
 
             {{#unless tag.isNew}}
-                <button type="button" class="gh-btn gh-btn-link gh-btn-sm gh-btn-icon settings-menu-delete-button" {{action "deleteTag"}}><span>{{svg-jar "trash"}} Delete Tag</span></button>
+                <button type="button" class="gh-btn gh-btn-link gh-btn-sm gh-btn-icon settings-menu-delete-button" {{action "deleteTag"}}><span>{{svg-jar "trash"}} {{t "Delete Tag"}}</span></button>
             {{/unless}}
         </form>
     </div>
@@ -71,15 +71,15 @@
 
 <div class="{{if isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane tag-meta-settings-pane">
     <div class="settings-menu-header subview">
-        <button {{action "closeMeta"}} class="back settings-menu-header-action">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
-        <h4>Meta Data</h4>
+        <button {{action "closeMeta"}} class="back settings-menu-header-action">{{svg-jar "arrow-left"}}<span class="hidden">{{t "Back"}}</span></button>
+        <h4>{{t "Meta Data"}}</h4>
         <div style="width:23px;">{{!flexbox space-between}}</div>
     </div>
 
     <div class="settings-menu-content">
         <form>
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="metaTitle"}}
-                <label for="meta-title">Meta Title</label>
+                <label for="meta-title">{{t "Meta Title"}}</label>
                 {{gh-text-input
                     id="meta-title"
                     name="metaTitle"
@@ -87,11 +87,12 @@
                     input=(action (mut scratchMetaTitle) value="target.value")
                     focus-out=(action "setProperty" "metaTitle" scratchMetaTitle)}}
                 {{gh-error-message errors=tag.errors property="metaTitle"}}
-                <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters scratchMetaTitle 70}}</p>
+                {{{t "<p>Recommended: <b>{{max}}</b> characters. You’ve used {{count}}</p>" max=70 count=(gh-count-down-characters scratchMetaTitle 70)}}}
+
             {{/gh-form-group}}
 
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="metaDescription"}}
-                <label for="meta-description">Meta Description</label>
+                <label for="meta-description">{{t "Meta Description"}}</label>
                 {{gh-textarea
                     id="meta-description"
                     name="metaDescription"
@@ -100,11 +101,11 @@
                     focus-out=(action "setProperty" "metaDescription" scratchMetaDescription)
                 }}
                 {{gh-error-message errors=tag.errors property="metaDescription"}}
-                <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters scratchMetaDescription 156}}</p>
+                {{{t "<p>Recommended: <b>{{max}}</b> characters. You’ve used {{count}}</p>" max=156 count=(gh-count-down-characters scratchMetaDescription 156)}}}
             {{/gh-form-group}}
 
             <div class="form-group">
-                <label>Search Engine Result Preview</label>
+                <label>{{t "Search Engine Result Preview"}}</label>
                 <div class="seo-preview">
                     <div class="seo-preview-title">{{seoTitle}}</div>
                     <div class="seo-preview-link">{{seoURL}}</div>

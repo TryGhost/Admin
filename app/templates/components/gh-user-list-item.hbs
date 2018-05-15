@@ -3,7 +3,7 @@
     <article class="apps-card-app">
         <div class="apps-card-left">
             <span class="user-list-item-figure" style={{background-image-style user.profileImageUrl}}>
-                <span class="hidden">Photo of {{user.name}}</span>
+                <span class="hidden">{{t "Photo of {{name}}" name=user.name}}</span>
             </span>
             <div class="apps-card-meta">
                 <h3 class="apps-card-app-title">{{user.name}}</h3>
@@ -13,7 +13,7 @@
         <div class="apps-card-right">
             <div class="apps-configured">
                 {{#if user.isLocked}}
-                    <span class="gh-badge author">Locked</span>
+                    <span class="gh-badge author">{{t "Locked"}}</span>
                 {{/if}}
                 {{#unless session.user.isAuthorOrContributor}}
                     {{#each user.roles as |role|}}

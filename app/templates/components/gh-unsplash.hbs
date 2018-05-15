@@ -5,9 +5,8 @@
                 <a class="gh-unsplash-logo" href="https://unsplash.com/?utm_source=ghost&utm_medium=referral&utm_campaign=api-credit" target="_blank">{{svg-jar "unsplash"}}</a>
                 <div class="gh-unsplash-close" aria-role="button" {{action "close"}}>{{svg-jar "close"}}</div>
                 <header class="gh-unsplash-header">
-                    <h1 class="gh-unsplash-header-title">Unsplash</h1>
-                    <p class="gh-unsplash-header-desc">Beautiful, free photos.<br>
-        Gifted by the world’s most generous community of photographers. 🎁</p>
+                    <h1 class="gh-unsplash-header-title">{{t "Unsplash"}}</h1>
+                    <p class="gh-unsplash-header-desc">{{{t "Beautiful, free photos.<br> Gifted by the world’s most generous community of photographers. 🎁"}}}</p>
                     <span class="gh-input-icon">
                         {{svg-jar "search"}}
                         {{gh-text-input
@@ -36,16 +35,16 @@
                     </section>
                 {{else if (and unsplash.searchTerm (not unsplash.error unsplash.isLoading))}}
                     <section class="gh-unsplash-error">
-                        <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="No photos found" />
-                        <h4>No photos found for '{{unsplash.searchTerm}}'</h4>
+                        <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="{{t "No photos found"}}" />
+                        <h4>{{t "No photos found for '{{term}}'" term=unsplash.searchTerm}}</h4>
                     </section>
                 {{/if}}
 
                 {{#if unsplash.error}}
                     {{!-- TODO: add better error styles? --}}
                     <section class="gh-unsplash-error">
-                        <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="Network error" />
-                        <h4>{{unsplash.error}} (<a href="#" {{action "retry"}}>retry</a>)</h4>
+                        <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="{{t "Network error"}}" />
+                        <h4>{{unsplash.error}} (<a href="#" {{action "retry"}}>{{t "retry"}}</a>)</h4>
                     </section>
                 {{/if}}
 

@@ -1,17 +1,17 @@
 <header class="modal-header">
-    <h1>Invite a New User</h1>
+    <h1>{{t "Invite a New User"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Close"}}</span></a>
 
 <div class="modal-body">
     <fieldset>
         {{#gh-form-group errors=errors hasValidated=hasValidated property="email"}}
-            <label for="new-user-email">Email Address</label>
+            <label for="new-user-email">{{t "Email Address"}}</label>
             {{gh-text-input
                 class="email"
                 id="new-user-email"
                 type="email"
-                placeholder="Email Address"
+                placeholder=(t "Email Address")
                 name="email"
                 autofocus="autofocus"
                 autocapitalize="off"
@@ -27,7 +27,7 @@
         {{/gh-form-group}}
 
         <div class="form-group for-select">
-            <label for="new-user-role">Role</label>
+            <label for="new-user-role">{{t "Role"}}</label>
             <span class="gh-select" tabindex="0">
                 {{one-way-select
                     id="new-user-role"
@@ -45,5 +45,5 @@
 </div>
 
 <div class="modal-footer">
-    {{gh-task-button "Send invitation now" successText="Sent" task=sendInvitation class="gh-btn gh-btn-green gh-btn-icon"}}
+    {{gh-task-button (t "Send invitation now") successText=(t "Sent") task=sendInvitation class="gh-btn gh-btn-green gh-btn-icon"}}
 </div>

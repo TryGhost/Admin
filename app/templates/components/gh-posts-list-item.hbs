@@ -1,25 +1,25 @@
-<h3 class="gh-content-entry-title">{{#link-to "editor.edit" post.id class="permalink" title="Edit this post"}}{{post.title}}{{/link-to}}</h3>
+<h3 class="gh-content-entry-title">{{#link-to "editor.edit" post.id class="permalink" title=(t "Edit this post")}}{{post.title}}{{/link-to}}</h3>
 <p>{{subText}}</p>
 
 <section class="gh-content-entry-meta">
     {{#if isPage}}
-        <span class="gh-content-status-draft gh-badge gh-badge-black">Page</span>
+        <span class="gh-content-status-draft gh-badge gh-badge-black">{{t "Page"}}</span>
     {{/if}}
 
     {{#if isScheduled}}
-        <span class="gh-content-status-draft gh-badge">Scheduled</span>
+        <span class="gh-content-status-draft gh-badge">{{t "Scheduled"}}</span>
     {{/if}}
 
     {{#if isDraft}}
-        <span class="gh-content-status-draft gh-badge gh-badge-red">Draft</span>
+        <span class="gh-content-status-draft gh-badge gh-badge-red">{{t "Draft"}}</span>
     {{/if}}
 
     {{#if isFeatured}}
-        <span class="gh-content-status-featured gh-badge gh-badge-blue">Featured</span>
+        <span class="gh-content-status-featured gh-badge gh-badge-blue">{{t "Featured"}}</span>
     {{/if}}
 
     {{#if (and isPublished (not post.page))}}
-        <span class="gh-content-status-published">Published</span>
+        <span class="gh-content-status-published">{{t "Published"}}</span>
     {{/if}}
 
     by <span class="gh-content-entry-author">{{authorNames}}</span> &mdash;
@@ -27,8 +27,8 @@
     {{#if isPublished}}
         {{gh-format-post-time post.publishedAtUTC published=true}}
     {{else if isScheduled}}
-        <span class="green">Will go live {{gh-format-post-time post.publishedAtUTC scheduled=true}}</span>
+        <span class="green">{{t "Will go live {{date}}" date=(gh-format-post-time post.publishedAtUTC scheduled=true)}}</span>
     {{else}}
-        Last edited {{gh-format-post-time post.updatedAtUTC draft=true}}
+        {{t "Last edited {{date}}" date=(gh-format-post-time post.updatedAtUTC draft=true)}}
     {{/if}}
 </section>

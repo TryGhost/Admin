@@ -1,16 +1,15 @@
 <header class="modal-header">
-    <h1>Transfer Ownership</h1>
+    <h1>{{t "Transfer Ownership"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Close"}}</span></a>
 
 <div class="modal-body">
     <p>
-        Are you sure you want to transfer the ownership of this blog?
-        You will not be able to undo this action.
+        {{t "Are you sure you want to transfer the ownership of this blog? You will not be able to undo this action."}}
     </p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    {{gh-task-button "Yep - I'm sure" task=transferOwnership class="gh-btn gh-btn-red gh-btn-icon"}}
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Cancel"}}</span></button>
+    {{gh-task-button (t "Yep - I'm sure") task=transferOwnership class="gh-btn gh-btn-red gh-btn-icon"}}
 </div>
