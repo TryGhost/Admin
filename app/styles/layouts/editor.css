@@ -320,6 +320,10 @@
     font-weight: 300;
 }
 
+.gh-scheduled-time {
+    color: #3eb0ef;
+}
+
 .gh-editor-container {
     position: absolute;
     z-index: 0;
@@ -668,4 +672,10 @@
 
 .CodeMirror .CodeMirror-selected {
     background: color-mod(var(--blue) lightness(+30%));
+}
+
+@media only screen and (max-width: 600px) {
+    .gh-scheduled-time {
+        font-size: 12px;
+    }
 }

@@ -435,10 +435,7 @@
 }
 
 .gh-flow-content .response {
-    position: absolute;
-    right: 0;
-    bottom: -25px;
-    margin: 0;
+    margin: 0 0 -10px;
     color: #a6b0b3;
     text-align: right;
     font-size: 1.2rem;
