@@ -3,8 +3,7 @@
         {{#unless canActivate}}
             {{title}}
         {{else}}
-            {{!-- TODO: find solution for translation here --}}
-            {{title}} with {{#if errors}}errors{{else}}warnings{{/if}}
+            {{t "{{title}} with {{type}}" title=title type=(if errors (t "errors") (t "warnings"))}}
         {{/unless}}
     </h1>
 </header>

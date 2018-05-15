@@ -8,8 +8,7 @@
     {{#if user.count.posts}}
         <ul>
             <li>{{t "The user will not have access to this blog anymore"}}</li>
-            {{!-- TODO: proper pluralize and transplate 'post'  --}}
-            <li>{{{t "<strong>{{posts}}</strong> created by this user will be deleted" posts=(pluralize user.count.posts 'post')}}}</li>
+            <li>{{{t "<strong>{{posts}}</strong> created by this user will be deleted" posts=(pluralize user.count.posts (t 'post'))}}}</li>
             <li>{{t "All other user data will be deleted"}}</li>
         </ul>
     {{else}}

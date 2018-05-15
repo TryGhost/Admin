@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 export default {
     'Your stories': 'Your stories',
     'New story': 'New story',
@@ -154,7 +155,6 @@ export default {
     'Set it live now': 'Set it live now',
     'Publish this post immediately': 'Publish this post immediately',
     'Schedule it for later': 'Schedule it for later',
-    'Set automatic future publish date': 'Set automatic future publish date',
     'Update post status': 'Update post status',
     'Unpublished': 'Unpublished',
     'Revert this post to a private draft': 'Revert this post to a private draft',
@@ -245,7 +245,6 @@ export default {
     'Are you sure you want to suspend this user?': 'Are you sure you want to suspend this user?',
     '<strong>WARNING:</strong> This user will no longer be able to log in but their posts will be kept.': '<strong>WARNING:</strong> This user will no longer be able to log in but their posts will be kept.',
     'Suspend': 'Suspend',
-    'Suspended': 'Suspended',
     'Fatal Errors': 'Fatal Errors',
     '<em>(Must-fix to activate theme)</em>': '<em>(Must-fix to activate theme)</em>',
     'Errors': 'Errors',
@@ -267,5 +266,12 @@ export default {
     'Click to select or drag-and-drop your theme zip file here.': 'Click to select or drag-and-drop your theme zip file here.',
     'Overwrite': 'Overwrite',
     'Activate Now': 'Activate Now',
-    'View site': 'View site'
+    'View site': 'View site',
+    'post': 'post',
+    '{{title}} with {{type}}': '{{title}} with {{type}}',
+    'errors': 'errors',
+    'warnings': 'warnings',
+    'Upload successful with {{type}}': 'Upload successful with {{type}}',
+    'You are still able to use and activate the theme. Here\'s your report...': 'You are still able to use and activate the theme. Here\'s your report...',
+    '"{{themeName}}" uploaded successfully but some {{type}} were detected.': '"{{themeName}}" uploaded successfully but some {{type}} were detected.'
 };
