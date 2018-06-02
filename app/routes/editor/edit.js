@@ -1,6 +1,13 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 
 export default AuthenticatedRoute.extend({
+    beforeModel() {
+        this._super(...arguments);
+        let editor = this.controllerFor('editor');
+        editor.set('post', null);
+        editor.reset();
+    },
+    
     model(params) {
         let query = {
             id: params.post_id,
