@@ -149,7 +149,7 @@
 }
 
 .invite-new-user .form-group {
-    margin-bottom: 0;
+    margin-bottom: 1.6rem;
     padding: 0;
 }
 
@@ -187,10 +187,5 @@
 }
 
 .invite-new-user .form-group input {
-    width: 100%;
-}
-
-.invite-new-user .gh-btn-green {
-    margin: 0;
     width: 100%;
 }

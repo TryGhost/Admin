@@ -203,7 +203,7 @@ describe('Acceptance: Team', function () {
             expect(
                 find('.fullscreen-modal h1').text().trim(),
                 'correct modal is displayed'
-            ).to.equal('Invite a New User');
+            ).to.equal('Invite a Team Member');
 
             // number of roles is correct
             expect(
