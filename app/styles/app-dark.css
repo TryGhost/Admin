@@ -338,3 +338,7 @@ input,
 .subscribers-table table .gh-btn svg {
     fill: var(--darkgrey);
 }
+
+.subscribers-table table .gh-btn svg {
+    fill: #fff;
+}
