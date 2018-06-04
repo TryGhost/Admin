@@ -491,6 +491,12 @@
     overflow: visible !important;
 }
 
+/* Code injection scrollbar fix for windows and linux
+ * https://github.com/TryGhost/Ghost/issues/9635 */
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar {
+    pointer-events: auto !important;
+}
+
 .gh-markdown-editor .CodeMirror-scroll:hover {
     cursor: text;
 }
