@@ -14,7 +14,7 @@ export default Transform.extend({
         }
 
         if (isEmpty(settingsArray)) {
-            settingsArray.push({url: ''});
+            settingsArray.push({url: '', username: ''});
         }
 
         let slackObjs = settingsArray.map(itemDetails => SlackObject.create(itemDetails));
@@ -27,9 +27,9 @@ export default Transform.extend({
         if (isEmberArray(deserialized)) {
             settingsArray = deserialized.map((item) => {
                 let url = (item.get('url') || '').trim();
-                if (url) {
-                    return {url};
-                }
+                let username = (item.get('username') || '').trim();
+
+                return {url, username};
             }).compact();
         } else {
             settingsArray = [];

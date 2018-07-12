@@ -62,7 +62,7 @@ describe('Acceptance: Settings - Apps - Slack', function () {
             return authenticateSession(application);
         });
 
-        it('it validates and saves a slack url properly', async function () {
+        it('it validates and saves a slack settings properly', async function () {
             await visit('/settings/apps/slack');
 
             // has correct url
@@ -76,6 +76,7 @@ describe('Acceptance: Settings - Apps - Slack', function () {
 
             // CMD-S shortcut works
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
+            await fillIn('[data-test-slack-username-input]', 'SlackBot');
             await triggerEvent('.gh-app', 'keydown', {
                 keyCode: 83, // s
                 metaKey: ctrlOrCmd === 'command',
@@ -87,6 +88,7 @@ describe('Acceptance: Settings - Apps - Slack', function () {
             let [result] = JSON.parse(params.settings.findBy('key', 'slack').value);
 
             expect(result.url).to.equal('https://hooks.slack.com/services/1275958430');
+            expect(result.username).to.equal('SlackBot');
             expect(find('#slack-settings .error .response').text().trim(), 'inline validation response')
                 .to.equal('');
 
