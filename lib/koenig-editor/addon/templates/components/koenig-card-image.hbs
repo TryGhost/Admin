@@ -1,16 +1,21 @@
 {{#koenig-card
     tagName="figure"
-    class=(concat (kg-style "media-card") " flex flex-column")
+    class=(concat (kg-style "media-card") " " (kg-style "breakout" size=payload.cardWidth) " flex flex-column")
     isSelected=isSelected
     isEditing=isEditing
     selectCard=(action selectCard)
-    onSelect=(action "onSelect")
-    onDeselect=(action "onDeselect")
+    deselectCard=(action deselectCard)
     editCard=(action editCard)
     toolbar=toolbar
     hasEditMode=false
+    addParagraphAfterCard=addParagraphAfterCard
+    moveCursorToPrevSection=moveCursorToPrevSection
+    moveCursorToNextSection=moveCursorToNextSection
+    editor=editor
+    as |card|
 }}
     {{#gh-uploader
+        files=files
         accept=imageMimeTypes
         extensions=imageExtensions
         onStart=(action "setPreviewSrc")
@@ -18,9 +23,16 @@
         onFailed=(action "resetSrcs")
         as |uploader|
     }}
-        <div class="relative">
+        <div class="relative{{unless (or previewSrc payload.src) " bg-whitegrey-l2"}}">
             {{#if (or previewSrc payload.src)}}
-                <img src={{or previewSrc payload.src}} class={{kg-style kgImgStyle}} alt={{payload.alt}}>
+                <img src={{or previewSrc payload.src}} class="{{kg-style kgImgStyle sidebar=ui.hasSideNav}}" alt={{payload.alt}}>
+                {{#if isDraggedOver}}
+                    <div class="absolute absolute--fill flex items-center bg-black-60 pe-none">
+                        <span class="db center sans-serif fw7 f7 white">
+                            Drop to replace image
+                        </span>
+                    </div>
+                {{/if}}
             {{/if}}
 
             {{#if (or uploader.errors uploader.isUploading (not payload.src))}}
@@ -31,11 +43,16 @@
                         </span>
                     {{/if}}
 
-                    {{#if uploader.isUploading}}
+                    {{#if isDraggedOver}}
+                        <span class="db center sans-serif fw7 f7 middarkgrey">
+                            Drop it like it's hot 🔥
+                        </span>
+                    {{else if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else if (not previewSrc payload.src)}}
-                        <button class="db center btn-base ba b--whitegrey br3 sans-serif fw4 f7 middarkgrey" onclick={{action "triggerFileDialog"}}>
-                            <span>Click to select an image</span>
+                        <button class="flex flex-column items-center center btn-base sans-serif fw4 f7 middarkgrey" onclick={{action "triggerFileDialog"}}>
+                            {{svg-jar "summer" class="nudge-right--10"}}
+                            <span class="mt2 midgrey">Click to select an image</span>
                         </button>
                     {{/if}}
                 </div>
@@ -48,14 +65,10 @@
     {{/gh-uploader}}
 
     {{#if (or isSelected payload.caption)}}
-        <figcaption class="{{kg-style "figcaption"}} w-100">
-            <input
-                value={{payload.caption}}
-                type="text"
-                class="miw-100 tc bn form-text"
-                name="caption"
-                oninput={{action "updateCaption" value="target.value"}}
-                placeholder="Type caption for image (optional)">
-        </figcaption>
+        {{card.captionInput
+            caption=payload.caption
+            update=(action "updateCaption")
+            placeholder="Type caption for image (optional)"
+        }}
     {{/if}}
 {{/koenig-card}}

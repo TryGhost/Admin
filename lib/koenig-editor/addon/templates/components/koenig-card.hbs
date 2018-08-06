@@ -1,18 +1,27 @@
-{{#if icon}}{{svg-jar icon class=iconClass}}{{/if}}
+{{#if icon}}
+    {{#sticky-element top=iconTop bottom=36}}
+        {{svg-jar icon class=iconClass}}
+    {{/sticky-element}}
+{{/if}}
 
-{{yield}}
+{{yield (hash captionInput=(component "koenig-caption-input"
+    captureInput=isSelected
+    addParagraphAfterCard=addParagraphAfterCard
+    moveCursorToPrevSection=moveCursorToPrevSection
+    moveCursorToNextSection=moveCursorToNextSection
+))}}
 
 {{#if toolbar}}
-    <ul data-toolbar="true" class="kg-action-bar bg-lgr-darkgrey inline-flex pa0 ma0 list br3 shadow-2 items-center absolute white sans-serif f8 fw6 tracked-2 anim-fast-bezier z-999 {{if showToolbar "" "o-0 drop-down"}}" style={{toolbarStyle}}>
+    <ul data-toolbar="true" class="kg-action-bar bg-darkgrey-d1 inline-flex pa0 ma0 pl1 pr1 nl1 list br3 shadow-2 items-center absolute white sans-serif f8 fw6 tracked-2 anim-fast-bezier z-999 {{if showToolbar "" "o-0 pop-down"}}" style={{toolbarStyle}}>
         {{#each toolbar.items as |item|}}
             {{#if item.divider}}
                 <li class="ma0 kg-action-bar-divider bg-darkgrey-d2 h5"></li>
             {{else}}
-                <li class="ma0">
+                <li class="ma0 lh-solid">
                     <button
                         type="button"
                         title={{item.title}}
-                        class="dib dim-lite pa3 pt2 pb2 link {{item.buttonClass}}"
+                        class="dib dim-lite link h10 w9 nudge-top--1 justify-center {{item.buttonClass}}"
                         onmousedown={{action item.action}}
                     >
                         {{#if item.icon}}{{svg-jar item.icon class=(concat item.iconClass (if item.text " mr2") " w4 h4")}} {{/if}}{{item.text}}

@@ -35,6 +35,7 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     feature: service(),
     ghostPaths: service(),
     notifications: service(),
+    router: service(),
     settings: service(),
     tour: service(),
     ui: service(),
@@ -201,7 +202,12 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                     params.push(routeInfo.params[key]);
                 }
 
-                return this.transitionTo('error404', router.generate(routeInfo.name, ...params).replace('/ghost/', '').replace(/^\//g, ''));
+                let url = router.urlFor(routeInfo.name, ...params)
+                    .replace(/^#\//, '')
+                    .replace(/^\//, '')
+                    .replace(/^ghost\//, '');
+
+                return this.replaceWith('error404', url);
             }
 
             if (isVersionMismatchError(error)) {

@@ -3,7 +3,7 @@ import Component from '@ember/component';
 export default Component.extend({
 
     // public attrs
-    classNames: ['gh-koenig-editor'],
+    classNames: ['gh-koenig-editor', 'relative', 'w-100', 'vh-100', 'overflow-x-hidden', 'overflow-y-auto', 'z-0'],
     title: '',
     titlePlaceholder: '',
     body: null,
@@ -13,35 +13,58 @@ export default Component.extend({
     // internal properties
     _title: null,
     _editor: null,
+    _mousedownY: 0,
 
     // closure actions
     onTitleChange() {},
     onTitleBlur() {},
     onBodyChange() {},
+    onEditorCreated() {},
+    onWordCountChange() {},
 
     actions: {
         focusTitle() {
             this._title.focus();
         },
 
-        // triggered when a click is registered on .gh-koenig-editor-pane
+        // triggered when a mousedown is registered on .gh-koenig-editor-pane
+        trackMousedown(event) {
+            this._mousedownY = event.clientY;
+        },
+
+        // triggered when a mouseup is registered on .gh-koenig-editor-pane
         focusEditor(event) {
-            // if a click occurs on the editor canvas, focus the editor and put
-            // the cursor at the end of the document. Allows for a much larger
-            // hit area for focusing the editor when it has no or little content
-            if (event.target.tagName === 'ARTICLE' && event.target.classList.contains('koenig-editor')) {
-                let {post} = this._editor;
-                let range = post.toRange();
+            if (event.target.classList.contains('gh-koenig-editor-pane')) {
+                let editorCanvas = this._editor.element;
+                let {bottom} = editorCanvas.getBoundingClientRect();
 
-                event.preventDefault();
+                // if a mousedown and subsequent mouseup occurs below the editor
+                // canvas, focus the editor and put the cursor at the end of the
+                // document
+                if (this._mousedownY > bottom && event.clientY > bottom) {
+                    let {post} = this._editor;
+                    let range = post.toRange();
+                    let {tailSection} = range;
 
-                this._editor.focus();
-                this._editor.run((postEditor) => {
-                    postEditor.setRange(range.tail.section.tailPosition());
-                });
+                    event.preventDefault();
+                    this._editor.focus();
 
-                // ensure we're scrolled to the bottom
-                this.element.scrollTop = this.element.scrollHeight;
+                    // we should always have a visible cursor when focusing
+                    // at the bottom so create an empty paragraph if last
+                    // section is a card
+                    if (tailSection.isCardSection) {
+                        this._editor.run((postEditor) => {
+                            let newSection = postEditor.builder.createMarkupSection('p');
+                            postEditor.insertSectionAtEnd(newSection);
+                            tailSection = newSection;
+                        });
+                    }
+
+                    this._editor.selectRange(tailSection.tailPosition());
+
+                    // ensure we're scrolled to the bottom
+                    this.element.scrollTop = this.element.scrollHeight;
+                }
             }
         },
 
@@ -84,8 +107,9 @@ export default Component.extend({
 
         /* body related actions --------------------------------------------- */
 
-        onEditorCreated(editor) {
-            this._setupEditor(editor);
+        onEditorCreated(koenig) {
+            this._setupEditor(koenig);
+            this.onEditorCreated(koenig);
         },
 
         onBodyChange(newMobiledoc) {
@@ -97,13 +121,14 @@ export default Component.extend({
 
     /* internal methods ----------------------------------------------------- */
 
-    _setupEditor(editor) {
+    _setupEditor(koenig) {
         let component = this;
 
-        this._editor = editor;
+        this._koenig = koenig;
+        this._editor = koenig.editor;
 
         // focus the title when pressing SHIFT+TAB
-        editor.registerKeyCommand({
+        this._editor.registerKeyCommand({
             str: 'SHIFT+TAB',
             run() {
                 component.send('focusTitle');
@@ -126,8 +151,9 @@ export default Component.extend({
             editor.run((postEditor) => {
                 let {builder} = postEditor;
                 let newPara = builder.createMarkupSection('p');
+                let sections = section.isListItem ? section.parent.parent.sections : section.parent.sections;
 
-                postEditor.insertSectionBefore(section.parent.sections, newPara, section);
+                postEditor.insertSectionBefore(sections, newPara, section);
             });
         }
     }

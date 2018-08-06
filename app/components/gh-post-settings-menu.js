@@ -5,7 +5,6 @@ import formatMarkdown from 'ghost-admin/utils/format-markdown';
 import moment from 'moment';
 import {alias, or} from '@ember/object/computed';
 import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
@@ -41,25 +40,19 @@ export default Component.extend(SettingsMenuMixin, {
     facebookDescription: or('ogDescriptionScratch', 'customExcerptScratch', 'seoDescription'),
     facebookImage: or('post.ogImage', 'post.featureImage'),
     facebookTitle: or('ogTitleScratch', 'seoTitle'),
-    seoTitle: or('metaTitleScratch', 'post.titleScratch'),
     twitterDescription: or('twitterDescriptionScratch', 'customExcerptScratch', 'seoDescription'),
     twitterImage: or('post.twitterImage', 'post.featureImage'),
     twitterTitle: or('twitterTitleScratch', 'seoTitle'),
 
-    twitterImageStyle: computed('twitterImage', function () {
-        let image = this.get('twitterImage');
-        return htmlSafe(`background-image: url(${image})`);
-    }),
-
-    facebookImageStyle: computed('facebookImage', function () {
-        let image = this.get('facebookImage');
-        return htmlSafe(`background-image: url(${image})`);
+    seoTitle: computed('metaTitleScratch', 'post.titleScratch', function () {
+        return this.metaTitleScratch || this.post.titleScratch || '(Untitled)';
     }),
 
     seoDescription: computed('post.scratch', 'metaDescriptionScratch', function () {
         let metaDescription = this.get('metaDescriptionScratch') || '';
         let mobiledoc = this.get('post.scratch');
-        let markdown = mobiledoc.cards && mobiledoc.cards[0][1].markdown;
+        let [markdownCard] = mobiledoc.cards;
+        let markdown = markdownCard && markdownCard[1] && markdownCard[1].markdown;
         let placeholder;
 
         if (metaDescription) {

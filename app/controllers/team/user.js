@@ -1,19 +1,14 @@
 import Controller from '@ember/controller';
-import Ember from 'ember';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import isNumber from 'ghost-admin/utils/isNumber';
 import validator from 'npm:validator';
 import windowProxy from 'ghost-admin/utils/window-proxy';
 import {alias, and, not, or, readOnly} from '@ember/object/computed';
 import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {task, taskGroup} from 'ember-concurrency';
-
-// ember-cli-shims doesn't export this
-const {Handlebars} = Ember;
 
 export default Controller.extend({
     ajax: service(),
@@ -62,32 +57,6 @@ export default Controller.extend({
             || this.get('user.isAuthorOrContributor')))) {
             return true;
         }
-    }),
-
-    // duplicated in gh-user-active -- find a better home and consolidate?
-    userDefault: computed('ghostPaths', function () {
-        let defaultImage = '/img/user-image.png';
-        return `${this.get('ghostPaths.assetRoot')}${defaultImage}`;
-    }),
-
-    userImageBackground: computed('user.profileImage', 'userDefault', function () {
-        let url = this.get('user.profileImage') || this.get('userDefault');
-        let safeUrl = Handlebars.Utils.escapeExpression(url);
-
-        return htmlSafe(`background-image: url(${safeUrl})`);
-    }),
-    // end duplicated
-
-    coverDefault: computed('ghostPaths', function () {
-        let defaultCover = '/img/user-cover.png';
-        return `${this.get('ghostPaths.assetRoot')}${defaultCover}`;
-    }),
-
-    coverImageBackground: computed('user.coverImage', 'coverDefault', function () {
-        let url = this.get('user.coverImage') || this.get('coverDefault');
-        let safeUrl = Handlebars.Utils.escapeExpression(url);
-
-        return htmlSafe(`background-image: url(${safeUrl})`);
     }),
 
     coverTitle: computed('user.name', function () {
@@ -435,17 +404,14 @@ export default Controller.extend({
         }
 
         try {
-            let currentPath,
-                newPath;
-
             user = yield user.save({format: false});
 
             // If the user's slug has changed, change the URL and replace
             // the history so refresh and back button still work
             if (slugChanged) {
-                currentPath = window.location.hash;
+                let currentPath = window.location.hash;
 
-                newPath = currentPath.split('/');
+                let newPath = currentPath.split('/');
                 newPath[newPath.length - 1] = user.get('slug');
                 newPath = newPath.join('/');
 

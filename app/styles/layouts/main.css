@@ -1,24 +1,15 @@
 /* Global Layout
 /* ---------------------------------------------------------- */
 
-/*
-  Ember's app container. Use `position: fixed`, covering full window area so
-  that scrolling on mobile doesn't trigger elastic scroll
 
-  TODO: Once we have routable components it should be possible to remove this
-  by moving the gh-app component functionality into the application component
-  which would remove the extra div that this targets.
-*/
-body > .ember-view:not(.default-liquid-destination) {
+/* Main viewport, contains main content, and alerts */
+/* Use `position: fixed`, covering full window area so scrolling on mobile doesn't trigger elastic scroll */
+.gh-app {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-}
-
-/* Main viewport, contains main content, and alerts */
-.gh-app {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -161,6 +152,10 @@ body > .ember-view:not(.default-liquid-destination) {
     transition: color 0.2s ease;
     transform: rotate(90deg);
     vertical-align: -1px;
+}
+
+.gh-nav-search-button svg path {
+    stroke: inherit;
 }
 
 .gh-nav-search-button:hover svg {
@@ -352,9 +347,9 @@ body > .ember-view:not(.default-liquid-destination) {
 .gh-menu-toggle {
     display: block;
     position: absolute;
-    top: 25px;
+    top: 24px;
     right: -8px;
-    height: 34px;
+    height: 36px;
     width: 25px;
     border: color-mod(var(--lightgrey) l(+4%)) 5px solid;
     border-radius: 4px;
@@ -641,10 +636,6 @@ body > .ember-view:not(.default-liquid-destination) {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-}
-
-.view-actions .gh-btn {
-    margin-left: 8px;
 }
 
 .view-container,

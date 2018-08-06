@@ -1,19 +1,30 @@
 {{#koenig-card
-    icon="koenig/markdown"
+    icon="koenig/card-indicator-markdown"
     class=(concat (kg-style "container-card") " koenig-card-markdown-rendered")
+    headerOffset=headerOffset
     toolbar=toolbar
     isSelected=isSelected
     isEditing=isEditing
     onEnterEdit=(action "enterEditMode")
     onLeaveEdit=(action "leaveEditMode")
     selectCard=(action selectCard)
+    deselectCard=(action deselectCard)
     editCard=(action editCard)
+    editor=editor
 }}
     {{#if isEditing}}
         {{#gh-editor as |editor|}}
+            {{gh-scroll-trigger
+                triggerOffset=(hash bottom=bottomOffset)
+                enter=(action "topEntered")
+                exit=(action "topExited")
+                registerElement=(action "registerTop")
+            }}
+
             {{#gh-markdown-editor
                 markdown=(readonly payload.markdown)
                 onChange=(action "updateMarkdown")
+                autofocus=true
                 enableSideBySide=false
                 enablePreview=false
                 enableHemingway=false
@@ -25,6 +36,12 @@
             }}
                 {{markdown.editor}}
             {{/gh-markdown-editor}}
+
+            {{gh-scroll-trigger
+                enter=(action "bottomEntered")
+                exit=(action "bottomExited")
+                registerElement=(action "registerBottom")
+            }}
 
             {{!-- files are dragged over editor pane --}}
             {{#if editor.isDraggedOver}}
@@ -67,7 +84,12 @@
                 {{/gh-uploader}}
             {{/if}}
         {{/gh-editor}}
+
+        {{#if preventClick}}
+            <div class="absolute absolute--fill z-max"></div>
+        {{/if}}
     {{else}}
         {{renderedMarkdown}}
+        <div class="absolute absolute--fill z-999"></div>
     {{/if}}
 {{/koenig-card}}

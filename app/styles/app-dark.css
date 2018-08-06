@@ -4,12 +4,11 @@
     includes normalize v7 so must come first to avoid clobbering
     our old non-Spirit classes
 */
-@import "spirit/spirit-product.css";
+@import "spirit/spirit-product-dark.css";
 
 /* Patterns: Groups of Styles
 /* ---------------------------------------------------------- */
 @import "patterns/global.css";
-@import "patterns/_shame.css";
 @import "patterns/icons.css";
 @import "patterns/forms.css";
 @import "patterns/buttons.css";
@@ -37,7 +36,7 @@
 @import "components/popovers.css";
 @import "components/tour.css";
 @import "components/unsplash.css";
-@import "components/koenig";
+@import "components/codemirror.css";
 
 
 /* Layouts: Groups of Components
@@ -66,7 +65,7 @@
 }
 
 body {
-    color: #e5eff5;
+    color: var(--darkgrey);
 }
 
 pre {
@@ -132,7 +131,7 @@ input,
 .ember-power-calendar-weekdays,
 .ember-power-calendar-day--selected,
 .ember-power-calendar-day--selected:not([disabled]):hover {
-    color: #e5eff5;
+    color: var(--darkgrey);
 }
 
 .gh-nav-list svg {
@@ -293,7 +292,7 @@ input,
 }
 
 .gh-canvas-title span path {
-    fill: #e5eff5;
+    fill: var(--darkgrey);
 }
 
 .gh-loading-spinner {
@@ -336,4 +335,8 @@ input,
 
 .CodeMirror .CodeMirror-code .cm-string {
     color: color-mod(#183691 l(+25%));
+}
+
+.subscribers-table table .gh-btn svg {
+    fill: var(--darkgrey);
 }

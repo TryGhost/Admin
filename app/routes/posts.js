@@ -1,10 +1,11 @@
 import $ from 'jquery';
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import InfinityRoute from 'ember-infinity/mixins/route';
 import {assign} from '@ember/polyfills';
 import {isBlank} from '@ember/utils';
+import {inject as service} from '@ember/service';
 
-export default AuthenticatedRoute.extend(InfinityRoute, {
+export default AuthenticatedRoute.extend({
+    infinity: service(),
 
     queryParams: {
         type: {
@@ -33,12 +34,14 @@ export default AuthenticatedRoute.extend(InfinityRoute, {
 
     model(params) {
         return this.get('session.user').then((user) => {
-            let queryParams = this._typeParams(params.type);
+            let queryParams = {};
             let filterParams = {tag: params.tag};
             let paginationParams = {
                 perPageParam: 'limit',
                 totalPagesParam: 'meta.pagination.pages'
             };
+
+            assign(filterParams, this._getTypeFilters(params.type));
 
             if (params.type === 'featured') {
                 filterParams.featured = true;
@@ -50,7 +53,7 @@ export default AuthenticatedRoute.extend(InfinityRoute, {
             } else if (user.get('isContributor')) {
                 // Contributors can only view their own draft posts
                 filterParams.authors = user.get('slug');
-                queryParams.status = 'draft';
+                filterParams.status = 'draft';
             } else if (params.author) {
                 filterParams.authors = params.author;
             }
@@ -69,7 +72,7 @@ export default AuthenticatedRoute.extend(InfinityRoute, {
             let perPage = this.get('perPage');
             let paginationSettings = assign({perPage, startingPage: 1}, paginationParams, queryParams);
 
-            return this.infinityModel('post', paginationSettings);
+            return this.infinity.model('post', paginationSettings);
         });
     },
 
@@ -107,31 +110,31 @@ export default AuthenticatedRoute.extend(InfinityRoute, {
         }
     },
 
-    _typeParams(type) {
-        let status = 'all';
-        let staticPages = 'all';
+    _getTypeFilters(type) {
+        let status = '[draft,scheduled,published]';
+        let page = '[true,false]';
 
         switch (type) {
         case 'draft':
             status = 'draft';
-            staticPages = false;
+            page = false;
             break;
         case 'published':
             status = 'published';
-            staticPages = false;
+            page = false;
             break;
         case 'scheduled':
             status = 'scheduled';
-            staticPages = false;
+            page = false;
             break;
         case 'page':
-            staticPages = true;
+            page = true;
             break;
         }
 
         return {
             status,
-            staticPages
+            page
         };
     },
 

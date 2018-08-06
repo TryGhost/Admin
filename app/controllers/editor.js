@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
-import Ember from 'ember';
 import PostModel from 'ghost-admin/models/post';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import config from 'ghost-admin/config/environment';
 import isNumber from 'ghost-admin/utils/isNumber';
 import {BLANK_MARKDOWN} from 'ghost-admin/models/post';
 import {alias, mapBy, reads} from '@ember/object/computed';
@@ -24,7 +24,13 @@ const AUTOSAVE_TIMEOUT = 3000;
 const TIMEDSAVE_TIMEOUT = 60000;
 
 // this array will hold properties we need to watch for this.hasDirtyAttributes
-let watchedProps = ['post.scratch', 'post.titleScratch', 'post.hasDirtyAttributes', 'post.tags.[]', 'post.isError'];
+let watchedProps = [
+    'post.scratch',
+    'post.titleScratch',
+    'post.hasDirtyAttributes',
+    'post.tags.[]',
+    'post.isError'
+];
 
 // add all post model attrs to the watchedProps array, easier to do it this way
 // than remember to update every time we add a new attr
@@ -88,6 +94,7 @@ export default Controller.extend({
 
     /* public properties -----------------------------------------------------*/
 
+    infoMessage: null,
     leaveEditorTransition: null,
     shouldFocusEditor: false,
     showDeletePostModal: false,
@@ -96,7 +103,7 @@ export default Controller.extend({
     useKoenig: false,
 
     // koenig related properties
-    wordcount: 0,
+    wordcount: null,
 
     /* private properties ----------------------------------------------------*/
 
@@ -132,17 +139,14 @@ export default Controller.extend({
         }
     }),
 
-    // computed.apply is a bit of an ugly hack, but necessary to watch all the
-    // post's attributes and more without having to be explicit and remember
-    // to update the watched props list every time we add a new post attr
-    hasDirtyAttributes: computed.apply(Ember, watchedProps.concat({
+    hasDirtyAttributes: computed(...watchedProps, {
         get() {
             return this._hasDirtyAttributes();
         },
         set(key, value) {
             return value;
         }
-    })),
+    }),
 
     _autosaveRunning: computed('_autosave.isRunning', '_timedSave.isRunning', function () {
         let autosave = this.get('_autosave.isRunning');
@@ -152,7 +156,7 @@ export default Controller.extend({
     }),
 
     _canAutosave: computed('post.isDraft', function () {
-        return !Ember.testing && this.get('post.isDraft');
+        return config.environment !== 'test' && this.get('post.isDraft');
     }),
 
     /* actions ---------------------------------------------------------------*/
@@ -266,9 +270,20 @@ export default Controller.extend({
             this.toggleProperty('showReAuthenticateModal');
         },
 
-        // TODO: this should be part of the koenig component
-        setWordcount(count) {
-            this.set('wordcount', count);
+        setKoenigEditor(koenig) {
+            this._koenig = koenig;
+
+            // remove any empty cards when displaying a draft post
+            // - empty cards may be left in draft posts due to autosave occuring
+            //   whilst an empty card is present then the user closing the browser
+            //   or refreshing the page
+            if (this.post.isDraft) {
+                this._koenig.cleanup();
+            }
+        },
+
+        updateWordCount(counts) {
+            this.set('wordCount', counts);
         }
     },
 
@@ -311,6 +326,14 @@ export default Controller.extend({
                 } else {
                     status = 'draft';
                 }
+            }
+        }
+
+        // ensure we remove any blank cards when performing a full save
+        if (!options.backgroundSave) {
+            if (this._koenig) {
+                this._koenig.cleanup();
+                this.set('hasDirtyAttributes', true);
             }
         }
 
@@ -509,12 +532,6 @@ export default Controller.extend({
         let postIsMarkdownCompatible = post.isCompatibleWithMarkdownEditor();
         if (koenigEnabled || !postIsMarkdownCompatible) {
             this.set('useKoenig', true);
-
-            // display an alert if koenig is disabled but we use it anyway
-            // because the post is incompatible with the markdown editor
-            if (!koenigEnabled) {
-                alert('This post will be opened with the Koenig editor because it\'s not compatible with the markdown editor');
-            }
         } else {
             this.set('useKoenig', false);
         }
@@ -530,6 +547,12 @@ export default Controller.extend({
         this.reset();
 
         this.set('post', post);
+
+        // display an info message if Koenig is disabled by we had to use it
+        // for post compatibility
+        if (!koenigEnabled && this.useKoenig) {
+            // this.set('infoMessage', 'This post can only be edited with the Koenig editor.');
+        }
 
         // autofocus the editor if we have a new post
         this.set('shouldFocusEditor', post.get('isNew'));
@@ -567,6 +590,14 @@ export default Controller.extend({
         // has already been called as in the `leaveEditor` action
         if (!post) {
             return;
+        }
+
+        // clean up blank cards when leaving the editor if we have a draft post
+        // - blank cards could be left around due to autosave triggering whilst
+        //   a blank card is present then the user attempting to leave
+        // - will mark the post as dirty so it gets saved when transitioning
+        if (this._koenig && post.isDraft) {
+            this._koenig.cleanup();
         }
 
         let hasDirtyAttributes = this.get('hasDirtyAttributes');
@@ -626,6 +657,8 @@ export default Controller.extend({
         this.set('hasDirtyAttributes', false);
         this.set('shouldFocusEditor', false);
         this.set('leaveEditorTransition', null);
+        this.set('infoMessage', null);
+        this.set('wordCount', null);
 
         // remove the onbeforeunload handler as it's only relevant whilst on
         // the editor route
@@ -655,7 +688,7 @@ export default Controller.extend({
             return;
         }
 
-        while (!Ember.testing && true) {
+        while (config.environment !== 'test' && true) {
             yield timeout(TIMEDSAVE_TIMEOUT);
             this.get('autosave').perform();
         }

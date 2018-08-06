@@ -1,32 +1,25 @@
 {{#koenig-card
-    class=(concat (kg-style "media-card") " mih10 miw-100 relative")
+    icon="koenig/card-indicator-html"
+    class=(concat (kg-style "container-card") " mih10 miw-100 relative")
+    headerOffset=headerOffset
     toolbar=toolbar
     isSelected=isSelected
     isEditing=isEditing
     selectCard=(action selectCard)
+    deselectCard=(action deselectCard)
     editCard=(action editCard)
     onLeaveEdit=(action "leaveEditMode")
+    editor=editor
 }}
     {{#if isEditing}}
         {{gh-cm-editor payload.html
             class="koenig-card-html--editor"
             autofocus=true
+            lineWrapping=true
             update=(action "updateHtml")
         }}
-
-        <input
-            value={{payload.caption}}
-            type="text"
-            class="miw-100 tc bn form-text"
-            oninput={{action "updateCaption" value="target.value"}}
-            placeholder="Type caption for embed (optional)">
     {{else}}
-        {{{payload.html}}}
-
-        {{#if payload.caption}}
-            <p class={{kg-style "figcaption"}}>{{{payload.caption}}}</p>
-        {{/if}}
-
+        <div class="koenig-card-html-rendered">{{{payload.html}}}</div>
         <div class="koenig-card-click-overlay"></div>
     {{/if}}
 {{/koenig-card}}

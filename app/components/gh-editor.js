@@ -23,6 +23,7 @@ export default Component.extend({
     // Internal attributes
     droppedFiles: null,
     headerClass: '',
+    headerHeight: 0,
     imageExtensions: IMAGE_EXTENSIONS,
     imageMimeTypes: IMAGE_MIME_TYPES,
     isDraggedOver: false,
@@ -99,25 +100,42 @@ export default Component.extend({
     },
 
     _setHeaderClass() {
-        let $editorTitle = this.$('.gh-editor-title, .kg-title-input');
+        let editorTitle = this.element.querySelector('.gh-editor-title, .kg-title-input');
         let smallHeaderClass = 'gh-editor-header-small';
+        let newHeaderClass = '';
+
+        this._editorTitleElement = editorTitle;
 
         if (this.get('isSplitScreen')) {
             this.set('headerClass', smallHeaderClass);
             return;
         }
 
-        if ($editorTitle.length > 0) {
-            let boundingRect = $editorTitle[0].getBoundingClientRect();
+        if (editorTitle) {
+            let boundingRect = editorTitle.getBoundingClientRect();
             let maxRight = window.innerWidth - this._viewActionsWidth;
 
             if (boundingRect.right >= maxRight) {
-                this.set('headerClass', smallHeaderClass);
-                return;
+                newHeaderClass = smallHeaderClass;
             }
         }
 
-        this.set('headerClass', '');
+        if (newHeaderClass !== this.headerClass) {
+            // grab height of header so that we can pass it as an offset to other
+            // editor components
+            run.scheduleOnce('afterRender', this, this._setHeaderHeight);
+        }
+
+        this.set('headerClass', newHeaderClass);
+    },
+
+    _setHeaderHeight() {
+        if (this.headerClass && this._editorTitleElement) {
+            let height = this._editorTitleElement.offsetHeight;
+            return this.set('headerHeight', height);
+        }
+
+        this.set('headerHeight', 0);
     },
 
     // dragOver is needed so that drop works

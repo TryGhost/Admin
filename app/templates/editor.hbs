@@ -5,19 +5,44 @@
         navIsClosed=navIsClosed
         as |editor|
     }}
-        <header class="gh-editor-header {{editor.headerClass}}">
-            <div class="gh-editor-status">
-                {{gh-editor-post-status
-                    post=post
-                    isSaving=(or autosave.isRunning saveTasks.isRunning)
-                }}
+        <header class="gh-editor-header br2 pe-none {{editor.headerClass}} {{if infoMessage "bg-white-90"}}">
+            <div class="flex items-center pe-auto">
+                {{#if ui.isFullScreen}}
+                    <div class="{{ui-text "ts"}} h9 br b--lightgrey pl3 pr4 flex items-center br2 br--left {{unless infoMessage "bg-white-90"}}">
+                        {{#link-to "posts" classNames="blue link fw4 flex items-center"}}
+                            {{svg-jar "arrow-left" class="w3 fill-blue mr1 nudge-right--2"}}
+                            Stories
+                        {{/link-to}}
+                    </div>
+                {{/if}}
+                <div class="flex items-center pl4 pr4 f8 nudge-left--1 h9 br2 br--right {{unless infoMessage "bg-white-90"}}">
+                    <span class="fw4 midgrey-l2">
+                        {{gh-editor-post-status
+                            post=post
+                            isSaving=(or autosave.isRunning saveTasks.isRunning)
+                        }}
+                    </span>
+                {{#gh-scheduled-post-countdown post=post as |post countdown|}}
+                    <time datetime="{{post.publishedAtUTC}}" class="green f8 ml5" data-test-schedule-countdown>
+                        Post will go live {{countdown}}.
+                    </time>
+                {{/gh-scheduled-post-countdown}}
+                </div>
             </div>
-            {{#gh-scheduled-post-countdown post=post as |post countdown|}}
-                <time datetime="{{post.publishedAtUTC}}" class="gh-notification gh-notification-schedule" data-test-schedule-countdown>
-                    Post will be published {{countdown}}.
-                </time>
-            {{/gh-scheduled-post-countdown}}
-            <section class="view-actions">
+
+            {{#if infoMessage}}
+            <div class="gh-koenig-info miw88 flex flex-auto justify-center" style="pointer-events: auto">
+                <div class="midgrey inline-flex tracked-1 center pa1 pl4 pr4 br3 justify-center items-start {{if (eq editor.headerClass "gh-editor-header-small") "bg-white-90"}}">
+                    {{svg-jar "idea" class="w7 h7 fill-blue"}}
+                    <p class="ma0 pa0 ml1 nudge-top--2">
+                        {{infoMessage}}
+                        <button type="button" class="blue fw5" {{action (mut infoMessage "")}}>Got it</button>
+                    </p>
+                </div>
+            </div>
+            {{/if}}
+
+            <section class="view-actions br2 {{unless infoMessage "bg-white-90"}}" style="pointer-events: auto">
                 {{#unless post.isNew}}
                     {{#if session.user.isContributor}}
                         {{gh-task-button "Save"
@@ -55,6 +80,12 @@
                 bodyPlaceholder="Begin writing your story..."
                 bodyAutofocus=shouldFocusEditor
                 onBodyChange=(action "updateScratch")
+                headerOffset=editor.headerHeight
+                scrollContainerSelector=".gh-koenig-editor"
+                scrollOffsetTopSelector=".gh-editor-header-small"
+                scrollOffsetBottomSelector=".gh-mobile-nav-bar"
+                onEditorCreated=(action "setKoenigEditor")
+                onWordCountChange=(action "updateWordCount")
             }}
 
         {{else}}
@@ -156,6 +187,14 @@
             {{/if}}
 
         {{/if}} {{!-- end Koenig conditional --}}
+
+        {{#if wordCount}}
+            <div class="absolute flex items-center br3 bg-white-90 {{if editor.headerClass "right-4 bottom-2 h7 pa1 pl2 pr2" "right-6 bottom-6 h9 pa1 pl4 pr4"}}">
+                <span class="midgrey-l2 {{if editor.headerClass "f-supersmall" "f8"}}">
+                    {{pluralize wordCount.wordCount "word"}}
+                </span>
+            </div>
+        {{/if}}
     {{/gh-editor}}
 
     {{#if showDeletePostModal}}

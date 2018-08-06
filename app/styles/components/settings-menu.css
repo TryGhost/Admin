@@ -6,7 +6,7 @@
 /* ---------------------------------------------------------- */
 
 .settings-menu-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
@@ -209,8 +209,6 @@
 
 .settings-menu-content .CodeMirror-scroll {
     min-height: 170px;
-    overflow: hidden !important;
-    margin-right: 0;
 }
 
 .settings-menu-content .for-radio .input-toggle-component,
@@ -238,4 +236,11 @@
 }
 .mobile-menu-expanded .content-cover {
     transform: translate3d(205px, 0px, 0px);
+}
+
+
+/* Badges
+/* ---------------------------------------------------------- */
+.gh-setting-title .gh-badge {
+    font-size: 13px;
 }
