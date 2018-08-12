@@ -350,6 +350,12 @@ textarea {
     width: auto;
     height: auto;
     font-size: 1.2rem;
+    background: inherit;
+}
+
+.gh-input-file::-ms-value {
+    background: inherit;
+    border: none;
 }
 
 .gh-input-file + .gh-btn {

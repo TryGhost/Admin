@@ -181,7 +181,7 @@
     line-height: 1em;
     font-weight: 400;
     user-select: text;
-
+    min-width: 0px;
     -webkit-appearance: none;
 }
 
