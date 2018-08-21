@@ -35,12 +35,12 @@ export default Component.extend({
     // TODO: find a better way to get an excerpt! :)
     subText: computed('post.{plaintext,metaDescription}', function () {
         let text = this.get('post.plaintext');
-        let metaDescription = this.get('post.metaDescription');
+        let excerpt = this.get('post.customExcerpt');
 
-        if (!isBlank(metaDescription)) {
-            text = metaDescription;
+        if (isBlank(excerpt)) {
+            excerpt = text;
         }
-        return `${text.slice(0, 80)}...`;
+        return `${excerpt.slice(0, 80)}...`;
     }),
 
     didReceiveAttrs() {
