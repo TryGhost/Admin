@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/TryGhost/Ghost-Admin.svg?branch=master)](https://travis-ci.org/TryGhost/Ghost-Admin) 
 [![Coverage Status](https://coveralls.io/repos/github/TryGhost/Ghost-Admin/badge.svg)](https://coveralls.io/github/TryGhost/Ghost-Admin)
+[![Code Quality: Javascript](https://img.shields.io/lgtm/grade/javascript/g/TryGhost/Ghost-Admin.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TryGhost/Ghost-Admin/context:javascript)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/TryGhost/Ghost-Admin.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TryGhost/Ghost-Admin/alerts)
 
 This is the home of Ember.js based admin client that ships with [Ghost](https://github.com/tryghost/ghost).
 
