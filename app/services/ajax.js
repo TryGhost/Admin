@@ -169,6 +169,7 @@ let ajaxService = AjaxService.extend({
             return this.get('session').restore().then(() => this._makeRequest(hash));
         }
 
+        hash.withCredentials = true;
         return this._super(...arguments);
     },
 
