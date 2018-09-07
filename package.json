@@ -36,7 +36,7 @@
     "broccoli-funnel": "2.0.1",
     "broccoli-merge-trees": "3.0.1",
     "broccoli-uglify-sourcemap": "2.2.0",
-    "chai-jquery": "2.0.0",
+    "chai-dom": "1.8.0",
     "codemirror": "5.39.0",
     "coveralls": "3.0.2",
     "csscomb": "4.2.0",
