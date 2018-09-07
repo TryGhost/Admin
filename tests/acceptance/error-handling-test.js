@@ -1,10 +1,10 @@
 import Mirage from 'ember-cli-mirage';
-import destroyApp from '../helpers/destroy-app';
-import startApp from '../helpers/start-app';
-import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import {click, currentPath, fillIn, find, findAll, visit} from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import {authenticateSession} from 'ember-simple-auth/test-support';
+import {beforeEach, describe, it} from 'mocha';
+import {click, currentRouteName, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
 import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
 let htmlErrorResponse = function () {
@@ -16,30 +16,23 @@ let htmlErrorResponse = function () {
 };
 
 describe('Acceptance: Error Handling', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     describe('VersionMismatch errors', function () {
         describe('logged in', function () {
-            beforeEach(function () {
-                let role = server.create('role', {name: 'Administrator'});
-                server.create('user', {roles: [role]});
+            beforeEach(async function () {
+                let role = this.server.create('role', {name: 'Administrator'});
+                this.server.create('user', {roles: [role]});
 
-                return authenticateSession(application);
+                return await authenticateSession();
             });
 
             it('displays an alert and disables navigation when saving', async function () {
-                server.createList('post', 3);
+                this.server.createList('post', 3);
 
                 // mock the post save endpoint to return version mismatch
-                server.put('/posts/:id', versionMismatchResponse);
+                this.server.put('/posts/:id', versionMismatchResponse);
 
                 await visit('/');
                 await click('.posts-list li:nth-of-type(2) a'); // select second post
@@ -53,19 +46,19 @@ describe('Acceptance: Error Handling', function () {
                 // try navigating back to the content list
                 await click('[data-test-link="stories"]');
 
-                expect(currentPath()).to.equal('editor.edit');
+                expect(currentRouteName()).to.equal('editor.edit');
             });
 
             it('displays alert and aborts the transition when navigating', async function () {
                 await visit('/');
 
                 // mock the tags endpoint to return version mismatch
-                server.get('/tags/', versionMismatchResponse);
+                this.server.get('/tags/', versionMismatchResponse);
 
                 await click('[data-test-nav="tags"]');
 
                 // navigation is blocked on loading screen
-                expect(currentPath()).to.equal('settings.tags_loading');
+                expect(currentRouteName()).to.equal('settings.tags_loading');
 
                 // has the refresh to update alert
                 expect(findAll('.gh-alert').length).to.equal(1);
@@ -73,13 +66,13 @@ describe('Acceptance: Error Handling', function () {
             });
 
             it('displays alert and aborts the transition when an ember-ajax error is thrown whilst navigating', async function () {
-                server.get('/configuration/timezones/', versionMismatchResponse);
+                this.server.get('/configuration/timezones/', versionMismatchResponse);
 
                 await visit('/settings/tags');
                 await click('[data-test-nav="settings"]');
 
                 // navigation is blocked
-                expect(currentPath()).to.equal('settings.general_loading');
+                expect(currentRouteName()).to.equal('settings.general_loading');
 
                 // has the refresh to update alert
                 expect(findAll('.gh-alert').length).to.equal(1);
@@ -87,7 +80,7 @@ describe('Acceptance: Error Handling', function () {
             });
 
             it('can be triggered when passed in to a component', async function () {
-                server.post('/subscribers/csv/', versionMismatchResponse);
+                this.server.post('/subscribers/csv/', versionMismatchResponse);
 
                 await visit('/subscribers');
                 await click('[data-test-link="import-csv"]');
@@ -101,7 +94,7 @@ describe('Acceptance: Error Handling', function () {
 
         describe('logged out', function () {
             it('displays alert', async function () {
-                server.post('/session', versionMismatchResponse);
+                this.server.post('/session', versionMismatchResponse);
 
                 await visit('/signin');
                 await fillIn('[name="identification"]', 'test@example.com');
@@ -116,18 +109,18 @@ describe('Acceptance: Error Handling', function () {
     });
 
     describe('CloudFlare errors', function () {
-        beforeEach(function () {
-            let [role] = server.db.roles.where({name: 'Administrator'});
-            server.create('user', {roles: [role]});
+        beforeEach(async function () {
+            let [role] = this.server.db.roles.where({name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            server.loadFixtures();
+            this.server.loadFixtures();
 
-            authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('handles Ember Data HTML response', async function () {
-            server.put('/posts/1/', htmlErrorResponse);
-            server.create('post');
+            this.server.put('/posts/1/', htmlErrorResponse);
+            this.server.create('post');
 
             await visit('/editor/1');
             await click('[data-test-publishmenu-trigger]');
@@ -139,7 +132,7 @@ describe('Acceptance: Error Handling', function () {
         });
 
         it('handles ember-ajax HTML response', async function () {
-            server.del('/themes/foo/', htmlErrorResponse);
+            this.server.del('/themes/foo/', htmlErrorResponse);
 
             await visit('/settings/design');
             await click('[data-test-theme-id="foo"] [data-test-theme-delete-button]');
