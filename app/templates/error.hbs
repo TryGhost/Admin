@@ -1,12 +1,12 @@
 <div class="gh-view">
 
-    <section class="flex flex-column items-center flex-grow justify-center h-100">
-        <div class="relative error-background">
+    <section class="flex flex-column items-center flex-grow justify-center h-100 nt10">
+        <div class="absolute error-background nudge-right--5">
             {{svg-jar "desert" class="error-background absolute"}}
-            {{svg-jar "tumbleweed" class="w6 h6 absolute tw2"}}
-            {{svg-jar "tumbleweed" class="w11 h11 absolute tw1"}}
+            <div class="traveler-1">{{svg-jar "tumbleweed" class="w6 h6 absolute bouncer-1"}}</div>
+            <div class="traveler-2">{{svg-jar "tumbleweed" class="w11 h11 absolute bouncer-2"}}</div>
         </div>
-        <div class="pt10 tc">
+        <div class="absolute mt50 tc">
             <h1 class="midlightgrey error-code-size fw6">{{code}}</h1>
             <h2 class="midlightgrey f4 fw3">{{message}}</h2>
         </div>
