@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import {click, findAll} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -27,8 +28,8 @@ describe('Integration: Component: gh-theme-table', function () {
             deleteTheme=(action actionHandler)
         }}`);
 
-        expect(this.$('[data-test-themes-list]').length, 'themes list is present').to.equal(1);
-        expect(this.$('[data-test-theme-id]').length, 'number of rows').to.equal(4);
+        expect(findAll('[data-test-themes-list]').length, 'themes list is present').to.equal(1);
+        expect(findAll('[data-test-theme-id]').length, 'number of rows').to.equal(4);
 
         let packageNames = this.$('[data-test-theme-title]').map((i, name) => $(name).text().trim()).toArray();
 
@@ -48,7 +49,7 @@ describe('Integration: Component: gh-theme-table', function () {
         ).to.equal('Daring');
 
         expect(
-            this.$('[data-test-theme-activate-button]').length === 3,
+            findAll('[data-test-theme-activate-button]').length === 3,
             'non-active themes have an activate link'
         ).to.be.true;
 
@@ -58,7 +59,7 @@ describe('Integration: Component: gh-theme-table', function () {
         ).to.be.true;
 
         expect(
-            this.$('[data-test-theme-download-button]').length,
+            findAll('[data-test-theme-download-button]').length,
             'all themes have a download link'
         ).to.equal(4);
 
@@ -96,8 +97,8 @@ describe('Integration: Component: gh-theme-table', function () {
             deleteTheme=(action deleteAction)
         }}`);
 
-        run(() => {
-            this.$('[data-test-theme-id="Bar"] [data-test-theme-delete-button]').click();
+        run(async () => {
+            await click('[data-test-theme-id="Bar"] [data-test-theme-delete-button]');
         });
 
         expect(deleteAction.calledOnce).to.be.true;
@@ -122,8 +123,8 @@ describe('Integration: Component: gh-theme-table', function () {
             deleteTheme=(action actionHandler)
         }}`);
 
-        run(() => {
-            this.$('[data-test-theme-id="Foo"] [data-test-theme-download-button]').click();
+        run(async () => {
+            await click('[data-test-theme-id="Foo"] [data-test-theme-download-button]');
         });
 
         expect(downloadAction.calledOnce).to.be.true;
@@ -148,8 +149,8 @@ describe('Integration: Component: gh-theme-table', function () {
             deleteTheme=(action actionHandler)
         }}`);
 
-        run(() => {
-            this.$('[data-test-theme-id="Bar"] [data-test-theme-activate-button]').click();
+        run(async () => {
+            await click('[data-test-theme-id="Bar"] [data-test-theme-activate-button]');
         });
 
         expect(activateAction.calledOnce).to.be.true;

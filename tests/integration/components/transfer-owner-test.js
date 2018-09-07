@@ -1,6 +1,7 @@
 import RSVP from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import {click} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -22,8 +23,8 @@ describe('Integration: Component: modal-transfer-owner', function () {
 
         this.render(hbs`{{modal-transfer-owner confirm=(action 'confirm') closeModal=(action 'closeModal')}}`);
 
-        run(() => {
-            this.$('.gh-btn.gh-btn-red').click();
+        run(async () => {
+            await click('.gh-btn.gh-btn-red');
         });
 
         expect(confirm.calledOnce, 'confirm called').to.be.true;

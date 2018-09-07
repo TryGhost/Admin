@@ -1,7 +1,11 @@
-import resolver from './helpers/resolver';
-import {setResolver} from 'ember-mocha';
+import Application from '../app';
+import config from '../config/environment';
+import registerPowerDatepickerHelpers from '../tests/helpers/ember-power-datepicker';
+import {setApplication} from '@ember/test-helpers';
 
-setResolver(resolver);
+registerPowerDatepickerHelpers();
+
+setApplication(Application.create(config.APP));
 
 mocha.setup({
     timeout: 15000,

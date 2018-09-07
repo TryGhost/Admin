@@ -4,6 +4,7 @@ import destroyApp from '../../helpers/destroy-app';
 import startApp from '../../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {blur, click, currentURL, fillIn, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Settings - Integrations - Slack', function () {
@@ -71,7 +72,7 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             await fillIn('[data-test-slack-url-input]', 'notacorrecturl');
             await click('[data-test-save-button]');
 
-            expect(find('#slack-settings .error .response').text().trim(), 'inline validation response')
+            expect(find('#slack-settings .error .response').textContent.trim(), 'inline validation response')
                 .to.equal('The URL must be in a format like https://hooks.slack.com/services/<your personal key>');
 
             // CMD-S shortcut works
@@ -87,14 +88,14 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             let [result] = JSON.parse(params.settings.findBy('key', 'slack').value);
 
             expect(result.url).to.equal('https://hooks.slack.com/services/1275958430');
-            expect(find('#slack-settings .error .response').text().trim(), 'inline validation response')
+            expect(find('#slack-settings .error .response').textContent.trim(), 'inline validation response')
                 .to.equal('');
 
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
             await click('[data-test-send-notification-button]');
 
-            expect(find('.gh-notification').length, 'number of notifications').to.equal(1);
-            expect(find('#slack-settings .error .response').text().trim(), 'inline validation response')
+            expect(findAll('.gh-notification').length, 'number of notifications').to.equal(1);
+            expect(find('#slack-settings .error .response').textContent.trim(), 'inline validation response')
                 .to.equal('');
 
             server.put('/settings/', function () {
@@ -114,7 +115,7 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             // we shouldn't try to send the test request if the save fails
             let [lastRequest] = server.pretender.handledRequests.slice(-1);
             expect(lastRequest.url).to.not.match(/\/slack\/test/);
-            expect(find('.gh-notification').length, 'check slack notification after api validation error').to.equal(0);
+            expect(findAll('.gh-notification').length, 'check slack notification after api validation error').to.equal(0);
         });
 
         it('warns when leaving without saving', async function () {
@@ -124,11 +125,11 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
 
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
-            await triggerEvent('[data-test-slack-url-input]', 'blur');
+            await await blur('[data-test-slack-url-input]');
 
             await visit('/settings/design');
 
-            expect(find('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
@@ -141,7 +142,7 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
 
             // settings were not saved
             expect(
-                find('[data-test-slack-url-input]').text().trim(),
+                find('[data-test-slack-url-input]').textContent.trim(),
                 'Slack Webhook URL'
             ).to.equal('');
         });

@@ -4,6 +4,7 @@ import startApp from '../helpers/start-app';
 import {Response} from 'ember-cli-mirage';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from '../helpers/ember-simple-auth';
+import {blur, click, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Setup', function () {
@@ -72,16 +73,16 @@ describe('Acceptance: Setup', function () {
                 .to.equal('/setup/one');
 
             // it highlights first step
-            expect(find('.gh-flow-nav .step:first-of-type').hasClass('active'))
+            expect(find('.gh-flow-nav .step:first-of-type').classList.contains('active'))
                 .to.be.true;
-            expect(find('.gh-flow-nav .step:nth-of-type(2)').hasClass('active'))
+            expect(find('.gh-flow-nav .step:nth-of-type(2)').classList.contains('active'))
                 .to.be.false;
-            expect(find('.gh-flow-nav .step:nth-of-type(3)').hasClass('active'))
+            expect(find('.gh-flow-nav .step:nth-of-type(3)').classList.contains('active'))
                 .to.be.false;
 
             // it displays download count (count increments for each ajax call
             // and polling is disabled in testing so our count should be "1"
-            expect(find('.gh-flow-content em').text().trim()).to.equal('1');
+            expect(find('.gh-flow-content em').textContent.trim()).to.equal('1');
 
             await click('.gh-btn-green');
 
@@ -92,21 +93,21 @@ describe('Acceptance: Setup', function () {
             // email field is focused by default
             // NOTE: $('x').is(':focus') doesn't work in phantomjs CLI runner
             // https://github.com/ariya/phantomjs/issues/10427
-            expect(find('[data-test-blog-title-input]').get(0) === document.activeElement, 'blog title has focus')
+            expect(findAll('[data-test-blog-title-input]')[0] === document.activeElement, 'blog title has focus')
                 .to.be.true;
 
             await click('.gh-btn-green');
 
             // it marks fields as invalid
-            expect(find('.form-group.error').length, 'number of invalid fields')
+            expect(findAll('.form-group.error').length, 'number of invalid fields')
                 .to.equal(4);
 
             // it displays error messages
-            expect(find('.error .response').length, 'number of in-line validation messages')
+            expect(findAll('.error .response').length, 'number of in-line validation messages')
                 .to.equal(4);
 
             // it displays main error
-            expect(find('.main-error').length, 'main error is displayed')
+            expect(findAll('.main-error').length, 'main error is displayed')
                 .to.equal(1);
 
             // enter valid details and submit
@@ -121,14 +122,14 @@ describe('Acceptance: Setup', function () {
                 .to.equal('/setup/three');
 
             // submit button is "disabled"
-            expect(find('button[type="submit"]').hasClass('gh-btn-green'), 'invite button with no emails is white')
+            expect(find('button[type="submit"]').classList.contains('gh-btn-green'), 'invite button with no emails is white')
                 .to.be.false;
 
             // fill in a valid email
             await fillIn('[name="users"]', 'new-user@example.com');
 
             // submit button is "enabled"
-            expect(find('button[type="submit"]').hasClass('gh-btn-green'), 'invite button is green with valid email address')
+            expect(find('button[type="submit"]').classList.contains('gh-btn-green'), 'invite button is green with valid email address')
                 .to.be.true;
 
             // submit the invite form
@@ -139,7 +140,7 @@ describe('Acceptance: Setup', function () {
                 .to.equal('/');
 
             // it displays success alert
-            expect(find('.gh-alert-green').length, 'number of success alerts')
+            expect(findAll('.gh-alert-green').length, 'number of success alerts')
                 .to.equal(1);
         });
 
@@ -174,7 +175,7 @@ describe('Acceptance: Setup', function () {
             await click('.gh-btn-green');
 
             // non-server validation
-            expect(find('.main-error').text().trim(), 'error text')
+            expect(find('.main-error').textContent.trim(), 'error text')
                 .to.not.be.empty;
 
             await fillIn('[data-test-email-input]', 'test@example.com');
@@ -185,16 +186,16 @@ describe('Acceptance: Setup', function () {
             // first post - simulated validation error
             await click('.gh-btn-green');
 
-            expect(find('.main-error').text().trim(), 'error text')
+            expect(find('.main-error').textContent.trim(), 'error text')
                 .to.equal('Server response message');
 
             // second post - simulated server error
             await click('.gh-btn-green');
 
-            expect(find('.main-error').text().trim(), 'error text')
+            expect(find('.main-error').textContent.trim(), 'error text')
                 .to.be.empty;
 
-            expect(find('.gh-alert-red').length, 'number of alerts')
+            expect(findAll('.gh-alert-red').length, 'number of alerts')
                 .to.equal(1);
         });
 
@@ -222,10 +223,10 @@ describe('Acceptance: Setup', function () {
             await click('.gh-btn-green');
 
             // button should not be spinning
-            expect(find('.gh-btn-green .spinner').length, 'button has spinner')
+            expect(findAll('.gh-btn-green .spinner').length, 'button has spinner')
                 .to.equal(0);
             // we should show an error message
-            expect(find('.main-error').text(), 'error text')
+            expect(find('.main-error').textContent, 'error text')
                 .to.have.string('Access Denied from url: unknown.com. Please use the url configured in config.js.');
         });
 
@@ -301,7 +302,7 @@ describe('Acceptance: Setup', function () {
 
             // single invalid email
             await fillIn(input, 'invalid email');
-            await triggerEvent(input, 'blur');
+            await await blur(input);
 
             expect(formGroup.hasClass('error'), 'invalid field has error class')
                 .to.be.true;
@@ -314,14 +315,14 @@ describe('Acceptance: Setup', function () {
 
             // multiple invalid emails
             await fillIn(input, 'invalid email\nanother invalid address');
-            await triggerEvent(input, 'blur');
+            await await blur(input);
 
             expect(button.text().trim(), 'multiple invalid button text')
                 .to.equal('2 invalid email addresses');
 
             // single valid email
             await fillIn(input, 'invited@example.com');
-            await triggerEvent(input, 'blur');
+            await await blur(input);
 
             expect(formGroup.hasClass('error'), 'valid field has error class')
                 .to.be.false;
@@ -334,7 +335,7 @@ describe('Acceptance: Setup', function () {
 
             // multiple valid emails
             await fillIn(input, 'invited1@example.com\ninvited2@example.com');
-            await triggerEvent(input, 'blur');
+            await await blur(input);
 
             expect(button.text().trim(), 'multiple valid button text')
                 .to.equal('Invite 2 users');
@@ -347,11 +348,11 @@ describe('Acceptance: Setup', function () {
                 .to.equal('/');
 
             // it displays success alert
-            expect(find('.gh-alert-green').length, 'number of success alerts')
+            expect(findAll('.gh-alert-green').length, 'number of success alerts')
                 .to.equal(1);
 
             // it displays failure alert
-            expect(find('.gh-alert-red').length, 'number of failure alerts')
+            expect(findAll('.gh-alert-red').length, 'number of failure alerts')
                 .to.equal(1);
         });
     });

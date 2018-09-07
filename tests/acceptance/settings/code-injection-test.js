@@ -9,6 +9,7 @@ import {
     it
 } from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentURL, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Settings - Code-Injection', function () {
@@ -80,12 +81,12 @@ describe('Acceptance: Settings - Code-Injection', function () {
             expect($('[data-test-nav="code-injection"]').hasClass('active'), 'highlights nav menu item')
                 .to.be.true;
 
-            expect(find('[data-test-save-button]').text().trim(), 'save button text').to.equal('Save');
+            expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Save');
 
-            expect(find('#ghost-head .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
+            expect(findAll('#ghost-head .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
             expect($('#ghost-head .CodeMirror').hasClass('cm-s-xq-light'), 'ghost head editor theme').to.be.true;
 
-            expect(find('#ghost-foot .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
+            expect(findAll('#ghost-foot .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
             expect($('#ghost-foot .CodeMirror').hasClass('cm-s-xq-light'), 'ghost head editor theme').to.be.true;
 
             await click('[data-test-save-button]');
@@ -94,7 +95,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
             let params = JSON.parse(lastRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');
-            expect(find('[data-test-save-button]').text().trim(), 'save button text').to.equal('Saved');
+            expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Saved');
 
             // CMD-S shortcut works
             await triggerEvent('.gh-app', 'keydown', {
@@ -108,7 +109,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
             params = JSON.parse(newRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');
-            expect(find('[data-test-save-button]').text().trim(), 'save button text').to.equal('Saved');
+            expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Saved');
         });
     });
 });

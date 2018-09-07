@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {find} from '@ember/test-helpers';
 import {setupComponentTest} from 'ember-mocha';
 
 describe('Integration: Component: gh-download-count', function () {
@@ -27,7 +28,7 @@ describe('Integration: Component: gh-download-count', function () {
         this.render(hbs`{{gh-download-count}}`);
 
         return wait().then(() => {
-            expect(this.$().text().trim()).to.equal('42');
+            expect(find('*').textContent.trim()).to.equal('42');
         });
     });
 
@@ -39,7 +40,7 @@ describe('Integration: Component: gh-download-count', function () {
         `);
 
         return wait().then(() => {
-            expect(this.$().text().trim()).to.equal('42 downloads');
+            expect(find('*').textContent.trim()).to.equal('42 downloads');
         });
     });
 });

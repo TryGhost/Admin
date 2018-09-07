@@ -7,6 +7,7 @@ import windowProxy from 'ghost-admin/utils/window-proxy';
 import {Response} from 'ember-cli-mirage';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {blur, click, currentPath, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {errorOverride, errorReset} from 'ghost-admin/tests/helpers/adapter-error';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -117,19 +118,19 @@ describe('Acceptance: Settings - Tags', function () {
                 .to.be.true;
 
             // it lists all tags
-            expect(find('.settings-tags .settings-tag').length, 'tag list count')
+            expect(findAll('.settings-tags .settings-tag').length, 'tag list count')
                 .to.equal(2);
-            expect(find('.settings-tags .settings-tag:first .tag-title').text(), 'tag list item title')
+            expect(find('.settings-tags .settings-tag:first .tag-title').textContent, 'tag list item title')
                 .to.equal(tag1.name);
 
             // it highlights selected tag
-            expect(find(`a[href="/ghost/settings/tags/${tag1.slug}"]`).hasClass('active'), 'highlights selected tag')
+            expect(find(`a[href="/ghost/settings/tags/${tag1.slug}"]`).classList.contains('active'), 'highlights selected tag')
                 .to.be.true;
 
             // it shows selected tag form
-            expect(find('.tag-settings-pane h4').text(), 'settings pane title')
+            expect(find('.tag-settings-pane h4').textContent, 'settings pane title')
                 .to.equal('Tag Settings');
-            expect(find('.tag-settings-pane input[name="name"]').val(), 'loads correct tag into form')
+            expect(find('.tag-settings-pane input[name="name"]').value, 'loads correct tag into form')
                 .to.equal(tag1.name);
 
             // click the second tag in the list
@@ -139,11 +140,11 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'url after clicking tag').to.equal(`/settings/tags/${tag2.slug}`);
 
             // it highlights selected tag
-            expect(find(`a[href="/ghost/settings/tags/${tag2.slug}"]`).hasClass('active'), 'highlights selected tag')
+            expect(find(`a[href="/ghost/settings/tags/${tag2.slug}"]`).classList.contains('active'), 'highlights selected tag')
                 .to.be.true;
 
             // it shows selected tag form
-            expect(find('.tag-settings-pane input[name="name"]').val(), 'loads correct tag into form')
+            expect(find('.tag-settings-pane input[name="name"]').value, 'loads correct tag into form')
                 .to.equal(tag2.name);
 
             // simulate up arrow press
@@ -158,7 +159,7 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'url after keyboard up arrow').to.equal(`/settings/tags/${tag1.slug}`);
 
             // it highlights selected tag
-            expect(find(`a[href="/ghost/settings/tags/${tag1.slug}"]`).hasClass('active'), 'selects previous tag')
+            expect(find(`a[href="/ghost/settings/tags/${tag1.slug}"]`).classList.contains('active'), 'selects previous tag')
                 .to.be.true;
 
             // simulate down arrow press
@@ -173,12 +174,12 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'url after keyboard down arrow').to.equal(`/settings/tags/${tag2.slug}`);
 
             // it highlights selected tag
-            expect(find(`a[href="/ghost/settings/tags/${tag2.slug}"]`).hasClass('active'), 'selects next tag')
+            expect(find(`a[href="/ghost/settings/tags/${tag2.slug}"]`).classList.contains('active'), 'selects next tag')
                 .to.be.true;
 
             // trigger save
             await fillIn('.tag-settings-pane input[name="name"]', 'New Name');
-            await triggerEvent('.tag-settings-pane input[name="name"]', 'blur');
+            await await blur('.tag-settings-pane input[name="name"]');
 
             // extra timeout needed for Travis - sometimes it doesn't update
             // quick enough and an extra wait() call doesn't help
@@ -187,7 +188,7 @@ describe('Acceptance: Settings - Tags', function () {
             // check we update with the data returned from the server
             expect(find('.settings-tag')[0].querySelector('.tag-title').textContent.trim(), 'tag list updates on save')
                 .to.equal('New Name');
-            expect(find('.tag-settings-pane input[name="name"]').val(), 'settings form updates on save')
+            expect(find('.tag-settings-pane input[name="name"]').value, 'settings form updates on save')
                 .to.equal('New Name');
 
             // start new tag
@@ -197,18 +198,18 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'new tag URL').to.equal('/settings/tags/new');
 
             // it displays the new tag form
-            expect(find('.tag-settings-pane h4').text(), 'settings pane title')
+            expect(find('.tag-settings-pane h4').textContent, 'settings pane title')
                 .to.equal('New Tag');
 
             // all fields start blank
-            find('.tag-settings-pane input, .tag-settings-pane textarea').each(function () {
+            findAll('.tag-settings-pane input, .tag-settings-pane textarea').forEach(function () {
                 expect($(this).val(), `input field for ${$(this).attr('name')}`)
                     .to.be.empty;
             });
 
             // save new tag
             await fillIn('.tag-settings-pane input[name="name"]', 'New Tag');
-            await triggerEvent('.tag-settings-pane input[name="name"]', 'blur');
+            await await blur('.tag-settings-pane input[name="name"]');
 
             // extra timeout needed for FF on Linux - sometimes it doesn't update
             // quick enough, especially on Travis, and an extra wait() call
@@ -219,12 +220,16 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'URL after tag creation').to.equal('/settings/tags/new-tag');
 
             // it adds the tag to the list and selects
-            expect(find('.settings-tags .settings-tag').length, 'tag list count after creation')
+            expect(findAll('.settings-tags .settings-tag').length, 'tag list count after creation')
                 .to.equal(3);
+<<<<<<< HEAD
             // new tag will be second in the list due to alphabetical sorting
             expect(find('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title')
+=======
+            expect(find('.settings-tags .settings-tag:last .tag-title').textContent, 'new tag list item title')
+>>>>>>> Migrate to using ember-test-helpers and latest ember-mocha
                 .to.equal('New Tag');
-            expect(find('a[href="/ghost/settings/tags/new-tag"]').hasClass('active'), 'highlights new tag')
+            expect(find('a[href="/ghost/settings/tags/new-tag"]').classList.contains('active'), 'highlights new tag')
                 .to.be.true;
 
             // delete tag
@@ -235,7 +240,7 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'URL after tag deletion').to.equal(`/settings/tags/${tag1.slug}`);
 
             // it removes the tag from the list
-            expect(find('.settings-tags .settings-tag').length, 'tag list count after deletion')
+            expect(findAll('.settings-tags .settings-tag').length, 'tag list count after deletion')
                 .to.equal(2);
         });
 
@@ -253,15 +258,15 @@ describe('Acceptance: Settings - Tags', function () {
             expect(currentURL(), 'URL after direct load').to.equal('/settings/tags/tag-1');
 
             // it loads all other tags
-            expect(find('.settings-tags .settings-tag').length, 'tag list count after direct load')
+            expect(findAll('.settings-tags .settings-tag').length, 'tag list count after direct load')
                 .to.equal(2);
 
             // selects tag in list
-            expect(find('a[href="/ghost/settings/tags/tag-1"]').hasClass('active'), 'highlights requested tag')
+            expect(find('a[href="/ghost/settings/tags/tag-1"]').classList.contains('active'), 'highlights requested tag')
                 .to.be.true;
 
             // shows requested tag in settings pane
-            expect(find('.tag-settings-pane input[name="name"]').val(), 'loads correct tag into form')
+            expect(find('.tag-settings-pane input[name="name"]').value, 'loads correct tag into form')
                 .to.equal('Tag 1');
         });
 
@@ -275,13 +280,13 @@ describe('Acceptance: Settings - Tags', function () {
 
             expect(currentURL()).to.equal('/settings/tags/hash-internal-tag');
 
-            expect(find('.settings-tags .settings-tag').length, 'tag list count')
+            expect(findAll('.settings-tags .settings-tag').length, 'tag list count')
                 .to.equal(1);
 
-            expect(find('.settings-tags .settings-tag:first .label.label-blue').length, 'internal tag label')
+            expect(findAll('.settings-tags .settings-tag:first .label.label-blue').length, 'internal tag label')
                 .to.equal(1);
 
-            expect(find('.settings-tags .settings-tag:first .label.label-blue').text().trim(), 'internal tag label text')
+            expect(find('.settings-tags .settings-tag:first .label.label-blue').textContent.trim(), 'internal tag label text')
                 .to.equal('internal');
         });
 
@@ -297,7 +302,7 @@ describe('Acceptance: Settings - Tags', function () {
 
             // update the slug
             await fillIn('.tag-settings-pane input[name="slug"]', 'test');
-            await triggerEvent('.tag-settings-pane input[name="slug"]', 'blur');
+            await await blur('.tag-settings-pane input[name="slug"]');
 
             // tests don't have a location.hash so we can only check that the
             // slug portion is updated correctly

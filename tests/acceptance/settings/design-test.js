@@ -1,11 +1,12 @@
-/* eslint-disable camelcase */
 import Mirage from 'ember-cli-mirage';
+/* eslint-disable camelcase */
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import destroyApp from '../../helpers/destroy-app';
 import mockThemes from 'ghost-admin/mirage/config/themes';
 import startApp from '../../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {blur, click, currentPath, currentURL, fillIn, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Settings - Design', function () {
@@ -58,12 +59,12 @@ describe('Acceptance: Settings - Design', function () {
             await visit('/settings/design');
 
             expect(currentPath()).to.equal('settings.design.index');
-            expect(find('[data-test-save-button]').text().trim(), 'save button text').to.equal('Save');
+            expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Save');
 
             // fixtures contain two nav items, check for three rows as we
             // should have one extra that's blank
             expect(
-                find('.gh-blognav-item').length,
+                findAll('.gh-blognav-item').length,
                 'navigation items count'
             ).to.equal(3);
         });
@@ -72,7 +73,7 @@ describe('Acceptance: Settings - Design', function () {
             await visit('/settings/design');
             await fillIn('.gh-blognav-label:first input', 'Test');
             await fillIn('.gh-blognav-url:first input', '/test');
-            await triggerEvent('.gh-blognav-url:first input', 'blur');
+            await await blur('.gh-blognav-url:first input');
 
             await click('[data-test-save-button]');
 
@@ -82,9 +83,9 @@ describe('Acceptance: Settings - Design', function () {
 
             // don't test against .error directly as it will pick up failed
             // tests "pre.error" elements
-            expect(find('span.error').length, 'error fields count').to.equal(0);
-            expect(find('.gh-alert').length, 'alerts count').to.equal(0);
-            expect(find('.response:visible').length, 'validation errors count')
+            expect(findAll('span.error').length, 'error fields count').to.equal(0);
+            expect(findAll('.gh-alert').length, 'alerts count').to.equal(0);
+            expect(findAll('.response:visible').length, 'validation errors count')
                 .to.equal(0);
         });
 
@@ -94,23 +95,23 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-save-button]');
 
             expect(
-                find('.gh-blognav-item').length,
+                findAll('.gh-blognav-item').length,
                 'number of nav items after saving with blank new item'
             ).to.equal(3);
 
             await fillIn('.gh-blognav-label:last input', 'Test');
             await fillIn('.gh-blognav-url:last input', 'http://invalid domain/');
-            await triggerEvent('.gh-blognav-url:last input', 'blur');
+            await await blur('.gh-blognav-url:last input');
 
             await click('[data-test-save-button]');
 
             expect(
-                find('.gh-blognav-item').length,
+                findAll('.gh-blognav-item').length,
                 'number of nav items after saving with invalid new item'
             ).to.equal(3);
 
             expect(
-                find('.gh-blognav-item:last .error').length,
+                findAll('.gh-blognav-item:last .error').length,
                 'number of invalid fields in new item'
             ).to.equal(1);
         });
@@ -118,15 +119,15 @@ describe('Acceptance: Settings - Design', function () {
         it('clears unsaved settings when navigating away but warns with a confirmation dialog', async function () {
             await visit('/settings/design');
             await fillIn('.gh-blognav-label:first input', 'Test');
-            await triggerEvent('.gh-blognav-label:first input', 'blur');
+            await await blur('.gh-blognav-label:first input');
 
-            expect(find('.gh-blognav-label:first input').val()).to.equal('Test');
+            expect(find('.gh-blognav-label:first input').value).to.equal('Test');
             // this.timeout(0);
             // return pauseTest();
 
             await visit('/settings/code-injection');
 
-            expect(find('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
@@ -135,7 +136,7 @@ describe('Acceptance: Settings - Design', function () {
 
             await visit('/settings/design');
 
-            expect(find('.gh-blognav-label:first input').val()).to.equal('Home');
+            expect(find('.gh-blognav-label:first input').value).to.equal('Home');
         });
 
         it('can add and remove items', async function () {
@@ -157,7 +158,7 @@ describe('Acceptance: Settings - Design', function () {
 
             await fillIn('.gh-blognav-url:last input', '/new');
             await triggerEvent('.gh-blognav-url:last input', 'keypress', {});
-            await triggerEvent('.gh-blognav-url:last input', 'blur');
+            await await blur('.gh-blognav-url:last input');
 
             expect(
                 find('.gh-blognav-url:last .response').is(':visible'),
@@ -165,35 +166,35 @@ describe('Acceptance: Settings - Design', function () {
             ).to.be.false;
 
             expect(
-                find('.gh-blognav-url:last input').val()
+                find('.gh-blognav-url:last input').value
             ).to.equal(`${window.location.origin}/new`);
 
             await click('.gh-blognav-add');
 
             expect(
-                find('.gh-blognav-item').length,
+                findAll('.gh-blognav-item').length,
                 'number of nav items after successful add'
             ).to.equal(4);
 
             expect(
-                find('.gh-blognav-label:last input').val(),
+                find('.gh-blognav-label:last input').value,
                 'new item label value after successful add'
             ).to.be.empty;
 
             expect(
-                find('.gh-blognav-url:last input').val(),
+                find('.gh-blognav-url:last input').value,
                 'new item url value after successful add'
             ).to.equal(`${window.location.origin}/`);
 
             expect(
-                find('.gh-blognav-item .response:visible').length,
+                findAll('.gh-blognav-item .response:visible').length,
                 'number or validation errors shown after successful add'
             ).to.equal(0);
 
             await click('.gh-blognav-item:first .gh-blognav-delete');
 
             expect(
-                find('.gh-blognav-item').length,
+                findAll('.gh-blognav-item').length,
                 'number of nav items after successful remove'
             ).to.equal(3);
 
@@ -233,12 +234,12 @@ describe('Acceptance: Settings - Design', function () {
 
             // lists available themes (themes are specified in mirage/fixtures/settings)
             expect(
-                find('[data-test-theme-id]').length,
+                findAll('[data-test-theme-id]').length,
                 'shows correct number of themes'
             ).to.equal(3);
 
             expect(
-                find('[data-test-theme-active="true"] [data-test-theme-title]').text().trim(),
+                find('[data-test-theme-active="true"] [data-test-theme-title]').textContent.trim(),
                 'Blog theme marked as active'
             ).to.equal('Blog (default)');
 
@@ -252,7 +253,7 @@ describe('Acceptance: Settings - Design', function () {
             // cancelling theme upload closes modal
             await click('.fullscreen-modal [data-test-close-button]');
             expect(
-                find('.fullscreen-modal').length === 0,
+                findAll('.fullscreen-modal').length === 0,
                 'upload theme modal is closed when cancelling'
             ).to.be.true;
 
@@ -260,7 +261,7 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-upload-theme-button]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {type: 'text/csv'});
             expect(
-                find('.fullscreen-modal .failed').text(),
+                find('.fullscreen-modal .failed').textContent,
                 'validation error is shown for invalid mime type'
             ).to.match(/is not supported/);
 
@@ -268,7 +269,7 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-upload-try-again-button]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'casper.zip', type: 'application/zip'});
             expect(
-                find('.fullscreen-modal .failed').text(),
+                find('.fullscreen-modal .failed').textContent,
                 'validation error is shown when uploading casper.zip'
             ).to.match(/default Casper theme cannot be overwritten/);
 
@@ -283,7 +284,7 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-upload-try-again-button]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'error.zip', type: 'application/zip'});
             expect(
-                find('.fullscreen-modal .failed').text().trim(),
+                find('.fullscreen-modal .failed').textContent.trim(),
                 'validation error is passed through from server'
             ).to.equal('Invalid theme');
 
@@ -332,24 +333,24 @@ describe('Acceptance: Settings - Design', function () {
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'bad-theme.zip', type: 'application/zip'});
 
             expect(
-                find('.fullscreen-modal h1').text().trim(),
+                find('.fullscreen-modal h1').textContent.trim(),
                 'modal title after uploading invalid theme'
             ).to.equal('Invalid theme');
 
             expect(
-                find('.theme-validation-rule-text').text(),
+                find('.theme-validation-rule-text').textContent,
                 'top-level errors are displayed'
             ).to.match(/Templates must contain valid Handlebars/);
 
             await click('[data-test-toggle-details]');
 
             expect(
-                find('.theme-validation-details').text(),
+                find('.theme-validation-details').textContent,
                 'top-level errors do not escape HTML'
             ).to.match(/The listed files should be included using the {{asset}} helper/);
 
             expect(
-                find('.theme-validation-list ul li').text(),
+                find('.theme-validation-list ul li').textContent,
                 'individual failures are displayed'
             ).to.match(/\/assets\/javascripts\/ui\.js/);
 
@@ -358,17 +359,17 @@ describe('Acceptance: Settings - Design', function () {
 
             await click('.fullscreen-modal [data-test-try-again-button]');
             expect(
-                find('.theme-validation-errors').length,
+                findAll('.theme-validation-errors').length,
                 '"Try Again" resets form after theme validation error'
             ).to.equal(0);
 
             expect(
-                find('.gh-image-uploader').length,
+                findAll('.gh-image-uploader').length,
                 '"Try Again" resets form after theme validation error'
             ).to.equal(1);
 
             expect(
-                find('.fullscreen-modal h1').text().trim(),
+                find('.fullscreen-modal h1').textContent.trim(),
                 '"Try Again" resets form after theme validation error'
             ).to.equal('Upload a theme');
 
@@ -413,19 +414,19 @@ describe('Acceptance: Settings - Design', function () {
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'warning-theme.zip', type: 'application/zip'});
 
             expect(
-                find('.fullscreen-modal h1').text().trim(),
+                find('.fullscreen-modal h1').textContent.trim(),
                 'modal title after uploading theme with warnings'
             ).to.equal('Upload successful with warnings');
 
             await click('[data-test-toggle-details]');
 
             expect(
-                find('.theme-validation-details').text(),
+                find('.theme-validation-details').textContent,
                 'top-level warnings are displayed'
             ).to.match(/The listed files should be included using the {{asset}} helper/);
 
             expect(
-                find('.theme-validation-list ul li').text(),
+                find('.theme-validation-list ul li').textContent,
                 'individual warning failures are displayed'
             ).to.match(/\/assets\/dist\/img\/apple-touch-icon\.png/);
 
@@ -439,22 +440,22 @@ describe('Acceptance: Settings - Design', function () {
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'theme-1.zip', type: 'application/zip'});
 
             expect(
-                find('.fullscreen-modal h1').text().trim(),
+                find('.fullscreen-modal h1').textContent.trim(),
                 'modal header after successful upload'
             ).to.equal('Upload successful!');
 
             expect(
-                find('.modal-body').text(),
+                find('.modal-body').textContent,
                 'modal displays theme name after successful upload'
             ).to.match(/"Test 1 - 0\.1" uploaded successfully/);
 
             expect(
-                find('[data-test-theme-id]').length,
+                findAll('[data-test-theme-id]').length,
                 'number of themes in list grows after upload'
             ).to.equal(5);
 
             expect(
-                find('[data-test-theme-active="true"] [data-test-theme-title]').text().trim(),
+                find('[data-test-theme-active="true"] [data-test-theme-title]').textContent.trim(),
                 'newly uploaded theme is not active'
             ).to.equal('Blog (default)');
 
@@ -466,12 +467,12 @@ describe('Acceptance: Settings - Design', function () {
             await click('.fullscreen-modal [data-test-activate-now-button]');
 
             expect(
-                find('[data-test-theme-id]').length,
+                findAll('[data-test-theme-id]').length,
                 'number of themes in list grows after upload and activate'
             ).to.equal(6);
 
             expect(
-                find('[data-test-theme-active="true"] [data-test-theme-title]').text().trim(),
+                find('[data-test-theme-active="true"] [data-test-theme-title]').textContent.trim(),
                 'newly uploaded+activated theme is active'
             ).to.equal('Test 2');
 
@@ -479,12 +480,12 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-theme-id="casper"] [data-test-theme-activate-button]');
 
             expect(
-                find('[data-test-theme-id="test-2"] .apps-card-app').hasClass('theme-list-item--active'),
+                find('[data-test-theme-id="test-2"] .apps-card-app').classList.contains('theme-list-item--active'),
                 'previously active theme is not active'
             ).to.be.false;
 
             expect(
-                find('[data-test-theme-id="casper"] .apps-card-app').hasClass('theme-list-item--active'),
+                find('[data-test-theme-id="casper"] .apps-card-app').classList.contains('theme-list-item--active'),
                 'activated theme is active'
             ).to.be.true;
 
@@ -531,24 +532,24 @@ describe('Acceptance: Settings - Design', function () {
             expect(find('[data-test-theme-warnings-modal]')).to.exist;
 
             expect(
-                find('[data-test-theme-warnings-title]').text().trim(),
+                find('[data-test-theme-warnings-title]').textContent.trim(),
                 'modal title after activating invalid theme'
             ).to.equal('Activation failed');
 
             expect(
-                find('[data-test-theme-warnings]').text(),
+                find('[data-test-theme-warnings]').textContent,
                 'top-level errors are displayed in activation errors'
             ).to.match(/Templates must contain valid Handlebars/);
 
             await click('[data-test-toggle-details]');
 
             expect(
-                find('.theme-validation-details').text(),
+                find('.theme-validation-details').textContent,
                 'top-level errors do not escape HTML in activation errors'
             ).to.match(/The listed files should be included using the {{asset}} helper/);
 
             expect(
-                find('.theme-validation-list ul li').text(),
+                find('.theme-validation-list ul li').textContent,
                 'individual failures are displayed in activation errors'
             ).to.match(/\/assets\/javascripts\/ui\.js/);
 
@@ -592,19 +593,19 @@ describe('Acceptance: Settings - Design', function () {
             expect(find('[data-test-theme-warnings-modal]')).to.exist;
 
             expect(
-                find('[data-test-theme-warnings-title]').text().trim(),
+                find('[data-test-theme-warnings-title]').textContent.trim(),
                 'modal title after activating theme with warnings'
             ).to.equal('Activation successful with warnings');
 
             await click('[data-test-toggle-details]');
 
             expect(
-                find('.theme-validation-details').text(),
+                find('.theme-validation-details').textContent,
                 'top-level warnings are displayed in activation warnings'
             ).to.match(/The listed files should be included using the {{asset}} helper/);
 
             expect(
-                find('.theme-validation-list ul li').text(),
+                find('.theme-validation-list ul li').textContent,
                 'individual warning failures are displayed in activation warnings'
             ).to.match(/\/assets\/dist\/img\/apple-touch-icon\.png/);
 
@@ -618,14 +619,14 @@ describe('Acceptance: Settings - Design', function () {
             // theme deletion displays modal
             await click('[data-test-theme-id="test-1"] [data-test-theme-delete-button]');
             expect(
-                find('[data-test-delete-theme-modal]').length,
+                findAll('[data-test-delete-theme-modal]').length,
                 'theme deletion modal displayed after button click'
             ).to.equal(1);
 
             // cancelling theme deletion closes modal
             await click('.fullscreen-modal [data-test-cancel-button]');
             expect(
-                find('.fullscreen-modal').length === 0,
+                findAll('.fullscreen-modal').length === 0,
                 'delete theme modal is closed when cancelling'
             ).to.be.true;
 
@@ -633,17 +634,17 @@ describe('Acceptance: Settings - Design', function () {
             await click('[data-test-theme-id="test-1"] [data-test-theme-delete-button]');
             await click('.fullscreen-modal [data-test-delete-button]');
             expect(
-                find('.fullscreen-modal').length === 0,
+                findAll('.fullscreen-modal').length === 0,
                 'delete theme modal closes after deletion'
             ).to.be.true;
 
             expect(
-                find('[data-test-theme-id]').length,
+                findAll('[data-test-theme-id]').length,
                 'number of themes in list shrinks after delete'
             ).to.equal(5);
 
             expect(
-                find('[data-test-theme-title]').text(),
+                find('[data-test-theme-title]').textContent,
                 'correct theme is removed from theme list after deletion'
             ).to.not.match(/Test 1/);
 
@@ -660,17 +661,17 @@ describe('Acceptance: Settings - Design', function () {
             await click('.fullscreen-modal [data-test-delete-button]');
 
             expect(
-                find('.fullscreen-modal').length === 0,
+                findAll('.fullscreen-modal').length === 0,
                 'delete theme modal closes after failed deletion'
             ).to.be.true;
 
             expect(
-                find('.gh-alert').length,
+                findAll('.gh-alert').length,
                 'alert is shown when deletion fails'
             ).to.equal(1);
 
             expect(
-                find('.gh-alert').text(),
+                find('.gh-alert').textContent,
                 'failed deletion alert has correct text'
             ).to.match(/Can't delete theme/);
 

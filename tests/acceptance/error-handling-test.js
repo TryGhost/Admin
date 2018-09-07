@@ -3,6 +3,7 @@ import destroyApp from '../helpers/destroy-app';
 import startApp from '../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentPath, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
@@ -46,8 +47,8 @@ describe('Acceptance: Error Handling', function () {
                 await click('[data-test-publishmenu-save]'); // "Save post"
 
                 // has the refresh to update alert
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.match(/refresh/);
+                expect(findAll('.gh-alert').length).to.equal(1);
+                expect(find('.gh-alert').textContent).to.match(/refresh/);
 
                 // try navigating back to the content list
                 await click('[data-test-link="stories"]');
@@ -67,8 +68,8 @@ describe('Acceptance: Error Handling', function () {
                 expect(currentPath()).to.equal('settings.tags_loading');
 
                 // has the refresh to update alert
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.match(/refresh/);
+                expect(findAll('.gh-alert').length).to.equal(1);
+                expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
 
             it('displays alert and aborts the transition when an ember-ajax error is thrown whilst navigating', async function () {
@@ -81,8 +82,8 @@ describe('Acceptance: Error Handling', function () {
                 expect(currentPath()).to.equal('settings.general_loading');
 
                 // has the refresh to update alert
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.match(/refresh/);
+                expect(findAll('.gh-alert').length).to.equal(1);
+                expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
 
             it('can be triggered when passed in to a component', async function () {
@@ -93,8 +94,8 @@ describe('Acceptance: Error Handling', function () {
                 await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'test.csv'});
 
                 // alert is shown
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.match(/refresh/);
+                expect(findAll('.gh-alert').length).to.equal(1);
+                expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
         });
 
@@ -108,8 +109,8 @@ describe('Acceptance: Error Handling', function () {
                 await click('.gh-btn-blue');
 
                 // has the refresh to update alert
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.match(/refresh/);
+                expect(findAll('.gh-alert').length).to.equal(1);
+                expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
         });
     });
@@ -132,11 +133,9 @@ describe('Acceptance: Error Handling', function () {
             await click('[data-test-publishmenu-trigger]');
             await click('[data-test-publishmenu-save]');
 
-            andThen(() => {
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.not.match(/html>/);
-                expect(find('.gh-alert').text()).to.match(/Request was rejected due to server error/);
-            });
+            expect(findAll('.gh-alert').length).to.equal(1);
+            expect(find('.gh-alert').textContent).to.not.match(/html>/);
+            expect(find('.gh-alert').textContent).to.match(/Request was rejected due to server error/);
         });
 
         it('handles ember-ajax HTML response', async function () {
@@ -146,11 +145,9 @@ describe('Acceptance: Error Handling', function () {
             await click('[data-test-theme-id="foo"] [data-test-theme-delete-button]');
             await click('.fullscreen-modal [data-test-delete-button]');
 
-            andThen(() => {
-                expect(find('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').text()).to.not.match(/html>/);
-                expect(find('.gh-alert').text()).to.match(/Request was rejected due to server error/);
-            });
+            expect(findAll('.gh-alert').length).to.equal(1);
+            expect(find('.gh-alert').textContent).to.not.match(/html>/);
+            expect(find('.gh-alert').textContent).to.match(/Request was rejected due to server error/);
         });
     });
 });

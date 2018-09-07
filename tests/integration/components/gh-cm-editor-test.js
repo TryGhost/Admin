@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
-import {click, find, triggerEvent} from 'ember-native-dom-helpers';
+import {click, find, triggerEvent} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupComponentTest} from 'ember-mocha';
@@ -76,7 +76,7 @@ describe('Integration: Component: gh-cm-editor', function () {
         let onFocus = () => {
             // wait for runloop to finish so that the new class has been rendered
             wait().then(() => {
-                expect(this.$('.gh-input').hasClass('focus'), 'has focused class on first render with autofocus')
+                expect(find('.gh-input').classList.contains('focus'), 'has focused class on first render with autofocus')
                     .to.be.true;
 
                 done();

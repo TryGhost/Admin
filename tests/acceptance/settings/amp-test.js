@@ -8,6 +8,7 @@ import {
     it
 } from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentURL, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Settings - Integrations - AMP', function () {
@@ -73,11 +74,11 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
 
             // AMP is enabled by default
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.true;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
 
             await click('[data-test-amp-checkbox]');
 
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.false;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
 
             await click('[data-test-save-button]');
 
@@ -99,7 +100,7 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             let [newRequest] = server.pretender.handledRequests.slice(-1);
             params = JSON.parse(newRequest.requestBody);
 
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.true;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
             expect(params.settings.findBy('key', 'amp').value).to.equal(true);
         });
 
@@ -110,15 +111,15 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
 
             // AMP is enabled by default
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.true;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
 
             await click('[data-test-amp-checkbox]');
 
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.false;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
 
             await visit('/team');
 
-            expect(find('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
@@ -130,7 +131,7 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
 
             // settings were not saved
-            expect(find('[data-test-amp-checkbox]').prop('checked'), 'AMP checkbox').to.be.true;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
         });
     });
 });

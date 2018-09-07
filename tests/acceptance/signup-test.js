@@ -6,6 +6,7 @@ import {
     describe,
     it
 } from 'mocha';
+import {blur, click, currentPath, fillIn, find, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Signup', function () {
@@ -52,7 +53,7 @@ describe('Acceptance: Signup', function () {
 
         // email address should be pre-filled and disabled
         expect(
-            find('input[name="email"]').val(),
+            find('input[name="email"]').value,
             'email field value'
         ).to.equal('kevin+test2@ghost.org');
 
@@ -62,7 +63,7 @@ describe('Acceptance: Signup', function () {
         ).to.be.true;
 
         // focus out in Name field triggers inline error
-        await triggerEvent('input[name="name"]', 'blur');
+        await await blur('input[name="name"]');
 
         expect(
             find('input[name="name"]').closest('.form-group').hasClass('error'),
@@ -76,7 +77,7 @@ describe('Acceptance: Signup', function () {
 
         // entering text in Name field clears error
         await fillIn('input[name="name"]', 'Test User');
-        await triggerEvent('input[name="name"]', 'blur');
+        await await blur('input[name="name"]');
 
         expect(
             find('input[name="name"]').closest('.form-group').hasClass('error'),
@@ -91,7 +92,7 @@ describe('Acceptance: Signup', function () {
         // check password validation
         // focus out in password field triggers inline error
         // no password
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').hasClass('error'),
@@ -105,7 +106,7 @@ describe('Acceptance: Signup', function () {
 
         // password too short
         await fillIn('input[name="password"]', 'short');
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
@@ -114,7 +115,7 @@ describe('Acceptance: Signup', function () {
 
         // password must not be a bad password
         await fillIn('input[name="password"]', '1234567890');
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
@@ -123,7 +124,7 @@ describe('Acceptance: Signup', function () {
 
         // password must not be a disallowed password
         await fillIn('input[name="password"]', 'password99');
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
@@ -132,7 +133,7 @@ describe('Acceptance: Signup', function () {
 
         // password must not have repeating characters
         await fillIn('input[name="password"]', '2222222222');
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').find('.response').text().trim(),
@@ -141,7 +142,7 @@ describe('Acceptance: Signup', function () {
 
         // entering valid text in Password field clears error
         await fillIn('input[name="password"]', 'thisissupersafe');
-        await triggerEvent('input[name="password"]', 'blur');
+        await await blur('input[name="password"]');
 
         expect(
             find('input[name="password"]').closest('.form-group').hasClass('error'),

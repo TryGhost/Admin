@@ -1,6 +1,7 @@
 import destroyApp from '../helpers/destroy-app';
 import startApp from '../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
+import {click, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Password Reset', function () {
@@ -21,7 +22,7 @@ describe('Acceptance: Password Reset', function () {
             await click('.forgotten-link');
 
             // an alert with instructions is displayed
-            expect(find('.gh-alert-blue').length, 'alert count')
+            expect(findAll('.gh-alert-blue').length, 'alert count')
                 .to.equal(1);
         });
 
@@ -44,7 +45,7 @@ describe('Acceptance: Password Reset', function () {
             ).to.be.false;
 
             // error message shown
-            expect(find('p.main-error').text().trim(), 'error message')
+            expect(find('p.main-error').textContent.trim(), 'error message')
                 .to.equal('We need your email address to reset your password!');
 
             // invalid email provided
@@ -64,7 +65,7 @@ describe('Acceptance: Password Reset', function () {
             ).to.be.false;
 
             // error message
-            expect(find('p.main-error').text().trim(), 'error message')
+            expect(find('p.main-error').textContent.trim(), 'error message')
                 .to.equal('We need your email address to reset your password!');
 
             // unknown email provided
@@ -84,7 +85,7 @@ describe('Acceptance: Password Reset', function () {
             ).to.be.false;
 
             // error message
-            expect(find('p.main-error').text().trim(), 'error message')
+            expect(find('p.main-error').textContent.trim(), 'error message')
                 .to.equal('There is no user with that email address.');
         });
     });

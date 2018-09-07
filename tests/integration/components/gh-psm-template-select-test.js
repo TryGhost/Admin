@@ -3,7 +3,7 @@ import mockThemes from '../../../mirage/config/themes';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {find} from 'ember-native-dom-helpers';
+import {find} from '@ember/test-helpers';
 import {setupComponentTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 

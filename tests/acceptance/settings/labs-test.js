@@ -1,9 +1,10 @@
 import $ from 'jquery';
 import destroyApp from '../../helpers/destroy-app';
 import startApp from '../../helpers/start-app';
-// import wait from 'ember-test-helpers/wait';
 import {afterEach, beforeEach, describe, it} from 'mocha';
+// import wait from 'ember-test-helpers/wait';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentURL, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 // import {timeout} from 'ember-concurrency';
 
@@ -77,10 +78,10 @@ describe('Acceptance: Settings - Labs', function () {
                 .to.be.true;
 
             await click('#settings-resetdb .js-delete');
-            expect(find('.fullscreen-modal .modal-content').length, 'modal element').to.equal(1);
+            expect(findAll('.fullscreen-modal .modal-content').length, 'modal element').to.equal(1);
 
             await click('.fullscreen-modal .modal-footer .gh-btn');
-            expect(find('.fullscreen-modal').length, 'modal element').to.equal(0);
+            expect(findAll('.fullscreen-modal').length, 'modal element').to.equal(0);
         });
 
         it('can upload/download redirects', async function () {
@@ -163,7 +164,7 @@ describe('Acceptance: Settings - Labs', function () {
 
             // shows error message
             expect(
-                find('[data-test-error="redirects"]').text().trim(),
+                find('[data-test-error="redirects"]').textContent.trim(),
                 'upload error text'
             ).to.have.string('Test failure message');
 

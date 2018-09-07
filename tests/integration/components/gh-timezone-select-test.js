@@ -1,6 +1,7 @@
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import wait from 'ember-test-helpers/wait';
+import {blur, fillIn, find} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -27,7 +28,7 @@ describe('Integration: Component: gh-timezone-select', function () {
 
         expect(this.$(), 'top-level elements').to.have.length(1);
         expect(this.$('option'), 'number of options').to.have.length(3);
-        expect(this.$('select').val(), 'selected option value').to.equal('Etc/UTC');
+        expect(find('select').value, 'selected option value').to.equal('Etc/UTC');
     });
 
     it('handles an unknown timezone', function () {
@@ -40,9 +41,9 @@ describe('Integration: Component: gh-timezone-select', function () {
         // we have an additional blank option at the top
         expect(this.$('option'), 'number of options').to.have.length(4);
         // blank option is selected
-        expect(this.$('select').val(), 'selected option value').to.equal('');
+        expect(find('select').value, 'selected option value').to.equal('');
         // we indicate the manual override
-        expect(this.$('p').text()).to.match(/Your timezone has been automatically set to Europe\/London/);
+        expect(find('p').textContent).to.match(/Your timezone has been automatically set to Europe\/London/);
     });
 
     it('triggers update action on change', function (done) {
@@ -54,8 +55,9 @@ describe('Integration: Component: gh-timezone-select', function () {
             activeTimezone=activeTimezone
             update=(action update)}}`);
 
-        run(() => {
-            this.$('select').val('Pacific/Pago_Pago').change();
+        run(async () => {
+            await fillIn('select', 'Pacific/Pago_Pago');
+            await blur('select');
         });
 
         wait().then(() => {

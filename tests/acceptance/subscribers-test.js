@@ -2,6 +2,7 @@ import destroyApp from '../helpers/destroy-app';
 import startApp from '../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentPath, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Subscribers', function () {
@@ -30,7 +31,7 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(find('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
+        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
             .to.equal(0);
     });
 
@@ -42,7 +43,7 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(find('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
+        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
             .to.equal(0);
     });
 
@@ -54,7 +55,7 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(find('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
+        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
             .to.equal(0);
     });
 
@@ -83,11 +84,11 @@ describe('Acceptance: Subscribers', function () {
             // TODO: latest ember-in-viewport causes infinite scroll issues with
             // FF here where it loads two pages straight away so we need to check
             // if rows are greater than or equal to a single page
-            expect(find('.subscribers-table .lt-body .lt-row').length, 'number of subscriber rows')
+            expect(findAll('.subscribers-table .lt-body .lt-row').length, 'number of subscriber rows')
                 .to.be.at.least(30);
 
             // it shows the total number of subscribers
-            expect(find('[data-test-total-subscribers]').text().trim(), 'displayed subscribers total')
+            expect(find('[data-test-total-subscribers]').textContent.trim(), 'displayed subscribers total')
                 .to.equal('(40)');
 
             // it defaults to sorting by created_at desc
@@ -129,14 +130,14 @@ describe('Acceptance: Subscribers', function () {
             await click('.gh-btn:contains("Add Subscriber")');
 
             // it displays the add subscriber modal
-            expect(find('.fullscreen-modal').length, 'add subscriber modal displayed')
+            expect(findAll('.fullscreen-modal').length, 'add subscriber modal displayed')
                 .to.equal(1);
 
             // cancel the modal
             await click('.fullscreen-modal .gh-btn:contains("Cancel")');
 
             // it closes the add subscriber modal
-            expect(find('.fullscreen-modal').length, 'add subscriber modal displayed after cancel')
+            expect(findAll('.fullscreen-modal').length, 'add subscriber modal displayed after cancel')
                 .to.equal(0);
 
             // save a new subscriber
@@ -145,11 +146,11 @@ describe('Acceptance: Subscribers', function () {
             await click('.fullscreen-modal .gh-btn:contains("Add")');
 
             // the add subscriber modal is closed
-            expect(find('.fullscreen-modal').length, 'add subscriber modal displayed after save')
+            expect(findAll('.fullscreen-modal').length, 'add subscriber modal displayed after save')
                 .to.equal(0);
 
             // the subscriber is added to the table
-            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').text().trim(), 'first email in list after addition')
+            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').textContent.trim(), 'first email in list after addition')
                 .to.equal('test@example.com');
 
             // the table is scrolled to the top
@@ -158,7 +159,7 @@ describe('Acceptance: Subscribers', function () {
             //     .to.equal(0);
 
             // the subscriber total is updated
-            expect(find('[data-test-total-subscribers]').text().trim(), 'subscribers total after addition')
+            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after addition')
                 .to.equal('(41)');
 
             // saving a duplicate subscriber
@@ -167,15 +168,15 @@ describe('Acceptance: Subscribers', function () {
             await click('.fullscreen-modal .gh-btn:contains("Add")');
 
             // the validation error is displayed
-            expect(find('.fullscreen-modal .error .response').text().trim(), 'duplicate email validation')
+            expect(find('.fullscreen-modal .error .response').textContent.trim(), 'duplicate email validation')
                 .to.equal('Email already exists.');
 
             // the subscriber is not added to the table
-            expect(find('.lt-cell:contains(test@example.com)').length, 'number of "test@example.com rows"')
+            expect(findAll('.lt-cell:contains(test@example.com)').length, 'number of "test@example.com rows"')
                 .to.equal(1);
 
             // the subscriber total is unchanged
-            expect(find('[data-test-total-subscribers]').text().trim(), 'subscribers total after failed add')
+            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after failed add')
                 .to.equal('(41)');
 
             // deleting a subscriber
@@ -183,60 +184,60 @@ describe('Acceptance: Subscribers', function () {
             await click('.subscribers-table tbody tr:first-of-type button:last-of-type');
 
             // it displays the delete subscriber modal
-            expect(find('.fullscreen-modal').length, 'delete subscriber modal displayed')
+            expect(findAll('.fullscreen-modal').length, 'delete subscriber modal displayed')
                 .to.equal(1);
 
             // cancel the modal
             await click('.fullscreen-modal .gh-btn:contains("Cancel")');
 
             // it closes the add subscriber modal
-            expect(find('.fullscreen-modal').length, 'delete subscriber modal displayed after cancel')
+            expect(findAll('.fullscreen-modal').length, 'delete subscriber modal displayed after cancel')
                 .to.equal(0);
 
             await click('.subscribers-table tbody tr:first-of-type button:last-of-type');
             await click('.fullscreen-modal .gh-btn:contains("Delete")');
 
             // the add subscriber modal is closed
-            expect(find('.fullscreen-modal').length, 'delete subscriber modal displayed after confirm')
+            expect(findAll('.fullscreen-modal').length, 'delete subscriber modal displayed after confirm')
                 .to.equal(0);
 
             // the subscriber is removed from the table
-            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').text().trim(), 'first email in list after addition')
+            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').textContent.trim(), 'first email in list after addition')
                 .to.not.equal('test@example.com');
 
             // the subscriber total is updated
-            expect(find('[data-test-total-subscribers]').text().trim(), 'subscribers total after addition')
+            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after addition')
                 .to.equal('(40)');
 
             // click the import subscribers button
             await click('[data-test-link="import-csv"]');
 
             // it displays the import subscribers modal
-            expect(find('.fullscreen-modal').length, 'import subscribers modal displayed')
+            expect(findAll('.fullscreen-modal').length, 'import subscribers modal displayed')
                 .to.equal(1);
-            expect(find('.fullscreen-modal input[type="file"]').length, 'import modal contains file input')
+            expect(findAll('.fullscreen-modal input[type="file"]').length, 'import modal contains file input')
                 .to.equal(1);
 
             // cancel the modal
             await click('.fullscreen-modal .gh-btn:contains("Cancel")');
 
             // it closes the import subscribers modal
-            expect(find('.fullscreen-modal').length, 'import subscribers modal displayed after cancel')
+            expect(findAll('.fullscreen-modal').length, 'import subscribers modal displayed after cancel')
                 .to.equal(0);
 
             await click('[data-test-link="import-csv"]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'test.csv'});
 
             // modal title changes
-            expect(find('.fullscreen-modal h1').text().trim(), 'import modal title after import')
+            expect(find('.fullscreen-modal h1').textContent.trim(), 'import modal title after import')
                 .to.equal('Import Successful');
 
             // modal button changes
-            expect(find('.fullscreen-modal .modal-footer button').text().trim(), 'import modal button text after import')
+            expect(find('.fullscreen-modal .modal-footer button').textContent.trim(), 'import modal button text after import')
                 .to.equal('Close');
 
             // subscriber total is updated
-            expect(find('[data-test-total-subscribers]').text().trim(), 'subscribers total after import')
+            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after import')
                 .to.equal('(90)');
 
             // TODO: re-enable once bug in ember-light-table that triggers second page load is fixed

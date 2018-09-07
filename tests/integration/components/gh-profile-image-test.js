@@ -5,6 +5,7 @@ import md5 from 'npm:blueimp-md5';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {find} from '@ember/test-helpers';
 import {run} from '@ember/runloop';
 import {setupComponentTest} from 'ember-mocha';
 import {timeout} from 'ember-concurrency';
@@ -88,7 +89,7 @@ describe('Integration: Component: gh-profile-image', function () {
             {{gh-profile-image email=email size=100 debounce=50}}
         `);
 
-        expect(this.$('.gravatar-img').attr('style'), 'gravatar image style')
+        expect(find('.gravatar-img').getAttribute('style'), 'gravatar image style')
             .to.equal('display: none');
     });
 
@@ -105,7 +106,7 @@ describe('Integration: Component: gh-profile-image', function () {
         // wait for the ajax request to complete
         await wait();
 
-        expect(this.$('.gravatar-img').attr('style'), 'gravatar image style')
+        expect(find('.gravatar-img').getAttribute('style'), 'gravatar image style')
             .to.equal(`background-image: url(${expectedUrl}); display: block`);
     });
 
@@ -121,7 +122,7 @@ describe('Integration: Component: gh-profile-image', function () {
 
         await wait();
 
-        expect(this.$('.gravatar-img').attr('style'), 'gravatar image style')
+        expect(find('.gravatar-img').getAttribute('style'), 'gravatar image style')
             .to.equal('display: none');
     });
 
@@ -134,7 +135,7 @@ describe('Integration: Component: gh-profile-image', function () {
 
         await wait();
 
-        expect(this.$('.gravatar-img').attr('style'), 'gravatar image style')
+        expect(find('.gravatar-img').getAttribute('style'), 'gravatar image style')
             .to.equal('background-image: url(); display: none');
     });
 
@@ -152,17 +153,17 @@ describe('Integration: Component: gh-profile-image', function () {
             this.set('email', email);
         });
 
-        expect(this.$('.gravatar-img').attr('style'), '.gravatar-img background not immediately changed on email change')
+        expect(find('.gravatar-img').getAttribute('style'), '.gravatar-img background not immediately changed on email change')
             .to.equal('display: none');
 
         await timeout(250);
 
-        expect(this.$('.gravatar-img').attr('style'), '.gravatar-img background still not changed before debounce timeout')
+        expect(find('.gravatar-img').getAttribute('style'), '.gravatar-img background still not changed before debounce timeout')
             .to.equal('display: none');
 
         await timeout(100);
 
-        expect(this.$('.gravatar-img').attr('style'), '.gravatar-img background changed after debounce timeout')
+        expect(find('.gravatar-img').getAttribute('style'), '.gravatar-img background changed after debounce timeout')
             .to.equal(`background-image: url(${expectedUrl}); display: block`);
     });
 });

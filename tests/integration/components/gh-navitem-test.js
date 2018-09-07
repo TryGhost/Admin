@@ -4,6 +4,7 @@ import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupComponentTest} from 'ember-mocha';
+import {triggerEvent} from '@ember/test-helpers';
 
 describe('Integration: Component: gh-navitem', function () {
     setupComponentTest('gh-navitem', {
@@ -50,7 +51,7 @@ describe('Integration: Component: gh-navitem', function () {
         expect($item.find('.gh-blognav-delete').length).to.equal(0);
     });
 
-    it('triggers delete action', function () {
+    it('triggers delete action', async function () {
         this.set('navItem', NavItem.create({label: 'Test', url: '/url'}));
 
         let deleteActionCallCount = 0;
@@ -60,12 +61,12 @@ describe('Integration: Component: gh-navitem', function () {
         });
 
         this.render(hbs`{{gh-navitem navItem=navItem baseUrl=baseUrl deleteItem=(action "deleteItem")}}`);
-        this.$('.gh-blognav-delete').trigger('click');
+        await click('.gh-blognav-delete');
 
         expect(deleteActionCallCount).to.equal(1);
     });
 
-    it('triggers add action', function () {
+    it('triggers add action', async function () {
         this.set('navItem', NavItem.create({label: 'Test', url: '/url', isNew: true}));
 
         let addActionCallCount = 0;
@@ -74,12 +75,12 @@ describe('Integration: Component: gh-navitem', function () {
         });
 
         this.render(hbs`{{gh-navitem navItem=navItem baseUrl=baseUrl addItem=(action "add")}}`);
-        this.$('.gh-blognav-add').trigger('click');
+        await click('.gh-blognav-add');
 
         expect(addActionCallCount).to.equal(1);
     });
 
-    it('triggers update url action', function () {
+    it('triggers update url action', async function () {
         this.set('navItem', NavItem.create({label: 'Test', url: '/url'}));
 
         let updateActionCallCount = 0;
@@ -88,12 +89,12 @@ describe('Integration: Component: gh-navitem', function () {
         });
 
         this.render(hbs`{{gh-navitem navItem=navItem baseUrl=baseUrl updateUrl=(action "update")}}`);
-        this.$('.gh-blognav-url input').trigger('blur');
+        await triggerEvent('.gh-blognav-url input', 'blur');
 
         expect(updateActionCallCount).to.equal(1);
     });
 
-    it('triggers update label action', function () {
+    it('triggers update label action', async function () {
         this.set('navItem', NavItem.create({label: 'Test', url: '/url'}));
 
         let updateActionCallCount = 0;
@@ -102,7 +103,7 @@ describe('Integration: Component: gh-navitem', function () {
         });
 
         this.render(hbs`{{gh-navitem navItem=navItem baseUrl=baseUrl updateLabel=(action "update")}}`);
-        this.$('.gh-blognav-label input').trigger('blur');
+        await triggerEvent('.gh-blognav-label input', 'blur');
 
         expect(updateActionCallCount).to.equal(1);
     });

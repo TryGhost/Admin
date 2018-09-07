@@ -4,6 +4,7 @@ import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
 import {setupComponentTest} from 'ember-mocha';
+import {triggerKeyEvent} from '@ember/test-helpers';
 
 // we want baseUrl to match the running domain so relative URLs are
 // handled as expected (browser auto-sets the domain when using a.href)
@@ -70,37 +71,25 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         expect($input.val()).to.equal('#anchor');
     });
 
-    it('deletes base URL on backspace', function () {
+    it('deletes base URL on backspace', async function () {
         this.render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action "clearErrors")}}
         `);
         let $input = this.$('input');
 
         expect($input.val()).to.equal(currentUrl);
-        run(() => {
-            // TODO: why is ember's keyEvent helper not available here?
-            // eslint-disable-next-line new-cap
-            let e = $.Event('keydown');
-            e.keyCode = 8;
-            $input.trigger(e);
-        });
+        await triggerKeyEvent($input, 'keydown', 8);
         expect($input.val()).to.equal('');
     });
 
-    it('deletes base URL on delete', function () {
+    it('deletes base URL on delete', async function () {
         this.render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action "clearErrors")}}
         `);
         let $input = this.$('input');
 
         expect($input.val()).to.equal(currentUrl);
-        run(() => {
-            // TODO: why is ember's keyEvent helper not available here?
-            // eslint-disable-next-line new-cap
-            let e = $.Event('keydown');
-            e.keyCode = 46;
-            $input.trigger(e);
-        });
+        await triggerKeyEvent($input, 'keydown', 46);
         expect($input.val()).to.equal('');
     });
 
@@ -212,7 +201,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         expect(changeActionCallCount).to.equal(1);
     });
 
-    it('triggers "update" action on enter', function () {
+    it('triggers "update" action on enter', async function () {
         let changeActionCallCount = 0;
         this.on('updateUrl', () => {
             changeActionCallCount += 1;
@@ -223,18 +212,12 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         `);
         let $input = this.$('input');
 
-        run(() => {
-            // TODO: why is ember's keyEvent helper not available here?
-            // eslint-disable-next-line new-cap
-            let e = $.Event('keypress');
-            e.keyCode = 13;
-            $input.trigger(e);
-        });
+        await triggerKeyEvent($input, 'keydown', 13);
 
         expect(changeActionCallCount).to.equal(1);
     });
 
-    it('triggers "update" action on CMD-S', function () {
+    it('triggers "update" action on CMD-S', async function () {
         let changeActionCallCount = 0;
         this.on('updateUrl', () => {
             changeActionCallCount += 1;
@@ -245,13 +228,8 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         `);
         let $input = this.$('input');
 
-        run(() => {
-            // TODO: why is ember's keyEvent helper not available here?
-            // eslint-disable-next-line new-cap
-            let e = $.Event('keydown');
-            e.keyCode = 83;
-            e.metaKey = true;
-            $input.trigger(e);
+        await triggerKeyEvent($input, 'keydown', 8, {
+            metaKey: true
         });
 
         expect(changeActionCallCount).to.equal(1);

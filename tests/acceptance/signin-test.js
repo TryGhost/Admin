@@ -8,6 +8,7 @@ import {
     it
 } from 'mocha';
 import {authenticateSession, invalidateSession} from '../helpers/ember-simple-auth';
+import {click, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Signin', function () {
@@ -63,17 +64,17 @@ describe('Acceptance: Signin', function () {
 
             expect(currentURL(), 'signin url').to.equal('/signin');
 
-            expect(find('input[name="identification"]').length, 'email input field')
+            expect(findAll('input[name="identification"]').length, 'email input field')
                 .to.equal(1);
-            expect(find('input[name="password"]').length, 'password input field')
+            expect(findAll('input[name="password"]').length, 'password input field')
                 .to.equal(1);
 
             await click('.gh-btn-blue');
 
-            expect(find('.form-group.error').length, 'number of invalid fields')
+            expect(findAll('.form-group.error').length, 'number of invalid fields')
                 .to.equal(2);
 
-            expect(find('.main-error').length, 'main error is displayed')
+            expect(findAll('.main-error').length, 'main error is displayed')
                 .to.equal(1);
 
             await fillIn('[name="identification"]', 'test@example.com');
@@ -82,10 +83,10 @@ describe('Acceptance: Signin', function () {
 
             expect(currentURL(), 'current url').to.equal('/signin');
 
-            expect(find('.main-error').length, 'main error is displayed')
+            expect(findAll('.main-error').length, 'main error is displayed')
                 .to.equal(1);
 
-            expect(find('.main-error').text().trim(), 'main error text')
+            expect(find('.main-error').textContent.trim(), 'main error text')
                 .to.equal('Invalid Password');
         });
 

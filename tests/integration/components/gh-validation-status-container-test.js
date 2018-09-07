@@ -4,6 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {find} from '@ember/test-helpers';
 import {setupComponentTest} from 'ember-mocha';
 
 const {Errors} = DS;
@@ -30,8 +31,8 @@ describe('Integration: Component: gh-validation-status-container', function () {
 
         return wait().then(() => {
             expect(this.$('.gh-test')).to.have.length(1);
-            expect(this.$('.gh-test').hasClass('success')).to.be.false;
-            expect(this.$('.gh-test').hasClass('error')).to.be.false;
+            expect(find('.gh-test').classList.contains('success')).to.be.false;
+            expect(find('.gh-test').classList.contains('error')).to.be.false;
         });
     });
 
@@ -45,8 +46,8 @@ describe('Integration: Component: gh-validation-status-container', function () {
 
         return wait().then(() => {
             expect(this.$('.gh-test')).to.have.length(1);
-            expect(this.$('.gh-test').hasClass('success')).to.be.true;
-            expect(this.$('.gh-test').hasClass('error')).to.be.false;
+            expect(find('.gh-test').classList.contains('success')).to.be.true;
+            expect(find('.gh-test').classList.contains('error')).to.be.false;
         });
     });
 
@@ -61,8 +62,8 @@ describe('Integration: Component: gh-validation-status-container', function () {
 
         return wait().then(() => {
             expect(this.$('.gh-test')).to.have.length(1);
-            expect(this.$('.gh-test').hasClass('success')).to.be.false;
-            expect(this.$('.gh-test').hasClass('error')).to.be.true;
+            expect(find('.gh-test').classList.contains('success')).to.be.false;
+            expect(find('.gh-test').classList.contains('error')).to.be.true;
         });
     });
 

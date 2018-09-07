@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {fillIn, findAll} from '@ember/test-helpers';
 import {run} from '@ember/runloop';
 import {setupComponentTest} from 'ember-mocha';
 
@@ -32,12 +33,12 @@ describe('Integration: Component: gh-search-input', function () {
         this.render(hbs`{{gh-search-input}}`);
 
         // enter text to trigger search
-        run(() => {
-            this.$('input[type="search"]').val('test').trigger('input');
+        run(async () => {
+            await fillIn('input[type="search"]', 'test');
         });
 
         wait().then(() => {
-            expect(this.$('.ember-basic-dropdown-content').length).to.equal(1);
+            expect(findAll('.ember-basic-dropdown-content').length).to.equal(1);
             done();
         });
     });

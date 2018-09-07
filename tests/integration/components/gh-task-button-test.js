@@ -1,5 +1,6 @@
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
+import {click, find} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -188,7 +189,7 @@ describe('Integration: Component: gh-task-button', function () {
         return wait();
     });
 
-    it('performs task on click', function () {
+    it('performs task on click', async function () {
         let taskCount = 0;
 
         this.set('myTask', task(function* () {
@@ -197,7 +198,7 @@ describe('Integration: Component: gh-task-button', function () {
         }));
 
         this.render(hbs`{{gh-task-button task=myTask}}`);
-        this.$('button').click();
+        await click('button');
 
         return wait().then(() => {
             expect(taskCount, 'taskCount').to.equal(1);
@@ -223,14 +224,14 @@ describe('Integration: Component: gh-task-button', function () {
             let [widthInt] = width.toString().split('.');
             let [heightInt] = height.toString().split('.');
 
-            expect(this.$('button').attr('style')).to.have.string(`width: ${widthInt}`);
-            expect(this.$('button').attr('style')).to.have.string(`height: ${heightInt}`);
+            expect(find('button').getAttribute('style')).to.have.string(`width: ${widthInt}`);
+            expect(find('button').getAttribute('style')).to.have.string(`height: ${heightInt}`);
         }, 20);
 
         run.later(this, function () {
             // chai-jquery test doesn't work because Firefox outputs blank string
             // expect(this.$('button')).to.not.have.attr('style');
-            expect(this.$('button').attr('style')).to.be.empty;
+            expect(find('button').getAttribute('style')).to.be.empty;
         }, 100);
 
         return wait();

@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+import {click, find} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupComponentTest} from 'ember-mocha';
@@ -21,13 +22,13 @@ describe('Integration: Component: gh-feature-flag', function () {
     it('renders properties correctly', function () {
         this.render(hbs`{{gh-feature-flag "testFlag"}}`);
         expect(this.$()).to.have.length(1);
-        expect(this.$('label').attr('for')).to.equal(this.$('input[type="checkbox"]').attr('id'));
+        expect(find('label').getAttribute('for')).to.equal(find('input[type="checkbox"]').id);
     });
 
     it('renders correctly when flag is set to true', function () {
         this.render(hbs`{{gh-feature-flag "testFlag"}}`);
         expect(this.$()).to.have.length(1);
-        expect(this.$('label input[type="checkbox"]').prop('checked')).to.be.true;
+        expect(find('label input[type="checkbox"]').checked).to.be.true;
     });
 
     it('renders correctly when flag is set to false', function () {
@@ -36,17 +37,17 @@ describe('Integration: Component: gh-feature-flag', function () {
         this.render(hbs`{{gh-feature-flag "testFlag"}}`);
         expect(this.$()).to.have.length(1);
 
-        expect(this.$('label input[type="checkbox"]').prop('checked')).to.be.false;
+        expect(find('label input[type="checkbox"]').checked).to.be.false;
     });
 
-    it('updates to reflect changes in flag property', function () {
+    it('updates to reflect changes in flag property', async function () {
         this.render(hbs`{{gh-feature-flag "testFlag"}}`);
         expect(this.$()).to.have.length(1);
 
-        expect(this.$('label input[type="checkbox"]').prop('checked')).to.be.true;
+        expect(find('label input[type="checkbox"]').checked).to.be.true;
 
-        this.$('label').click();
+        await click('label');
 
-        expect(this.$('label input[type="checkbox"]').prop('checked')).to.be.false;
+        expect(find('label input[type="checkbox"]').checked).to.be.false;
     });
 });

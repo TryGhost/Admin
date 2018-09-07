@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import wait from 'ember-test-helpers/wait';
 import {UnsupportedMediaTypeError} from 'ghost-admin/services/ajax';
+import {click, find, findAll, triggerEvent} from '@ember/test-helpers';
 import {createFile, fileUpload} from '../../helpers/file-upload';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
@@ -56,20 +57,20 @@ describe('Integration: Component: gh-file-uploader', function () {
     it('renders', function () {
         this.render(hbs`{{gh-file-uploader}}`);
 
-        expect(this.$('label').text().trim(), 'default label')
+        expect(find('label').textContent.trim(), 'default label')
             .to.equal('Select or drag-and-drop a file');
     });
 
     it('allows file input "accept" attribute to be changed', function () {
         this.render(hbs`{{gh-file-uploader}}`);
         expect(
-            this.$('input[type="file"]').attr('accept'),
+            find('input[type="file"]').getAttribute('accept'),
             'default "accept" attribute'
         ).to.equal('text/csv');
 
         this.render(hbs`{{gh-file-uploader accept="application/zip"}}`);
         expect(
-            this.$('input[type="file"]').attr('accept'),
+            find('input[type="file"]').getAttribute('accept'),
             'specified "accept" attribute'
         ).to.equal('application/zip');
     });
@@ -78,7 +79,7 @@ describe('Integration: Component: gh-file-uploader', function () {
         this.set('labelText', 'My label');
         this.render(hbs`{{gh-file-uploader labelText=labelText}}`);
 
-        expect(this.$('label').text().trim(), 'label')
+        expect(find('label').textContent.trim(), 'label')
             .to.equal('My label');
     });
 
@@ -193,10 +194,10 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The file type you uploaded is not supported/);
-            expect(this.$('.gh-btn-green').length, 'reset button is displayed').to.equal(1);
-            expect(this.$('.gh-btn-green').text()).to.equal('Try Again');
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The file type you uploaded is not supported/);
+            expect(findAll('.gh-btn-green').length, 'reset button is displayed').to.equal(1);
+            expect(find('.gh-btn-green').textContent).to.equal('Try Again');
             done();
         });
     });
@@ -207,8 +208,8 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The file you uploaded was larger/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The file you uploaded was larger/);
             done();
         });
     });
@@ -221,8 +222,8 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The file you uploaded was larger/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The file you uploaded was larger/);
             done();
         });
     });
@@ -233,8 +234,8 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/Error: UnknownError/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/Error: UnknownError/);
             done();
         });
     });
@@ -247,8 +248,8 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/Something went wrong/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/Something went wrong/);
             done();
         });
     });
@@ -288,13 +289,13 @@ describe('Integration: Component: gh-file-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.csv'});
 
         wait().then(() => {
-            run(() => {
-                this.$('.gh-btn-green').click();
+            run(async () => {
+                await click('.gh-btn-green');
             });
         });
 
         wait().then(() => {
-            expect(this.$('input[type="file"]').length).to.equal(1);
+            expect(findAll('input[type="file"]').length).to.equal(1);
             done();
         });
     });
@@ -310,8 +311,8 @@ describe('Integration: Component: gh-file-uploader', function () {
 
         // after 75ms we should have had one progress event
         run.later(this, function () {
-            expect(this.$('.progress .bar').length).to.equal(1);
-            let [, percentageWidth] = this.$('.progress .bar').attr('style').match(/width: (\d+)%?/);
+            expect(findAll('.progress .bar').length).to.equal(1);
+            let [, percentageWidth] = find('.progress .bar').getAttribute('style').match(/width: (\d+)%?/);
             percentageWidth = Number.parseInt(percentageWidth);
             expect(percentageWidth).to.be.above(0);
             expect(percentageWidth).to.be.below(100);
@@ -331,13 +332,13 @@ describe('Integration: Component: gh-file-uploader', function () {
             this.$('.gh-image-uploader').trigger(dragover);
         });
 
-        expect(this.$('.gh-image-uploader').hasClass('-drag-over'), 'has drag-over class').to.be.true;
+        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.true;
 
-        run(() => {
-            this.$('.gh-image-uploader').trigger('dragleave');
+        run(async () => {
+            await triggerEvent('.gh-image-uploader', 'dragleave');
         });
 
-        expect(this.$('.gh-image-uploader').hasClass('-drag-over'), 'has drag-over class').to.be.false;
+        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.false;
     });
 
     it('triggers file upload on file drop', function (done) {
@@ -384,8 +385,8 @@ describe('Integration: Component: gh-file-uploader', function () {
         wait().then(() => {
             expect(uploadSuccess.called).to.be.false;
             expect(uploadFailed.calledOnce).to.be.true;
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The file type you uploaded is not supported/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The file type you uploaded is not supported/);
             done();
         });
     });
@@ -436,8 +437,8 @@ describe('Integration: Component: gh-file-uploader', function () {
             expect(validate.calledOnce).to.be.true;
             expect(uploadSuccess.called).to.be.false;
             expect(uploadFailed.calledOnce).to.be.true;
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The file type you uploaded is not supported/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The file type you uploaded is not supported/);
             done();
         });
     });

@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {clickTrigger} from '../../helpers/ember-basic-dropdown';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {find} from 'ember-native-dom-helpers';
+import {find} from '@ember/test-helpers';
 import {run} from '@ember/runloop';
 import {setupComponentTest} from 'ember-mocha';
 

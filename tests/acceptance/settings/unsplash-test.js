@@ -3,6 +3,7 @@ import destroyApp from '../../helpers/destroy-app';
 import startApp from '../../helpers/start-app';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import {click, currentURL, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 
 describe('Acceptance: Settings - Integrations - Unsplash', function () {
@@ -75,7 +76,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
 
             // it's enabled by default when settings is empty
             expect(
-                find('[data-test-checkbox="unsplash"]').prop('checked'),
+                find('[data-test-checkbox="unsplash"]').checked,
                 'checked by default'
             ).to.be.true;
 
@@ -109,17 +110,17 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
 
             expect(
-                find('[data-test-checkbox="unsplash"]').prop('checked'),
+                find('[data-test-checkbox="unsplash"]').checked,
                 'checked by default'
             ).to.be.true;
 
             await click('[data-test-checkbox="unsplash"]');
 
-            expect(find('[data-test-checkbox="unsplash"]').prop('checked'), 'Unsplash checkbox').to.be.false;
+            expect(find('[data-test-checkbox="unsplash"]').checked, 'Unsplash checkbox').to.be.false;
 
             await visit('/settings/labs');
 
-            expect(find('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
@@ -131,7 +132,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
 
             // settings were not saved
-            expect(find('[data-test-checkbox="unsplash"]').prop('checked'), 'Unsplash checkbox').to.be.true;
+            expect(find('[data-test-checkbox="unsplash"]').checked, 'Unsplash checkbox').to.be.true;
         });
     });
 });

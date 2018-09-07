@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import wait from 'ember-test-helpers/wait';
 import {UnsupportedMediaTypeError} from 'ghost-admin/services/ajax';
+import {click, find, findAll, triggerEvent} from '@ember/test-helpers';
 import {createFile, fileUpload} from '../../helpers/file-upload';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
@@ -73,12 +74,12 @@ describe('Integration: Component: gh-image-uploader', function () {
 
     it('renders form with supplied alt text', function () {
         this.render(hbs`{{gh-image-uploader image=image altText="text test"}}`);
-        expect(this.$('[data-test-file-input-description]').text().trim()).to.equal('Upload image of "text test"');
+        expect(find('[data-test-file-input-description]').textContent.trim()).to.equal('Upload image of "text test"');
     });
 
     it('renders form with supplied text', function () {
         this.render(hbs`{{gh-image-uploader image=image text="text test"}}`);
-        expect(this.$('[data-test-file-input-description]').text().trim()).to.equal('text test');
+        expect(find('[data-test-file-input-description]').textContent.trim()).to.equal('text test');
     });
 
     it('generates request to correct endpoint', function (done) {
@@ -193,10 +194,10 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The image type you uploaded is not supported/);
-            expect(this.$('.gh-btn-green').length, 'reset button is displayed').to.equal(1);
-            expect(this.$('.gh-btn-green').text()).to.equal('Try Again');
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
+            expect(findAll('.gh-btn-green').length, 'reset button is displayed').to.equal(1);
+            expect(find('.gh-btn-green').textContent).to.equal('Try Again');
             done();
         });
     });
@@ -207,8 +208,8 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The image you uploaded was larger/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The image you uploaded was larger/);
             done();
         });
     });
@@ -221,8 +222,8 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The image you uploaded was larger/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The image you uploaded was larger/);
             done();
         });
     });
@@ -233,8 +234,8 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/Error: UnknownError/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/Error: UnknownError/);
             done();
         });
     });
@@ -247,8 +248,8 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
 
         wait().then(() => {
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/Something went wrong/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/Something went wrong/);
             done();
         });
     });
@@ -288,13 +289,13 @@ describe('Integration: Component: gh-image-uploader', function () {
         fileUpload(this.$('input[type="file"]'), ['test'], {type: 'test.png'});
 
         wait().then(() => {
-            run(() => {
-                this.$('.gh-btn-green').click();
+            run(async () => {
+                await click('.gh-btn-green');
             });
         });
 
         wait().then(() => {
-            expect(this.$('input[type="file"]').length).to.equal(1);
+            expect(findAll('input[type="file"]').length).to.equal(1);
             done();
         });
     });
@@ -310,8 +311,8 @@ describe('Integration: Component: gh-image-uploader', function () {
 
         // after 75ms we should have had one progress event
         run.later(this, function () {
-            expect(this.$('.progress .bar').length).to.equal(1);
-            let [, percentageWidth] = this.$('.progress .bar').attr('style').match(/width: (\d+)%?/);
+            expect(findAll('.progress .bar').length).to.equal(1);
+            let [, percentageWidth] = find('.progress .bar').getAttribute('style').match(/width: (\d+)%?/);
             percentageWidth = Number.parseInt(percentageWidth);
             expect(percentageWidth).to.be.above(0);
             expect(percentageWidth).to.be.below(100);
@@ -333,13 +334,13 @@ describe('Integration: Component: gh-image-uploader', function () {
             this.$('.gh-image-uploader').trigger(dragover);
         });
 
-        expect(this.$('.gh-image-uploader').hasClass('-drag-over'), 'has drag-over class').to.be.true;
+        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.true;
 
-        run(() => {
-            this.$('.gh-image-uploader').trigger('dragleave');
+        run(async () => {
+            await triggerEvent('.gh-image-uploader', 'dragleave');
         });
 
-        expect(this.$('.gh-image-uploader').hasClass('-drag-over'), 'has drag-over class').to.be.false;
+        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.false;
     });
 
     it('triggers file upload on file drop', function (done) {
@@ -385,8 +386,8 @@ describe('Integration: Component: gh-image-uploader', function () {
         wait().then(() => {
             expect(uploadSuccess.called).to.be.false;
             expect(uploadFailed.calledOnce).to.be.true;
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The image type you uploaded is not supported/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
             done();
         });
     });
@@ -435,8 +436,8 @@ describe('Integration: Component: gh-image-uploader', function () {
             expect(validate.calledOnce).to.be.true;
             expect(uploadSuccess.called).to.be.false;
             expect(uploadFailed.calledOnce).to.be.true;
-            expect(this.$('.failed').length, 'error message is displayed').to.equal(1);
-            expect(this.$('.failed').text()).to.match(/The image type you uploaded is not supported/);
+            expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
+            expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
             done();
         });
     });
