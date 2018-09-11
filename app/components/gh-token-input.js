@@ -9,8 +9,8 @@ import {
 } from 'ember-power-select/utils/group-utils';
 import {computed} from '@ember/object';
 import {get} from '@ember/object';
-import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
+import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 const {Handlebars} = Ember;
@@ -19,6 +19,7 @@ const BACKSPACE = 8;
 const TAB = 9;
 
 export default Component.extend({
+    i18n: service(),
 
     // public attrs
     allowCreation: true,
@@ -185,7 +186,7 @@ export default Component.extend({
         if (buildSuggestion) {
             return buildSuggestion(term);
         }
-        return htmlSafe(`Add <strong>"${Handlebars.Utils.escapeExpression(term)}"...</strong>`);
+        return this.get('i18n').t('Add <strong>"{{term}}"...</strong>', {term: Handlebars.Utils.escapeExpression(term)});
     },
 
     // always select the first item in the list that isn't the "Add x" option

@@ -12,11 +12,11 @@ export function computedGroup(category) {
         if (!this.get('currentSearch') || !this.get('content')) {
             return [];
         }
-
+        let i18nCategory = this.get('i18n').t(category).toString();
         return this.get('content').filter((item) => {
             let search = this.get('currentSearch').toString().toLowerCase();
 
-            return (item.category === category) && (item.title.toString().toLowerCase().indexOf(search) >= 0);
+            return (item.category === i18nCategory) && (item.title.toString().toLowerCase().indexOf(search) >= 0);
         });
     });
 }
@@ -26,6 +26,7 @@ export default Component.extend({
     router: service('router'),
     ajax: service(),
     notifications: service(),
+    i18n: service(),
 
     content: null,
     contentExpiresAt: false,
@@ -34,28 +35,28 @@ export default Component.extend({
     isLoading: false,
     selection: null,
 
-    posts: computedGroup('Stories'),
-    pages: computedGroup('Pages'),
-    users: computedGroup('Users'),
-    tags: computedGroup('Tags'),
+    posts: computedGroup('searchInput.Stories'),
+    pages: computedGroup('searchInput.Pages'),
+    users: computedGroup('searchInput.Users'),
+    tags: computedGroup('searchInput.Tags'),
 
     groupedContent: computed('posts', 'pages', 'users', 'tags', function () {
         let groups = [];
 
         if (!isEmpty(this.get('posts'))) {
-            groups.pushObject({groupName: 'Stories', options: this.get('posts')});
+            groups.pushObject({groupName: this.get('i18n').t('searchInput.Stories').toString(), options: this.get('posts')});
         }
 
         if (!isEmpty(this.get('pages'))) {
-            groups.pushObject({groupName: 'Pages', options: this.get('pages')});
+            groups.pushObject({groupName: this.get('i18n').t('searchInput.Pages').toString(), options: this.get('pages')});
         }
 
         if (!isEmpty(this.get('users'))) {
-            groups.pushObject({groupName: 'Users', options: this.get('users')});
+            groups.pushObject({groupName: this.get('i18n').t('searchInput.Users').toString(), options: this.get('users')});
         }
 
         if (!isEmpty(this.get('tags'))) {
-            groups.pushObject({groupName: 'Tags', options: this.get('tags')});
+            groups.pushObject({groupName: this.get('i18n').t('searchInput.Tags').toString(), options: this.get('tags')});
         }
 
         return groups;
@@ -72,17 +73,17 @@ export default Component.extend({
                 return;
             }
 
-            if (selected.category === 'Stories' || selected.category === 'Pages') {
+            if (selected.category === this.get('i18n').t('searchInput.Stories').toString() || selected.category === this.get('i18n').t('searchInput.Pages').toString()) {
                 let id = selected.id.replace('post.', '');
                 this.get('router').transitionTo('editor.edit', id);
             }
 
-            if (selected.category === 'Users') {
+            if (selected.category === this.get('i18n').t('searchInput.Users').toString()) {
                 let id = selected.id.replace('user.', '');
                 this.get('router').transitionTo('team.user', id);
             }
 
-            if (selected.category === 'Tags') {
+            if (selected.category === this.get('i18n').t('searchInput.Tags').toString()) {
                 let id = selected.id.replace('tag.', '');
                 this.get('router').transitionTo('settings.tags.tag', id);
             }
@@ -135,7 +136,7 @@ export default Component.extend({
             content.pushObjects(posts.posts.map(post => ({
                 id: `post.${post.id}`,
                 title: post.title,
-                category: post.page ? 'Pages' : 'Stories'
+                category: post.page ? this.get('i18n').t('searchInput.Pages').toString() : this.get('i18n').t('searchInput.Stories').toString()
             })));
         }).catch((error) => {
             this.get('notifications').showAPIError(error, {key: 'search.loadPosts.error'});
@@ -152,7 +153,7 @@ export default Component.extend({
             content.pushObjects(users.users.map(user => ({
                 id: `user.${user.slug}`,
                 title: user.name,
-                category: 'Users'
+                category: this.get('i18n').t('searchInput.Users').toString()
             })));
         }).catch((error) => {
             this.get('notifications').showAPIError(error, {key: 'search.loadUsers.error'});
@@ -169,7 +170,7 @@ export default Component.extend({
             content.pushObjects(tags.tags.map(tag => ({
                 id: `tag.${tag.slug}`,
                 title: tag.name,
-                category: 'Tags'
+                category: this.get('i18n').t('searchInput.Tags').toString()
             })));
         }).catch((error) => {
             this.get('notifications').showAPIError(error, {key: 'search.loadTags.error'});

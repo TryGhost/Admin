@@ -20,8 +20,8 @@ function isJSONContentType(header) {
 
 /* Version mismatch error */
 
-export function VersionMismatchError(payload) {
-    AjaxError.call(this, payload, 'API server is running a newer version of Ghost, please upgrade.');
+export function VersionMismatchError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 VersionMismatchError.prototype = Object.create(AjaxError.prototype);
@@ -36,8 +36,8 @@ export function isVersionMismatchError(errorOrStatus, payload) {
 
 /* Request entity too large error */
 
-export function ServerUnreachableError(payload) {
-    AjaxError.call(this, payload, 'Server was unreachable');
+export function ServerUnreachableError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 ServerUnreachableError.prototype = Object.create(AjaxError.prototype);
@@ -50,8 +50,8 @@ export function isServerUnreachableError(error) {
     }
 }
 
-export function RequestEntityTooLargeError(payload) {
-    AjaxError.call(this, payload, 'Request is larger than the maximum file size the server allows');
+export function RequestEntityTooLargeError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 RequestEntityTooLargeError.prototype = Object.create(AjaxError.prototype);
@@ -66,8 +66,8 @@ export function isRequestEntityTooLargeError(errorOrStatus) {
 
 /* Unsupported media type error */
 
-export function UnsupportedMediaTypeError(payload) {
-    AjaxError.call(this, payload, 'Request contains an unknown or unsupported file type.');
+export function UnsupportedMediaTypeError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 UnsupportedMediaTypeError.prototype = Object.create(AjaxError.prototype);
@@ -82,8 +82,8 @@ export function isUnsupportedMediaTypeError(errorOrStatus) {
 
 /* Maintenance error */
 
-export function MaintenanceError(payload) {
-    AjaxError.call(this, payload, 'Ghost is currently undergoing maintenance, please wait a moment then retry.');
+export function MaintenanceError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 MaintenanceError.prototype = Object.create(AjaxError.prototype);
@@ -98,8 +98,8 @@ export function isMaintenanceError(errorOrStatus) {
 
 /* Theme validation error */
 
-export function ThemeValidationError(payload) {
-    AjaxError.call(this, payload, 'Theme is not compatible or contains errors.');
+export function ThemeValidationError(payload, msg) {
+    AjaxError.call(this, payload, msg);
 }
 
 ThemeValidationError.prototype = Object.create(AjaxError.prototype);
@@ -116,6 +116,7 @@ export function isThemeValidationError(errorOrStatus, payload) {
 
 let ajaxService = AjaxService.extend({
     session: service(),
+    i18n: service(),
 
     headers: computed('session.isAuthenticated', function () {
         let session = this.get('session');
@@ -172,17 +173,17 @@ let ajaxService = AjaxService.extend({
 
     handleResponse(status, headers, payload, request) {
         if (this.isVersionMismatchError(status, headers, payload)) {
-            return new VersionMismatchError(payload);
+            return new VersionMismatchError(payload, this.get('i18n').t('ajax.API server is running a newer version of Ghost, please upgrade.'));
         } else if (this.isServerUnreachableError(status, headers, payload)) {
-            return new ServerUnreachableError(payload);
+            return new ServerUnreachableError(payload, this.get('i18n').t('ajax.Server was unreachable.'));
         } else if (this.isRequestEntityTooLargeError(status, headers, payload)) {
-            return new RequestEntityTooLargeError(payload);
+            return new RequestEntityTooLargeError(payload, this.get('i18n').t('ajax.Request is larger than the maximum file size the server allows'));
         } else if (this.isUnsupportedMediaTypeError(status, headers, payload)) {
-            return new UnsupportedMediaTypeError(payload);
+            return new UnsupportedMediaTypeError(payload, this.get('i18n').t('ajax.Request contains an unknown or unsupported file type.'));
         } else if (this.isMaintenanceError(status, headers, payload)) {
-            return new MaintenanceError(payload);
+            return new MaintenanceError(payload, this.get('i18n').t('ajax.Ghost is currently undergoing maintenance, please wait a moment then retry.'));
         } else if (this.isThemeValidationError(status, headers, payload)) {
-            return new ThemeValidationError(payload);
+            return new ThemeValidationError(payload, this.get('i18n').t('ajax.Theme is not compatible or contains errors.'));
         }
 
         let isGhostRequest = GHOST_REQUEST.test(request.url);

@@ -1,7 +1,9 @@
 import EmberObject from '@ember/object';
 import NavItem from 'ghost-admin/models/navigation-item';
+import localeConfig from 'ember-i18n/config/en';
 import {assert, expect} from 'chai';
 import {describe, it} from 'mocha';
+import {getOwner} from '@ember/application';
 import {run} from '@ember/runloop';
 import {setupTest} from 'ember-mocha';
 
@@ -27,8 +29,20 @@ describe('Unit: Controller: settings/design', function () {
             'service:notifications',
             'service:session',
             'service:upgrade-status',
-            'service:settings'
+            'service:settings',
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
         ]
+    });
+
+    beforeEach(function () {
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+        this.register('locale:en/config', localeConfig);
     });
 
     it('blogUrl: captures config and ensures trailing slash', function () {
@@ -60,7 +74,10 @@ describe('Unit: Controller: settings/design', function () {
                 NavItem.create({label: 'First', url: '/'}),
                 NavItem.create({label: '', url: '/second'}),
                 NavItem.create({label: 'Third', url: ''})
-            ]}));
+            ].map((item) => {
+                item.validators.navItem.set('i18n', getOwner(this).lookup('service:i18n'));
+                return item;
+            })}));
             // blank item won't get added because the last item is incomplete
             expect(ctrl.get('settings.navigation.length')).to.equal(3);
 
@@ -84,7 +101,10 @@ describe('Unit: Controller: settings/design', function () {
             ctrl.set('settings', EmberObject.create({navigation: [
                 NavItem.create({label: 'First', url: '/'}),
                 NavItem.create({label: '', url: ''})
-            ]}));
+            ].map((item) => {
+                item.validators.navItem.set('i18n', getOwner(this).lookup('service:i18n'));
+                return item;
+            })}));
 
             expect(ctrl.get('settings.navigation.length')).to.equal(2);
 

@@ -3,15 +3,18 @@ import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import RSVP from 'rsvp';
 import styleBody from 'ghost-admin/mixins/style-body';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     infinity: service(),
+    i18n: service(),
 
-    titleToken: 'Team',
     classNames: ['view-team'],
 
     modelPath: 'controller.activeUsers',
     perPage: 15,
+
+    titleToken: t('pageTitle.Team'),
 
     model() {
         return this.get('session.user').then((user) => {

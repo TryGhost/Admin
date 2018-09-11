@@ -18,6 +18,7 @@ export default Controller.extend({
     notifications: service(),
     session: service(),
     slugGenerator: service(),
+    i18n: service(),
 
     leaveSettingsTransition: null,
     dirtyAttributes: false,
@@ -153,8 +154,7 @@ export default Controller.extend({
                 });
             } catch (e) {
                 if (e === 'invalid url') {
-                    errMessage = 'The URL must be in a format like '
-                               + 'https://www.facebook.com/yourPage';
+                    errMessage = this.get('i18n').t('validation.The URL must be in a format like https://www.facebook.com/yourPage');
                     this.get('user.errors').add('facebook', errMessage);
                     return;
                 }
@@ -196,7 +196,9 @@ export default Controller.extend({
 
                 // check if username starts with http or www and show error if so
                 if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
-                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
+                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi)
+                        ? this.get('i18n').t('validation.Your Username is not a valid Twitter Username')
+                        : this.get('i18n').t('validation.The URL must be in a format like https://twitter.com/yourUsername');
 
                     this.get('user.errors').add('twitter', errMessage);
                     this.get('user.hasValidated').pushObject('twitter');
@@ -212,8 +214,7 @@ export default Controller.extend({
                     this.set('user.twitter', newUrl);
                 });
             } else {
-                errMessage = 'The URL must be in a format like '
-                           + 'https://twitter.com/yourUsername';
+                errMessage = this.get('i18n').t('validation.The URL must be in a format like https://twitter.com/yourUsername');
                 this.get('user.errors').add('twitter', errMessage);
                 this.get('user.hasValidated').pushObject('twitter');
                 return;
@@ -244,7 +245,7 @@ export default Controller.extend({
                     });
                 }
 
-                this.get('notifications').showAlert(`Ownership successfully transferred to ${user.get('name')}`, {type: 'success', key: 'owner.transfer.success'});
+                this.get('notifications').showAlert(this.get('i18n').t('Ownership successfully transferred to {{user}}', {user: user.get('name')}), {type: 'success', key: 'owner.transfer.success'});
             }).catch((error) => {
                 this.get('notifications').showAPIError(error, {key: 'owner.transfer'});
             });
@@ -279,7 +280,7 @@ export default Controller.extend({
             let user = this.get('user');
 
             if (!transition) {
-                this.get('notifications').showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+                this.get('notifications').showAlert(this.get('i18n').t('Sorry, there was an error in the application. Please let the Ghost team know what happened.'), {type: 'error'});
                 return;
             }
 
@@ -343,7 +344,7 @@ export default Controller.extend({
     },
 
     _deleteUserFailure() {
-        this.get('notifications').showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
+        this.get('notifications').showAlert(this.get('i18n').t('The user could not be deleted. Please try again.'), {type: 'error', key: 'user.delete.failed'});
     },
 
     updateSlug: task(function* (newSlug) {

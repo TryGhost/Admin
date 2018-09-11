@@ -1,9 +1,9 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            {{#link-to "settings.apps.index"}}Apps{{/link-to}}
+            {{#link-to "settings.apps.index"}}{{t "Apps"}}{{/link-to}}
             <span>{{svg-jar "arrow-right"}}</span>
-            Unsplash
+            {{t "Unsplash"}}
         </h2>
         <section class="view-actions">
             {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
@@ -24,16 +24,16 @@
                 <img class="app-icon" src="assets/img/unsplashicon.png" />
             </div>
             <div class="app-cell">
-                <h3>Unsplash</h3>
-                <p>Beautiful, free photos</p>
+                <h3>{{t "Unsplash"}}</h3>
+                <p>{{t "Beautiful, free photos"}}</p>
             </div>
         </section>
 
-        <div class="gh-setting-header">Unsplash configuration</div>
+        <div class="gh-setting-header">{{t "Unsplash configuration"}}</div>
         <div class="gh-setting" id="unsplash-toggle">
             <div class="gh-setting-content">
-                <div class="gh-setting-title">Enable Unsplash</div>
-                <div class="gh-setting-desc">Enable <a href="https://unsplash.com" target="_blank">Unsplash</a> image integration for your posts</div>
+                <div class="gh-setting-title">{{t "Enable Unsplash"}}</div>
+                <div class="gh-setting-desc">{{{t "Enable <a href=\"{{link}}\" target=\"_blank\">Unsplash</a> image integration for your posts" link="https://unsplash.com"}}}</div>
             </div>
             <div class="gh-setting-action">
                 <div class="form-group right">

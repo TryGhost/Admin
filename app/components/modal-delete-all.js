@@ -8,6 +8,7 @@ export default ModalComponent.extend({
     notifications: service(),
     store: service(),
     ajax: service(),
+    i18n: service(),
 
     actions: {
         confirm() {
@@ -26,7 +27,7 @@ export default ModalComponent.extend({
     },
 
     _showSuccess() {
-        this.get('notifications').showAlert('All content deleted from database.', {type: 'success', key: 'all-content.delete.success'});
+        this.get('notifications').showAlert(this.get('i18n').t('All content deleted from database.'), {type: 'success', key: 'all-content.delete.success'});
     },
 
     _showFailure(error) {

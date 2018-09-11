@@ -12,6 +12,7 @@ import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 import {task, timeout} from 'ember-concurrency';
 
 const {Promise} = RSVP;
@@ -41,14 +42,14 @@ export default Controller.extend({
     notifications: service(),
     session: service(),
     settings: service(),
+    i18n: service(),
 
     importErrors: null,
     importSuccessful: false,
     showDeleteAllModal: false,
     submitting: false,
-    uploadButtonText: 'Import',
-
     importMimeType: null,
+
     jsonExtension: null,
     jsonMimeType: null,
     yamlExtension: null,
@@ -63,6 +64,8 @@ export default Controller.extend({
         this.yamlMimeType = YAML_MIME_TYPE;
     },
 
+    uploadButtonText: t('Import'),
+
     actions: {
         onUpload(file) {
             let formData = new FormData();
@@ -70,7 +73,7 @@ export default Controller.extend({
             let currentUserId = this.get('session.user.id');
             let dbUrl = this.get('ghostPaths.url').api('db');
 
-            this.set('uploadButtonText', 'Importing');
+            this.set('uploadButtonText', this.get('i18n').t('Importing'));
             this.set('importErrors', null);
             this.set('importSuccessful', false);
 
@@ -105,7 +108,7 @@ export default Controller.extend({
                     this.set('session.user', store.findRecord('user', currentUserId));
 
                     // TODO: keep as notification, add link to view content
-                    notifications.showNotification('Import successful.', {key: 'import.upload.success'});
+                    notifications.showNotification(this.get('i18n').t('Import successful.'), {key: 'import.upload.success'});
 
                     // reload settings
                     return this.get('settings').reload().then((settings) => {
@@ -119,12 +122,12 @@ export default Controller.extend({
                 } else if (response && response.payload.errors && isEmberArray(response.payload.errors)) {
                     this.set('importErrors', response.payload.errors);
                 } else {
-                    this.set('importErrors', [{message: 'Import failed due to an unknown error. Check the Web Inspector console and network tabs for errors.'}]);
+                    this.set('importErrors', [{message: this.get('i18n').t('Import failed due to an unknown error. Check the Web Inspector console and network tabs for errors.')}]);
                 }
 
                 throw response;
             }).finally(() => {
-                this.set('uploadButtonText', 'Import');
+                this.set('uploadButtonText', this.get('i18n').t('Import'));
             });
         },
 
@@ -208,7 +211,7 @@ export default Controller.extend({
 
         try {
             yield this.get('ajax').post(emailUrl);
-            notifications.showAlert('Check your email for the test message.', {type: 'info', key: 'test-email.send.success'});
+            notifications.showAlert(this.get('i18n').t('Check your email for the test message.'), {type: 'info', key: 'test-email.send.success'});
             return true;
         } catch (error) {
             notifications.showAPIError(error, {key: 'test-email:send'});

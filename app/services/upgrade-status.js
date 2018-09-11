@@ -4,6 +4,7 @@ import {htmlSafe} from '@ember/string';
 
 export default Service.extend({
     notifications: service(),
+    i18n: service(),
 
     isRequired: false,
     message: '',
@@ -18,7 +19,7 @@ export default Service.extend({
     // called when a MaintenanceError is encountered
     maintenanceAlert() {
         get(this, 'notifications').showAlert(
-            'Sorry, Ghost is currently undergoing maintenance, please wait a moment then try again.',
+            this.get('i18n').t('Sorry, Ghost is currently undergoing maintenance, please wait a moment then try again.'),
             {type: 'error', key: 'api-error.under-maintenance'}
         );
     },
@@ -27,7 +28,7 @@ export default Service.extend({
     requireUpgrade() {
         set(this, 'isRequired', true);
         get(this, 'notifications').showAlert(
-            'Ghost has been upgraded, please copy any unsaved data and refresh the page to continue.',
+            this.get('i18n').t('Ghost has been upgraded, please copy any unsaved data and refresh the page to continue.'),
             {type: 'error', key: 'api-error.upgrade-required'}
         );
     }

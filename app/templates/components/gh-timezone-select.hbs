@@ -11,6 +11,6 @@
     {{svg-jar "arrow-down-small"}}
 </span>
 {{#if hasTimezoneOverride}}
-    <p>Your timezone has been automatically set to {{activeTimezone}}.</p>
+    <p>{{t "Your timezone has been automatically set to {{activeTimezone}}." activeTimezone=activeTimezone}}</p>
 {{/if}}
-<p>The local time here is currently {{localTime}}</p>
+<p>{{t "The local time here is currently {{localTime}}" localTime=localTime}}</p>

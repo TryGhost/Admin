@@ -1,12 +1,12 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            {{link-to "Team" "team" data-test-team-link=true}}
+            {{link-to (t "Team") "team" data-test-team-link=true}}
             <span>{{svg-jar "arrow-right"}}</span>
             {{user.name}}
 
             {{#if user.isSuspended}}
-            <span class="gh-badge suspended" data-test-suspended-badge>Suspended</span>
+            <span class="gh-badge suspended" data-test-suspended-badge>{{t "Suspended"}}</span>
             {{/if}}
         </h2>
 
@@ -20,17 +20,17 @@
         <section class="view-actions">
             {{#if userActionsAreVisible}}
                 <span class="dropdown">
-                    {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="gh-btn gh-btn-default gh-btn-icon only-has-icon user-actions-cog" title="User Actions" data-test-user-actions=true}}
+                    {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="gh-btn gh-btn-default gh-btn-icon only-has-icon user-actions-cog" title=(t "User Actions") data-test-user-actions=true}}
                         <span>
                             {{svg-jar "settings"}}
-                            <span class="hidden">User Settings</span>
+                            <span class="hidden">{{t "User Settings"}}</span>
                         </span>
                     {{/gh-dropdown-button}}
                     {{#gh-dropdown name="user-actions-menu" tagName="ul" classNames="user-actions-menu dropdown-menu dropdown-triangle-top-right"}}
                         {{#if canMakeOwner}}
                             <li>
                                 <button {{action "toggleTransferOwnerModal"}}>
-                                    Make Owner
+                                    {{t "Make Owner"}}
                                 </button>
                                 {{#if showTransferOwnerModal}}
                                     {{gh-fullscreen-modal "transfer-owner"
@@ -43,20 +43,20 @@
                         {{#if deleteUserActionIsVisible}}
                             <li>
                                 <button {{action "toggleDeleteUserModal"}} class="delete" data-test-delete-button>
-                                    Delete User
+                                    {{t "Delete User"}}
                                 </button>
                             </li>
                             {{#if user.isActive}}
                                 <li>
                                     <button {{action "toggleSuspendUserModal"}} class="suspend" data-test-suspend-button>
-                                        Suspend User
+                                        {{t "Suspend User"}}
                                     </button>
                                 </li>
                             {{/if}}
                             {{#if user.isSuspended}}
                                 <li>
                                     <button {{action "toggleUnsuspendUserModal"}} class="unsuspend" data-test-unsuspend-button>
-                                        Un-suspend User
+                                        {{t "Un-suspend User"}}
                                     </button>
                                 </li>
                             {{/if}}
@@ -97,7 +97,7 @@
         <form class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform save) on="submit"}}>
 
           <figure class="user-cover" style={{background-image-style user.coverImageUrl}}>
-              <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{action "toggleUploadCoverModal"}}><span>Change Cover</span></button>
+              <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{action "toggleUploadCoverModal"}}><span>{{t "Change Cover"}}</span></button>
               {{#if showUploadCoverModal}}
                   {{gh-fullscreen-modal "upload-image"
                                         model=(hash model=user imageProperty="coverImage")
@@ -107,8 +107,9 @@
           </figure>
 
           <figure class="user-image bg-whitegrey">
-              <div id="user-image" class="img" style={{background-image-style user.profileImageUrl}}><span class="hidden">{{user.name}}"s Picture</span></div>
-              <button type="button" {{action "toggleUploadImageModal"}} class="edit-user-image">Edit Picture</button>
+              <div id="user-image" class="img" style={{background-image-style user.profileImageUrl}}><span class="hidden">{{t "{{name}}\"s Picture" name=user.name}}</span></div>
+              <button type="button" {{action "toggleUploadImageModal"}} class="edit-user-image">{{t "Edit Picture"}}</button>
+
               {{#if showUploadImageModal}}
                   {{gh-fullscreen-modal "upload-image"
                                         model=(hash model=user imageProperty="profileImage")
@@ -124,11 +125,11 @@
             <fieldset class="user-details-bottom">
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="name" class="first-form-group"}}
-                    <label for="user-name">Full Name</label>
+                    <label for="user-name">{{t "Full Name"}}</label>
                     {{gh-text-input
                         id="user-name"
                         class="user-name"
-                        placeholder="Full Name"
+                        placeholder=(t "Full Name")
                         autocorrect="off"
                         value=(readonly user.name)
                         input=(action (mut user.name) value="target.value")
@@ -138,17 +139,17 @@
                     {{#if user.errors.name}}
                         {{gh-error-message errors=user.errors property="name"}}
                     {{else}}
-                        <p>Use your real name so people can recognise you</p>
+                        <p>{{t "Use your real name so people can recognise you"}}</p>
                     {{/if}}
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="slug"}}
-                    <label for="user-slug">Slug</label>
+                    <label for="user-slug">{{t "Slug"}}</label>
                     {{gh-text-input
                         class="user-name"
                         id="user-slug"
                         name="user"
-                        placeholder="Slug"
+                        placeholder=(t "Slug")
                         selectOnClick="true"
                         autocorrect="off"
                         value=(readonly slugValue)
@@ -161,14 +162,14 @@
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="email"}}
-                    <label for="user-email">Email</label>
+                    <label for="user-email">{{t "Email"}}</label>
                     {{!-- Administrators only see text of Owner's email address but not input --}}
                     {{#if canChangeEmail}}
                         {{gh-text-input
                             type="email"
                             id="user-email"
                             name="email"
-                            placeholder="Email Address"
+                            placeholder=(t "Email Address")
                             autocapitalize="off"
                             autocorrect="off"
                             autocomplete="off"
@@ -180,12 +181,12 @@
                     {{else}}
                         <span>{{user.email}}</span>
                     {{/if}}
-                    <p>Used for notifications</p>
+                    <p>{{t "Used for notifications"}}</p>
                 {{/gh-form-group}}
 
                 {{#if rolesDropdownIsVisible}}
                     <div class="form-group">
-                        <label for="user-role">Role</label>
+                        <label for="user-role">{{t "Role"}}</label>
                         <span class="gh-select" tabindex="0">
                             {{one-way-select
                                 id="new-user-role"
@@ -196,12 +197,12 @@
                                 update=(action "changeRole")
                             }}
                         </span>
-                        <p>What permissions should this user have?</p>
+                        <p>{{t "What permissions should this user have?"}}</p>
                     </div>
                 {{/if}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="location"}}
-                    <label for="user-location">Location</label>
+                    <label for="user-location">{{t "Location"}}</label>
                     {{gh-text-input
                         id="user-location"
                         value=(readonly user.location)
@@ -209,11 +210,11 @@
                         focus-out=(action "validate" "location" target=user)
                         data-test-location-input=true}}
                     {{gh-error-message errors=user.errors property="location" data-test-location-error=true}}
-                    <p>Where in the world do you live?</p>
+                    <p>{{t "Where in the world do you live?"}}</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="website"}}
-                    <label for="user-website">Website</label>
+                    <label for="user-website">{{t "Website"}}</label>
                     {{gh-text-input
                         type="url"
                         id="user-website"
@@ -225,11 +226,11 @@
                         focus-out=(action "validate" "website" target=user)
                         data-test-website-input=true}}
                     {{gh-error-message errors=user.errors property="website" data-test-website-error=true}}
-                    <p>Have a website or blog other than this one? Link it!</p>
+                    <p>{{t "Have a website or blog other than this one? Link it!"}}</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="facebook"}}
-                    <label for="user-facebook">Facebook Profile</label>
+                    <label for="user-facebook">{{t "Facebook Profile"}}</label>
                     {{gh-text-input
                         type="url"
                         placeholder="https://www.facebook.com/username"
@@ -242,11 +243,11 @@
                         data-test-facebook-input=true
                     }}
                     {{gh-error-message errors=user.errors property="facebook" data-test-facebook-error=true}}
-                    <p>URL of your personal Facebook Profile</p>
+                    <p>{{t "URL of your personal Facebook Profile"}}</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="twitter"}}
-                    <label for="user-twitter">Twitter Profile</label>
+                    <label for="user-twitter">{{t "Twitter Profile"}}</label>
                     {{gh-text-input
                         type="url"
                         placeholder="https://twitter.com/username"
@@ -259,11 +260,11 @@
                         data-test-twitter-input=true
                     }}
                     {{gh-error-message errors=user.errors property="twitter" data-test-twitter-error=true}}
-                    <p>URL of your personal Twitter profile</p>
+                    <p>{{t "URL of your personal Twitter profile"}}</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="bio" class="bio-container"}}
-                    <label for="user-bio">Bio</label>
+                    <label for="user-bio">{{t "Bio"}}</label>
                     {{gh-textarea
                         id="user-bio"
                         value=(readonly user.bio)
@@ -273,7 +274,7 @@
                     }}
                     {{gh-error-message errors=user.errors property="bio" data-test-bio-error=true}}
                     <p>
-                        Write about you, in 200 characters or less.
+                        {{t "Write about you, in 200 characters or less."}}
                         {{gh-count-characters user.bio}}
                     </p>
                 {{/gh-form-group}}
@@ -290,7 +291,7 @@
                 <fieldset>
                     {{#unless isNotOwnProfile}}
                         {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="password"}}
-                            <label for="user-password-old">Old Password</label>
+                            <label for="user-password-old">{{t "Old Password"}}</label>
                             {{gh-text-input
                                 type="password"
                                 id="user-password-old"
@@ -306,7 +307,7 @@
                     {{/unless}}
 
                     {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="newPassword"}}
-                        <label for="user-password-new">New Password</label>
+                        <label for="user-password-new">{{t "New Password"}}</label>
                         {{gh-text-input
                             value=(readonly user.newPassword)
                             type="password"
@@ -321,7 +322,7 @@
                     {{/gh-form-group}}
 
                     {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="ne2Password"}}
-                        <label for="user-new-password-verification">Verify Password</label>
+                        <label for="user-new-password-verification">{{t "Verify Password"}}</label>
                         {{gh-text-input
                             value=(readonly user.ne2Password)
                             type="password"
@@ -336,7 +337,7 @@
                     {{/gh-form-group}}
 
                     <div class="form-group">
-                        {{gh-task-button "Change Password" class="gh-btn gh-btn-red gh-btn-icon button-change-password" task=user.saveNewPassword data-test-save-pw-button=true}}
+                        {{gh-task-button (t "taskButton.Change Password") class="gh-btn gh-btn-red gh-btn-icon button-change-password" task=user.saveNewPassword data-test-save-pw-button=true}}
                     </div>
                 </fieldset>
             </form> {{! change password form }}

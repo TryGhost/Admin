@@ -1,7 +1,7 @@
 <header class="modal-header">
-    <h1>Please re-authenticate</h1>
+    <h1>{{t "Please re-authenticate"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "common.Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "common.Close"}}</span></a>
 
 <div class="modal-body {{if authenticationError 'error'}}">
 
@@ -10,13 +10,13 @@
             {{gh-text-input
                 class="password"
                 type="password"
-                placeholder="Password"
+                placeholder=(t "Password")
                 name="password"
                 value=(readonly password)
                 input=(action (mut password) value="target.value")}}
         {{/gh-validation-status-container}}
         <div>
-            {{gh-task-button "Log in" task=reauthenticate class="gh-btn gh-btn-blue gh-btn-icon" type="submit"}}
+            {{gh-task-button (t "taskButton.Log in") task=reauthenticate class="gh-btn gh-btn-blue gh-btn-icon" type="submit"}}
         </div>
     </form>
 

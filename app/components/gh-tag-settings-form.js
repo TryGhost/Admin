@@ -13,6 +13,7 @@ export default Component.extend({
     feature: service(),
     config: service(),
     mediaQueries: service(),
+    i18n: service(),
 
     tag: null,
 
@@ -32,9 +33,9 @@ export default Component.extend({
 
     title: computed('tag.isNew', function () {
         if (this.get('tag.isNew')) {
-            return 'New Tag';
+            return this.get('i18n').t('New Tag');
         } else {
-            return 'Tag Settings';
+            return this.get('i18n').t('Tag Settings');
         }
     }),
 

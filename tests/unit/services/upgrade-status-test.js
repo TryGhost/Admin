@@ -6,7 +6,7 @@ describe('Unit: Service: upgrade-status', function () {
     setupTest('service:upgrade-status', {
         // Specify the other units that are required for this test.
         // needs: ['service:foo']
-        needs: ['service:notifications']
+        needs: ['service:notifications', 'service:i18n']
     });
 
     // Replace this with your real tests.

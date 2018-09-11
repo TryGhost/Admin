@@ -10,7 +10,7 @@ export default BaseValidator.create({
         let hasValidated = model.get('hasValidated');
 
         if (isBlank(label)) {
-            model.get('errors').add('label', 'You must specify a label');
+            model.get('errors').add('label', this.t('validation.You must specify a label'));
             this.invalidate();
         }
 
@@ -26,10 +26,10 @@ export default BaseValidator.create({
         let urlRegex = new RegExp(/^(\/|#|[a-zA-Z0-9-]+:)/);
 
         if (isBlank(url)) {
-            model.get('errors').add('url', 'You must specify a URL or relative path');
+            model.get('errors').add('url', this.t('validation.You must specify a URL or relative path'));
             this.invalidate();
         } else if (url.match(/\s/) || (!validator.isURL(url, validatorOptions) && !url.match(urlRegex))) {
-            model.get('errors').add('url', 'You must specify a valid URL or relative path');
+            model.get('errors').add('url', this.t('validation.You must specify a valid URL or relative path'));
             this.invalidate();
         }
 

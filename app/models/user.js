@@ -43,6 +43,7 @@ export default Model.extend(ValidationEngine, {
     session: service(),
     notifications: service(),
     config: service(),
+    i18n: service(),
 
     // TODO: Once client-side permissions are in place,
     // remove the hard role check.
@@ -124,7 +125,7 @@ export default Model.extend(ValidationEngine, {
                 ne2Password: ''
             });
 
-            this.get('notifications').showNotification('Password updated.', {type: 'success', key: 'user.change-password.success'});
+            this.get('notifications').showNotification(this.get('i18n').t('Password updated.'), {type: 'success', key: 'user.change-password.success'});
 
             // clear errors manually for ne2password because validation
             // engine only clears the "validated proeprty"

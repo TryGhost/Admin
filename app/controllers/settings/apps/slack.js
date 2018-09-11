@@ -11,6 +11,7 @@ export default Controller.extend({
     ajax: service(),
     notifications: service(),
     settings: service(),
+    i18n: service(),
 
     leaveSettingsTransition: null,
     slackArray: null,
@@ -76,7 +77,7 @@ export default Controller.extend({
             let slackArray = this.get('slackArray');
 
             if (!transition) {
-                this.get('notifications').showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+                this.get('notifications').showAlert(this.get('i18n').t('Sorry, there was an error in the application. Please let the Ghost team know what happened.'), {type: 'error'});
                 return;
             }
 
@@ -114,7 +115,7 @@ export default Controller.extend({
         try {
             yield this.get('save').perform();
             yield this.get('ajax').post(slackApi);
-            notifications.showNotification('Check your Slack channel for the test message!', {type: 'info', key: 'slack-test.send.success'});
+            notifications.showNotification(this.get('i18n').t('Check your Slack channel for the test message!'), {type: 'info', key: 'slack-test.send.success'});
             return true;
         } catch (error) {
             notifications.showAPIError(error, {key: 'slack-test:send'});

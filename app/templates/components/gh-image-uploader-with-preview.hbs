@@ -1,9 +1,9 @@
 {{#if image}}
     <div class="gh-image-uploader -with-image">
         <div><img src={{image}}></div>
-        <a class="image-cancel" title="Delete" {{action "remove"}}>
+        <a class="image-cancel" title="{{t "common.Delete"}}" {{action "remove"}}>
             {{svg-jar "trash"}}
-            <span class="hidden">Delete</span>
+            <span class="hidden">{{t "common.Delete"}}</span>
         </a>
     </div>
 {{else}}

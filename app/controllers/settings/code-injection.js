@@ -6,6 +6,7 @@ import {task} from 'ember-concurrency';
 export default Controller.extend({
     notifications: service(),
     settings: service(),
+    i18n: service(),
 
     actions: {
         save() {
@@ -41,7 +42,7 @@ export default Controller.extend({
             let settings = this.get('settings');
 
             if (!transition) {
-                this.get('notifications').showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+                this.get('notifications').showAlert(this.get('i18n').t('Sorry, there was an error in the application. Please let the Ghost team know what happened.'), {type: 'error'});
                 return;
             }
 

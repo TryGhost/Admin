@@ -10,10 +10,10 @@ export default PasswordValidator.create({
         let p2 = model.get('ne2Password');
 
         if (isBlank(p1)) {
-            model.get('errors').add('newPassword', 'Please enter a password.');
+            model.get('errors').add('newPassword', this.t('validation.Please enter a password.'));
             this.invalidate();
         } else if (!validator.equals(p1, p2 || '')) {
-            model.get('errors').add('ne2Password', 'The two new passwords don\'t match.');
+            model.get('errors').add('ne2Password', this.t('validation.The two new passwords don\'t match.'));
             this.invalidate();
         }
 

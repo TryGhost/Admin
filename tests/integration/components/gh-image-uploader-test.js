@@ -328,8 +328,7 @@ describe('Integration: Component: gh-image-uploader', function () {
             expect(this.$('.progress .bar').length).to.equal(1);
             let [, percentageWidth] = this.$('.progress .bar').attr('style').match(/width: (\d+)%?/);
             percentageWidth = Number.parseInt(percentageWidth);
-            expect(percentageWidth).to.be.above(0);
-            expect(percentageWidth).to.be.below(100);
+            expect(percentageWidth).to.be.within(0, 100);
         }, 75);
     });
 

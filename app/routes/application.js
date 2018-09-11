@@ -19,6 +19,7 @@ import {
 } from 'ghost-admin/services/ajax';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
+import {warn} from '@ember/debug';
 
 function K() {
     return this;
@@ -39,13 +40,33 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     settings: service(),
     tour: service(),
     ui: service(),
+    i18n: service(),
+    lazyLoader: service(),
 
     shortcuts,
 
     routeAfterAuthentication: 'posts',
 
     beforeModel() {
-        return this.get('config').fetch();
+        return this.get('config').fetch().then(() => {
+            this.get('i18n').on('missing', (locale, key) => {
+                //todo: (ololoken) log somewhere
+                warn(`Missing translation: (${locale})"${key}"`, {id: 'i18n'});
+            });
+
+            if (this.get('i18n.locales').includes(this.get('config.defaultLocale'))) {
+                this.set('i18n.locale', this.get('config.defaultLocale'));
+            } else if (this.get('config.defaultLocale')) {
+                return this.get('ajax').request(`${this.get('ghostPaths.adminRoot')}assets/locales/${this.get('config.defaultLocale')}.json`)
+                    .then((translations) => {
+                        this.get('i18n').addTranslations(this.get('config.defaultLocale'), translations);
+                        this.set('i18n.locale', this.get('config.defaultLocale'));
+                        return this.get('lazyLoader').loadScript('moment-locale', `assets/moment/locale/${this.get('i18n.locale')}.js`);
+                    })
+                    .then(() => moment.locale(this.get('i18n.locale')))
+                    .catch(() => (``));
+            }
+        });
     },
 
     afterModel(model, transition) {

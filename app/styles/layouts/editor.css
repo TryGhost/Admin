@@ -653,7 +653,7 @@
 }
 
 .editor-statusbar .words:before {
-    content: "Words: ";
+    content: attr(data-content);
 }
 
 .CodeMirror .CodeMirror-code .cm-link {

@@ -1,13 +1,13 @@
 <header class="modal-header">
-    <h1>Are you sure you want to un-suspend this user?</h1>
+    <h1>{{t "Are you sure you want to un-suspend this user?"}}</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "common.Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "common.Close"}}</span></a>
 
 <div class="modal-body">
-    <strong>WARNING:</strong> This user will be able to log in again and will have the same permissions they had previously.
+    {{{t "<strong>WARNING:</strong> This user will be able to log in again and will have the same permissions they had previously."}}}
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    {{gh-task-button "Un-suspend" successText="Suspended" task=unsuspendUser class="gh-btn gh-btn-red gh-btn-icon" data-test-modal-confirm=true}}
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "common.Cancel"}}</span></button>
+    {{gh-task-button (t "taskButton.Un-suspend") successText=(t "taskButton.Un-suspended") task=unsuspendUser class="gh-btn gh-btn-red gh-btn-icon" data-test-modal-confirm=true}}
 </div>

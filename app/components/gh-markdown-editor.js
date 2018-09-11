@@ -14,6 +14,7 @@ export default Component.extend(ShortcutsMixin, {
     config: service(),
     notifications: service(),
     settings: service(),
+    i18n: service(),
 
     classNames: ['gh-markdown-editor'],
     classNameBindings: [
@@ -67,6 +68,9 @@ export default Component.extend(ShortcutsMixin, {
             // Ghost-specific SimpleMDE toolbar config - allows us to create a
             // bridge between SimpleMDE buttons and Ember actions
             toolbar: [
+                //todo: (ololoken) update https://github.com/kevinansfield/simplemde-markdown-editor
+                //a) handle translations of built-in toolbar buttons
+                //b) fix mixed ctrl/cmd on mac and ⌘ icon replacement
                 'bold', 'italic', 'heading', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
                 'link',
@@ -76,7 +80,7 @@ export default Component.extend(ShortcutsMixin, {
                         this._openImageFileDialog();
                     },
                     className: 'fa fa-picture-o',
-                    title: 'Upload Image(s)'
+                    title: this.get('i18n').t('editor.button.Upload Image(s)')
                 },
                 '|',
                 {
@@ -85,7 +89,7 @@ export default Component.extend(ShortcutsMixin, {
                         this._togglePreview();
                     },
                     className: 'fa fa-eye no-disable',
-                    title: 'Render Preview (Ctrl-Alt-R)',
+                    title: `${this.get('i18n').t('editor.button.Render Preview')} (Ctrl-Alt-R)`,
                     useCtrlOnMac: true
                 },
                 {
@@ -94,7 +98,7 @@ export default Component.extend(ShortcutsMixin, {
                         this.send('toggleSplitScreen');
                     },
                     className: 'fa fa-columns no-disable no-mobile',
-                    title: 'Side-by-side Preview (Ctrl-Alt-P)',
+                    title: `${this.get('i18n').t('editor.button.Side-by-side Preview')} (Ctrl-Alt-P)`,
                     useCtrlOnMac: true
                 },
                 '|',
@@ -104,7 +108,7 @@ export default Component.extend(ShortcutsMixin, {
                         this._toggleSpellcheck();
                     },
                     className: 'fa fa-check',
-                    title: 'Spellcheck (Ctrl-Alt-S)',
+                    title: `${this.get('i18n').t('editor.button.Spellcheck')} (Ctrl-Alt-S)`,
                     useCtrlOnMac: true
                 },
                 {
@@ -113,7 +117,7 @@ export default Component.extend(ShortcutsMixin, {
                         this._toggleHemingway();
                     },
                     className: 'fa fa-h-square',
-                    title: 'Hemingway Mode (Ctrl-Alt-H)',
+                    title: `${this.get('i18n').t('editor.button.Hemingway Mode')} (Ctrl-Alt-H)`,
                     useCtrlOnMac: true
                 },
                 {
@@ -122,7 +126,7 @@ export default Component.extend(ShortcutsMixin, {
                         this.send('toggleMarkdownHelp');
                     },
                     className: 'fa fa-question-circle',
-                    title: 'Markdown Guide'
+                    title: this.get('i18n').t('editor.button.Markdown Guide')
                 }
             ],
 
@@ -170,7 +174,7 @@ export default Component.extend(ShortcutsMixin, {
                     this.send('toggleUnsplash');
                 },
                 className: 'fa fa-camera',
-                title: 'Add Image from Unsplash'
+                title: this.get('i18n').t('editor.button.Add Image from Unsplash')
             });
         }
 
@@ -188,7 +192,8 @@ export default Component.extend(ShortcutsMixin, {
 
     init() {
         this._super(...arguments);
-
+        //once we received translated placeholder it's SafeString; cast it to String as required by simplemde
+        this.set('placeholder', this.get('placeholder').toString());
         let shortcuts = {};
         shortcuts[`${ctrlOrCmd}+shift+i`] = {action: 'openImageFileDialog'};
         shortcuts['ctrl+alt+s'] = {action: 'toggleSpellcheck'};
@@ -300,6 +305,7 @@ export default Component.extend(ShortcutsMixin, {
             if (footer) {
                 this._toolbar = this.element.querySelector('.editor-toolbar');
                 this._statusbar = this.element.querySelector('.editor-statusbar');
+                this._statusbar.querySelector('.words').dataset.content = this.get('i18n').t('editor.Words:');
                 footer.appendChild(this._toolbar);
                 footer.appendChild(this._statusbar);
             }
@@ -667,10 +673,10 @@ export default Component.extend(ShortcutsMixin, {
         this._isHemingwayMode = !this._isHemingwayMode;
 
         if (this._isHemingwayMode) {
-            notificationText = '<span class="gh-notification-title">Hemingway Mode On:</span> Write now; edit later. Backspace disabled.';
+            notificationText = `<span class="gh-notification-title">${this.get('i18n').t('editor.notice.Hemingway Mode On')}:</span> ${this.get('i18n').t('editor.notice.Write now; edit later. Backspace disabled.')}`;
             extraKeys.Backspace = function () {};
         } else {
-            notificationText = '<span class="gh-notification-title">Hemingway Mode Off:</span> Normal editing restored.';
+            notificationText = `<span class="gh-notification-title">${this.get('i18n').t('editor.notice.Hemingway Mode Off')}:</span> ${this.get('i18n').t('editor.notice.Normal editing restored.')}`;
             delete extraKeys.Backspace;
         }
 

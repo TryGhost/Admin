@@ -15,6 +15,7 @@ export default Controller.extend(ValidationEngine, {
     notifications: service(),
     session: service(),
     settings: service(),
+    i18n: service(),
 
     // ValidationEngine settings
     validationType: 'setup',
@@ -72,7 +73,7 @@ export default Controller.extend(ValidationEngine, {
                 this.set('flowErrors', error.payload.errors[0].message.string);
             } else {
                 // Connection errors don't return proper status message, only req.body
-                this.get('notifications').showAlert('There was a problem on the server.', {type: 'error', key: 'session.authenticate.failed'});
+                this.get('notifications').showAlert(this.get('i18n').t('There was a problem on the server.'), {type: 'error', key: 'session.authenticate.failed'});
             }
         }
     }),
@@ -152,7 +153,7 @@ export default Controller.extend(ValidationEngine, {
                 this._handleSaveError(error);
             });
         }).catch(() => {
-            this.set('flowErrors', 'Please fill out the form to setup your blog.');
+            this.set('flowErrors', this.get('i18n').t('Please fill out the form to setup your blog.'));
         });
     },
 
@@ -169,7 +170,7 @@ export default Controller.extend(ValidationEngine, {
             this.set('flowErrors', error.payload.errors[0].message);
         } else {
             // Connection errors don't return proper status message, only req.body
-            this.get('notifications').showAlert('There was a problem on the server.', {type: 'error', key: 'setup.authenticate.failed'});
+            this.get('notifications').showAlert(this.get('i18n').t('There was a problem on the server.'), {type: 'error', key: 'setup.authenticate.failed'});
         }
     },
 

@@ -6,5 +6,6 @@ export default [{
     fileStorage: 'true',
     internalTags: 'false',
     publicAPI: 'false',
-    useGravatar: 'true'
+    useGravatar: 'true',
+    defaultLocale: 'en'
 }];

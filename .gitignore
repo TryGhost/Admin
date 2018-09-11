@@ -51,3 +51,4 @@ Session.vim
 testem.log
 /concat-stats-for
 jsconfig.json
+/public/assets/locales

@@ -1,3 +1,4 @@
+//TODO: move to locales
 import {capitalize} from '@ember/string';
 const lowerWords = [
     'of', 'a', 'the', 'and', 'an', 'or', 'nor', 'but', 'is', 'if',

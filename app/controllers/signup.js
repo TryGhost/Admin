@@ -17,6 +17,7 @@ export default Controller.extend(ValidationEngine, {
     notifications: service(),
     session: service(),
     settings: service(),
+    i18n: service(),
 
     flowErrors: '',
     profileImage: null,
@@ -73,7 +74,7 @@ export default Controller.extend(ValidationEngine, {
                 }
             } else {
                 // Connection errors don't return proper status message, only req.body
-                this.get('notifications').showAlert('There was a problem on the server.', {type: 'error', key: 'session.authenticate.failed'});
+                this.get('notifications').showAlert(this.get('i18n').t('There was a problem on the server.'), {type: 'error', key: 'session.authenticate.failed'});
                 throw error;
             }
         }
@@ -99,7 +100,7 @@ export default Controller.extend(ValidationEngine, {
         } catch (error) {
             // ValidationEngine throws undefined
             if (!error) {
-                this.set('flowErrors', 'Please fill out the form to complete your sign-up');
+                this.set('flowErrors', this.get('i18n').t('Please fill out the form to complete your sign-up'));
             }
 
             if (error && error.payload && error.payload.errors && isEmberArray(error.payload.errors)) {

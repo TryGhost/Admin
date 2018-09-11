@@ -1,5 +1,5 @@
 <header>
-    <h1>Create your account</h1>
+    <h1>{{t "Create your account"}}</h1>
 </header>
 
 <form id="setup" class="gh-flow-create">
@@ -10,14 +10,14 @@
     {{gh-profile-image email=email setImage=(action "setImage")}}
 
     {{#gh-form-group errors=errors hasValidated=hasValidated property="blogTitle"}}
-        <label for="blog-title">Blog title</label>
+        <label for="blog-title">{{t "Blog title"}}</label>
         <span class="gh-input-icon gh-icon-content">
             {{svg-jar "content"}}
             {{gh-trim-focus-input
                 tabindex="1"
                 type="text"
                 name="blog-title"
-                placeholder="Eg. The Daily Awesome"
+                placeholder=(t "Eg. The Daily Awesome")
                 autocorrect="off"
                 value=(readonly blogTitle)
                 input=(action (mut blogTitle) value="target.value")
@@ -28,13 +28,13 @@
     {{/gh-form-group}}
 
     {{#gh-form-group errors=errors hasValidated=hasValidated property="name"}}
-        <label for="name">Full name</label>
+        <label for="name">{{t "Full Name"}}</label>
         <span class="gh-input-icon gh-icon-user">
             {{svg-jar "user-circle"}}
             {{gh-text-input
                 tabindex="2"
                 name="name"
-                placeholder="Eg. John H. Watson"
+                placeholder=(t "Eg. John H. Watson")
                 autocorrect="off"
                 value=(readonly name)
                 input=(action (mut name) value="target.value")
@@ -45,14 +45,14 @@
     {{/gh-form-group}}
 
     {{#gh-form-group errors=errors hasValidated=hasValidated property="email"}}
-        <label for="email">Email address</label>
+        <label for="email">{{t "Email Address"}}</label>
         <span class="gh-input-icon gh-icon-mail">
             {{svg-jar "email"}}
             {{gh-text-input
                 tabindex="3"
                 type="email"
                 name="email"
-                placeholder="Eg. john@example.com"
+                placeholder=(t "Eg. john@example.com")
                 autocorrect="off"
                 value=(readonly email)
                 input=(action (mut email) value="target.value")
@@ -63,14 +63,14 @@
     {{/gh-form-group}}
 
     {{#gh-form-group errors=errors hasValidated=hasValidated property="password"}}
-        <label for="password">Password</label>
+        <label for="password">{{t "Password"}}</label>
         <span class="gh-input-icon gh-icon-lock">
             {{svg-jar "lock"}}
             {{gh-text-input
                 tabindex="4"
                 type="password"
                 name="password"
-                placeholder="At least 10 characters"
+                placeholder=(t "At least 10 characters")
                 autocorrect="off"
                 value=(readonly password)
                 input=(action (mut password) value="target.value")
@@ -90,7 +90,7 @@
         {{#if task.isRunning}}
             <span>{{svg-jar "spinner" class="gh-icon-spinner gh-btn-icon-no-margin"}}</span>
         {{else}}
-            <span>Last step: Invite your team {{svg-jar "arrow-right-small" class="gh-btn-icon-right"}}</span>
+            <span>{{t "Last step: Invite your team"}} {{svg-jar "arrow-right-small" class="gh-btn-icon-right"}}</span>
         {{/if}}
     {{/gh-task-button}}
 </form>

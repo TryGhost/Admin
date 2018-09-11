@@ -1,8 +1,10 @@
 import Controller from '@ember/controller';
 import {computed} from '@ember/object';
 import {readOnly} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 
 export default Controller.extend({
+    i18n: service(),
 
     stack: false,
     error: readOnly('model'),
@@ -13,9 +15,9 @@ export default Controller.extend({
 
     message: computed('error.statusText', function () {
         if (this.get('code') === 404) {
-            return 'Page not found';
+            return this.get('i18n').t('Page not found');
         }
 
-        return this.get('error.statusText') !== 'error' ? this.get('error.statusText') : 'Internal Server Error';
+        return this.get('error.statusText') !== 'error' ? this.get('error.statusText') : this.get('i18n').t('Internal Server Error');
     })
 });

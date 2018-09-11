@@ -1,13 +1,13 @@
 <header>
-    <h1>Invite your team</h1>
-    <p>Ghost works best when shared with others. Collaborate, get feedback on your posts &amp; work together on ideas.</p>
+    <h1>{{t "Invite your team"}}</h1>
+    <p>{{t "Ghost works best when shared with others. Collaborate, get feedback on your posts &amp; work together on ideas."}}</p>
 </header>
 
 <div><img class="gh-flow-faces" src="assets/img/users.png" alt="" /></div>
 
 <form class="gh-flow-invite" {{action "invite" on="submit"}}>
     {{#gh-form-group errors=errors hasValidated=hasValidated property="users"}}
-        <label for="users">Enter one email address per line, we’ll handle the rest! {{svg-jar "email"}}</label>
+        <label for="users">{{t "Enter one email address per line, we’ll handle the rest!"}} {{svg-jar "email"}}</label>
         {{gh-textarea
             name="users"
             required="required"
@@ -36,5 +36,5 @@
 </form>
 
 <button class="gh-flow-skip" {{action "skipInvite"}}>
-    I'll do this later, take me to my blog!
+    {{t "I'll do this later, take me to my blog!"}}
 </button>

@@ -1,30 +1,30 @@
 <header class="modal-header">
     <h1>
         {{#if response}}
-            Import Successful
+            {{t "Import Successful"}}
         {{else}}
-            Import Subscribers
+            {{t "Import Subscribers"}}
         {{/if}}
     </h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="{{t "common.Close"}}" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "common.Close"}}</span></a>
 
 <div class="modal-body">
     {{#if response}}
         <table class="subscribers-import-results">
             <tr>
-                <td>Imported:</td>
+                <td>{{t "Imported"}}:</td>
                 <td align="left">{{response.imported}}</td>
             </tr>
             {{#if response.duplicates}}
                 <tr>
-                    <td>Duplicates:</td>
+                    <td>{{t "Duplicates"}}:</td>
                     <td align="left">{{response.duplicates}}</td>
                 </tr>
             {{/if}}
             {{#if response.invalid}}
                 <tr>
-                    <td>Invalid:</td>
+                    <td>{{t "Invalid"}}:</td>
                     <td align="left">{{response.invalid}}</td>
                 </tr>
             {{/if}}
@@ -33,7 +33,7 @@
         {{gh-file-uploader
             url=uploadUrl
             paramName="subscribersfile"
-            labelText="Select or drag-and-drop a CSV file."
+            labelText=(t "Select or drag-and-drop a CSV file.")
             uploadStarted=(action "uploadStarted")
             uploadFinished=(action "uploadFinished")
             uploadSuccess=(action "uploadSuccess")}}
@@ -42,6 +42,6 @@
 
 <div class="modal-footer">
     <button {{action "closeModal"}} disabled={{closeDisabled}} class="gh-btn">
-        <span>{{#if response}}Close{{else}}Cancel{{/if}}</span>
+        <span>{{#if response}}{{t "common.Close"}}{{else}}{{t "common.Cancel"}}{{/if}}</span>
     </button>
 </div>

@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import {computed} from '@ember/object';
 
 /**
  * Base validator that all validators should extend
@@ -11,6 +12,13 @@ export default EmberObject.extend({
         this._super(...arguments);
         this.properties = this.properties || [];
     },
+
+    t: computed(function () {
+        return this.get('i18n')
+            ? s => this.get('i18n').t(s).toString()
+            //fallback to pass tests where i18n service cannot be injected
+            : s => s.substring('validation.'.length);
+    }),
 
     /**
      * When passed a model and (optionally) a property name,

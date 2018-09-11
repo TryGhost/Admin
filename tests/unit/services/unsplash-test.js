@@ -1,8 +1,10 @@
 import Pretender from 'pretender';
+import localeConfig from 'ember-i18n/config/en';
 import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {errorOverride, errorReset} from '../../helpers/adapter-error';
 import {expect} from 'chai';
+import {getOwner} from '@ember/application';
 import {run} from '@ember/runloop';
 import {setupTest} from 'ember-mocha';
 
@@ -12,7 +14,14 @@ describe('Unit: Service: unsplash', function () {
             'service:ajax',
             'service:config',
             'service:ghostPaths',
-            'service:settings'
+            'service:settings',
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
         ]
     });
 
@@ -20,6 +29,8 @@ describe('Unit: Service: unsplash', function () {
 
     beforeEach(function () {
         server = new Pretender();
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+        this.register('locale:en/config', localeConfig);
     });
 
     afterEach(function () {
@@ -56,7 +67,7 @@ describe('Unit: Service: unsplash', function () {
             await wait();
 
             errorOverride();
-            expect(service.get('error')).to.have.string('Unsplash API rate limit reached');
+            expect(service.get('error').toString()).to.have.string('Unsplash API rate limit reached');
             errorReset();
         });
 

@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import localeConfig from 'ember-i18n/config/en';
 import sinon from 'sinon';
 import {AjaxError, InvalidError} from 'ember-ajax/errors';
 import {ServerUnreachableError} from 'ghost-admin/services/ajax';
@@ -6,17 +7,29 @@ import {describe, it} from 'mocha';
 import {A as emberA} from '@ember/array';
 import {expect} from 'chai';
 import {get} from '@ember/object';
+import {getOwner} from '@ember/application';
 import {run} from '@ember/runloop';
 import {setupTest} from 'ember-mocha';
 
 describe('Unit: Service: notifications', function () {
     setupTest('service:notifications', {
-        needs: ['service:upgradeStatus']
+        needs: [
+            'service:upgradeStatus',
+            'service:i18n',
+            'locale:en/translations',
+            'locale:en/config',
+            'util:i18n/missing-message',
+            'util:i18n/compile-template',
+            'config:environment',
+            'helper:t'
+        ]
     });
 
     beforeEach(function () {
         this.subject().set('content', emberA());
         this.subject().set('delayedNotifications', emberA());
+        getOwner(this).lookup('service:i18n').set('locale', 'en');
+        this.register('locale:en/config', localeConfig);
     });
 
     it('filters alerts/notifications', function () {
@@ -182,12 +195,13 @@ describe('Unit: Service: notifications', function () {
     it('#showAPIError displays default error text if response has no error/message', function () {
         let notifications = this.subject();
         let resp = false;
+        let normalize = ({message, status, type, key}) => Object({message: message.toString(), status, type, key});
 
         run(() => {
             notifications.showAPIError(resp);
         });
 
-        expect(notifications.get('content').toArray()).to.deep.equal([
+        expect(notifications.get('content').toArray().map(normalize)).to.deep.equal([
             {message: 'There was a problem on the server, please try again.', status: 'alert', type: 'error', key: 'api-error'}
         ]);
 
@@ -196,7 +210,7 @@ describe('Unit: Service: notifications', function () {
         run(() => {
             notifications.showAPIError(resp, {defaultErrorText: 'Overridden default'});
         });
-        expect(notifications.get('content').toArray()).to.deep.equal([
+        expect(notifications.get('content').toArray().map(normalize)).to.deep.equal([
             {message: 'Overridden default', status: 'alert', type: 'error', key: 'api-error'}
         ]);
     });
@@ -238,14 +252,14 @@ describe('Unit: Service: notifications', function () {
 
     it('#showAPIError parses custom ember-ajax errors correctly', function () {
         let notifications = this.subject();
-        let error = new ServerUnreachableError();
+        let error = new ServerUnreachableError({}, 'Server was unreachable.');
 
         run(() => {
             notifications.showAPIError(error);
         });
 
         let notification = notifications.get('alerts.firstObject');
-        expect(get(notification, 'message')).to.equal('Server was unreachable');
+        expect(get(notification, 'message')).to.equal('Server was unreachable.');
         expect(get(notification, 'status')).to.equal('alert');
         expect(get(notification, 'type')).to.equal('error');
         expect(get(notification, 'key')).to.equal('api-error');

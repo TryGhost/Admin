@@ -2,13 +2,15 @@ import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import UnsplashObject from 'ghost-admin/models/unsplash-integration';
 import styleBody from 'ghost-admin/mixins/style-body';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend(styleBody, {
     config: service(),
     settings: service(),
+    i18n: service(),
 
-    titleToken: 'Unsplash',
     classNames: ['settings-view-apps-unsplash'],
+    titleToken: t('pageTitle.Unsplash'),
 
     beforeModel() {
         let settings = this.get('settings');

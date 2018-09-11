@@ -11,6 +11,7 @@ import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 const DEFAULTS = {
     accept: ['text/csv'],
@@ -21,12 +22,12 @@ export default Component.extend({
     ajax: service(),
     eventBus: service(),
     notifications: service(),
+    i18n: service(),
 
     tagName: 'section',
     classNames: ['gh-image-uploader'],
     classNameBindings: ['dragClass'],
 
-    labelText: 'Select or drag-and-drop a file',
     url: null,
     paramName: 'file',
     accept: null,
@@ -46,6 +47,8 @@ export default Component.extend({
     uploadFinished: () => {},
     uploadSuccess: () => {},
     uploadFailed: () => {},
+
+    labelText: t('Select or drag-and-drop a file'),
 
     formData: computed('file', function () {
         let paramName = this.get('paramName');
@@ -229,13 +232,13 @@ export default Component.extend({
         }
 
         if (isUnsupportedMediaTypeError(error)) {
-            message = 'The file type you uploaded is not supported.';
+            message = this.get('i18n').t('The file type you uploaded is not supported.');
         } else if (isRequestEntityTooLargeError(error)) {
-            message = 'The file you uploaded was larger than the maximum file size your server allows.';
+            message = this.get('i18n').t('The file you uploaded was larger than the maximum file size your server allows.');
         } else if (error.payload && error.payload.errors && !isBlank(error.payload.errors[0].message)) {
             message = htmlSafe(error.payload.errors[0].message);
         } else {
-            message = 'Something went wrong :(';
+            message = this.get('i18n').t('Something went wrong :(');
         }
 
         this.set('failureMessage', message);

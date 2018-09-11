@@ -446,8 +446,23 @@ describe('Acceptance: Team', function () {
             await click('button.delete');
             // user has  posts so should warn about post deletion
             expect(
-                find('.fullscreen-modal .modal-content:contains("1 post created by this user")').length,
+                find('.fullscreen-modal .modal-content:contains("a post created by this user")').length,
                 'deleting user with posts has post count'
+            ).to.equal(1);
+
+            // cancel and add the second post
+            await click('.fullscreen-modal button:contains("Cancel")');
+            user2.posts = [post, server.create('post', {authors: [user2]})];
+            user2.save();
+
+            // delete user with two posts
+            await visit('/team');
+            await click(`[data-test-user-id="${user2.id}"]`);
+            await click('button.delete');
+
+            expect(
+                find('.fullscreen-modal .modal-content:contains("2 posts created by this user")').length,
+                'deleting user with two posts has warn with proper pluralization'
             ).to.equal(1);
 
             await click('.fullscreen-modal button:contains("Delete")');

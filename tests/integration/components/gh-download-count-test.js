@@ -27,7 +27,7 @@ describe('Integration: Component: gh-download-count', function () {
         this.render(hbs`{{gh-download-count}}`);
 
         return wait().then(() => {
-            expect(this.$().text().trim()).to.equal('42');
+            expect(this.$('em').text().trim()).to.equal('42');
         });
     });
 

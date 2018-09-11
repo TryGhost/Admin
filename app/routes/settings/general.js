@@ -3,13 +3,15 @@ import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import RSVP from 'rsvp';
 import styleBody from 'ghost-admin/mixins/style-body';
 import {inject as service} from '@ember/service';
+import {translationMacro as t} from 'ember-i18n';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     config: service(),
     settings: service(),
+    i18n: service(),
 
-    titleToken: 'Settings - General',
     classNames: ['settings-view-general'],
+    titleToken: t('pageTitle.Settings - General'),
 
     beforeModel() {
         this._super(...arguments);
