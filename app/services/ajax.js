@@ -137,11 +137,7 @@ let ajaxService = AjaxService.extend({
     // ember-ajax recognises `application/vnd.api+json` as a JSON-API request
     // and formats appropriately, we want to handle `application/json` the same
     _makeRequest(hash) {
-        let isAuthenticated = this.get('session.isAuthenticated');
         let isGhostRequest = GHOST_REQUEST.test(hash.url);
-        let isTokenRequest = isGhostRequest && TOKEN_REQUEST.test(hash.url);
-        let tokenExpiry = this.get('session.authenticated.expires_at');
-        let isTokenExpired = tokenExpiry < (new Date()).getTime();
 
         if (isJSONContentType(hash.contentType) && hash.type !== 'GET') {
             if (typeof hash.data === 'object') {
@@ -163,8 +159,8 @@ let ajaxService = AjaxService.extend({
         //   of the AjaxError object when session restore fails. This isn't a
         //   huge deal because the session will be invalidated and app reloaded
         //   but it would be nice to be consistent
-        if (isAuthenticated && isGhostRequest && !isTokenRequest && isTokenExpired) {
-            return this.get('session').restore().then(() => this._makeRequest(hash));
+        if (isGhostRequest) {
+            return this._super(hash);
         }
 
         return this._super(...arguments);
