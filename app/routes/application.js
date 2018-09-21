@@ -6,7 +6,6 @@ import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import moment from 'moment';
 import windowProxy from 'ghost-admin/utils/window-proxy';
-import {htmlSafe} from '@ember/string';
 import {
     isAjaxError,
     isNotFoundError,
@@ -54,7 +53,6 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         if (this.get('session.isAuthenticated')) {
             this.set('appLoadTransition', transition);
             transition.send('loadServerNotifications');
-            transition.send('checkForOutdatedDesktopApp');
 
             // trigger a background token refresh to enable "infinite" sessions
             // NOTE: we only do this if the last refresh was > 1 day ago to avoid
@@ -157,26 +155,6 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
                         });
                     }
                 });
-            }
-        },
-
-        checkForOutdatedDesktopApp() {
-            // Check if the user is running an older version of Ghost Desktop
-            // that needs to be manually updated
-            // (yes, the desktop team is deeply ashamed of these lines 😢)
-            let ua = navigator && navigator.userAgent ? navigator.userAgent : null;
-
-            if (ua && ua.includes && ua.includes('ghost-desktop')) {
-                let updateCheck = /ghost-desktop\/0\.((5\.0)|((4|2)\.0)|((3\.)(0|1)))/;
-                let link = '<a href="https://dev.ghost.org/ghost-desktop-manual-update" target="_blank">click here</a>';
-                let msg = `Your version of Ghost Desktop needs to be manually updated. Please ${link} to get started.`;
-
-                if (updateCheck.test(ua)) {
-                    this.get('notifications').showAlert(htmlSafe(msg), {
-                        type: 'warn',
-                        key: 'desktop.manual.upgrade'
-                    });
-                }
             }
         },
 
