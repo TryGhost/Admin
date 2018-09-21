@@ -95,21 +95,6 @@ describe('Integration: Component: gh-image-uploader', function () {
         });
     });
 
-    it('adds authentication headers to request', function (done) {
-        stubSuccessfulUpload(server);
-
-        this.get('sessionService').set('isAuthenticated', true);
-
-        this.render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
-        fileUpload(this.$('input[type="file"]'), ['test'], {name: 'test.png'});
-
-        wait().then(() => {
-            let [request] = server.handledRequests;
-            expect(request.requestHeaders.Authorization).to.equal('Bearer AccessMe123');
-            done();
-        });
-    });
-
     it('fires update action on successful upload', function (done) {
         let update = sinon.spy();
         this.set('update', update);
