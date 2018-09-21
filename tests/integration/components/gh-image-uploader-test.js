@@ -29,13 +29,13 @@ const sessionStub = Service.extend({
 });
 
 const stubSuccessfulUpload = function (server, delay = 0) {
-    server.post('/ghost/api/v0.1/uploads/', function () {
+    server.post('/ghost/api/v2/admin/uploads/', function () {
         return [200, {'Content-Type': 'application/json'}, '"/content/images/test.png"'];
     }, delay);
 };
 
 const stubFailedUpload = function (server, code, error, delay = 0) {
-    server.post('/ghost/api/v0.1/uploads/', function () {
+    server.post('/ghost/api/v2/admin/uploads/', function () {
         return [code, {'Content-Type': 'application/json'}, JSON.stringify({
             errors: [{
                 errorType: error,
@@ -89,7 +89,7 @@ describe('Integration: Component: gh-image-uploader', function () {
 
         wait().then(() => {
             expect(server.handledRequests.length).to.equal(1);
-            expect(server.handledRequests[0].url).to.equal('/ghost/api/v0.1/uploads/');
+            expect(server.handledRequests[0].url).to.equal('/ghost/api/v2/admin/uploads/');
             expect(server.handledRequests[0].requestHeaders.Authorization).to.be.undefined;
             done();
         });
@@ -229,7 +229,7 @@ describe('Integration: Component: gh-image-uploader', function () {
     });
 
     it('handles file too large error directly from the web server', function (done) {
-        server.post('/ghost/api/v0.1/uploads/', function () {
+        server.post('/ghost/api/v2/admin/uploads/', function () {
             return [413, {}, ''];
         });
         this.render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
@@ -255,7 +255,7 @@ describe('Integration: Component: gh-image-uploader', function () {
     });
 
     it('handles unknown failure', function (done) {
-        server.post('/ghost/api/v0.1/uploads/', function () {
+        server.post('/ghost/api/v2/admin/uploads/', function () {
             return [500, {'Content-Type': 'application/json'}, ''];
         });
         this.render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
