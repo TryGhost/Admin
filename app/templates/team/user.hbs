@@ -284,7 +284,7 @@
 
         </form> {{! user details form }}
 
-        {{!-- If an administrator is viewing Owner's profile or we're using Ghost.org OAuth then hide inputs for change password --}}
+        {{!-- If an administrator is viewing Owner's profile then hide inputs for change password --}}
         {{#if canChangePassword}}
             <form id="password-reset" class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform user.saveNewPassword) on="submit"}}>
                 <fieldset>
