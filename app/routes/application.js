@@ -139,7 +139,7 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         },
 
         authorizationFailed() {
-            windowProxy.replaceLocation(AuthConfiguration.baseURL);
+            windowProxy.replaceLocation(AuthConfiguration.rootURL);
         },
 
         loadServerNotifications(isDelayed) {
