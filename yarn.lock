@@ -44,7 +44,7 @@
   dependencies:
     "@glimmer/di" "^0.2.0"
 
-"@html-next/vertical-collection@1.0.0-beta.12", "@html-next/vertical-collection@^1.0.0-beta.10":
+"@html-next/vertical-collection@1.0.0-beta.12", "@html-next/vertical-collection@^1.0.0-beta.12":
   version "1.0.0-beta.12"
   resolved "https://registry.yarnpkg.com/@html-next/vertical-collection/-/vertical-collection-1.0.0-beta.12.tgz#c5cbed1a7cc9bfe8d4e82474bbb8d265882bc6f9"
   dependencies:
@@ -1518,23 +1518,6 @@ broccoli-funnel-reducer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/broccoli-funnel-reducer/-/broccoli-funnel-reducer-1.0.0.tgz#11365b2a785aec9b17972a36df87eef24c5cc0ea"
 
-broccoli-funnel@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-1.0.2.tgz#3e4c4e0f5b39ed37202990453695370c3a1ad002"
-  dependencies:
-    array-equal "^1.0.0"
-    blank-object "^1.0.1"
-    broccoli-plugin "^1.0.0"
-    debug "^2.2.0"
-    fast-ordered-set "^1.0.0"
-    fs-tree-diff "^0.3.0"
-    minimatch "^3.0.0"
-    mkdirp "^0.5.0"
-    path-posix "^1.0.0"
-    rimraf "^2.4.3"
-    symlink-or-copy "^1.0.0"
-    walk-sync "^0.2.6"
-
 broccoli-funnel@2.0.1, "broccoli-funnel@^1.2.0 || ^2.0.0", broccoli-funnel@^2.0.0, broccoli-funnel@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-2.0.1.tgz#6823c73b675ef78fffa7ab800f083e768b51d449"
@@ -1590,18 +1573,6 @@ broccoli-lint-eslint@^4.2.1:
     json-stable-stringify "^1.0.1"
     lodash.defaultsdeep "^4.6.0"
     md5-hex "^2.0.0"
-
-broccoli-merge-trees@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/broccoli-merge-trees/-/broccoli-merge-trees-1.1.1.tgz#1e283d18c686da922bb91a80d7aac0d161388e21"
-  dependencies:
-    broccoli-plugin "^1.0.0"
-    can-symlink "^1.0.0"
-    debug "^2.2.0"
-    fast-ordered-set "^1.0.2"
-    fs-tree-diff "^0.4.3"
-    rimraf "^2.4.3"
-    symlink-or-copy "^1.0.0"
 
 broccoli-merge-trees@3.0.1, "broccoli-merge-trees@^2.0.0 || ^3.0.0", broccoli-merge-trees@^3.0.0:
   version "3.0.1"
@@ -3256,13 +3227,7 @@ electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.62:
   version "1.3.70"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.70.tgz#ded377256d92d81b4257d36c65aa890274afcfd2"
 
-element-resize-detector@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.1.4.tgz#ec48a09b44ab0e35a352242e15406b3fa679d7f1"
-  dependencies:
-    batch-processor "^1.0.0"
-
-element-resize-detector@^1.1.14:
+element-resize-detector@^1.1.14, element-resize-detector@^1.1.4:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.1.14.tgz#af064a0a618a820ad570a95c5eec5b77be0128c1"
   dependencies:
@@ -3387,7 +3352,7 @@ ember-cli-babel@6.15.0:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7:
+ember-cli-babel@^5.1.6:
   version "5.2.8"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-5.2.8.tgz#0356b03cc3fdff5d0f2ecaa46a0e1cfaebffd876"
   dependencies:
@@ -3538,7 +3503,7 @@ ember-cli-htmlbars@2.0.3:
     json-stable-stringify "^1.0.0"
     strip-bom "^3.0.0"
 
-ember-cli-htmlbars@^1.0.3, ember-cli-htmlbars@^1.1.1:
+ember-cli-htmlbars@^1.1.1:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-1.3.4.tgz#461289724b34af372a6a0c4b6635819156963353"
   dependencies:
@@ -3847,11 +3812,11 @@ ember-compatibility-helpers@^1.0.0:
     ember-cli-version-checker "^2.1.1"
     semver "^5.4.1"
 
-ember-component-inbound-actions@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/ember-component-inbound-actions/-/ember-component-inbound-actions-1.2.1.tgz#0f57c7a0cd969d56fbb6affc430189aacfff0779"
+ember-component-inbound-actions@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/ember-component-inbound-actions/-/ember-component-inbound-actions-1.3.0.tgz#168ab38f029dc6d68af5663604da168bb2bd0812"
   dependencies:
-    ember-cli-babel "^5.1.7"
+    ember-cli-babel "^6.6.0"
 
 ember-composable-helpers@2.1.0, ember-composable-helpers@^2.1.0:
   version "2.1.0"
@@ -3922,15 +3887,15 @@ ember-drag-drop@0.4.8:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-element-resize-detector@0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ember-element-resize-detector/-/ember-element-resize-detector-0.1.5.tgz#4b1cdd63c0d42c42c78f0ac0cc8cff3e1e095611"
+ember-element-resize-detector@~0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ember-element-resize-detector/-/ember-element-resize-detector-0.2.1.tgz#95924b9711c7d5b4510cb354749fe4fad81bf408"
   dependencies:
-    broccoli-funnel "1.0.2"
-    broccoli-merge-trees "1.1.1"
-    element-resize-detector "1.1.4"
-    ember-cli-babel "^5.1.6"
-    ember-cli-htmlbars "^1.0.3"
+    broccoli-funnel "^1.0.2"
+    broccoli-merge-trees "^1.1.1"
+    element-resize-detector "^1.1.4"
+    ember-cli-babel "^6.6.0"
+    ember-cli-htmlbars "^2.0.1"
 
 ember-export-application-global@2.0.0:
   version "2.0.0"
@@ -4021,24 +3986,24 @@ ember-invoke-action@^1.5.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-lifeline@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ember-lifeline/-/ember-lifeline-2.0.0.tgz#ab2dadd3eed585605d1c4137c64aacec4d241c8e"
+ember-lifeline@^3.0.1:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/ember-lifeline/-/ember-lifeline-3.0.8.tgz#68cd28c995bd0d2bcf29d9a710b94150c187f2ab"
   dependencies:
     ember-cli-babel "^6.8.2"
 
-ember-light-table@1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/ember-light-table/-/ember-light-table-1.13.1.tgz#3b0cace7675257737d224c86ff133b961d6c322e"
+ember-light-table@1.13.2:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/ember-light-table/-/ember-light-table-1.13.2.tgz#be9ec8ce4c3b41d43bdf8e571e18ae0cfed6c9b7"
   dependencies:
-    "@html-next/vertical-collection" "^1.0.0-beta.10"
+    "@html-next/vertical-collection" "^1.0.0-beta.12"
     ember-cli-babel "^6.11.0"
     ember-cli-htmlbars "^2.0.3"
     ember-cli-string-helpers "^1.8.1"
     ember-composable-helpers "^2.1.0"
     ember-get-config "^0.2.4"
     ember-in-viewport "~3.0.3"
-    ember-scrollable "^0.4.11"
+    ember-scrollable "^0.5.0"
     ember-truth-helpers "^2.0.0"
     ember-wormhole "^0.5.4"
 
@@ -4211,15 +4176,15 @@ ember-runtime-enumerable-includes-polyfill@^2.0.0:
     ember-cli-babel "^6.9.0"
     ember-cli-version-checker "^2.1.0"
 
-ember-scrollable@^0.4.11:
-  version "0.4.11"
-  resolved "https://registry.yarnpkg.com/ember-scrollable/-/ember-scrollable-0.4.11.tgz#2999e3fb8d8e4a0eb9d194d8773d44ddf1b3afb4"
+ember-scrollable@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ember-scrollable/-/ember-scrollable-0.5.0.tgz#843e8486e2ea69a4febfd963163b148154e346f2"
   dependencies:
     ember-cli-babel "^6.8.0"
     ember-cli-htmlbars "^2.0.1"
-    ember-component-inbound-actions "1.2.1"
-    ember-element-resize-detector "0.1.5"
-    ember-lifeline "^2.0.0"
+    ember-component-inbound-actions "^1.3.0"
+    ember-element-resize-detector "~0.2.0"
+    ember-lifeline "^3.0.1"
 
 ember-simple-auth@1.7.0:
   version "1.7.0"
@@ -5181,20 +5146,6 @@ fs-minipass@^1.2.5:
 fs-readdir-recursive@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/fs-readdir-recursive/-/fs-readdir-recursive-0.1.2.tgz#315b4fb8c1ca5b8c47defef319d073dad3568059"
-
-fs-tree-diff@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-0.3.1.tgz#41a84ee34994bd564c63d9852f1109c5de7f9290"
-  dependencies:
-    debug "^2.2.0"
-    fast-ordered-set "^1.0.2"
-
-fs-tree-diff@^0.4.3:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-0.4.4.tgz#f6b75d70db22c1f3b05d592270f4ed6c9c2f82dd"
-  dependencies:
-    debug "^2.2.0"
-    fast-ordered-set "^1.0.2"
 
 fs-tree-diff@^0.5.0, fs-tree-diff@^0.5.2, fs-tree-diff@^0.5.3, fs-tree-diff@^0.5.4, fs-tree-diff@^0.5.6, fs-tree-diff@^0.5.7, fs-tree-diff@^0.5.9:
   version "0.5.9"
@@ -10421,7 +10372,7 @@ walk-sync@0.3.3, walk-sync@^0.3.0, walk-sync@^0.3.1, walk-sync@^0.3.2, walk-sync
     ensure-posix-path "^1.0.0"
     matcher-collection "^1.0.0"
 
-walk-sync@^0.2.6, walk-sync@^0.2.7:
+walk-sync@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/walk-sync/-/walk-sync-0.2.7.tgz#b49be4ee6867657aeb736978b56a29d10fa39969"
   dependencies:
