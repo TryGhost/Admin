@@ -99,18 +99,8 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
             let session = this.get('session');
             // revoke keys on the server
             if (session.get('isAuthenticated')) {
-                let auth = session.get('data.authenticated');
-                let revokeEndpoint = `${this.get('ghostPaths.apiRoot')}/authentication/revoke`;
                 let authenticator = session.get('session')._lookupAuthenticator(session.get('session.authenticator'));
-                let requests = [];
-                ['refresh_token', 'access_token'].forEach((tokenType) => {
-                    let data = {
-                        token_type_hint: tokenType,
-                        token: auth[tokenType]
-                    };
-                    authenticator.makeRequest(revokeEndpoint, data);
-                });
-                RSVP.all(requests).finally(() => {
+                authenticator.invalidate().finally(() => {
                     // remove local keys and refresh
                     session.invalidate();
                 });
