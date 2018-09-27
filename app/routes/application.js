@@ -4,7 +4,6 @@ import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import moment from 'moment';
 import windowProxy from 'ghost-admin/utils/window-proxy';
 import {htmlSafe} from '@ember/string';
 import {
@@ -55,23 +54,6 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
             this.set('appLoadTransition', transition);
             transition.send('loadServerNotifications');
             transition.send('checkForOutdatedDesktopApp');
-
-            // trigger a background token refresh to enable "infinite" sessions
-            // NOTE: we only do this if the last refresh was > 1 day ago to avoid
-            // potential issues with multiple tabs and concurrent admin loads/refreshes.
-            // see https://github.com/TryGhost/Ghost/issues/8616
-            let session = this.get('session.session');
-            let expiresIn = session.get('authenticated.expires_in') * 1000;
-            let expiresAt = session.get('authenticated.expires_at');
-            let lastRefresh = moment(expiresAt - expiresIn);
-            let oneDayAgo = moment().subtract(1, 'day');
-
-            if (lastRefresh.isBefore(oneDayAgo)) {
-                let authenticator = session._lookupAuthenticator(session.authenticator);
-                if (authenticator && authenticator.onOnline) {
-                    authenticator.onOnline();
-                }
-            }
 
             let featurePromise = this.get('feature').fetch();
             let settingsPromise = this.get('settings').fetch();
