@@ -7,6 +7,7 @@ import {
     isUnauthorizedError
 } from 'ember-ajax/errors';
 import {
+    isMaintenanceError,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
@@ -169,6 +170,19 @@ describe('Integration: Service: ajax', function () {
             expect(false).to.be.true;
         }).catch((error) => {
             expect(isUnsupportedMediaTypeError(error)).to.be.true;
+            done();
+        });
+    });
+
+    it('handles error checking for MaintenanceError on 503 errors', function (done) {
+        stubAjaxEndpoint(server, {}, 503);
+
+        let ajax = this.subject();
+
+        ajax.request('/test/').then(() => {
+            expect(false).to.be.true;
+        }).catch((error) => {
+            expect(isMaintenanceError(error)).to.be.true;
             done();
         });
     });
