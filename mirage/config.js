@@ -1,5 +1,7 @@
+import mockApiKeys from './config/api-keys';
 import mockAuthentication from './config/authentication';
 import mockConfiguration from './config/configuration';
+import mockIntegrations from './config/integrations';
 import mockInvites from './config/invites';
 import mockPosts from './config/posts';
 import mockRoles from './config/roles';
@@ -10,6 +12,7 @@ import mockTags from './config/tags';
 import mockThemes from './config/themes';
 import mockUploads from './config/uploads';
 import mockUsers from './config/users';
+import mockWebhooks from './config/webhooks';
 
 // import {versionMismatchResponse} from 'utils';
 
@@ -22,6 +25,9 @@ export default function () {
     // this.put('/posts/:id/', versionMismatchResponse);
     // mockTags(this);
     // this.loadFixtures('settings');
+    mockIntegrations(this);
+    mockApiKeys(this);
+    mockWebhooks(this);
 
     // keep this line, it allows all other API requests to hit the real server
     this.passthrough();
