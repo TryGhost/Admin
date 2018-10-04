@@ -158,7 +158,10 @@ describe('Acceptance: Settings - Integrations', function () {
             expect(find('[data-test-modal="new-integration"]'), 'modal after clicking cancel')
                 .to.not.exist;
 
-            // TODO: test that the unsaved integration is not shown in the list
+            expect(
+                find('[data-test-blank="custom-integrations"]'),
+                'blank slate after cancelled creation'
+            ).to.exist;
 
             await click('[data-test-button="new-integration"]');
             await click('[data-test-button="create-integration"]');
@@ -187,7 +190,16 @@ describe('Acceptance: Settings - Integrations', function () {
                 'number of integrations in db after create'
             ).to.equal(1);
 
-            // TODO: test that the new integration is listed
+            expect(
+                find('[data-test-blank="custom-integrations"]'),
+                'blank slate after creation'
+            ).to.not.exist;
+
+            expect(
+                find('[data-test-custom-integration]').length,
+                'number of custom integrations after creation'
+            ).to.equal(1);
+
             // TODO: test that the new integration can be navigated to
         });
     });
