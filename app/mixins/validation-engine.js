@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import IntegrationValidator from 'ghost-admin/validators/integration';
 import InviteUserValidator from 'ghost-admin/validators/invite-user';
 import Mixin from '@ember/object/mixin';
 import Model from 'ember-data/model';
@@ -42,7 +43,8 @@ export default Mixin.create({
         slackIntegration: SlackIntegrationValidator,
         subscriber: SubscriberValidator,
         tag: TagSettingsValidator,
-        user: UserValidator
+        user: UserValidator,
+        integration: IntegrationValidator
     },
 
     // This adds the Errors object to the validation engine, and shouldn't affect

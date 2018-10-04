@@ -1,8 +1,11 @@
 import Model from 'ember-data/model';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
 import {hasMany} from 'ember-data/relationships';
 
-export default Model.extend({
+export default Model.extend(ValidationEngine, {
+    validationType: 'integration',
+
     name: attr('string'),
     slug: attr('string'),
     iconImage: attr('string'),
