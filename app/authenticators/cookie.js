@@ -29,6 +29,14 @@ export default Authenticator.extend({
     },
 
     invalidate() {
+        // if we're invalidating because of a 401 we can end up in an infinite
+        // loop if we then try to perform a DELETE /session/ request
+        // TODO: find a more elegant way to handle this
+        if (this.ajax.skipSessionDeletion) {
+            this.ajax.skipSessionDeletion = false;
+            return RSVP.resolve();
+        }
+
         let sessionEndpoint = this.get('sessionEndpoint');
         return this.get('ajax').del(sessionEndpoint);
     }

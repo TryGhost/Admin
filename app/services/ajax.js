@@ -118,6 +118,12 @@ export function isThemeValidationError(errorOrStatus, payload) {
 let ajaxService = AjaxService.extend({
     session: service(),
 
+    // flag to tell our ESA authenticator not to try an invalidate DELETE request
+    // because it's been triggered by this service's 401 handling which means the
+    // DELETE would fail and get stuck in an infinite loop
+    // TODO: find a more elegant way to handle this
+    skipSessionDeletion: false,
+
     headers: computed('session.isAuthenticated', function () {
         let headers = {};
 
@@ -161,7 +167,8 @@ let ajaxService = AjaxService.extend({
         let isUnauthorized = this.isUnauthorizedError(status, headers, payload);
 
         if (isAuthenticated && isGhostRequest && isUnauthorized) {
-            this.get('session').invalidate();
+            this.skipSessionDeletion = true;
+            this.session.invalidate();
         }
 
         return this._super(...arguments);
