@@ -1,53 +1,57 @@
-import CookieAuthenticator from 'ghost-admin/authenticators/cookie';
+import RSVP from 'rsvp';
+import Service from '@ember/service';
 import sinon from 'sinon';
 import {beforeEach, describe, it} from 'mocha';
 import {expect} from 'chai';
+import {setupTest} from 'ember-mocha';
 
-describe('BaseAuthenticator', () => {
-    let authenticator;
-    let fakeSessionEndpoint;
-    let fakeAjaxService;
-    let sandbox;
+const mockAjax = Service.extend({
+    skipSessionDeletion: false,
+    init() {
+        this._super(...arguments);
+        this.post = sinon.stub().resolves();
+        this.del = sinon.stub().resolves();
+    }
+});
 
-    before(function () {
-        sandbox = sinon.sandbox.create();
-        fakeSessionEndpoint = 'http://host.tld/api/v2/admin/session';
-    });
+const mockGhostPaths = Service.extend({
+    apiRoot: '/ghost/api/v2/admin'
+});
+
+describe('Unit: Authenticator: cookie', () => {
+    setupTest('authenticator:cookie', {});
 
     beforeEach(function () {
-        sandbox.restore();
-        authenticator = CookieAuthenticator.create();
-        fakeAjaxService = {
-            post: sandbox.stub().resolves(),
-            del: sandbox.stub().resolves()
-        };
-        sandbox.stub(authenticator, 'get')
-            .withArgs('sessionEndpoint')
-            .returns(fakeSessionEndpoint)
-            .withArgs('ajax')
-            .returns(fakeAjaxService);
+        this.register('service:ajax', mockAjax);
+        this.inject.service('ajax', {as: 'ajax'});
+
+        this.register('service:ghost-paths', mockGhostPaths);
+        this.inject.service('ghost-paths', {as: 'ghostPaths'});
     });
 
     describe('#restore', function () {
         it('returns a resolving promise', function () {
-            return authenticator.restore();
+            return this.subject().restore();
         });
     });
 
     describe('#authenticate', function () {
         it('posts the username and password to the sessionEndpoint and returns the promise', function () {
+            let authenticator = this.subject();
+            let post = authenticator.ajax.post;
+
             return authenticator.authenticate('AzureDiamond', 'hunter2').then(() => {
-                expect(fakeAjaxService.post.args[0][0]).to.equal(fakeSessionEndpoint);
-                expect(fakeAjaxService.post.args[0][1]).to.deep.include({
+                expect(post.args[0][0]).to.equal('/ghost/api/v2/admin/session');
+                expect(post.args[0][1]).to.deep.include({
                     data: {
                         username: 'AzureDiamond',
                         password: 'hunter2'
                     }
                 });
-                expect(fakeAjaxService.post.args[0][1]).to.deep.include({
+                expect(post.args[0][1]).to.deep.include({
                     dataType: 'text'
                 });
-                expect(fakeAjaxService.post.args[0][1]).to.deep.include({
+                expect(post.args[0][1]).to.deep.include({
                     contentType: 'application/json;charset=utf-8'
                 });
             });
@@ -56,8 +60,11 @@ describe('BaseAuthenticator', () => {
 
     describe('#invalidate', function () {
         it('makes a delete request to the sessionEndpoint', function () {
+            let authenticator = this.subject();
+            let del = authenticator.ajax.del;
+
             return authenticator.invalidate().then(() => {
-                expect(fakeAjaxService.del.args[0][0]).to.equal(fakeSessionEndpoint);
+                expect(del.args[0][0]).to.equal('/ghost/api/v2/admin/session');
             });
         });
     });

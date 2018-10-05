@@ -8,7 +8,7 @@ export default Authenticator.extend({
     ghostPaths: service(),
 
     sessionEndpoint: computed('ghostPaths.apiRoot', function () {
-        return `${this.get('ghostPaths.apiRoot')}/session`;
+        return `${this.ghostPaths.apiRoot}/session`;
     }),
 
     restore: function () {
@@ -17,7 +17,6 @@ export default Authenticator.extend({
 
     authenticate(identification, password) {
         const data = {username: identification, password};
-        const sessionEndpoint = this.get('sessionEndpoint');
         const options = {
             data,
             contentType: 'application/json;charset=utf-8',
@@ -25,7 +24,7 @@ export default Authenticator.extend({
             dataType: 'text'
         };
 
-        return this.get('ajax').post(sessionEndpoint, options);
+        return this.ajax.post(this.sessionEndpoint, options);
     },
 
     invalidate() {
@@ -37,7 +36,6 @@ export default Authenticator.extend({
             return RSVP.resolve();
         }
 
-        let sessionEndpoint = this.get('sessionEndpoint');
-        return this.get('ajax').del(sessionEndpoint);
+        return this.ajax.del(this.sessionEndpoint);
     }
 });
