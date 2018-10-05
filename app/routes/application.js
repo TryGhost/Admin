@@ -91,25 +91,6 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
             this.send('loadServerNotifications', true);
         },
 
-        // this is only called by the `signout` route at present.
-        // it's separate to the normal ESA session invalidadition because it will
-        // actually send the token revocation requests whereas we have to avoid
-        // those most of the time because they will fail if we have invalid tokens
-        logout() {
-            let session = this.get('session');
-            // revoke keys on the server
-            if (session.get('isAuthenticated')) {
-                let authenticator = session.get('session')._lookupAuthenticator(session.get('session.authenticator'));
-                authenticator.invalidate().finally(() => {
-                    // remove local keys and refresh
-                    session.invalidate();
-                });
-            } else {
-                // remove local keys and refresh
-                session.invalidate();
-            }
-        },
-
         authorizationFailed() {
             windowProxy.replaceLocation(AuthConfiguration.baseURL);
         },
