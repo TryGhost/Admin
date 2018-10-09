@@ -24,7 +24,13 @@ export default function mockIntegrations(server) {
             }]});
         }
 
-        return integrations.create(params);
+        // allow factory to create defaults
+        if (!params.slug) {
+            delete params.slug;
+        }
+
+        // use factory creation to auto-create api keys
+        return server.create('integration', params);
     });
 
     server.put('/integrations/:id/');

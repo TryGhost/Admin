@@ -140,6 +140,10 @@ describe('Acceptance: Settings - Integrations', function () {
                 server.db.integrations.length,
                 'number of integrations in db at start'
             ).to.equal(0);
+            expect(
+                server.db.apiKeys.length,
+                'number of apiKeys in db at start'
+            ).to.equal(0);
 
             // blank slate
             await visit('/settings/integrations');
@@ -201,6 +205,11 @@ describe('Acceptance: Settings - Integrations', function () {
                 server.db.integrations.length,
                 'number of integrations in db after create'
             ).to.equal(1);
+            // mirage sanity check
+            expect(
+                server.db.apiKeys.length,
+                'number of api keys in db after create'
+            ).to.equal(2);
 
             expect(
                 find('[data-test-blank="custom-integrations"]'),
