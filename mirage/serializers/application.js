@@ -7,6 +7,10 @@ export default RestSerializer.extend({
         return underscore(attr);
     },
 
+    keyForRelationship(relationship) {
+        return underscore(relationship);
+    },
+
     serialize(object, request) {
         // Ember expects pluralized responses for the post, user, and invite models,
         // and this shortcut will ensure that those models are pluralized
