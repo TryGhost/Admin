@@ -117,7 +117,11 @@
                             <article class="apps-card-app">
                                 <div class="apps-card-left">
                                     {{!-- TODO: real logo display with default fallback --}}
-                                    <figure class="apps-card-app-icon" style="background-image:url(assets/img/zapiericon.png);background-size:45px;"></figure>
+                                    <figure class="apps-card-app-icon flex items-center" style={{integration-icon-style integration}}>
+                                        {{#unless integration.iconImage}}
+                                            {{svg-jar "integration" class="w-100"}}
+                                        {{/unless}}
+                                    </figure>
                                     <div class="apps-card-meta">
                                         <h3 class="apps-card-app-title">{{integration.name}}</h3>
                                         <p class="apps-card-app-desc">{{integration.description}}</p>
