@@ -2,7 +2,7 @@
 import Controller from '@ember/controller';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task, timeout} from 'ember-concurrency';
+import {task} from 'ember-concurrency';
 
 export default Controller.extend({
     config: service(),

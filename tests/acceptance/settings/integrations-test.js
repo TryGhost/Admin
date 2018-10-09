@@ -141,6 +141,7 @@ describe('Acceptance: Settings - Integrations', function () {
                 'number of integrations in db at start'
             ).to.equal(0);
 
+            // blank slate
             await visit('/settings/integrations');
 
             expect(
@@ -148,6 +149,7 @@ describe('Acceptance: Settings - Integrations', function () {
                 'initial blank slate'
             ).to.exist;
 
+            // new integration modal opens/closes
             await click('[data-test-button="new-integration"]');
 
             expect(currentURL(), 'url after clicking new').to.equal('/settings/integrations/new');
@@ -163,6 +165,7 @@ describe('Acceptance: Settings - Integrations', function () {
                 'blank slate after cancelled creation'
             ).to.exist;
 
+            // new integration validations
             await click('[data-test-button="new-integration"]');
             await click('[data-test-button="create-integration"]');
 
@@ -171,6 +174,15 @@ describe('Acceptance: Settings - Integrations', function () {
                 'name error after create with blank field'
             ).to.have.string('enter a name');
 
+            await fillIn('[data-test-input="new-integration-name"]', 'Duplicate');
+            await click('[data-test-button="create-integration"]');
+
+            expect(
+                find('[data-test-error="new-integration-name"]').text(),
+                'name error after create with duplicate name'
+            ).to.have.string('already been used');
+
+            // successful creation
             await fillIn('[data-test-input="new-integration-name"]', 'Test');
 
             expect(
