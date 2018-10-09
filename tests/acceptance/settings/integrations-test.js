@@ -175,6 +175,11 @@ describe('Acceptance: Settings - Integrations', function () {
             return authenticateSession(application);
         });
 
+        it('handles 404', async function () {
+            await visit('/settings/integrations/1');
+            expect(currentPath()).to.equal('error404');
+        });
+
         it('can add new integration', async function () {
             // sanity check
             expect(
