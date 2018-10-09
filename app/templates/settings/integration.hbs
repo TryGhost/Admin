@@ -9,4 +9,53 @@
             {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
         </section>
     </header>
+
+
+
+    <div class="gh-setting-header">API Keys</div>
+    {{log integration.adminKey}}
+    {{#with integration.adminKey as |adminKey|}}
+        {{#gh-form-group}}
+            <label for="">Content API Key</label>
+            <input type="text" value={{adminKey.secret}} disabled="true">
+        {{/gh-form-group}}
+    {{/with}}
+
+
+    <div class="gh-setting-header">Webhooks</div>
+    <div class="ba br3 b--lightgrey">
+        <table class="ma0">
+            <thead class="bb b--lightgrey">
+                <tr>
+                    <th class="pa3 br3 br--bottom br--right bg-lightgrey-l1">Name</th>
+                    <th class="pa3 bg-lightgrey-l1">Event</th>
+                    <th class="pa3 bg-lightgrey-l1">URL</th>
+                    <th class="pa3 br3 br--top br--left bg-lightgrey-l1">Last triggered</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each integration.webhooks as |webhook|}}
+                    <tr>
+                        <td class="pa3">{{webhook.name}}</td>
+                        <td class="pa3">{{webhook.event}}</td>
+                        <td class="pa3">{{webhook.targetUrl}}</td>
+                        <td class="pa3">{{webhook.lastTriggeredAtUTC}}</td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4" class="pa3">
+                        No webhooks configured
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+            <tfoot class="bt b--lightgrey">
+                <tr>
+                    <td colspan="4" class="pa3">
+                        <a href="javascript:void(0)">+ Add webhook</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </section>
