@@ -2,9 +2,12 @@ import ModalComponent from 'ghost-admin/components/modal-base';
 import {alias} from '@ember/object/computed';
 import {A as emberA} from '@ember/array';
 import {isInvalidError} from 'ember-ajax/errors';
+import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
+    router: service(),
+
     confirm() {},
 
     integration: alias('model'),
@@ -23,8 +26,8 @@ export default ModalComponent.extend({
 
     createIntegration: task(function* () {
         try {
-            yield this.confirm();
-            this.send('closeModal');
+            let integration = yield this.confirm();
+            this.router.transitionTo('settings.integration', integration);
         } catch (error) {
             // TODO: server-side validation errors should be serialized
             // properly so that errors are added to model.errors automatically

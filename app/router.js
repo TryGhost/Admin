@@ -55,6 +55,7 @@ Router.map(function () {
     this.route('settings.integrations', {path: '/settings/integrations'}, function () {
         this.route('new');
     });
+    this.route('settings.integration', {path: '/settings/integrations/:integration_id'});
     this.route('settings.integrations.slack', {path: '/settings/integrations/slack'});
     this.route('settings.integrations.amp', {path: '/settings/integrations/amp'});
     this.route('settings.integrations.unsplash', {path: '/settings/integrations/unsplash'});

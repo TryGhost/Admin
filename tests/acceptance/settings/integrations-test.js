@@ -21,14 +21,18 @@ describe('Acceptance: Settings - Integrations', function () {
     });
 
     describe('access permissions', function () {
-        it('redirects to signin when not authenticated', async function () {
+        beforeEach(function () {
+            server.create('integration', {name: 'Test'});
+        });
+
+        it('redirects /integrations/ to signin when not authenticated', async function () {
             invalidateSession(application);
             await visit('/settings/integrations');
 
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
 
-        it('redirects to team page when authenticated as contributor', async function () {
+        it('redirects /integrations/ to team page when authenticated as contributor', async function () {
             let role = server.create('role', {name: 'Contributor'});
             server.create('user', {roles: [role], slug: 'test-user'});
 
@@ -38,7 +42,7 @@ describe('Acceptance: Settings - Integrations', function () {
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
-        it('redirects to team page when authenticated as author', async function () {
+        it('redirects /integrations/ to team page when authenticated as author', async function () {
             let role = server.create('role', {name: 'Author'});
             server.create('user', {roles: [role], slug: 'test-user'});
 
@@ -48,12 +52,49 @@ describe('Acceptance: Settings - Integrations', function () {
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
-        it('redirects to team page when authenticated as editor', async function () {
+        it('redirects /integrations/ to team page when authenticated as editor', async function () {
             let role = server.create('role', {name: 'Editor'});
             server.create('user', {roles: [role], slug: 'test-user'});
 
             authenticateSession(application);
-            await visit('/settings/integrations');
+            await visit('/settings/integrations/1');
+
+            expect(currentURL(), 'currentURL').to.equal('/team');
+        });
+
+        it('redirects /integrations/:id/ to signin when not authenticated', async function () {
+            invalidateSession(application);
+            await visit('/settings/integrations/1');
+
+            expect(currentURL(), 'currentURL').to.equal('/signin');
+        });
+
+        it('redirects /integrations/:id/ to team page when authenticated as contributor', async function () {
+            let role = server.create('role', {name: 'Contributor'});
+            server.create('user', {roles: [role], slug: 'test-user'});
+
+            authenticateSession(application);
+            await visit('/settings/integrations/1');
+
+            expect(currentURL(), 'currentURL').to.equal('/team/test-user');
+        });
+
+        it('redirects /integrations/:id/ to team page when authenticated as author', async function () {
+            let role = server.create('role', {name: 'Author'});
+            server.create('user', {roles: [role], slug: 'test-user'});
+
+            authenticateSession(application);
+            await visit('/settings/integrations/1');
+
+            expect(currentURL(), 'currentURL').to.equal('/team/test-user');
+        });
+
+        it('redirects /integrations/:id/ to team page when authenticated as editor', async function () {
+            let role = server.create('role', {name: 'Editor'});
+            server.create('user', {roles: [role], slug: 'test-user'});
+
+            authenticateSession(application);
+            await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/team');
         });
@@ -210,6 +251,13 @@ describe('Acceptance: Settings - Integrations', function () {
                 server.db.apiKeys.length,
                 'number of api keys in db after create'
             ).to.equal(2);
+
+            expect(
+                currentURL(),
+                'url after integration creation'
+            ).to.equal('/settings/integrations/1');
+
+            await click('[data-test-link="integrations-back"]');
 
             expect(
                 find('[data-test-blank="custom-integrations"]'),
