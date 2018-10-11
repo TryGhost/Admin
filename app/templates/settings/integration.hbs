@@ -118,3 +118,10 @@
         </table>
     </div>
 </section>
+
+{{#if showUnsavedChangesModal}}
+    {{gh-fullscreen-modal "leave-settings"
+        confirm=(action "leaveScreen")
+        close=(action "toggleUnsavedChangesModal")
+        modifier="action wide"}}
+{{/if}}

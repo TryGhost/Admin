@@ -41,6 +41,16 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     actions: {
         save() {
             this.controller.send('save');
+        },
+
+        willTransition(transition) {
+            let {controller} = this;
+
+            if (controller.integration.hasDirtyAttributes) {
+                transition.abort();
+                controller.send('toggleUnsavedChangesModal', transition);
+                return;
+            }
         }
     }
 });
