@@ -1,11 +1,12 @@
+import moment from 'moment';
 import {Response} from 'ember-cli-mirage';
 import {paginatedResponse} from '../utils';
 
 export default function mockIntegrations(server) {
     server.get('/integrations/', paginatedResponse('integrations'));
 
-    server.post('/integrations/', function ({integrations}, request) {
-        let body = JSON.parse(request.requestBody);
+    server.post('/integrations/', function ({integrations}, {requestBody}) {
+        let body = JSON.parse(requestBody);
         let [params] = body.integrations;
 
         if (!params.name) {
@@ -33,6 +34,31 @@ export default function mockIntegrations(server) {
         return server.create('integration', params);
     });
 
-    server.put('/integrations/:id/');
+    server.put('/integrations/:id/', function (schema, {params}) {
+        let {integrations, apiKeys, webhooks} = schema;
+        let attrs = this.normalizedRequestAttrs();
+        let integration = integrations.find(params.id);
+        let _apiKeys = [];
+        let _webhooks = [];
+
+        // this is required to work around an issue with ember-cli-mirage and
+        // embedded records. The `attrs` object will contain POJOs of the
+        // embedded apiKeys and webhooks but mirage expects schema model
+        // objects for relations so we need to fetch model records and replace
+        // the relationship keys
+        attrs.apiKeys.forEach((apiKey) => {
+            _apiKeys.push(apiKeys.find(apiKey.id));
+        });
+        attrs.webhooks.forEach((webhook) => {
+            _webhooks.push(webhooks.find(webhook.id));
+        });
+        attrs.apiKeys = _apiKeys;
+        attrs.webhooks = _webhooks;
+
+        attrs.updatedAt = moment.utc().format();
+
+        return integration.update(attrs);
+    });
+
     server.del('/integrations/:id/');
 }

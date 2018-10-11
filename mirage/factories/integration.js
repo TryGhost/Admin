@@ -11,10 +11,10 @@ export default Factory.extend({
     updatedBy: 1,
 
     afterCreate(integration, server) {
-        let contentKey = server.create('api-key', {type: 'content', integration});
-        let adminKey = server.create('api-key', {type: 'admin', integration});
+        let contentKey = server.create('api-key', {type: 'content', integrationId: integration.id});
+        let adminKey = server.create('api-key', {type: 'admin', integrationId: integration.id});
 
-        integration.apiKeys = [contentKey, adminKey];
+        integration.apiKeyIds = [contentKey.id, adminKey.id];
         integration.save();
     }
 });
