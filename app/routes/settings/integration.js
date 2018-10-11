@@ -36,5 +36,11 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
 
                 return integration;
             });
+    },
+
+    actions: {
+        save() {
+            this.controller.send('save');
+        }
     }
 });
