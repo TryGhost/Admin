@@ -33,13 +33,17 @@ export default Component.extend({
 
     // HACK: this is intentionally awful due to time constraints
     // TODO: find a better way to get an excerpt! :)
-    subText: computed('post.{plaintext,metaDescription}', function () {
+    subText: computed('post.{plaintext,metaDescription,customExcerpt}', function () {
         let text = this.get('post.plaintext');
         let metaDescription = this.get('post.metaDescription');
+        let customExcerpt = this.get('post.customExcerpt');
 
-        if (!isBlank(metaDescription)) {
+        if (!isBlank(customExcerpt)) {
+            text = customExcerpt;
+        } else if (!isBlank(metaDescription)) {
             text = metaDescription;
         }
+
         return `${text.slice(0, 80)}...`;
     }),
 
