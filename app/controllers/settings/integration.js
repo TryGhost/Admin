@@ -6,6 +6,14 @@ export default Controller.extend({
     integration: alias('model'),
 
     actions: {
+        copyContentKey() {
+            this._copyInputTextToClipboard('input#content_key');
+        },
+
+        copyAdminKey() {
+            this._copyInputTextToClipboard('input#admin_key');
+        },
+
         save() {
             return this.save.perform();
         },
@@ -51,5 +59,14 @@ export default Controller.extend({
 
     save: task(function* () {
         return yield this.integration.save();
-    })
+    }),
+
+    _copyInputTextToClipboard(selector) {
+        let input = document.querySelector(selector);
+        input.disabled = false;
+        input.focus();
+        input.select();
+        document.execCommand('copy');
+        input.disabled = true;
+    }
 });

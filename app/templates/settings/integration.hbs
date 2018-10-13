@@ -62,27 +62,49 @@
         {{#with integration.contentKey as |contentKey|}}
             {{#gh-validation-status-container class="flex flex-column w-100 mr3"}}
                 <label for="content_key">Content API Key</label>
-                <input id="content_key"
-                    class="gh-input"
-                    type="text"
-                    value={{contentKey.secret}}
-                    disabled="true">
+                <div class="relative"
+                    onmouseenter={{action (mut showContentKeyActions) true}}
+                    onmouseleave={{action (mut showContentKeyActions) false}}
+                >
+                    <input id="content_key"
+                        class="gh-input"
+                        type="text"
+                        value={{contentKey.secret}}
+                        disabled="true">
+
+                    {{#if showContentKeyActions}}
+                        <div class="absolute top-2 right-2">
+                            <button type="button" {{action "copyContentKey"}}>Copy</button>
+                        </div>
+                    {{/if}}
+                </div>
             {{/gh-validation-status-container}}
         {{/with}}
         {{#with integration.adminKey as |adminKey|}}
             {{#gh-validation-status-container class="flex flex-column w-100 ml3"}}
                 <label for="admin_key">Admin API Key</label>
-                <input id="admin_key"
-                    class="gh-input"
-                    type="text"
-                    value={{adminKey.secret}}
-                    disabled="true">
+                <div class="relative"
+                    onmouseenter={{action (mut showAdminKeyActions) true}}
+                    onmouseleave={{action (mut showAdminKeyActions) false}}
+                >
+                    <input id="admin_key"
+                        class="gh-input"
+                        type="text"
+                        value={{adminKey.secret}}
+                        disabled="true">
+
+                    {{#if showAdminKeyActions}}
+                        <div class="absolute top-2 right-2">
+                            <button type="button" {{action "copyAdminKey"}}>Copy</button>
+                        </div>
+                    {{/if}}
+                </div>
             {{/gh-validation-status-container}}
         {{/with}}
     </div>
 
     <div class="gh-setting-header">Webhooks</div>
-    <div class="ba br3 b--lightgrey">
+    <div class="mb10 ba br3 b--lightgrey">
         <table class="ma0">
             <thead class="bb b--lightgrey">
                 <tr>
