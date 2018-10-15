@@ -78,6 +78,7 @@ export default Model.extend(Comparable, ValidationEngine, {
     customExcerpt: attr('string'),
     featured: attr('boolean', {defaultValue: false}),
     featureImage: attr('string'),
+    featuredAltText: attr('string'),
     codeinjectionFoot: attr('string', {defaultValue: ''}),
     codeinjectionHead: attr('string', {defaultValue: ''}),
     customTemplate: attr('string'),

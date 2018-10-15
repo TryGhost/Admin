@@ -16,6 +16,18 @@
                     remove=(action "clearCoverImage")
                 }}
                 <form>
+                    {{#gh-form-group errors=post.errors hasValidated=post.hasValidated property="featuredAltText"}}
+                        <label for="featured-alt-text">Alt Text</label>
+                        {{gh-textarea
+                        class="post-setting-featured-alt-text"
+                        id="featured-alt-text"
+                        name="post-setting-featured-alt-text"
+                        value=(readonly featuredAltText)
+                        input=(action (mut featuredAltText) value="target.value")
+                        focus-out=(action "setFeaturedAltText" featuredAltText)
+                        stopEnterKeyDownPropagation="true"
+                        }}
+                    {{/gh-form-group}}
                 <div class="form-group">
                     <label for="url">Post URL</label>
                     {{!-- new posts don't have a preview link --}}

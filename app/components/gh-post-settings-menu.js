@@ -179,6 +179,16 @@ export default Component.extend(SettingsMenuMixin, {
                 });
         },
 
+        setFeaturedAltText(featuredAltText) {
+            let post = this.get('post');
+            let altText = post.get('featuredAltText');
+            if (featuredAltText === altText) {
+                return;
+            }
+            post.set('featuredAltText', featuredAltText);
+            return post.validate({property: 'featuredAltText'}).then(() => this.get('savePost').perform());
+        },
+
         setPublishedAtBlogDate(date) {
             let post = this.get('post');
             let dateString = moment(date).format('YYYY-MM-DD');
