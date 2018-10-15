@@ -136,6 +136,7 @@ export default Model.extend(Comparable, ValidationEngine, {
     customExcerptScratch: boundOneWay('customExcerpt'),
     codeinjectionFootScratch: boundOneWay('codeinjectionFoot'),
     codeinjectionHeadScratch: boundOneWay('codeinjectionHead'),
+    featuredAltTextScratch: boundOneWay('featuredAltText'),
     metaDescriptionScratch: boundOneWay('metaDescription'),
     metaTitleScratch: boundOneWay('metaTitle'),
     ogDescriptionScratch: boundOneWay('ogDescription'),

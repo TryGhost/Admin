@@ -332,6 +332,7 @@ export default Controller.extend({
 
         this.set('post.title', this.get('post.titleScratch'));
         this.set('post.customExcerpt', this.get('post.customExcerptScratch'));
+        this.set('post.featuredAltText', this.get('post.featuredAltTextScratch'));
         this.set('post.footerInjection', this.get('post.footerExcerptScratch'));
         this.set('post.headerInjection', this.get('post.headerExcerptScratch'));
         this.set('post.metaTitle', this.get('post.metaTitleScratch'));
@@ -533,6 +534,7 @@ export default Controller.extend({
 
         // triggered any time the admin tab is closed, we need to use a native
         // dialog here instead of our custom modal
+        // Misleading line break before '+'; readers may interpret this as an expression boundary. (W014)
         window.onbeforeunload = () => {
             if (this.get('hasDirtyAttributes')) {
                 return '==============================\n\n'

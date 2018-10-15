@@ -29,6 +29,7 @@ export default Component.extend(SettingsMenuMixin, {
     customExcerptScratch: alias('post.customExcerptScratch'),
     codeinjectionFootScratch: alias('post.codeinjectionFootScratch'),
     codeinjectionHeadScratch: alias('post.codeinjectionHeadScratch'),
+    featuredAltText: alias('post.featuredAltTextScratch'),
     metaDescriptionScratch: alias('post.metaDescriptionScratch'),
     metaTitleScratch: alias('post.metaTitleScratch'),
     ogDescriptionScratch: alias('post.ogDescriptionScratch'),
@@ -178,7 +179,7 @@ export default Component.extend(SettingsMenuMixin, {
                     this.get('post').rollbackAttributes();
                 });
         },
-
+           
         setFeaturedAltText(featuredAltText) {
             let post = this.get('post');
             let altText = post.get('featuredAltText');
@@ -188,7 +189,7 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('featuredAltText', featuredAltText);
             return post.validate({property: 'featuredAltText'}).then(() => this.get('savePost').perform());
         },
-
+        
         setPublishedAtBlogDate(date) {
             let post = this.get('post');
             let dateString = moment(date).format('YYYY-MM-DD');
