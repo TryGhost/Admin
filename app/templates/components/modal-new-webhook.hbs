@@ -1,0 +1,87 @@
+<header class="modal-header" data-test-modal="new-webhook">
+    <h1>New webhook</h1>
+</header>
+<button class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}</button>
+
+<div class="modal-body">
+    <fieldset>
+        {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="name"}}
+            <label for="new-webhook-name">Name</label>
+            {{gh-text-input
+                value=(readonly webhook.name)
+                oninput=(action "updateAttr")
+                id="new-webhook-name"
+                name="name"
+                class="gh-input"
+                placeholder="Webhook name..."
+                autofocus="autofocus"
+                autocapitalize="off"
+                autocorrect="off"
+                data-test-input="new-webhook-name"}}
+            {{gh-error-message errors=webhook.errors property="name" data-test-error="new-webhook-name"}}
+        {{/gh-form-group}}
+    </fieldset>
+    <fieldset>
+        {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="event"}}
+            <label for="new-webhook-event">Event</label>
+            {{!-- TODO: swap to select input --}}
+            {{gh-text-input
+                value=(readonly webhook.event)
+                oninput=(action "updateAttr")
+                id="new-webhook-event"
+                name="event"
+                class="gh-input"
+                placeholder="Webhook event..."
+                autofocus="autofocus"
+                autocapitalize="off"
+                autocorrect="off"
+                data-test-input="new-webhook-event"}}
+            {{gh-error-message errors=webhook.errors property="event" data-test-error="new-webhook-event"}}
+        {{/gh-form-group}}
+    </fieldset>
+    <fieldset>
+        {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="targetUrl"}}
+            <label for="new-webhook-targetUrl">Target URL</label>
+            {{gh-text-input
+                value=(readonly webhook.targetUrl)
+                oninput=(action "updateAttr")
+                id="new-webhook-targetUrl"
+                targetUrl="targetUrl"
+                class="gh-input"
+                placeholder="Webhook targetUrl..."
+                autofocus="autofocus"
+                autocapitalize="off"
+                autocorrect="off"
+                data-test-input="new-webhook-targetUrl"}}
+            {{gh-error-message errors=webhook.errors property="targetUrl" data-test-error="new-webhook-targetUrl"}}
+        {{/gh-form-group}}
+    </fieldset>
+    <fieldset>
+        {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="secret"}}
+            <label for="new-webhook-secret">Secret</label>
+            {{gh-text-input
+                value=(readonly webhook.secret)
+                oninput=(action "updateAttr")
+                id="new-webhook-secret"
+                secret="secret"
+                class="gh-input"
+                placeholder="Webhook secret..."
+                autofocus="autofocus"
+                autocapitalize="off"
+                autocorrect="off"
+                data-test-input="new-webhook-secret"}}
+            {{gh-error-message errors=webhook.errors property="secret" data-test-error="new-webhook-secret"}}
+        {{/gh-form-group}}
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    <button {{action "closeModal"}} class="gh-btn" data-test-button="cancel-new-webhook">
+        <span>Cancel</span>
+    </button>
+    {{gh-task-button "Create"
+        successText="Created"
+        task=createWebhook
+        class="gh-btn gh-btn-green gh-btn-icon"
+        data-test-button="create-webhook"}}
+</div>

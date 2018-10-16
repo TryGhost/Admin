@@ -137,7 +137,7 @@
             <tfoot class="bt b--lightgrey">
                 <tr>
                     <td colspan="4" class="pa3">
-                        <a href="javascript:void(0)">+ Add webhook</a>
+                        {{#link-to "settings.integration.webhooks.new" integration}}+ Add webhook{{/link-to}}
                     </td>
                 </tr>
             </tfoot>
@@ -151,3 +151,5 @@
         close=(action "toggleUnsavedChangesModal")
         modifier="action wide"}}
 {{/if}}
+
+{{outlet}}

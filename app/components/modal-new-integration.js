@@ -42,7 +42,7 @@ export default ModalComponent.extend({
                 }
             }
 
-            // should bubble up to the global error handler
+            // bubble up to the global error handler
             if (error) {
                 throw error;
             }

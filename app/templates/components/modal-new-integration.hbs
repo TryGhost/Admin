@@ -7,7 +7,7 @@
     <fieldset>
         {{#gh-form-group errors=integration.errors hasValidated=integration.hasValidated property="name"}}
             <label for="new-integration-name">Name</label>
-            <input type="name"
+            <input type="text"
                 value={{integration.name}}
                 oninput={{action "updateName" value="target.value"}}
                 id="new-integration-name"
