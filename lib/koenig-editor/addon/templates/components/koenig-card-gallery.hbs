@@ -31,12 +31,23 @@
                         <div class="flex flex-row justify-center">
                             {{#each row as |image|}}
                                 <div style={{image.style}} class={{image.classes}}>
-                                    <img src={{or image.previewSrc image.src}} width={{image.width}} height={{image.height}} class="w-100 h-100 db">
-                                    <div class="bg-image-overlay-top child">
+                                    <img
+                                        src={{or image.previewSrc image.src}}
+                                        width={{image.width}}
+                                        height={{image.height}}
+                                        class="w-100 h-100 db"
+                                        draggable="true"
+                                        ondragover={{action "dragOver"}}
+                                        ondragstart={{action "dragStart"}}
+                                        ondragend={{action "dragEnd"}}
+                                    >
+                                    {{!-- <div class="bg-image-overlay-top child">
                                         <div class="flex flex-row-reverse">
-                                            <button class="bg-white-90 pl3 pr3 br3" {{action "deleteImage" image}}>{{svg-jar "koenig/kg-trash" class="fill-darkgrey w4 h4"}}</button>
+                                            <button class="bg-white-90 pl3 pr3 br3" {{action "deleteImage" image}}>
+                                                {{svg-jar "koenig/kg-trash" class="fill-darkgrey w4 h4"}}
+                                            </button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             {{/each}}
                         </div>
