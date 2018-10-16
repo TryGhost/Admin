@@ -7,7 +7,7 @@
                 {{integration.name}}
             </h2>
             <section class="view-actions">
-                {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
+                {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-button="save"}}
             </section>
         </header>
 
@@ -32,8 +32,9 @@
                         value=integration.name
                         input=(action (mut integration.name) value="target.value")
                         focus-out=(action "validate" "name" target=integration)
+                        data-test-input="name"
                     }}
-                    {{gh-error-message errors=integration.errors property="name"}}
+                    {{gh-error-message errors=integration.errors property="name" data-test-error="name"}}
                 {{/gh-validation-status-container}}
 
                 {{#gh-validation-status-container
@@ -50,8 +51,9 @@
                         value=integration.description
                         oninput=(action (mut integration.description) value="target.value")
                         onblur=(action "validate" "description" target=integration)
+                        data-test-input="description"
                     }}
-                    {{gh-error-message errors=integration.errors property="description"}}
+                    {{gh-error-message errors=integration.errors property="description" data-test-error="description"}}
                 {{/gh-validation-status-container}}
             </div>
         </div>
@@ -70,7 +72,8 @@
                         class="gh-input"
                         type="text"
                         value={{contentKey.secret}}
-                        disabled="true">
+                        disabled="true"
+                        data-test-input="content_key">
 
                     {{#if showContentKeyActions}}
                         <div class="absolute top-2 right-2">
@@ -91,7 +94,8 @@
                         class="gh-input"
                         type="text"
                         value={{adminKey.secret}}
-                        disabled="true">
+                        disabled="true"
+                        data-test-input="admin_key">
 
                     {{#if showAdminKeyActions}}
                         <div class="absolute top-2 right-2">

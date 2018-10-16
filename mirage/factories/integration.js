@@ -2,7 +2,7 @@ import moment from 'moment';
 import {Factory} from 'ember-cli-mirage';
 
 export default Factory.extend({
-    name(i) { return `Integration ${i}`;},
+    name(i) { return `Integration ${i + 1}`;},
     slug() { return this.name.toLowerCase().replace(' ', '-'); },
 
     createdAt() { return moment.utc().format(); },
@@ -11,8 +11,8 @@ export default Factory.extend({
     updatedBy: 1,
 
     afterCreate(integration, server) {
-        let contentKey = server.create('api-key', {type: 'content', integrationId: integration.id});
-        let adminKey = server.create('api-key', {type: 'admin', integrationId: integration.id});
+        let contentKey = server.create('api-key', {type: 'content', integration});
+        let adminKey = server.create('api-key', {type: 'admin', integration});
 
         integration.apiKeyIds = [contentKey.id, adminKey.id];
         integration.save();

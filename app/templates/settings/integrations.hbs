@@ -113,7 +113,7 @@
             <div class="apps-grid">
                 {{#each integrations as |integration|}}
                     <div class="apps-grid-cell" data-test-custom-integration>
-                        {{#link-to "settings.integration" integration}}
+                        {{#link-to "settings.integration" integration data-test-integration=integration.id}}
                             <article class="apps-card-app">
                                 <div class="apps-card-left">
                                     <figure class="apps-card-app-icon flex items-center" style={{integration-icon-style integration}}>
@@ -122,8 +122,12 @@
                                         {{/unless}}
                                     </figure>
                                     <div class="apps-card-meta">
-                                        <h3 class="apps-card-app-title">{{integration.name}}</h3>
-                                        <p class="apps-card-app-desc">{{integration.description}}</p>
+                                        <h3 class="apps-card-app-title" data-test-text="name">
+                                            {{integration.name}}
+                                        </h3>
+                                        <p class="apps-card-app-desc" data-test-text="description">
+                                            {{integration.description}}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="gh-card-right">

@@ -262,7 +262,13 @@ describe('Acceptance: Settings - Integrations', function () {
                 'url after integration creation'
             ).to.equal('/settings/integrations/1');
 
+            // test navigation back to list then back to new integration
             await click('[data-test-link="integrations-back"]');
+
+            expect(
+                currentURL(),
+                'url after clicking "Back"'
+            ).to.equal('/settings/integrations');
 
             expect(
                 find('[data-test-blank="custom-integrations"]'),
@@ -274,7 +280,146 @@ describe('Acceptance: Settings - Integrations', function () {
                 'number of custom integrations after creation'
             ).to.equal(1);
 
-            // TODO: test that the new integration can be navigated to
+            await click(`[data-test-integration="1"]`);
+
+            expect(
+                currentURL(),
+                'url after clicking integration in list'
+            ).to.equal('/settings/integrations/1');
+        });
+
+        it('can manage an integration', async function () {
+            server.create('integration');
+
+            await visit('/settings/integrations/1');
+
+            expect(
+                currentURL(),
+                'initial URL'
+            ).to.equal('/settings/integrations/1');
+
+            expect(
+                find('[data-test-screen-title]').text(),
+                'screen title'
+            ).to.have.string('Integration 1');
+
+            // fields have expected values
+            // TODO: add test for logo
+
+            expect(
+                find('[data-test-input="name"]').val(),
+                'initial name value'
+            ).to.equal('Integration 1');
+
+            expect(
+                find('[data-test-input="description"]').val(),
+                'initial description value'
+            ).to.equal('');
+
+            expect(
+                find('[data-test-input="content_key"]').val(),
+                'content key input value'
+            ).to.equal('integration-1_content_key-12345');
+
+            expect(
+                find('[data-test-input="admin_key"]').val(),
+                'admin key input value'
+            ).to.equal('integration-1_admin_key-12345');
+
+            // it can modify integration fields and has validation
+
+            expect(
+                find('[data-test-error="name"]').text().trim(),
+                'initial name error'
+            ).to.be.empty;
+
+            await fillIn('[data-test-input="name"]', '');
+            await triggerEvent('[data-test-input="name"]', 'blur');
+
+            expect(
+                find('[data-test-error="name"]').text(),
+                'name validation for blank string'
+            ).to.have.string('enter a name');
+
+            await click('[data-test-button="save"]');
+
+            expect(
+                server.schema.integrations.first().name,
+                'db integration name after failed save'
+            ).to.equal('Integration 1');
+
+            await fillIn('[data-test-input="name"]', 'Test Integration');
+            await triggerEvent('[data-test-input="name"]', 'blur');
+
+            expect(
+                find('[data-test-error="name"]').text().trim(),
+                'name error after valid entry'
+            ).to.be.empty;
+
+            await fillIn('[data-test-input="description"]', 'Description for Test Integration');
+            await triggerEvent('[data-test-input="description"]', 'blur');
+            await click('[data-test-button="save"]');
+
+            // changes are reflected in the integrations list
+
+            await click('[data-test-link="integrations-back"]');
+
+            expect(
+                currentURL(),
+                'url after saving and clicking "back"'
+            ).to.equal('/settings/integrations');
+
+            expect(
+                find('[data-test-integration="1"] [data-test-text="name"]').text().trim(),
+                'integration name after save'
+            ).to.equal('Test Integration');
+
+            expect(
+                find('[data-test-integration="1"] [data-test-text="description"]').text().trim(),
+                'integration description after save'
+            ).to.equal('Description for Test Integration');
+
+            await click('[data-test-integration="1"]');
+
+            // warns of unsaved changes when leaving
+
+            await fillIn('[data-test-input="name"]', 'Unsaved test');
+            await click('[data-test-link="integrations-back"]');
+
+            expect(
+                find('[data-modal="unsaved-settings"]'),
+                'modal shown when navigating with unsaved changes'
+            ).to.exist;
+
+            await click('[data-test-stay-button]');
+
+            expect(
+                find('[data-modal="unsaved-settings"]'),
+                'modal is closed after clicking "stay"'
+            ).to.not.exist;
+
+            expect(
+                currentURL(),
+                'url after clicking "stay"'
+            ).to.equal('/settings/integrations/1');
+
+            await click('[data-test-link="integrations-back"]');
+            await click('[data-test-leave-button]');
+
+            expect(
+                find('[data-modal="unsaved-settings"]'),
+                'modal is closed after clicking "leave"'
+            ).to.not.exist;
+
+            expect(
+                currentURL(),
+                'url after clicking "leave"'
+            ).to.equal('/settings/integrations');
+
+            expect(
+                find('[data-test-integration="1"] [data-test-text="name"]').text().trim(),
+                'integration name after leaving unsaved changes'
+            ).to.equal('Test Integration');
         });
     });
 });
