@@ -6,16 +6,16 @@ export default Controller.extend({
     integration: alias('model'),
 
     actions: {
+        save() {
+            return this.save.perform();
+        },
+
         copyContentKey() {
             this._copyInputTextToClipboard('input#content_key');
         },
 
         copyAdminKey() {
             this._copyInputTextToClipboard('input#admin_key');
-        },
-
-        save() {
-            return this.save.perform();
         },
 
         toggleUnsavedChangesModal(transition) {

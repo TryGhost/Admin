@@ -29,7 +29,7 @@
                         id="integration_name"
                         class="gh-input"
                         type="text"
-                        value=integration.name
+                        value=(readonly integration.name)
                         input=(action (mut integration.name) value="target.value")
                         focus-out=(action "validate" "name" target=integration)
                         data-test-input="name"
@@ -48,9 +48,9 @@
                         id="integration_description"
                         class="gh-input"
                         type="text"
-                        value=integration.description
-                        oninput=(action (mut integration.description) value="target.value")
-                        onblur=(action "validate" "description" target=integration)
+                        value=(readonly integration.description)
+                        input=(action (mut integration.description) value="target.value")
+                        focus-out=(action "validate" "description" target=integration)
                         data-test-input="description"
                     }}
                     {{gh-error-message errors=integration.errors property="description" data-test-error="description"}}

@@ -4,6 +4,8 @@ import {Factory} from 'ember-cli-mirage';
 export default Factory.extend({
     name(i) { return `Integration ${i + 1}`;},
     slug() { return this.name.toLowerCase().replace(' ', '-'); },
+    description: null,
+    iconImage: null,
 
     createdAt() { return moment.utc().format(); },
     createdBy: 1,

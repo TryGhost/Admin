@@ -421,5 +421,22 @@ describe('Acceptance: Settings - Integrations', function () {
                 'integration name after leaving unsaved changes'
             ).to.equal('Test Integration');
         });
+
+        // test to ensure the `value=description` passed to `gh-text-input` is `readonly`
+        it('doesn\'t show unsaved changes modal after placing focus on description field', async function () {
+            server.create('integration');
+
+            await visit('/settings/integrations/1');
+            await click('[data-test-input="description"]');
+            await triggerEvent('[data-test-input="description"]', 'blur');
+            await click('[data-test-link="integrations-back"]');
+
+            expect(
+                find('[data-modal="unsaved-settings"]'),
+                'unsaved changes modal is not shown'
+            ).to.not.exist;
+
+            expect(currentURL()).to.equal('/settings/integrations');
+        });
     });
 });
