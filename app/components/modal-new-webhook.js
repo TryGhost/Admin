@@ -1,6 +1,7 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import Webhook from 'ghost-admin/models/webhook';
 import {alias} from '@ember/object/computed';
+import {camelize} from '@ember/string';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -8,14 +9,25 @@ import {task} from 'ember-concurrency';
 export default ModalComponent.extend({
     router: service(),
 
+    availableEvents: null,
+
     confirm() {},
 
     webhook: alias('model'),
 
+    init() {
+        this._super(...arguments);
+        this.availableEvents = [
+            {event: 'site.changed', name: 'Site Changed (rebuild)'},
+            {event: 'subscriber.added', name: 'Subscriber Added'},
+            {event: 'subscriber.deleted', name: 'Subscriber Deleted'}
+        ];
+    },
+
     actions: {
-        updateAttr(event) {
-            let {name, value} = event.target;
-            this.webhook.set(name, value);
+        selectEvent(value) {
+            this.webhook.set('event', value);
+            this.webhook.validate({property: 'event'});
         },
 
         confirm() {
@@ -37,6 +49,7 @@ export default ModalComponent.extend({
 
                 error.payload.errors.forEach((error) => {
                     let {message, property} = error;
+                    property = camelize(property);
 
                     if (property && attrs.includes(property)) {
                         this.webhook.errors.add(property, message);
