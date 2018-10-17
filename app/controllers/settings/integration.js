@@ -1,9 +1,24 @@
 import Controller from '@ember/controller';
 import {alias} from '@ember/object/computed';
+import {computed} from '@ember/object';
 import {task} from 'ember-concurrency';
 
 export default Controller.extend({
     integration: alias('model'),
+
+    allWebhooks: computed(function () {
+        return this.store.peekAll('webhook');
+    }),
+
+    filteredWebhooks: computed('allWebhooks.@each.{isNew,isDeleted}', function () {
+        return this.allWebhooks.filter((webhook) => {
+            let matchesIntegration = webhook.belongsTo('integration').id() === this.integration.id;
+
+            return matchesIntegration
+                && !webhook.isNew
+                && !webhook.isDeleted;
+        });
+    }),
 
     actions: {
         save() {
