@@ -1,4 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import Webhook from 'ghost-admin/models/webhook';
 import {alias} from '@ember/object/computed';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
@@ -12,8 +13,9 @@ export default ModalComponent.extend({
     webhook: alias('model'),
 
     actions: {
-        updateAttr(attr) {
-            console.log(...arguments);
+        updateAttr(event) {
+            let {name, value} = event.target;
+            this.webhook.set(name, value);
         },
 
         confirm() {
@@ -28,20 +30,22 @@ export default ModalComponent.extend({
             console.log(integration);
             this.router.transitionTo('settings.integration', integration);
         } catch (error) {
-            console.log(error);
             // TODO: server-side validation errors should be serialized
             // properly so that errors are added to model.errors automatically
-            // if (error && isInvalidError(error)) {
-            //     error.payload.errors.each((error) => {
-            //         let {message} = error;
+            if (error && isInvalidError(error)) {
+                let attrs = Array.from(Webhook.attributes.keys());
 
-            //         if (message) {
+                error.payload.errors.forEach((error) => {
+                    let {message, property} = error;
 
-            //         }
-            //     });
+                    if (property && attrs.includes(property)) {
+                        this.webhook.errors.add(property, message);
+                        this.webhook.hasValidated.pushObject(property);
+                    }
+                });
 
-            //     return;
-            // }
+                return;
+            }
 
             // bubble up to the global error handler
             if (error) {

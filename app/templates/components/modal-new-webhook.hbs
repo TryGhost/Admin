@@ -9,7 +9,8 @@
             <label for="new-webhook-name">Name</label>
             {{gh-text-input
                 value=(readonly webhook.name)
-                oninput=(action "updateAttr")
+                input=(action "updateAttr")
+                focus-out=(action "validate" "name" target=webhook)
                 id="new-webhook-name"
                 name="name"
                 class="gh-input"
@@ -27,7 +28,8 @@
             {{!-- TODO: swap to select input --}}
             {{gh-text-input
                 value=(readonly webhook.event)
-                oninput=(action "updateAttr")
+                input=(action "updateAttr")
+                focus-out=(action "validate" "event" target=webhook)
                 id="new-webhook-event"
                 name="event"
                 class="gh-input"
@@ -44,11 +46,12 @@
             <label for="new-webhook-targetUrl">Target URL</label>
             {{gh-text-input
                 value=(readonly webhook.targetUrl)
-                oninput=(action "updateAttr")
+                input=(action "updateAttr")
+                focus-out=(action "validate" "targetUrl" target=webhook)
                 id="new-webhook-targetUrl"
-                targetUrl="targetUrl"
+                name="targetUrl"
                 class="gh-input"
-                placeholder="Webhook targetUrl..."
+                placeholder="Webhook target URL..."
                 autofocus="autofocus"
                 autocapitalize="off"
                 autocorrect="off"
@@ -62,8 +65,9 @@
             {{gh-text-input
                 value=(readonly webhook.secret)
                 oninput=(action "updateAttr")
+                focus-out=(action "validate" "secret" target=webhook)
                 id="new-webhook-secret"
-                secret="secret"
+                name="secret"
                 class="gh-input"
                 placeholder="Webhook secret..."
                 autofocus="autofocus"

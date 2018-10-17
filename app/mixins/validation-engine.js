@@ -15,6 +15,7 @@ import SlackIntegrationValidator from 'ghost-admin/validators/slack-integration'
 import SubscriberValidator from 'ghost-admin/validators/subscriber';
 import TagSettingsValidator from 'ghost-admin/validators/tag-settings';
 import UserValidator from 'ghost-admin/validators/user';
+import WebhookValidator from 'ghost-admin/validators/webhook';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
 
 const {Errors} = DS;
@@ -44,7 +45,8 @@ export default Mixin.create({
         subscriber: SubscriberValidator,
         tag: TagSettingsValidator,
         user: UserValidator,
-        integration: IntegrationValidator
+        integration: IntegrationValidator,
+        webhook: WebhookValidator
     },
 
     // This adds the Errors object to the validation engine, and shouldn't affect
