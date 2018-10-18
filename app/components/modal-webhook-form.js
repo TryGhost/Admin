@@ -10,6 +10,7 @@ export default ModalComponent.extend({
     router: service(),
 
     availableEvents: null,
+    error: null,
     buttonText: 'Save',
     successText: 'Saved',
 
@@ -45,6 +46,8 @@ export default ModalComponent.extend({
     },
 
     saveWebhook: task(function* () {
+        this.set('error', null);
+
         try {
             let webhook = yield this.confirm();
             let integration = yield webhook.get('integration');
@@ -62,6 +65,8 @@ export default ModalComponent.extend({
                     if (property && attrs.includes(property)) {
                         this.webhook.errors.add(property, message);
                         this.webhook.hasValidated.pushObject(property);
+                    } else {
+                        this.set('error', message);
                     }
                 });
 
