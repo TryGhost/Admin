@@ -135,7 +135,7 @@
                 {{#each filteredWebhooks as |webhook|}}
                     <tr class="hide-child">
                         <td class="pa3">{{webhook.name}}</td>
-                        <td class="pa3">{{webhook.event}}</td>
+                        <td class="pa3">{{event-name webhook.event}}</td>
                         <td class="pa3">{{webhook.targetUrl}}</td>
                         <td class="pa3">{{or webhook.lastTriggeredAtUTC "Not triggered"}}</td>
                         <td class="w1 pa3 nowrap">
