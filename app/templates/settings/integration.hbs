@@ -143,6 +143,9 @@
                                 {{#link-to "settings.integration.webhooks.edit" integration webhook}}
                                     {{svg-jar "koenig/kg-thin-edit" class="w4 fill-black-80"}}
                                 {{/link-to}}
+                                <button {{action "confirmWebhookDeletion" webhook}}>
+                                    {{svg-jar "trash" class="w4 fill-red"}}
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -169,6 +172,13 @@
     {{gh-fullscreen-modal "leave-settings"
         confirm=(action "leaveScreen")
         close=(action "toggleUnsavedChangesModal")
+        modifier="action wide"}}
+{{/if}}
+
+{{#if webhookToDelete}}
+    {{gh-fullscreen-modal "delete-webhook"
+        confirm=(action "deleteWebhook")
+        close=(action "cancelWebhookDeletion")
         modifier="action wide"}}
 {{/if}}
 
