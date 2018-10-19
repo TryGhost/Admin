@@ -73,6 +73,18 @@ export default Controller.extend({
 
         cancelIntegrationDeletion() {
             this.set('showDeleteIntegrationModal', false);
+        },
+      
+        confirmWebhookDeletion(webhook) {
+            this.set('webhookToDelete', webhook);
+        },
+
+        cancelWebhookDeletion() {
+            this.set('webhookToDelete', null);
+        },
+
+        deleteWebhook() {
+            return this.webhookToDelete.destroyRecord();
         }
 
     },
