@@ -61,7 +61,20 @@ export default Controller.extend({
             this.integration.rollbackAttributes();
 
             return transition.retry();
+        },
+
+        deleteIntegration() {
+            this.integration.destroyRecord();
+        },
+
+        confirmIntegrationDeletion() {
+            this.set('showDeleteIntegrationModal', true);
+        },
+
+        cancelIntegrationDeletion() {
+            this.set('showDeleteIntegrationModal', false);
         }
+
     },
 
     save: task(function* () {
