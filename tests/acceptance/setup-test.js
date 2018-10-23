@@ -1,28 +1,22 @@
-import destroyApp from '../helpers/destroy-app';
 import moment from 'moment';
-import startApp from '../helpers/start-app';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {Response} from 'ember-cli-mirage';
-import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession, invalidateSession} from '../helpers/ember-simple-auth';
-import {blur, click, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {beforeEach, describe, it} from 'mocha';
+import {blur, click, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../helpers/visit';
 
 describe('Acceptance: Setup', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects if already authenticated', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        await authenticateSession(application);
+        await authenticateSession();
 
         await visit('/setup/one');
         expect(currentURL()).to.equal('/');
@@ -36,7 +30,7 @@ describe('Acceptance: Setup', function () {
 
     it('redirects to signin if already set up', async function () {
         // mimick an already setup blog
-        server.get('/authentication/setup/', function () {
+        this.server.get('/authentication/setup/', function () {
             return {
                 setup: [
                     {status: true}
@@ -44,7 +38,7 @@ describe('Acceptance: Setup', function () {
             };
         });
 
-        await invalidateSession(application);
+        await invalidateSession();
 
         await visit('/setup');
         expect(currentURL()).to.equal('/signin');
@@ -53,7 +47,7 @@ describe('Acceptance: Setup', function () {
     describe('with a new blog', function () {
         beforeEach(function () {
             // mimick a new blog
-            server.get('/authentication/setup/', function () {
+            this.server.get('/authentication/setup/', function () {
                 return {
                     setup: [
                         {status: false}
@@ -63,8 +57,8 @@ describe('Acceptance: Setup', function () {
         });
 
         it('has a successful happy path', async function () {
-            invalidateSession(application);
-            server.loadFixtures('roles');
+            await invalidateSession();
+            this.server.loadFixtures('roles');
 
             await visit('/setup');
 
@@ -73,12 +67,11 @@ describe('Acceptance: Setup', function () {
                 .to.equal('/setup/one');
 
             // it highlights first step
-            expect(find('.gh-flow-nav .step:first-of-type').classList.contains('active'))
-                .to.be.true;
-            expect(find('.gh-flow-nav .step:nth-of-type(2)').classList.contains('active'))
-                .to.be.false;
-            expect(find('.gh-flow-nav .step:nth-of-type(3)').classList.contains('active'))
-                .to.be.false;
+            let stepIcons = findAll('.gh-flow-nav .step');
+            expect(stepIcons.length, 'sanity check: three steps').to.equal(3);
+            expect(stepIcons[0], 'first step').to.have.class('active');
+            expect(stepIcons[1], 'second step').to.not.have.class('active');
+            expect(stepIcons[2], 'third step').to.not.have.class('active');
 
             // it displays download count (count increments for each ajax call
             // and polling is disabled in testing so our count should be "1"
@@ -147,10 +140,10 @@ describe('Acceptance: Setup', function () {
         it('handles validation errors in step 2', async function () {
             let postCount = 0;
 
-            invalidateSession(application);
-            server.loadFixtures('roles');
+            await invalidateSession();
+            this.server.loadFixtures('roles');
 
-            server.post('/authentication/setup', function () {
+            this.server.post('/authentication/setup', function () {
                 postCount += 1;
 
                 // validation error
@@ -201,7 +194,7 @@ describe('Acceptance: Setup', function () {
 
         it('handles invalid origin error on step 2', async function () {
             // mimick the API response for an invalid origin
-            server.post('/session', function () {
+            this.server.post('/session', function () {
                 return new Response(401, {}, {
                     errors: [
                         {
@@ -212,8 +205,8 @@ describe('Acceptance: Setup', function () {
                 });
             });
 
-            invalidateSession(application);
-            server.loadFixtures('roles');
+            await invalidateSession();
+            this.server.loadFixtures('roles');
 
             await visit('/setup/two');
             await fillIn('[data-test-email-input]', 'test@example.com');
@@ -235,10 +228,10 @@ describe('Acceptance: Setup', function () {
             let postCount = 0;
             let button, formGroup;
 
-            invalidateSession(application);
-            server.loadFixtures('roles');
+            await invalidateSession();
+            this.server.loadFixtures('roles');
 
-            server.post('/invites/', function ({invites}) {
+            this.server.post('/invites/', function ({invites}) {
                 let attrs = this.normalizedRequestAttrs();
 
                 postCount += 1;
@@ -279,66 +272,66 @@ describe('Acceptance: Setup', function () {
             formGroup = find('.gh-flow-invite .form-group');
             button = find('.gh-flow-invite button[type="submit"]');
 
-            expect(formGroup.hasClass('error'), 'default field has error class')
-                .to.be.false;
+            expect(formGroup, 'default field has error class')
+                .to.not.have.class('error');
 
-            expect(button.text().trim(), 'default button text')
-                .to.equal('Invite some users');
+            expect(button.textContent, 'default button text')
+                .to.have.string('Invite some users');
 
-            expect(button.hasClass('gh-btn-minor'), 'default button is disabled')
-                .to.be.true;
+            expect(button, 'default button is disabled')
+                .to.have.class('gh-btn-minor');
 
             // no users submitted state
             await click('.gh-flow-invite button[type="submit"]');
 
-            expect(formGroup.hasClass('error'), 'no users submitted field has error class')
-                .to.be.true;
+            expect(formGroup, 'no users submitted field has error class')
+                .to.have.class('error');
 
-            expect(button.text().trim(), 'no users submitted button text')
-                .to.equal('No users to invite');
+            expect(button.textContent, 'no users submitted button text')
+                .to.have.string('No users to invite');
 
-            expect(button.hasClass('gh-btn-minor'), 'no users submitted button is disabled')
-                .to.be.true;
+            expect(button, 'no users submitted button is disabled')
+                .to.have.class('gh-btn-minor');
 
             // single invalid email
             await fillIn(input, 'invalid email');
             await await blur(input);
 
-            expect(formGroup.hasClass('error'), 'invalid field has error class')
-                .to.be.true;
+            expect(formGroup, 'invalid field has error class')
+                .to.have.class('error');
 
-            expect(button.text().trim(), 'single invalid button text')
-                .to.equal('1 invalid email address');
+            expect(button.textContent, 'single invalid button text')
+                .to.have.string('1 invalid email address');
 
-            expect(button.hasClass('gh-btn-minor'), 'invalid email button is disabled')
-                .to.be.true;
+            expect(button, 'invalid email button is disabled')
+                .to.have.class('gh-btn-minor');
 
             // multiple invalid emails
             await fillIn(input, 'invalid email\nanother invalid address');
             await await blur(input);
 
-            expect(button.text().trim(), 'multiple invalid button text')
-                .to.equal('2 invalid email addresses');
+            expect(button.textContent, 'multiple invalid button text')
+                .to.have.string('2 invalid email addresses');
 
             // single valid email
             await fillIn(input, 'invited@example.com');
             await await blur(input);
 
-            expect(formGroup.hasClass('error'), 'valid field has error class')
-                .to.be.false;
+            expect(formGroup, 'valid field has error class')
+                .to.not.have.class('error');
 
-            expect(button.text().trim(), 'single valid button text')
-                .to.equal('Invite 1 user');
+            expect(button.textContent, 'single valid button text')
+                .to.have.string('Invite 1 user');
 
-            expect(button.hasClass('gh-btn-green'), 'valid email button is enabled')
-                .to.be.true;
+            expect(button, 'valid email button is enabled')
+                .to.have.class('gh-btn-green');
 
             // multiple valid emails
             await fillIn(input, 'invited1@example.com\ninvited2@example.com');
             await await blur(input);
 
-            expect(button.text().trim(), 'multiple valid button text')
-                .to.equal('Invite 2 users');
+            expect(button.textContent, 'multiple valid button text')
+                .to.have.string('Invite 2 users');
 
             // submit invitations with simulated failure on 1 invite
             await click('.gh-btn-green');
