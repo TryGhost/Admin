@@ -92,7 +92,7 @@
         </div>
     </form>
 
-    <h4 class="mt15 midgrey f7 fw4">API Keys</h4>
+    <h4 class="mt15 midgrey f7 fw4 pb2 bb b--whitegrey">API Keys</h4>
     <div class="flex flex-row mt5">
         {{#with integration.contentKey as |contentKey|}}
             {{#gh-validation-status-container class="flex flex-column w-100 mr5"}}
@@ -110,7 +110,7 @@
                 </div>
                 <div class="relative hide-child mt1">
                     <input id="content_key"
-                        class="w-100 pa3 bg-whitegrey-l2 midlightgrey f8 ba b--whitegrey br3"
+                        class="w-100 pa3 bg-whitegrey-l2 midlightgrey ba b--whitegrey br3"
                         type="text"
                         value={{contentKey.secret}}
                         disabled="true"
@@ -140,7 +140,7 @@
                 </div>
                 <div class="relative hide-child mt1">
                     <input id="admin_key"
-                        class="w-100 pa3 bg-whitegrey-l2 midlightgrey f8 ba b--whitegrey br3"
+                        class="w-100 pa3 bg-whitegrey-l2 midlightgrey ba b--whitegrey br3"
                         type="text"
                         value={{adminKey.secret}}
                         disabled="true"
@@ -156,15 +156,15 @@
         {{/with}}
     </div>
 
-    <h4 class="mt15 midgrey f7 fw4">Webhooks</h4>
+    <h4 class="mt15 midgrey f7 fw4 pb2 bb b--whitegrey">Webhooks</h4>
     <div class="ba br3 b--lightgrey mt5">
         <table class="ma0 w-100">
             <thead>
                 <tr>
-                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3 br--top br--left">Name</th>
-                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3">Event</th>
-                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3">URL</th>
-                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3">Last triggered</th>
+                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3 br--top br--left fw6">Name</th>
+                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3 fw6">Event</th>
+                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3 fw6">URL</th>
+                    <th class="pa2 pl3 midlightgrey fw4 f8 bg-whitegrey-l2 br3 fw6">Last triggered</th>
                     <th class="pa2 pl3 bg-whitegrey-l2 br3 br--top br--right"></th>
                 </tr>
             </thead>
@@ -209,6 +209,7 @@
             {{/if}}
         </table>
     </div>
+    {{!-- <h4 class="mt15 midgrey f7 fw4 pb2 bb b--whitegrey">Danger Zone</h4> --}}
     <button class="gh-btn gh-btn-red gh-btn-icon mb15 mt15" {{action "confirmIntegrationDeletion"}}>
         <span> Delete Integration </span>
     </button>
