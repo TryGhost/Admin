@@ -17,7 +17,7 @@
                 <figure class="relative flex items-center h-100 ma0 br4 hide-child ba b--whitegrey-d2 pa8 mt1" style={{iconImageStyle}}>
                     {{#aspect-ratio-box class="flex items-center h-100" ratio="1/1" base="height"}}
                         {{#unless integration.iconImage}}
-                            {{svg-jar "integration" class="w14 h-auto"}}
+                            {{svg-jar "integration" class="w14 h-auto stroke-darkgrey"}}
                         {{/unless}}
                     {{/aspect-ratio-box}}
 
@@ -156,8 +156,8 @@
         {{/with}}
     </div>
 
-    <h4 class="mt15 midgrey f7 fw4 pb2 bb b--whitegrey">Webhooks</h4>
-    <div class="ba br3 b--lightgrey mt5">
+    <h4 class="mt15 midgrey f7 fw4">Webhooks</h4>
+    <div class="ba br3 b--lightgrey mt4">
         <table class="ma0 w-100">
             <thead>
                 <tr>
@@ -170,7 +170,7 @@
             </thead>
             <tbody>
                 {{#each filteredWebhooks as |webhook|}}
-                    <tr class="hide-child bt b--whitegrey">
+                    <tr class="hide-child bt b--whitegrey f7">
                         <td class="pa2 pl3">{{webhook.name}}</td>
                         <td class="pa2 pl3">{{event-name webhook.event}}</td>
                         <td class="pa2 pl3">{{webhook.targetUrl}}</td>
@@ -188,7 +188,7 @@
                     </tr>
                 {{else}}
                 <tr class="bt b--whitegrey">
-                    <td colspan="5" class="pa5 pt15 pb15 tc midgrey f8">
+                    <td colspan="5" class="pa5 pt15 pb15 tc midgrey f7">
                         <span class="db">No webhooks configured</span>
                         <span class="dib mt1">
                             {{#link-to "settings.integration.webhooks.new" integration classNames="flex items-center"}}{{svg-jar "add" class="w3 h-auto fill-blue mr1"}} Add webhook{{/link-to}}
@@ -200,7 +200,7 @@
             {{#if filteredWebhooks}}
             <tfoot class="bt b--lightgrey">
                 <tr>
-                    <td colspan="5" class="pa3">
+                    <td colspan="5" class="pa3 f7">
                         {{#link-to "settings.integration.webhooks.new" integration classNames="flex items-center"}}{{svg-jar "add" class="w3
                         h-auto fill-blue mr1"}} Add webhook{{/link-to}}
                     </td>
