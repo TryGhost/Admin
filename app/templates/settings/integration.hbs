@@ -12,7 +12,7 @@
         </header>
 
         <div class="flex">
-            <div class="flex flex-column mr8">
+            <div class="flex flex-column mr8 items-start">
                 <label>Icon</label>
                 <figure class="relative flex items-center h-100 ma0 br4 hide-child ba b--whitegrey-d2 pa8 mt1" style={{iconImageStyle}}>
                     {{#aspect-ratio-box class="flex items-center h-100" ratio="1/1" base="height"}}
@@ -60,14 +60,14 @@
                     <label for="integration_name">Name</label>
                     {{gh-text-input
                         id="integration_name"
-                        class="gh-input mt1"
+                        class="gh-input mt1 mb1"
                         type="text"
                         value=(readonly integration.name)
                         input=(action (mut integration.name) value="target.value")
                         focus-out=(action "validate" "name" target=integration)
                         data-test-input="name"
                     }}
-                    {{gh-error-message errors=integration.errors property="name" data-test-error="name"}}
+                    {{gh-error-message errors=integration.errors property="name" data-test-error="name" class="ma0"}}
                 {{/gh-validation-status-container}}
 
                 {{#gh-validation-status-container
@@ -86,7 +86,7 @@
                         focus-out=(action "validate" "description" target=integration)
                         data-test-input="description"
                     }}
-                    {{gh-error-message errors=integration.errors property="description" data-test-error="description"}}
+                    {{gh-error-message errors=integration.errors property="description" data-test-error="description" class="ma0"}}
                 {{/gh-validation-status-container}}
             </div>
         </div>
