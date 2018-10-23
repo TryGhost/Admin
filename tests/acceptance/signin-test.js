@@ -1,32 +1,25 @@
-import destroyApp from '../helpers/destroy-app';
-import startApp from '../helpers/start-app';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {Response} from 'ember-cli-mirage';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {
-    afterEach,
     beforeEach,
     describe,
     it
 } from 'mocha';
-import {authenticateSession, invalidateSession} from '../helpers/ember-simple-auth';
-import {click, currentURL, fillIn, find, findAll, visit} from '@ember/test-helpers';
+import {click, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../helpers/visit';
 
 describe('Acceptance: Signin', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects if already authenticated', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        await authenticateSession(application);
+        await authenticateSession();
         await visit('/signin');
 
         expect(currentURL(), 'current url').to.equal('/');
@@ -34,10 +27,10 @@ describe('Acceptance: Signin', function () {
 
     describe('when attempting to signin', function () {
         beforeEach(function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            server.post('/session', function (schema, {requestBody}) {
+            this.server.post('/session', function (schema, {requestBody}) {
                 let {
                     username,
                     password
@@ -59,7 +52,7 @@ describe('Acceptance: Signin', function () {
         });
 
         it('errors correctly', async function () {
-            await invalidateSession(application);
+            await invalidateSession();
             await visit('/signin');
 
             expect(currentURL(), 'signin url').to.equal('/signin');
@@ -91,7 +84,7 @@ describe('Acceptance: Signin', function () {
         });
 
         it('submits successfully', async function () {
-            invalidateSession(application);
+            invalidateSession();
 
             await visit('/signin');
             expect(currentURL(), 'current url').to.equal('/signin');
