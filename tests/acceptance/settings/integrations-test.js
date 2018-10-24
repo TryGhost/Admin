@@ -387,14 +387,14 @@ describe('Acceptance: Settings - Integrations', function () {
             await click('[data-test-link="integrations-back"]');
 
             expect(
-                find('[data-modal="unsaved-settings"]'),
+                find('[data-test-modal="unsaved-settings"]'),
                 'modal shown when navigating with unsaved changes'
             ).to.exist;
 
             await click('[data-test-stay-button]');
 
             expect(
-                find('[data-modal="unsaved-settings"]'),
+                find('[data-test-modal="unsaved-settings"]'),
                 'modal is closed after clicking "stay"'
             ).to.not.exist;
 
@@ -407,7 +407,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await click('[data-test-leave-button]');
 
             expect(
-                find('[data-modal="unsaved-settings"]'),
+                find('[data-test-modal="unsaved-settings"]'),
                 'modal is closed after clicking "leave"'
             ).to.not.exist;
 
@@ -478,7 +478,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await click('[data-test-link="integrations-back"]');
 
             expect(
-                find('[data-modal="unsaved-settings"]'),
+                find('[data-test-modal="unsaved-settings"]'),
                 'unsaved changes modal is not shown'
             ).to.not.exist;
 
