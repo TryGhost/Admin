@@ -1,64 +1,69 @@
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import destroyApp from '../helpers/destroy-app';
 import moment from 'moment';
-import startApp from '../helpers/start-app';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import windowProxy from 'ghost-admin/utils/window-proxy';
 import {Response} from 'ember-cli-mirage';
 import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession, invalidateSession} from '../helpers/ember-simple-auth';
-import {blur, click, currentPath, currentURL, fillIn, find, findAll, focus, triggerEvent, triggerKeyEvent, visit} from '@ember/test-helpers';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {
+    blur,
+    click,
+    currentRouteName,
+    currentURL,
+    fillIn,
+    find,
+    findAll,
+    focus,
+    triggerEvent,
+    triggerKeyEvent
+} from '@ember/test-helpers';
 import {errorOverride, errorReset} from '../helpers/adapter-error';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../helpers/visit';
 
 describe('Acceptance: Team', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects to signin when not authenticated', async function () {
-        invalidateSession(application);
+        await invalidateSession();
         await visit('/team');
 
         expect(currentURL()).to.equal('/signin');
     });
 
     it('redirects correctly when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        server.create('user', {slug: 'no-access'});
+        this.server.create('user', {slug: 'no-access'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/team/no-access');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     it('redirects correctly when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        server.create('user', {slug: 'no-access'});
+        this.server.create('user', {slug: 'no-access'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/team/no-access');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     it('redirects correctly when authenticated as editor', async function () {
-        let role = server.create('role', {name: 'Editor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Editor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        server.create('user', {slug: 'no-access'});
+        this.server.create('user', {slug: 'no-access'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/team/no-access');
 
         expect(currentURL(), 'currentURL').to.equal('/team');
@@ -67,24 +72,24 @@ describe('Acceptance: Team', function () {
     describe('when logged in as admin', function () {
         let admin, adminRole, suspendedUser;
 
-        beforeEach(function () {
-            server.loadFixtures('roles');
-            adminRole = server.schema.roles.find(1);
+        beforeEach(async function () {
+            this.server.loadFixtures('roles');
+            adminRole = this.server.schema.roles.find(1);
 
-            admin = server.create('user', {email: 'admin@example.com', roles: [adminRole]});
+            admin = this.server.create('user', {email: 'admin@example.com', roles: [adminRole]});
 
             // add an expired invite
-            server.create('invite', {expires: moment.utc().subtract(1, 'day').valueOf(), role: adminRole});
+            this.server.create('invite', {expires: moment.utc().subtract(1, 'day').valueOf(), role: adminRole});
 
             // add a suspended user
-            suspendedUser = server.create('user', {email: 'suspended@example.com', roles: [adminRole], status: 'inactive'});
+            suspendedUser = this.server.create('user', {email: 'suspended@example.com', roles: [adminRole], status: 'inactive'});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('it renders and navigates correctly', async function () {
-            let user1 = server.create('user');
-            let user2 = server.create('user');
+            let user1 = this.server.create('user');
+            let user2 = this.server.create('user');
 
             await visit('/team');
 
@@ -180,7 +185,7 @@ describe('Acceptance: Team', function () {
             // click the invite people button
             await click('.view-actions .gh-btn-green');
 
-            let roleOptions = find('.fullscreen-modal select[name="role"] option');
+            let roleOptions = findAll('.fullscreen-modal select[name="role"] option');
 
             function checkOwnerExists() {
                 for (let i in roleOptions) {
@@ -221,7 +226,7 @@ describe('Acceptance: Team', function () {
 
             // modal closes
             expect(
-                findAll('.fullscreen-modal').length,
+                findAll('[data-test-modal]').length,
                 'number of modals after sending invite'
             ).to.equal(0);
 
@@ -335,7 +340,7 @@ describe('Acceptance: Team', function () {
 
             // new invite should be last in the list
             expect(
-                find('[data-test-invite-id]:last [data-test-email]').textContent.trim(),
+                find('[data-test-invite-id]:last-of-type [data-test-email]').textContent.trim(),
                 'last invite email in list'
             ).to.equal('invite3@example.com');
 
@@ -408,9 +413,9 @@ describe('Acceptance: Team', function () {
         });
 
         it('can delete users', async function () {
-            let user1 = server.create('user');
-            let user2 = server.create('user');
-            let post = server.create('post', {authors: [user2]});
+            let user1 = this.server.create('user');
+            let user2 = this.server.create('user');
+            let post = this.server.create('post', {authors: [user2]});
 
             // we don't have a full many-to-many relationship in mirage so we
             // need to add the inverse manually
@@ -423,20 +428,20 @@ describe('Acceptance: Team', function () {
             // user deletion displays modal
             await click('button.delete');
             expect(
-                findAll('.fullscreen-modal .modal-content:contains("delete this user")').length,
+                findAll('[data-test-modal="delete-user"]').length,
                 'user deletion modal displayed after button click'
             ).to.equal(1);
 
             // user has no posts so no warning about post deletion
             expect(
-                findAll('.fullscreen-modal .modal-content:contains("is the author of")').length,
+                findAll('[data-test-text="user-post-count"]').length,
                 'deleting user with no posts has no post count'
             ).to.equal(0);
 
             // cancelling user deletion closes modal
-            await click('.fullscreen-modal button:contains("Cancel")');
+            await click('[data-test-button="cancel-delete-user"]');
             expect(
-                findAll('.fullscreen-modal').length === 0,
+                findAll('[data-test-modal]').length === 0,
                 'delete user modal is closed when cancelling'
             ).to.be.true;
 
@@ -447,11 +452,11 @@ describe('Acceptance: Team', function () {
             await click('button.delete');
             // user has  posts so should warn about post deletion
             expect(
-                findAll('.fullscreen-modal .modal-content:contains("1 post created by this user")').length,
+                find('[data-test-text="user-post-count"]').textContent,
                 'deleting user with posts has post count'
-            ).to.equal(1);
+            ).to.have.string('1 post');
 
-            await click('.fullscreen-modal button:contains("Delete")');
+            await click('[data-test-button="confirm-delete-user"]');
             // redirected to team page
             expect(currentURL()).to.equal('/team');
 
@@ -466,7 +471,7 @@ describe('Acceptance: Team', function () {
             let user, newLocation, originalReplaceState;
 
             beforeEach(function () {
-                user = server.create('user', {
+                user = this.server.create('user', {
                     slug: 'test-1',
                     name: 'Test User',
                     facebook: 'test',
@@ -495,13 +500,13 @@ describe('Acceptance: Team', function () {
 
                 // test empty user name
                 await fillIn('[data-test-name-input]', '');
-                await await blur('[data-test-name-input]');
+                await blur('[data-test-name-input]');
 
                 expect(find('.user-details-bottom .first-form-group').classList.contains('error'), 'username input is in error state with blank input').to.be.true;
 
                 // test too long user name
                 await fillIn('[data-test-name-input]', new Array(195).join('a'));
-                await await blur('[data-test-name-input]');
+                await blur('[data-test-name-input]');
 
                 expect(find('.user-details-bottom .first-form-group').classList.contains('error'), 'username input is in error state with too long input').to.be.true;
 
@@ -511,7 +516,7 @@ describe('Acceptance: Team', function () {
                 expect(find('[data-test-slug-input]').value, 'slug value is default').to.equal('test-1');
 
                 await fillIn('[data-test-slug-input]', '');
-                await await blur('[data-test-slug-input]');
+                await blur('[data-test-slug-input]');
 
                 expect(find('[data-test-slug-input]').value, 'slug value is reset to original upon empty string').to.equal('test-1');
 
@@ -530,7 +535,7 @@ describe('Acceptance: Team', function () {
 
                 // we've already saved in this test so there's no on-screen indication
                 // that we've had another save, check the request was fired instead
-                let [lastRequest] = server.pretender.handledRequests.slice(-1);
+                let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
                 let params = JSON.parse(lastRequest.requestBody);
 
                 expect(params.users[0].name).to.equal('Test User');
@@ -539,30 +544,36 @@ describe('Acceptance: Team', function () {
                 expect(newLocation).to.equal('Test User');
 
                 await fillIn('[data-test-slug-input]', 'white space');
-                await await blur('[data-test-slug-input]');
+                await blur('[data-test-slug-input]');
 
                 expect(find('[data-test-slug-input]').value, 'slug value is correctly dasherized').to.equal('white-space');
 
                 await fillIn('[data-test-email-input]', 'thisisnotanemail');
-                await await blur('[data-test-email-input]');
+                await blur('[data-test-email-input]');
 
                 expect(find('.user-details-bottom .form-group:nth-of-type(3)').classList.contains('error'), 'email input should be in error state with invalid email').to.be.true;
 
                 await fillIn('[data-test-email-input]', 'test@example.com');
                 await fillIn('[data-test-location-input]', new Array(160).join('a'));
-                await await blur('[data-test-location-input]');
+                await blur('[data-test-location-input]');
 
-                expect(find('[data-test-location-input]').closest('.form-group').hasClass('error'), 'location input should be in error state').to.be.true;
+                expect(
+                    find('[data-test-location-input]').closest('.form-group'),
+                    'location input should be in error state'
+                ).to.have.class('error');
 
                 await fillIn('[data-test-location-input]', '');
                 await fillIn('[data-test-website-input]', 'thisisntawebsite');
-                await await blur('[data-test-website-input]');
+                await blur('[data-test-website-input]');
 
-                expect(find('[data-test-website-input]').closest('.form-group').hasClass('error'), 'website input should be in error state').to.be.true;
+                expect(
+                    find('[data-test-website-input]').closest('.form-group'),
+                    'website input should be in error state'
+                ).to.have.class('error');
 
                 let testSocialInput = async function (type, input, expectedValue, expectedError = '') {
                     await fillIn(`[data-test-${type}-input]`, input);
-                    await await blur(`[data-test-${type}-input]`);
+                    await blur(`[data-test-${type}-input]`);
 
                     expect(
                         find(`[data-test-${type}-input]`).value,
@@ -570,12 +581,12 @@ describe('Acceptance: Team', function () {
                     ).to.equal(expectedValue);
 
                     expect(
-                        find(`[data-test-${type}-error]`).textContent.trim(),
+                        find(`[data-test-error="user-${type}"]`).textContent.trim(),
                         `${type} validation response for ${input}`
                     ).to.equal(expectedError);
 
                     expect(
-                        find(`[data-test-${type}-input]`).closest('.form-group').hasClass('error'),
+                        find(`[data-test-error="user-${type}"]`).closest('.form-group').classList.contains('error'),
                         `${type} input should be in error state with '${input}'`
                     ).to.equal(!!expectedError);
                 };
@@ -589,8 +600,8 @@ describe('Acceptance: Team', function () {
                 expect(find('[data-test-facebook-input]').value, 'initial facebook value')
                     .to.equal('https://www.facebook.com/test');
 
-                await await focus('[data-test-facebook-input]');
-                await await blur('[data-test-facebook-input]');
+                await focus('[data-test-facebook-input]');
+                await blur('[data-test-facebook-input]');
 
                 // regression test: we still have a value after the input is
                 // focused and then blurred without any changes
@@ -641,8 +652,8 @@ describe('Acceptance: Team', function () {
                 expect(find('[data-test-twitter-input]').value, 'initial twitter value')
                     .to.equal('https://twitter.com/test');
 
-                await await focus('[data-test-twitter-input]');
-                await await blur('[data-test-twitter-input]');
+                await focus('[data-test-twitter-input]');
+                await blur('[data-test-twitter-input]');
 
                 // regression test: we still have a value after the input is
                 // focused and then blurred without any changes
@@ -675,9 +686,12 @@ describe('Acceptance: Team', function () {
 
                 await fillIn('[data-test-website-input]', '');
                 await fillIn('[data-test-bio-input]', new Array(210).join('a'));
-                await await blur('[data-test-bio-input]');
+                await blur('[data-test-bio-input]');
 
-                expect(find('[data-test-bio-input]').closest('.form-group').hasClass('error'), 'bio input should be in error state').to.be.true;
+                expect(
+                    find('[data-test-bio-input]').closest('.form-group'),
+                    'bio input should be in error state'
+                ).to.have.class('error');
 
                 // password reset ------
 
@@ -685,14 +699,14 @@ describe('Acceptance: Team', function () {
                 await click('[data-test-save-pw-button]');
 
                 expect(
-                    find('[data-test-new-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-new-pass-input]').closest('.form-group'),
                     'new password has error class when blank'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('[data-test-new-pass-input]').siblings('.response').text(),
+                    find('[data-test-error="user-new-pass"]').textContent,
                     'new password error when blank'
-                ).to.match(/can't be blank/);
+                ).to.have.string('can\'t be blank');
 
                 // validates too short password (< 10 characters)
                 await fillIn('[data-test-new-pass-input]', 'notlong');
@@ -702,30 +716,30 @@ describe('Acceptance: Team', function () {
                 await triggerKeyEvent('[data-test-new-pass-input]', 'keyup', 13);
 
                 expect(
-                    find('[data-test-new-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-new-pass-input]').closest('.form-group'),
                     'new password has error class when password too short'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('[data-test-new-pass-input]').siblings('.response').text(),
-                    'confirm password error when it\'s too short'
-                ).to.match(/at least 10 characters long/);
+                    find('[data-test-error="user-new-pass"]').textContent,
+                    'new password error when it\'s too short'
+                ).to.have.string('at least 10 characters long');
 
                 // validates unsafe password
                 await fillIn('#user-password-new', 'ghostisawesome');
-                await fillIn('#user-new-password-verification', 'ghostisawesome');
+                await fillIn('[data-test-ne2-pass-input]', 'ghostisawesome');
 
                 // enter key triggers action
                 await triggerKeyEvent('#user-password-new', 'keyup', 13);
 
                 expect(
-                    find('#user-password-new').closest('.form-group').hasClass('error'),
+                    find('#user-password-new').closest('.form-group'),
                     'new password has error class when password is insecure'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('#user-password-new').siblings('.response').text(),
-                    'confirm password error when it\'s insecure'
+                    find('[data-test-error="user-new-pass"]').textContent,
+                    'new password error when it\'s insecure'
                 ).to.match(/you cannot use an insecure password/);
 
                 // typing in inputs clears validation
@@ -733,29 +747,29 @@ describe('Acceptance: Team', function () {
                 await triggerEvent('[data-test-new-pass-input]', 'input');
 
                 expect(
-                    find('[data-test-new-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-new-pass-input]').closest('.form-group'),
                     'password validation is visible after typing'
-                ).to.be.false;
+                ).to.not.have.class('error');
 
                 // enter key triggers action
                 await triggerKeyEvent('[data-test-new-pass-input]', 'keyup', 13);
 
                 expect(
-                    find('[data-test-ne2-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-ne2-pass-input]').closest('.form-group'),
                     'confirm password has error class when it doesn\'t match'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('[data-test-ne2-pass-input]').siblings('.response').text(),
+                    find('[data-test-error="user-ne2-pass"]').textContent,
                     'confirm password error when it doesn\'t match'
-                ).to.match(/do not match/);
+                ).to.have.string('do not match');
 
                 // submits with correct details
                 await fillIn('[data-test-ne2-pass-input]', 'thisissupersafe');
                 await click('[data-test-save-pw-button]');
 
                 // hits the endpoint
-                let [newRequest] = server.pretender.handledRequests.slice(-1);
+                let [newRequest] = this.server.pretender.handledRequests.slice(-1);
                 params = JSON.parse(newRequest.requestBody);
 
                 expect(newRequest.url, 'password request URL')
@@ -790,21 +804,21 @@ describe('Acceptance: Team', function () {
                 expect(currentURL(), 'currentURL').to.equal('/team/test-1');
 
                 await fillIn('[data-test-slug-input]', 'another slug');
-                await await blur('[data-test-slug-input]');
+                await blur('[data-test-slug-input]');
 
                 expect(find('[data-test-slug-input]').value).to.be.equal('another-slug');
 
                 await fillIn('[data-test-facebook-input]', 'testuser');
-                await await blur('[data-test-facebook-input]');
+                await blur('[data-test-facebook-input]');
 
                 expect(find('[data-test-facebook-input]').value).to.be.equal('https://www.facebook.com/testuser');
 
                 await visit('/settings/team');
 
-                expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
+                expect(findAll('[data-test-modal]').length, 'modal exists').to.equal(1);
 
                 // Leave without saving
-                await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
+                await click('.fullscreen-modal [data-test-leave-button]');
 
                 expect(currentURL(), 'currentURL').to.equal('/settings/team');
 
@@ -827,39 +841,39 @@ describe('Acceptance: Team', function () {
 
                 // old password has error
                 expect(
-                    find('[data-test-old-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-old-pass-input]').closest('.form-group'),
                     'old password has error class when blank'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('[data-test-old-pass-input]').siblings('.response').text(),
+                    find('[data-test-error="user-old-pass"]').textContent,
                     'old password error when blank'
-                ).to.match(/is required/);
+                ).to.have.string('is required');
 
                 // new password has error
                 expect(
-                    find('[data-test-new-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-new-pass-input]').closest('.form-group'),
                     'new password has error class when blank'
-                ).to.be.true;
+                ).to.have.class('error');
 
                 expect(
-                    find('[data-test-new-pass-input]').siblings('.response').text(),
+                    find('[data-test-error="user-new-pass"]').textContent,
                     'new password error when blank'
-                ).to.match(/can't be blank/);
+                ).to.have.string('can\'t be blank');
 
                 // validation is cleared when typing
                 await fillIn('[data-test-old-pass-input]', 'password');
                 await triggerEvent('[data-test-old-pass-input]', 'input');
 
                 expect(
-                    find('[data-test-old-pass-input]').closest('.form-group').hasClass('error'),
+                    find('[data-test-old-pass-input]').closest('.form-group'),
                     'old password validation is in error state after typing'
-                ).to.be.false;
+                ).to.not.have.class('error');
             });
         });
 
         it('redirects to 404 when user does not exist', async function () {
-            server.get('/users/slug/unknown/', function () {
+            this.server.get('/users/slug/unknown/', function () {
                 return new Response(404, {'Content-Type': 'application/json'}, {errors: [{message: 'User not found.', errorType: 'NotFoundError'}]});
             });
 
@@ -868,7 +882,7 @@ describe('Acceptance: Team', function () {
             await visit('/team/unknown');
 
             errorReset();
-            expect(currentPath()).to.equal('error404');
+            expect(currentRouteName()).to.equal('error404');
             expect(currentURL()).to.equal('/team/unknown');
         });
     });
@@ -876,12 +890,12 @@ describe('Acceptance: Team', function () {
     describe('when logged in as author', function () {
         let adminRole, authorRole;
 
-        beforeEach(function () {
-            adminRole = server.create('role', {name: 'Administrator'});
-            authorRole = server.create('role', {name: 'Author'});
-            server.create('user', {roles: [authorRole]});
+        beforeEach(async function () {
+            adminRole = this.server.create('role', {name: 'Administrator'});
+            authorRole = this.server.create('role', {name: 'Author'});
+            this.server.create('user', {roles: [authorRole]});
 
-            server.get('/invites/', function () {
+            this.server.get('/invites/', function () {
                 return new Response(403, {}, {
                     errors: [{
                         errorType: 'NoPermissionError',
@@ -890,19 +904,19 @@ describe('Acceptance: Team', function () {
                 });
             });
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('can access the team page', async function () {
-            server.create('user', {roles: [adminRole]});
-            server.create('invite', {role: authorRole});
+            this.server.create('user', {roles: [adminRole]});
+            this.server.create('invite', {role: authorRole});
 
             errorOverride();
 
             await visit('/team');
 
             errorReset();
-            expect(currentPath()).to.equal('team.index');
+            expect(currentRouteName()).to.equal('team.index');
             expect(findAll('.gh-alert').length).to.equal(0);
         });
     });
