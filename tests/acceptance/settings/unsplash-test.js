@@ -1,24 +1,22 @@
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import destroyApp from '../../helpers/destroy-app';
-import startApp from '../../helpers/start-app';
-import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import {click, currentURL, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {
+    beforeEach,
+    describe,
+    it
+} from 'mocha';
+import {click, currentURL, find, findAll, triggerEvent} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../../helpers/visit';
 
 describe('Acceptance: Settings - Integrations - Unsplash', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects to signin when not authenticated', async function () {
-        invalidateSession(application);
+        await invalidateSession();
         await visit('/settings/integrations/unsplash');
 
         expect(currentURL(), 'currentURL').to.equal('/signin');
@@ -28,7 +26,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
         let role = server.create('role', {name: 'Contributor'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
@@ -38,7 +36,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
         let role = server.create('role', {name: 'Author'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
@@ -48,18 +46,18 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
         let role = server.create('role', {name: 'Editor'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
         expect(currentURL(), 'currentURL').to.equal('/team');
     });
 
     describe('when logged in', function () {
-        beforeEach(function () {
+        beforeEach(async function () {
             let role = server.create('role', {name: 'Administrator'});
             server.create('user', {roles: [role]});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('it can activate/deactivate', async function () {
@@ -89,7 +87,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             expect(setting.value).to.equal('{"isActive":true}');
 
             // disable
-            await click(find('[data-test-checkbox="unsplash"]'));
+            await click('[data-test-checkbox="unsplash"]');
 
             // save via CMD-S shortcut
             await triggerEvent('.gh-app', 'keydown', {
@@ -123,7 +121,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
-            await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
+            await click('.fullscreen-modal [data-test-leave-button]');
 
             expect(currentURL(), 'currentURL').to.equal('/settings/labs');
 
