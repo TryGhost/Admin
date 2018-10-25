@@ -1,30 +1,22 @@
-import $ from 'jquery';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import destroyApp from '../../helpers/destroy-app';
-import startApp from '../../helpers/start-app';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {
-    afterEach,
     beforeEach,
     describe,
     it
 } from 'mocha';
-import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import {click, currentURL, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
+import {click, currentURL, find, findAll, triggerEvent} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../../helpers/visit';
 
 describe('Acceptance: Settings - Code-Injection', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects to signin when not authenticated', async function () {
-        invalidateSession(application);
+        await invalidateSession();
         await visit('/settings/code-injection');
 
         expect(currentURL(), 'currentURL').to.equal('/signin');
@@ -34,7 +26,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
         let role = server.create('role', {name: 'Contributor'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/code-injection');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
@@ -44,7 +36,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
         let role = server.create('role', {name: 'Author'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/code-injection');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
@@ -54,18 +46,18 @@ describe('Acceptance: Settings - Code-Injection', function () {
         let role = server.create('role', {name: 'Editor'});
         server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/code-injection');
 
         expect(currentURL(), 'currentURL').to.equal('/team');
     });
 
     describe('when logged in', function () {
-        beforeEach(function () {
+        beforeEach(async function () {
             let role = server.create('role', {name: 'Administrator'});
             server.create('user', {roles: [role]});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('it renders, loads and saves editors correctly', async function () {
@@ -78,16 +70,16 @@ describe('Acceptance: Settings - Code-Injection', function () {
             expect(document.title, 'page title').to.equal('Settings - Code injection - Test Blog');
 
             // highlights nav menu
-            expect($('[data-test-nav="code-injection"]').hasClass('active'), 'highlights nav menu item')
-                .to.be.true;
+            expect(find('[data-test-nav="code-injection"]'), 'highlights nav menu item')
+                .to.have.class('active');
 
             expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Save');
 
             expect(findAll('#ghost-head .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
-            expect($('#ghost-head .CodeMirror').hasClass('cm-s-xq-light'), 'ghost head editor theme').to.be.true;
+            expect(find('#ghost-head .CodeMirror'), 'ghost head editor theme').to.have.class('cm-s-xq-light');
 
             expect(findAll('#ghost-foot .CodeMirror').length, 'ghost head codemirror element').to.equal(1);
-            expect($('#ghost-foot .CodeMirror').hasClass('cm-s-xq-light'), 'ghost head editor theme').to.be.true;
+            expect(find('#ghost-foot .CodeMirror'), 'ghost head editor theme').to.have.class('cm-s-xq-light');
 
             await click('[data-test-save-button]');
 
