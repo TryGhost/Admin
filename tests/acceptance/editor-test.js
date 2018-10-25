@@ -129,7 +129,7 @@ describe('Acceptance: Editor', function () {
 
             // should error, if the publish time is in the wrong format
             await fillIn('[data-test-date-time-picker-time-input]', 'foo');
-            await await blur('[data-test-date-time-picker-time-input]');
+            await blur('[data-test-date-time-picker-time-input]');
 
             expect(find('[data-test-date-time-picker-error]').textContent.trim(), 'inline error response for invalid time')
                 .to.equal('Must be in format: "15:00"');
@@ -139,7 +139,7 @@ describe('Acceptance: Editor', function () {
             // with the new time
             await datepickerSelect('[data-test-date-time-picker-datepicker]', moment.tz('Etc/UTC'));
             await fillIn('[data-test-date-time-picker-time-input]', futureTime.format('HH:mm'));
-            await await blur('[data-test-date-time-picker-time-input]');
+            await blur('[data-test-date-time-picker-time-input]');
 
             expect(find('[data-test-date-time-picker-error]').textContent.trim(), 'inline error response for future time')
                 .to.equal('Must be in the past');
@@ -166,7 +166,7 @@ describe('Acceptance: Editor', function () {
             // saves the post with the new date
             let validTime = moment('2017-04-09 12:00').tz('Etc/UTC');
             await fillIn('[data-test-date-time-picker-time-input]', validTime.format('HH:mm'));
-            await await blur('[data-test-date-time-picker-time-input]');
+            await blur('[data-test-date-time-picker-time-input]');
             await datepickerSelect('[data-test-date-time-picker-datepicker]', validTime);
 
             // hide psm
@@ -242,7 +242,7 @@ describe('Acceptance: Editor', function () {
             // saves the post with a new date
             await datepickerSelect('[data-test-date-time-picker-datepicker]', moment('2016-05-10 10:00'));
             await fillIn('[data-test-date-time-picker-time-input]', '10:00');
-            await await blur('[data-test-date-time-picker-time-input]');
+            await blur('[data-test-date-time-picker-time-input]');
             // saving
             await click('[data-test-publishmenu-trigger]');
 
@@ -440,7 +440,7 @@ describe('Acceptance: Editor', function () {
             await click('[data-test-publishmenu-scheduled-option]');
             await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', plusTenMin);
             await fillIn('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]', plusTenMin.format('HH:mm'));
-            await await blur('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]');
+            await blur('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]');
 
             await click('[data-test-publishmenu-save]');
 
@@ -586,7 +586,7 @@ describe('Acceptance: Editor', function () {
                 'url on initial visit'
             ).to.equal('/editor');
 
-            await await blur('[data-test-editor-title-input]');
+            await blur('[data-test-editor-title-input]');
 
             expect(
                 find('[data-test-editor-title-input]').value,
@@ -610,7 +610,7 @@ describe('Acceptance: Editor', function () {
 
             // excerpt has validation
             await fillIn('[data-test-field="custom-excerpt"]', Array(302).join('a'));
-            await await blur('[data-test-field="custom-excerpt"]');
+            await blur('[data-test-field="custom-excerpt"]');
 
             expect(
                 find('[data-test-error="custom-excerpt"]').textContent.trim(),
@@ -624,7 +624,7 @@ describe('Acceptance: Editor', function () {
 
             // changing custom excerpt auto-saves
             await fillIn('[data-test-field="custom-excerpt"]', 'Testing excerpt');
-            await await blur('[data-test-field="custom-excerpt"]');
+            await blur('[data-test-field="custom-excerpt"]');
 
             expect(
                 this.server.db.posts.find(post.id).customExcerpt,
@@ -639,7 +639,7 @@ describe('Acceptance: Editor', function () {
             // header injection has validation
             let headerCM = find('[data-test-field="codeinjection-head"] .CodeMirror')[0].CodeMirror;
             await headerCM.setValue(Array(65540).join('a'));
-            await await blur(headerCM.getInputField());
+            await blur(headerCM.getInputField());
 
             expect(
                 find('[data-test-error="codeinjection-head"]').textContent.trim(),
@@ -653,7 +653,7 @@ describe('Acceptance: Editor', function () {
 
             // changing header injection auto-saves
             await headerCM.setValue('<script src="http://example.com/inject-head.js"></script>');
-            await await blur(headerCM.getInputField());
+            await blur(headerCM.getInputField());
 
             expect(
                 this.server.db.posts.find(post.id).codeinjectionHead,
@@ -663,7 +663,7 @@ describe('Acceptance: Editor', function () {
             // footer injection has validation
             let footerCM = find('[data-test-field="codeinjection-foot"] .CodeMirror')[0].CodeMirror;
             await footerCM.setValue(Array(65540).join('a'));
-            await await blur(footerCM.getInputField());
+            await blur(footerCM.getInputField());
 
             expect(
                 find('[data-test-error="codeinjection-foot"]').textContent.trim(),
@@ -677,7 +677,7 @@ describe('Acceptance: Editor', function () {
 
             // changing footer injection auto-saves
             await footerCM.setValue('<script src="http://example.com/inject-foot.js"></script>');
-            await await blur(footerCM.getInputField());
+            await blur(footerCM.getInputField());
 
             expect(
                 this.server.db.posts.find(post.id).codeinjectionFoot,
@@ -699,7 +699,7 @@ describe('Acceptance: Editor', function () {
 
             // twitter title has validation
             await fillIn('[data-test-field="twitter-title"]', Array(302).join('a'));
-            await await blur('[data-test-field="twitter-title"]');
+            await blur('[data-test-field="twitter-title"]');
 
             expect(
                 find('[data-test-error="twitter-title"]').textContent.trim(),
@@ -714,7 +714,7 @@ describe('Acceptance: Editor', function () {
             // changing twitter title auto-saves
             // twitter title has validation
             await fillIn('[data-test-field="twitter-title"]', 'Test Twitter Title');
-            await await blur('[data-test-field="twitter-title"]');
+            await blur('[data-test-field="twitter-title"]');
 
             expect(
                 this.server.db.posts.find(post.id).twitterTitle,
@@ -723,7 +723,7 @@ describe('Acceptance: Editor', function () {
 
             // twitter description has validation
             await fillIn('[data-test-field="twitter-description"]', Array(505).join('a'));
-            await await blur('[data-test-field="twitter-description"]');
+            await blur('[data-test-field="twitter-description"]');
 
             expect(
                 find('[data-test-error="twitter-description"]').textContent.trim(),
@@ -738,7 +738,7 @@ describe('Acceptance: Editor', function () {
             // changing twitter description auto-saves
             // twitter description has validation
             await fillIn('[data-test-field="twitter-description"]', 'Test Twitter Description');
-            await await blur('[data-test-field="twitter-description"]');
+            await blur('[data-test-field="twitter-description"]');
 
             expect(
                 this.server.db.posts.find(post.id).twitterDescription,
@@ -760,7 +760,7 @@ describe('Acceptance: Editor', function () {
 
             // facebook title has validation
             await fillIn('[data-test-field="og-title"]', Array(302).join('a'));
-            await await blur('[data-test-field="og-title"]');
+            await blur('[data-test-field="og-title"]');
 
             expect(
                 find('[data-test-error="og-title"]').textContent.trim(),
@@ -775,7 +775,7 @@ describe('Acceptance: Editor', function () {
             // changing facebook title auto-saves
             // facebook title has validation
             await fillIn('[data-test-field="og-title"]', 'Test Facebook Title');
-            await await blur('[data-test-field="og-title"]');
+            await blur('[data-test-field="og-title"]');
 
             expect(
                 this.server.db.posts.find(post.id).ogTitle,
@@ -784,7 +784,7 @@ describe('Acceptance: Editor', function () {
 
             // facebook description has validation
             await fillIn('[data-test-field="og-description"]', Array(505).join('a'));
-            await await blur('[data-test-field="og-description"]');
+            await blur('[data-test-field="og-description"]');
 
             expect(
                 find('[data-test-error="og-description"]').textContent.trim(),
@@ -799,7 +799,7 @@ describe('Acceptance: Editor', function () {
             // changing facebook description auto-saves
             // facebook description has validation
             await fillIn('[data-test-field="og-description"]', 'Test Facebook Description');
-            await await blur('[data-test-field="og-description"]');
+            await blur('[data-test-field="og-description"]');
 
             expect(
                 this.server.db.posts.find(post.id).ogDescription,

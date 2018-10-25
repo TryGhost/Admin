@@ -179,7 +179,7 @@ describe('Acceptance: Settings - Tags', function () {
 
             // trigger save
             await fillIn('.tag-settings-pane input[name="name"]', 'New Name');
-            await await blur('.tag-settings-pane input[name="name"]');
+            await blur('.tag-settings-pane input[name="name"]');
 
             // extra timeout needed for Travis - sometimes it doesn't update
             // quick enough and an extra wait() call doesn't help
@@ -209,7 +209,7 @@ describe('Acceptance: Settings - Tags', function () {
 
             // save new tag
             await fillIn('.tag-settings-pane input[name="name"]', 'New Tag');
-            await await blur('.tag-settings-pane input[name="name"]');
+            await blur('.tag-settings-pane input[name="name"]');
 
             // extra timeout needed for FF on Linux - sometimes it doesn't update
             // quick enough, especially on Travis, and an extra wait() call
@@ -302,7 +302,7 @@ describe('Acceptance: Settings - Tags', function () {
 
             // update the slug
             await fillIn('.tag-settings-pane input[name="slug"]', 'test');
-            await await blur('.tag-settings-pane input[name="slug"]');
+            await blur('.tag-settings-pane input[name="slug"]');
 
             // tests don't have a location.hash so we can only check that the
             // slug portion is updated correctly

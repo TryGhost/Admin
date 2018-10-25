@@ -339,13 +339,13 @@ describe('Acceptance: Settings - General', function () {
             expect(find('[data-test-password-input]').value, 'password default value').to.not.equal('');
 
             await fillIn('[data-test-password-input]', '');
-            await await blur('[data-test-password-input]');
+            await blur('[data-test-password-input]');
 
             expect(find('[data-test-password-error]').textContent.trim(), 'empty password error')
                 .to.equal('Password must be supplied');
 
             await fillIn('[data-test-password-input]', 'asdfg');
-            await await blur('[data-test-password-input]');
+            await blur('[data-test-password-input]');
 
             expect(find('[data-test-password-error]').textContent.trim(), 'present password error')
                 .to.equal('');
@@ -354,7 +354,7 @@ describe('Acceptance: Settings - General', function () {
         it('handles social blog settings correctly', async function () {
             let testSocialInput = async function (type, input, expectedValue, expectedError = '') {
                 await fillIn(`[data-test-${type}-input]`, input);
-                await await blur(`[data-test-${type}-input]`);
+                await blur(`[data-test-${type}-input]`);
 
                 expect(
                     find(`[data-test-${type}-input]`).value,
@@ -383,8 +383,8 @@ describe('Acceptance: Settings - General', function () {
             expect(find('[data-test-facebook-input]').value, 'initial facebook value')
                 .to.equal('https://www.facebook.com/test');
 
-            await await focus('[data-test-facebook-input]');
-            await await blur('[data-test-facebook-input]');
+            await focus('[data-test-facebook-input]');
+            await blur('[data-test-facebook-input]');
 
             // regression test: we still have a value after the input is
             // focused and then blurred without any changes
@@ -435,8 +435,8 @@ describe('Acceptance: Settings - General', function () {
             expect(find('[data-test-twitter-input]').value, 'initial twitter value')
                 .to.equal('https://twitter.com/test');
 
-            await await focus('[data-test-twitter-input]');
-            await await blur('[data-test-twitter-input]');
+            await focus('[data-test-twitter-input]');
+            await blur('[data-test-twitter-input]');
 
             // regression test: we still have a value after the input is
             // focused and then blurred without any changes

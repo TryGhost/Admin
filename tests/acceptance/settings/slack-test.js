@@ -119,7 +119,7 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
 
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
-            await await blur('[data-test-slack-url-input]');
+            await blur('[data-test-slack-url-input]');
 
             await visit('/settings/design');
 

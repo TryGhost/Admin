@@ -295,7 +295,7 @@ describe('Acceptance: Setup', function () {
 
             // single invalid email
             await fillIn(input, 'invalid email');
-            await await blur(input);
+            await blur(input);
 
             expect(formGroup, 'invalid field has error class')
                 .to.have.class('error');
@@ -308,14 +308,14 @@ describe('Acceptance: Setup', function () {
 
             // multiple invalid emails
             await fillIn(input, 'invalid email\nanother invalid address');
-            await await blur(input);
+            await blur(input);
 
             expect(button.textContent, 'multiple invalid button text')
                 .to.have.string('2 invalid email addresses');
 
             // single valid email
             await fillIn(input, 'invited@example.com');
-            await await blur(input);
+            await blur(input);
 
             expect(formGroup, 'valid field has error class')
                 .to.not.have.class('error');
@@ -328,7 +328,7 @@ describe('Acceptance: Setup', function () {
 
             // multiple valid emails
             await fillIn(input, 'invited1@example.com\ninvited2@example.com');
-            await await blur(input);
+            await blur(input);
 
             expect(button.textContent, 'multiple valid button text')
                 .to.have.string('Invite 2 users');
