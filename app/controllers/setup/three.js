@@ -11,6 +11,7 @@ import {isInvalidError} from 'ember-ajax/errors';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
+import Ember from 'ember';
 
 const {Errors} = DS;
 
