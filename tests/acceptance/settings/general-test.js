@@ -489,7 +489,7 @@ describe('Acceptance: Settings - General', function () {
             expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
-            await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
+            await click('.fullscreen-modal [data-test-leave-button]');
 
             expect(currentURL(), 'currentURL').to.equal('/settings/team');
 

@@ -1,142 +1,136 @@
 import Mirage from 'ember-cli-mirage';
-/* eslint-disable camelcase */
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import destroyApp from '../../helpers/destroy-app';
 import mockThemes from 'ghost-admin/mirage/config/themes';
-import startApp from '../../helpers/start-app';
-import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import {blur, click, currentPath, currentURL, fillIn, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {beforeEach, describe, it} from 'mocha';
+import {blur, click, currentRouteName, currentURL, fillIn, find, findAll, triggerEvent, typeIn} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {fileUpload} from '../../helpers/file-upload';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../../helpers/visit';
+
+// simulate jQuery's `:visible` pseudo-selector
+function withText(elements) {
+    return Array.from(elements).filter(elem => elem.textContent.trim() !== '');
+}
 
 describe('Acceptance: Settings - Design', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects to signin when not authenticated', async function () {
-        invalidateSession(application);
+        await invalidateSession();
         await visit('/settings/design');
 
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
     it('redirects to team page when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/design');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     it('redirects to team page when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/design');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     describe('when logged in', function () {
-        beforeEach(function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+        beforeEach(async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            authenticateSession(application);
+            await authenticateSession();
         });
 
         it('can visit /settings/design', async function () {
             await visit('/settings/design');
 
-            expect(currentPath()).to.equal('settings.design.index');
+            expect(currentRouteName()).to.equal('settings.design.index');
             expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Save');
 
             // fixtures contain two nav items, check for three rows as we
             // should have one extra that's blank
             expect(
-                findAll('.gh-blognav-item').length,
+                findAll('[data-test-navitem]').length,
                 'navigation items count'
             ).to.equal(3);
         });
 
         it('saves navigation settings', async function () {
             await visit('/settings/design');
-            await fillIn('.gh-blognav-label:first input', 'Test');
-            await fillIn('.gh-blognav-url:first input', '/test');
-            await await blur('.gh-blognav-url:first input');
-
+            await fillIn('[data-test-navitem="0"] [data-test-input="label"]', 'Test');
+            await typeIn('[data-test-navitem="0"] [data-test-input="url"]', '/test');
             await click('[data-test-save-button]');
 
-            let [navSetting] = server.db.settings.where({key: 'navigation'});
+            let [navSetting] = this.server.db.settings.where({key: 'navigation'});
 
             expect(navSetting.value).to.equal('[{"label":"Test","url":"/test/"},{"label":"About","url":"/about"}]');
 
             // don't test against .error directly as it will pick up failed
             // tests "pre.error" elements
-            expect(findAll('span.error').length, 'error fields count').to.equal(0);
+            expect(findAll('span.error').length, 'error messages count').to.equal(0);
             expect(findAll('.gh-alert').length, 'alerts count').to.equal(0);
-            expect(findAll('.response:visible').length, 'validation errors count')
+            expect(withText(findAll('[data-test-error]')).length, 'validation errors count')
                 .to.equal(0);
         });
 
         it('validates new item correctly on save', async function () {
             await visit('/settings/design');
-
             await click('[data-test-save-button]');
 
             expect(
-                findAll('.gh-blognav-item').length,
+                findAll('[data-test-navitem]').length,
                 'number of nav items after saving with blank new item'
             ).to.equal(3);
 
-            await fillIn('.gh-blognav-label:last input', 'Test');
-            await fillIn('.gh-blognav-url:last input', 'http://invalid domain/');
-            await await blur('.gh-blognav-url:last input');
+            await fillIn('[data-test-navitem="new"] [data-test-input="label"]', 'Test');
+            await fillIn('[data-test-navitem="new"] [data-test-input="url"]', '');
+            await typeIn('[data-test-navitem="new"] [data-test-input="url"]', 'http://invalid domain/');
 
             await click('[data-test-save-button]');
 
             expect(
-                findAll('.gh-blognav-item').length,
+                findAll('[data-test-navitem]').length,
                 'number of nav items after saving with invalid new item'
             ).to.equal(3);
 
             expect(
-                findAll('.gh-blognav-item:last .error').length,
+                withText(findAll('[data-test-navitem="new"] [data-test-error]')).length,
                 'number of invalid fields in new item'
             ).to.equal(1);
         });
 
         it('clears unsaved settings when navigating away but warns with a confirmation dialog', async function () {
             await visit('/settings/design');
-            await fillIn('.gh-blognav-label:first input', 'Test');
-            await await blur('.gh-blognav-label:first input');
+            await fillIn('[data-test-navitem="0"] [data-test-input="label"]', 'Test');
+            await blur('[data-test-navitem="0"] [data-test-input="label"]');
 
-            expect(find('.gh-blognav-label:first input').value).to.equal('Test');
-            // this.timeout(0);
-            // return pauseTest();
+            expect(find('[data-test-navitem="0"] [data-test-input="label"]').value).to.equal('Test');
 
             await visit('/settings/code-injection');
 
             expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
-            await (click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving');
+            await click('.fullscreen-modal [data-test-leave-button]'), 'leave without saving';
 
             expect(currentURL(), 'currentURL').to.equal('/settings/code-injection');
 
             await visit('/settings/design');
 
-            expect(find('.gh-blognav-label:first input').value).to.equal('Home');
+            expect(find('[data-test-navitem="0"] [data-test-input="label"]').value).to.equal('Home');
         });
 
         it('can add and remove items', async function () {
@@ -144,57 +138,57 @@ describe('Acceptance: Settings - Design', function () {
             await click('.gh-blognav-add');
 
             expect(
-                find('.gh-blognav-label:last .response').is(':visible'),
+                find('[data-test-navitem="new"] [data-test-error="label"]').textContent.trim(),
                 'blank label has validation error'
-            ).to.be.true;
+            ).to.not.be.empty;
 
-            await fillIn('.gh-blognav-label:last input', 'New');
-            await triggerEvent('.gh-blognav-label:last input', 'keypress', {});
+            await fillIn('[data-test-navitem="new"] [data-test-input="label"]', '');
+            await typeIn('[data-test-navitem="new"] [data-test-input="label"]', 'New');
 
             expect(
-                find('.gh-blognav-label:last .response').is(':visible'),
+                find('[data-test-navitem="new"] [data-test-error="label"]').textContent.trim(),
                 'label validation is visible after typing'
-            ).to.be.false;
+            ).to.be.empty;
 
-            await fillIn('.gh-blognav-url:last input', '/new');
-            await triggerEvent('.gh-blognav-url:last input', 'keypress', {});
-            await await blur('.gh-blognav-url:last input');
+            await fillIn('[data-test-navitem="new"] [data-test-input="url"]', '');
+            await typeIn('[data-test-navitem="new"] [data-test-input="url"]', '/new');
+            await blur('[data-test-navitem="new"] [data-test-input="url"]');
 
             expect(
-                find('.gh-blognav-url:last .response').is(':visible'),
+                find('[data-test-navitem="new"] [data-test-error="url"]').textContent.trim(),
                 'url validation is visible after typing'
-            ).to.be.false;
+            ).to.be.empty;
 
             expect(
-                find('.gh-blognav-url:last input').value
-            ).to.equal(`${window.location.origin}/new`);
+                find('[data-test-navitem="new"] [data-test-input="url"]').value
+            ).to.equal(`${window.location.origin}/new/`);
 
             await click('.gh-blognav-add');
 
             expect(
-                findAll('.gh-blognav-item').length,
+                findAll('[data-test-navitem]').length,
                 'number of nav items after successful add'
             ).to.equal(4);
 
             expect(
-                find('.gh-blognav-label:last input').value,
+                find('[data-test-navitem="new"] [data-test-input="label"]').value,
                 'new item label value after successful add'
             ).to.be.empty;
 
             expect(
-                find('.gh-blognav-url:last input').value,
+                find('[data-test-navitem="new"] [data-test-input="url"]').value,
                 'new item url value after successful add'
             ).to.equal(`${window.location.origin}/`);
 
             expect(
-                findAll('.gh-blognav-item .response:visible').length,
+                withText(findAll('[data-test-navitem] [data-test-error]')).length,
                 'number or validation errors shown after successful add'
             ).to.equal(0);
 
-            await click('.gh-blognav-item:first .gh-blognav-delete');
+            await click('[data-test-navitem="0"] .gh-blognav-delete');
 
             expect(
-                findAll('.gh-blognav-item').length,
+                findAll('[data-test-navitem]').length,
                 'number of nav items after successful remove'
             ).to.equal(3);
 
@@ -205,7 +199,7 @@ describe('Acceptance: Settings - Design', function () {
                 ctrlKey: ctrlOrCmd === 'ctrl'
             });
 
-            let [navSetting] = server.db.settings.where({key: 'navigation'});
+            let [navSetting] = this.server.db.settings.where({key: 'navigation'});
 
             expect(navSetting.value).to.equal('[{"label":"About","url":"/about"},{"label":"New","url":"/new/"}]');
         });
@@ -229,7 +223,7 @@ describe('Acceptance: Settings - Design', function () {
             // - displays modal
             // - deletes theme and refreshes list
 
-            server.loadFixtures('themes');
+            this.server.loadFixtures('themes');
             await visit('/settings/design');
 
             // lists available themes (themes are specified in mirage/fixtures/settings)
@@ -246,7 +240,7 @@ describe('Acceptance: Settings - Design', function () {
             // theme upload displays modal
             await click('[data-test-upload-theme-button]');
             expect(
-                find('[data-test-modal="upload-theme"]').length,
+                findAll('[data-test-modal="upload-theme"]').length,
                 'theme upload modal displayed after button click'
             ).to.equal(1);
 
@@ -260,6 +254,7 @@ describe('Acceptance: Settings - Design', function () {
             // theme upload validates mime type
             await click('[data-test-upload-theme-button]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {type: 'text/csv'});
+
             expect(
                 find('.fullscreen-modal .failed').textContent,
                 'validation error is shown for invalid mime type'
@@ -274,7 +269,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/default Casper theme cannot be overwritten/);
 
             // theme upload handles upload errors
-            server.post('/themes/upload/', function () {
+            this.server.post('/themes/upload/', function () {
                 return new Mirage.Response(422, {}, {
                     errors: [{
                         message: 'Invalid theme'
@@ -283,6 +278,7 @@ describe('Acceptance: Settings - Design', function () {
             });
             await click('[data-test-upload-try-again-button]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'error.zip', type: 'application/zip'});
+
             expect(
                 find('.fullscreen-modal .failed').textContent.trim(),
                 'validation error is passed through from server'
@@ -292,7 +288,7 @@ describe('Acceptance: Settings - Design', function () {
             mockThemes(server);
 
             // theme upload handles validation errors
-            server.post('/themes/upload/', function () {
+            this.server.post('/themes/upload/', function () {
                 return new Mirage.Response(422, {}, {
                     errors: [
                         {
@@ -338,7 +334,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.equal('Invalid theme');
 
             expect(
-                find('.theme-validation-rule-text').textContent,
+                findAll('.theme-validation-rule-text')[1].textContent,
                 'top-level errors are displayed'
             ).to.match(/Templates must contain valid Handlebars/);
 
@@ -374,7 +370,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.equal('Upload a theme');
 
             // theme upload handles validation warnings
-            server.post('/themes/upload/', function ({themes}) {
+            this.server.post('/themes/upload/', function ({themes}) {
                 let theme = {
                     name: 'blackpalm',
                     package: {
@@ -490,7 +486,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.be.true;
 
             // theme activation shows errors
-            server.put('themes/:theme/activate', function () {
+            this.server.put('themes/:theme/activate', function () {
                 return new Mirage.Response(422, {}, {
                     errors: [
                         {
@@ -560,7 +556,7 @@ describe('Acceptance: Settings - Design', function () {
             expect(find('[data-test-theme-warnings-modal]')).to.not.exist;
 
             // theme activation shows warnings
-            server.put('themes/:theme/activate', function ({themes}, {params}) {
+            this.server.put('themes/:theme/activate', function ({themes}, {params}) {
                 themes.all().update('active', false);
                 let theme = themes.findBy({name: params.theme}).update({active: true});
 
@@ -649,7 +645,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.not.match(/Test 1/);
 
             // validation errors are handled when deleting a theme
-            server.del('/themes/:theme/', function () {
+            this.server.del('/themes/:theme/', function () {
                 return new Mirage.Response(422, {}, {
                     errors: [{
                         message: 'Can\'t delete theme'
@@ -680,10 +676,10 @@ describe('Acceptance: Settings - Design', function () {
         });
 
         it('can delete then re-upload the same theme', async function () {
-            server.loadFixtures('themes');
+            this.server.loadFixtures('themes');
 
             // mock theme upload to emulate uploading theme with same id
-            server.post('/themes/upload/', function ({themes}) {
+            this.server.post('/themes/upload/', function ({themes}) {
                 let theme = themes.create({
                     name: 'foo',
                     package: {
