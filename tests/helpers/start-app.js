@@ -1,6 +1,5 @@
 import Application from '../../app';
 import config from '../../config/environment';
-import fileUpload from './file-upload'; // eslint-disable-line
 import registerPowerDatepickerHelpers from '../../tests/helpers/ember-power-datepicker';
 import registerPowerSelectHelpers from 'ember-power-select/test-support/helpers';
 import {assign} from '@ember/polyfills';
