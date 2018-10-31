@@ -4,10 +4,12 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
-import {blur, click, currentRouteName, currentURL, fillIn, find, findAll, triggerEvent, visit} from '@ember/test-helpers';
+import {blur, click, currentRouteName, currentURL, fillIn, find, findAll, triggerEvent} from '@ember/test-helpers';
+import {datepickerSelect} from 'ember-power-datepicker/test-support';
 import {expect} from 'chai';
+import {selectChoose} from 'ember-power-select/test-support';
 import {setupApplicationTest} from 'ember-mocha';
-// import {selectChoose} from 'ember-power-select/test-support';
+import {visit} from '../helpers/visit';
 
 // TODO: update ember-power-datepicker to expose modern test helpers
 // https://github.com/cibernox/ember-power-datepicker/issues/30
@@ -137,7 +139,7 @@ describe('Acceptance: Editor', function () {
             // should error, if the publish time is in the future
             // NOTE: date must be selected first, changing the time first will save
             // with the new time
-            await datepickerSelect('[data-test-date-time-picker-datepicker]', moment.tz('Etc/UTC'));
+            await datepickerSelect('[data-test-date-time-picker-datepicker]', moment.tz('Etc/UTC').toDate());
             await fillIn('[data-test-date-time-picker-time-input]', futureTime.format('HH:mm'));
             await blur('[data-test-date-time-picker-time-input]');
 
@@ -149,9 +151,9 @@ describe('Acceptance: Editor', function () {
             await click('[data-test-psm-trigger]');
 
             expect(
-                find('[data-test-date-time-picker-error]').textContent.trim(),
+                find('[data-test-date-time-picker-error]'),
                 'date picker error after closing PSM'
-            ).to.equal('');
+            ).to.not.exist;
 
             expect(
                 find('[data-test-date-time-picker-date-input]').value,
@@ -167,7 +169,7 @@ describe('Acceptance: Editor', function () {
             let validTime = moment('2017-04-09 12:00').tz('Etc/UTC');
             await fillIn('[data-test-date-time-picker-time-input]', validTime.format('HH:mm'));
             await blur('[data-test-date-time-picker-time-input]');
-            await datepickerSelect('[data-test-date-time-picker-datepicker]', validTime);
+            await datepickerSelect('[data-test-date-time-picker-datepicker]', validTime.toDate());
 
             // hide psm
             await click('[data-test-close-settings-menu]');
@@ -240,7 +242,7 @@ describe('Acceptance: Editor', function () {
             expect(find('[data-test-date-time-picker-time-input]').value).to.equal('16:25');
 
             // saves the post with a new date
-            await datepickerSelect('[data-test-date-time-picker-datepicker]', moment('2016-05-10 10:00'));
+            await datepickerSelect('[data-test-date-time-picker-datepicker]', moment('2016-05-10 10:00').toDate());
             await fillIn('[data-test-date-time-picker-time-input]', '10:00');
             await blur('[data-test-date-time-picker-time-input]');
             // saving
@@ -268,7 +270,7 @@ describe('Acceptance: Editor', function () {
                 .to.equal('(GMT) UTC');
 
             // select a new timezone
-            find('#activeTimezone option[value="Pacific/Kwajalein"]').prop('selected', true);
+            find('#activeTimezone option[value="Pacific/Kwajalein"]').selected = true;
 
             await triggerEvent('#activeTimezone', 'change');
             // save the settings
@@ -331,7 +333,7 @@ describe('Acceptance: Editor', function () {
                 'draft post, schedule button text'
             ).to.equal('Schedule');
 
-            await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', newFutureTime);
+            await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', new Date(newFutureTime.format().replace(/\+.*$/, '')));
             await click('[data-test-publishmenu-save]');
 
             expect(
@@ -438,7 +440,7 @@ describe('Acceptance: Editor', function () {
 
             await click('[data-test-publishmenu-trigger]');
             await click('[data-test-publishmenu-scheduled-option]');
-            await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', plusTenMin);
+            await datepickerSelect('[data-test-publishmenu-draft] [data-test-date-time-picker-datepicker]', plusTenMin.toDate());
             await fillIn('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]', plusTenMin.format('HH:mm'));
             await blur('[data-test-publishmenu-draft] [data-test-date-time-picker-time-input]');
 
@@ -557,7 +559,7 @@ describe('Acceptance: Editor', function () {
 
             await click('button.post-settings');
 
-            let tokens = find('[data-test-input="authors"] .ember-power-select-multiple-option');
+            let tokens = findAll('[data-test-input="authors"] .ember-power-select-multiple-option');
 
             expect(tokens.length).to.equal(1);
             expect(tokens[0].textContent.trim()).to.have.string('Primary');
@@ -586,6 +588,7 @@ describe('Acceptance: Editor', function () {
                 'url on initial visit'
             ).to.equal('/editor');
 
+            await click('[data-test-editor-title-input]');
             await blur('[data-test-editor-title-input]');
 
             expect(
@@ -637,8 +640,9 @@ describe('Acceptance: Editor', function () {
             await click('[data-test-button="codeinjection"]');
 
             // header injection has validation
-            let headerCM = find('[data-test-field="codeinjection-head"] .CodeMirror')[0].CodeMirror;
+            let headerCM = find('[data-test-field="codeinjection-head"] .CodeMirror').CodeMirror;
             await headerCM.setValue(Array(65540).join('a'));
+            await click(headerCM.getInputField());
             await blur(headerCM.getInputField());
 
             expect(
@@ -653,6 +657,7 @@ describe('Acceptance: Editor', function () {
 
             // changing header injection auto-saves
             await headerCM.setValue('<script src="http://example.com/inject-head.js"></script>');
+            await click(headerCM.getInputField());
             await blur(headerCM.getInputField());
 
             expect(
@@ -661,8 +666,9 @@ describe('Acceptance: Editor', function () {
             ).to.equal('<script src="http://example.com/inject-head.js"></script>');
 
             // footer injection has validation
-            let footerCM = find('[data-test-field="codeinjection-foot"] .CodeMirror')[0].CodeMirror;
+            let footerCM = find('[data-test-field="codeinjection-foot"] .CodeMirror').CodeMirror;
             await footerCM.setValue(Array(65540).join('a'));
+            await click(footerCM.getInputField());
             await blur(footerCM.getInputField());
 
             expect(
@@ -677,6 +683,7 @@ describe('Acceptance: Editor', function () {
 
             // changing footer injection auto-saves
             await footerCM.setValue('<script src="http://example.com/inject-foot.js"></script>');
+            await click(footerCM.getInputField());
             await blur(footerCM.getInputField());
 
             expect(
@@ -698,6 +705,7 @@ describe('Acceptance: Editor', function () {
             await click('[data-test-button="twitter-data"]');
 
             // twitter title has validation
+            await click('[data-test-field="twitter-title"]');
             await fillIn('[data-test-field="twitter-title"]', Array(302).join('a'));
             await blur('[data-test-field="twitter-title"]');
 
@@ -713,6 +721,7 @@ describe('Acceptance: Editor', function () {
 
             // changing twitter title auto-saves
             // twitter title has validation
+            await click('[data-test-field="twitter-title"]');
             await fillIn('[data-test-field="twitter-title"]', 'Test Twitter Title');
             await blur('[data-test-field="twitter-title"]');
 
@@ -722,6 +731,7 @@ describe('Acceptance: Editor', function () {
             ).to.equal('Test Twitter Title');
 
             // twitter description has validation
+            await click('[data-test-field="twitter-description"]');
             await fillIn('[data-test-field="twitter-description"]', Array(505).join('a'));
             await blur('[data-test-field="twitter-description"]');
 
@@ -737,6 +747,7 @@ describe('Acceptance: Editor', function () {
 
             // changing twitter description auto-saves
             // twitter description has validation
+            await click('[data-test-field="twitter-description"]');
             await fillIn('[data-test-field="twitter-description"]', 'Test Twitter Description');
             await blur('[data-test-field="twitter-description"]');
 
@@ -759,6 +770,7 @@ describe('Acceptance: Editor', function () {
             await click('[data-test-button="facebook-data"]');
 
             // facebook title has validation
+            await click('[data-test-field="og-title"]');
             await fillIn('[data-test-field="og-title"]', Array(302).join('a'));
             await blur('[data-test-field="og-title"]');
 
@@ -774,6 +786,7 @@ describe('Acceptance: Editor', function () {
 
             // changing facebook title auto-saves
             // facebook title has validation
+            await click('[data-test-field="og-title"]');
             await fillIn('[data-test-field="og-title"]', 'Test Facebook Title');
             await blur('[data-test-field="og-title"]');
 
@@ -783,6 +796,7 @@ describe('Acceptance: Editor', function () {
             ).to.equal('Test Facebook Title');
 
             // facebook description has validation
+            await click('[data-test-field="og-description"]');
             await fillIn('[data-test-field="og-description"]', Array(505).join('a'));
             await blur('[data-test-field="og-description"]');
 
@@ -798,6 +812,7 @@ describe('Acceptance: Editor', function () {
 
             // changing facebook description auto-saves
             // facebook description has validation
+            await click('[data-test-field="og-description"]');
             await fillIn('[data-test-field="og-description"]', 'Test Facebook Description');
             await blur('[data-test-field="og-description"]');
 
