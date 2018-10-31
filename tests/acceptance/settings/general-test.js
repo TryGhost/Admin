@@ -1,69 +1,63 @@
-import $ from 'jquery';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import destroyApp from '../../helpers/destroy-app';
 import mockUploads from '../../../mirage/config/uploads';
-import startApp from '../../helpers/start-app';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import wait from 'ember-test-helpers/wait';
-import {afterEach, beforeEach, describe, it} from 'mocha';
-import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
-import {blur, click, currentURL, fillIn, find, findAll, focus, triggerEvent, visit} from '@ember/test-helpers';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {beforeEach, describe, it} from 'mocha';
+import {blur, click, currentURL, fillIn, find, findAll, focus, triggerEvent} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {fileUpload} from '../../helpers/file-upload';
 import {run} from '@ember/runloop';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../../helpers/visit';
 
 describe('Acceptance: Settings - General', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     it('redirects to signin when not authenticated', async function () {
-        invalidateSession(application);
+        await invalidateSession();
         await visit('/settings/general');
 
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
     it('redirects to team page when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/general');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     it('redirects to team page when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/general');
 
         expect(currentURL(), 'currentURL').to.equal('/team/test-user');
     });
 
     it('redirects to team page when authenticated as editor', async function () {
-        let role = server.create('role', {name: 'Editor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Editor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
-        authenticateSession(application);
+        await authenticateSession();
         await visit('/settings/general');
 
         expect(currentURL(), 'currentURL').to.equal('/team');
     });
 
     describe('when logged in', function () {
-        beforeEach(function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+        beforeEach(async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('it renders, handles image uploads', async function () {
@@ -76,8 +70,8 @@ describe('Acceptance: Settings - General', function () {
             expect(document.title, 'page title').to.equal('Settings - General - Test Blog');
 
             // highlights nav menu
-            expect($('[data-test-nav="settings"]').hasClass('active'), 'highlights nav menu item')
-                .to.be.true;
+            expect(find('[data-test-nav="settings"]'), 'highlights nav menu item')
+                .to.have.class('active');
 
             expect(
                 find('[data-test-save-button]').textContent.trim(),
@@ -111,7 +105,7 @@ describe('Acceptance: Settings - General', function () {
 
             // select file
             fileUpload(
-                '[data-test-file-input="icon"]',
+                '[data-test-file-input="icon"] input',
                 ['test'],
                 {name: 'pub-icon.ico', type: 'image/x-icon'}
             );
@@ -136,7 +130,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.not.exist;
 
             // failed upload shows error
-            server.post('/uploads/icon/', function () {
+            this.server.post('/uploads/icon/', function () {
                 return {
                     errors: [{
                         errorType: 'ValidationError',
@@ -146,7 +140,7 @@ describe('Acceptance: Settings - General', function () {
             }, 422);
             await click('[data-test-delete-image="icon"]');
             await fileUpload(
-                '[data-test-file-input="icon"]',
+                '[data-test-file-input="icon"] input',
                 ['test'],
                 {name: 'pub-icon.ico', type: 'image/x-icon'}
             );
@@ -180,7 +174,7 @@ describe('Acceptance: Settings - General', function () {
 
             // select file
             fileUpload(
-                '[data-test-file-input="logo"]',
+                '[data-test-file-input="logo"] input',
                 ['test'],
                 {name: 'pub-logo.png', type: 'image/png'}
             );
@@ -205,7 +199,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.not.exist;
 
             // failed upload shows error
-            server.post('/uploads/', function () {
+            this.server.post('/uploads/', function () {
                 return {
                     errors: [{
                         errorType: 'ValidationError',
@@ -215,7 +209,7 @@ describe('Acceptance: Settings - General', function () {
             }, 422);
             await click('[data-test-delete-image="logo"]');
             await fileUpload(
-                '[data-test-file-input="logo"]',
+                '[data-test-file-input="logo"] input',
                 ['test'],
                 {name: 'pub-logo.png', type: 'image/png'}
             );
@@ -249,7 +243,7 @@ describe('Acceptance: Settings - General', function () {
 
             // select file
             fileUpload(
-                '[data-test-file-input="coverImage"]',
+                '[data-test-file-input="coverImage"] input',
                 ['test'],
                 {name: 'pub-coverImage.png', type: 'image/png'}
             );
@@ -274,7 +268,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.not.exist;
 
             // failed upload shows error
-            server.post('/uploads/', function () {
+            this.server.post('/uploads/', function () {
                 return {
                     errors: [{
                         errorType: 'ValidationError',
@@ -284,7 +278,7 @@ describe('Acceptance: Settings - General', function () {
             }, 422);
             await click('[data-test-delete-image="coverImage"]');
             await fileUpload(
-                '[data-test-file-input="coverImage"]',
+                '[data-test-file-input="coverImage"] input',
                 ['test'],
                 {name: 'pub-coverImage.png', type: 'image/png'}
             );
@@ -306,7 +300,7 @@ describe('Acceptance: Settings - General', function () {
             });
             // we've already saved in this test so there's no on-screen indication
             // that we've had another save, check the request was fired instead
-            let [lastRequest] = server.pretender.handledRequests.slice(-1);
+            let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
             expect(params.settings.findBy('key', 'title').value).to.equal('CMD-S Test');
         });
@@ -319,7 +313,7 @@ describe('Acceptance: Settings - General', function () {
 
             expect(findAll('#activeTimezone option').length, 'available timezones').to.equal(66);
             expect(find('#activeTimezone option:checked').textContent.trim()).to.equal('(GMT) UTC');
-            find('#activeTimezone option[value="Africa/Cairo"]').prop('selected', true);
+            find('#activeTimezone option[value="Africa/Cairo"]').selected = true;
 
             await triggerEvent('#activeTimezone', 'change');
             await click('[data-test-save-button]');
@@ -367,7 +361,7 @@ describe('Acceptance: Settings - General', function () {
                 ).to.equal(expectedError);
 
                 expect(
-                    find(`[data-test-${type}-input]`).closest('.form-group').hasClass('error'),
+                    find(`[data-test-${type}-input]`).closest('.form-group').classList.contains('error'),
                     `${type} input should be in error state with '${input}'`
                 ).to.equal(!!expectedError);
             };
@@ -470,7 +464,7 @@ describe('Acceptance: Settings - General', function () {
             await visit('/settings/general');
 
             expect(
-                find('[data-test-private-checkbox]').prop('checked'),
+                find('[data-test-private-checkbox]').checked,
                 'private blog checkbox'
             ).to.be.false;
 
@@ -480,7 +474,7 @@ describe('Acceptance: Settings - General', function () {
             await click('[data-test-private-checkbox]');
 
             expect(
-                find('[data-test-private-checkbox]').prop('checked'),
+                find('[data-test-private-checkbox]').checked,
                 'private blog checkbox'
             ).to.be.true;
 
@@ -499,7 +493,7 @@ describe('Acceptance: Settings - General', function () {
 
             // settings were not saved
             expect(
-                find('[data-test-private-checkbox]').prop('checked'),
+                find('[data-test-private-checkbox]').checked,
                 'private blog checkbox'
             ).to.be.false;
 
