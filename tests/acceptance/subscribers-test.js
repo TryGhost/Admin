@@ -3,6 +3,7 @@ import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-sup
 import {beforeEach, describe, it} from 'mocha';
 import {click, currentRouteName, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {fileUpload} from '../helpers/file-upload';
 import {setupApplicationTest} from 'ember-mocha';
 import {visit} from '../helpers/visit';
 
