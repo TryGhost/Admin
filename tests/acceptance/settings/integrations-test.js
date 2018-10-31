@@ -1,99 +1,89 @@
-import destroyApp from '../../helpers/destroy-app';
-import startApp from '../../helpers/start-app';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    it
-} from 'mocha';
-import {authenticateSession, invalidateSession} from 'ghost-admin/tests/helpers/ember-simple-auth';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
+import {beforeEach, describe, it} from 'mocha';
+import {click, currentRouteName, currentURL, fillIn, find, findAll, triggerEvent} from '@ember/test-helpers';
 import {expect} from 'chai';
+import {setupApplicationTest} from 'ember-mocha';
+import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Settings - Integrations', function () {
-    let application;
-
-    beforeEach(function () {
-        application = startApp();
-    });
-
-    afterEach(function () {
-        destroyApp(application);
-    });
+describe('Acceptance: Settings - Integrations - Custom', function () {
+    let hooks = setupApplicationTest();
+    setupMirage(hooks);
 
     describe('access permissions', function () {
         beforeEach(function () {
-            server.create('integration', {name: 'Test'});
+            this.server.create('integration', {name: 'Test'});
         });
 
         it('redirects /integrations/ to signin when not authenticated', async function () {
-            invalidateSession(application);
+            await invalidateSession();
             await visit('/settings/integrations');
 
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
 
         it('redirects /integrations/ to team page when authenticated as contributor', async function () {
-            let role = server.create('role', {name: 'Contributor'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Contributor'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations');
 
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
         it('redirects /integrations/ to team page when authenticated as author', async function () {
-            let role = server.create('role', {name: 'Author'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Author'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations');
 
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
         it('redirects /integrations/ to team page when authenticated as editor', async function () {
-            let role = server.create('role', {name: 'Editor'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Editor'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/team');
         });
 
         it('redirects /integrations/:id/ to signin when not authenticated', async function () {
-            invalidateSession(application);
+            await invalidateSession();
             await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
 
         it('redirects /integrations/:id/ to team page when authenticated as contributor', async function () {
-            let role = server.create('role', {name: 'Contributor'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Contributor'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
         it('redirects /integrations/:id/ to team page when authenticated as author', async function () {
-            let role = server.create('role', {name: 'Author'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Author'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/team/test-user');
         });
 
         it('redirects /integrations/:id/ to team page when authenticated as editor', async function () {
-            let role = server.create('role', {name: 'Editor'});
-            server.create('user', {roles: [role], slug: 'test-user'});
+            let role = this.server.create('role', {name: 'Editor'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            authenticateSession(application);
+            await authenticateSession();
             await visit('/settings/integrations/1');
 
             expect(currentURL(), 'currentURL').to.equal('/team');
@@ -101,11 +91,11 @@ describe('Acceptance: Settings - Integrations', function () {
     });
 
     describe('navigation', function () {
-        beforeEach(function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+        beforeEach(async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('renders correctly', async function () {
@@ -113,13 +103,13 @@ describe('Acceptance: Settings - Integrations', function () {
 
             // slack is not configured in the fixtures
             expect(
-                find('[data-test-app="slack"] [data-test-app-status]').text().trim(),
+                find('[data-test-app="slack"] [data-test-app-status]').textContent.trim(),
                 'slack app status'
             ).to.equal('Configure');
 
             // amp is enabled in the fixtures
             expect(
-                find('[data-test-app="amp"] [data-test-app-status]').text().trim(),
+                find('[data-test-app="amp"] [data-test-app-status]').textContent.trim(),
                 'amp app status'
             ).to.equal('Active');
         });
@@ -162,32 +152,32 @@ describe('Acceptance: Settings - Integrations', function () {
     });
 
     describe('custom integrations', function () {
-        beforeEach(function () {
-            server.loadFixtures('configurations');
-            let config = server.schema.configurations.first();
+        beforeEach(async function () {
+            this.server.loadFixtures('configurations');
+            let config = this.server.schema.configurations.first();
             config.update({
                 enableDeveloperExperiments: true
             });
 
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            return authenticateSession(application);
+            return await authenticateSession();
         });
 
         it('handles 404', async function () {
             await visit('/settings/integrations/1');
-            expect(currentPath()).to.equal('error404');
+            expect(currentRouteName()).to.equal('error404');
         });
 
         it('can add new integration', async function () {
             // sanity check
             expect(
-                server.db.integrations.length,
+                this.server.db.integrations.length,
                 'number of integrations in db at start'
             ).to.equal(0);
             expect(
-                server.db.apiKeys.length,
+                this.server.db.apiKeys.length,
                 'number of apiKeys in db at start'
             ).to.equal(0);
 
@@ -220,7 +210,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await click('[data-test-button="create-integration"]');
 
             expect(
-                find('[data-test-error="new-integration-name"]').text(),
+                find('[data-test-error="new-integration-name"]').textContent,
                 'name error after create with blank field'
             ).to.have.string('enter a name');
 
@@ -228,7 +218,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await click('[data-test-button="create-integration"]');
 
             expect(
-                find('[data-test-error="new-integration-name"]').text(),
+                find('[data-test-error="new-integration-name"]').textContent,
                 'name error after create with duplicate name'
             ).to.have.string('already been used');
 
@@ -236,7 +226,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await fillIn('[data-test-input="new-integration-name"]', 'Test');
 
             expect(
-                find('[data-test-error="new-integration-name"]').text().trim(),
+                find('[data-test-error="new-integration-name"]').textContent.trim(),
                 'name error after typing in field'
             ).to.be.empty;
 
@@ -248,12 +238,12 @@ describe('Acceptance: Settings - Integrations', function () {
             ).to.not.exist;
 
             expect(
-                server.db.integrations.length,
+                this.server.db.integrations.length,
                 'number of integrations in db after create'
             ).to.equal(1);
             // mirage sanity check
             expect(
-                server.db.apiKeys.length,
+                this.server.db.apiKeys.length,
                 'number of api keys in db after create'
             ).to.equal(2);
 
@@ -276,7 +266,7 @@ describe('Acceptance: Settings - Integrations', function () {
             ).to.not.exist;
 
             expect(
-                find('[data-test-custom-integration]').length,
+                findAll('[data-test-custom-integration]').length,
                 'number of custom integrations after creation'
             ).to.equal(1);
 
@@ -289,7 +279,7 @@ describe('Acceptance: Settings - Integrations', function () {
         });
 
         it('can manage an integration', async function () {
-            server.create('integration');
+            this.server.create('integration');
 
             await visit('/settings/integrations/1');
 
@@ -299,7 +289,7 @@ describe('Acceptance: Settings - Integrations', function () {
             ).to.equal('/settings/integrations/1');
 
             expect(
-                find('[data-test-screen-title]').text(),
+                find('[data-test-screen-title]').textContent,
                 'screen title'
             ).to.have.string('Integration 1');
 
@@ -307,29 +297,29 @@ describe('Acceptance: Settings - Integrations', function () {
             // TODO: add test for logo
 
             expect(
-                find('[data-test-input="name"]').val(),
+                find('[data-test-input="name"]').value,
                 'initial name value'
             ).to.equal('Integration 1');
 
             expect(
-                find('[data-test-input="description"]').val(),
+                find('[data-test-input="description"]').value,
                 'initial description value'
             ).to.equal('');
 
             expect(
-                find('[data-test-input="content_key"]').val(),
+                find('[data-test-input="content_key"]').value,
                 'content key input value'
             ).to.equal('integration-1_content_key-12345');
 
             expect(
-                find('[data-test-input="admin_key"]').val(),
+                find('[data-test-input="admin_key"]').value,
                 'admin key input value'
             ).to.equal('integration-1_admin_key-12345');
 
             // it can modify integration fields and has validation
 
             expect(
-                find('[data-test-error="name"]').text().trim(),
+                find('[data-test-error="name"]').textContent.trim(),
                 'initial name error'
             ).to.be.empty;
 
@@ -337,14 +327,14 @@ describe('Acceptance: Settings - Integrations', function () {
             await triggerEvent('[data-test-input="name"]', 'blur');
 
             expect(
-                find('[data-test-error="name"]').text(),
+                find('[data-test-error="name"]').textContent,
                 'name validation for blank string'
             ).to.have.string('enter a name');
 
             await click('[data-test-button="save"]');
 
             expect(
-                server.schema.integrations.first().name,
+                this.server.schema.integrations.first().name,
                 'db integration name after failed save'
             ).to.equal('Integration 1');
 
@@ -352,7 +342,7 @@ describe('Acceptance: Settings - Integrations', function () {
             await triggerEvent('[data-test-input="name"]', 'blur');
 
             expect(
-                find('[data-test-error="name"]').text().trim(),
+                find('[data-test-error="name"]').textContent.trim(),
                 'name error after valid entry'
             ).to.be.empty;
 
@@ -370,12 +360,12 @@ describe('Acceptance: Settings - Integrations', function () {
             ).to.equal('/settings/integrations');
 
             expect(
-                find('[data-test-integration="1"] [data-test-text="name"]').text().trim(),
+                find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(),
                 'integration name after save'
             ).to.equal('Test Integration');
 
             expect(
-                find('[data-test-integration="1"] [data-test-text="description"]').text().trim(),
+                find('[data-test-integration="1"] [data-test-text="description"]').textContent.trim(),
                 'integration description after save'
             ).to.equal('Description for Test Integration');
 
@@ -417,7 +407,7 @@ describe('Acceptance: Settings - Integrations', function () {
             ).to.equal('/settings/integrations');
 
             expect(
-                find('[data-test-integration="1"] [data-test-text="name"]').text().trim(),
+                find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(),
                 'integration name after leaving unsaved changes'
             ).to.equal('Test Integration');
         });
@@ -470,7 +460,7 @@ describe('Acceptance: Settings - Integrations', function () {
 
         // test to ensure the `value=description` passed to `gh-text-input` is `readonly`
         it('doesn\'t show unsaved changes modal after placing focus on description field', async function () {
-            server.create('integration');
+            this.server.create('integration');
 
             await visit('/settings/integrations/1');
             await click('[data-test-input="description"]');
