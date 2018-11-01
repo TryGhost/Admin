@@ -4,12 +4,9 @@ import {beforeEach, describe, it} from 'mocha';
 import {click, currentRouteName, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {fileUpload} from '../helpers/file-upload';
+import {findAllWithText, findWithText} from '../helpers/find';
 import {setupApplicationTest} from 'ember-mocha';
 import {visit} from '../helpers/visit';
-
-function withText(text, elements) {
-    return elements.find(element => RegExp(text).test(element.textContent));
-}
 
 describe('Acceptance: Subscribers', function () {
     let hooks = setupApplicationTest();
@@ -30,8 +27,8 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
-            .to.equal(0);
+        expect(find('[data-test-nav="subscribers"]'), 'sidebar link')
+            .to.not.exist;
     });
 
     it('redirects authors to posts', async function () {
@@ -42,8 +39,8 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
-            .to.equal(0);
+        expect(find('[data-test-nav="subscribers"]'), 'sidebar link')
+            .to.not.exist;
     });
 
     it('redirects contributors to posts', async function () {
@@ -54,8 +51,8 @@ describe('Acceptance: Subscribers', function () {
         await visit('/subscribers');
 
         expect(currentURL()).to.equal('/');
-        expect(findAll('[data-test-nav="subscribers"]').length, 'sidebar link is visible')
-            .to.equal(0);
+        expect(find('[data-test-nav="subscribers"]'), 'sidebar link')
+            .to.not.exist;
     });
 
     describe('an admin', function () {
@@ -94,22 +91,22 @@ describe('Acceptance: Subscribers', function () {
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             expect(lastRequest.queryParams.order).to.equal('created_at desc');
 
-            let createdAtHeader = withText('Subscription Date', find('.subscribers-table th'));
+            let createdAtHeader = findWithText('.subscribers-table th', 'Subscription Date');
             expect(createdAtHeader, 'createdAt column is sorted')
                 .to.have.class('is-sorted');
-            expect(createdAtHeader.find('.gh-icon-descending').length, 'createdAt column has descending icon')
-                .to.equal(1);
+            expect(createdAtHeader.querySelectorAll('.gh-icon-descending'), 'createdAt column has descending icon')
+                .to.exist;
 
             // click the column to re-order
-            await click(withText(find('th', 'Subscription Date')));
+            await click(findWithText('th', 'Subscription Date'));
 
             // it flips the directions and re-fetches
             [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             expect(lastRequest.queryParams.order).to.equal('created_at asc');
 
-            createdAtHeader = withText('Subscription Date', find('.subscribers-table th'));
-            expect(createdAtHeader.find('.gh-icon-ascending').length, 'createdAt column has ascending icon')
-                .to.equal(1);
+            createdAtHeader = findWithText('.subscribers-table th', 'Subscription Date');
+            expect(createdAtHeader.querySelector('.gh-icon-ascending'), 'createdAt column has ascending icon')
+                .to.exist;
 
             // TODO: scroll test disabled as ember-light-table doesn't calculate
             // the scroll trigger element's positioning against the scroll
@@ -129,28 +126,28 @@ describe('Acceptance: Subscribers', function () {
             await click('[data-test-link="add-subscriber"]');
 
             // it displays the add subscriber modal
-            expect(findAll('[data-test-modal="new-subscriber"]').length, 'add subscriber modal displayed')
-                .to.equal(1);
+            expect(find('[data-test-modal="new-subscriber"]'), 'add subscriber modal displayed')
+                .to.exist;
 
             // cancel the modal
             await click('[data-test-button="cancel-new-subscriber"]');
 
             // it closes the add subscriber modal
-            expect(findAll('[data-test-modal]').length, 'add subscriber modal displayed after cancel')
-                .to.equal(0);
+            expect(find('[data-test-modal]'), 'add subscriber modal displayed after cancel')
+                .to.not.exist;
 
             // save a new subscriber
-            await click('[data-test-button="add-subscriber"]');
+            await click('[data-test-link="add-subscriber"]');
             await fillIn('[data-test-input="new-subscriber-email"]', 'test@example.com');
             await click('[data-test-button="create-subscriber"]');
 
             // the add subscriber modal is closed
-            expect(findAll('[data-test-modal]').length, 'add subscriber modal displayed after save')
-                .to.equal(0);
+            expect(find('[data-test-modal]'), 'add subscriber modal displayed after save')
+                .to.not.exist;
 
             // the subscriber is added to the table
-            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').textContent.trim(), 'first email in list after addition')
-                .to.equal('test@example.com');
+            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type'), 'first email in list after addition')
+                .to.contain.text('test@example.com');
 
             // the table is scrolled to the top
             // TODO: implement scroll to new record after addition
@@ -158,86 +155,86 @@ describe('Acceptance: Subscribers', function () {
             //     .to.equal(0);
 
             // the subscriber total is updated
-            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after addition')
-                .to.equal('(41)');
+            expect(find('[data-test-total-subscribers]'), 'subscribers total after addition')
+                .to.have.trimmed.text('(41)');
 
             // saving a duplicate subscriber
-            await click('[data-test-button="add-subscriber"]');
+            await click('[data-test-link="add-subscriber"]');
             await fillIn('[data-test-input="new-subscriber-email"]', 'test@example.com');
             await click('[data-test-button="create-subscriber"]');
 
             // the validation error is displayed
-            expect(find('[data-test-error="new-subscriber-email"]').textContent.trim(), 'duplicate email validation')
-                .to.equal('Email already exists.');
+            expect(find('[data-test-error="new-subscriber-email"]'), 'duplicate email validation')
+                .to.have.trimmed.text('Email already exists.');
 
             // the subscriber is not added to the table
-            expect(withText('test@example.com', findAll('.lt-cell')).length, 'number of "test@example.com rows"')
+            expect(findAllWithText('.lt-cell', 'test@example.com').length, 'number of "test@example.com rows"')
                 .to.equal(1);
 
             // the subscriber total is unchanged
-            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after failed add')
-                .to.equal('(41)');
+            expect(find('[data-test-total-subscribers]'), 'subscribers total after failed add')
+                .to.have.trimmed.text('(41)');
 
             // deleting a subscriber
             await click('[data-test-button="cancel-new-subscriber"]');
             await click('.subscribers-table tbody tr:first-of-type button:last-of-type');
 
             // it displays the delete subscriber modal
-            expect(findAll('[data-test-modal="delete-subscriber"]').length, 'delete subscriber modal displayed')
-                .to.equal(1);
+            expect(find('[data-test-modal="delete-subscriber"]'), 'delete subscriber modal displayed')
+                .to.exist;
 
             // cancel the modal
             await click('[data-test-button="cancel-delete-subscriber"]');
 
             // it closes the add subscriber modal
-            expect(findAll('[data-test-modal]').length, 'delete subscriber modal displayed after cancel')
-                .to.equal(0);
+            expect(find('[data-test-modal]'), 'delete subscriber modal displayed after cancel')
+                .to.not.exist;
 
             await click('.subscribers-table tbody tr:first-of-type button:last-of-type');
             await click('[data-test-button="confirm-delete-subscriber"]');
 
             // the add subscriber modal is closed
-            expect(findAll('[data-test-modal]').length, 'delete subscriber modal displayed after confirm')
-                .to.equal(0);
+            expect(find('[data-test-modal]'), 'delete subscriber modal displayed after confirm')
+                .to.not.exist;
 
             // the subscriber is removed from the table
-            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type').textContent.trim(), 'first email in list after addition')
-                .to.not.equal('test@example.com');
+            expect(find('.subscribers-table .lt-body .lt-row:first-of-type .lt-cell:first-of-type'), 'first email in list after addition')
+                .to.not.have.trimmed.text('test@example.com');
 
             // the subscriber total is updated
-            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after addition')
-                .to.equal('(40)');
+            expect(find('[data-test-total-subscribers]'), 'subscribers total after addition')
+                .to.have.trimmed.text('(40)');
 
             // click the import subscribers button
             await click('[data-test-link="import-csv"]');
 
             // it displays the import subscribers modal
-            expect(findAll('[data-test-modal="import-subscribers"]').length, 'import subscribers modal displayed')
-                .to.equal(1);
-            expect(findAll('.fullscreen-modal input[type="file"]').length, 'import modal contains file input')
-                .to.equal(1);
+            expect(find('[data-test-modal="import-subscribers"]'), 'import subscribers modal displayed')
+                .to.exist;
+            expect(find('.fullscreen-modal input[type="file"]'), 'import modal contains file input')
+                .to.exist;
 
             // cancel the modal
             await click('[data-test-button="close-import-subscribers"]');
 
             // it closes the import subscribers modal
-            expect(findAll('[data-test-modal]').length, 'import subscribers modal displayed after cancel')
-                .to.equal(0);
+            expect(find('[data-test-modal]'), 'import subscribers modal displayed after cancel')
+                .to.not.exist;
 
             await click('[data-test-link="import-csv"]');
             await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'test.csv'});
 
             // modal title changes
-            expect(find('[data-test-modal="import-subscribers"] h1').textContent.trim(), 'import modal title after import')
-                .to.equal('Import Successful');
+            expect(find('[data-test-modal="import-subscribers"] h1'), 'import modal title after import')
+                .to.have.trimmed.text('Import Successful');
 
             // modal button changes
-            expect(find('[data-test-button="close-import-subscribers"]').textContent.trim(), 'import modal button text after import')
-                .to.equal('Close');
+            expect(find('[data-test-button="close-import-subscribers"]'), 'import modal button text after import')
+                .to.have.trimmed.text('Close');
 
             // subscriber total is updated
-            expect(find('[data-test-total-subscribers]').textContent.trim(), 'subscribers total after import')
-                .to.equal('(90)');
+            expect(find('[data-test-total-subscribers]'), 'subscribers total after import')
+                .to.have.trimmed.text('(90)');
 
             // TODO: re-enable once bug in ember-light-table that triggers second page load is fixed
             // table is reset
