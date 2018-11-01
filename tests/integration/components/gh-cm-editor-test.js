@@ -9,7 +9,7 @@ import {setupRenderingTest} from 'ember-mocha';
 // will take 1-3 seconds
 
 describe('Integration: Component: gh-cm-editor', function () {
-    setupRenderingTest('gh-cm-editor');
+    setupRenderingTest();
 
     it('handles change event', async function () {
         this.set('text', '');
