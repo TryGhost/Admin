@@ -111,10 +111,10 @@ describe('Acceptance: Error Handling', function () {
 
     describe('CloudFlare errors', function () {
         beforeEach(async function () {
-            let [role] = this.server.db.roles.where({name: 'Administrator'});
-            this.server.create('user', {roles: [role]});
-
             this.server.loadFixtures();
+
+            let roles = this.server.schema.roles.where({name: 'Administrator'});
+            this.server.create('user', {roles});
 
             return await authenticateSession();
         });
