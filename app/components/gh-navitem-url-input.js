@@ -109,8 +109,9 @@ export default TextField.extend({
 
         // if we have an email address, add the mailto:
         if (validator.isEmail(url)) {
-            url = `mailto:${url}`;
+            url = this.update(`mailto:${url}`);
             this.set('value', url);
+            return;
         }
 
         // get our baseUrl relativity checks in order
@@ -150,8 +151,10 @@ export default TextField.extend({
         // we update with the relative URL but then transform it back to absolute
         // for the input value. This avoids problems where the underlying relative
         // value hasn't changed even though the input value has
-        url = this.update(url);
-        this.set('value', this._makeAbsoluteUrl(url));
+        if (url.match(/^(\/\/|#|[a-zA-Z0-9-]+:)/) || validator.isURL(url) || validator.isURL(`${baseHost}${url}`)) {
+            url = this.update(url);
+            this.set('value', this._makeAbsoluteUrl(url));
+        }
     },
 
     _makeAbsoluteUrl(url) {
