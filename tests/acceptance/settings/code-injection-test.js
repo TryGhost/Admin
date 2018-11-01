@@ -23,8 +23,8 @@ describe('Acceptance: Settings - Code-Injection', function () {
     });
 
     it('redirects to team page when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/code-injection');
@@ -33,8 +33,8 @@ describe('Acceptance: Settings - Code-Injection', function () {
     });
 
     it('redirects to team page when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/code-injection');
@@ -43,8 +43,8 @@ describe('Acceptance: Settings - Code-Injection', function () {
     });
 
     it('redirects to team page when authenticated as editor', async function () {
-        let role = server.create('role', {name: 'Editor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Editor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/code-injection');
@@ -54,8 +54,8 @@ describe('Acceptance: Settings - Code-Injection', function () {
 
     describe('when logged in', function () {
         beforeEach(async function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
@@ -83,7 +83,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
 
             await click('[data-test-save-button]');
 
-            let [lastRequest] = server.pretender.handledRequests.slice(-1);
+            let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');
@@ -97,7 +97,7 @@ describe('Acceptance: Settings - Code-Injection', function () {
             });
             // we've already saved in this test so there's no on-screen indication
             // that we've had another save, check the request was fired instead
-            let [newRequest] = server.pretender.handledRequests.slice(-1);
+            let [newRequest] = this.server.pretender.handledRequests.slice(-1);
             params = JSON.parse(newRequest.requestBody);
 
             expect(params.settings.findBy('key', 'ghost_head').value).to.equal('');

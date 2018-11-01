@@ -150,7 +150,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.equal('Wrong icon size');
 
             // reset upload endpoints
-            mockUploads(server);
+            mockUploads(this.server);
 
             // blog logo upload
             // -------------------------------------------------------------- //
@@ -219,7 +219,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.equal('Wrong logo size');
 
             // reset upload endpoints
-            mockUploads(server);
+            mockUploads(this.server);
 
             // blog cover upload
             // -------------------------------------------------------------- //
@@ -288,7 +288,7 @@ describe('Acceptance: Settings - General', function () {
             ).to.equal('Wrong coverImage size');
 
             // reset upload endpoints
-            mockUploads(server);
+            mockUploads(this.server);
 
             // CMD-S shortcut works
             // -------------------------------------------------------------- //

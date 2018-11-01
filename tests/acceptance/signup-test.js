@@ -154,7 +154,7 @@ describe('Acceptance: Signup', function () {
     });
 
     it('redirects if already logged in', async function () {
-        server.get('/authentication/invitation', function () {
+        this.server.get('/authentication/invitation', function () {
             return {
                 invitation: [{valid: true}]
             };
@@ -181,7 +181,7 @@ describe('Acceptance: Signup', function () {
     });
 
     it('redirects with alert on non-existant or expired token', async function () {
-        server.get('/authentication/invitation', function () {
+        this.server.get('/authentication/invitation', function () {
             return {
                 invitation: [{valid: false}]
             };

@@ -23,8 +23,8 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
     });
 
     it('redirects to team page when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
@@ -33,8 +33,8 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
     });
 
     it('redirects to team page when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
@@ -43,8 +43,8 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
     });
 
     it('redirects to team page when authenticated as editor', async function () {
-        let role = server.create('role', {name: 'Editor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Editor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
@@ -54,8 +54,8 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
 
     describe('when logged in', function () {
         beforeEach(async function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
@@ -68,7 +68,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
 
             // verify we don't have an unsplash setting fixture loaded
             expect(
-                server.db.settings.where({key: 'unsplash'}),
+                this.server.db.settings.where({key: 'unsplash'}),
                 'initial server settings'
             ).to.be.empty;
 
@@ -82,7 +82,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             await click('[data-test-save-button]');
 
             // server should now have an unsplash setting
-            let [setting] = server.db.settings.where({key: 'unsplash'});
+            let [setting] = this.server.db.settings.where({key: 'unsplash'});
             expect(setting, 'unsplash setting after save').to.exist;
             expect(setting.value).to.equal('{"isActive":true}');
 
@@ -97,7 +97,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             });
 
             // server should have an updated setting
-            [setting] = server.db.settings.where({key: 'unsplash'});
+            [setting] = this.server.db.settings.where({key: 'unsplash'});
             expect(setting.value).to.equal('{"isActive":false}');
         });
 

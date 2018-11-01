@@ -285,7 +285,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.equal('Invalid theme');
 
             // reset to default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
 
             // theme upload handles validation errors
             this.server.post('/themes/upload/', function () {
@@ -351,7 +351,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/\/assets\/javascripts\/ui\.js/);
 
             // reset to default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
 
             await click('.fullscreen-modal [data-test-try-again-button]');
             expect(
@@ -427,7 +427,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/\/assets\/dist\/img\/apple-touch-icon\.png/);
 
             // reset to default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
 
             await click('.fullscreen-modal [data-test-close-button]');
 
@@ -550,7 +550,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/\/assets\/javascripts\/ui\.js/);
 
             // restore default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
 
             await click('[data-test-modal-close-button]');
             expect(find('[data-test-theme-warnings-modal]')).to.not.exist;
@@ -606,7 +606,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/\/assets\/dist\/img\/apple-touch-icon\.png/);
 
             // restore default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
 
             await click('[data-test-modal-close-button]');
             // reactivate casper to continue tests
@@ -672,7 +672,7 @@ describe('Acceptance: Settings - Design', function () {
             ).to.match(/Can't delete theme/);
 
             // restore default mirage handlers
-            mockThemes(server);
+            mockThemes(this.server);
         });
 
         it('can delete then re-upload the same theme', async function () {

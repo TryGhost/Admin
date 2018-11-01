@@ -51,8 +51,8 @@ describe('Acceptance: Settings - Tags', function () {
     });
 
     it('redirects to team page when authenticated as contributor', async function () {
-        let role = server.create('role', {name: 'Contributor'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Contributor'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/design');
@@ -61,8 +61,8 @@ describe('Acceptance: Settings - Tags', function () {
     });
 
     it('redirects to team page when authenticated as author', async function () {
-        let role = server.create('role', {name: 'Author'});
-        server.create('user', {roles: [role], slug: 'test-user'});
+        let role = this.server.create('role', {name: 'Author'});
+        this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/design');
@@ -74,8 +74,8 @@ describe('Acceptance: Settings - Tags', function () {
         let newLocation, originalReplaceState;
 
         beforeEach(async function () {
-            let role = server.create('role', {name: 'Administrator'});
-            server.create('user', {roles: [role]});
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
             originalReplaceState = windowProxy.replaceState;
             windowProxy.replaceState = function (params, title, url) {
@@ -91,8 +91,8 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('it renders, can be navigated, can edit, create & delete tags', async function () {
-            let tag1 = server.create('tag');
-            let tag2 = server.create('tag');
+            let tag1 = this.server.create('tag');
+            let tag2 = this.server.create('tag');
 
             await visit('/settings/tags');
 
@@ -250,7 +250,7 @@ describe('Acceptance: Settings - Tags', function () {
         // skipped because it was failing most of the time on Travis
         // see https://github.com/TryGhost/Ghost/issues/8805
         it.skip('loads tag via slug when accessed directly', async function () {
-            server.createList('tag', 2);
+            this.server.createList('tag', 2);
 
             await visit('/settings/tags/tag-1');
 
@@ -273,7 +273,7 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('shows the internal tag label', async function () {
-            server.create('tag', {name: '#internal-tag', slug: 'hash-internal-tag', visibility: 'internal'});
+            this.server.create('tag', {name: '#internal-tag', slug: 'hash-internal-tag', visibility: 'internal'});
 
             await visit('settings/tags/');
 
@@ -295,7 +295,7 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('updates the URL when slug changes', async function () {
-            server.createList('tag', 2);
+            this.server.createList('tag', 2);
 
             await visit('/settings/tags/tag-1');
 
@@ -314,7 +314,7 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('redirects to 404 when tag does not exist', async function () {
-            server.get('/tags/slug/unknown/', function () {
+            this.server.get('/tags/slug/unknown/', function () {
                 return new Response(404, {'Content-Type': 'application/json'}, {errors: [{message: 'Tag not found.', errorType: 'NotFoundError'}]});
             });
 
