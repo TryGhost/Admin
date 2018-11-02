@@ -6,9 +6,12 @@ import {
 import {alias} from '@ember/object/computed';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
+import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
 export default Controller.extend({
+    config: service(),
+
     imageExtensions: IMAGE_EXTENSIONS,
     imageMimeTypes: IMAGE_MIME_TYPES,
 
