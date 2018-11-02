@@ -4778,18 +4778,7 @@ ember-cli-ghost-spirit@0.0.6:
     ember-cli-postcss "4.0.0"
     ghost-spirit ">=0.0.18"
 
-ember-cli-htmlbars-inline-precompile@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars-inline-precompile/-/ember-cli-htmlbars-inline-precompile-1.0.3.tgz#332ff96c06fc522965162f1090d78a615379c3c2"
-  integrity sha1-My/5bAb8UillFi8QkNeKYVN5w8I=
-  dependencies:
-    babel-plugin-htmlbars-inline-precompile "^0.2.5"
-    ember-cli-version-checker "^2.1.2"
-    hash-for-dep "^1.2.3"
-    heimdalljs-logger "^0.1.9"
-    silent-error "^1.1.0"
-
-ember-cli-htmlbars-inline-precompile@^1.0.0:
+ember-cli-htmlbars-inline-precompile@1.0.5, ember-cli-htmlbars-inline-precompile@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars-inline-precompile/-/ember-cli-htmlbars-inline-precompile-1.0.5.tgz#312e050c9e3dd301c55fb399fd706296cd0b1d6a"
   integrity sha512-/CNEqPxroIcbY6qejrt704ZaghHLCntZKYLizFfJ2esirXoJx6fuYKBY1YyJ8GOgjfbHHKjBZuK4vFFJpkGqkQ==
@@ -5323,10 +5312,10 @@ ember-in-viewport@~3.0.0, ember-in-viewport@~3.0.3:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-infinity@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-1.2.5.tgz#8f45aa1a18b74588081a80cf78957b7ab3b28a88"
-  integrity sha512-E4dGj6eoCeEpUfMOaqNdkwUKbSumuyI2d0/ZEiTq98PekkMJHSb9Ro00yutgIecZpPOhM1i3QBOZww/eLYcmmA==
+ember-infinity@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-1.2.6.tgz#b935f13e386f5bf2ebc973b96b5ca45addadf546"
+  integrity sha512-1Ju5un0IIlawAm8p8RsSxKnYBgPQ6ygtftNYi3s4IglR+pSgoWiAoA2iwDSa85cZMDTHr1XiOBcM1xedu75mjg==
   dependencies:
     ember-cli-babel "~7.1.2"
     ember-in-viewport "^3.1.5"
@@ -12399,7 +12388,41 @@ terser@^3.7.5:
     source-map "~0.6.1"
     source-map-support "~0.5.6"
 
-testem@2.13.0, testem@^2.9.2:
+testem@2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/testem/-/testem-2.14.0.tgz#418a9a15843f68381659c6a486abb4ea48d06c29"
+  integrity sha512-tldpNPCzXfibmxOoTMGOfr8ztUiHf9292zSXCu7SitBx9dCK83k7vEoa77qJBS9t3RGCQCRF+GNMUuiFw//Mbw==
+  dependencies:
+    backbone "^1.1.2"
+    bluebird "^3.4.6"
+    charm "^1.0.0"
+    commander "^2.6.0"
+    consolidate "^0.15.1"
+    execa "^1.0.0"
+    express "^4.10.7"
+    fireworm "^0.7.0"
+    glob "^7.0.4"
+    http-proxy "^1.13.1"
+    js-yaml "^3.2.5"
+    lodash.assignin "^4.1.0"
+    lodash.castarray "^4.4.0"
+    lodash.clonedeep "^4.4.1"
+    lodash.find "^4.5.1"
+    lodash.uniqby "^4.7.0"
+    mkdirp "^0.5.1"
+    mustache "^3.0.0"
+    node-notifier "^5.0.1"
+    npmlog "^4.0.0"
+    printf "^0.5.1"
+    rimraf "^2.4.4"
+    socket.io "^2.1.0"
+    spawn-args "^0.2.0"
+    styled_string "0.0.1"
+    tap-parser "^7.0.0"
+    tmp "0.0.33"
+    xmldom "^0.1.19"
+
+testem@^2.9.2:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/testem/-/testem-2.13.0.tgz#587f3460a923779949804efac0fcc2015835dd63"
   integrity sha512-n0XBuEi/3SqnXfwUWtHVIUn2/j4LouJeOJrZMfwdXmZRKr15cH7cV59e9c3rFa4AvspAn9lOXcaMBysPC5jHZg==
