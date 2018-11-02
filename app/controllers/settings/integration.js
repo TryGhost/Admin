@@ -21,7 +21,7 @@ export default Controller.extend({
         return this.store.peekAll('webhook');
     }),
 
-    filteredWebhooks: computed('allWebhooks.@each.{isNew,isDeleted}', function () {
+    filteredWebhooks: computed('integration.id', 'allWebhooks.@each.{isNew,isDeleted}', function () {
         return this.allWebhooks.filter((webhook) => {
             let matchesIntegration = webhook.belongsTo('integration').id() === this.integration.id;
 
