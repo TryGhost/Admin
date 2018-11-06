@@ -1,6 +1,7 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';
+import CustomFieldItem from 'ghost-admin/models/custom-field-item';
 import RSVP from 'rsvp';
 import config from 'ghost-admin/config/environment';
 import {
@@ -61,6 +62,8 @@ export default Controller.extend({
         this.jsonMimeType = JSON_MIME_TYPE;
         this.yamlExtension = YAML_EXTENSION;
         this.yamlMimeType = YAML_MIME_TYPE;
+
+        this.set('newCustomFieldItem', CustomFieldItem.create({isNew: true}));
     },
 
     actions: {
@@ -156,7 +159,55 @@ export default Controller.extend({
                 .closest('.gh-setting-action')
                 .find('input[type="file"]')
                 .click();
+        },
+
+        addCustomFieldItem() {
+            let newCustomFieldItem = this.get('newCustomFieldItem');
+
+            return newCustomFieldItem.validate().then(() => {
+                this.addNewCustomFieldItem();
+            });
+        },
+
+        deleteCustomFieldItem(item) {
+            if (!item) {
+                return;
+            }
+
+            let customFieldItems = this.get('settings.custom_fields');
+
+            customFieldItems.removeObject(item);
+            this.set('dirtyAttributes', true);
+        },
+
+        updateFieldType(type, item) {
+            if (!item) {
+                return;
+            }
+
+            item.set('type', type);
+            this.set('dirtyAttributes', true);
+        },
+
+        updateFieldName(name, item) {
+            if (!item) {
+                return;
+            }
+
+            item.set('name', name);
+            this.set('dirtyAttributes', true);
         }
+    },
+
+    addNewCustomFieldItem() {
+        let customFieldItems = this.get('settings.custom_fields');
+        let newCustomFieldItem = this.get('newCustomFieldItem');
+
+        newCustomFieldItem.set('isNew', false);
+        customFieldItems.pushObject(newCustomFieldItem);
+        this.set('dirtyAttributes', true);
+        this.set('newCustomFieldItem', CustomFieldItem.create({isNew: true}));
+        $('.gh-customfield-line:last input:first').focus();
     },
 
     // TODO: convert to ember-concurrency task
@@ -199,6 +250,27 @@ export default Controller.extend({
 
         return RSVP.resolve();
     },
+
+    save: task(function* () {
+        let customFieldItems = this.get('settings.custom_fields');
+        let notifications = this.get('notifications');
+        let validationPromises = [];
+
+        customFieldItems.map((item) => {
+            validationPromises.pushObject(item.validate());
+        });
+
+        try {
+            yield RSVP.all(validationPromises);
+            this.set('dirtyAttributes', false);
+            return yield this.get('settings').save();
+        } catch (error) {
+            if (error) {
+                notifications.showAPIError(error);
+                throw error;
+            }
+        }
+    }),
 
     sendTestEmail: task(function* () {
         let notifications = this.get('notifications');

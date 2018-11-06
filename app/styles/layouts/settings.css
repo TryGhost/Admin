@@ -353,17 +353,18 @@
     .gh-blognav { margin: 20px 0; }
 }
 
-.gh-blognav-item {
+.gh-blognav-item, .gh-customfield-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.gh-blognav-item--error {
+.gh-blognav-item--error, .gh-customfield-item--error {
     margin-bottom: calc(1em + 10px);
 }
 
-.gh-blognav-item .response {
+.gh-blognav-item .response,
+.gh-customfield-item .response {
     position: absolute;
     margin-bottom: 0;
 }
@@ -381,27 +382,28 @@
     fill: color-mod(var(--midgrey) l(+15%));
 }
 
-.gh-blognav-line {
+.gh-blognav-line, .gh-customfield-line {
     display: flex;
     width: 100%;
 }
 
-.gh-blognav-label {
+.gh-blognav-label, .gh-customfield-type {
     flex-grow: 1;
     margin-right: 10px;
 }
 
-.gh-blognav-url {
+.gh-blognav-url, .gh-customfield-name {
     flex-grow: 3;
 }
 
-.gh-blognav-delete {
+.gh-blognav-delete, .gh-customfield-delete {
     padding: 8px 0 8px 10px;
     display: flex;
     align-items: center;
 }
 
-.gh-blognav-delete svg {
+.gh-blognav-delete svg,
+.gh-customfield-delete svg {
     fill: color-mod(var(--midgrey) l(+15%));
     height: 14px;
     width: 14px;
@@ -409,11 +411,13 @@
 }
 
 .gh-blognav-delete svg:hover,
-.gh-blognav-delete svg:focus {
+.gh-blognav-delete svg:focus,
+.gh-customfield-delete svg:hover,
+.gh-customfield-delete svg:focus {
     fill: var(--red);
 }
 
-.gh-blognav-add {
+.gh-blognav-add, .gh-customfield-add {
     margin-right: -1px;
     margin-left: 9px;
     width: 16px;
@@ -426,14 +430,17 @@
     justify-content: center;
 }
 
-.gh-blognav-add svg {
+.gh-blognav-add svg,
+.gh-customfield-add svg {
     fill: #fff;
     height: 9px;
     width: 9px;
 }
 
 .gh-blognav-add:hover,
-.gh-blognav-add:focus {
+.gh-blognav-add:focus,
+.gh-customfield-add:hover,
+.gh-customfield-add:focus {
     background: color-mod(var(--green) lightness(-10%));
 }
 
@@ -443,18 +450,18 @@
 
 /* Remove space between inputs on smaller screens */
 @media (max-width: 800px) {
-    .gh-blognav-label {
+    .gh-blognav-label, .gh-customfield-type {
         margin-right: -1px;
     }
-    .gh-blognav-label input {
+    .gh-blognav-label input, .gh-customfield-type input {
         border-right-color: color-mod(var(--lightgrey) l(-5%) s(-10%));
         border-radius: 4px 0 0 4px;
     }
-    .gh-blognav-url input {
+    .gh-blognav-url input, .gh-customfield-name input {
         border-left-color: color-mod(var(--lightgrey) l(-5%) s(-10%));
         border-radius: 0 4px 4px 0;
     }
-    .gh-blognav-item input:focus {
+    .gh-blognav-item input:focus, .gh-customfield-item input:focus {
         position: relative;
         z-index: 100;
     }

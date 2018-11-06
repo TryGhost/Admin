@@ -199,6 +199,27 @@
             </div>
             {{/gh-uploader}}
         </div>
+        <div class="gh-setting">
+            <div class="gh-setting-content">
+                <div class="gh-setting-title">Custom Fields</div>
+                <div class="gh-setting-desc">Add custom fields to your posts</div>
+                {{#liquid-if customFieldsOpen}}
+                <div class="gh-setting-content-extended">
+                    <form id="settings-customfields" class="gh-customfields" novalidate="novalidate">
+                        {{#each settings.custom_fields as |customFieldItem|}}
+                            {{gh-customfielditem customFieldItem=customFieldItem addItem=(action "addCustomFieldItem") deleteItem=(action "deleteCustomFieldItem") updateName=(action "updateFieldName") updateType=(action "updateFieldType")}}
+                        {{/each}}
+                        {{gh-customfielditem customFieldItem=newCustomFieldItem addItem=(action "addCustomFieldItem") updateType=(action "updateFieldType") updateName=(action "updateFieldName")}}
+
+                        {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
+                    </form>
+                </div>
+                {{/liquid-if}}
+            </div>
+            <div class="gh-setting-action">
+                <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "customFieldsOpen" this)}} data-test-toggle-pub-info><span>{{if customFieldsOpen "Close" "Expand"}}</span></button>
+            </div>
+        </div>
     </section>
 </section>
 

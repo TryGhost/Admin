@@ -1,0 +1,36 @@
+<div class="gh-customfield-line">
+    {{#gh-validation-status-container tagName="span" class="gh-customfield-type" errors=customFieldItem.errors property="type" hasValidated=customFieldItem.hasValidated}}
+        <span class="gh-select" data-select-text="{{customFieldItem.type}}" tabindex="0">
+            {{one-way-select 
+                value=customFieldItem.type
+                options=fieldTypes
+                onchange=(action (mut customFieldItem.type) value="target.value")
+                update=(action "updateType" customFieldItem.type)
+            }}
+
+            {{svg-jar "arrow-down-small"}}
+        </span>
+        {{gh-error-message errors=customFieldItem.errors property="type"}}
+    {{/gh-validation-status-container}}
+    {{#gh-validation-status-container tagName="span" class="gh-customfield-name" errors=customFieldItem.errors property="name" hasValidated=customFieldItem.hasValidated}}
+        {{gh-trim-focus-input
+            shouldFocus=customFieldItem.last
+            placeholder="Name"
+            value=(readonly customFieldItem.name)
+            input=(action (mut customFieldItem.name) value="target.value")
+            keyPress=(action "clearNameErrors")
+            focus-out=(action "updateName" customFieldItem.name)
+        }}
+        {{gh-error-message errors=customFieldItem.errors property="name"}}
+    {{/gh-validation-status-container}}
+</div>
+
+{{#if customFieldItem.isNew}}
+    <button type="button" class="gh-customfield-add" {{action "addItem"}}>
+        {{svg-jar "add"}}<span class="sr-only">Add</span>
+    </button>
+{{else}}
+    <button type="button" class="gh-customfield-delete" {{action "deleteItem" customFieldItem}}>
+        {{svg-jar "trash"}}<span class="sr-only">Delete</span>
+    </button>
+{{/if}}

@@ -20,6 +20,7 @@ export default Model.extend(ValidationEngine, {
     twitter: attr('twitter-url-user'),
     labs: attr('string'),
     navigation: attr('navigation-settings'),
+    custom_fields: attr('custom-fields'),
     isPrivate: attr('boolean'),
     publicHash: attr('string'),
     password: attr('string'),

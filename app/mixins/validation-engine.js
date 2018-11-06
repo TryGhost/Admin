@@ -1,3 +1,4 @@
+import CustomFieldValidator from 'ghost-admin/validators/customfield-item';
 import DS from 'ember-data';
 import IntegrationValidator from 'ghost-admin/validators/integration';
 import InviteUserValidator from 'ghost-admin/validators/invite-user';
@@ -46,7 +47,8 @@ export default Mixin.create({
         tag: TagSettingsValidator,
         user: UserValidator,
         integration: IntegrationValidator,
-        webhook: WebhookValidator
+        webhook: WebhookValidator,
+        customField: CustomFieldValidator
     },
 
     // This adds the Errors object to the validation engine, and shouldn't affect
