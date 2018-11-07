@@ -1,6 +1,7 @@
 import Model from 'ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
+import {belongsTo} from 'ember-data/relationships';
 import {equal} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
@@ -10,7 +11,6 @@ export default Model.extend(ValidationEngine, {
     name: attr('string'),
     slug: attr('string'),
     description: attr('string'),
-    parent: attr('string'), // unused
     metaTitle: attr('string'),
     metaDescription: attr('string'),
     featureImage: attr('string'),
@@ -20,6 +20,8 @@ export default Model.extend(ValidationEngine, {
     createdBy: attr('number'),
     updatedBy: attr('number'),
     count: attr('raw'),
+
+    parent: belongsTo('tag', {inverse: 'parent'}),
 
     isInternal: equal('visibility', 'internal'),
     isPublic: equal('visibility', 'public'),
