@@ -1,4 +1,5 @@
 import Controller from 'ember-controller';
+import Ember from 'ember';
 import RSVP from 'rsvp';
 import computed, {alias} from 'ember-computed';
 import {A as emberA} from 'ember-array/utils';
@@ -200,7 +201,7 @@ export default Controller.extend({
                         if (erroredEmails.length > 0) {
                             invitationsString = erroredEmails.length > 1 ? ' invitations: ' : ' invitation: ';
                             message = `Failed to send ${erroredEmails.length} ${invitationsString}`;
-                            message += erroredEmails.join(', ');
+                            message += Ember.Handlebars.Utils.escapeExpression(erroredEmails.join(', '));
                             message += ". Please check your email configuration, see <a href=\'https://docs.ghost.org/v0.11.9/docs/mail-config\' target=\'_blank\'>https://docs.ghost.org/v0.11.9/docs/mail-config</a> for instructions";
 
                             message = htmlSafe(message);
