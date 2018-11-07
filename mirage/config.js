@@ -25,9 +25,8 @@ export default function () {
     // this.put('/posts/:id/', versionMismatchResponse);
     // mockTags(this);
     // this.loadFixtures('settings');
-    mockIntegrations(this);
-    mockApiKeys(this);
-    mockWebhooks(this);
+    mockPosts(this);
+    mockTags(this);
 
     // keep this line, it allows all other API requests to hit the real server
     this.passthrough();
@@ -43,11 +42,13 @@ export function testConfig() {
     // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
     this.namespace = '/ghost/api/v2/admin'; // make this `api`, for example, if your API is namespaced
     // this.timing = 400;      // delay for each request, automatically set to 0 during testing
-    // this.logging = true;
+    this.logging = true;
 
+    mockApiKeys(this);
     mockAuthentication(this);
     mockConfiguration(this);
     mockInvites(this);
+    mockIntegrations(this);
     mockPosts(this);
     mockRoles(this);
     mockSettings(this);
@@ -57,6 +58,7 @@ export function testConfig() {
     mockThemes(this);
     mockUploads(this);
     mockUsers(this);
+    mockWebhooks(this);
 
     /* Notifications -------------------------------------------------------- */
 
