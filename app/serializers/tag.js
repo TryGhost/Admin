@@ -29,6 +29,23 @@ export default ApplicationSerializer.extend({
                 delete payload[plural];
             }
         }
+
+        // TODO: revisit in nested tags API design
+        let assignParentId = (tag) => {
+            if (tag && tag.parent) {
+                tag.parent_id = tag.parent;
+                delete tag.parent;
+            }
+        };
+
+        if (payload.tag) {
+            assignParentId(payload.tag);
+        }
+
+        if (payload.tags) {
+            payload.tags.forEach(assignParentId);
+        }
+
         return this._super(...arguments);
     }
 });
