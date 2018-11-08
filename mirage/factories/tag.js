@@ -10,7 +10,17 @@ export default Factory.extend({
     metaTitle(i) { return `Meta Title for tag ${i}`; },
     name(i) { return `Tag ${i}`; },
     parent: null,
-    slug(i) { return `tag-${i}`; },
+    slug(i) {
+        let slug = this.name ? dasherize(this.name.toLowerCase()) : `tag-${i}`;
+
+        if (this.parent) {
+            let parts = this.parent.slug.split('/');
+            parts.push(slug);
+            return parts.join('/');
+        }
+
+        return slug;
+    },
     updatedAt: '2015-10-19T16:25:07.756Z',
     updatedBy: 1,
     count() {
