@@ -21,7 +21,7 @@ export default Model.extend(ValidationEngine, {
     updatedBy: attr('number'),
     count: attr('raw'),
 
-    parent: belongsTo('tag', {inverse: 'parent'}),
+    parent: belongsTo('tag', {inverse: 'parent', async: false}),
 
     isInternal: equal('visibility', 'internal'),
     isPublic: equal('visibility', 'public'),
