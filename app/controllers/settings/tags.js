@@ -19,7 +19,7 @@ export default Controller.extend({
 
     // tags are sorted by name
     sortedTags: sort('filteredTags', function (tagA, tagB) {
-        return tagA.name.localeCompare(tagB.name);
+        return tagA.nestedName.localeCompare(tagB.nestedName);
     }),
 
     actions: {

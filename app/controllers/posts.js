@@ -81,10 +81,10 @@ export default Controller.extend({
     availableTags: computed('_availableTags.[]', function () {
         let tags = this.get('_availableTags')
             .filter(tag => tag.get('id') !== null)
-            .sort((tagA, tagB) => tagA.name.localeCompare(tagB.name));
+            .sort((tagA, tagB) => tagA.nestedName.localeCompare(tagB.nestedName));
         let options = tags.toArray();
 
-        options.unshiftObject({name: 'All tags', slug: null});
+        options.unshiftObject({nestedName: 'All tags', slug: null});
 
         return options;
     }),

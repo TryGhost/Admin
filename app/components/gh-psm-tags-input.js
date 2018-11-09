@@ -15,7 +15,7 @@ export default Component.extend({
     _availableTags: null,
 
     availableTags: sort('_availableTags.[]', function (tagA, tagB) {
-        return tagA.name.localeCompare(tagB.name);
+        return tagA.nestedName.localeCompare(tagB.nestedName);
     }),
 
     availableTagNames: computed('availableTags.@each.name', function () {

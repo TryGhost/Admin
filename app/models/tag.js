@@ -2,10 +2,13 @@ import Model from 'ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
 import {belongsTo, hasMany} from 'ember-data/relationships';
+import {computed} from '@ember/object';
 import {equal} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
 export default Model.extend(ValidationEngine, {
+    feature: service(),
+
     validationType: 'tag',
 
     name: attr('string'),
@@ -27,7 +30,27 @@ export default Model.extend(ValidationEngine, {
     isInternal: equal('visibility', 'internal'),
     isPublic: equal('visibility', 'public'),
 
-    feature: service(),
+    // nestedName is used for sorting and display in dropdowns
+    //
+    // TODO: this is very inefficient. Luckily we always have all tags in
+    // memory when requesting the nested name, otherwise there would be a separate
+    // network request for each parent - we probably want to resolve this at the
+    // API level
+    nestedName: computed('parent', function () {
+        if (!this.belongsTo('parent').id()) {
+            return this.name;
+        }
+
+        let names = [this.name];
+        let parent = this.parent;
+
+        while (parent) {
+            names.unshift(parent.name);
+            parent = parent.parent;
+        }
+
+        return names.join('/');
+    }),
 
     updateVisibility() {
         let internalRegex = /^#.?/;

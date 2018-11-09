@@ -48,7 +48,7 @@
             {{#power-select
                 selected=selectedTag
                 options=availableTags
-                searchField="name"
+                searchField="nestedName"
                 onchange=(action "changeTag")
                 tagName="div"
                 classNames="gh-contentfilter-menu gh-contentfilter-tag"
@@ -60,7 +60,7 @@
                 data-test-tag-select=true
                 as |tag|
             }}
-                {{tag.name}}
+                {{tag.nestedName}}
             {{/power-select}}
             {{/unless}}
         </div>
