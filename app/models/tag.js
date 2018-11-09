@@ -1,7 +1,7 @@
 import Model from 'ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
-import {belongsTo} from 'ember-data/relationships';
+import {belongsTo, hasMany} from 'ember-data/relationships';
 import {equal} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
@@ -21,7 +21,8 @@ export default Model.extend(ValidationEngine, {
     updatedBy: attr('number'),
     count: attr('raw'),
 
-    parent: belongsTo('tag', {inverse: 'parent', async: false}),
+    parent: belongsTo('tag', {inverse: 'children', async: false}),
+    children: hasMany('tag', {inverse: 'parent', async: false}),
 
     isInternal: equal('visibility', 'internal'),
     isPublic: equal('visibility', 'public'),

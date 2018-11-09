@@ -31,20 +31,19 @@ export default ApplicationSerializer.extend({
         }
 
         // TODO: revisit in nested tags API design
-        let assignParentId = (tag) => {
-            if (tag && tag.parent) {
+        // API returns `parent` and `children` but Ember Data expects
+        // `parent_id` and `children_ids`
+        let tags = payload.tag ? [payload.tag] : payload.tags;
+        tags.forEach((tag) => {
+            if (tag.parent) {
                 tag.parent_id = tag.parent;
                 delete tag.parent;
             }
-        };
-
-        if (payload.tag) {
-            assignParentId(payload.tag);
-        }
-
-        if (payload.tags) {
-            payload.tags.forEach(assignParentId);
-        }
+            if (tag.children) {
+                tag.children_ids = tag.children;
+                delete tag.children;
+            }
+        });
 
         return this._super(...arguments);
     }
