@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {dasherize} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {paginatedResponse} from '../utils';
@@ -21,7 +22,26 @@ export default function mockTags(server) {
         return tags.findBy({slug});
     });
 
-    server.put('/tags/:id/');
+    server.put('/tags/:id/', function ({tags}, {params}) {
+        let attrs = this.normalizedRequestAttrs();
+        let tag = tags.find(params.id);
+        let parent = tags.find(attrs.parentId);
+
+        // tag's slug gets updated on parent change
+        if (attrs.parentId !== tag.parentId) {
+            let slug = attrs.slug.split('/').pop();
+
+            if (!attrs.parentId) {
+                attrs.slug = slug;
+            } else {
+                attrs.slug = `${parent.slug}/${slug}`;
+            }
+        }
+
+        attrs.updatedAt = moment.utc().toDate();
+
+        return tag.update(attrs);
+    });
 
     server.del('/tags/:id/');
 }
