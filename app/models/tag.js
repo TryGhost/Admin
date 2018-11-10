@@ -44,9 +44,14 @@ export default Model.extend(ValidationEngine, {
         let names = [this.name];
         let parent = this.parent;
 
-        while (parent) {
+        let count = 1;
+        while (parent && count <= 10) {
             names.unshift(parent.name);
             parent = parent.parent;
+            count += 1;
+            if (count >= 10) {
+                console.log('infinite loop escape', names);
+            }
         }
 
         return names.join('/');
