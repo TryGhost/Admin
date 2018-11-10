@@ -27,6 +27,25 @@
                 {{gh-error-message errors=tag.errors property="name"}}
             {{/gh-form-group}}
 
+            {{#gh-form-group class="for-select" errors=tag.errors hasValidated=tag.hasValidated property="parent"}}
+                <label for="tag-parent">Nested under tag</label>
+                {{#power-select
+                    tagName="div"
+                    triggerClass="gh-select"
+                    selected=tag.parent
+                    options=availableParentTags
+                    searchField="nestedName"
+                    searchPlaceholder="Search tags"
+                    onchange=(action "setProperty" "parent")
+                    optionsComponent="power-select-vertical-collection-options"
+                    data-test-select="parent-tag"
+                    as |selectedParent|
+                }}
+                    {{selectedParent.nestedName}}
+                {{/power-select}}
+                {{gh-error-message errors=tag.errors property="parent"}}
+            {{/gh-form-group}}
+
             {{#gh-form-group errors=tag.errors hasValidated=tag.hasValidated property="slug"}}
                 <label for="tag-slug">URL</label>
                 {{gh-text-input

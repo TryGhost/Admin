@@ -32,7 +32,7 @@ export default Controller.extend({
         let isNewTag = tag.get('isNew');
         let currentValue = tag.get(propKey);
 
-        if (newValue) {
+        if (newValue && newValue.trim) {
             newValue = newValue.trim();
         }
 

@@ -10,13 +10,16 @@ import {inject as service} from '@ember/service';
 const {Handlebars} = Ember;
 
 export default Component.extend({
-    feature: service(),
     config: service(),
+    feature: service(),
     mediaQueries: service(),
+    store: service(),
 
     tag: null,
 
     isViewingSubview: false,
+
+    _allTags: null,
 
     // Allowed actions
     setProperty: () => {},
@@ -29,6 +32,18 @@ export default Component.extend({
     scratchMetaDescription: boundOneWay('tag.metaDescription'),
 
     isMobile: reads('mediaQueries.maxWidth600'),
+
+    availableParentTags: computed('tag.visibility', '_allTags.[]', function () {
+        // select all tags with the same visibility except the current tag
+        let filteredTags = this._allTags.filter((tag) => {
+            let sameVisibility = tag.visibility === this.tag.visibility;
+
+            return sameVisibility && tag.id !== this.tag.id;
+        });
+
+        // sort tags by name and tag heirarchy
+        return filteredTags.sort((tagA, tagB) => tagA.nestedName.localeCompare(tagB.nestedName));
+    }),
 
     title: computed('tag.isNew', function () {
         if (this.get('tag.isNew')) {
@@ -85,6 +100,11 @@ export default Component.extend({
 
         return metaDescription;
     }),
+
+    init() {
+        this._super(...arguments);
+        this.set('_allTags', this.store.peekAll('tag'));
+    },
 
     didReceiveAttrs() {
         this._super(...arguments);
