@@ -14,10 +14,10 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
     notifications: service(),
     userAgent: service(),
     ui: service(),
+    router: service(),
 
     classNames: ['editor'],
     shortcuts: generalShortcuts,
-    titleToken: 'Editor',
 
     activate() {
         this._super(...arguments);
@@ -92,5 +92,11 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
 
         // wait for actions triggered by the focusout to finish before saving
         run.scheduleOnce('actions', this, func);
+    },
+
+    titleToken: function () {
+        const title = this.get('controller.post.title');
+
+        return title === '' ? 'Editor' : title;
     }
 });
