@@ -1,4 +1,5 @@
 import {Factory} from 'ember-cli-mirage';
+import {dasherize} from '@ember/string';
 
 export default Factory.extend({
     createdAt: '2015-09-11T09:44:29.871Z',
