@@ -90,6 +90,9 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.titleScratch')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'test');
+            controller.set('target', {
+                updateTitle: () => {}
+            });
 
             run(() => {
                 controller.get('saveTitle').perform();
@@ -117,6 +120,9 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.titleScratch')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'New Title');
+            controller.set('target', {
+                updateTitle: () => {}
+            });
 
             run(() => {
                 controller.get('saveTitle').perform();
@@ -148,6 +154,9 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.titleScratch')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'test');
+            controller.set('target', {
+                updateTitle: () => {}
+            });
 
             run(() => {
                 controller.get('saveTitle').perform();
@@ -175,6 +184,9 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.title')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'title');
+            controller.set('target', {
+                updateTitle: () => {}
+            });
 
             run(() => {
                 controller.get('saveTitle').perform();
@@ -183,6 +195,39 @@ describe('Unit: Controller: editor', function () {
             wait().then(() => {
                 expect(controller.get('post.titleScratch')).to.equal('title');
                 expect(controller.get('post.slug')).to.not.be.ok;
+                done();
+            });
+        });
+
+        it('should invoke updateTitle after the title has changed', function (done) {
+            let controller = this.subject();
+
+            run(() => {
+                controller.set('generateSlug', task(function * () {
+                    expect(false, 'generateSlug should not be called').to.equal(true);
+                    yield RSVP.resolve();
+                }));
+                controller.set('post', EmberObject.create({isNew: false}));
+            });
+
+            expect(controller.get('post.isNew')).to.be.false;
+            expect(controller.get('post.title')).to.not.be.ok;
+
+            let updateTitleCalled = false;
+
+            controller.set('post.titleScratch', 'title');
+            controller.set('target', {
+                updateTitle: () => updateTitleCalled = true
+            });
+
+            run(() => {
+                controller.get('saveTitle').perform();
+            });
+
+            wait().then(() => {
+                expect(controller.get('post.titleScratch')).to.equal('title');
+                expect(controller.get('post.slug')).to.not.be.ok;
+                expect(updateTitleCalled).to.be.true;
                 done();
             });
         });
