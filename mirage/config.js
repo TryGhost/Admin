@@ -1,5 +1,7 @@
+import mockApiKeys from './config/api-keys';
 import mockAuthentication from './config/authentication';
 import mockConfiguration from './config/configuration';
+import mockIntegrations from './config/integrations';
 import mockInvites from './config/invites';
 import mockPosts from './config/posts';
 import mockRoles from './config/roles';
@@ -10,12 +12,13 @@ import mockTags from './config/tags';
 import mockThemes from './config/themes';
 import mockUploads from './config/uploads';
 import mockUsers from './config/users';
+import mockWebhooks from './config/webhooks';
 
 // import {versionMismatchResponse} from 'utils';
 
 export default function () {
     // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-    this.namespace = '/ghost/api/v0.1'; // make this `api`, for example, if your API is namespaced
+    this.namespace = '/ghost/api/v2/admin'; // make this `api`, for example, if your API is namespaced
     this.timing = 400; // delay for each request, automatically set to 0 during testing
 
     // Mock endpoints here to override real API requests during development, eg...
@@ -39,8 +42,10 @@ export function testConfig() {
     // this.timing = 400;      // delay for each request, automatically set to 0 during testing
     // this.logging = true;
 
+    mockApiKeys(this);
     mockAuthentication(this);
     mockConfiguration(this);
+    mockIntegrations(this);
     mockInvites(this);
     mockPosts(this);
     mockRoles(this);
@@ -51,6 +56,7 @@ export function testConfig() {
     mockThemes(this);
     mockUploads(this);
     mockUsers(this);
+    mockWebhooks(this);
 
     /* Notifications -------------------------------------------------------- */
 

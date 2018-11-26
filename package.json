@@ -1,6 +1,6 @@
 {
   "name": "ghost-admin",
-  "version": "2.2.1",
+  "version": "2.6.1",
   "description": "Ember.js admin client for Ghost",
   "author": "Ghost Foundation",
   "homepage": "http://ghost.org",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@ember/optional-features": "0.6.1",
     "@html-next/vertical-collection": "1.0.0-beta.12",
-    "@tryghost/mobiledoc-kit": "0.11.1-ghost.3",
+    "@tryghost/mobiledoc-kit": "0.11.1-ghost.5",
     "blueimp-md5": "2.10.0",
     "broccoli-asset-rev": "2.7.0",
     "broccoli-clean-css": "^2.0.1",
@@ -99,7 +99,7 @@
     "eslint": "4.19.1",
     "eslint-plugin-ghost": "0.0.25",
     "fs-extra": "4.0.3",
-    "ghost-spirit": "0.0.42",
+    "ghost-spirit": "0.0.49",
     "glob": "7.1.2",
     "google-caja-bower": "https://github.com/acburdine/google-caja-bower#ghost",
     "grunt": "1.0.3",

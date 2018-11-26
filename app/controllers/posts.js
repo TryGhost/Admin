@@ -30,6 +30,9 @@ const ORDERS = [{
 }, {
     name: 'Oldest',
     value: 'published_at asc'
+}, {
+    name: 'Recently updated',
+    value: 'updated_at desc'
 }];
 
 export default Controller.extend({
@@ -79,7 +82,9 @@ export default Controller.extend({
     }),
 
     availableTags: computed('_availableTags.[]', function () {
-        let tags = this.get('_availableTags').filter(tag => tag.get('id') !== null);
+        let tags = this.get('_availableTags')
+            .filter(tag => tag.get('id') !== null)
+            .sort((tagA, tagB) => tagA.name.localeCompare(tagB.name));
         let options = tags.toArray();
 
         options.unshiftObject({name: 'All tags', slug: null});
