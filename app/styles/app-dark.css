@@ -85,6 +85,19 @@ input,
     background: color-mod(var(--lightgrey));
 }
 
+input:focus,
+.gh-input:focus,
+.gh-select:focus,
+.gh-select select:focus {
+    border-color: color-mod(var(--darkgrey) l(-27%) blackness(15%));
+}
+
+.for-checkbox label:hover input:not(:checked) + .input-toggle-component,
+.for-radio label:hover input:not(:checked) + .input-toggle-component {
+    /* light=>dark theme => lightgrey=>middarkgrey */
+    border-color: color-mod(var(--middarkgrey) l(-15%) s(-10%));
+}
+
 .gh-nav,
 .settings-menu-container {
     background: #212A2E;
@@ -151,11 +164,21 @@ input,
     color: color-mod(var(--darkgrey) l(-27%) blackness(+15%));
     text-shadow: none;
 }
+.gh-btn:hover:not(.gh-btn-link) {
+    border-color: color-mod(var(--darkgrey) l(-27%));
+    color: color-mod(var(--darkgrey) l(-27%));
+}
 .gh-btn-blue,
 .gh-btn-green,
 .gh-btn-red {
     color: #fff;
     border: 0;
+}
+.gh-btn-blue:hover,
+.gh-btn-green:hover,
+.gh-btn-red:hover {
+    border-color: white;
+    color: white;
 }
 
 .gh-btn-link {
@@ -180,7 +203,8 @@ input,
     color: color-mod(var(--lightgrey) lightness(+20%));
 }
 
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus,
+.dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
     color: var(--lightgrey);
 }
 
@@ -240,7 +264,8 @@ input,
     color: var(--darkgrey);
 }
 
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus,
+.dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
     color: #fff;
 }
 
