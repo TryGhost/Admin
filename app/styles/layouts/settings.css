@@ -135,7 +135,7 @@
 /* ---------------------------------------------------------- */
 
 .gh-theme-directory-container {
-    border-top: 1px solid #e5eff5;
+    border-top: var(--lightgrey) 1px solid;
     padding: 25px 0 0;
 }
 
@@ -157,7 +157,6 @@
     text-align: center;
     text-decoration: none;
     color: var(--darkgrey);
-    background: #fff;
     transition: all .8s ease;
 }
 
@@ -212,7 +211,6 @@
     text-decoration: none;
     color: var(--darkgrey);
     border: var(--lightgrey) 1px solid;
-    background: #fff;
     border-radius: 6px;
     transition: all .8s ease;
 }
@@ -282,10 +280,11 @@
 .td-cta-arrow svg {
     margin-left: 20px;
     height: 20px;
+    opacity: 0.5;
 }
 
 .td-cta-arrow svg path {
-    fill: color-mod(var(--midgrey) l(+25%));
+    fill: var(--midgrey);
 }
 
 @media (max-width: 1400px) {
