@@ -192,16 +192,16 @@
                 <tr class="bt b--whitegrey" data-test-webhooks-blank-slate>
                     <td colspan="5" class="pa5 pt15 pb15 tc midgrey f7">
                         <span class="db">No webhooks configured</span>
-                        <span class="dib mt1">
+                        {{!-- <span class="dib mt1">
                             {{#link-to "settings.integration.webhooks.new" integration classNames="flex items-center" data-test-link="add-webhook"}}
                                 {{svg-jar "add" class="w3 h3 fill-blue mr1"}} Add webhook
                             {{/link-to}}
-                        </span>
+                        </span> --}}
                     </td>
                 </tr>
                 {{/each}}
             </tbody>
-            {{#if filteredWebhooks}}
+            {{!-- {{#if filteredWebhooks}} --}}
             <tfoot class="bt b--lightgrey">
                 <tr>
                     <td colspan="5" class="pa3 f7">
@@ -211,7 +211,7 @@
                     </td>
                 </tr>
             </tfoot>
-            {{/if}}
+            {{!-- {{/if}} --}}
         </table>
     </div>
     <button class="gh-btn gh-btn-red gh-btn-icon mb15 mt15" {{action "confirmIntegrationDeletion"}}>
