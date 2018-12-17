@@ -220,16 +220,10 @@ describe('Acceptance: Settings - Tags', function () {
             tag = tags[tags.length - 1];
             expect(tags.length, 'tag list count after creation')
                 .to.equal(3);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             // new tag will be second in the list due to alphabetical sorting
-            expect(find('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title')
-=======
-            expect(find('.settings-tags .settings-tag:last .tag-title').textContent, 'new tag list item title')
->>>>>>> Migrate to using ember-test-helpers and latest ember-mocha
-=======
+            expect(find('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title');
             expect(tag.querySelector('.tag-title').textContent, 'new tag list item title')
->>>>>>> update Tags acceptance tests
                 .to.equal('New Tag');
             expect(find('a[href="/ghost/settings/tags/new-tag"]'), 'highlights new tag')
                 .to.have.class('active');
@@ -328,9 +322,9 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('sorts tags correctly', async function () {
-            server.create('tag', {name: 'B - Second', slug: 'second'});
-            server.create('tag', {name: 'Z - Last', slug: 'last'});
-            server.create('tag', {name: 'A - First', slug: 'first'});
+            this.server.create('tag', {name: 'B - Second', slug: 'second'});
+            this.server.create('tag', {name: 'Z - Last', slug: 'last'});
+            this.server.create('tag', {name: 'A - First', slug: 'first'});
 
             await visit('settings/tags');
 
