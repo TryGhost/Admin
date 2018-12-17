@@ -413,21 +413,21 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
         });
 
         it('can manage an integration\'s webhooks', async function () {
-            server.create('integration');
+            this.server.create('integration');
 
             await visit('/settings/integrations/1');
 
-            expect(find('[data-test-webhooks-blank-slate]').length).to.equal(1);
+            expect(find('[data-test-webhooks-blank-slate]')).to.exist;
 
             // open new webhook modal
             await click('[data-test-link="add-webhook"]');
-            expect(find('[data-test-modal="webhook-form"]').length).to.equal(1);
-            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').text())
+            expect(find('[data-test-modal="webhook-form"]')).to.exist;
+            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent)
                 .to.have.string('New webhook');
 
             // can cancel new webhook
             await click('[data-test-button="cancel-webhook"]');
-            expect(find('[data-test-modal="webhook-form"]').length).to.equal(0);
+            expect(find('[data-test-modal="webhook-form"]')).to.not.exist;
 
             // create new webhook
             await click('[data-test-link="add-webhook"]');
@@ -437,24 +437,24 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             await click('[data-test-button="save-webhook"]');
 
             // modal closed and 1 webhook listed with correct details
-            expect(find('[data-test-modal="webhook-form"]').length).to.equal(0);
-            expect(find('[data-test-webhook-row]').length).to.equal(1);
+            expect(find('[data-test-modal="webhook-form"]')).to.not.exist;
+            expect(find('[data-test-webhook-row]')).to.exist;
             let row = find('[data-test-webhook-row="1"]');
-            expect(row.find('[data-test-text="name"]').text())
+            expect(row.querySelector('[data-test-text="name"]').textContent)
                 .to.have.string('First webhook');
-            expect(row.find('[data-test-text="event"]').text())
+            expect(row.querySelector('[data-test-text="event"]').textContent)
                 .to.have.string('Site Changed (rebuild)');
-            expect(row.find('[data-test-text="targetUrl"]').text())
+            expect(row.querySelector('[data-test-text="targetUrl"]').textContent)
                 .to.have.string('https://example.com/first-webhook');
-            expect(row.find('[data-test-text="last-triggered"]').text())
+            expect(row.querySelector('[data-test-text="last-triggered"]').textContent)
                 .to.have.string('Not triggered');
 
             // click edit webhook link
             await click('[data-test-webhook-row="1"] [data-test-link="edit-webhook"]');
 
             // modal appears and has correct title
-            expect(find('[data-test-modal="webhook-form"]').length).to.equal(1);
-            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').text())
+            expect(find('[data-test-modal="webhook-form"]')).to.exist;
+            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent)
                 .to.have.string('Edit webhook');
         });
 
