@@ -181,7 +181,7 @@ describe('Acceptance: Settings - Tags', function () {
 
             // check we update with the data returned from the server
             let tags = findAll('.settings-tags .settings-tag');
-            tag = tags[tags.length - 1];
+            tag = tags[0];
             expect(tag.querySelector('.tag-title').textContent, 'tag list updates on save')
                 .to.equal('New Name');
             expect(find('.tag-settings-pane input[name="name"]').value, 'settings form updates on save')
@@ -217,12 +217,12 @@ describe('Acceptance: Settings - Tags', function () {
 
             // it adds the tag to the list and selects
             tags = findAll('.settings-tags .settings-tag');
-            tag = tags[tags.length - 1];
+            tag = tags[1]; // second tag in list due to alphabetical ordering
             expect(tags.length, 'tag list count after creation')
                 .to.equal(3);
 
             // new tag will be second in the list due to alphabetical sorting
-            expect(find('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title');
+            expect(findAll('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title');
             expect(tag.querySelector('.tag-title').textContent, 'new tag list item title')
                 .to.equal('New Tag');
             expect(find('a[href="/ghost/settings/tags/new-tag"]'), 'highlights new tag')
@@ -331,7 +331,7 @@ describe('Acceptance: Settings - Tags', function () {
             // second wait is needed for the vertical-collection to settle
             await wait();
 
-            let tags = find('[data-test-tag]');
+            let tags = findAll('[data-test-tag]');
 
             expect(tags[0].querySelector('[data-test-name]').textContent.trim()).to.equal('A - First');
             expect(tags[1].querySelector('[data-test-name]').textContent.trim()).to.equal('B - Second');

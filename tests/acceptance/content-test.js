@@ -118,14 +118,14 @@ describe('Acceptance: Content', function () {
         });
 
         it('sorts tags filter alphabetically', async function () {
-            server.create('tag', {name: 'B - Second', slug: 'second'});
-            server.create('tag', {name: 'Z - Last', slug: 'last'});
-            server.create('tag', {name: 'A - First', slug: 'first'});
+            this.server.create('tag', {name: 'B - Second', slug: 'second'});
+            this.server.create('tag', {name: 'Z - Last', slug: 'last'});
+            this.server.create('tag', {name: 'A - First', slug: 'first'});
 
             await visit('/');
             await clickTrigger('[data-test-tag-select]');
 
-            let options = find('.ember-power-select-option');
+            let options = findAll('.ember-power-select-option');
 
             expect(options[0].textContent.trim()).to.equal('All tags');
             expect(options[1].textContent.trim()).to.equal('A - First');
