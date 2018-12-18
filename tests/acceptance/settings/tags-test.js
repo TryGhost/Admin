@@ -322,8 +322,9 @@ describe('Acceptance: Settings - Tags', function () {
         });
 
         it('sorts tags correctly', async function () {
-            this.server.create('tag', {name: 'B - Second', slug: 'second'});
+            this.server.create('tag', {name: 'B - Third', slug: 'third'});
             this.server.create('tag', {name: 'Z - Last', slug: 'last'});
+            this.server.create('tag', {name: '#A - Second', slug: 'second'});
             this.server.create('tag', {name: 'A - First', slug: 'first'});
 
             await visit('settings/tags');
@@ -334,8 +335,9 @@ describe('Acceptance: Settings - Tags', function () {
             let tags = findAll('[data-test-tag]');
 
             expect(tags[0].querySelector('[data-test-name]').textContent.trim()).to.equal('A - First');
-            expect(tags[1].querySelector('[data-test-name]').textContent.trim()).to.equal('B - Second');
-            expect(tags[2].querySelector('[data-test-name]').textContent.trim()).to.equal('Z - Last');
+            expect(tags[1].querySelector('[data-test-name]').textContent.trim()).to.equal('#A - Second');
+            expect(tags[2].querySelector('[data-test-name]').textContent.trim()).to.equal('B - Third');
+            expect(tags[3].querySelector('[data-test-name]').textContent.trim()).to.equal('Z - Last');
         });
     });
 });

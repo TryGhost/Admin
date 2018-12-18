@@ -38,10 +38,10 @@ describe('Integration: Component: gh-psm-tags-input', function () {
         mockTags(server);
 
         server.create('post', {authors: [author]});
-        server.create('tag', {name: 'Tag One', slug: 'one'});
-        server.create('tag', {name: 'Tag Two', slug: 'two'});
-        server.create('tag', {name: 'Tag Three', slug: 'three'});
-        server.create('tag', {name: '#Internal Tag', visibility: 'internal', slug: 'internal'});
+        server.create('tag', {name: 'Tag 1', slug: 'one'});
+        server.create('tag', {name: '#Tag 2', visibility: 'internal', slug: 'two'});
+        server.create('tag', {name: 'Tag 3', slug: 'three'});
+        server.create('tag', {name: 'Tag 4', slug: 'four'});
 
         this.set('store', this.owner.lookup('service:store'));
     });
@@ -56,8 +56,8 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
         let selected = findAll('.tag-token');
         expect(selected.length).to.equal(2);
-        expect(selected[0]).to.contain.text('Tag One');
-        expect(selected[1]).to.contain.text('Tag Three');
+        expect(selected[0]).to.contain.text('Tag 1');
+        expect(selected[1]).to.contain.text('Tag 3');
     });
 
     it('exposes all tags as options sorted alphabetically', async function () {
@@ -69,10 +69,10 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(4);
-        expect(options[0]).to.contain.text('Tag One');
-        expect(options[1]).to.contain.text('Tag Two');
-        expect(options[2]).to.contain.text('Tag Three');
-        expect(options[3]).to.contain.text('#Internal Tag');
+        expect(options[0]).to.contain.text('Tag 1');
+        expect(options[1]).to.contain.text('#Tag 2');
+        expect(options[2]).to.contain.text('Tag 3');
+        expect(options[3]).to.contain.text('Tag 4');
     });
 
     it('matches options on lowercase tag names', async function () {
@@ -81,13 +81,13 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
         await render(hbs`{{gh-psm-tags-input post=post}}`);
         await clickTrigger();
-        await typeInSearch('two');
+        await typeInSearch('2');
         await settled();
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(2);
-        expect(options[0]).to.contain.text('Add "two"...');
-        expect(options[1]).to.contain.text('Tag Two');
+        expect(options[0]).to.contain.text('Add "2"...');
+        expect(options[1]).to.contain.text('Tag 2');
     });
 
     it('hides create option on exact matches', async function () {
@@ -96,16 +96,16 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
         await render(hbs`{{gh-psm-tags-input post=post}}`);
         await clickTrigger();
-        await typeInSearch('Tag Two');
+        await typeInSearch('#Tag 2');
         await settled();
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(1);
-        expect(options[0]).to.contain.text('Tag Two');
+        expect(options[0]).to.contain.text('#Tag 2');
     });
 
-    it('highlights internal teags', async function () {
-        await assignPostWithTags(this, 'internal', 'two');
+    it('highlights internal tags', async function () {
+        await assignPostWithTags(this, 'two', 'three');
         await render(hbs`{{gh-psm-tags-input post=post}}`);
 
         let selected = findAll('.tag-token');
@@ -116,17 +116,17 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
     describe('updateTags', function () {
         it('modifies post.tags', async function () {
-            await assignPostWithTags(this, 'internal', 'two');
+            await assignPostWithTags(this, 'two', 'three');
             await render(hbs`{{gh-psm-tags-input post=post}}`);
-            await selectChoose('.ember-power-select-trigger', 'Tag One');
+            await selectChoose('.ember-power-select-trigger', 'Tag 1');
 
             expect(
                 this.post.tags.mapBy('name').join(',')
-            ).to.equal('#Internal Tag,Tag Two,Tag One');
+            ).to.equal('#Tag 2,Tag 3,Tag 1');
         });
 
         it('destroys new tag records when not selected', async function () {
-            await assignPostWithTags(this, 'internal', 'two');
+            await assignPostWithTags(this, 'two', 'three');
             await render(hbs`{{gh-psm-tags-input post=post}}`);
             await clickTrigger();
             await typeInSearch('New');
@@ -146,7 +146,7 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
     describe('createTag', function () {
         it('creates new records', async function () {
-            await assignPostWithTags(this, 'internal', 'two');
+            await assignPostWithTags(this, 'two', 'three');
             await render(hbs`{{gh-psm-tags-input post=post}}`);
             await clickTrigger();
             await typeInSearch('New One');
