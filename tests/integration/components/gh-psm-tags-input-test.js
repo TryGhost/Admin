@@ -65,6 +65,9 @@ describe('Integration: Component: gh-psm-tags-input', function () {
 
         await render(hbs`{{gh-psm-tags-input post=post}}`);
         await clickTrigger();
+        await settled();
+        // unsure why settled() is sometimes not catching the update
+        await timeout(100);
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(4);
