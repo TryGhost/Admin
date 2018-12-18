@@ -7,6 +7,7 @@ import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupRenderingTest} from 'ember-mocha';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
+import {timeout} from 'ember-concurrency';
 
 // NOTE: although Mirage has posts<->tags relationship and can respond
 // to :post-id/?include=tags all ordering information is lost so we
@@ -20,11 +21,9 @@ const assignPostWithTags = async function postWithTags(context, ...slugs) {
     });
 
     context.set('post', post);
+    await settled();
 };
 
-// TODO: Unskip and fix
-// skipped because it was failing most of the time on Travis
-// see https://github.com/TryGhost/Ghost/issues/8805
 describe('Integration: Component: gh-psm-tags-input', function () {
     setupRenderingTest();
 
@@ -83,6 +82,8 @@ describe('Integration: Component: gh-psm-tags-input', function () {
         await clickTrigger();
         await typeInSearch('2');
         await settled();
+        // unsure why settled() is sometimes not catching the update
+        await timeout(100);
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(2);
@@ -98,6 +99,8 @@ describe('Integration: Component: gh-psm-tags-input', function () {
         await clickTrigger();
         await typeInSearch('#Tag 2');
         await settled();
+        // unsure why settled() is sometimes not catching the update
+        await timeout(100);
 
         let options = findAll('.ember-power-select-option');
         expect(options.length).to.equal(1);
@@ -151,10 +154,10 @@ describe('Integration: Component: gh-psm-tags-input', function () {
             await clickTrigger();
             await typeInSearch('New One');
             await settled();
-            await selectChoose('.ember-power-select-trigger', 'Add "New One"...');
+            await selectChoose('.ember-power-select-trigger', '.ember-power-select-option', 0);
             await typeInSearch('New Two');
             await settled();
-            await selectChoose('.ember-power-select-trigger', 'Add "New Two"...');
+            await selectChoose('.ember-power-select-trigger', '.ember-power-select-option', 0);
 
             let tags = await this.store.peekAll('tag');
             expect(tags.length).to.equal(6);
