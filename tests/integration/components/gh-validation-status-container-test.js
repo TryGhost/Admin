@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {find, render} from '@ember/test-helpers';

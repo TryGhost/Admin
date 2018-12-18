@@ -1,7 +1,7 @@
 import hbs from 'htmlbars-inline-precompile';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {find, render} from '@ember/test-helpers';
+import {render} from '@ember/test-helpers';
 import {setupRenderingTest} from 'ember-mocha';
 
 describe('Integration: Helper: background-image-style', function () {
