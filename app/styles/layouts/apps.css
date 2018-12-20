@@ -215,12 +215,19 @@
 .apps-card-meta {
     display: flex;
     flex-direction: column;
-    padding-right: 70px;
+    flex: 2;
 }
+/* Stack badges responsively for nicer layout */
 @media (max-width: 500px) {
-    .apps-card-meta {
-        flex-basis: 70%;
-        padding-right: 10px;
+    .gh-active-users .apps-configured {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .gh-active-users .gh-badge {
+        margin-bottom: 1em;
+    }
+    .gh-active-users .gh-badge:last-child {
+        margin-bottom: 0em;
     }
 }
 
