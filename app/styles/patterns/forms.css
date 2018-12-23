@@ -151,7 +151,8 @@ select {
 .error .gh-select select,
 .error .ember-power-select-multiple-trigger,
 .gh-select.error,
-select.error {
+select.error,
+input[type=number].gh-input:invalid {
     border-color: var(--red);
 }
 

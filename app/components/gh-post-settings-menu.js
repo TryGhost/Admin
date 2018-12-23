@@ -4,12 +4,13 @@ import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import formatMarkdown from 'ghost-admin/utils/format-markdown';
 import moment from 'moment';
 import {alias, or} from '@ember/object/computed';
-import {computed} from '@ember/object';
+import {computed, set} from '@ember/object';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
 const PSM_ANIMATION_LENGTH = 400;
+const BOOLEAN_OPTIONS = ['True', 'False'];
 
 export default Component.extend(SettingsMenuMixin, {
     store: service(),
@@ -25,6 +26,7 @@ export default Component.extend(SettingsMenuMixin, {
 
     _showSettingsMenu: false,
     _showThrobbers: false,
+    booleanOptions: BOOLEAN_OPTIONS,
 
     customExcerptScratch: alias('post.customExcerptScratch'),
     codeinjectionFootScratch: alias('post.codeinjectionFootScratch'),
@@ -81,6 +83,33 @@ export default Component.extend(SettingsMenuMixin, {
         }
 
         return seoURL;
+    }),
+
+    customFieldValues: computed({
+        get() {
+            let fieldValues = this.get('post.customFieldValues');
+
+            return this.get('settings.custom_fields')
+                .map((field) => {
+                    let fieldValue = {field_id: field.id, type: field.type, name: field.name, value: null};
+                    let value = fieldValues.find(item => item.field_id === field.id);
+
+                    if (value !== undefined) {
+                        fieldValue.value = value.value;
+                    }
+
+                    return fieldValue;
+                });
+        },
+        set(_, value) {
+            let fieldValues = value
+                .filter(item => item.value !== null)
+                .map(item => this.store.createRecord('custom_field_value', item));
+
+            this.set('post.customFieldValues', fieldValues);
+
+            return this.customFieldValues;
+        }
     }),
 
     didReceiveAttrs() {
@@ -217,6 +246,17 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('customExcerpt', excerpt);
 
             return post.validate({property: 'customExcerpt'}).then(() => this.get('savePost').perform());
+        },
+
+        setCustomValue(fieldId, value) {
+            let customFieldValues = this.get('customFieldValues').map((item) => {
+                if (item.field_id === fieldId) {
+                    set(item, 'value', value);
+                }
+                return item;
+            });
+
+            this.set('customFieldValues', customFieldValues);
         },
 
         setHeaderInjection(code) {

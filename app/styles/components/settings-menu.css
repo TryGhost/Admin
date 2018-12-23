@@ -115,6 +115,12 @@
     font-weight: normal;
 }
 
+.settings-menu-content .customfield-type {
+    font-weight: normal;
+    font-style: italic; 
+    color: var(--midgrey-l2);
+}
+
 .settings-menu-content .gh-image-uploader {
     margin: 0 0 1.6rem 0;
 }

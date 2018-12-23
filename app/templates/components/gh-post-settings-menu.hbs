@@ -124,6 +124,13 @@
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
+                    <li class="nav-list-item" {{action "showSubview" "customfields"}} data-test-button="customfields">
+                        <button type="button">
+                            <b>Custom Fields</b>
+                            <span>Extra fields for advanced usage</span>
+                        </button>
+                        {{svg-jar "arrow-right"}}
+                    </li>
                 </ul>
 
                 <div class="form-group for-checkbox">
@@ -395,6 +402,48 @@
                                         data-test-field="codeinjection-foot"}}
                                     {{gh-error-message errors=post.errors property="codeinjectionFoot" data-test-error="codeinjection-foot"}}
                                 {{/gh-form-group}}
+                            </form>
+                        </div>
+                    {{/if}}
+
+                    {{#if (eq subview "customfields")}}
+                        <div class="settings-menu-header subview">
+                            <button {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
+                            <h4>Custom Fields</h4>
+                            <div style="width:23px;"></div>
+                        </div>
+
+                        <div class="settings-menu-content settings-menu-content-customfields">
+                            <form>
+                            {{#each settings.custom_fields as |field index|}}
+                                {{#gh-form-group errors=post.errors hasValidated=post.hasValidated property=field.id}}
+                                    <label for="{{field.id}}">{{field.name}} <span class="customfield-type">({{field.type}})</span></label>
+
+                                    {{#if (is-equal field.type 'Boolean')}}
+                                        <span class="gh-select" data-select-text="{{customFieldItem.type}}">
+                                            {{one-way-select 
+                                                id=field.id
+                                                value=(get (get customFieldValues index) 'value')
+                                                includeBlank='Choose value...'
+                                                options=booleanOptions
+                                                onchange=(action (action "setCustomValue" field.id) value="target.value")
+                                            }}
+
+                                            {{svg-jar "arrow-down-small"}}
+                                        </span>
+                                    {{else}}
+                                        {{gh-text-input
+                                            id=field.id
+                                            placeholder="Value"
+                                            type=(if (is-equal field.type 'Number') 'number')
+                                            value=(get (get customFieldValues index) 'value')
+                                            input=(action (action "setCustomValue" field.id) value="target.value")
+                                            stopEnterKeyDownPropagation=true
+                                        }}
+                                    {{/if}}
+                                    {{gh-error-message errors=post.errors property=field.id data-test-error=field.id}}
+                                {{/gh-form-group}}
+                            {{/each}}
                             </form>
                         </div>
                     {{/if}}

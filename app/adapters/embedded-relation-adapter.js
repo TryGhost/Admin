@@ -121,6 +121,7 @@ export default BaseAdapter.extend({
         // Iterate through the model's relationships and build a list
         // of those that need to be pulled in via "include" from the API
         model.eachRelationship((name, meta) => {
+            name = meta.options.name || name;
             if (
                 meta.kind === 'hasMany'
                 && Object.prototype.hasOwnProperty.call(meta.options, 'embedded')

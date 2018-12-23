@@ -80,6 +80,11 @@ export default Model.extend(Comparable, ValidationEngine, {
     featureImage: attr('string'),
     codeinjectionFoot: attr('string', {defaultValue: ''}),
     codeinjectionHead: attr('string', {defaultValue: ''}),
+    customFieldValues: hasMany('custom-field-value', {
+        name: 'custom_field_values',
+        embedded: 'always',
+        async: false
+    }),
     customTemplate: attr('string'),
     ogImage: attr('string'),
     ogTitle: attr('string'),

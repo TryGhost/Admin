@@ -7,6 +7,7 @@ export default ApplicationSerializer.extend(EmbeddedRecordsMixin, {
     // settings for the EmbeddedRecordsMixin.
     attrs: {
         authors: {embedded: 'always'},
+        customFieldValues: {embedded: 'always'},
         tags: {embedded: 'always'},
         publishedAtUTC: {key: 'published_at'},
         createdAtUTC: {key: 'created_at'},

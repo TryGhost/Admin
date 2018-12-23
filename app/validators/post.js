@@ -3,11 +3,17 @@ import moment from 'moment';
 import validator from 'npm:validator';
 import {isBlank, isEmpty, isPresent} from '@ember/utils';
 
+const VALIDATORS = {
+    Number: validator.isNumeric,
+    Boolean: validator.isBoolean
+};
+
 export default BaseValidator.create({
     properties: [
         'title',
         'authors',
         'customExcerpt',
+        'customFieldValues',
         'codeinjectionHead',
         'codeinjectionFoot',
         'metaTitle',
@@ -48,6 +54,28 @@ export default BaseValidator.create({
 
         if (!validator.isLength(customExcerpt || '', 0, 300)) {
             model.get('errors').add('customExcerpt', 'Excerpt cannot be longer than 300 characters.');
+            this.invalidate();
+        }
+    },
+
+    customFieldValues(model) {
+        let customFields = model.get('settings').get('custom_fields');
+        let customFieldValues = model.get('customFieldValues').toArray();
+
+        for (let item of customFieldValues) {
+            let field = customFields.find(field => field.id === item.field_id);
+
+            if (item.value === null || item.value === '') { 
+                continue;
+            }
+
+            let validation = VALIDATORS[field.type];
+            if (validation === undefined || validation(item.value.toLowerCase())) {
+                continue;
+            }
+
+            model.get('errors').add(item.id, `Value is not of type ${field.type}.`);
+            model.get('hasValidated').addObject(item.id);
             this.invalidate();
         }
     },
