@@ -6,6 +6,7 @@ describe('Unit:Serializer: setting', function () {
     setupModelTest('setting', {
         // Specify the other units that are required for this test.
         needs: [
+            'transform:custom-fields',
             'transform:moment-utc',
             'transform:facebook-url-user',
             'transform:twitter-url-user',
