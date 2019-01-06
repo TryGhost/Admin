@@ -86,7 +86,7 @@ export default Controller.extend({
             let formData = new FormData();
             let notifications = this.notifications;
             let currentUserId = this.get('session.user.id');
-            let dbUrl = this.get('ghostPaths.url').api('db');
+            let dbUrl = this.get('ghostPaths.url').api('db/import');
 
             this.set('uploadButtonText', 'Importing');
             this.set('importErrors', null);
@@ -102,7 +102,30 @@ export default Controller.extend({
                     contentType: false,
                     processData: false
                 });
-            }).then((response) => {
+            }).then(({importId}) => new Promise((resolve, reject) => {
+                let poll = () => {
+                    this.get('ajax').request(dbUrl).then((response) => {
+                        if (response.importing) {
+                            // Check the status every second
+                            return setTimeout(poll, 1000);
+                        }
+
+                        if (!response.lastResult) {
+                            // @todo: not entirely sure if we should try to handle this case
+                            return reject(response);
+                        }
+
+                        // @todo: not entirely sure if we should handle the second case
+                        if (!response.lastResult.success || response.lastResult.id !== importId) {
+                            reject(response.lastResult);
+                        }
+
+                        resolve(response.lastResult);
+                    });
+                };
+
+                poll();
+            })).then((response) => {
                 let store = this.store;
 
                 this.set('importSuccessful', true);
