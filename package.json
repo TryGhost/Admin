@@ -42,7 +42,7 @@
     "csscomb": "4.2.0",
     "current-device": "0.7.8",
     "element-resize-detector": "^1.1.14",
-    "ember-ajax": "3.1.1",
+    "ember-ajax": "4.0.2",
     "ember-assign-helper": "0.1.2",
     "ember-browserify": "1.2.2",
     "ember-cli": "3.4.1",
