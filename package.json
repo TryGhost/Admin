@@ -106,7 +106,7 @@
     "grunt": "1.0.3",
     "grunt-shell": "2.1.0",
     "keymaster": "https://github.com/madrobby/keymaster.git",
-    "liquid-fire": "0.29.3",
+    "liquid-fire": "0.29.5",
     "liquid-tether": "2.0.7",
     "liquid-wormhole": "2.1.5",
     "loader.js": "4.7.0",
