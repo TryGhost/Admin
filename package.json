@@ -26,7 +26,7 @@
     "node": ">= 6"
   },
   "devDependencies": {
-    "@ember/optional-features": "0.6.4",
+    "@ember/optional-features": "0.7.0",
     "@html-next/vertical-collection": "1.0.0-beta.12",
     "@tryghost/mobiledoc-kit": "0.11.1-ghost.5",
     "blueimp-md5": "2.10.0",
