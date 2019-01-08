@@ -4963,12 +4963,12 @@ ember-cli-dependency-checker@3.1.0:
     resolve "^1.5.0"
     semver "^5.3.0"
 
-ember-cli-es6-transform@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-es6-transform/-/ember-cli-es6-transform-0.0.3.tgz#99238305c72f533cc1cd3c85b15c6d7a842b8fdf"
-  integrity sha1-mSODBccvUzzBzTyFsVxteoQrj98=
+ember-cli-es6-transform@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ember-cli-es6-transform/-/ember-cli-es6-transform-0.0.5.tgz#05bd0aa7e83e14a745e303bd331d912b62f712c6"
+  integrity sha512-Fw++3/keeaot6f/plu/0Fl3mN/SuiNFE8K9xASSCdPQkjKbkTqsm+H8rX30VPKdXwCTnV8adEX1C/Hcn6Nwc1g==
   dependencies:
-    ember-cli-babel "^6.6.0"
+    ember-cli-babel "^6.16.0"
 
 ember-cli-eslint@4.2.3:
   version "4.2.3"
