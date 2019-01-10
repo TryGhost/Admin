@@ -92,7 +92,7 @@
     "ember-source": "3.5.1",
     "ember-sticky-element": "0.2.3",
     "ember-svg-jar": "1.2.2",
-    "ember-test-selectors": "1.0.0",
+    "ember-test-selectors": "2.0.0",
     "ember-truth-helpers": "2.1.0",
     "ember-useragent": "0.6.1",
     "emberx-file-input": "1.2.1",
