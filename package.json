@@ -83,7 +83,7 @@
     "ember-one-way-select": "4.0.0",
     "ember-power-calendar-moment": "0.1.3",
     "ember-power-datepicker": "https://github.com/cibernox/ember-power-datepicker/tarball/cd4dffa8852236a3312f6dc7040719c0e9196bc0",
-    "ember-power-select": "2.0.9",
+    "ember-power-select": "2.2.1",
     "ember-resolver": "5.0.1",
     "ember-responsive": "2.0.5",
     "ember-route-action-helper": "2.0.6",
