@@ -88,7 +88,7 @@
     "ember-responsive": "2.0.5",
     "ember-route-action-helper": "2.0.6",
     "ember-simple-auth": "1.8.0",
-    "ember-sinon": "3.0.0",
+    "ember-sinon": "3.1.0",
     "ember-source": "3.5.1",
     "ember-sticky-element": "0.2.3",
     "ember-svg-jar": "1.2.2",
