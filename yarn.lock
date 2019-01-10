@@ -6118,10 +6118,10 @@ eslint-plugin-ember@^5.0.3:
     ember-rfc176-data "^0.3.5"
     snake-case "^2.1.0"
 
-eslint-plugin-ghost@0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ghost/-/eslint-plugin-ghost-0.0.25.tgz#8dcb6424281663cbc2e043ad538d9ea57b5343a3"
-  integrity sha512-NDonV1inHfyWm9mIm1H+i9fdDazWU0SnaNQD12rt4iSdNWHuW7LyqtnGadg0rCGdhnWWqa68sQdkcAj/g2Z++g==
+eslint-plugin-ghost@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ghost/-/eslint-plugin-ghost-0.1.0.tgz#6f01f7d14b2c14e31d1be5d07bd9e795974e951b"
+  integrity sha512-Hy1XLXX2qSJ4OTwNtKapVKHVuOQc8aPS0EAQw3ajgf9mHLuqKhwf+JiX4wVI3/37KdLt30B8mnH8l5YPCssG1w==
   dependencies:
     eslint-plugin-ember "^5.0.3"
     eslint-plugin-sort-imports-es6-autofix "0.2.2"
