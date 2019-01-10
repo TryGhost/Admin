@@ -56,7 +56,7 @@
     "ember-cli-eslint": "4.2.3",
     "ember-cli-ghost-spirit": "0.0.6",
     "ember-cli-htmlbars": "3.0.1",
-    "ember-cli-htmlbars-inline-precompile": "1.0.5",
+    "ember-cli-htmlbars-inline-precompile": "2.1.0",
     "ember-cli-inject-live-reload": "1.7.0",
     "ember-cli-mirage": "0.4.12",
     "ember-cli-moment-shim": "3.7.1",
