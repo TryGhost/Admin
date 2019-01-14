@@ -82,15 +82,19 @@
         </div>
 
         <div class="gh-setting-header">Beta features</div>
+{{#if (not-eq feature.labs.publicAPI undefined)}}
         <div class="gh-setting">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Public API</div>
                 <div class="gh-setting-desc">For full instructions, read the <a href="https://help.ghost.org/hc/en-us/articles/115000301672-Public-API-Beta">developer guide</a></div>
             </div>
             <div class="gh-setting-action">
-                <div class="for-checkbox">{{gh-feature-flag "publicAPI"}}</div>
+                <div class="for-checkbox">
+                        {{gh-feature-flag "publicAPI"}}
+                </div>
             </div>
         </div>
+{{/if}}
         <div class="gh-setting">
             <div class="gh-setting-content">
                 <div class="gh-setting-title">Night shift</div>
