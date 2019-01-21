@@ -82,6 +82,10 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
         }
     },
 
+    titleToken() {
+        return this.get('controller.post.title') || 'Editor';
+    },
+
     _blurAndScheduleAction(func) {
         let selectedElement = $(document.activeElement);
 
@@ -92,11 +96,5 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
 
         // wait for actions triggered by the focusout to finish before saving
         run.scheduleOnce('actions', this, func);
-    },
-
-    titleToken: function () {
-        const title = this.get('controller.post.title');
-
-        return title === '' ? 'Editor' : title;
     }
 });
