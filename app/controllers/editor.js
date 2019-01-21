@@ -475,7 +475,7 @@ export default Controller.extend({
             yield this.get('autosave').perform();
         }
 
-        this.get('target').updateTitle();
+        this.send('updateDocumentTitle');
     }),
 
     generateSlug: task(function* () {
