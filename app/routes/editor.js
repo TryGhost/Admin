@@ -14,7 +14,6 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
     notifications: service(),
     userAgent: service(),
     ui: service(),
-    router: service(),
 
     classNames: ['editor'],
     shortcuts: generalShortcuts,
