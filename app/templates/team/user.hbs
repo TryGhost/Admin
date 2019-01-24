@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <header class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            {{link-to "Team" "team" data-test-team-link=true}}
+            {{link-to "Пользователи" "team" data-test-team-link=true}}
             <span>{{svg-jar "arrow-right"}}</span>
             {{user.name}}
 
@@ -23,14 +23,14 @@
                     {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="gh-btn gh-btn-default gh-btn-icon only-has-icon user-actions-cog" title="User Actions" data-test-user-actions=true}}
                         <span>
                             {{svg-jar "settings"}}
-                            <span class="hidden">User Settings</span>
+                            <span class="hidden">Пользовательские настройки</span>
                         </span>
                     {{/gh-dropdown-button}}
                     {{#gh-dropdown name="user-actions-menu" tagName="ul" classNames="user-actions-menu dropdown-menu dropdown-triangle-top-right"}}
                         {{#if canMakeOwner}}
                             <li>
                                 <button {{action "toggleTransferOwnerModal"}}>
-                                    Make Owner
+                                    Сделать владельцем
                                 </button>
                                 {{#if showTransferOwnerModal}}
                                     {{gh-fullscreen-modal "transfer-owner"
@@ -43,13 +43,13 @@
                         {{#if deleteUserActionIsVisible}}
                             <li>
                                 <button {{action "toggleDeleteUserModal"}} class="delete" data-test-delete-button>
-                                    Delete User
+                                    Удалить
                                 </button>
                             </li>
                             {{#if user.isActive}}
                                 <li>
                                     <button {{action "toggleSuspendUserModal"}} class="suspend" data-test-suspend-button>
-                                        Suspend User
+                                        Заблокировать пользователя
                                     </button>
                                 </li>
                             {{/if}}
@@ -97,7 +97,7 @@
         <form class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform save) on="submit"}}>
 
           <figure class="user-cover" style={{background-image-style user.coverImageUrl}}>
-              <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{action "toggleUploadCoverModal"}}><span>Change Cover</span></button>
+              <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{action "toggleUploadCoverModal"}}><span>Изменить фон</span></button>
               {{#if showUploadCoverModal}}
                   {{gh-fullscreen-modal "upload-image"
                                         model=(hash model=user imageProperty="coverImage")
@@ -108,7 +108,7 @@
 
           <figure class="user-image bg-whitegrey">
               <div id="user-image" class="img" style={{background-image-style user.profileImageUrl}}><span class="hidden">{{user.name}}"s Picture</span></div>
-              <button type="button" {{action "toggleUploadImageModal"}} class="edit-user-image">Edit Picture</button>
+              <button type="button" {{action "toggleUploadImageModal"}} class="edit-user-image">Изменить иконку</button>
               {{#if showUploadImageModal}}
                   {{gh-fullscreen-modal "upload-image"
                                         model=(hash model=user imageProperty="profileImage" uploadUrl="/uploads/profile-image")
@@ -124,11 +124,11 @@
             <fieldset class="user-details-bottom">
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="name" class="first-form-group"}}
-                    <label for="user-name">Full Name</label>
+                    <label for="user-name">ФИО</label>
                     {{gh-text-input
                         id="user-name"
                         class="user-name"
-                        placeholder="Full Name"
+                        placeholder="Полное имя"
                         autocorrect="off"
                         value=(readonly user.name)
                         input=(action (mut user.name) value="target.value")
@@ -138,17 +138,17 @@
                     {{#if user.errors.name}}
                         {{gh-error-message errors=user.errors property="name" data-test-error="user-name"}}
                     {{else}}
-                        <p>Use your real name so people can recognise you</p>
+                        <p>Используйте настроящие имена</p>
                     {{/if}}
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="slug"}}
-                    <label for="user-slug">Slug</label>
+                    <label for="user-slug">Ник</label>
                     {{gh-text-input
                         class="user-name"
                         id="user-slug"
                         name="user"
-                        placeholder="Slug"
+                        placeholder="Ник"
                         selectOnClick="true"
                         autocorrect="off"
                         value=(readonly slugValue)
@@ -168,7 +168,7 @@
                             type="email"
                             id="user-email"
                             name="email"
-                            placeholder="Email Address"
+                            placeholder="Email"
                             autocapitalize="off"
                             autocorrect="off"
                             autocomplete="off"
@@ -180,12 +180,12 @@
                     {{else}}
                         <span>{{user.email}}</span>
                     {{/if}}
-                    <p>Used for notifications</p>
+                    <p>Для уведомлений</p>
                 {{/gh-form-group}}
 
                 {{#if rolesDropdownIsVisible}}
                     <div class="form-group">
-                        <label for="user-role">Role</label>
+                        <label for="user-role">Роль</label>
                         <span class="gh-select" tabindex="0">
                             {{one-way-select
                                 id="new-user-role"
@@ -196,12 +196,12 @@
                                 update=(action "changeRole")
                             }}
                         </span>
-                        <p>What permissions should this user have?</p>
+                        <p>Выберите уровень доступа</p>
                     </div>
                 {{/if}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="location"}}
-                    <label for="user-location">Location</label>
+                    <label for="user-location">Город (из списка доступных городов)</label>
                     {{gh-text-input
                         id="user-location"
                         value=(readonly user.location)
@@ -209,11 +209,11 @@
                         focus-out=(action "validate" "location" target=user)
                         data-test-location-input=true}}
                     {{gh-error-message errors=user.errors property="location" data-test-error="user-location"}}
-                    <p>Where in the world do you live?</p>
+                    <p>Укажитите город, для которого этот пользователь будет создавать публикации. Если пустое поле, то публикации доступны для всех городов.</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="website"}}
-                    <label for="user-website">Website</label>
+                    <label for="user-website">Сайт</label>
                     {{gh-text-input
                         type="url"
                         id="user-website"
@@ -225,7 +225,7 @@
                         focus-out=(action "validate" "website" target=user)
                         data-test-website-input=true}}
                     {{gh-error-message errors=user.errors property="website" data-test-error="user-website"}}
-                    <p>Have a website or blog other than this one? Link it!</p>
+                    <p>Можно не указывать</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="facebook"}}
@@ -242,7 +242,7 @@
                         data-test-facebook-input=true
                     }}
                     {{gh-error-message errors=user.errors property="facebook" data-test-error="user-facebook"}}
-                    <p>URL of your personal Facebook Profile</p>
+                    <p>Ссылка для дополнительной связи</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="twitter"}}
@@ -259,11 +259,11 @@
                         data-test-twitter-input=true
                     }}
                     {{gh-error-message errors=user.errors property="twitter" data-test-error="user-twitter"}}
-                    <p>URL of your personal Twitter profile</p>
+                    <p>Ссылка для дополнительной связи</p>
                 {{/gh-form-group}}
 
                 {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="bio" class="bio-container"}}
-                    <label for="user-bio">Bio</label>
+                    <label for="user-bio">Инофрмация</label>
                     {{gh-textarea
                         id="user-bio"
                         value=(readonly user.bio)
@@ -273,7 +273,7 @@
                     }}
                     {{gh-error-message errors=user.errors property="bio" data-test-error="user-bio"}}
                     <p>
-                        Write about you, in 200 characters or less.
+                        Можно описать задачи человека
                         {{gh-count-characters user.bio}}
                     </p>
                 {{/gh-form-group}}
@@ -290,7 +290,7 @@
                 <fieldset>
                     {{#unless isNotOwnProfile}}
                         {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="password"}}
-                            <label for="user-password-old">Old Password</label>
+                            <label for="user-password-old">Старый пароль</label>
                             {{gh-text-input
                                 type="password"
                                 id="user-password-old"
@@ -306,7 +306,7 @@
                     {{/unless}}
 
                     {{#gh-form-group errors=user.errors hasValidated=user.hasValidated property="newPassword"}}
-                        <label for="user-password-new">New Password</label>
+                        <label for="user-password-new">Новый пароль</label>
                         {{gh-text-input
                             value=(readonly user.newPassword)
                             type="password"
@@ -336,7 +336,7 @@
                     {{/gh-form-group}}
 
                     <div class="form-group">
-                        {{gh-task-button "Change Password" class="gh-btn gh-btn-red gh-btn-icon button-change-password" task=user.saveNewPassword data-test-save-pw-button=true}}
+                        {{gh-task-button "Изменить пароль" class="gh-btn gh-btn-red gh-btn-icon button-change-password" task=user.saveNewPassword data-test-save-pw-button=true}}
                     </div>
                 </fieldset>
             </form> {{! change password form }}
