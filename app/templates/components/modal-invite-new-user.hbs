@@ -1,12 +1,12 @@
 <header class="modal-header">
-    <h1>Invite a New User</h1>
+    <h1>Пригласить нового пользователя</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Закрыть</span></a>
 
 <div class="modal-body">
     <fieldset>
         {{#gh-form-group errors=errors hasValidated=hasValidated property="email"}}
-            <label for="new-user-email">Email Address</label>
+            <label for="new-user-email">Email адрес</label>
             {{gh-text-input
                 class="email"
                 id="new-user-email"
@@ -28,7 +28,7 @@
 
 
         {{#gh-form-group class="for-select" errors=errors hasValidated=hasValidated property="role"}}
-            <label for="new-user-role">Role</label>
+            <label for="new-user-role">Роль</label>
             <span class="gh-select">
                 {{one-way-select
                     id="new-user-role"

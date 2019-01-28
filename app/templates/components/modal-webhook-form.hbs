@@ -6,7 +6,7 @@
 <div class="modal-body">
     <fieldset>
         {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="name"}}
-            <label for="webhook-name" class="fw6">Name</label>
+            <label for="webhook-name" class="fw6">Название</label>
             {{gh-text-input
                 value=(readonly webhook.name)
                 input=(action (mut webhook.name) value="target.value")
@@ -24,7 +24,7 @@
     </fieldset>
     <fieldset>
         {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="event"}}
-            <label for="webhook-event" class="fw6">Event</label>
+            <label for="webhook-event" class="fw6">Событие</label>
             <span class="gh-select">
                 {{one-way-select webhook.event
                     options=availableEvents
@@ -45,7 +45,7 @@
     </fieldset>
     <fieldset>
         {{#gh-form-group errors=webhook.errors hasValidated=webhook.hasValidated property="targetUrl"}}
-            <label for="webhook-targetUrl" class="fw6">Target URL</label>
+            <label for="webhook-targetUrl" class="fw6">Целевой URL</label>
             {{gh-text-input
                 value=(readonly webhook.targetUrl)
                 input=(action (mut webhook.targetUrl) value="target.value")
@@ -88,7 +88,7 @@
 
 <div class="modal-footer">
     <button {{action "closeModal"}} class="gh-btn" data-test-button="cancel-webhook">
-        <span>Cancel</span>
+        <span>Отмена</span>
     </button>
     {{gh-task-button buttonText
         successText=successText
