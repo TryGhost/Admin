@@ -1,15 +1,15 @@
 <header class="modal-header">
-    <h1>Are you sure you want to delete this post?</h1>
+    <h1>Вы уверены, что хотите удалить этот пост?</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Закрыть</span></a>
 
 <div class="modal-body">
     <p>
-        You're about to delete "<strong>{{post.title}}</strong>". This is permanent! We warned you, k?
+        Вы собираетесь удалить "<strong>{{post.title}}</strong>". Это навсегда!Мы предупредили вас, k?
     </p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>Отмена</span></button>
     {{gh-task-button "Delete" successText="Deleted" task=deletePost class="gh-btn gh-btn-red gh-btn-icon"}}
 </div>
