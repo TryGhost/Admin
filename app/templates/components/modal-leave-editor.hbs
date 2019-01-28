@@ -1,18 +1,18 @@
 <header class="modal-header">
-    <h1>Are you sure you want to leave this page?</h1>
+    <h1>Вы уверены, что хотите покинуть эту страницу?</h1>
 </header>
-<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Закрыть</span></a>
 
 <div class="modal-body">
     <p>
-        Hey there! It looks like you're in the middle of writing something and
-        you haven't saved all of your content.
+        Эй! Похоже, вы находитесь в процессе написания чего-то и
+        не сохранили ваш контент.
     </p>
 
-    <p>Save before you go!</p>
+    <p>Сохранитесь, прежде чем продолжить!</p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Stay</span></button>
-    <button {{action "confirm"}} class="gh-btn gh-btn-red"><span>Leave</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>Остаться</span></button>
+    <button {{action "confirm"}} class="gh-btn gh-btn-red"><span>Покинуть</span></button>
 </div>
