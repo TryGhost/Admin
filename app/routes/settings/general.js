@@ -8,7 +8,7 @@ export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     config: service(),
     settings: service(),
 
-    titleToken: 'Settings - General',
+    titleToken: 'Настройки - Ghost: Основные',
     classNames: ['settings-view-general'],
 
     beforeModel() {

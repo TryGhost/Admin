@@ -6,7 +6,7 @@ import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 
 export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
 
-    titleToken: 'Settings - Tags',
+    titleToken: 'Настройки - Теги',
 
     shortcuts: null,
 

@@ -64,6 +64,10 @@ Router.map(function () {
     this.route('settings.integrations.unsplash', {path: '/settings/integrations/unsplash'});
     this.route('settings.integrations.zapier', {path: '/settings/integrations/zapier'});
 
+    this.route('settings.schedule', {path: '/settings/schedule'});
+    this.route('settings.shows', {path: '/settings/shows'});
+    this.route('settings.presenters', {path: '/settings/presenters'});
+
     this.route('members', function () {
         this.route('details', {path: ':member_id'});
     });

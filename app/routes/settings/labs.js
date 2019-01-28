@@ -6,7 +6,7 @@ import {inject as service} from '@ember/service';
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
     settings: service(),
 
-    titleToken: 'Settings - Labs',
+    titleToken: 'Настройки - Ghost: Экспериментальные',
     classNames: ['settings'],
 
     beforeModel() {

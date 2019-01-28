@@ -3,7 +3,7 @@ import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import styleBody from 'ghost-admin/mixins/style-body';
 
 export default AuthenticatedRoute.extend(styleBody, CurrentUserSettings, {
-    titleToken: 'Settings - Integrations',
+    titleToken: 'Настройки - Ghost: Интеграции',
     classNames: ['settings-view-integration'],
 
     beforeModel() {
