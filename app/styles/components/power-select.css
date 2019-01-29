@@ -65,6 +65,7 @@
     margin: 0 1px !important;
     padding: 0 !important;
     min-height: 0 !important;
+    height: 27px;
     width: calc(100% - 8px) !important;
     max-width: 100% !important;
     max-height: none !important;
@@ -72,7 +73,7 @@
     background: none !important;
     box-shadow: none !important;
     text-indent: 0 !important;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     line-height: inherit !important;
 }
 

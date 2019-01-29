@@ -9,6 +9,7 @@
     {{/dropdown.trigger}}
     {{#dropdown.content class="gh-nav-menu-dropdown"}}
         <ul class="dropdown-menu dropdown-triangle-top" role="menu" {{action dropdown.actions.close on="click" preventDefault=false}}>
+            <li role="presentation"><a class="dropdown-item" href="{{config.blogUrl}}/" target="_blank" tabindex="-1">{{svg-jar "view-site"}} View site</a></li>
             <li role="presentation">{{#link-to "about" classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="about"}}{{svg-jar "store"}} About Ghost{{/link-to}}</li>
             <li class="divider"></li>
             <li role="presentation">{{#link-to "team.user" session.user.slug classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="user-profile"}}{{svg-jar "user-circle"}} Your Profile{{/link-to}}</li>
@@ -40,7 +41,7 @@
         {{gh-search-input class="gh-nav-search-input"}}
     </section>
     <ul class="gh-nav-list gh-nav-main">
-        <li>{{#link-to "editor.new" "post" data-test-nav="new-post"}}{{svg-jar "pen"}}New post{{/link-to}}</li>
+        <li class="gh-nav-new-post">{{#link-to "editor.new" data-test-nav="new-story"}}{{svg-jar "pen"}}New story{{/link-to}}</li>
         <li>
             {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
             {{#if (eq router.currentRouteName "posts.index")}}
@@ -95,7 +96,7 @@
 
 </section>
 <footer class="gh-nav-foot">
-    <a class="gh-nav-foot-sitelink" href="{{config.blogUrl}}/" target="_blank">View site {{svg-jar "external"}}</a>
+    <a class="gh-nav-foot-sitelink" href="{{config.blogUrl}}/" target="_blank">{{svg-jar "view-site"}} View site</a>
 </footer>
 
 {{gh-tour-item "getting-started"
