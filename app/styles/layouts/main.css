@@ -47,7 +47,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 280px;
+    flex: 0 0 300px;
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
@@ -107,7 +107,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     line-height: 1.3em;
     font-weight: 600;
 }
@@ -165,7 +165,7 @@
 
 .gh-nav-list {
     margin: 0;
-    padding: 0 6px;
+    padding: 10px 5px 0;
     list-style: none;
     font-size: 1.4rem;
     line-height: 1.6em;
@@ -178,7 +178,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     margin-top: 32px;
-    padding: 10px 10px 10px 22px;
+    padding: 10px 10px 10px 24px;
     color: var(--darkgrey);
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -192,23 +192,22 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 10px 7px 22px;
-    border-radius: 4px;
+    padding: 7px 10px 7px 24px;
+    border-radius: 5px;
     color: color-mod(var(--midgrey) l(-10%));
     opacity: 0.9;
     transition: none;
 }
 
 .gh-nav-list .active {
-    /* background: color-mod(var(--lightgrey) l(-2%) s(+1%)); */
-    background: var(--blue);
-    color: var(--white);
+    background: color-mod(var(--lightgrey) l(-1%) s(+1%));
+    color: var(--darkgrey);
+    font-weight: 600;
     opacity: 1;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--lightgrey) l(+1%));
-    /* color: var(--darkgrey); */
+    background: color-mod(var(--lightgrey) l(+2%) s(-2%));
     opacity: 1;
 }
 
@@ -225,34 +224,56 @@
 }
 
 .gh-nav-list .active svg {
-    fill: white;
+    fill: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
 .gh-nav-list .active svg g {
-    stroke: white;
+    stroke: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
-.gh-nav-list a:not(.active):hover svg {
-    /* fill: var(--darkgrey); */
+
+/* Posts nav bar item */
+.gh-nav-list .gh-nav-new-post {
+    position: absolute;
+    z-index: 999;
+    padding: 6px;
+    margin: 0;
+    right: 14px;
 }
 
-.gh-nav-list a:not(.active):hover svg g {
-    /* stroke: var(--darkgrey); */
+.gh-nav-list .gh-nav-new-post span {
+    color: color-mod(var(--blue) l(-3%) s(+5%));
+    width: 22px;
+    height: 22px;
+    border: 1px solid color-mod(var(--blue) l(-3%) s(+5%));
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* .gh-nav-list .gh-nav-new-post a {
-    color: var(--blue);
-}*/
+.gh-nav-list .gh-nav-new-post span svg {
+    fill: color-mod(var(--blue) l(-3%) s(+5%));
+    margin-right: 0;
+    width: 10px;
+    height: 10px;
+}
 
-.gh-nav-list .gh-nav-new-post a:hover {
-    color: var(--blue);
-    /* background: color-mod(var(--blue) alpha(10%)); */
+.gh-nav-list a.gh-nav-new-post:hover,
+.gh-nav-list a.gh-nav-new-post.active {
     background: none;
 }
 
-.gh-nav-list .gh-nav-new-post a:hover svg {
-    fill: var(--blue);
+.gh-nav-list a.gh-nav-new-post:hover span {
+    background: color-mod(var(--blue) l(-3%) s(+5%));
 }
+
+.gh-nav-list .gh-nav-new-post:hover span svg {
+    fill: var(--white);
+}
+
+
+/* Footer */
 
 .gh-nav-foot-sitelink {
     display: flex;
@@ -415,7 +436,7 @@
     }
 
     .gh-mobile-nav-bar a.active svg {
-        fill: #fff;
+        fill: var(--blue);
     }
 
     .gh-mobile-nav-bar a.active.gh-nav-main-users g,
