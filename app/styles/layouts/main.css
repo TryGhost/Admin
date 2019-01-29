@@ -47,7 +47,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 300px;
+    flex: 0 0 292px;
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
@@ -178,7 +178,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     margin-top: 32px;
-    padding: 10px 10px 10px 24px;
+    padding: 10px 10px 10px 20px;
     color: var(--darkgrey);
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -192,7 +192,7 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 10px 7px 24px;
+    padding: 7px 10px 7px 15px;
     border-radius: 5px;
     color: color-mod(var(--midgrey) l(-10%));
     opacity: 0.9;
@@ -200,7 +200,7 @@
 }
 
 .gh-nav-list .active {
-    background: color-mod(var(--lightgrey) l(-1%) s(+1%));
+    background: color-mod(var(--lightgrey) l(-1%) s(-3%));
     color: var(--darkgrey);
     font-weight: 600;
     opacity: 1;
@@ -231,14 +231,12 @@
     stroke: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
-
-/* Posts nav bar item */
 .gh-nav-list .gh-nav-new-post {
     position: absolute;
     z-index: 999;
     padding: 6px;
     margin: 0;
-    right: 14px;
+    right: 12px;
 }
 
 .gh-nav-list .gh-nav-new-post span {
@@ -272,9 +270,6 @@
     fill: var(--white);
 }
 
-
-/* Footer */
-
 .gh-nav-foot-sitelink {
     display: flex;
     align-items: center;
@@ -283,7 +278,7 @@
     font-size: 1.4rem;
     line-height: 1.6em;
     color:  color-mod(var(--midgrey) l(+5%));
-    padding: 7px 10px 7px 22px;
+    padding: 7px 10px 7px 16px;
     margin: 20px 6px 12px;
 }
 
@@ -436,7 +431,7 @@
     }
 
     .gh-mobile-nav-bar a.active svg {
-        fill: var(--blue);
+        fill: #fff;
     }
 
     .gh-mobile-nav-bar a.active.gh-nav-main-users g,
