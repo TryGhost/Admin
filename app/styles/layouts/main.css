@@ -47,7 +47,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 292px;
+    flex: 0 0 296px;
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
@@ -165,7 +165,7 @@
 
 .gh-nav-list {
     margin: 0;
-    padding: 10px 5px 0;
+    padding: 10px 0 0;
     list-style: none;
     font-size: 1.4rem;
     line-height: 1.6em;
@@ -178,7 +178,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     margin-top: 32px;
-    padding: 10px 10px 10px 20px;
+    padding: 10px 20px;
     color: var(--darkgrey);
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -192,8 +192,7 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 10px 7px 15px;
-    border-radius: 5px;
+    padding: 7px 20px;
     color: color-mod(var(--midgrey) l(-10%));
     opacity: 0.9;
     transition: none;
@@ -219,7 +218,10 @@
     line-height: 1;
 }
 
-.gh-nav-list svg g {
+.gh-nav-list svg g,
+.gh-nav-list svg path,
+.gh-nav-list svg circle,
+.gh-nav-list svg rect {
     stroke: var(--midgrey);
 }
 
@@ -227,8 +229,12 @@
     fill: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
-.gh-nav-list .active svg g {
-    stroke: color-mod(var(--blue) l(-3%) s(+3%));
+.gh-nav-list .active svg g,
+.gh-nav-list .active svg path,
+.gh-nav-list .active svg circle,
+.gh-nav-list .active svg rect {
+    stroke: color-mod(var(--blue) l(-5%) s(+5%));
+    stroke-width: 1.5px;
 }
 
 .gh-nav-list .gh-nav-new-post {
@@ -251,10 +257,14 @@
 }
 
 .gh-nav-list .gh-nav-new-post span svg {
-    fill: color-mod(var(--blue) l(-3%) s(+5%));
     margin-right: 0;
     width: 10px;
     height: 10px;
+}
+
+.gh-nav-list .gh-nav-new-post span svg path {
+    stroke: color-mod(var(--blue) l(-3%) s(+5%));
+    stroke-width: 3px;
 }
 
 .gh-nav-list a.gh-nav-new-post:hover,
@@ -266,8 +276,8 @@
     background: color-mod(var(--blue) l(-3%) s(+5%));
 }
 
-.gh-nav-list .gh-nav-new-post:hover span svg {
-    fill: var(--white);
+.gh-nav-list .gh-nav-new-post:hover span svg path {
+    stroke: var(--white);
 }
 
 .gh-nav-foot-sitelink {

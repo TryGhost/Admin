@@ -78,12 +78,20 @@
 .post-settings svg {
     width: 16px;
     height: 16px;
-    fill: var(--midgrey);
 }
 
-.post-settings:hover svg,
-.post-settings.active svg {
-    fill: var(--darkgrey);
+.post-settings svg g,
+.post-settings svg path,
+.post-settings svg circle,
+.post-settings svg rect {
+    stroke: var(--midgrey);
+}
+
+.post-settings:hover svg g,
+.post-settings:hover svg path,
+.post-settings:hover svg circle,
+.post-settings:hover svg rect {
+    stroke: var(--darkgrey);
 }
 
 .post-settings-menu .dropdown-menu {
