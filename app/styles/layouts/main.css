@@ -218,18 +218,17 @@
     line-height: 1;
 }
 
-.gh-nav-list svg g,
 .gh-nav-list svg path,
 .gh-nav-list svg circle,
 .gh-nav-list svg rect {
     stroke: var(--midgrey);
+    stroke-width: 1.2px;
 }
 
 .gh-nav-list .active svg {
     fill: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
-.gh-nav-list .active svg g,
 .gh-nav-list .active svg path,
 .gh-nav-list .active svg circle,
 .gh-nav-list .active svg rect {
