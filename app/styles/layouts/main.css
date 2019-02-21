@@ -281,6 +281,7 @@
     color:  color-mod(var(--midgrey) l(+5%));
     padding: 7px 10px 7px 16px;
     margin: 20px 6px 12px;
+    transition: color .3s;
 }
 
 .gh-nav-foot-sitelink:hover {
@@ -302,6 +303,7 @@
 .gh-nav-foot-sitelink svg path
 {
     fill: color-mod(var(--midgrey) l(+5%));
+    transition: fill .3s;
 }
 
 .gh-nav-foot-sitelink:hover svg g,
