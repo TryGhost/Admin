@@ -193,7 +193,7 @@
     display: flex;
     align-items: center;
     padding: 7px 20px;
-    color: color-mod(var(--midgrey) l(-10%));
+    color:  color-mod(var(--midgrey) l(+5%));
     opacity: 0.9;
     transition: none;
 }
@@ -210,30 +210,21 @@
     opacity: 1;
 }
 
+/* Icons */
 .gh-nav-list svg {
     margin-right: 8px;
     width: 16px;
     height: 16px;
-    fill: color-mod(var(--midgrey) l(-10%));
+    fill: color-mod(var(--midgrey) l(+5%));
     line-height: 1;
-}
-
-.gh-nav-list svg path,
-.gh-nav-list svg circle,
-.gh-nav-list svg rect {
-    stroke: var(--midgrey);
-    stroke-width: 1.2px;
 }
 
 .gh-nav-list .active svg {
     fill: color-mod(var(--blue) l(-3%) s(+3%));
 }
 
-.gh-nav-list .active svg path,
-.gh-nav-list .active svg circle,
-.gh-nav-list .active svg rect {
-    stroke: color-mod(var(--blue) l(-5%) s(+5%));
-    stroke-width: 1.5px;
+.gh-nav-list svg g {
+    stroke: color-mod(var(--midgrey) l(+5%));
 }
 
 .gh-nav-list .gh-nav-new-post {
@@ -279,6 +270,7 @@
     stroke: var(--white);
 }
 
+/* Left navbar footer */
 .gh-nav-foot-sitelink {
     display: flex;
     align-items: center;
@@ -309,14 +301,15 @@
 .gh-nav-foot-sitelink svg g,
 .gh-nav-foot-sitelink svg path
 {
-    stroke: color-mod(var(--midgrey) l(+5%));
+    fill: color-mod(var(--midgrey) l(+5%));
 }
 
 .gh-nav-foot-sitelink:hover svg g,
 .gh-nav-foot-sitelink:hover svg path
 {
-    stroke: color-mod(var(--blue) l(+5%));
+    fill: color-mod(var(--blue) l(+5%));
 }
+
 
 /* Mobile Nav Menu (Slides out)
 /* ---------------------------------------------------------- */
