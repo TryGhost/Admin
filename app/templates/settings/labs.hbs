@@ -111,6 +111,81 @@
                 <div class="for-checkbox">{{gh-feature-flag "subscribers"}}</div>
             </div>
         </div>
+        {{#if config.enableDeveloperExperiments}}
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-title">Members</div>
+                    <div class="gh-setting-desc"> Allow memberships</div>
+                    {{#liquid-if feature.labs.members}}
+                    <div>
+                        <div style="margin-top: 20px">
+                            <div style="font-weight: bold"> Subscription Plan</div>
+                            <div>
+                                <div class="gh-publishmenu-radio {{if (eq saveType "free") "active"}}" {{action "setSaveType" "free" on="click"}}>
+                                    <div class="gh-publishmenu-radio-button"></div>
+                                    <div class="gh-publishmenu-radio-content">
+                                        <div class="gh-publishmenu-radio-label">Free</div>
+                                        <div class="gh-publishmenu-radio-desc">Content is free for all</div>
+                                    </div>
+                                </div>
+                                <div class="gh-publishmenu-radio {{if (eq saveType "paid") "active"}}" {{action "setSaveType" "paid" on="click"}}>
+                                    <div class="gh-publishmenu-radio-button"></div>
+                                    <div class="gh-publishmenu-radio-content">
+                                        <div class="gh-publishmenu-radio-label">Paid</div>
+                                        <div class="gh-publishmenu-radio-desc">Content can be marked as paid only</div>
+                                        {{#liquid-if (eq saveType "paid")}}
+
+                                        <div style="margin-top: 20px">
+                                            <label>Stripe Admin API Key</label>
+                                            {{gh-text-input
+                                                value=(readonly stripeKey)
+                                                input=(action (mut stripeKey) value="target.value")
+                                            }}
+                                        </div>
+                                        <div style="margin-top: 12px">
+                                            <div style="font-weight: bold; font-size: 16px"> Pricing (USD) </div>
+                                            {{#gh-form-group}}
+                                                <label>Monthly</label>
+                                                {{gh-text-input
+                                                    value=(readonly stripeMonthlyFee)
+                                                    type="number"
+                                                    input=(action (mut stripeMonthlyFee) value="target.value")
+
+                                                }}
+                                            {{/gh-form-group}}
+
+                                            {{#gh-form-group class="description-container"}}
+                                                <label>Yearly</label>
+                                                {{gh-text-input
+                                                    value=(readonly stripeYearlyFee)
+                                                    type="number"
+                                                    input=(action (mut stripeYearlyFee) value="target.value")
+
+                                                }}
+                                            {{/gh-form-group}}
+                                        </div>
+                                        <div>
+                                            {{gh-task-button "Save"
+                                                task=save
+                                                successText=successText
+                                                runningText=runningText
+                                                class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon"
+                                            }}
+                                        </div>
+                                        {{/liquid-if}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/liquid-if}}
+                </div>
+                <div class="gh-setting-action">
+                    <div class="for-checkbox">{{gh-feature-flag "members"}}</div>
+                </div>
+            </div>
+        {{/if}}
         <div class="gh-setting">
             {{#gh-uploader
                 extensions=jsonExtension

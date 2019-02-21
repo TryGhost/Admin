@@ -53,7 +53,10 @@ export default Controller.extend({
     jsonMimeType: null,
     yamlExtension: null,
     yamlMimeType: null,
-
+    saveType: 'free',
+    stripeKey: null,
+    stripeMonthlyFee: null,
+    stripeYearlyFee: null,
     init() {
         this._super(...arguments);
         this.importMimeType = IMPORT_MIME_TYPES;
@@ -156,6 +159,11 @@ export default Controller.extend({
                 .closest('.gh-setting-action')
                 .find('input[type="file"]')
                 .click();
+        },
+        setSaveType(type) {
+            if (this.get('saveType') !== type) {
+                this.set('saveType', type);
+            }
         }
     },
 
