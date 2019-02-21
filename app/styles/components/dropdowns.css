@@ -99,6 +99,13 @@
     text-decoration: none;
 }
 
+.dropdown-menu > li > a:hover svg,
+.dropdown-menu > li > a:focus svg,
+.dropdown-menu > li > button:hover svg,
+.dropdown-menu > li > button:focus svg {
+    fill: var(--darkgrey);
+}
+
 /* Active */
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
