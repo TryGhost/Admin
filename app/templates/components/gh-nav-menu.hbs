@@ -42,7 +42,7 @@
     </section>
     <ul class="gh-nav-list gh-nav-main">
         <li class="relative">
-            {{#link-to "editor.new" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
+            {{#link-to "editor.new" "post" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
             {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
             {{#if (eq router.currentRouteName "posts.index")}}
                 {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
@@ -53,9 +53,9 @@
         <li>
             {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
             {{#if (eq router.currentRouteName "pages.index")}}
-                {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "content"}}Pages{{/link-to}}
+                {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "pages"}}Pages{{/link-to}}
             {{else}}
-                {{#link-to "pages" data-test-nav="pages"}}{{svg-jar "content"}}Pages{{/link-to}}
+                {{#link-to "pages" data-test-nav="pages"}}{{svg-jar "pages"}}Pages{{/link-to}}
             {{/if}}
         </li>
         {{#if (and config.enableDeveloperExperiments (gh-user-can-admin session.user))}}
