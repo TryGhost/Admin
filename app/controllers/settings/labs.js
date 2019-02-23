@@ -63,7 +63,6 @@ export default Controller.extend({
         this.jsonMimeType = JSON_MIME_TYPE;
         this.yamlExtension = YAML_EXTENSION;
         this.yamlMimeType = YAML_MIME_TYPE;
-        console.log('Settings members', this.get('settings.membersSubscriptionSettings'), this.get('settings.labs'), this.get('settings.unsplash'));
     },
 
     isPaid: computed('settings.membersSubscriptionSettings', function () {
