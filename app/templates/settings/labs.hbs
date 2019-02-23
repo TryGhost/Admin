@@ -132,13 +132,13 @@
                                     </div>
                                 </div>
                                 <div class="gh-publishmenu-radio {{if (eq isPaid true) "active"}}">
-                                    <div class="gh-publishmenu-radio-button" {{action "setSaveType" "paid" on="click"}}></div>
+                                    <div class="gh-publishmenu-radio-button"></div>
                                     <div class="gh-publishmenu-radio-content">
-                                        <div {{action "setSaveType" "paid" on="click"}}>
+                                        <div {{action "setSaveType" true on="click"}}>
                                             <div class="gh-publishmenu-radio-label"><span class="fw6 f7 darkgrey">Paid</span></div>
                                             <div class="gh-publishmenu-radio-desc">Set up paid subscriptions using Stripe</div>
                                         </div>
-                                        {{#liquid-if (eq saveType "paid")}}
+                                        {{#liquid-if (eq isPaid true)}}
 
                                         <h2 class="mt7 midgrey f7 fw4 pb2 bb b--whitegrey">Stripe settings</h2>
 
@@ -200,9 +200,9 @@
                             </div>
                             <div>
                                 {{gh-task-button "Save"
-                                    task=saveMembersSubscriptionSettings
-                                    successText=successText
-                                    runningText=runningText
+                                    task=saveSettings
+                                    successText="Saved"
+                                    runningText="Saving"
                                     class="gh-btn gh-btn-blue gh-btn-icon"
                                 }}
                             </div>
