@@ -146,9 +146,9 @@
                                                 <div class="gh-publishmenu-radio-label"><span class="fw6 f7 darkgrey">Paid</span></div>
                                                 <div class="gh-publishmenu-radio-desc">Set up paid subscriptions using Stripe</div>
                                             </div>
-                                            {{#liquid-if (eq isPaid true)}}
+                                            {{#liquid-if (eq isPaid true) class="nl7"}}
 
-                                            <h2 class="mt7 midgrey f7 fw4 pb2 bb b--whitegrey" style="padding-left: 2px;">Stripe settings</h2>
+                                            <h2 class="mt8 midgrey f7 fw4 pb2 bb b--whitegrey" style="padding-left: 2px;">Stripe settings</h2>
 
                                             <div class="flex flex-column">
                                                 <div class="mt4 flex">
@@ -176,7 +176,7 @@
 
                                             <h2 class="mt4 midgrey f7 fw4 pb2 bb b--whitegrey" style="padding-left: 2px;">Pricing (USD)</h2>
 
-                                            <div class="mt4 flex">
+                                            <div class="mt4 flex nb3">
                                                 <div class="w-50 mr2">
                                                     {{#gh-form-group}}
                                                         <label class="fw6">Monthly price</label>
