@@ -27,3 +27,25 @@
 .gh-labs-yearly-price::after {
     content: "USD/year";
 }
+
+.gh-labs-toggle-wrapper {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 5px;
+}
+
+.gh-btn-labs-toggle {
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.gh-btn-labs-toggle svg {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+.gh-btn-labs-toggle svg path {
+    stroke: var(--midgrey);
+}
