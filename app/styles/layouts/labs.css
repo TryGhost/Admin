@@ -1,0 +1,29 @@
+.gh-labs-price-label input {
+    padding-right: 96px;
+}
+
+.gh-labs-price-label input::-webkit-outer-spin-button,
+.gh-labs-price-label input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.gh-labs-price-label input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+.gh-labs-price-label::after {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: var(--midlightgrey);
+}
+
+.gh-labs-monthly-price::after {
+    content: "USD/month";
+}
+
+.gh-labs-yearly-price::after {
+    content: "USD/year";
+}
