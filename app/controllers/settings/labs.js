@@ -45,6 +45,7 @@ export default Controller.extend({
     importErrors: null,
     importSuccessful: false,
     showDeleteAllModal: false,
+    showMemberConfig: false,
     submitting: false,
     uploadButtonText: 'Import',
 
@@ -144,6 +145,10 @@ export default Controller.extend({
 
         toggleDeleteAllModal() {
             this.toggleProperty('showDeleteAllModal');
+        },
+
+        toggleMemberConfig() {
+            this.toggleProperty('showMemberConfig');
         },
 
         /**
