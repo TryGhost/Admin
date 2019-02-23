@@ -8,6 +8,7 @@ import {
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError
 } from 'ghost-admin/services/ajax';
+import { computed } from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
@@ -55,9 +56,6 @@ export default Controller.extend({
     yamlExtension: null,
     yamlMimeType: null,
     saveType: 'free',
-    stripeKey: null,
-    stripeMonthlyFee: null,
-    stripeYearlyFee: null,
     init() {
         this._super(...arguments);
         this.importMimeType = IMPORT_MIME_TYPES;
@@ -66,6 +64,24 @@ export default Controller.extend({
         this.yamlExtension = YAML_EXTENSION;
         this.yamlMimeType = YAML_MIME_TYPE;
     },
+
+    isPaid: computed('settings.membersSubscriptionSettings', function () {
+        let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
+        return subscriptionSettings.isPaid;
+    }),
+
+    stripeSubscriptionSettings: computed('settings.membersSubscriptionSettings', function () {
+        let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
+        let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
+            return (proc.adapter === 'stripe');
+        });
+        let stripeConfig = stripeProcessor.config;
+        stripeConfig.plans = {
+            monthly: stripeConfig.plans.find(plan => plan.interval === 'month'),
+            yearly: stripeConfig.plans.find(plan => plan.interval === 'year')
+        };
+        return stripeConfig;
+    }),
 
     actions: {
         onUpload(file) {
@@ -166,9 +182,73 @@ export default Controller.extend({
                 .click();
         },
         setSaveType(type) {
-            if (this.get('saveType') !== type) {
-                this.set('saveType', type);
+            let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
+            subscriptionSettings.isPaid = type;
+            this.set('settings.membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
+        },
+        setMembersSubscriptionSettings(key, event) {
+            const value = event.target.value;
+            let subscriptionSettingsString = this.get('settings').get('membersSubscriptionSettings');
+            let subscriptionSettings = {};
+            try {
+                subscriptionSettings = JSON.parse(subscriptionSettingsString);
+            } catch (e) {
+                subscriptionSettings = {
+                    isPaid: false,
+                    paymentProcessors: [{
+                        adapter: 'stripe',
+                        config: {
+                            secret_token: '',
+                            public_token: '',
+                            product: {
+                                name: 'Ghost Members'
+                            },
+                            plans: [
+                                {
+                                    name: 'Monthly',
+                                    currency: 'usd',
+                                    interval: 'month',
+                                    amount: ''
+                                },
+                                {
+                                    name: 'Yearly',
+                                    currency: 'usd',
+                                    interval: 'year',
+                                    amount: ''
+                                }
+                            ]
+                        }
+                    }]
+                };
             }
+            let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
+                return (proc.adapter === 'stripe');
+            });
+            let stripeConfig = stripeProcessor.config;
+            stripeConfig.product = {
+                name: 'Ghost Members'
+            };
+            if (key === 'secret_token' || key === 'public_token') {
+                stripeConfig[key] = value;
+            }
+            if (key === 'monthlyFee') {
+                stripeConfig.plans.forEach((plan) => {
+                    if (plan.interval === 'month') {
+                        plan.amount = value;
+                    }
+                });
+            }
+            if (key === 'yearlyFee') {
+                stripeConfig.plans.forEach((plan) => {
+                    if (plan.interval === 'year') {
+                        plan.amount = value;
+                    }
+                });
+            }
+            this.get('settings').set('membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
+        },
+        saveMembersSubscriptionSettings() {
+            this.get('settings').save();
         }
     },
 

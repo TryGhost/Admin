@@ -123,14 +123,15 @@
 
                         {{#liquid-if showMemberConfig}}
                             <div>
-                                <div class="gh-publishmenu-radio {{if (eq saveType "free") "active"}}" {{action "setSaveType" "free" on="click"}}>
+                                <div class="gh-publishmenu-radio {{if (eq isPaid false) "active"}}"
+                                    {{action "setSaveType" false on="click"}}>
                                     <div class="gh-publishmenu-radio-button"></div>
                                     <div class="gh-publishmenu-radio-content">
                                         <div class="gh-publishmenu-radio-label f3"><span class="fw6 f7 darkgrey">Free</span></div>
                                         <div class="gh-publishmenu-radio-desc">Access to members-only posts require free user registration</div>
                                     </div>
                                 </div>
-                                <div class="gh-publishmenu-radio {{if (eq saveType "paid") "active"}}">
+                                <div class="gh-publishmenu-radio {{if (eq isPaid true) "active"}}">
                                     <div class="gh-publishmenu-radio-button" {{action "setSaveType" "paid" on="click"}}></div>
                                     <div class="gh-publishmenu-radio-content">
                                         <div {{action "setSaveType" "paid" on="click"}}>
@@ -146,8 +147,8 @@
                                                 <div class="w-50 mr2">
                                                     <label class="fw6">Stripe public API key</label>
                                                     {{gh-text-input
-                                                        value=(readonly stripeKey)
-                                                        input=(action (mut stripeKey) value="target.value")
+                                                        value=(readonly stripeSubscriptionSettings.public_token)
+                                                        input=(action "setMembersSubscriptionSettings" "public_token")
                                                         class="mt1"
                                                         placeholder="pk_..."
                                                     }}
@@ -155,8 +156,8 @@
                                                 <div class="w-50 ml2">
                                                     <label class="fw6">Stripe secret API key</label>
                                                     {{gh-text-input
-                                                        value=(readonly stripeKey)
-                                                        input=(action (mut stripeKey) value="target.value")
+                                                        value=(readonly stripeSubscriptionSettings.secret_token)
+                                                        input=(action "setMembersSubscriptionSettings" "secret_token")
                                                         class="mt1"
                                                         placeholder="sk_..."
                                                     }}
@@ -173,9 +174,9 @@
                                                     <label class="fw6">Monthly price</label>
                                                     <div class="mt1 relative gh-labs-price-label gh-labs-monthly-price">
                                                         {{gh-text-input
-                                                            value=(readonly stripeMonthlyFee)
+                                                            value=(readonly stripeSubscriptionSettings.plans.monthly.amount)
                                                             type="number"
-                                                            input=(action (mut stripeMonthlyFee) value="target.value")
+                                                            input=(action "setMembersSubscriptionSettings" "monthlyFee")
                                                         }}
                                                     </div>
                                                 {{/gh-form-group}}
@@ -185,9 +186,9 @@
                                                     <label class="fw6">Yearly price</label>
                                                     <div class="mt1 relative gh-labs-price-label gh-labs-yearly-price">
                                                         {{gh-text-input
-                                                            value=(readonly stripeYearlyFee)
+                                                            value=(readonly stripeSubscriptionSettings.plans.yearly.amount)
                                                             type="number"
-                                                            input=(action (mut stripeYearlyFee) value="target.value")
+                                                            input=(action "setMembersSubscriptionSettings" "yearlyFee")
                                                         }}
                                                     </div>
                                                 {{/gh-form-group}}
@@ -199,7 +200,7 @@
                             </div>
                             <div>
                                 {{gh-task-button "Save"
-                                    task=save
+                                    task=saveMembersSubscriptionSettings
                                     successText=successText
                                     runningText=runningText
                                     class="gh-btn gh-btn-blue gh-btn-icon"
