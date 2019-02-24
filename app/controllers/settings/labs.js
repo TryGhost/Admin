@@ -76,9 +76,13 @@ export default Controller.extend({
             return (proc.adapter === 'stripe');
         });
         let stripeConfig = stripeProcessor.config;
+        let monthlyPlan = stripeConfig.plans.find(plan => plan.interval === 'month');
+        let yearlyPlan = stripeConfig.plans.find(plan => plan.interval === 'year');
+        monthlyPlan.amount = (monthlyPlan.amount / 100);
+        yearlyPlan.amount = (yearlyPlan.amount / 100);
         stripeConfig.plans = {
-            monthly: stripeConfig.plans.find(plan => plan.interval === 'month'),
-            yearly: stripeConfig.plans.find(plan => plan.interval === 'year')
+            monthly: monthlyPlan,
+            yearly: yearlyPlan
         };
         return stripeConfig;
     }),
@@ -221,6 +225,7 @@ export default Controller.extend({
                     }]
                 };
             }
+
             let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
                 return (proc.adapter === 'stripe');
             });
@@ -231,18 +236,12 @@ export default Controller.extend({
             if (key === 'secret_token' || key === 'public_token') {
                 stripeConfig[key] = value;
             }
-            if (key === 'monthlyFee') {
-                stripeConfig.plans.forEach((plan) => {
-                    if (plan.interval === 'month') {
-                        plan.amount = value;
+            if (key === 'month' || key === 'year') {
+                stripeConfig.plans = stripeConfig.plans.map((plan) => {
+                    if (key === plan.interval) {
+                        plan.amount = value * 100;
                     }
-                });
-            }
-            if (key === 'yearlyFee') {
-                stripeConfig.plans.forEach((plan) => {
-                    if (plan.interval === 'year') {
-                        plan.amount = value;
-                    }
+                    return plan;
                 });
             }
             this.get('settings').set('membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
