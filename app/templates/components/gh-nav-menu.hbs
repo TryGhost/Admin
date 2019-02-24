@@ -62,7 +62,7 @@
             <li>{{#link-to "members" current-when="members member" data-test-nav="members"}}{{svg-jar "members"}}Members{{/link-to}}</li>
         {{/if}}
         <li>{{#link-to "staff" data-test-nav="staff"}}{{svg-jar "staff"}}Staff{{/link-to}}</li>
-        {{#if (and feature.subscribers (gh-user-can-admin session.user))}}
+        {{#if (and feature.subscribers (gh-user-can-admin session.user) (not feature.labs.members))}}
             <li>{{#link-to "subscribers" data-test-nav="subscribers"}}{{svg-jar "email"}}Subscribers{{/link-to}}</li>
         {{/if}}
     </ul>

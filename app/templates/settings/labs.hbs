@@ -102,15 +102,17 @@
                 <div class="for-checkbox">{{gh-feature-flag "nightShift"}}</div>
             </div>
         </div>
-        <div class="gh-setting">
-            <div class="gh-setting-content">
-                <div class="gh-setting-title">Subscribers</div>
-                <div class="gh-setting-desc">Collect email addresses from your readers, more info in <a href="https://docs.ghost.org/faq/enable-subscribers-feature/">the docs</a></div>
+        {{#if (not feature.labs.members)}}
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-title">Subscribers</div>
+                    <div class="gh-setting-desc">Collect email addresses from your readers, more info in <a href="https://docs.ghost.org/faq/enable-subscribers-feature/">the docs</a></div>
+                </div>
+                <div class="gh-setting-action">
+                    <div class="for-checkbox">{{gh-feature-flag "subscribers"}}</div>
+                </div>
             </div>
-            <div class="gh-setting-action">
-                <div class="for-checkbox">{{gh-feature-flag "subscribers"}}</div>
-            </div>
-        </div>
+        {{/if}}
         {{#if config.enableDeveloperExperiments}}
             <div class="gh-setting">
                 <div class="gh-setting-content">
