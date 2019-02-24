@@ -38,6 +38,7 @@
     border: none;
     display: flex;
     align-items: center;
+    color: var(--blue);
 }
 
 .gh-btn-labs-toggle svg {
@@ -47,5 +48,15 @@
 }
 
 .gh-btn-labs-toggle svg path {
-    stroke: var(--midgrey);
+    stroke: var(--blue);
+}
+
+.gh-labs-members-radio {
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+.gh-labs-members-radio.active {
+    background: color-mod(var(--blue) alpha(6%));
+    border-color: var(--blue);
 }
