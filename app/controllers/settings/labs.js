@@ -205,7 +205,7 @@ export default Controller.extend({
                             secret_token: '',
                             public_token: '',
                             product: {
-                                name: 'Ghost Members'
+                                name: this.get('settings').get('title')
                             },
                             plans: [
                                 {
@@ -231,7 +231,7 @@ export default Controller.extend({
             });
             let stripeConfig = stripeProcessor.config;
             stripeConfig.product = {
-                name: 'Ghost Members'
+                name: this.get('settings').get('title')
             };
             if (key === 'secret_token' || key === 'public_token') {
                 stripeConfig[key] = value;
