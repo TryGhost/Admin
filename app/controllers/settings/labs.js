@@ -65,26 +65,21 @@ export default Controller.extend({
         this.yamlMimeType = YAML_MIME_TYPE;
     },
 
-    isPaid: computed('settings.membersSubscriptionSettings', function () {
-        let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
-        return subscriptionSettings.isPaid;
-    }),
-
-    stripeSubscriptionSettings: computed('settings.membersSubscriptionSettings', function () {
-        let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
+    subscriptionSettings: computed('settings.membersSubscriptionSettings', function () {
+        let subscriptionSettings = this.parseSubscriptionSettings(this.get('settings.membersSubscriptionSettings'));
         let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
             return (proc.adapter === 'stripe');
         });
-        let stripeConfig = stripeProcessor.config;
-        let monthlyPlan = stripeConfig.plans.find(plan => plan.interval === 'month');
-        let yearlyPlan = stripeConfig.plans.find(plan => plan.interval === 'year');
-        monthlyPlan.amount = (monthlyPlan.amount / 100);
-        yearlyPlan.amount = (yearlyPlan.amount / 100);
-        stripeConfig.plans = {
+        let monthlyPlan = stripeProcessor.config.plans.find(plan => plan.interval === 'month');
+        let yearlyPlan = stripeProcessor.config.plans.find(plan => plan.interval === 'year');
+        monthlyPlan.dollarAmount = (monthlyPlan.amount / 100);
+        yearlyPlan.dollarAmount = (yearlyPlan.amount / 100);
+        stripeProcessor.config.plans = {
             monthly: monthlyPlan,
             yearly: yearlyPlan
         };
-        return stripeConfig;
+        subscriptionSettings.stripeConfig = stripeProcessor.config;
+        return subscriptionSettings;
     }),
 
     actions: {
@@ -185,47 +180,9 @@ export default Controller.extend({
                 .find('input[type="file"]')
                 .click();
         },
-        setSaveType(type) {
-            let subscriptionSettings = JSON.parse(this.get('settings.membersSubscriptionSettings'));
-            subscriptionSettings.isPaid = type;
-            this.set('settings.membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
-        },
-        setMembersSubscriptionSettings(key, event) {
-            const value = event.target.value;
-            let subscriptionSettingsString = this.get('settings').get('membersSubscriptionSettings');
-            let subscriptionSettings = {};
-            try {
-                subscriptionSettings = JSON.parse(subscriptionSettingsString);
-            } catch (e) {
-                subscriptionSettings = {
-                    isPaid: false,
-                    paymentProcessors: [{
-                        adapter: 'stripe',
-                        config: {
-                            secret_token: '',
-                            public_token: '',
-                            product: {
-                                name: this.get('settings').get('title')
-                            },
-                            plans: [
-                                {
-                                    name: 'Monthly',
-                                    currency: 'usd',
-                                    interval: 'month',
-                                    amount: ''
-                                },
-                                {
-                                    name: 'Yearly',
-                                    currency: 'usd',
-                                    interval: 'year',
-                                    amount: ''
-                                }
-                            ]
-                        }
-                    }]
-                };
-            }
 
+        setSubscriptionSettings(key, event) {
+            let subscriptionSettings = this.parseSubscriptionSettings(this.get('settings.membersSubscriptionSettings'));
             let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
                 return (proc.adapter === 'stripe');
             });
@@ -233,21 +190,55 @@ export default Controller.extend({
             stripeConfig.product = {
                 name: this.get('settings').get('title')
             };
+            if (key === 'isPaid') {
+                subscriptionSettings.isPaid = event;
+            }
             if (key === 'secret_token' || key === 'public_token') {
-                stripeConfig[key] = value;
+                stripeConfig[key] = event.target.value;
             }
             if (key === 'month' || key === 'year') {
                 stripeConfig.plans = stripeConfig.plans.map((plan) => {
                     if (key === plan.interval) {
-                        plan.amount = value * 100;
+                        plan.amount = event.target.value * 100;
                     }
                     return plan;
                 });
             }
-            this.get('settings').set('membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
-        },
-        saveMembersSubscriptionSettings() {
-            this.get('settings').save();
+            this.set('settings.membersSubscriptionSettings', JSON.stringify(subscriptionSettings));
+        }
+    },
+
+    parseSubscriptionSettings(settingsString) {
+        try {
+            return JSON.parse(settingsString);
+        } catch (e) {
+            return {
+                isPaid: false,
+                paymentProcessors: [{
+                    adapter: 'stripe',
+                    config: {
+                        secret_token: '',
+                        public_token: '',
+                        product: {
+                            name: this.get('settings').get('title')
+                        },
+                        plans: [
+                            {
+                                name: 'Monthly',
+                                currency: 'usd',
+                                interval: 'month',
+                                amount: ''
+                            },
+                            {
+                                name: 'Yearly',
+                                currency: 'usd',
+                                interval: 'year',
+                                amount: ''
+                            }
+                        ]
+                    }
+                }]
+            };
         }
     },
 
