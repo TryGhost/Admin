@@ -55,7 +55,6 @@ export default Controller.extend({
     jsonMimeType: null,
     yamlExtension: null,
     yamlMimeType: null,
-    saveType: 'free',
     init() {
         this._super(...arguments);
         this.importMimeType = IMPORT_MIME_TYPES;
