@@ -4421,7 +4421,7 @@ ember-auto-import@1.2.21, ember-auto-import@^1.2.15:
     walk-sync "^0.3.3"
     webpack "~4.28"
 
-ember-basic-dropdown@^1.0.3, ember-basic-dropdown@^1.0.5:
+ember-basic-dropdown@^1.0.3, ember-basic-dropdown@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-1.1.2.tgz#6558eb2aa34d2feeb66e9de1feea560d46edc697"
   integrity sha512-l38MNIUOI1nAKxSUlDI1wrP52a55HxN2dikDUwJOqx7NytK0/woPyy3uVUe7gfT2gJ4HCbRlL/7y0csvP0iMPg==
@@ -5006,7 +5006,7 @@ ember-concurrency@0.8.26:
     ember-cli-babel "^6.8.2"
     ember-maybe-import-regenerator "^0.1.5"
 
-ember-concurrency@^0.8.19, ember-concurrency@^0.8.26:
+ember-concurrency@^0.8.26:
   version "0.8.27"
   resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-0.8.27.tgz#6dd1b9928cf5d13d5ae9c8cd3d5869f6ff81a9a9"
   integrity sha512-2IujJ0Y79a+sHvEOPhUtZ7Ga8HDrwjbQqO7aZ88b0KCsXPro7birQFB508njQSQ0mxrsR9qzDv/KS5V67Cy5dA==
@@ -5330,17 +5330,17 @@ ember-power-calendar@^0.9.2:
     ember-native-dom-helpers "^0.5.10"
     ember-power-calendar "^0.9.2"
 
-ember-power-select@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-2.2.1.tgz#8adea6c5c5e9dea0cd64519171b7bf19857b1db6"
-  integrity sha512-v8aQZOlXYzBPpB0gpcpJS3VhQOUznmO8se3VrCp/rqOzGo56jfi5UX6GkE0VhFk224Wtzqq4S+YCmmqEb8A/KQ==
+ember-power-select@2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-2.2.2.tgz#38ae6f0422f281baa41515074b6d7840be7f28c0"
+  integrity sha512-NBW6kwkTD8rbBxENWE82p5VH20wTAAgkrjEyPzCFJt+xY2O/HmRxCa7OdU3JqPXO3cU4ZsOkfgnaAvudg+ukOA==
   dependencies:
-    ember-basic-dropdown "^1.0.5"
-    ember-cli-babel "^6.16.0"
-    ember-cli-htmlbars "^3.0.0"
-    ember-concurrency "^0.8.19"
-    ember-text-measurer "^0.4.0"
-    ember-truth-helpers "^2.0.0"
+    ember-basic-dropdown "^1.1.0"
+    ember-cli-babel "^7.2.0"
+    ember-cli-htmlbars "^3.0.1"
+    ember-concurrency "^0.8.26"
+    ember-text-measurer "^0.5.0"
+    ember-truth-helpers "^2.1.0"
 
 ember-raf-scheduler@0.1.0:
   version "0.1.0"
@@ -5482,14 +5482,14 @@ ember-test-selectors@2.0.0:
     ember-cli-babel "^6.8.2"
     ember-cli-version-checker "^2.0.0"
 
-ember-text-measurer@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/ember-text-measurer/-/ember-text-measurer-0.4.1.tgz#30ababa7100b2ffb86f8c37fe2b4b56d2592c626"
-  integrity sha512-fwRoaGF0pemMyJ5S/j5FYt7PZva8MyZA33DwkL1LLAR9T5hQyatSbZaLl4D1a5Kv8kDXX0tTFZT9xCPPKahYTg==
+ember-text-measurer@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ember-text-measurer/-/ember-text-measurer-0.5.0.tgz#b907aeb8cbc04560e5070dc0347cdd35d0040d0d"
+  integrity sha512-YhcOcce8kaHp4K0frKW7xlPJxz82RegGQCVNTcFftEL/jpEflZyFJx17FWVINfDFRL4K8wXtlzDXFgMOg8vmtQ==
   dependencies:
-    ember-cli-babel "^6.8.2"
+    ember-cli-babel "^7.1.0"
 
-ember-truth-helpers@2.1.0, ember-truth-helpers@^2.0.0:
+ember-truth-helpers@2.1.0, ember-truth-helpers@^2.0.0, ember-truth-helpers@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-truth-helpers/-/ember-truth-helpers-2.1.0.tgz#d4dab4eee7945aa2388126485977baeb33ca0798"
   integrity sha512-BQlU8aTNl1XHKTYZ243r66yqtR9JU7XKWQcmMA+vkqfkE/c9WWQ9hQZM8YABihCmbyxzzZsngvldokmeX5GhAw==
