@@ -4483,7 +4483,7 @@ ember-cli-chai@0.5.0:
     rollup-plugin-commonjs "^8.0.2"
     rollup-plugin-node-resolve "^3.0.0"
 
-ember-cli-cjs-transform@1.3.1, ember-cli-cjs-transform@^1.3.0:
+ember-cli-cjs-transform@1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-cjs-transform/-/ember-cli-cjs-transform-1.3.1.tgz#ae8c0da709ec3c02311b0afbb3a5974abbac3707"
   integrity sha512-ZN21Me25DtuK5O9H8ilTE0kuZ1WbNzXQ2gI4ZYBPc49YckDaPSC3PELl0s7k9+TsdUpNtBZ92jW12ghWD77YLg==
@@ -5403,13 +5403,13 @@ ember-truth-helpers@2.1.0, ember-truth-helpers@^2.0.0, ember-truth-helpers@^2.1.
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-useragent@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/ember-useragent/-/ember-useragent-0.8.0.tgz#d6e35ecdce49a08f8380e6daaf40178237655d47"
-  integrity sha512-W3I107LDFKXARi/ScsX/rNIjCXYkuPmqNeXICfGTi94Bk4aZAKoEuVLvqFaoy2v5mIkjB5GoRmt1URw5+PHEZQ==
+ember-useragent@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/ember-useragent/-/ember-useragent-0.9.0.tgz#442c5ea82163c38cb680441b68d82dd6ffda9932"
+  integrity sha512-m9vl5RScIRLv6otBViiv8T+CgM3Y6p3xkc2SaJGfIZ0dfUMNgHrVuBlZXySJO5ofNkCe0PX5B3jXEuFOvRcv2A==
   dependencies:
+    ember-auto-import "^1.2.15"
     ember-cli-babel "^6.16.0"
-    ember-cli-cjs-transform "^1.3.0"
     ua-parser-js "^0.7.18"
 
 ember-weakmap@^3.0.0:
