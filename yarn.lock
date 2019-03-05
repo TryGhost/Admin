@@ -4541,24 +4541,7 @@ ember-cli-chai@0.5.0:
     rollup-plugin-commonjs "^8.0.2"
     rollup-plugin-node-resolve "^3.0.0"
 
-ember-cli-cjs-transform@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-cjs-transform/-/ember-cli-cjs-transform-1.3.0.tgz#73a24a9335067b83a4acac9c5fe4deb51a62391a"
-  integrity sha1-c6JKkzUGe4OkrKycX+TetRpiORo=
-  dependencies:
-    broccoli-debug "^0.6.4"
-    broccoli-plugin "^1.3.0"
-    ember-cli-babel "^6.6.0"
-    fs-extra "^5.0.0"
-    hash-for-dep "^1.2.3"
-    pkg-dir "^2.0.0"
-    resolve "^1.7.1"
-    rollup "^0.59.0"
-    rollup-plugin-commonjs "^9.1.0"
-    rollup-plugin-node-resolve "^3.3.0"
-    username "^3.0.0"
-
-ember-cli-cjs-transform@^1.3.0:
+ember-cli-cjs-transform@1.3.1, ember-cli-cjs-transform@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-cjs-transform/-/ember-cli-cjs-transform-1.3.1.tgz#ae8c0da709ec3c02311b0afbb3a5974abbac3707"
   integrity sha512-ZN21Me25DtuK5O9H8ilTE0kuZ1WbNzXQ2gI4ZYBPc49YckDaPSC3PELl0s7k9+TsdUpNtBZ92jW12ghWD77YLg==
