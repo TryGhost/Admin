@@ -4637,14 +4637,6 @@ ember-cli-dependency-checker@3.1.0:
     resolve "^1.5.0"
     semver "^5.3.0"
 
-ember-cli-es6-transform@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-es6-transform/-/ember-cli-es6-transform-1.0.0.tgz#bed10a151b9a6fabc0eba5fb51b23320b35eebaf"
-  integrity sha512-GLjKSACUdDFKod2fSa+KwfQ+F6vo3LxRxTjxya8hIdI9zqAqJGTKUHTb0/lxnWFmq1Q0Mn7j/cWVXG47y4+vFA==
-  dependencies:
-    ember-cli-babel "^7.2.0"
-    ember-cli-version-checker "^3.0.1"
-
 ember-cli-eslint@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/ember-cli-eslint/-/ember-cli-eslint-5.1.0.tgz#acdb9b072911e04b07c313b610f514db4086d21a"
@@ -4900,7 +4892,7 @@ ember-cli-version-checker@^2.0.0, ember-cli-version-checker@^2.1.0, ember-cli-ve
     resolve "^1.3.3"
     semver "^5.3.0"
 
-ember-cli-version-checker@^3.0.0, ember-cli-version-checker@^3.0.1:
+ember-cli-version-checker@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-3.1.2.tgz#baee5cc621d5259d9011b5ef60fe6fbe61bd57c7"
   integrity sha512-SNY7757cqj5GmES9dlWb43aWoGUcc+keniu+Rvsl/C/TnSK99edgL6eG4+Zr0ESeJ1hEcI3UrHN/8GIcK5eJUQ==
