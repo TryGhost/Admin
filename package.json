@@ -37,7 +37,7 @@
     "broccoli-concat": "3.7.3",
     "broccoli-funnel": "2.0.2",
     "broccoli-merge-trees": "3.0.2",
-    "broccoli-uglify-sourcemap": "2.2.0",
+    "broccoli-uglify-sourcemap": "3.0.0",
     "chai-dom": "1.8.1",
     "codemirror": "5.42.2",
     "coveralls": "3.0.3",
