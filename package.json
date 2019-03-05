@@ -35,7 +35,7 @@
     "blueimp-md5": "2.10.0",
     "broccoli-asset-rev": "3.0.0",
     "broccoli-concat": "3.7.3",
-    "broccoli-funnel": "2.0.1",
+    "broccoli-funnel": "2.0.2",
     "broccoli-merge-trees": "3.0.2",
     "broccoli-uglify-sourcemap": "2.2.0",
     "chai-dom": "1.8.1",
