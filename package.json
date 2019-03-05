@@ -28,7 +28,7 @@
   "devDependencies": {
     "@ember/jquery": "0.6.0",
     "@ember/optional-features": "0.7.0",
-    "@html-next/vertical-collection": "1.0.0-beta.12",
+    "@html-next/vertical-collection": "1.0.0-beta.13",
     "@tryghost/mobiledoc-kit": "0.11.1-ghost.7",
     "@tryghost/timezone-data": "0.1.1",
     "autoprefixer": "9.4.10",

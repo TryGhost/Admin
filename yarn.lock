@@ -678,23 +678,7 @@
   dependencies:
     "@glimmer/di" "^0.2.0"
 
-"@html-next/vertical-collection@1.0.0-beta.12":
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@html-next/vertical-collection/-/vertical-collection-1.0.0-beta.12.tgz#c5cbed1a7cc9bfe8d4e82474bbb8d265882bc6f9"
-  integrity sha512-DAMomcdVH7dxxSmDvI99QRcsl2kV+RKRjbickfyPMN4EcSBQZkAQfkXdJbktk2iW+OuoNHMAlkBV2atwT3OBsw==
-  dependencies:
-    babel-plugin-transform-es2015-block-scoping "^6.24.1"
-    babel6-plugin-strip-class-callcheck "^6.0.0"
-    broccoli-funnel "^2.0.1"
-    broccoli-merge-trees "^2.0.0"
-    broccoli-rollup "^2.0.0"
-    ember-cli-babel "^6.6.0"
-    ember-cli-htmlbars "^2.0.3"
-    ember-cli-version-checker "^2.1.0"
-    ember-compatibility-helpers "^0.1.2"
-    ember-raf-scheduler "0.1.0"
-
-"@html-next/vertical-collection@^1.0.0-beta.12":
+"@html-next/vertical-collection@1.0.0-beta.13", "@html-next/vertical-collection@^1.0.0-beta.12":
   version "1.0.0-beta.13"
   resolved "https://registry.yarnpkg.com/@html-next/vertical-collection/-/vertical-collection-1.0.0-beta.13.tgz#0cd7fbe813fef8c7daea3c46a3d4167cbd8db682"
   integrity sha512-YFs+toYLFSCiZSv1kkb3IPvrcVJHVX6q7vkzP0qb2Rvd0s61YqgpPDqtZ8sVViip0Lu3kw+Hs9fysjpAFqJDzQ==
@@ -1481,7 +1465,7 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-debug-macros@^0.1.10, babel-plugin-debug-macros@^0.1.11:
+babel-plugin-debug-macros@^0.1.10:
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-0.1.11.tgz#6c562bf561fccd406ce14ab04f42c218cf956605"
   integrity sha512-hZw5qNNGAR02Y+yBUrtsnJHh8OXavkayPRqKGAXnIm4t5rWVpj3ArwsC7TWdpZsBguQvHAeyTxZ7s23yY60HHg==
@@ -4557,15 +4541,6 @@ ember-cli@3.4.1:
     walk-sync "^0.3.2"
     watch-detector "^0.1.0"
     yam "^0.0.24"
-
-ember-compatibility-helpers@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-0.1.3.tgz#039a57e9f1a401efda0023c1e3650bd01cfd7087"
-  integrity sha512-3YBCYrbZ+HqQRSxbGl9jso1FBX6WjGS9FC7tgmmul3us6vtFPxjjnGN25H5ze2xk/mDCG373p0lm5xG+mVpKkA==
-  dependencies:
-    babel-plugin-debug-macros "^0.1.11"
-    ember-cli-version-checker "^2.0.0"
-    semver "^5.4.1"
 
 ember-compatibility-helpers@^1.0.0, ember-compatibility-helpers@^1.1.1:
   version "1.2.0"
