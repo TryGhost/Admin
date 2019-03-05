@@ -3919,11 +3919,6 @@ csso@~2.0.0:
     clap "^1.0.9"
     source-map "^0.5.3"
 
-current-device@0.7.8:
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/current-device/-/current-device-0.7.8.tgz#bb0e4b33ad614694dbd140d782c0bc283bb7632f"
-  integrity sha1-uw5LM61hRpTb0UDXgsC8KDu3Yy8=
-
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
