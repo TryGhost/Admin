@@ -5183,14 +5183,14 @@ ember-load-initializers@2.0.0:
   dependencies:
     ember-cli-babel "^7.0.0"
 
-ember-load@0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/ember-load/-/ember-load-0.0.16.tgz#9de561611d59ae653314819a6315b3babff50632"
-  integrity sha512-vdOV3NXqU/mghg9tbuh125DR0JeA8tjyekI4OxVmpgj4wSf+56sUuOCZHoTatqDhBeRzMeR/bcFxgyvSyb4N3A==
+ember-load@0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/ember-load/-/ember-load-0.0.17.tgz#d87d734276ebbdc02d3ed07f4b6032df82faa7b2"
+  integrity sha512-gyJrGwUHOri9En8QG/v2NIwxHFC5DFifar+1TRLwsNSeyJaUSwoFExLCVN8xYoDrI5CX1lmRoOUcfcrEApKwfg==
   dependencies:
     ember-cli-babel "^7.1.3"
     ember-cli-htmlbars "^3.0.0"
-    ember-cli-version-checker "^2.0.0"
+    ember-cli-version-checker "^3.0.0"
 
 ember-macro-helpers@^2.1.0:
   version "2.2.0"
