@@ -5401,10 +5401,10 @@ ember-scrollable@^0.5.0:
     ember-element-resize-detector "~0.4.0"
     ember-lifeline "^3.0.1"
 
-ember-simple-auth@1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/ember-simple-auth/-/ember-simple-auth-1.8.0.tgz#e7b80ba0c35ae7e06adba4af365a9f1d3b9c9110"
-  integrity sha512-CN8NvjWK7cMiAofH7WPrEy/vFaIcEKEIG66vGSeD17Ssq5AXYbC0Ks6t0crSOaB3s7IoDrBHgM4NJScY6c/+MQ==
+ember-simple-auth@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/ember-simple-auth/-/ember-simple-auth-1.8.1.tgz#ff2de9a035f0902e9de660e93568e6956da2bdb9"
+  integrity sha512-2LV7RCBYMfc1JbJv00lm0GTx9sBMY4w6pzyOolH71J1MW1d+tahonaV4ZE+/R+TB85PMza0wabFh98Xq9xKaqA==
   dependencies:
     base-64 "^0.1.0"
     broccoli-file-creator "^2.0.0"
