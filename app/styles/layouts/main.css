@@ -270,6 +270,18 @@
     stroke: var(--white);
 }
 
+.gh-nav-main {
+    margin-top: -10px;
+}
+
+.gh-nav-manage .gh-nav-list-h {
+    margin-top: 10px;
+}
+
+.gh-nav-labs {
+    margin-bottom: 10px;
+}
+
 /* Left navbar footer */
 .gh-nav-foot-sitelink {
     display: flex;
