@@ -22,6 +22,7 @@ Router.map(function () {
     this.route('signup', {path: '/signup/:token'});
     this.route('reset', {path: '/reset/:token'});
     this.route('about');
+    this.route('site');
 
     this.route('posts', {path: '/'}, function () {});
     this.route('pages', function () {});
