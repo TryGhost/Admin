@@ -1,5 +1,18 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "group:jsTestMonMajor",
+    "group:linters"
+  ],
+  "ignoreDeps": ["ember-drag-drop", "ember-infinity", "ember-in-viewport"],
+  "packageRules": [
+    {
+      "packagePatterns": ["ember"],
+      "groupName": "ember"
+    },
+    {
+      "packagePatterns": ["^postcss", "css", "autoprefixer"],
+      "groupName": "css processors"
+    }
   ]
 }
