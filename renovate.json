@@ -5,6 +5,9 @@
     "group:linters"
   ],
   "ignoreDeps": ["ember-drag-drop", "ember-infinity", "ember-in-viewport"],
+  "node": {
+    "supportPolicy": ["lts_latest"]
+  },
   "packageRules": [
     {
       "packagePatterns": ["ember"],
