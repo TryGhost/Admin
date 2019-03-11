@@ -2,12 +2,15 @@
   "extends": [
     "config:base",
     "group:jsTestMonMajor",
-    "group:linters"
+    "group:linters",
+    ":maintainlockfilesweekly
   ],
   "ignoreDeps": ["ember-drag-drop", "ember-infinity", "ember-in-viewport"],
+  "ignorePaths": ["lib/koenig-editor/package.json"],  
+  "travis": { "enabled": true },
   "node": {
     "supportPolicy": ["lts_latest"]
-  },
+  },  
   "packageRules": [
     {
       "packagePatterns": ["ember"],
