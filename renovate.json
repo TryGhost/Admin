@@ -3,7 +3,7 @@
     "config:base",
     "group:jsTestMonMajor",
     "group:linters",
-    ":maintainlockfilesweekly
+    ":maintainlockfilesweekly"
   ],
   "ignoreDeps": ["ember-drag-drop", "ember-infinity", "ember-in-viewport"],
   "ignorePaths": ["lib/koenig-editor/package.json"],  
