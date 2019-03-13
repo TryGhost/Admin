@@ -31,6 +31,7 @@
       "packagePatterns": ["^postcss", "^css", "autoprefixer"]
     }
   ],
+  "separateMinorPatch": true,
   "patch": {
       "automerge": true
   }
