@@ -30,5 +30,8 @@
       "groupName": "css processors",
       "packagePatterns": ["^postcss", "^css", "autoprefixer"]
     }
-  ]
+  ],
+  "patch": {
+      "automerge": true
+  }
 }
