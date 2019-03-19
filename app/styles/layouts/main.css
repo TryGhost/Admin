@@ -122,6 +122,9 @@
 }
 
 .gh-nav-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
     overflow-y: auto;
 }
@@ -179,7 +182,7 @@
     overflow: hidden;
     margin-top: 32px;
     padding: 10px 20px;
-    color:  color-mod(var(--midgrey) l(+20%) s(+5%));
+    color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
@@ -280,50 +283,8 @@
 
 .gh-nav-labs {
     margin-bottom: 10px;
+    padding: 0;
 }
-
-/* Left navbar footer */
-.gh-nav-foot-sitelink {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    text-align: center;
-    font-size: 1.4rem;
-    line-height: 1.6em;
-    color: color-mod(var(--midgrey) l(-10%) s(+5%));
-    padding: 7px 10px 7px 16px;
-    margin: 20px 6px 12px;
-    transition: color .3s;
-}
-
-.gh-nav-foot-sitelink:hover {
-    color: var(--blue);
-}
-
-@media (max-width: 500px) {
-    .gh-nav-foot-sitelink {
-        height: 56px;
-    }
-}
-
-.gh-nav-foot-sitelink svg {
-    width: 16px;
-    margin-right: 8px;
-}
-
-.gh-nav-foot-sitelink svg g,
-.gh-nav-foot-sitelink svg path
-{
-    fill: color-mod(var(--midgrey) l(+5%));
-    transition: fill .3s;
-}
-
-.gh-nav-foot-sitelink:hover svg g,
-.gh-nav-foot-sitelink:hover svg path
-{
-    fill: color-mod(var(--blue) l(+5%));
-}
-
 
 /* Mobile Nav Menu (Slides out)
 /* ---------------------------------------------------------- */
