@@ -47,7 +47,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 296px;
+    flex: 0 0 312px;
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
@@ -60,7 +60,7 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    padding: 25px 20px;
+    padding: 24px;
     cursor: pointer;
     outline: none;
 }
@@ -131,7 +131,7 @@
 
 .gh-nav-search {
     position: relative;
-    margin: 0 20px 15px;
+    margin: 0 24px 15px;
 }
 
 .gh-nav-search .ember-power-select-trigger {
@@ -176,12 +176,13 @@
 
 .gh-nav-list li {
     margin: 0;
+    padding: 0 6px
 }
 
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     margin-top: 32px;
-    padding: 10px 20px;
+    padding: 10px 24px;
     color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -195,10 +196,11 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 20px;
+    padding: 7px 18px;
     color: color-mod(var(--midgrey) l(-10%) s(+5%));
     opacity: 0.9;
     transition: none;
+    border-radius: 4px;
 }
 
 .gh-nav-list .active {
@@ -278,11 +280,11 @@
 }
 
 .gh-nav-manage .gh-nav-list-h {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .gh-nav-labs {
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     padding: 0;
 }
 
