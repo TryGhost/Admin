@@ -99,6 +99,7 @@
             <script src="{{config.clientExtensions.script.src}}"></script>
         {{/if}}
     </div>
+    {{#if (gh-user-can-admin session.user)}}
     <div class="gh-nav-bottom">
         <ul class="gh-nav-list gh-nav-labs">
             <li class="relative">
@@ -106,6 +107,7 @@
                 {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
         </ul>
     </div>
+    {{/if}}
 </section>
 
 {{gh-tour-item "getting-started"
