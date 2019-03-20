@@ -11,6 +11,8 @@ const Router = EmberRouter.extend({
 documentTitle();
 
 Router.map(function () {
+    this.route('home', {path: '/'});
+
     this.route('setup', function () {
         this.route('one');
         this.route('two');
@@ -24,7 +26,7 @@ Router.map(function () {
     this.route('about');
     this.route('site');
 
-    this.route('posts', {path: '/'}, function () {});
+    this.route('posts', function () {});
     this.route('pages', function () {});
 
     this.route('editor', function () {
