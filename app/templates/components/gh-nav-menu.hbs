@@ -103,7 +103,9 @@
     <div class="gh-nav-bottom">
         <ul class="gh-nav-list gh-nav-labs">
             <li class="relative">
-                {{#link-to "editor.new" "post" classNames="gh-nav-nightshift" alt="Night shift" data-test-nav="new-story"}}<span>{{svg-jar "sundown"}}</span>{{/link-to}}
+                <button class="gh-nav-nightshift" title="Toggle night shift" {{action (toggle "nightShift" this.feature)}}>
+                    <span>{{svg-jar "sundown"}}</span>
+                </button>
                 {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
         </ul>
     </div>
