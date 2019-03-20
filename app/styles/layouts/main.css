@@ -176,7 +176,7 @@
 
 .gh-nav-list li {
     margin: 0;
-    padding: 0 6px
+    padding: 0 4px;
 }
 
 .gh-nav-list .gh-nav-list-h {
@@ -196,7 +196,7 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 18px;
+    padding: 7px 20px;
     color: color-mod(var(--midgrey) l(-10%) s(+5%));
     opacity: 0.9;
     transition: none;
@@ -275,6 +275,33 @@
     stroke: var(--white);
 }
 
+.gh-nav-list .gh-nav-nightshift {
+    position: absolute;
+    z-index: 999;
+    padding: 6px;
+    margin: 0;
+    right: 17px;
+}
+
+.gh-nav-list .gh-nav-nightshift span svg {
+    margin-right: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.gh-nav-list .gh-nav-nightshift span svg path {
+    fill: color-mod(var(--midgrey) l(+5%));
+}
+
+.gh-nav-list a.gh-nav-nightshift:hover,
+.gh-nav-list a.gh-nav-nightshift.active {
+    background: none;
+}
+
+.gh-nav-list .gh-nav-nightshift:hover span svg path {
+    fill: color-mod(var(--blue) l(-3%) s(+5%));
+}
+
 .gh-nav-main {
     margin-top: -10px;
 }
@@ -284,7 +311,7 @@
 }
 
 .gh-nav-labs {
-    margin-bottom: 6px;
+    margin-bottom: 16px;
     padding: 0;
 }
 
