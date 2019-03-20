@@ -9,7 +9,6 @@
     {{/dropdown.trigger}}
     {{#dropdown.content class="gh-nav-menu-dropdown"}}
         <ul class="dropdown-menu dropdown-triangle-top" role="menu" {{action dropdown.actions.close on="click" preventDefault=false}}>
-            <li role="presentation"><a class="dropdown-item" href="{{config.blogUrl}}/" target="_blank" tabindex="-1">{{svg-jar "view-site"}} View site</a></li>
             <li role="presentation">{{#link-to "about" classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="about"}}{{svg-jar "store"}} About Ghost{{/link-to}}</li>
             <li class="divider"></li>
             <li role="presentation">{{#link-to "staff.user" session.user.slug classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="user-profile"}}{{svg-jar "user-circle"}} Your Profile{{/link-to}}</li>
@@ -116,4 +115,5 @@
     target=".gh-nav header"
     throbberAttachment="middle right"
     popoverTriangleClass="left-top"
+    throbberOffset="106px 2px"
 }}
