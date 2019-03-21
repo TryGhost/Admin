@@ -176,7 +176,7 @@
 
 .gh-nav-list li {
     margin: 0;
-    padding: 0 4px;
+    padding: 0;
 }
 
 .gh-nav-list .gh-nav-list-h {
@@ -196,11 +196,10 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 20px;
+    padding: 7px 24px;
     color: color-mod(var(--midgrey) l(-10%) s(+5%));
     opacity: 0.9;
     transition: none;
-    border-radius: 4px;
 }
 
 .gh-nav-list .active {
@@ -311,7 +310,7 @@
 }
 
 .gh-nav-labs {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     padding: 0;
 }
 
