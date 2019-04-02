@@ -4,7 +4,8 @@
     "group:jsTestMonMajor",
     "group:linters",
     ":maintainLockFilesWeekly",
-    "schedule:earlyMondays"
+    "schedule:earlyMondays",
+    ":autoMergePatch"
   ],
   "ignoreDeps": [
     "ember-drag-drop",
@@ -16,10 +17,6 @@
   "travis": { "enabled": true },
   "node": {
     "supportPolicy": ["lts_latest"]
-  },
-  "separateMinorPatch": true,
-  "patch": {
-    "automerge": true
   },
   "packageRules": [
     {
