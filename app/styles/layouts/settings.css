@@ -596,6 +596,10 @@
     margin-top: 25px;
 }
 
+.theme-validation-summary {
+    
+}
+
 /*Errors */
 .theme-validation-errors {
     padding-left: 0;

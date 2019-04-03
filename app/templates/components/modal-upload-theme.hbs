@@ -19,21 +19,18 @@
     {{#if theme}}
         {{#if hasWarningsOrErrors}}
              <ul class="theme-validation-errors">
-                <li>
-                    <p>
-                        "{{themeName}}" uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected.
-                        You are still able to use and activate the theme. Here's your report...
-                    </p>
-                </li>
+                <p class="theme-validation-summary">
+                    The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+                </p>
 
                 {{#if validationErrors}}
                     <div class="theme-validation-errordescription">
                         <h2 class="theme-validation-errortype">Errors</h2>
-                        <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                        <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
                     </div>
                 {{/if}}
                 {{#each validationErrors as |error|}}
-                    <li class="theme-validation-item">
+                    <li class="theme-validation-item theme-error">
                         {{gh-theme-error-li error=error}}
                     </li>
                 {{/each}}
@@ -44,7 +41,7 @@
                     </div>
                 {{/if}}
                 {{#each validationWarnings as |error|}}
-                    <li class="theme-validation-item">
+                    <li class="theme-validation-item theme-warning">
                         {{gh-theme-error-li error=error}}
                     </li>
                 {{/each}}
@@ -61,26 +58,29 @@
         </p>
     {{else if (or validationErrors fatalValidationErrors)}}
         <ul class="theme-validation-errors">
+            <p class="theme-validation-summary">
+                This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
+            </p>
             {{#if fatalValidationErrors}}
                 <div class="theme-validation-errordescription">
                     <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                    <p><em>(Must-fix to activate theme)</em></p>
+                    <p>Must-fix to activate theme</p>
                 </div>
             {{/if}}
             {{#each fatalValidationErrors as |error|}}
-                <li class="theme-validation-item">
+                <li class="theme-validation-item theme-error">
                     {{gh-theme-error-li error=error}}
                 </li>
             {{/each}}
 
             {{#if validationErrors}}
                 <div class="theme-validation-errordescription">
-                    <h2 class="theme-validation-errortype">Errors</h2>
-                    <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                    <h2 class="theme-validation-errortype theme-error">Errors</h2>
+                    <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
                 </div>
             {{/if}}
             {{#each validationErrors as |error|}}
-                <li class="theme-validation-item">
+                <li class="theme-validation-item theme-error">
                     {{gh-theme-error-li error=error}}
                 </li>
             {{/each}}
