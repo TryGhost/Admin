@@ -14,7 +14,7 @@
         {{#if this.fatalErrors}}
             <div class="theme-validation-errordescription">
                 <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                <p><em>(Must-fix to activate theme)</em></p>
+                <p>Must-fix to activate theme</p>
             </div>
         {{/if}}
         {{#each this.fatalErrors as |error|}}
@@ -26,11 +26,11 @@
         {{#if this.errors}}
             <div class="theme-validation-errordescription">
                 <h2 class="theme-validation-errortype">Errors</h2>
-                <p><em>(Very recommended to fix, functionality <span>could</span> be restricted)</em></p>
+                <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
             </div>
         {{/if}}
         {{#each this.errors as |error|}}
-            <li class="theme-validation-item">
+            <li class="theme-validation-item theme-error">
                 {{gh-theme-error-li error=error}}
             </li>
         {{/each}}
@@ -41,7 +41,7 @@
             </div>
         {{/if}}
         {{#each this.warnings as |error|}}
-            <li class="theme-validation-item">
+            <li class="theme-validation-item theme-warning">
                 {{gh-theme-error-li error=error}}
             </li>
         {{/each}}

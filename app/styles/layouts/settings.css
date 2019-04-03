@@ -616,6 +616,7 @@
 
 .theme-validation-errortype {
     font-size: 1.8rem;
+    margin-top: 32px;
 }
 
 .theme-validation-errortype.fatal {
@@ -623,8 +624,8 @@
 }
 
 .theme-validation-item {
-    margin: 0 0 15px;
-    padding: 15px 20px;
+    margin: 12px 0 0;
+    padding: 12px 16px;
     border: 1px solid #e5eff5;
     border-radius: 5px;
     display: flex;
@@ -633,13 +634,33 @@
 
 .theme-validation-item h4 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5em;
+}
+
+.theme-validation-item.theme-error {
+    background: color-mod(var(--red) alpha(5%));
+    border-color: color-mod(var(--red) alpha(25%));
+}
+
+.theme-validation-item.theme-warning {
+    background: color-mod(var(--yellow) alpha(10%));
+    border-color: color-mod(var(--yellow) alpha(45%));
+}
+
+.theme-validation-list code,
+.theme-validation-rule-text code {
+    font-size: 0.9em;
 }
 
 .theme-validation-item h6 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 500;
+}
+
+.theme-validation-item {
+    background: var(--whitegrey-l2);
 }
 
 .theme-validation-toggle-details {
@@ -650,6 +671,7 @@
     padding: 0;
     color: var(--darkgrey);
     text-decoration: none!important;
+    font-size: 1.3rem;
 }
 
 .theme-validation-rule-icon {
@@ -665,7 +687,13 @@
 }
 
 .theme-validation-details {
-    margin-top: 15px;
+    margin-top: 12px;
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+p.theme-validation-details {
+    font-size: 1.3rem;
 }
 
 .theme-validation-list {
