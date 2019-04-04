@@ -598,7 +598,7 @@
 
 /*Errors */
 .theme-validation-container {
-    max-height: calc(100vh - 12vw - 140px);
+    max-height: calc(100vh - 12vw - 110px);
     overflow-y: scroll;
     margin: -40px -40px 0;
     padding: 40px 40px 0;

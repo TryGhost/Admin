@@ -110,22 +110,26 @@
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} disabled={{closeDisabled}} class="gh-btn" data-test-close-button>
-        <span>{{#if theme}}Close{{else}}Cancel{{/if}}</span>
-    </button>
-    {{#if displayOverwriteWarning}}
-        <button {{action "confirmOverwrite"}} class="gh-btn gh-btn-red" data-test-overwrite-button>
-            <span>Overwrite</span>
+    <div class="flex items-center justify-between {{if (or displayOverwriteWarning canActivateTheme validationErrors) "flex-auto"}}">
+        <button {{action "closeModal"}} disabled={{closeDisabled}} class="gh-btn" data-test-close-button>
+            <span>{{#if theme}}Close{{else}}Cancel{{/if}}</span>
         </button>
-    {{/if}}
-    {{#if canActivateTheme}}
-    <button {{action "activate"}} class="gh-btn" data-test-activate-now-button>
-        <span>Activate with errors</span>
-    </button>
-    {{/if}}
-    {{#if validationErrors}}
-        <button {{action "reset"}} class="gh-btn gh-btn-blue" data-test-try-again-button>
-            <span>Retry</span>
-        </button>
-    {{/if}}
+        <div class="flex items-center ml2">
+            {{#if displayOverwriteWarning}}
+                <button {{action "confirmOverwrite"}} class="gh-btn gh-btn-red" data-test-overwrite-button>
+                    <span>Overwrite</span>
+                </button>
+            {{/if}}
+            {{#if canActivateTheme}}
+            <button {{action "activate"}} class="gh-btn" data-test-activate-now-button>
+                <span>Activate with errors</span>
+            </button>
+            {{/if}}
+            {{#if validationErrors}}
+                <button {{action "reset"}} class="gh-btn gh-btn-blue ml2" data-test-try-again-button>
+                    <span>Retry</span>
+                </button>
+            {{/if}}
+        </div>
+    </div>
 </div>
