@@ -1,31 +1,89 @@
-<header class="modal-header" data-test-modal="upload-theme">
-    <h1>
+<div class="theme-validation-container">
+    <header class="modal-header" data-test-modal="upload-theme">
+        <h1>
+            {{#if theme}}
+                {{#if hasWarningsOrErrors}}
+                    Upload successful with {{#if validationErrors}}errors{{else}}warnings{{/if}}
+                {{else}}
+                    Upload successful!
+                {{/if}}
+            {{else if (or validationErrors fatalValidationErrors)}}
+                Invalid theme
+            {{else}}
+                Upload a theme
+            {{/if}}
+        </h1>
+    </header>
+    <a class="close" href="#" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+
+    <div class="modal-body">
         {{#if theme}}
             {{#if hasWarningsOrErrors}}
-                Upload successful with {{#if validationErrors}}errors{{else}}warnings{{/if}}
-            {{else}}
-                Upload successful!
-            {{/if}}
-        {{else if (or validationErrors fatalValidationErrors)}}
-            Invalid theme
-        {{else}}
-            Upload a theme
-        {{/if}}
-    </h1>
-</header>
-<a class="close" href="#" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+                <p>
+                    The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+                </p>
 
-<div class="modal-body">
-    {{#if theme}}
-        {{#if hasWarningsOrErrors}}
+                {{#if validationErrors}}
+                    <div>
+                        <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                        <p class="mb2">Very recommended to fix, functionality <strong>could</strong> be restricted</p>
+                    </div>
+                    <ul class="pa0">
+                    {{#each validationErrors as |error|}}
+                        <li class="theme-validation-item theme-error">
+                            {{gh-theme-error-li error=error}}
+                        </li>
+                    {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{#if validationWarnings}}
+                    <div>
+                        <h2 class="mb0 mt2 f5 fw6">Warnings</h2>
+                    </div>
+                    <ul class="pa0">
+                    {{#each validationWarnings as |error|}}
+                        <li class="theme-validation-item theme-warning">
+                            {{gh-theme-error-li error=error}}
+                        </li>
+                    {{/each}}
+                    </ul>
+                {{/if}}
+            {{else}}
+                <p>
+                    "{{themeName}}" uploaded successfully.
+                    {{#if canActivateTheme}}Do you want to activate it now?{{/if}}
+                </p>
+            {{/if}}
+        {{else if displayOverwriteWarning}}
             <p>
-                The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+                The theme folder <strong>"{{fileThemeName}}"</strong> already exists. Do you want to overwrite it?
             </p>
+        {{else if (or validationErrors fatalValidationErrors)}}
+            
+            <p>
+                This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
+            </p>
+
+            {{#if fatalValidationErrors}}
+                <div>
+                    <h2 class="mb0 mt2 f5 fw6 red">Fatal Errors</h2>
+                    <p class="mb2 red">Must-fix to activate theme</p>
+                </div>
+            
+                <ul class="pa0">
+                {{#each fatalValidationErrors as |error|}}
+                    <li class="theme-validation-item theme-fatal-error">
+                        {{gh-theme-error-li error=error}}
+                    </li>
+                {{/each}}
+                </ul>
+            {{/if}}
 
             {{#if validationErrors}}
                 <div>
                     <h2 class="mb0 mt2 f5 fw6">Errors</h2>
-                    <p class="mb2">Very recommended to fix, functionality <strong>could</strong> be restricted</p>
+                    <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
                 </div>
                 <ul class="pa0">
                 {{#each validationErrors as |error|}}
@@ -35,76 +93,20 @@
                 {{/each}}
                 </ul>
             {{/if}}
-
-            {{#if validationWarnings}}
-                <div>
-                    <h2 class="mb0 mt2 f5 fw6">Warnings</h2>
-                </div>
-                <ul class="pa0">
-                {{#each validationWarnings as |error|}}
-                    <li class="theme-validation-item theme-warning">
-                        {{gh-theme-error-li error=error}}
-                    </li>
-                {{/each}}
-                </ul>
-            {{/if}}
         {{else}}
-            <p>
-                "{{themeName}}" uploaded successfully.
-                {{#if canActivateTheme}}Do you want to activate it now?{{/if}}
-            </p>
+            {{gh-file-uploader
+                url=uploadUrl
+                paramName="file"
+                accept=accept
+                labelText="Click to select or drag-and-drop your theme zip file here."
+                validate=(action "validateTheme")
+                uploadStarted=(action "uploadStarted")
+                uploadFinished=(action "uploadFinished")
+                uploadSuccess=(action "uploadSuccess")
+                uploadFailed=(action "uploadFailed")
+                listenTo="themeUploader"}}
         {{/if}}
-    {{else if displayOverwriteWarning}}
-        <p>
-            The theme folder <strong>"{{fileThemeName}}"</strong> already exists. Do you want to overwrite it?
-        </p>
-    {{else if (or validationErrors fatalValidationErrors)}}
-        
-        <p>
-            This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
-        </p>
-
-        {{#if fatalValidationErrors}}
-            <div>
-                <h2 class="mb0 mt2 f5 fw6 red">Fatal Errors</h2>
-                <p class="mb2 red">Must-fix to activate theme</p>
-            </div>
-        
-            <ul class="pa0">
-            {{#each fatalValidationErrors as |error|}}
-                <li class="theme-validation-item theme-fatal-error">
-                    {{gh-theme-error-li error=error}}
-                </li>
-            {{/each}}
-            </ul>
-        {{/if}}
-
-        {{#if validationErrors}}
-            <div>
-                <h2 class="mb0 mt2 f5 fw6">Errors</h2>
-                <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
-            </div>
-            <ul class="pa0">
-            {{#each validationErrors as |error|}}
-                <li class="theme-validation-item theme-error">
-                    {{gh-theme-error-li error=error}}
-                </li>
-            {{/each}}
-            </ul>
-        {{/if}}
-    {{else}}
-        {{gh-file-uploader
-            url=uploadUrl
-            paramName="file"
-            accept=accept
-            labelText="Click to select or drag-and-drop your theme zip file here."
-            validate=(action "validateTheme")
-            uploadStarted=(action "uploadStarted")
-            uploadFinished=(action "uploadFinished")
-            uploadSuccess=(action "uploadSuccess")
-            uploadFailed=(action "uploadFailed")
-            listenTo="themeUploader"}}
-    {{/if}}
+    </div>
 </div>
 
 <div class="modal-footer">

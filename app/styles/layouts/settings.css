@@ -597,6 +597,13 @@
 }
 
 /*Errors */
+.theme-validation-container {
+    max-height: calc(100vh - 12vw - 140px);
+    overflow-y: scroll;
+    margin: -40px -40px 0;
+    padding: 40px 40px 0;
+}
+
 .theme-validation-item {
     margin: 12px 0 0;
     padding: 12px 16px;
