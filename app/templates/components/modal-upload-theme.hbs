@@ -18,34 +18,36 @@
 <div class="modal-body">
     {{#if theme}}
         {{#if hasWarningsOrErrors}}
-             <ul class="theme-validation-errors">
-                <p class="theme-validation-summary">
-                    The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
-                </p>
+            <p>
+                The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+            </p>
 
-                {{#if validationErrors}}
-                    <div class="theme-validation-errordescription">
-                        <h2 class="theme-validation-errortype">Errors</h2>
-                        <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
-                    </div>
-                {{/if}}
+            {{#if validationErrors}}
+                <div>
+                    <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                    <p class="mb2">Very recommended to fix, functionality <strong>could</strong> be restricted</p>
+                </div>
+                <ul class="pa0">
                 {{#each validationErrors as |error|}}
                     <li class="theme-validation-item theme-error">
                         {{gh-theme-error-li error=error}}
                     </li>
                 {{/each}}
+                </ul>
+            {{/if}}
 
-                {{#if validationWarnings}}
-                    <div class="theme-validation-errordescription">
-                        <h2 class="theme-validation-errortype">Warnings</h2>
-                    </div>
-                {{/if}}
+            {{#if validationWarnings}}
+                <div>
+                    <h2 class="mb0 mt2 f5 fw6">Warnings</h2>
+                </div>
+                <ul class="pa0">
                 {{#each validationWarnings as |error|}}
                     <li class="theme-validation-item theme-warning">
                         {{gh-theme-error-li error=error}}
                     </li>
                 {{/each}}
-            </ul>
+                </ul>
+            {{/if}}
         {{else}}
             <p>
                 "{{themeName}}" uploaded successfully.
@@ -54,37 +56,42 @@
         {{/if}}
     {{else if displayOverwriteWarning}}
         <p>
-            "{{fileThemeName}}" will overwrite an existing theme of the same name. Are you sure?
+            The theme folder <strong>"{{fileThemeName}}"</strong> already exists. Do you want to overwrite it?
         </p>
     {{else if (or validationErrors fatalValidationErrors)}}
-        <ul class="theme-validation-errors">
-            <p class="theme-validation-summary">
-                This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
-            </p>
-            {{#if fatalValidationErrors}}
-                <div class="theme-validation-errordescription">
-                    <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                    <p>Must-fix to activate theme</p>
-                </div>
-            {{/if}}
+        
+        <p>
+            This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
+        </p>
+
+        {{#if fatalValidationErrors}}
+            <div>
+                <h2 class="mb0 mt2 f5 fw6 red">Fatal Errors</h2>
+                <p class="mb2 red">Must-fix to activate theme</p>
+            </div>
+        
+            <ul class="pa0">
             {{#each fatalValidationErrors as |error|}}
-                <li class="theme-validation-item theme-error">
+                <li class="theme-validation-item theme-fatal-error">
                     {{gh-theme-error-li error=error}}
                 </li>
             {{/each}}
+            </ul>
+        {{/if}}
 
-            {{#if validationErrors}}
-                <div class="theme-validation-errordescription">
-                    <h2 class="theme-validation-errortype theme-error">Errors</h2>
-                    <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
-                </div>
-            {{/if}}
+        {{#if validationErrors}}
+            <div>
+                <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
+            </div>
+            <ul class="pa0">
             {{#each validationErrors as |error|}}
                 <li class="theme-validation-item theme-error">
                     {{gh-theme-error-li error=error}}
                 </li>
             {{/each}}
-        </ul>
+            </ul>
+        {{/if}}
     {{else}}
         {{gh-file-uploader
             url=uploadUrl
@@ -109,14 +116,14 @@
             <span>Overwrite</span>
         </button>
     {{/if}}
-    {{#if validationErrors}}
-        <button {{action "reset"}} class="gh-btn gh-btn-green" data-test-try-again-button>
-            <span>Try Again</span>
-        </button>
-    {{/if}}
     {{#if canActivateTheme}}
-        <button {{action "activate"}} class="gh-btn gh-btn-green" data-test-activate-now-button>
-            <span>Activate Now</span>
+    <button {{action "activate"}} class="gh-btn" data-test-activate-now-button>
+        <span>Activate with errors</span>
+    </button>
+    {{/if}}
+    {{#if validationErrors}}
+        <button {{action "reset"}} class="gh-btn gh-btn-blue" data-test-try-again-button>
+            <span>Retry</span>
         </button>
     {{/if}}
 </div>

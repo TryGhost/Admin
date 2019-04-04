@@ -10,43 +10,49 @@
 <a class="close" href="#" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
 <div class="modal-body">
-    <ul class="theme-validation-errors" data-test-theme-warnings>
+    
         {{#if this.fatalErrors}}
-            <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype fatal">Fatal Errors</h2>
-                <p>Must-fix to activate theme</p>
+            <div>
+                <h2 class="mb0 mt2 f5 fw6 red">Fatal Errors</h2>
+                <p class="mb2 red">Must-fix to activate theme</p>
             </div>
+            <ul class="pa0" data-test-theme-warnings>
+            {{#each this.fatalErrors as |error|}}
+                <li class="theme-validation-item theme-fatal-error">
+                    {{gh-theme-error-li error=error}}
+                </li>
+            {{/each}}
+            </ul>
         {{/if}}
-        {{#each this.fatalErrors as |error|}}
-            <li class="theme-validation-item">
-                {{gh-theme-error-li error=error}}
-            </li>
-        {{/each}}
 
         {{#if this.errors}}
-            <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype">Errors</h2>
-                <p>Very recommended to fix, functionality <span>could</span> be restricted</p>
+            <div>
+                <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
             </div>
+        
+            <ul class="pa0" data-test-theme-warnings>
+            {{#each this.errors as |error|}}
+                <li class="theme-validation-item theme-error">
+                    {{gh-theme-error-li error=error}}
+                </li>
+            {{/each}}
+            </ul>
         {{/if}}
-        {{#each this.errors as |error|}}
-            <li class="theme-validation-item theme-error">
-                {{gh-theme-error-li error=error}}
-            </li>
-        {{/each}}
 
         {{#if (and this.warnings (or this.fatalErrors this.errors))}}
-            <div class="theme-validation-errordescription">
-                <h2 class="theme-validation-errortype">Warnings</h2>
+            <div>
+                <h2 class="mb0 mt2 f5 fw6">Warnings</h2>
             </div>
+            <ul class="pa0" data-test-theme-warnings>
+            {{#each this.warnings as |error|}}
+                <li class="theme-validation-item theme-warning">
+                    {{gh-theme-error-li error=error}}
+                </li>
+            {{/each}}
+            </ul>
         {{/if}}
-        {{#each this.warnings as |error|}}
-            <li class="theme-validation-item theme-warning">
-                {{gh-theme-error-li error=error}}
-            </li>
-        {{/each}}
 
-    </ul>
 </div>
 
 <div class="modal-footer">
