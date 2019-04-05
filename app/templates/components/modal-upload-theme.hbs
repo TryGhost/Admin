@@ -20,13 +20,18 @@
         {{#if theme}}
             {{#if hasWarningsOrErrors}}
                 <p>
-                    The theme <strong>"{{themeName}}"</strong> was uploaded successfully but some {{#if validationErrors}}errors{{else}}warnings{{/if}} were detected. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+                    {{#if canActivateTheme}}
+                        The theme <strong>"{{themeName}}"</strong> was uploaded successfully but we detected some {{#if validationErrors}}errors{{else}}warnings{{/if}}. You are still able to activate and use the theme but it is recommended to fix these {{#if validationErrors}}errors{{else}}warnings{{/if}} before you do so.
+                    {{else}}
+                        The theme <strong>"{{themeName}}"</strong> was uploaded successfully but we detected some
+                        {{#if validationErrors}}errors{{else}}warnings{{/if}}.
+                    {{/if}}
                 </p>
 
                 {{#if validationErrors}}
                     <div>
                         <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                        <p class="mb2">Very recommended to fix, functionality <strong>could</strong> be restricted</p>
+                        <p class="mb2">Highly recommended to fix, functionality <strong>could</strong> be restricted</p>
                     </div>
                     <ul class="pa0">
                     {{#each validationErrors as |error|}}
@@ -83,7 +88,7 @@
             {{#if validationErrors}}
                 <div>
                     <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                    <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
+                    <p class="mb2">Highly recommended to fix, functionality <strong>could</strong> be restricted</p>
                 </div>
                 <ul class="pa0">
                 {{#each validationErrors as |error|}}
