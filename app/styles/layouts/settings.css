@@ -695,7 +695,7 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    align-items: start;
+    align-items: flex-start;
     padding: 0;
     color: var(--darkgrey);
     text-decoration: none!important;
