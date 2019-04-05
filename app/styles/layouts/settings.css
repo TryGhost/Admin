@@ -611,6 +611,8 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    background: var(--whitegrey);
+    border: 1px solid var(--lightgrey);
 }
 
 .theme-validation-item h4 {
@@ -620,44 +622,55 @@
     line-height: 1.5em;
 }
 
-.theme-validation-item.theme-fatal-error,
-.theme-validation-item.theme-error {
-    background: color-mod(var(--red) alpha(5%));
-    border-color: color-mod(var(--red) alpha(25%));
+.theme-validation-rule-text {
+    flex-grow: 1;
 }
 
-.theme-validation-item.theme-warning {
-    background: color-mod(var(--yellow) alpha(10%));
-    border-color: color-mod(var(--yellow) alpha(45%));
+.theme-validation-item.theme-fatal-error {
+    background: color-mod(var(--red) alpha(0.04));
+    border: 1px solid color-mod(var(--red) alpha(0.4));
 }
 
 .theme-validation-item.theme-fatal-error .theme-validation-rule-text::before,
 .theme-validation-item.theme-error .theme-validation-rule-text::before,
 .theme-validation-item.theme-warning .theme-validation-rule-text::before
- {
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 1.3rem;
+{
     font-weight: 600;
-    margin-right: 2px;
 }
 
 .theme-validation-item.theme-fatal-error .theme-validation-rule-text::before {
     content: "Fatal error:";
+    color: var(--red);
 }
 
 .theme-validation-item.theme-error .theme-validation-rule-text::before {
     content: "Error:";
 }
 
-.theme-validation-item.theme-fatal-error .theme-validation-rule-text::before,
-.theme-validation-item.theme-error .theme-validation-rule-text::before {
-    color: var(--red);
-}
-
 .theme-validation-item.theme-warning .theme-validation-rule-text::before {
     content: "Warning:";
-    color: color-mod(var(--yellow) l(-12%) s(+5%));
+}
+
+.theme-fatal-error .theme-validation-type-label::before,
+.theme-error .theme-validation-type-label::before,
+.theme-warning .theme-validation-type-label::before {
+    content: "";
+    display: block;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    width: 8px;
+    height: 16px;
+    margin-top: 3px;
+    margin-left: -17px;
+}
+
+.theme-fatal-error .theme-validation-type-label::before, 
+.theme-error .theme-validation-type-label::before {
+    background: color-mod(var(--red) alpha(0.85));
+}
+
+.theme-warning .theme-validation-type-label::before {
+    background: color-mod(var(--yellow));
 }
 
 .theme-validation-list ul {
@@ -682,7 +695,7 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    align-items: center;
+    align-items: start;
     padding: 0;
     color: var(--darkgrey);
     text-decoration: none!important;
@@ -706,9 +719,11 @@
 }
 
 .theme-validation-details {
-    margin-top: 20px;
+    margin-top: 12px;
+    padding-top: 12px;
     font-size: 1.3rem;
     font-weight: 300;
+    border-top: 1px solid var(--lightgrey);
 }
 
 p.theme-validation-details {

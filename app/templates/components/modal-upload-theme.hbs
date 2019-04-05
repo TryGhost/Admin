@@ -25,7 +25,7 @@
 
                 {{#if validationErrors}}
                     <div>
-                        <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                        <h2 class="mb0 mt4 f5 fw6">Errors</h2>
                         <p class="mb2">Very recommended to fix, functionality <strong>could</strong> be restricted</p>
                     </div>
                     <ul class="pa0">
@@ -39,7 +39,7 @@
 
                 {{#if validationWarnings}}
                     <div>
-                        <h2 class="mb0 mt2 f5 fw6">Warnings</h2>
+                        <h2 class="mb0 mt4 f5 fw6">Warnings</h2>
                     </div>
                     <ul class="pa0">
                     {{#each validationWarnings as |error|}}
@@ -67,8 +67,8 @@
 
             {{#if fatalValidationErrors}}
                 <div>
-                    <h2 class="mb0 mt2 f5 fw6 red">Fatal Errors</h2>
-                    <p class="mb2 red">Must-fix to activate theme</p>
+                    <h2 class="mb0 mt4 f5 fw6">Fatal Errors</h2>
+                    <p class="mb2">Must-fix to activate theme</p>
                 </div>
             
                 <ul class="pa0">
@@ -82,7 +82,7 @@
 
             {{#if validationErrors}}
                 <div>
-                    <h2 class="mb0 mt2 f5 fw6">Errors</h2>
+                    <h2 class="mb0 mt4 f5 fw6">Errors</h2>
                     <p class="mb2">Very recommended to fix, functionality <span>could</span> be restricted</p>
                 </div>
                 <ul class="pa0">
@@ -114,7 +114,7 @@
         <button {{action "closeModal"}} disabled={{closeDisabled}} class="gh-btn" data-test-close-button>
             <span>{{#if theme}}Close{{else}}Cancel{{/if}}</span>
         </button>
-        <div class="flex items-center ml2">
+        <div class="flex items-center">
             {{#if displayOverwriteWarning}}
                 <button {{action "confirmOverwrite"}} class="gh-btn gh-btn-red" data-test-overwrite-button>
                     <span>Overwrite</span>
