@@ -30,7 +30,7 @@
                 <h2 class="mb0 mt4 f5 fw6">Errors</h2>
                 <p class="mb2">Highly recommended to fix, functionality <span>could</span> be restricted</p>
             </div>
-        
+
             <ul class="pa0" data-test-theme-warnings>
             {{#each this.errors as |error|}}
                 <li class="theme-validation-item theme-error">
@@ -44,6 +44,8 @@
             <div>
                 <h2 class="mb0 mt4 f5 fw6">Warnings</h2>
             </div>
+        {{/if}}
+        {{#if this.warnings}}
             <ul class="pa0" data-test-theme-warnings>
             {{#each this.warnings as |error|}}
                 <li class="theme-validation-item theme-warning">
