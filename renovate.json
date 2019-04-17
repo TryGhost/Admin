@@ -1,17 +1,16 @@
 {
   "extends": [
-    "config:base",
-    "group:jsTestMonMajor",
-    "group:linters",
-    ":maintainLockFilesWeekly",
-    "schedule:earlyMondays"
+    "@tryghost:base",
+    "@tryghost:groupTestLint",
+    "@tryghost:groupCSS",
+    "@tryghost:groupBuildTools"  
   ],
   "ignoreDeps": [
     "ember-drag-drop",
     "normalize.css",
     "validator"
   ],
-  "prHourlyLimit": 0,
+
   "ignorePaths": ["lib/koenig-editor/package.json"],
   "travis": { "enabled": true },
   "node": {
@@ -34,10 +33,6 @@
       "groupName": "ember addons",
       "packagePatterns": ["^ember", "^@ember", "^broccoli", "^liquid"],
       "excludePackageNames": ["ember-source", "ember-cli", "ember-data", "ember-mocha", "ember-exam"]
-    },
-    {
-      "groupName": "css processors",
-      "packagePatterns": ["^postcss", "^css", "autoprefixer"]
     }
   ]
 }
