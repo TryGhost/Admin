@@ -33,6 +33,11 @@ const CmEditorComponent = Component.extend({
         if (this._value === null || undefined) {
             this.set('_value', '');
         }
+
+        if (this.mode !== this._lastMode && this._editor) {
+            this._editor.setOption('mode', this.mode);
+        }
+        this._lastMode = this.mode;
     },
 
     didInsertElement() {
