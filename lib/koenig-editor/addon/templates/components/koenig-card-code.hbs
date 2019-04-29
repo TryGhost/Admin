@@ -20,10 +20,22 @@
             update=(action "updateCode")
             mode=cmMode
         }}
+        <input
+            type="text"
+            value={{readonly payload.language}}
+            onblur={{action (mut payload.language) value="target.value"}}
+            placeholder="Language..."
+            class="absolute top-1 right-1 w-20 pa1 ba b--lightgrey fs-base z-999"
+        />
     {{else}}
         <div class="koenig-card-html-rendered">
             <pre><code class="line-numbers {{if payload.language (concat "language-" payload.language)}}">{{escapedCode}}</code></pre>
         </div>
+        {{#if payload.language}}
+            <div class="absolute top-2 right-2 flex justify-center items-center pa2 br2 bg-white-90">
+                <span class="db fs-base ttu">{{payload.language}}</span>
+            </div>
+        {{/if}}
         <div class="koenig-card-click-overlay"></div>
     {{/if}}
 {{/koenig-card}}
