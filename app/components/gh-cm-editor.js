@@ -11,6 +11,7 @@ const CmEditorComponent = Component.extend({
 
     classNameBindings: ['isFocused:focus'],
 
+    textareaClass: '',
     isFocused: false,
 
     // options for the editor

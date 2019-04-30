@@ -17,6 +17,7 @@
     {{#if isEditing}}
         {{gh-cm-editor payload.code
             class="koenig-card-code--editor koenig-card-html--editor"
+            textareaClass="o-0"
             autofocus=true
             lineWrapping=true
             update=(action "updateCode")
