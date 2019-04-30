@@ -35,7 +35,6 @@ const CmEditorComponent = Component.extend({
         }
 
         if (this.mode !== this._lastMode && this._editor) {
-            console.log('changing mode', this.mode);
             this._editor.setOption('mode', this.mode);
         }
         this._lastMode = this.mode;
