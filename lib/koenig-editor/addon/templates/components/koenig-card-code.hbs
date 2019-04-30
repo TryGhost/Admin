@@ -1,6 +1,6 @@
 {{#koenig-card
     class=(concat "ba b--white relative kg-card-hover miw-100 relative" (if isEditing " bw2 pt1 pb1 pl2 nl6 pr6 nr6"))
-    style=(if isEditing "background-color: #f5f7f8; border-color: #f5f7f8")
+    style=cardStyle
     headerOffset=headerOffset
     toolbar=toolbar
     payload=payload
@@ -10,6 +10,7 @@
     deselectCard=(action deselectCard)
     editCard=(action editCard)
     saveCard=(action saveCard)
+    onEnterEdit=(action "enterEditMode")
     onLeaveEdit=(action "leaveEditMode")
     editor=editor
 }}
@@ -26,7 +27,8 @@
             value={{readonly payload.language}}
             onblur={{action (mut payload.language) value="target.value"}}
             placeholder="Language..."
-            class="absolute top-1 right-1 w-20 pa1 ba b--lightgrey fs-base z-999"
+            class="absolute top-1 right-1 w-20 pa1 ba b--lightgrey fs-base z-999 outline-0 anim-normal"
+            style={{languageInputStyle}}
         />
     {{else}}
         <div class="koenig-card-html-rendered">
