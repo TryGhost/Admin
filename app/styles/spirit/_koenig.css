@@ -832,7 +832,7 @@
 }
 
 .koenig-card-code--editor .CodeMirror {
-    background-color: #f5f7f8;
+    background: color-mod(var(--lightgrey) lightness(+4%));
 }
 
 .koenig-card-html--editor .CodeMirror:hover {
