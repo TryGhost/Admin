@@ -26,25 +26,12 @@ export default AuthenticatedRoute.extend({
 
     setupController(controller) {
         this._super(...arguments);
-        controller.initializeTable();
-        controller.send('loadFirstPage');
-    },
-
-    resetController(controller, isExiting) {
-        this._super(...arguments);
-        if (isExiting) {
-            controller.set('order', 'created_at');
-            controller.set('direction', 'desc');
-        }
+        controller.fetchSubscribers.perform();
     },
 
     actions: {
         addSubscriber(subscriber) {
             this.controller.send('addSubscriber', subscriber);
-        },
-
-        reset() {
-            this.controller.send('reset');
         }
     }
 });
