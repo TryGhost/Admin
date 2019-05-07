@@ -43,7 +43,11 @@ export default Controller.extend({
                 return values[0].localeCompare(values[1], undefined, {ignorePunctuation: true});
             }
 
-            return values[0] > values[1];
+            if (typeof values[0] === 'object' && values[0]._isAMomentObject) {
+                return values[0].valueOf() - values[1].valueOf();
+            }
+
+            return values[0] - values[1];
         });
 
         return sorted;
