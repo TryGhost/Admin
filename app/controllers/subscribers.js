@@ -28,7 +28,7 @@ export default Controller.extend({
         this.set('subscribers', this.store.peekAll('subscriber'));
     },
 
-    filteredSubscribers: computed('subscribers.[]', function () {
+    filteredSubscribers: computed('subscribers.@each.{email,createdAtUTC}', function () {
         return this.subscribers.toArray().filter((subscriber) => {
             return !subscriber.isNew && !subscriber.isDeleted;
         });
