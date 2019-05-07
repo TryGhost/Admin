@@ -20,7 +20,6 @@ export default Controller.extend({
     order: 'created_at',
     direction: 'desc',
 
-    meta: null,
     subscribers: null,
     subscriberToDelete: null,
 
@@ -54,10 +53,6 @@ export default Controller.extend({
     }),
 
     actions: {
-        addSubscriber() {
-            this.incrementProperty('meta.pagination.total');
-        },
-
         deleteSubscriber(subscriber) {
             this.set('subscriberToDelete', subscriber);
         },
@@ -67,7 +62,6 @@ export default Controller.extend({
 
             return subscriber.destroyRecord().then(() => {
                 this.set('subscriberToDelete', null);
-                this.decrementProperty('meta.pagination.total');
             });
         },
 
@@ -111,7 +105,6 @@ export default Controller.extend({
             this._hasFetchedAll = true;
         }
 
-        this.set('meta', results.meta);
         this._lastFetchDate = newFetchDate;
     })
 });

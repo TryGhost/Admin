@@ -27,11 +27,5 @@ export default AuthenticatedRoute.extend({
     setupController(controller) {
         this._super(...arguments);
         controller.fetchSubscribers.perform();
-    },
-
-    actions: {
-        addSubscriber(subscriber) {
-            this.controller.send('addSubscriber', subscriber);
-        }
     }
 });

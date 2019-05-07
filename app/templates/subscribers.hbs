@@ -4,7 +4,7 @@
             Subscribers
             <span style="font-weight:200;margin-left:10px;display:inline-block;" data-test-total-subscribers>
                 {{#if this.fetchSubscribers.lastSuccessful}}
-                    ({{this.meta.pagination.total}})
+                    ({{this.subscribers.length}})
                 {{else}}
                     (Loading...)
                 {{/if}}
