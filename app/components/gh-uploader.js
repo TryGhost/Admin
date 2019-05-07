@@ -55,6 +55,7 @@ export default Component.extend({
     paramsHash: null,
     resourceName: 'images',
     uploadUrl: null,
+    returnRawResponse: false,
 
     // Interal attributes
     errors: null, // [{fileName: 'x', message: 'y'}, ...]
@@ -70,11 +71,11 @@ export default Component.extend({
 
     // Closure actions
     onCancel() {},
+    onStart() {},
     onComplete() {},
     onFailed() {},
-    onStart() {},
-    onUploadStart() {},
     onUploadFailure() {},
+    onUploadStart() {},
     onUploadSuccess() {},
 
     // Optional closure actions
@@ -151,7 +152,7 @@ export default Component.extend({
             if (result === true) {
                 ok.push(file);
             } else {
-                errors.push({fileName: file.name, message: result});
+                errors.push({fileName: file.name, message: result, error: result});
             }
         }
 
@@ -257,37 +258,47 @@ export default Component.extend({
                 }
             }
 
-            if (uploadResponse) {
-                let resource = get(uploadResponse, this.resourceName);
-                if (resource && isArray(resource) && resource[0]) {
-                    responseUrl = get(resource[0], 'url');
-                }
-            }
-
             let result = {
-                url: responseUrl,
                 fileName: file.name
             };
+
+            if (this.returnRawResponse) {
+                result.response = uploadResponse;
+            } else {
+                if (uploadResponse) {
+                    let resource = get(uploadResponse, this.resourceName);
+                    if (resource && isArray(resource) && resource[0]) {
+                        responseUrl = get(resource[0], 'url');
+                    }
+                }
+
+                result.url = responseUrl;
+            }
 
             this.uploadUrls[index] = result;
             this.onUploadSuccess(result);
 
             return true;
         } catch (error) {
-            // grab custom error message if present
-            let message = error.payload.errors && error.payload.errors[0].message || '';
-            let context = error.payload.errors && error.payload.errors[0].context || '';
-
-            // fall back to EmberData/ember-ajax default message for error type
-            if (!message) {
-                message = error.message;
-            }
-
             let result = {
-                message,
-                context,
                 fileName: file.name
             };
+
+            if (this.returnRawResponse) {
+                result.error = error;
+            } else {
+                // grab custom error message if present
+                let message = error.payload.errors && error.payload.errors[0].message || '';
+                let context = error.payload.errors && error.payload.errors[0].context || '';
+
+                // fall back to EmberData/ember-ajax default message for error type
+                if (!message) {
+                    message = error.message;
+                }
+
+                result.message = message;
+                result.context = context;
+            }
 
             // TODO: check for or expose known error types?
             this.errors.pushObject(result);

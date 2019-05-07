@@ -19,7 +19,6 @@ const DEFAULTS = {
 
 export default Component.extend({
     ajax: service(),
-    eventBus: service(),
     notifications: service(),
 
     tagName: 'section',
@@ -70,23 +69,11 @@ export default Component.extend({
         return htmlSafe(`width: ${width}`);
     }),
 
-    // we can optionally listen to a named event bus channel so that the upload
-    // process can be triggered externally
     init() {
         this._super(...arguments);
-        let listenTo = this.listenTo;
 
         this.accept = this.accept || DEFAULTS.accept;
         this.extensions = this.extensions || DEFAULTS.extensions;
-
-        if (listenTo) {
-            this.eventBus.subscribe(`${listenTo}:upload`, this, function (file) {
-                if (file) {
-                    this.set('file', file);
-                }
-                this.send('upload');
-            });
-        }
     },
 
     didReceiveAttrs() {
@@ -96,16 +83,6 @@ export default Component.extend({
 
         this._accept = (!isBlank(accept) && !isEmberArray(accept)) ? accept.split(',') : accept;
         this._extensions = (!isBlank(extensions) && !isEmberArray(extensions)) ? extensions.split(',') : extensions;
-    },
-
-    willDestroyElement() {
-        let listenTo = this.listenTo;
-
-        this._super(...arguments);
-
-        if (listenTo) {
-            this.eventBus.unsubscribe(`${listenTo}:upload`);
-        }
     },
 
     actions: {

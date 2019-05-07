@@ -99,17 +99,37 @@
                 </ul>
             {{/if}}
         {{else}}
-            {{gh-file-uploader
-                url=uploadUrl
-                paramName="file"
-                accept=accept
-                labelText="Click to select or drag-and-drop your theme zip file here."
-                validate=(action "validateTheme")
-                uploadStarted=(action "uploadStarted")
-                uploadFinished=(action "uploadFinished")
-                uploadSuccess=(action "uploadSuccess")
-                uploadFailed=(action "uploadFailed")
-                listenTo="themeUploader"}}
+            <GhUploader
+                @files={{this.overwriteFiles}}
+                @validate={{action "validateTheme"}}
+                @onStart={{action "uploadStarted"}}
+                @onComplete={{action "uploadSuccess"}}
+                @onFailed={{action "uploadFailed"}}
+                @uploadUrl="/themes/upload/"
+                @accept={{this.accept}}
+                @returnRawResponse=true
+                as |uploader|
+            >
+                <GhFileDragArea @onDrop={{action uploader.setFiles}} @disabled={{uploader.isUploading}} as |dragArea|>
+                    <section class="gh-image-uploader {{if dragArea.isDraggedOver "-drag-over"}}">
+                        {{#if uploader.isUploading}}
+                            <uploader.progressBar />
+                        {{else}}
+                            {{#if this.uploadError}}
+                                <div class="failed">{{this.uploadError}}</div>
+                                <uploader.progressBar />
+                                <button class="gh-btn gh-btn-green" {{action "reset"}} data-test-upload-try-again-button><span>Try Again</span></button>
+                            {{else}}
+                                <div class="upload-form">
+                                    <GhFileInput @multiple={{false}} @action={{action uploader.setFiles}} @accept={{this.accept}}>
+                                        <div class="description">Click to select or drag-and-drop your theme zip file here.</div>
+                                    </GhFileInput>
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    </section>
+                </GhFileDragArea>
+            </GhUploader>
         {{/if}}
     </div>
 </div>

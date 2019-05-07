@@ -2,12 +2,13 @@ import ModalComponent from 'ghost-admin/components/modal-base';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {
     UnsupportedMediaTypeError,
-    isThemeValidationError
+    isThemeValidationError,
+    isUnsupportedMediaTypeError,
+    isVersionMismatchError
 } from 'ghost-admin/services/ajax';
 import {computed} from '@ember/object';
 import {get} from '@ember/object';
 import {mapBy, or} from '@ember/object/computed';
-import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 
 const DEFAULTS = {
@@ -16,7 +17,6 @@ const DEFAULTS = {
 };
 
 export default ModalComponent.extend({
-    eventBus: service(),
     store: service(),
 
     accept: null,
@@ -79,6 +79,7 @@ export default ModalComponent.extend({
 
             if (!this._allowOverwrite && currentThemeNames.includes(themeName)) {
                 this.set('displayOverwriteWarning', true);
+                this.set('overwriteFiles', [file]);
                 return false;
             }
 
@@ -88,23 +89,20 @@ export default ModalComponent.extend({
         confirmOverwrite() {
             this._allowOverwrite = true;
             this.set('displayOverwriteWarning', false);
-
-            // we need to schedule afterRender so that the upload component is
-            // displayed again in order to subscribe/respond to the event bus
-            run.schedule('afterRender', this, function () {
-                this.eventBus.publish('themeUploader:upload', this.file);
-            });
         },
 
         uploadStarted() {
             this.set('closeDisabled', true);
         },
 
-        uploadFinished() {
+        uploadSuccess([{response} = {}]) {
             this.set('closeDisabled', false);
-        },
 
-        uploadSuccess(response) {
+            // <GhUploader> calls onComplete even when the upload fails
+            if (!response) {
+                return;
+            }
+
             this.store.pushPayload(response);
 
             let theme = this.store.peekRecord('theme', response.themes[0].name);
@@ -122,12 +120,25 @@ export default ModalComponent.extend({
             }
 
             this.set('hasWarningsOrErrors', this.get('validationErrors.length') || this.get('validationWarnings.length'));
-
-            // invoke the passed in confirm action
-            this.get('model.uploadSuccess')(theme);
         },
 
-        uploadFailed(error) {
+        uploadFailed([{error}]) {
+            this.set('closeDisabled', false);
+
+            if (!error) {
+                return;
+            }
+
+            if (isVersionMismatchError(error)) {
+                this.notifications.showAPIError(error);
+                return;
+            }
+
+            if (isUnsupportedMediaTypeError(error)) {
+                this.set('uploadError', `The file type you uploaded is not supported. Please use .${this.extensions.join(', .')}`);
+                return;
+            }
+
             if (isThemeValidationError(error)) {
                 let errors = error.payload.errors[0].details.errors;
                 let fatalErrors = [];
@@ -147,6 +158,13 @@ export default ModalComponent.extend({
 
                 this.set('fatalValidationErrors', fatalErrors);
                 this.set('validationErrors', normalErrors);
+            } else {
+                if (error.payload && error.payload.errors) {
+                    let [payloadError] = error.payload.errors;
+                    this.set('uploadError', payloadError.context || payloadError.message);
+                } else {
+                    this.set('uploadError', error.message);
+                }
             }
         },
 
@@ -171,6 +189,8 @@ export default ModalComponent.extend({
             this.set('validationErrors', []);
             this.set('fatalValidationErrors', []);
             this.set('hasWarningsOrErrors', false);
+            this.set('overwriteFiles', null);
+            this.set('uploadError', null);
         }
     }
 });
