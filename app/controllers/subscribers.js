@@ -28,10 +28,16 @@ export default Controller.extend({
         this.set('subscribers', this.store.peekAll('subscriber'));
     },
 
-    sortedSubscribers: computed('order', 'direction', 'subscribers.@each.{email,createdAtUTC,status}', function () {
-        let {subscribers, order, direction} = this;
+    filteredSubscribers: computed('subscribers.[]', function () {
+        return this.subscribers.toArray().filter((subscriber) => {
+            return !subscriber.isNew && !subscriber.isDeleted;
+        });
+    }),
 
-        let sorted = subscribers.toArray().sort((a, b) => {
+    sortedSubscribers: computed('order', 'direction', 'subscribers.@each.{email,createdAtUTC,status}', function () {
+        let {filteredSubscribers, order, direction} = this;
+
+        let sorted = filteredSubscribers.sort((a, b) => {
             let values = [a.get(orderMap[order]), b.get(orderMap[order])];
 
             if (direction === 'desc') {
