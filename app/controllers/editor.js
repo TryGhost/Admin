@@ -149,6 +149,18 @@ export default Controller.extend({
         updateScratch(mobiledoc) {
             this.set('post.scratch', mobiledoc);
 
+            let postFeatureImage = this.get('post.feature_image');
+            if (!postFeatureImage) {
+                for (let i = 0; i < mobiledoc.cards.length; i++) {
+                    if (mobiledoc.cards[i][0] === 'embed' && mobiledoc.cards[i][1].thumbnail_url) {
+                        let thumbnailUrl = mobiledoc.cards[i][1].thumbnail_url;
+                        this.set('post.featureImageScratch', thumbnailUrl);
+                        mobiledoc.cards[i][1].thumbnail_url = undefined;
+                        break;
+                    }
+                }
+            }
+
             // save 3 seconds after last edit
             this._autosave.perform();
             // force save at 60 seconds
@@ -334,6 +346,13 @@ export default Controller.extend({
         this.set('post.ogDescription', this.get('post.ogDescriptionScratch'));
         this.set('post.twitterTitle', this.get('post.twitterTitleScratch'));
         this.set('post.twitterDescription', this.get('post.twitterDescriptionScratch'));
+
+        if (!this.get('post.feature_image') && this.get('post.featureImageScratch')) {
+            this.set('post.featureImage', this.get('post.featureImageScratch'));
+            let message = `Video thumbnail is auto set to <a href="${this.get('post.featureImage')}" target="_blank">feature image</a>`;
+            this.notifications.showNotification(message.htmlSafe(), {delayed: false});
+            this.set('post.featureImageScratch', null);
+        }
 
         if (!this.get('post.slug')) {
             this.saveTitle.cancelAll();
