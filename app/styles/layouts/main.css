@@ -48,11 +48,11 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 312px;
+    flex: 0 0 264px;
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
-    background: color-mod(var(--lightgrey) l(+5%) s(-2%));
+    background: var(--white);
     transform: translateX(0);
     border-right: 1px solid var(--lightgrey);
 }
@@ -61,7 +61,7 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    padding: 24px;
+    padding: 20px;
     cursor: pointer;
     outline: none;
 }
@@ -95,7 +95,7 @@
     height: 32px;
     background-color: transparent;
     background-size: 32px;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 .gh-nav-menu-details {
@@ -132,12 +132,14 @@
 
 .gh-nav-search {
     position: relative;
-    margin: 0 24px 15px;
+    margin: 0 20px 15px;
 }
 
 .gh-nav-search .ember-power-select-trigger {
     outline: 0;
-    background: #fff;
+    background: color-mod(var(--whitegrey) a(60%));
+    border: none;
+    border-radius: 5px;
 }
 
 .gh-nav-search-button {
@@ -183,7 +185,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     margin-top: 32px;
-    padding: 10px 24px;
+    padding: 10px 20px;
     color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -197,21 +199,22 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 24px;
-    color: color-mod(var(--midgrey) l(-10%) s(+5%));
+    padding: 7px 16px;
+    color: var(--midgrey);
     opacity: 0.9;
     transition: none;
+    margin: 0 4px;
+    border-radius: 5px;
 }
 
 .gh-nav-list .active {
-    background: color-mod(var(--lightgrey) l(-1%) s(-3%));
     color: var(--darkgrey);
-    font-weight: 600;
+    font-weight: 700;
     opacity: 1;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--lightgrey) l(+2%) s(-2%));
+    background: color-mod(var(--whitegrey) a(50%));
     opacity: 1;
 }
 
@@ -220,12 +223,12 @@
     margin-right: 8px;
     width: 16px;
     height: 16px;
-    fill: color-mod(var(--midgrey) l(+5%));
+    fill: var(--midlightgrey);
     line-height: 1;
 }
 
 .gh-nav-list .active svg {
-    fill: color-mod(var(--blue) l(-3%) s(+3%));
+    fill: var(--darkgrey);
 }
 
 .gh-nav-list svg g {
@@ -237,14 +240,13 @@
     z-index: 999;
     padding: 6px;
     margin: 0;
-    right: 22px;
+    top: -4px;
+    right: 15px;
 }
 
 .gh-nav-list .gh-nav-new-post span {
-    color: color-mod(var(--blue) l(-3%) s(+5%));
-    width: 22px;
-    height: 22px;
-    border: 1px solid color-mod(var(--blue) l(-3%) s(+5%));
+    width: 28px;
+    height: 28px;
     border-radius: 100%;
     display: flex;
     align-items: center;
@@ -253,13 +255,12 @@
 
 .gh-nav-list .gh-nav-new-post span svg {
     margin-right: 0;
-    width: 10px;
-    height: 10px;
+    width: 16px;
+    height: 16px;
 }
 
 .gh-nav-list .gh-nav-new-post span svg path {
-    stroke: color-mod(var(--blue) l(-3%) s(+5%));
-    stroke-width: 3px;
+    stroke: var(--darkgrey);
 }
 
 .gh-nav-list a.gh-nav-new-post:hover,
@@ -268,11 +269,7 @@
 }
 
 .gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--blue) l(-3%) s(+5%));
-}
-
-.gh-nav-list .gh-nav-new-post:hover span svg path {
-    stroke: var(--white);
+    background: var(--whitegrey);
 }
 
 .gh-nav-list .gh-secondary-action {
@@ -280,7 +277,7 @@
     z-index: 999;
     padding: 4px;
     margin: 0;
-    right: 24px;
+    right: 20px;
     top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;

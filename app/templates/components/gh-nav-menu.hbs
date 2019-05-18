@@ -46,7 +46,13 @@
                 <a href="{{config.blogUrl}}/" class="gh-secondary-action" title="Open site in new tab" target="_blank">
                     <span>{{svg-jar "expand"}}</span>
                 </a>
-                <span {{action "transitionToOrRefreshSite" on="click"}}>{{#link-to "site" data-test-nav="site" current-when=isOnSite preventDefault=false}}{{svg-jar "view-site-embed"}}View site{{/link-to}}</span>
+                <span {{action "transitionToOrRefreshSite" on="click"}}>
+                    {{#if (eq router.currentRouteName "site")}}
+                        {{#link-to "site" data-test-nav="site" current-when=isOnSite preventDefault=false}}{{svg-jar "house-bold"}} View site{{/link-to}}
+                    {{else}}
+                        {{#link-to "site" data-test-nav="site" current-when=isOnSite preventDefault=false}}{{svg-jar "house"}} View site{{/link-to}}
+                    {{/if}}
+                </span>
             </li>
         </ul>
         <ul class="gh-nav-list gh-nav-manage">
@@ -55,7 +61,7 @@
                 {{#link-to "editor.new" "post" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "posts.index")}}
-                    {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
+                    {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content-bold"}}Posts{{/link-to}}
                 {{else}}
                     {{#link-to "posts" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
                 {{/if}}
@@ -63,13 +69,15 @@
             <li>
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "pages.index")}}
-                    {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "pages"}}Pages{{/link-to}}
+                    {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "page-bold"}}Pages{{/link-to}}
                 {{else}}
-                    {{#link-to "pages" data-test-nav="pages"}}{{svg-jar "pages"}}Pages{{/link-to}}
+                    {{#link-to "pages" data-test-nav="pages"}}{{svg-jar "page"}}Pages{{/link-to}}
                 {{/if}}
             </li>
             {{#if (and feature.members (gh-user-can-admin session.user))}}
-                <li>{{#link-to "members" current-when="members member" data-test-nav="members"}}{{svg-jar "members"}}Members{{/link-to}}</li>
+                <li>
+                    {{#link-to "members" current-when="members member" data-test-nav="members"}}{{svg-jar "members"}}Members{{/link-to}}
+                </li>
             {{/if}}
             <li>{{#link-to "staff" data-test-nav="staff"}}{{svg-jar "staff"}}Staff{{/link-to}}</li>
             {{#if (and feature.subscribers (gh-user-can-admin session.user))}}
