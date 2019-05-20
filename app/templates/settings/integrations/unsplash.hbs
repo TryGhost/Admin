@@ -30,25 +30,27 @@
         </section>
 
         <div class="gh-setting-header">Unsplash configuration</div>
-        <div class="gh-setting" id="unsplash-toggle">
-            <div class="gh-setting-content">
-                <div class="gh-setting-title">Enable Unsplash</div>
-                <div class="gh-setting-desc">Enable <a href="https://unsplash.com" target="_blank">Unsplash</a> image integration for your posts</div>
-            </div>
-            <div class="gh-setting-action">
-                <div class="form-group right">
-                    <div class="for-checkbox">
-                        <label for="isActive" class="checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={{unsplashSettings.isActive}}
-                                    id="isActive"
-                                    name="isActive"
-                                    onclick={{action "update" value="target.checked"}}
-                                    data-test-checkbox="unsplash"
-                                >
-                                <span class="input-toggle-component"></span>
-                        </label>
+        <div class="flex flex-column br4 shadow-1 bg-white pa8 mt2">
+            <div class="gh-setting-first gh-setting-last nb6" id="unsplash-toggle">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-title">Enable Unsplash</div>
+                    <div class="gh-setting-desc">Enable <a href="https://unsplash.com" target="_blank">Unsplash</a> image integration for your posts</div>
+                </div>
+                <div class="gh-setting-action">
+                    <div class="form-group right">
+                        <div class="for-checkbox">
+                            <label for="isActive" class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={{unsplashSettings.isActive}}
+                                        id="isActive"
+                                        name="isActive"
+                                        onclick={{action "update" value="target.checked"}}
+                                        data-test-checkbox="unsplash"
+                                    >
+                                    <span class="input-toggle-component"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
