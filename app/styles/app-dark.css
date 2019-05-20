@@ -100,7 +100,8 @@ input:focus,
 }
 
 .gh-nav,
-.settings-menu-container {
+.settings-menu-container,
+.gh-main-white {
     background: #212A2E;
 }
 

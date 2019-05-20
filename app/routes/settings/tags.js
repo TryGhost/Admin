@@ -84,7 +84,8 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Settings - Tags'
+            titleToken: 'Tags',
+            mainClasses: ['gh-main-white']
         };
     },
 

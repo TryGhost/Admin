@@ -35,6 +35,10 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.gh-main-white {
+    background: var(--white);
+}
+
 /*  Flexbox fix. https://github.com/TryGhost/Ghost/issues/5804#issuecomment-141416812 */
 .gh-main > section {
     width: 1px;
