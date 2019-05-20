@@ -30,24 +30,26 @@
         </section>
 
         <div class="gh-setting-header">AMP configuration</div>
-        <div class="gh-setting">
-            <div class="gh-setting-content">
-                <div class="gh-setting-title">Enable AMP</div>
-                <div class="gh-setting-desc">Enable <a href="https://ampproject.org" target="_blank">Google Accelerated Mobile Pages</a> for your posts</div>
-            </div>
-            <div class="gh-setting-action">
-                <div class="for-checkbox">
-                    <label for="amp" class="checkbox">
-                        <input
-                            type="checkbox"
-                            checked={{ampSettings}}
-                            id="amp"
-                            name="amp"
-                            onclick={{action "update" value="target.checked"}}
-                            data-test-amp-checkbox
-                        >
-                        <span class="input-toggle-component"></span>
-                    </label>
+        <div class="flex flex-column br4 shadow-1 bg-white pa8 mt2">
+            <div class="gh-setting-first gh-setting-last">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-title">Enable AMP</div>
+                    <div class="gh-setting-desc">Enable <a href="https://ampproject.org" target="_blank">Google Accelerated Mobile Pages</a> for your posts</div>
+                </div>
+                <div class="gh-setting-action">
+                    <div class="for-checkbox">
+                        <label for="amp" class="checkbox">
+                            <input
+                                type="checkbox"
+                                checked={{ampSettings}}
+                                id="amp"
+                                name="amp"
+                                onclick={{action "update" value="target.checked"}}
+                                data-test-amp-checkbox
+                            >
+                            <span class="input-toggle-component"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
