@@ -115,8 +115,8 @@
     flex-flow: row wrap;
     align-items: flex-start;
     max-width: 1200px;
-    border: var(--lightgrey) 1px solid;
-    border-radius: 5px;
+    border-radius: 9px;
+    box-shadow: 0 3px 6px -2px rgba(0,0,0,.1);
 }
 
 .apps-grid-note {
@@ -132,10 +132,20 @@
 
 .apps-grid-cell {
     flex: 1 1 100%;
+    background: var(--white);
+}
+
+.apps-grid-cell {
+    transition: background 0.3s ease;
 }
 
 .apps-grid-cell:hover {
-    background: color-mod(var(--lightgrey) l(+6%) s(-2%));
+    background: var(--whitegrey-l2);
+}
+
+.apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
+.apps-grid-cell:hover .apps-card-app {
+    border-color: var(--whitegrey-l2);
 }
 
 .apps-card-app {
@@ -143,7 +153,8 @@
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    padding: 14px;
+    padding: 16px 16px 16px 0;
+    margin: 0 0 0 16px;
     height: 75px;
     border-top: var(--lightgrey) 1px solid;
     transition: background 0.3s ease;
@@ -164,6 +175,16 @@
         min-height: auto;
         height: auto;
     }
+}
+
+.apps-grid-cell:first-of-type {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.apps-grid-cell:last-of-type {
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
 }
 
 .apps-grid-cell:first-of-type .apps-card-app {

@@ -212,7 +212,7 @@
     display: grid;
     justify-content: space-between;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 25px;
+    grid-gap: 24px;
     margin: 2vw 0 4vw;
 }
 
@@ -222,8 +222,9 @@
     padding: 14px;
     text-decoration: none;
     color: var(--darkgrey);
-    border: var(--lightgrey) 1px solid;
-    border-radius: 6px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px -2px rgba(0,0,0,.1);
+    background: var(--white);
     transition: all .8s ease;
 }
 
@@ -591,7 +592,7 @@
 /* ---------------------------------------------------------- */
 
 .gh-themes-container {
-    padding: 25px 0;
+    padding: 32px 0;
     border-top: var(--lightgrey) 1px solid;
 }
 

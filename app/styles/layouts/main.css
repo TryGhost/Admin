@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: #fff;
+    background: #F9FAFC;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
