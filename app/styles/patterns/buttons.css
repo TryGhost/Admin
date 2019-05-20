@@ -8,7 +8,7 @@
     outline: none;
     border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
     color: color-mod(var(--lightgrey) l(-27%) blackness(+15%));
-    text-shadow: 0 1px 0 #fff;
+    /* text-shadow: 0 1px 0 #fff; */
     text-decoration: none !important;
     user-select: none;
     fill: color-mod(var(--lightgrey) l(-27%) blackness(+15%));
@@ -116,28 +116,18 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the button creates 1px gradient border */
 .gh-btn-blue {
-    padding: 1px;
     border: 0;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
     fill: #fff;
-    background: linear-gradient(
-    color-mod(var(--blue) blackness(+10%)),
-    color-mod(var(--blue) l(-15%) saturation(-15%))
-    );
-    box-shadow: 0 1px 0 rgba(0,0,0,0.12);
     transition: none !important;
 }
 
 /* The background of the span is the main visual element */
 .gh-btn-blue span {
-    background: linear-gradient(
-    color-mod(var(--blue) whiteness(+5%)),
-    color-mod(var(--blue) l(-5%) saturation(-8%)) 60%,
-    color-mod(var(--blue) l(-5%) saturation(-8%)) 90%,
-    color-mod(var(--blue) l(-3%) saturation(-8%))
-    );
-    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset;
+    background: linear-gradient(#4FC0FF, #269CDE);
+    font-weight: 500;
+    height: 35px;
+    line-height: 35px;
 }
 
 /* When clicked or focused with keyboard */
@@ -156,28 +146,18 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the button creates 1px gradient border */
 .gh-btn-green {
-    padding: 1px;
     border: 0;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
     fill: #fff;
-    background: linear-gradient(
-    color-mod(var(--green) blackness(+5%)),
-    color-mod(var(--green) l(-9%) saturation(-9%))
-    );
-    box-shadow: 0 1px 1px rgba(0,0,0,0.14);
     transition: none !important;
 }
 
 /* The background of the span is the main visual element */
 .gh-btn-green span {
-    background: linear-gradient(
-    color-mod(var(--green) whiteness(+4%)),
-    color-mod(var(--green) l(-3%) saturation(-7%)) 60%,
-    color-mod(var(--green) l(-3%) saturation(-7%)) 90%,
-    color-mod(var(--green) l(-3%) saturation(-9%))
-    );
-    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset;
+    background: linear-gradient(#B0DB46, #98C429);
+    font-weight: 500;
+    height: 35px;
+    line-height: 35px;
 }
 
 /* When clicked or focused with keyboard */
@@ -197,16 +177,9 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the button creates 1px gradient border */
 .gh-btn-red {
-    padding: 1px;
     border: 0;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
     fill: #fff;
-    background: linear-gradient(
-    color-mod(var(--red) blackness(+10%)),
-    color-mod(var(--red) l(-15%) saturation(-15%))
-    );
-    box-shadow: 0 1px 0 rgba(0,0,0,0.12);
     transition: none !important;
 }
 
@@ -218,7 +191,9 @@ fieldset[disabled] .gh-btn {
     color-mod(var(--red) l(-7%) saturation(-10%)) 90%,
     color-mod(var(--red) l(-4%) saturation(-10%))
     );
-    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset;
+    font-weight: 500;
+    height: 35px;
+    line-height: 35px;
 }
 
 /* When clicked or focused with keyboard */
@@ -237,16 +212,9 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the button creates 1px gradient border */
 .gh-btn-black {
-    padding: 1px;
     border: 0;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
     fill: #fff;
-    background: linear-gradient(
-    color-mod(var(--darkgrey) blackness(+10%)),
-    color-mod(var(--darkgrey) l(-15%) saturation(-15%))
-    );
-    box-shadow: 0 1px 0 rgba(0,0,0,0.12);
     transition: none !important;
 }
 
@@ -258,7 +226,9 @@ fieldset[disabled] .gh-btn {
     color-mod(var(--darkgrey) l(-7%) saturation(-10%)) 90%,
     color-mod(var(--darkgrey) l(-4%) saturation(-10%))
     );
-    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset;
+    font-weight: 500;
+    height: 35px;
+    line-height: 35px;
 }
 
 /* When clicked or focused with keyboard */
