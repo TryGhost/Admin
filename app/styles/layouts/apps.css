@@ -140,12 +140,13 @@
 }
 
 .apps-grid-cell:hover {
-    background: var(--whitegrey-l2);
+    background: #F2F7FA;
 }
 
 .apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
 .apps-grid-cell:hover .apps-card-app {
-    border-color: var(--whitegrey-l2);
+    margin-left: 0px;
+    padding-left: 16px;
 }
 
 .apps-card-app {
