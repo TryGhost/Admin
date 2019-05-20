@@ -482,7 +482,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 24px 4vw 3vw 4vw;
+    padding: 20px 4vw 3vw 4vw;
     margin: 0 auto;
     max-width: 1200px;
 }
@@ -492,7 +492,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 2vw 0;
+    margin: 0 0 18px 0;
 }
 
 .gh-canvas-title {
@@ -505,7 +505,7 @@
     white-space: nowrap;
     font-size: 2.9rem;
     line-height: 1.2em;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.4px;
     /* match button height to avoid jump on navigation between screens*/
     min-height: 35px;

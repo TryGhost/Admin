@@ -7,8 +7,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 2vw 0 1vw;
-    padding: 10px 0 0 0;
+    margin: 0 0 1vw;
+    padding: 4px 0 0 0;
     border-top: color-mod(var(--lightgrey)) 1px solid;
     list-style: none;
 }
@@ -126,7 +126,7 @@
 
 .gh-content-entry-title {
     margin: 0 0 3px 0;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     font-weight: 600;
     letter-spacing: 0.4px;
 }
@@ -136,17 +136,17 @@
 }
 
 .gh-posts-list-item p {
-    margin: 0;
-    font-size: 1.6rem;
+    margin: 2px 0 0;
+    font-size: 1.4rem;
     font-weight: 300;
     overflow-wrap: break-word;
 }
 
 
 .gh-content-entry-meta {
-    margin: 10px 0 0 0;
+    margin: 4px 0 0 0;
     font-size: 1.3rem;
-    color: var(--midgrey);
+    color: var(--midlightgrey);
     font-weight: 200;
     letter-spacing: 0.3px;
 }
@@ -156,11 +156,11 @@
 }
 
 .gh-content-status-published {
-    color: var(--darkgrey);
+    color: var(--midlightgrey);
 }
 
 .gh-content-entry-author {
-    color: var(--darkgrey);
+    color: var(--midlightgrey);
 }
 
 .gh-posts-placeholder {
