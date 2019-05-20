@@ -78,17 +78,6 @@
             <script src="{{config.clientExtensions.script.src}}"></script>
         {{/if}}
     </div>
-    {{!-- {{#if (gh-user-can-admin session.user)}}
-    <div class="gh-nav-bottom">
-        <ul class="gh-nav-list gh-nav-labs">
-            <li class="relative">
-                <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
-                    <span>{{svg-jar "nightshift"}}</span>
-                </button>
-                {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
-        </ul>
-    </div>
-    {{/if}} --}}
 
     {{#gh-basic-dropdown horizontalPosition="right" calculatePosition=userDropdownPosition as |dropdown|}}
         {{#dropdown.trigger tagName="footer" class="gh-nav-bottom pa5 flex items-center"}}
