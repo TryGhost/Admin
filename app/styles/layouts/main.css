@@ -137,7 +137,7 @@
 
 .gh-nav-search .ember-power-select-trigger {
     outline: 0;
-    background: color-mod(var(--whitegrey) a(60%));
+    background: color-mod(var(--whitegrey) a(80%));
     border: none;
     border-radius: 5px;
 }
@@ -199,11 +199,11 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 20px;
+    padding: 7px 16px;
     color: var(--midgrey);
     opacity: 0.9;
     transition: none;
-    margin: 0 4px -;
+    margin: 0 4px;
     border-radius: 5px;
 }
 
@@ -470,11 +470,6 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-}
-
-.gh-canvas-background {
-    flex-grow: 1;
-    background: #F9FAFC;
 }
 
 .gh-canvas {

@@ -307,6 +307,10 @@ input:focus,
     filter: invert(100%) brightness(150%);
 }
 
+.gh-canvas-background {
+    background: #212a2e;
+}
+
 .gh-canvas-title span path {
     fill: var(--darkgrey);
 }

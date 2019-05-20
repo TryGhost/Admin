@@ -6,11 +6,23 @@
     color: var(--midgrey);
 }
 
-.gh-setting {
+.gh-setting,
+.gh-setting-first,
+.gh-setting-last {
     display: flex;
     justify-content: space-between;
-    padding: 25px 0;
+    padding: 24px 32px 24px 0;
+    margin-right: -32px;
     border-top: var(--lightgrey) 1px solid;
+}
+
+.gh-setting-first {
+    border: none;
+    padding-top: 0px;
+}
+
+.gh-setting-last {
+    padding-bottom: 0px;
 }
 
 .gh-setting-content {
