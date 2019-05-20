@@ -33,13 +33,14 @@
     text-align: center;
     text-decoration: none;
     color: var(--darkgrey);
-    border: var(--lightgrey) 1px solid;
-    border-radius: 6px;
-    transition: all .8s ease;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px -2px rgba(0,0,0,.1);
+    background: white;
+    transition: all .5s ease;
 }
 
 .id-item:hover {
-    transform: translateY(-2%);
+    transform: translateY(-2.5%);
     box-shadow: 0 0 1px rgba(0,0,0,.02), 0 8px 26px -4px rgba(0,0,0,.08);
     transition: all .3s ease;
 }
@@ -162,7 +163,7 @@
 }
 
 .new-integration-cell .apps-card-app {
-    padding: 10px 14px;
+    padding: 10px 0;
     height: auto;
 }
 
