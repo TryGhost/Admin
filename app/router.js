@@ -35,6 +35,7 @@ Router.map(function () {
         this.route('user', {path: ':user_slug'});
     });
 
+    this.route('settings', {path: '/settings/'});
     this.route('settings.general', {path: '/settings/general'});
     this.route('settings.tags', {path: '/settings/tags'}, function () {
         this.route('tag', {path: ':tag_slug'});

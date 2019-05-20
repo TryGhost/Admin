@@ -170,7 +170,7 @@
 }
 
 .gh-nav-list {
-    margin: 0;
+    margin: 20px 0 0;
     padding: 10px 0 0;
     list-style: none;
     font-size: 1.4rem;
@@ -199,11 +199,11 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 16px;
+    padding: 7px 20px;
     color: var(--midgrey);
     opacity: 0.9;
     transition: none;
-    margin: 0 4px;
+    margin: 0 4px -;
     border-radius: 5px;
 }
 
@@ -304,14 +304,6 @@
 
 .gh-nav-list .gh-secondary-action:hover span svg path {
     fill: var(--darkgrey);
-}
-
-.gh-nav-main {
-    margin-top: -1px;
-}
-
-.gh-nav-manage .gh-nav-list-h {
-    margin-top: 20px;
 }
 
 .gh-nav-labs {
@@ -478,6 +470,11 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+}
+
+.gh-canvas-background {
+    flex-grow: 1;
+    background: #F9FAFC;
 }
 
 .gh-canvas {
