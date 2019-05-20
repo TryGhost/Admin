@@ -592,8 +592,7 @@
 /* ---------------------------------------------------------- */
 
 .gh-themes-container {
-    padding: 32px 0;
-    border-top: var(--lightgrey) 1px solid;
+    padding: 5px 0;
 }
 
 @media (max-width: 500px) {
