@@ -107,8 +107,12 @@
 
 .apps-grid-title {
     display: block;
-    margin-bottom: 5px;
-    color: var(--midgrey);
+    margin: 1vw 0 5px 1px;
+    color: var(--midlightgrey);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.35px;
+    font-size: 1.3rem;
 }
 
 .apps-grid {
@@ -143,7 +147,7 @@
 }
 
 .apps-grid-cell:hover {
-    background: color-mod(var(--whitegrey) a(50%));
+    background: color-mod(var(--whitegrey) a(40%) s(-12%));
     border-radius: 7px;
     transition: none;
 }
@@ -265,9 +269,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.75rem;
+    font-size: 1.65rem;
     line-height: 1.15em;
-    font-weight: bold;
+    font-weight: 600;
 }
 @media (max-width: 500px) {
     .apps-card-app-title {

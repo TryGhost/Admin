@@ -102,7 +102,7 @@
 }
 
 .highlight-whitegrey:hover {
-    background-color: var(--whitegrey-l1) !important;
+    background-color: color-mod(var(--whitegrey) a(40%) s(-12%)) !important;
     transition: none;
 }
 
