@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: #F7F8FA;
+    background: color-mod(var(--lightgrey) l(+4%) s(-15%)); /* #F7F8FA */
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -492,7 +492,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin: -4px 0 0 1px;
+    margin: -3px 0 0 1px;
     padding: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -534,8 +534,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    height: 65px;
+    padding: 20px;
     border-bottom: var(--lightgrey) 1px solid;
 }
 
@@ -543,12 +542,12 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin: 0;
+    margin: -3px 0 0 1px;
     padding: 0;
     text-overflow: ellipsis;
-    font-size: 2rem;
+    font-size: 2.9rem;
     line-height: 1.2em;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .view-title a {
