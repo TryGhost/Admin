@@ -40,7 +40,7 @@
     border-top: 0 none;
     background: #fff;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
-    box-shadow: 0 8px 20px -4px rgba(0,0,0,.1);
+    box-shadow: 0 7px 20px -5px rgba(0,0,0,.15);
 }
 
 .ember-power-select-dropdown.ember-basic-dropdown-content--in-place {
@@ -136,6 +136,10 @@
 
 .ember-power-select-group:first-of-type .ember-power-select-group-name:after {
     top: 66%;
+}
+
+.ember-power-select-group:last-of-type {
+    margin-bottom: 4px;
 }
 
 .ember-power-select-group .ember-power-select-option {
