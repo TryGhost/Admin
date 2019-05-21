@@ -5,6 +5,11 @@
     background: none;
 }
 
+.gh-invited-users .apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
+.gh-invited-users .apps-grid-cell:hover .apps-card-app {
+    border-color: var(--lightgrey);
+}
+
 .gh-invited-users .gh-badge {
     text-transform: none;
 }
@@ -83,7 +88,7 @@
 }
 
 .gh-team .apps-configured .gh-badge {
-    margin-left: 0.75em;
+    margin-left: 15px;
 }
 
 @media (max-width: 500px) {
@@ -100,33 +105,25 @@
 /* ---------------------------------------------------------- */
 
 .gh-badge.owner {
-    border: color-mod(var(--darkgrey) blackness(+8%)) 1px solid;
-    background: linear-gradient(
-    color-mod(var(--darkgrey) whiteness(+10%)),
-    color-mod(var(--darkgrey) blackness(+4%))
-    );
+    background: var(--darkgrey);
+    text-transform: uppercase;
 }
 
 .gh-badge.administrator {
-    border: color-mod(var(--red) blackness(+8%)) 1px solid;
-    background: linear-gradient(
-    color-mod(var(--red) whiteness(+10%)),
-    color-mod(var(--red) blackness(+4%))
-    );
+    background: var(--red);
+    text-transform: uppercase;
 }
 
 .gh-badge.editor {
-    border: color-mod(var(--blue) blackness(+8%)) 1px solid;
-    background: linear-gradient(
-    color-mod(var(--blue) whiteness(+10%)),
-    color-mod(var(--blue) blackness(+4%))
-    );
+    background: var(--blue);
+    text-transform: uppercase;
 }
 
 .gh-badge.author {
     border: color-mod(var(--lightgrey) blackness(+8%)) 1px solid;
     color: color-mod(var(--midgrey) l(+5%));
     background: #fff;
+    text-transform: uppercase;
 }
 
 .gh-badge.suspended {
