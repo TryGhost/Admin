@@ -81,16 +81,18 @@
 .gh-contentfilter-menu-dropdown {
     width: 180px;
     margin-top: 10px;
-    padding: 5px 0 7px 0;
+    padding: 4px 0;
     border: none !important;
     font-size: 1.3rem;
-    box-shadow: 0 0 0 1px rgba(99,114,130,0.16), 0 8px 16px rgba(27,39,51,0.08);
-    border-radius: 4px !important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 7px 20px -5px rgba(0,0,0,.15);
+    border-radius: 5px !important;
 }
 
 .gh-contentfilter-menu-dropdown .ember-power-select-search input {
     display: block !important;
-    margin: 0 10px !important;
+    margin: 0 14px !important;
+    border-bottom: 1px solid var(--lightgrey) !important;
+    width: calc(100% - 28px) !important;
 }
 
 .gh-contentfilter-menu-dropdown .ember-power-select-option {

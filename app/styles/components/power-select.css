@@ -48,13 +48,14 @@
 }
 
 .ember-power-select-option {
-    margin: 0;
+    margin: 0 4px;
     padding: 6px 10px;
     color: color-mod(var(--darkgrey) lightness(+20%));
+    border-radius: 4px;
 }
 
 .ember-power-select-option[aria-current="true"] {
-    background: color-mod(var(--blue) alpha(-85%));
+    background: color-mod(var(--whitegrey) a(60%) s(-12%));
     color: var(--darkgrey);
 }
 
