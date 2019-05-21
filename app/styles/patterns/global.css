@@ -83,6 +83,34 @@
     color: var(--green);
 }
 
+.darkgrey-bg-hover:hover {
+    background: color-mod(var(--darkgrey) a(30%));
+}
+
+.midgrey-bg-hover:hover {
+    background: color-mod(var(--midgrey) a(30%));
+}
+
+.lightgrey-bg-hover:hover {
+    background: color-mod(var(--lightgrey) a(30%));
+}
+
+.blue-bg-hover:hover {
+    background: color-mod(var(--blue) a(30%));
+}
+
+.red-bg-hover:hover {
+    background-color: color-mod(var(--red) a(20%));
+}
+
+.orange-bg-hover:hover {
+    background: color-mod(var(--orange) a(30%));
+}
+
+.green-bg-hover:hover {
+    background: color-mod(var(--green) a(30%));
+}
+
 
 
 /* Layout
