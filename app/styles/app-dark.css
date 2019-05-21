@@ -350,6 +350,25 @@ input:focus,
     color: var(--darkgrey);
 }
 
+.apps-grid,
+.apps-grid-cell {
+    background: #212A2E;
+}
+
+.apps-grid-cell:hover {
+    background: color-mod(var(--whitegrey) a(60%) s(+5%));
+    border-radius: 7px;
+    transition: none;
+}
+
+.td-cta-box {
+    background: #212A2E;
+}
+
+.id-item {
+    background: #212A2E;
+}
+
 .CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
     background: rgba(255, 0, 0, .30);
 }
