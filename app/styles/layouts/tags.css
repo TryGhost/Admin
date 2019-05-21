@@ -20,7 +20,9 @@
 }
 
 .settings-tag .tag-edit-button.active {
-    border-left: 3px solid;
+    border-left: 4px solid;
+    background: color-mod(var(--lightgrey) l(+4%) s(-15%));
+    padding-left: 16px;
 }
 
 .settings-tag .label {
@@ -38,8 +40,8 @@
 
 .settings-tag .tag-title {
     color: var(--darkgrey);
-    font-size: 16px;
-    font-weight: normal;
+    font-size: 1.6rem;
+    font-weight: 500;
 }
 
 .settings-tag .tag-description {
