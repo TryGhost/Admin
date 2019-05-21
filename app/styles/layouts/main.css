@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: color-mod(var(--lightgrey) l(+4%) s(-15%)); /* #F7F8FA */
+    background: color-mod(var(--lightgrey) l(+5%) s(-15%)); /* #F7F8FA */
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;

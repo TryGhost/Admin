@@ -21,7 +21,7 @@
 
 .settings-tag .tag-edit-button.active {
     border-left: 4px solid;
-    background: color-mod(var(--lightgrey) l(+4%) s(-15%));
+    background: color-mod(var(--lightgrey) l(+4%) s(-12%));
     padding-left: 16px;
 }
 
