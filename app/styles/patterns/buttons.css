@@ -124,7 +124,12 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the span is the main visual element */
 .gh-btn-blue span {
-    background: linear-gradient(#4FC0FF, #269CDE);
+    background: linear-gradient(
+    color-mod(var(--blue) whiteness(+5%)),
+    color-mod(var(--blue) l(-5%) saturation(-8%)) 60%,
+    color-mod(var(--blue) l(-5%) saturation(-8%)) 90%,
+    color-mod(var(--blue) l(-3%) saturation(-8%))
+    );
     font-weight: 500;
     height: 35px;
     line-height: 35px;
@@ -154,7 +159,12 @@ fieldset[disabled] .gh-btn {
 
 /* The background of the span is the main visual element */
 .gh-btn-green span {
-    background: linear-gradient(#B0DB46, #98C429);
+    background: linear-gradient(
+    color-mod(var(--green) whiteness(+4%)),
+    color-mod(var(--green) l(+1%) saturation(-7%)) 60%,
+    color-mod(var(--green) l(-3%) saturation(-7%)) 90%,
+    color-mod(var(--green) l(-3%) saturation(-9%))
+    );
     font-weight: 500;
     height: 35px;
     line-height: 35px;
