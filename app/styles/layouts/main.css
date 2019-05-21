@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: #F9FAFC;
+    background: #F7F8FA;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -485,13 +485,14 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 0 18px 0;
+    min-height: 35px;
 }
 
 .gh-canvas-title {
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin: 0;
+    margin: -4px 0 0 1px;
     padding: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
