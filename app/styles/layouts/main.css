@@ -235,10 +235,6 @@
     fill: var(--darkgrey);
 }
 
-.gh-nav-list svg g {
-    stroke: color-mod(var(--midgrey) l(+5%));
-}
-
 .gh-nav-list .gh-nav-new-post {
     position: absolute;
     z-index: 999;

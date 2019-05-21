@@ -147,7 +147,7 @@
 }
 
 .apps-grid-cell:hover {
-    background: color-mod(var(--whitegrey) a(40%) s(-12%));
+    background: color-mod(var(--whitegrey) a(60%) s(-12%));
     border-radius: 7px;
     transition: none;
 }

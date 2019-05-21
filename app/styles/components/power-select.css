@@ -28,7 +28,7 @@
 .ember-power-select-trigger[aria-expanded="true"],
 .ember-power-select-search input {
     outline: 0;
-    border-color: color-mod(var(--lightgrey) l(-10%) s(-10%));
+    border-color: color-mod(var(--whitegrey) a(70%) s(-10%));
 }
 
 .ember-power-select-dropdown {
@@ -36,7 +36,7 @@
     z-index: 1000;
     box-sizing: border-box;
     margin: -1px 0 0 0;
-    border: 1px solid color-mod(var(--lightgrey) l(-10%) s(-10%));
+    border: 1px solid color-mod(var(--whitegrey) a(70%) s(-10%));
     border-top: 0 none;
     background: #fff;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -44,7 +44,7 @@
 }
 
 .ember-power-select-dropdown.ember-basic-dropdown-content--in-place {
-    border-bottom-color: color-mod(var(--lightgrey) l(-10%) s(-10%));
+    border-bottom-color: color-mod(var(--whitegrey) a(70%) s(-10%));
 }
 
 .ember-power-select-option {
@@ -111,7 +111,7 @@
     top: 60%;
     left: calc(100% - 3px);
     display: block;
-    width: calc(246px - 100%);
+    width: calc(216px - 100%);
     height: 1px;
     border-bottom: var(--lightgrey) 1px solid;
 }
@@ -129,7 +129,7 @@
 }
 
 .ember-power-select-group:first-of-type .ember-power-select-group-name {
-    margin-bottom: 7px;
+    margin: 8px 0;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -141,8 +141,10 @@
 .ember-power-select-group .ember-power-select-option {
     overflow: hidden;
     padding: 7px 8px;
+    margin: 0 4px;
     line-height: 1.35em;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 .ember-power-select-group .ember-power-select-option .highlight {
@@ -152,7 +154,7 @@
 }
 
 .ember-power-select-group .ember-power-select-option[aria-current="true"] {
-    background: color-mod(var(--blue) alpha(-85%));
+    background: color-mod(var(--whitegrey) a(60%) s(-12%));
     color: var(--darkgrey);
 }
 
