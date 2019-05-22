@@ -360,7 +360,7 @@
 }
 
 .gh-blognav {
-    margin: 0 -24px 0 -16px;
+    margin: 0 20px;
 }
 @media (max-width: 600px) {
     .gh-blognav { margin: 20px 0; }
@@ -452,6 +452,7 @@
 
 .gh-blognav-item:not(.gh-blognav-item--sortable) {
     padding-left: 16px;
+    margin-bottom: 0;
 }
 
 /* Remove space between inputs on smaller screens */

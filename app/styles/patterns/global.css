@@ -84,7 +84,7 @@
 }
 
 .darkgrey-bg-hover:hover {
-    background: color-mod(var(--darkgrey) a(30%));
+    background: color-mod(var(--darkgrey) a(20%));
 }
 
 .midgrey-bg-hover:hover {
