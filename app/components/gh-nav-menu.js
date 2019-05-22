@@ -35,6 +35,11 @@ export default Component.extend({
         return re.test(this.router.currentRouteName);
     }),
 
+    isSettingsRoute: computed('router.currentRouteName', function () {
+        let re = /^settings/;
+        return re.test(this.router.currentRouteName);
+    }),
+
     // HACK: {{link-to}} should be doing this automatically but there appears to
     // be a bug in Ember that's preventing it from working immediately after login
     isOnSite: computed('router.currentRouteName', function () {

@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: color-mod(var(--lightgrey) l(+5%) s(-15%)); /* #F7F8FA */
+    background: color-mod(var(--lightgrey) l(+5%) s(-13%)); /* #F7F8FA */
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -212,13 +212,17 @@
 }
 
 .gh-nav-list .active {
+    position: relative;
     color: var(--darkgrey);
     font-weight: 700;
     opacity: 1;
+    border-radius: 0;
+    padding: 7px 20px 7px 20px;
+    margin: 0;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--whitegrey) a(50%));
+    background: color-mod(var(--whitegrey) a(30%));
     opacity: 1;
 }
 

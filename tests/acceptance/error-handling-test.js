@@ -59,7 +59,7 @@ describe('Acceptance: Error Handling', function () {
                 await click('[data-test-nav="tags"]');
 
                 // navigation is blocked on loading screen
-                expect(currentRouteName()).to.equal('settings.tags_loading');
+                expect(currentRouteName()).to.equal('tags_loading');
 
                 // has the refresh to update alert
                 expect(findAll('.gh-alert').length).to.equal(1);

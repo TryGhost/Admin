@@ -88,7 +88,7 @@ export default Component.extend({
 
             if (selected.category === 'Tags') {
                 let id = selected.id.replace('tag.', '');
-                this.router.transitionTo('settings.tags.tag', id);
+                this.router.transitionTo('tags.tag', id);
             }
         },
 
