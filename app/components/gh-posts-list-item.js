@@ -42,7 +42,11 @@ export default Component.extend({
             text = metaDescription;
         }
 
-        return `${text.slice(0, 80)}...`;
+        if (this.isScheduled) {
+            return `${text.slice(0, 40)}...`;
+        } else {
+            return `${text.slice(0, 80)}...`;
+        }
     }),
 
     didReceiveAttrs() {

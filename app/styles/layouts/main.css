@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: color-mod(var(--lightgrey) l(+2%) s(-8%)); /* #F7F8FA */
+    background: #EBF1F5;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -56,9 +56,9 @@
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
-    background: var(--white);
+    background: #F8FAFC;
     transform: translateX(0);
-    border-right: 1px solid var(--lightgrey);
+    border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
 }
 
 .gh-nav-menu {
@@ -68,6 +68,7 @@
     padding: 20px;
     cursor: pointer;
     outline: none;
+    border-bottom: 1px solid var(--lightgrey);
 }
 
 .gh-nav-menu-dropdown.ember-basic-dropdown--transitioning-in {
@@ -112,7 +113,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 1.3em;
     font-weight: 600;
 }
@@ -136,14 +137,15 @@
 
 .gh-nav-search {
     position: relative;
-    margin: 0 20px 15px;
+    margin: 20px;
 }
 
 .gh-nav-search .ember-power-select-trigger {
     outline: 0;
-    background: color-mod(var(--whitegrey) a(70%) s(-10%));
+    background: var(--white);
     border: none;
     border-radius: 5px;
+    border: 1px solid color-mod(var(--lightgrey) l(-7%));
 }
 
 .gh-nav-search-button {
@@ -189,12 +191,12 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     padding: 10px 20px;
-    color:  color-mod(var(--darkgrey));
+    color:  color-mod(var(--midlightgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
-    letter-spacing: 0.1em;
-    font-size: 1.2rem;
+    letter-spacing: 0.4px;
+    font-size: 1.1rem;
     line-height: 1.1em;
     font-weight: 500;
 }
@@ -202,26 +204,22 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 7px 16px;
-    color: var(--midgrey);
-    opacity: 0.9;
+    padding: 8px 16px;
+    color: var(--middarkgrey);
     transition: none;
-    margin: 0 4px;
+    margin: 0 20px;
     border-radius: 5px;
 }
 
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
+    background: color-mod(var(--lightgrey) l(-3%) s(-5%));
     font-weight: 700;
-    opacity: 1;
-    border-radius: 0;
-    padding: 7px 20px 7px 20px;
-    margin: 0;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--whitegrey) a(30%));
+    background: color-mod(var(--lightgrey) a(75%));
     opacity: 1;
 }
 
@@ -230,7 +228,7 @@
     margin-right: 8px;
     width: 16px;
     height: 16px;
-    fill: var(--midlightgrey);
+    fill: var(--midgrey);
     line-height: 1;
 }
 
@@ -243,8 +241,8 @@
     z-index: 999;
     padding: 6px;
     margin: 0;
-    top: -4px;
-    right: 15px;
+    top: -2px;
+    right: 16px;
 }
 
 .gh-nav-list .gh-nav-new-post span {
@@ -272,7 +270,7 @@
 }
 
 .gh-nav-list a.gh-nav-new-post:hover span {
-    background: var(--whitegrey);
+    background: color-mod(var(--lightgrey) l(-3%) s(-5%));
 }
 
 .gh-nav-list .gh-secondary-action {
@@ -281,12 +279,12 @@
     padding: 4px;
     margin: 0;
     right: 20px;
-    top: 1px;
+    top: 2px;
     opacity: 0;
     transition: opacity ease 0.2s;
 }
 
-.gh-nav-list:hover .gh-secondary-action {
+.gh-nav-list li:hover .gh-secondary-action {
     opacity: 1.0;
 }
 
@@ -479,7 +477,7 @@
     flex-grow: 1;
     padding: 20px 4vw 3vw 4vw;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1500px;
 }
 
 .gh-canvas-header {

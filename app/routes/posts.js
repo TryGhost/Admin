@@ -104,8 +104,7 @@ export default AuthenticatedRoute.extend({
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Posts',
-            mainClasses: ['gh-main-white']
+            titleToken: 'Posts'
         };
     },
 

@@ -3,7 +3,6 @@
     <div class="gh-nav-menu-icon" style={{iconStyle}}></div>
     <div class="gh-nav-menu-details">
         <div class="gh-nav-menu-details-blog">{{config.blogTitle}}</div>
-        <div class="gh-nav-menu-details-user">{{session.user.name}}</div>
     </div>
     {{svg-jar "arrow-down-small"}}
     {{/dropdown.trigger}}
@@ -106,6 +105,11 @@
                 <li>{{#link-to "settings.code-injection" data-test-nav="code-injection"}}{{svg-jar "brackets"}}Code
                     injection{{/link-to}}</li>
                 <li>{{#link-to "settings.integrations" current-when=isIntegrationRoute data-test-nav="integrations"}}{{svg-jar "modules"}}Integrations{{/link-to}}</li>
+                <li class="relative">
+                    <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
+                        <span>{{svg-jar "nightshift"}}</span>
+                    </button>
+                    {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
             </ul>
         {{/if}}
 
@@ -125,18 +129,12 @@
             <script src="{{config.clientExtensions.script.src}}"></script>
         {{/if}}
     </div>
-    {{#if (gh-user-can-admin session.user)}}
     <div class="gh-nav-bottom">
-        <ul class="gh-nav-list gh-nav-labs">
-            <li class="relative">
-                <button class="gh-secondary-action" title="Toggle Night shift"
-                    {{action (toggle "nightShift" this.feature)}}>
-                    <span>{{svg-jar "nightshift"}}</span>
-                </button>
-                {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
-        </ul>
+        <div class="pa5 flex items-center">
+            <div class="bg-purple br-pill flex items-center justify-center w8 h8 mr2 white f6">P</div>
+            <span class="fw5">{{session.user.name}}</span>
+        </div>
     </div>
-    {{/if}}
 </section>
 
 {{gh-tour-item "getting-started"

@@ -4,7 +4,7 @@
 .gh-badge {
     display: inline-block;
     padding: 3px 4px;
-    color: var(--white);
+    color: var(--green-d2);
     font-size: 1.2rem;
     line-height: 1em;
     font-weight: 500;
@@ -13,7 +13,7 @@
     text-decoration: none;
     white-space: nowrap;
     user-select: none;
-    background: var(--green);
+    background: color-mod(var(--green) a(20%));
     border-radius: 3px;
     text-transform: uppercase;
 }
@@ -23,7 +23,8 @@
 }
 
 .gh-badge-red {
-    background: var(--red);
+    color: var(--red);
+    background: color-mod(var(--red) a(20%));
 }
 
 .gh-badge-black {
