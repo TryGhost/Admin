@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: color-mod(var(--lightgrey) l(+5%) s(-13%)); /* #F7F8FA */
+    background: color-mod(var(--lightgrey) l(+2%) s(-8%)); /* #F7F8FA */
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -188,7 +188,6 @@
 
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
-    margin-top: 32px;
     padding: 10px 20px;
     color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;

@@ -67,6 +67,7 @@
             </li>
         </ul>
         <ul class="gh-nav-list gh-nav-manage">
+            <li class="gh-nav-list-h">Manage</li>
             <li class="relative">
                 {{#link-to "editor.new" "post" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
@@ -99,12 +100,12 @@
         </ul>
         {{#if (gh-user-can-admin session.user)}}
             <ul class="gh-nav-list gh-nav-settings">
-                <li class="relative">
-                    <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
-                        <span>{{svg-jar "nightshift"}}</span>
-                    </button>
-                    {{#link-to "settings" current-when=isSettingsRoute data-test-nav="settings"}}{{svg-jar "settings"}}Settings{{/link-to}}
-                </li>
+                <li class="gh-nav-list-h">Settings</li>
+                <li>{{#link-to "settings.general" data-test-nav="settings"}}{{svg-jar "settings"}}General{{/link-to}}</li>
+                <li>{{#link-to "settings.design" data-test-nav="design"}}{{svg-jar "paintbrush"}}Design{{/link-to}}</li>
+                <li>{{#link-to "settings.code-injection" data-test-nav="code-injection"}}{{svg-jar "brackets"}}Code
+                    injection{{/link-to}}</li>
+                <li>{{#link-to "settings.integrations" current-when=isIntegrationRoute data-test-nav="integrations"}}{{svg-jar "modules"}}Integrations{{/link-to}}</li>
             </ul>
         {{/if}}
 
@@ -124,6 +125,18 @@
             <script src="{{config.clientExtensions.script.src}}"></script>
         {{/if}}
     </div>
+    {{#if (gh-user-can-admin session.user)}}
+    <div class="gh-nav-bottom">
+        <ul class="gh-nav-list gh-nav-labs">
+            <li class="relative">
+                <button class="gh-secondary-action" title="Toggle Night shift"
+                    {{action (toggle "nightShift" this.feature)}}>
+                    <span>{{svg-jar "nightshift"}}</span>
+                </button>
+                {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
+        </ul>
+    </div>
+    {{/if}}
 </section>
 
 {{gh-tour-item "getting-started"
