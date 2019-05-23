@@ -28,7 +28,7 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: #EBF1F5;
+    background: #F0F5F7;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -56,7 +56,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
-    background: #F8FAFC;
+    background: var(--white);
     transform: translateX(0);
     border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
 }
@@ -214,12 +214,12 @@
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
-    background: color-mod(var(--lightgrey) l(-3%) s(-5%));
+    background: color-mod(var(--lightgrey) s(-5%));
     font-weight: 700;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--lightgrey) a(75%));
+    background: color-mod(var(--lightgrey) a(50%));
     opacity: 1;
 }
 
