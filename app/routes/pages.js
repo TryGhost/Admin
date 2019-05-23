@@ -5,8 +5,7 @@ export default PostsRoute.extend({
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Pages',
-            mainClasses: ['gh-main-white']
+            titleToken: 'Pages'
         };
     }
 });
