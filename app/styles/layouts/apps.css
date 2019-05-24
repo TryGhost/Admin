@@ -19,7 +19,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
     max-width: 1200px;
-    margin: 2vw 0 4vw;
+    margin: 2vw 0 2.4vw;
 }
 
 .id-item {
@@ -50,7 +50,7 @@
     justify-content: center;
     align-items: center;
     height: 38px;
-    width: 43px;
+    width: 38px;
     margin-top: 4px;
 }
 
@@ -102,7 +102,7 @@
 /* Built-in integrations */
 
 .apps-grid-container {
-    margin: 2vw 0;
+    margin: 2vw 0 0;
 }
 
 .apps-grid-title {
@@ -247,7 +247,7 @@
 
 .apps-card-app-icon {
     flex: 0 0 47px;
-    margin: 0 15px 0 0;
+    margin: 0 12px 0 0;
     width: 47px;
     height: 47px;
     background-position: center center;
@@ -388,5 +388,5 @@
 }
 
 .new-webhook-cell:hover {
-    background: color-mod(var(--lightgrey) l(+6%) s(-2%));
+    background: var(--whitegrey-l2);
 }
