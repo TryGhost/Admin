@@ -279,7 +279,7 @@
     padding: 6px;
     margin: 0;
     top: -3px;
-    right: 16px;
+    right: 20px;
 }
 
 .gh-nav-list .gh-nav-new-post span {
@@ -315,7 +315,7 @@
     z-index: 999;
     padding: 4px;
     margin: 0;
-    right: 20px;
+    right: 24px;
     top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;
