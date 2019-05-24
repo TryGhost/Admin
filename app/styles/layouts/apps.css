@@ -112,7 +112,7 @@
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 0.35px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .apps-grid {
@@ -120,9 +120,9 @@
     flex-flow: row wrap;
     align-items: flex-start;
     max-width: 1200px;
-    border-radius: 9px;
+    border-radius: 5px;
     background: var(--white);
-    box-shadow: 0 8px 15px -8px rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px -6px rgba(0,0,0,.25);
 }
 
 .apps-grid-note {
@@ -139,22 +139,22 @@
 .apps-grid-cell {
     flex: 1 1 100%;
     background: var(--white);
-    margin: 0 4px;
+    margin: 0;
 }
 
 .apps-grid-cell {
-    transition: background 0.35s ease;
+    transition: background 0.3s ease;
 }
 
 .apps-grid-cell:hover {
-    background: color-mod(var(--whitegrey) a(40%) s(-12%));
-    border-radius: 7px;
+    background: var(--whitegrey-l2);
     transition: none;
 }
 
 .apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
 .apps-grid-cell:hover .apps-card-app {
-    border-color: transparent;
+    margin-left: 0px;
+    padding-left: 16px;
 }
 
 .apps-card-app {
@@ -164,7 +164,7 @@
     overflow: hidden;
     padding: 16px 20px 16px 0;
     margin: 0 -4px 0 16px;
-    height: 75px;
+    height: 65px;
     border-top: var(--lightgrey) 1px solid;
     transition: background 0.3s ease;
 }
@@ -187,11 +187,13 @@
 }
 
 .apps-grid-cell:first-of-type {
-    margin-top: 4px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .apps-grid-cell:last-of-type {
-    margin-bottom: 4px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .apps-grid-cell:first-of-type .apps-card-app {
@@ -272,7 +274,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     line-height: 1.15em;
     font-weight: 600;
 }
@@ -295,7 +297,7 @@
     max-height: 4.2rem;
     color: var(--midgrey);
     text-overflow: ellipsis;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1.3em;
     font-weight: 200;
 
