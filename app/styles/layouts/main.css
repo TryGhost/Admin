@@ -28,7 +28,8 @@
     position: relative;
     flex-grow: 1;
     display: flex;
-    background: #F0F5F7;
+    flex-direction: column;
+    background: color-mod(var(--whitegrey-l1) s(-5%));
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -41,8 +42,36 @@
 
 /*  Flexbox fix. https://github.com/TryGhost/Ghost/issues/5804#issuecomment-141416812 */
 .gh-main > section {
-    width: 1px;
+    width: 100%;
     position: relative; /* for the editor in safari */
+}
+
+
+/* Top menu
+/* ---------------------------------------------------------- */
+.gh-topmenu {
+    position: fixed;
+    top: 0;
+    left: 264px;
+    right: 0;
+    display: flex;
+    height: 73px;
+    border-bottom: 1px solid var(--lightgrey-d1);
+    z-index: 600;
+    background: color-mod(var(--whitegrey-l1) s(-5%));
+}
+
+.gh-topmenu-content {
+    padding: 20px 4vw;
+    max-width: 1500px;
+    flex-grow: 1;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gh-topmenu-right {
+
 }
 
 
@@ -58,7 +87,8 @@
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
     background: var(--white);
     transform: translateX(0);
-    border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
+    /* border-right: 1px solid color-mod(var(--lightgrey) l(-3%)); */
+    box-shadow: -10px 0 20px 5px rgba(0, 0, 0, 0.1);
 }
 
 .gh-nav-menu {
@@ -137,7 +167,7 @@
 
 .gh-nav-search {
     position: relative;
-    margin: 20px;
+    min-width: 300px;
 }
 
 .gh-nav-search .ember-power-select-trigger {
@@ -146,6 +176,10 @@
     border: none;
     border-radius: 5px;
     border: 1px solid color-mod(var(--lightgrey) l(-7%));
+}
+
+.gh-nav-search .ember-power-select-trigger input {
+    height: 25px;
 }
 
 .gh-nav-search-button {
@@ -177,7 +211,7 @@
 
 .gh-nav-list {
     margin: 20px 0 0;
-    padding: 10px 0 0;
+    padding: 0;
     list-style: none;
     font-size: 1.4rem;
     line-height: 1.6em;
@@ -475,7 +509,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 20px 4vw 3vw 4vw;
+    padding: 92px 4vw 3vw 4vw;
     margin: 0 auto;
     max-width: 1500px;
 }

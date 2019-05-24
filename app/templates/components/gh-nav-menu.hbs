@@ -51,9 +51,6 @@
 
 <section class="gh-nav-body">
     <div class="gh-nav-top">
-        <section class="gh-nav-search">
-            {{gh-search-input class="gh-nav-search-input"}}
-        </section>
         <ul class="gh-nav-list gh-nav-main">
             <li class="relative">
                 <a href="{{config.blogUrl}}/" class="gh-secondary-action" title="Open site in new tab" target="_blank">
@@ -130,10 +127,10 @@
         {{/if}}
     </div>
     <div class="gh-nav-bottom">
-        <div class="pa5 flex items-center">
+        {{!-- <div class="pa5 flex items-center">
             <div class="bg-purple br-pill flex items-center justify-center w8 h8 mr2 white f6">P</div>
             <span class="fw5">{{session.user.name}}</span>
-        </div>
+        </div> --}}
     </div>
 </section>
 
