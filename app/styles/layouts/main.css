@@ -63,7 +63,7 @@
 
 .gh-topmenu-content {
     padding: 20px 4vw;
-    max-width: 1500px;
+    max-width: 1400px;
     flex-grow: 1;
     margin: 0 auto;
     display: flex;
@@ -526,7 +526,7 @@
     flex-grow: 1;
     padding: 92px 4vw 3vw 4vw;
     margin: 0 auto;
-    max-width: 1500px;
+    max-width: 1400px;
 }
 
 .gh-canvas-header {

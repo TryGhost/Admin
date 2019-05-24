@@ -363,6 +363,7 @@
     font-weight: 700;
     letter-spacing: 0.04rem;
     overflow: hidden;
+    box-shadow: none;
 }
 
 .gh-editor-wordcount {

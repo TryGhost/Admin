@@ -2,12 +2,16 @@
 /* ---------------------------------------------------------- */
 
 .gh-setting-header {
-    margin: 2vw 0 5px 1px;
+    margin: 2.8vw 0 5px 1px;
     color: var(--midlightgrey);
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 0.35px;
     font-size: 1.3rem;
+}
+
+.gh-first-heading {
+    margin-top: 21px;
 }
 
 .gh-setting,
