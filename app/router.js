@@ -40,7 +40,6 @@ Router.map(function () {
         this.route('new');
     });
 
-    this.route('settings', {path: '/settings/'});
     this.route('settings.general', {path: '/settings/general'});
     this.route('settings.labs', {path: '/settings/labs'});
     this.route('settings.code-injection', {path: '/settings/code-injection'});
