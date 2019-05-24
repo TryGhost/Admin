@@ -2,7 +2,7 @@
 /* ---------------------------------------------------------- */
 
 .gh-setting-header {
-    margin: 3vw 0 5px 1px;
+    margin: 2vw 0 5px 1px;
     color: var(--midlightgrey);
     text-transform: uppercase;
     font-weight: 500;
@@ -15,8 +15,8 @@
 .gh-setting-last {
     display: flex;
     justify-content: space-between;
-    padding: 24px 32px 24px 0;
-    margin-right: -32px;
+    padding: 18px 24px 18px 0;
+    margin-right: -24px;
     border-top: var(--lightgrey) 1px solid;
 }
 
@@ -40,7 +40,7 @@
 
 .gh-setting-title {
     margin-bottom: 2px;
-    font-size: 1.65rem;
+    font-size: 1.5rem;
     line-height: 1.15em;
     font-weight: 600;
     color: var(--darkgrey);
