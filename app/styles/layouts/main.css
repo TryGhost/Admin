@@ -586,6 +586,7 @@
     align-items: center;
     padding: 20px;
     border-bottom: var(--lightgrey) 1px solid;
+    margin-top: 72px;
 }
 
 .view-title {

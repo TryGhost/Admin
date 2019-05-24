@@ -145,6 +145,11 @@
     color: var(--midlightgrey);
     text-transform: uppercase;
     padding: 6px 20px;
+    white-space: nowrap;
+}
+
+.gh-post-list-status {
+    white-space: nowrap;
 }
 
 .gh-post-list-status,
