@@ -6,12 +6,11 @@
 .gh-btn {
     display: inline-block;
     outline: none;
-    border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
-    color: color-mod(var(--lightgrey) l(-27%) blackness(+15%));
-    /* text-shadow: 0 1px 0 #fff; */
+    background: color-mod(var(--whitegrey-l1) l(-1%));
+    color: color-mod(var(--midgrey) l(-7%));
     text-decoration: none !important;
     user-select: none;
-    fill: color-mod(var(--lightgrey) l(-27%) blackness(+15%));
+    fill: color-mod(var(--midgrey) l(-7%));
     border-radius: 5px;
     transition: all 0.2s ease;
     transition-property: color, border-color, background, width, height;
@@ -23,7 +22,7 @@
 .gh-btn span {
     display: block;
     overflow: hidden;
-    padding: 0 12px;
+    padding: 0 11px;
     height: 31px;
     font-size: 1.3rem;
     line-height: 31px;
@@ -36,7 +35,8 @@
 }
 
 .gh-btn:hover {
-    border-color: color-mod(var(--lightgrey) l(-15%) s(-10%));
+    color: var(--darkgrey);
+    background: color-mod(var(--whitegrey-l1) l(-4%));
 }
 
 /* When disabled */
@@ -57,17 +57,14 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 .gh-btn-hover-blue:hover {
-    border-color: var(--blue);
     color: var(--blue);
 }
 
 .gh-btn-hover-green:hover {
-    border-color: var(--green);
     color: var(--green);
 }
 
 .gh-btn-hover-red:hover {
-    border-color: var(--red);
     color: var(--red);
 }
 
@@ -79,24 +76,13 @@ fieldset[disabled] .gh-btn {
 .gh-btn-grey {
     padding: 1px;
     border: 0;
-    color: color-mod(var(--darkgrey) l(+15%));
-    text-shadow: 0 1px 0 #fff;
     fill: var(--darkgrey);
-    background: linear-gradient(
-    color-mod(var(--lightgrey) l(-3%)),
-    color-mod(var(--lightgrey) l(-8%))
-    );
-    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
     transition: none !important;
 }
 
 /* The background of the span is the main visual element */
 .gh-btn-grey span {
-    background: linear-gradient(
-    color-mod(var(--lightgrey) l(+10%)),
-    color-mod(var(--lightgrey) l(+4%))
-    );
-    box-shadow: 0 1px 0 #fff inset;
+    background: color-mod(var(--lightgrey) l(-5%));
 }
 
 /* When clicked or focused with keyboard */
@@ -115,7 +101,8 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 /* The background of the button creates 1px gradient border */
-.gh-btn-blue {
+.gh-btn-blue,
+.gh-btn-blue:hover {
     border: 0;
     color: #fff;
     fill: #fff;
@@ -145,7 +132,8 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 /* The background of the button creates 1px gradient border */
-.gh-btn-green {
+.gh-btn-green,
+.gh-btn-green:hover {
     border: 0;
     color: #fff;
     fill: #fff;
@@ -176,7 +164,8 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 /* The background of the button creates 1px gradient border */
-.gh-btn-red {
+.gh-btn-red,
+.gh-btn-red:hover {
     border: 0;
     color: #fff;
     fill: #fff;
@@ -211,7 +200,8 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 /* The background of the button creates 1px gradient border */
-.gh-btn-black {
+.gh-btn-black,
+.gh-btn-black:hover {
     border: 0;
     color: #fff;
     fill: #fff;
@@ -247,11 +237,17 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 .gh-btn-white {
-    background: #fff;
+    background: var(--white);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.01), 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+.gh-btn-white:hover {
+    background: var(--white);
 }
 
 .gh-btn-white span {
-    height: 38px;
+    height: 31px;
 }
 
 .gh-btn-block {

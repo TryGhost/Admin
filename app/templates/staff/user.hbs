@@ -20,7 +20,7 @@
         <section class="view-actions">
             {{#if userActionsAreVisible}}
                 <span class="dropdown">
-                    {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="gh-btn gh-btn-default gh-btn-icon only-has-icon user-actions-cog" title="User Actions" data-test-user-actions=true}}
+                    {{#gh-dropdown-button dropdownName="user-actions-menu" classNames="gh-btn gh-btn-white gh-btn-icon only-has-icon user-actions-cog" title="User Actions" data-test-user-actions=true}}
                         <span>
                             {{svg-jar "settings"}}
                             <span class="hidden">User Settings</span>
@@ -94,7 +94,7 @@
     </header>
 
     {{!-- <div class="bg-"> --}}
-    <section class="br4 shadow-1 bg-grouped-table mb10">
+    <section class="br3 shadow-1 bg-grouped-table mb10 mt5">
         <div class="gm-main view-container settings-user">
             <form class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform save) on="submit"}}>
 

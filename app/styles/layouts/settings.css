@@ -10,7 +10,7 @@
     font-size: 1.3rem;
 }
 
-.gh-first-heading {
+.gh-first-header {
     margin-top: 21px;
 }
 
@@ -386,7 +386,7 @@
 }
 
 .gh-blognav-grab {
-    padding: 0 16px 0 0;
+    padding: 6px 16px 0 0;
     width: 16px;
     text-indent: -4px;
     cursor: move;

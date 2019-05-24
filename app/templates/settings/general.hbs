@@ -18,7 +18,7 @@
 
     <section class="view-container">
 
-        <div class="gh-setting-header gh-first-heading">Publication info</div>
+        <div class="gh-setting-header gh-first-header">Publication info</div>
         <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5 mt2">
             <div class="gh-setting-first">
                 <div class="gh-setting-content">
@@ -51,7 +51,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info><span>{{if pubInfoOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info><span>{{if pubInfoOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if timezoneOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if timezoneOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
             <div class="gh-setting-last">
@@ -92,7 +92,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "defaultLocaleOpen" this)}} data-test-toggle-default-locale><span>{{if defaultLocaleOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "defaultLocaleOpen" this)}} data-test-toggle-default-locale><span>{{if defaultLocaleOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
         </div>
@@ -123,7 +123,7 @@
                             <span>delete</span>
                         </button>
                     {{else}}
-                        <button type="button" class="gh-btn gh-btn-hover-blue" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
+                        <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
                             <span>Upload Image</span>
                         </button>
                     {{/if}}
@@ -237,7 +237,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-blue" {{action (toggle "socialOpen" this)}} data-test-toggle-social><span>{{if socialOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "socialOpen" this)}} data-test-toggle-social><span>{{if socialOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
         </div>

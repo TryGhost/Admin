@@ -19,7 +19,7 @@
     {{!-- Show invited users to everyone except authors --}}
     {{#unless currentUser.isAuthorOrContributor}}
         {{#if invites}}
-        <section class="apps-grid-container gh-invited-users" data-test-invited-users>
+        <section class="apps-grid-container gh-invited-users apps-first-header" data-test-invited-users>
             <span class="apps-grid-title">Invited users</span>
             <div class="apps-grid">
 
@@ -71,7 +71,7 @@
         {{/if}}
     {{/unless}}
 
-    <section class="apps-grid-container gh-active-users" data-test-active-users>
+    <section class="apps-grid-container gh-active-users {{unless invites "apps-first-header"}}" data-test-active-users>
         <span class="apps-grid-title">Active users</span>
         <div class="apps-grid">
             {{!-- For authors/contributors, only show their own user --}}
