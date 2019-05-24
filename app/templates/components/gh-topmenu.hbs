@@ -7,7 +7,7 @@
             <div class="flex items-center">
                 {{#gh-basic-dropdown horizontalPosition="right" calculatePosition=userDropdownPosition as |dropdown|}}
                 {{#dropdown.trigger tagName="header" class="flex items-center outline-0 pointer"}}
-                <div class="bg-purple br-pill flex items-center justify-center w7 h7 white f6 mr2">P</div>
+                <div class="gh-user-avatar" style={{background-image-style session.user.profileImageUrl}}></div>
                 {{svg-jar "arrow-down-small" class="w2 stroke-midgrey nudge-top--1"}}
                 {{/dropdown.trigger}}
 

@@ -292,12 +292,12 @@
 .apps-card-app-desc {
     display: -webkit-box;
     overflow: hidden;
-    margin: 0;
+    margin: 2px 0 0;
     padding: 0;
     max-height: 4.2rem;
     color: var(--midgrey);
     text-overflow: ellipsis;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     line-height: 1.3em;
     font-weight: 200;
 
