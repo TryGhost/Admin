@@ -11,19 +11,8 @@
         {{/if}}
 
         <main class="gh-main {{this.ui.mainClass}}" role="main">
-            {{#if showNavMenu}}
-            <div class="gh-topmenu">
-                <div class="gh-topmenu-content">
-                    <div class="gh-nav-search">
-                        {{gh-search-input class="gh-nav-search-input"}}
-                    </div>
-                    <div class="gh-topmenu-right">
-                        <div class="flex items-center">
-                            <div class="bg-purple br-pill flex items-center justify-center w8 h8 white f6">P</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{#if showTopMenu}}
+                {{gh-topmenu}}
             {{/if}}
             {{outlet}}
         </main>

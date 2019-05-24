@@ -1,0 +1,60 @@
+<div class="gh-topmenu">
+    <div class="gh-topmenu-content">
+        <div class="gh-nav-search">
+            {{gh-search-input class="gh-nav-search-input"}}
+        </div>
+        <div class="gh-topmenu-right">
+            <div class="flex items-center">
+                {{#gh-basic-dropdown horizontalPosition="right" calculatePosition=userDropdownPosition as |dropdown|}}
+                {{#dropdown.trigger tagName="header" class="flex items-center outline-0 pointer"}}
+                <div class="bg-purple br-pill flex items-center justify-center w7 h7 white f6 mr2">P</div>
+                {{svg-jar "arrow-down-small" class="w2 stroke-midgrey nudge-top--1"}}
+                {{/dropdown.trigger}}
+
+                {{#dropdown.content class="gh-nav-menu-dropdown"}}
+                <ul class="dropdown-menu dropdown-triangle-top" role="menu"
+                    {{action dropdown.actions.close on="click" preventDefault=false}}>
+                    <li role="presentation">
+                        {{#link-to "about" classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="about"}}{{svg-jar "store"}}
+                        About Ghost{{/link-to}}</li>
+                    <li class="divider"></li>
+                    <li role="presentation">
+                        {{#link-to "staff.user" session.user.slug classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="user-profile"}}{{svg-jar "user-circle"}}
+                        Your Profile{{/link-to}}</li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1"
+                            href="https://docs.ghost.org/" target="_blank">{{svg-jar "ambulance"}} Support Center</a>
+                    </li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1"
+                            href="https://twitter.com/intent/tweet?text=%40TryGhost+Hi%21+Can+you+help+me+with+&related=TryGhost"
+                            target="_blank"
+                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">{{svg-jar "twitter"}}
+                            Tweet @TryGhost!</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1"
+                            href="https://docs.ghost.org/faq/using-ghost/" target="_blank">{{svg-jar "book-open"}} How
+                            to Use Ghost</a>
+                    </li>
+                    <li class="divider"></li>
+
+                    {{#if showDropdownExtension}}
+                    {{#each config.clientExtensions.dropdown.items as |menuItem| }}
+                    {{#if menuItem.divider}}
+                    <li class="divider"></li>
+                    {{else}}
+                    <li role="presentation">
+                        <a href="{{menuItem.href}}" target="_blank" class="dropdown-item {{menuItem.classes}}"
+                            role="menuitem" tabindex="-1">{{svg-jar menuItem.icon}}{{menuItem.text}}</a>
+                    </li>
+                    {{/if}}
+                    {{/each}}
+
+                    {{/if}}
+                    <li role="presentation">
+                        {{#link-to "signout" classNames="dropdown-item user-menu-signout" role="menuitem" tabindex="-1"}}{{svg-jar "signout"}}
+                        Sign Out{{/link-to}}</li>
+                </ul>
+                {{/dropdown.content}}
+                {{/gh-basic-dropdown}}
+            </div>
+        </div>
+    </div>
+</div>

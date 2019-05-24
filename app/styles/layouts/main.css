@@ -29,7 +29,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background: color-mod(var(--whitegrey-l1) s(-5%));
+    background: #F5F6FA;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -56,9 +56,9 @@
     right: 0;
     display: flex;
     height: 73px;
-    border-bottom: 1px solid var(--lightgrey-d1);
+    border-bottom: 1px solid color-mod(var(--lightgrey-d1) a(50%));
     z-index: 600;
-    background: color-mod(var(--whitegrey-l1) s(-5%));
+    background: #F5F6FA;
 }
 
 .gh-topmenu-content {
@@ -70,8 +70,8 @@
     justify-content: space-between;
 }
 
-.gh-topmenu-right {
-
+.gh-hide-topmenu .gh-topmenu {
+    display: none;
 }
 
 
@@ -87,8 +87,8 @@
     min-width: 0; /* TODO: This is a bullshit Firefox hack */
     background: var(--white);
     transform: translateX(0);
-    /* border-right: 1px solid color-mod(var(--lightgrey) l(-3%)); */
-    box-shadow: -10px 0 20px 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
+    /* box-shadow: -10px 0 20px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .gh-nav-menu {
@@ -96,9 +96,12 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    cursor: pointer;
-    outline: none;
     border-bottom: 1px solid var(--lightgrey);
+}
+
+.gh-nav-menu-dropdown .dropdown-menu {
+    left: -180px;
+    margin: 10px 0 0;
 }
 
 .gh-nav-menu-dropdown.ember-basic-dropdown--transitioning-in {
@@ -175,7 +178,7 @@
     background: var(--white);
     border: none;
     border-radius: 5px;
-    border: 1px solid color-mod(var(--lightgrey) l(-7%));
+    border: 1px solid color-mod(var(--lightgrey));
 }
 
 .gh-nav-search .ember-power-select-trigger input {
@@ -194,7 +197,7 @@
 .gh-nav-search-button svg {
     width: 13px;
     height: 13px;
-    fill: color-mod(var(--midlightgrey) l(-5%));
+    fill: color-mod(var(--midlightgrey) a(75%));
     line-height: 13px;
     transition: color 0.2s ease;
     transform: rotate(90deg);
@@ -238,17 +241,17 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 8px 16px;
+    padding: 7px 16px;
     color: var(--middarkgrey);
     transition: none;
-    margin: 0 20px;
+    margin: 2px 20px;
     border-radius: 5px;
 }
 
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
-    background: color-mod(var(--lightgrey) s(-5%));
+    background: color-mod(var(--lightgrey) l(+1%) s(-5%));
     font-weight: 700;
 }
 
@@ -275,7 +278,7 @@
     z-index: 999;
     padding: 6px;
     margin: 0;
-    top: -2px;
+    top: -3px;
     right: 16px;
 }
 
@@ -304,7 +307,7 @@
 }
 
 .gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--lightgrey) l(-3%) s(-5%));
+    background: color-mod(var(--lightgrey) l(+1%) s(-5%));
 }
 
 .gh-nav-list .gh-secondary-action {
@@ -313,7 +316,7 @@
     padding: 4px;
     margin: 0;
     right: 20px;
-    top: 2px;
+    top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;
 }
@@ -342,7 +345,7 @@
 }
 
 .gh-nav-labs {
-    margin-bottom: 20px;
+    margin-bottom: 32px;
     padding: 0;
 }
 

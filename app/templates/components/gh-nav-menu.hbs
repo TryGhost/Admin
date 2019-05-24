@@ -1,53 +1,9 @@
-{{#gh-basic-dropdown horizontalPosition="right" calculatePosition=userDropdownPosition as |dropdown|}}
-    {{#dropdown.trigger tagName="header" class="gh-nav-menu"}}
+<header class="gh-nav-menu">
     <div class="gh-nav-menu-icon" style={{iconStyle}}></div>
     <div class="gh-nav-menu-details">
         <div class="gh-nav-menu-details-blog">{{config.blogTitle}}</div>
     </div>
-    {{svg-jar "arrow-down-small"}}
-    {{/dropdown.trigger}}
-
-    {{#dropdown.content class="gh-nav-menu-dropdown"}}
-    <ul class="dropdown-menu dropdown-triangle-top" role="menu"
-        {{action dropdown.actions.close on="click" preventDefault=false}}>
-        <li role="presentation">
-            {{#link-to "about" classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="about"}}{{svg-jar "store"}}
-            About Ghost{{/link-to}}</li>
-        <li class="divider"></li>
-        <li role="presentation">
-            {{#link-to "staff.user" session.user.slug classNames="dropdown-item" role="menuitem" tabindex="-1" data-test-nav="user-profile"}}{{svg-jar "user-circle"}}
-            Your Profile{{/link-to}}</li>
-        <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" href="https://docs.ghost.org/"
-                target="_blank">{{svg-jar "ambulance"}} Support Center</a></li>
-        <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1"
-                href="https://twitter.com/intent/tweet?text=%40TryGhost+Hi%21+Can+you+help+me+with+&related=TryGhost"
-                target="_blank"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">{{svg-jar "twitter"}}
-                Tweet @TryGhost!</a></li>
-        <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1"
-                href="https://docs.ghost.org/faq/using-ghost/" target="_blank">{{svg-jar "book-open"}} How to Use Ghost</a>
-        </li>
-        <li class="divider"></li>
-
-        {{#if showDropdownExtension}}
-        {{#each config.clientExtensions.dropdown.items as |menuItem| }}
-        {{#if menuItem.divider}}
-        <li class="divider"></li>
-        {{else}}
-        <li role="presentation">
-            <a href="{{menuItem.href}}" target="_blank" class="dropdown-item {{menuItem.classes}}" role="menuitem"
-                tabindex="-1">{{svg-jar menuItem.icon}}{{menuItem.text}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-
-        {{/if}}
-        <li role="presentation">
-            {{#link-to "signout" classNames="dropdown-item user-menu-signout" role="menuitem" tabindex="-1"}}{{svg-jar "signout"}}
-            Sign Out{{/link-to}}</li>
-    </ul>
-    {{/dropdown.content}}
-{{/gh-basic-dropdown}}
+</header>
 
 <section class="gh-nav-body">
     <div class="gh-nav-top">
@@ -102,11 +58,6 @@
                 <li>{{#link-to "settings.code-injection" data-test-nav="code-injection"}}{{svg-jar "brackets"}}Code
                     injection{{/link-to}}</li>
                 <li>{{#link-to "settings.integrations" current-when=isIntegrationRoute data-test-nav="integrations"}}{{svg-jar "modules"}}Integrations{{/link-to}}</li>
-                <li class="relative">
-                    <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
-                        <span>{{svg-jar "nightshift"}}</span>
-                    </button>
-                    {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
             </ul>
         {{/if}}
 
@@ -127,10 +78,13 @@
         {{/if}}
     </div>
     <div class="gh-nav-bottom">
-        {{!-- <div class="pa5 flex items-center">
-            <div class="bg-purple br-pill flex items-center justify-center w8 h8 mr2 white f6">P</div>
-            <span class="fw5">{{session.user.name}}</span>
-        </div> --}}
+        <ul class="gh-nav-list gh-nav-labs">
+            <li class="relative">
+                <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
+                    <span>{{svg-jar "nightshift"}}</span>
+                </button>
+                {{#link-to "settings.labs" data-test-nav="labs"}}{{svg-jar "labs"}}Labs{{/link-to}}</li>
+        </ul>
     </div>
 </section>
 

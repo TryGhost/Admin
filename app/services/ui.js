@@ -47,6 +47,7 @@ export default Service.extend({
     hasSideNav: not('isSideNavHidden'),
     isMobile: reads('mediaQueries.isMobile'),
     isSideNavHidden: or('isFullScreen', 'isMobile'),
+    isTopmenuHidden: false,
 
     init() {
         this._super(...arguments);
