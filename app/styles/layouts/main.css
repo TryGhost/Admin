@@ -111,22 +111,22 @@
 }
 
 .gh-nav-menu-dropdown .dropdown-menu {
-    left: -230px;
+    left: -220px;
     margin: 10px 0 0;
     box-shadow: 0 18px 45px -5px rgba(0, 0, 0, 0.15);
-    min-width: 240px;
-    padding: 4px 0;
+    min-width: 230px;
+    padding: 6px 0;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu>li>a {
     font-size: 1.4rem;
-    margin: 0 4px;
+    margin: 0 6px;
     width: unset;
     padding: 8px 10px 9px;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu .divider {
-    margin: 4px 0;
+    margin: 6px 0;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu svg {
