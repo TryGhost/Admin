@@ -70,10 +70,6 @@
     justify-content: space-between;
 }
 
-.gh-hide-topmenu .gh-topmenu {
-    display: none;
-}
-
 .gh-user-avatar {
     position: relative;
     display: block;
@@ -84,6 +80,12 @@
     background-size: cover;
     border-radius: 100%;
     box-shadow: 0 0 0 1px var(--lightgrey-d1);
+}
+
+@media (max-width: 800px) {
+    .gh-topmenu {
+        left: 0;
+    }
 }
 
 
@@ -232,6 +234,12 @@
     fill: var(--midlightgrey);
 }
 
+@media (max-width: 800px) {
+    .gh-nav-search {
+        min-width: 220px;
+    }
+}
+
 .gh-nav-list {
     margin: 20px 0 0;
     padding: 0;
@@ -248,7 +256,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     padding: 10px 20px;
-    color:  color-mod(var(--midlightgrey));
+    color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
