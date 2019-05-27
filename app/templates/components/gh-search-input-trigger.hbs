@@ -1,4 +1,5 @@
 <div class="ember-power-select-search" onmousedown={{action "captureMouseDown"}}>
+    {{svg-jar "search" class="gh-nav-search-icon"}}
     <input type="search" autocomplete="off"
         autocorrect="off" autocapitalize="off"
         value={{if extra.labelPath (get selected extra.labelPath) selected}}
@@ -8,5 +9,5 @@
         onmousedown={{action "captureMouseDown"}}
         onkeydown={{action "handleKeydown"}}
         onblur={{action "resetInput"}}>
-    <button class="gh-nav-search-button" {{action "focusInput"}}>{{svg-jar "search"}}<span class="sr-only">Search</span></button>
+    {{!-- <button class="gh-nav-search-button" {{action "focusInput"}}>{{svg-jar "search"}}<span class="sr-only">Search</span></button> --}}
 </div>

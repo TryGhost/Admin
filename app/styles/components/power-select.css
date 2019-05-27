@@ -35,12 +35,12 @@
     position: absolute;
     z-index: 1000;
     box-sizing: border-box;
-    margin: -1px 0 0 0;
+    margin: 0;
     border: 1px solid color-mod(var(--whitegrey) a(70%) s(-10%));
     border-top: 0 none;
     background: #fff;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
-    box-shadow: 0 7px 20px -5px rgba(0,0,0,.15);
+    box-shadow: 0 18px 45px -5px rgba(0, 0, 0, 0.15);
 }
 
 .ember-power-select-dropdown.ember-basic-dropdown-content--in-place {
@@ -150,6 +150,7 @@
     line-height: 1.35em;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 1.4rem;
 }
 
 .ember-power-select-group .ember-power-select-option .highlight {
