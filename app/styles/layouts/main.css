@@ -56,7 +56,7 @@
     right: 0;
     display: flex;
     height: 73px;
-    border-bottom: 1px solid color-mod(var(--lightgrey-d1) a(50%));
+    border-bottom: 1px solid color-mod(var(--lightgrey) l(-3%));
     z-index: 600;
     background: #F5F6FA;
 }
@@ -190,7 +190,7 @@
     background: var(--white);
     border: none;
     border-radius: 5px;
-    border: 1px solid color-mod(var(--lightgrey));
+    border: 1px solid color-mod(var(--lightgrey) l(-3%));
 }
 
 .gh-nav-search .ember-power-select-trigger input {
