@@ -80,7 +80,7 @@
 }
 
 .green-hover:hover {
-    color: var(--green);
+    color: var(--green-d1);
 }
 
 .darkgrey-bg-hover:hover {
@@ -108,7 +108,7 @@
 }
 
 .green-bg-hover:hover {
-    background: color-mod(var(--green) a(30%));
+    background: color-mod(var(--green) a(20%));
 }
 
 

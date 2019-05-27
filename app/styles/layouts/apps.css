@@ -296,14 +296,14 @@
 .apps-card-app-desc {
     display: -webkit-box;
     overflow: hidden;
-    margin: 2px 0 0;
+    margin: 4px 0 0;
     padding: 0;
     max-height: 4.2rem;
     color: var(--midgrey);
     text-overflow: ellipsis;
     font-size: 1.4rem;
     line-height: 1.3em;
-    font-weight: 200;
+    font-weight: 300;
 
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -357,6 +357,7 @@
     margin: 0;
     color: var(--darkgrey);
     font-size: 2.4rem;
+    font-weight: 500;
 }
 
 .app-cell p {

@@ -107,16 +107,19 @@
 .gh-badge.owner {
     background: var(--darkgrey);
     text-transform: uppercase;
+    color: var(--white);
 }
 
 .gh-badge.administrator {
     background: var(--red);
     text-transform: uppercase;
+    color: var(--white);
 }
 
 .gh-badge.editor {
     background: var(--blue);
     text-transform: uppercase;
+    color: var(--white);
 }
 
 .gh-badge.author {
@@ -135,6 +138,7 @@
     color-mod(var(--red) whiteness(+10%)),
     color-mod(var(--red) blackness(+4%))
     );
+    color: var(--white);
 }
 
 

@@ -29,6 +29,7 @@
 
 .gh-badge-black {
     background: var(--darkgrey);
+    color: var(--white);
 }
 
 .gh-badge-outline {

@@ -128,21 +128,18 @@ select {
     display: block;
     width: 100%;
     height: 35px;
-    padding: 10px 12px;
+    padding: 6px 12px;
     border: color-mod(var(--lightgrey) l(-5%) s(-10%)) 1px solid;
     color: color-mod(var(--midgrey) l(-18%));
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     line-height: 1em;
     font-weight: 300;
     user-select: text;
     border-radius: var(--border-radius);
     transition: border-color 0.1s linear;
+    letter-spacing: 0.1px;
 
     -webkit-appearance: none;
-}
-
-.gh-input {
-    box-shadow: inset 0 1px 0 0 rgba(52, 63, 68, 0.04);
 }
 
 .gh-select,

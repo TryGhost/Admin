@@ -6,7 +6,7 @@
 .gh-btn {
     display: inline-block;
     outline: none;
-    background: color-mod(var(--whitegrey-l1) l(-1%));
+    background: color-mod(var(--whitegrey-l1) l(-4%));
     color: color-mod(var(--midgrey) l(-7%));
     text-decoration: none !important;
     user-select: none;
@@ -36,7 +36,7 @@
 
 .gh-btn:hover {
     color: var(--darkgrey);
-    background: color-mod(var(--whitegrey-l1) l(-4%));
+    background: color-mod(var(--whitegrey-l1) l(-12%) s(-5%));
 }
 
 /* When disabled */
