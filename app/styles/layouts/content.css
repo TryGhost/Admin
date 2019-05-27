@@ -123,6 +123,14 @@
     box-shadow: 0 2px 8px -6px rgba(0,0,0,.25);
 }
 
+.content-list ol.no-posts {
+    background: none;
+    box-shadow: none;
+    border-top: 1px solid var(--lightgrey-d1);
+    margin-top: 20px;
+    border-radius: 0;
+}
+
 .gh-posts-list-item {
     position: relative;
     display: table-row;
