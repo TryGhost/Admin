@@ -142,7 +142,7 @@
     font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: 0.1px;
-    color: var(--midlightgrey);
+    color: var(--darkgrey);
     text-transform: uppercase;
     padding: 6px 20px;
     white-space: nowrap;
@@ -165,6 +165,7 @@
 .gh-post-list-updated,
 .gh-post-list-author {
     color: var(--midgrey);
+    font-weight: 300;
 }
 
 .gh-content-entry-title {
