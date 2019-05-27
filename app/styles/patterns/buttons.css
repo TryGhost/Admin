@@ -342,6 +342,11 @@ Usage: CTA buttons grouped together horizontally.
 
 .gh-btn-link {
     border: none;
+    background: none;
+}
+
+.gh-btn-link:hover {
+    background: none;
 }
 
 

@@ -44,6 +44,7 @@
 }
 
 .ember-power-select-dropdown.ember-basic-dropdown-content--in-place {
+    padding: 4px 0;
     border-bottom-color: color-mod(var(--whitegrey) a(70%) s(-10%));
 }
 
