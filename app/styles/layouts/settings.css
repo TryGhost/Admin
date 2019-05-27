@@ -53,8 +53,9 @@
 .gh-setting-desc {
     line-height: 1.3em;
     color: var(--midgrey);
-    font-weight: 200;
+    font-weight: 300;
     letter-spacing: 0.3px;
+    font-size: 1.3rem;
 }
 
 .gh-setting-error {

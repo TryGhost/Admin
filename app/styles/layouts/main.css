@@ -540,8 +540,8 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 92px 4vw 3vw 4vw;
-    margin: 0 auto;
+    padding: 0 3vw 4vw;
+    margin: 92px auto 0;
     max-width: 1400px;
 }
 
