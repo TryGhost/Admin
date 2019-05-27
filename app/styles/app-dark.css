@@ -155,11 +155,6 @@ input:focus,
     text-shadow: none;
 }
 
-.gh-btn:hover:not(.gh-btn-link) {
-    border-color: color-mod(var(--darkgrey) l(-10%));
-    color: color-mod(var(--darkgrey) l(-10%));
-}
-
 .gh-btn-blue,
 .gh-btn-green,
 .gh-btn-red {
@@ -199,6 +194,7 @@ input:focus,
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus,
 .dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
     color: var(--lightgrey);
+    background: color-mod(#263238 l(-2%));
 }
 
 .gh-cardmenu {
@@ -398,4 +394,21 @@ input:focus,
 
 .apps-card-app-icon {
     mix-blend-mode: normal;
+}
+
+.gh-topmenu {
+    background: #263238;
+}
+
+.gh-contentfilter-menu-trigger, 
+.gh-contentfilter-menu-trigger--active, 
+.gh-contentfilter-menu-trigger:focus,
+.content-list ol {
+    background: #212A2E;
+}
+
+.gh-posts-list-item:hover,
+.ember-power-select-option[aria-current=true],
+.ember-power-select-group .ember-power-select-option[aria-current=true] {
+    background: color-mod(#263238 l(-2%));
 }
