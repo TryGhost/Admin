@@ -511,7 +511,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 3vw 4vw;
+    padding: 0 3vw 3vw;
     margin: 0 auto;
     max-width: 1400px;
 }
@@ -627,7 +627,6 @@
 .view-content {
     position: relative;
     flex-grow: 1;
-    padding-bottom: 4vw;
 }
 
 .view-content {

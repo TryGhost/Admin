@@ -34,8 +34,8 @@
 /* Layout
 /* ---------------------------------------------------------- */
 
-.content.settings-user {
-    padding: 0;
+.settings-user {
+    padding: 0 0 3vw;
 }
 
 .user-cover {

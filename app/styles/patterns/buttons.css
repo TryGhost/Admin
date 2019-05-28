@@ -6,7 +6,7 @@
 .gh-btn {
     display: inline-block;
     outline: none;
-    background: linear-gradient(color-mod(var(--whitegrey-l1) l(-1%)), color-mod(var(--whitegrey-l1) l(-4%)));
+    background: linear-gradient(color-mod(var(--whitegrey-l1) l(-2%)), color-mod(var(--whitegrey-l1) l(-4%)));
     color: color-mod(var(--midgrey) l(-7%));
     text-decoration: none !important;
     user-select: none;
