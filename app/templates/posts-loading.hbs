@@ -9,7 +9,7 @@
                         selected=selectedType
                         options=availableTypes
                         searchEnabled=false
-                        onchange=(action "changeType")
+                        onchange=(action (mut k))
                         tagName="div"
                         classNames="gh-contentfilter-menu gh-contentfilter-type"
                         triggerClass="gh-contentfilter-menu-trigger"
@@ -21,13 +21,13 @@
                     {{type.name}}
                     {{/power-select}}
                     {{/unless}}
-            
+
                     {{#unless session.user.isAuthorOrContributor}}
                     {{#power-select
                         selected=selectedAuthor
                         options=availableAuthors
                         searchField="name"
-                        onchange=(action "changeAuthor")
+                        onchange=(action (mut k))
                         tagName="div"
                         classNames="gh-contentfilter-menu gh-contentfilter-author"
                         triggerClass="gh-contentfilter-menu-trigger"
@@ -40,13 +40,13 @@
                     {{author.name}}
                     {{/power-select}}
                     {{/unless}}
-            
+
                     {{#unless session.user.isContributor}}
                     {{#power-select
                         selected=selectedTag
                         options=availableTags
                         searchField="name"
-                        onchange=(action "changeTag")
+                        onchange=(action (mut k))
                         tagName="div"
                         classNames="gh-contentfilter-menu gh-contentfilter-tag"
                         triggerClass="gh-contentfilter-menu-trigger"
@@ -61,14 +61,14 @@
                     {{/power-select}}
                     {{/unless}}
                 </div>
-            
+
                 <div class="gh-contentfilter-left">
                     {{!-- Sort by: --}}
                     {{#power-select
                         selected=selectedOrder
                         options=availableOrders
                         searchEnabled=false
-                        onchange=(action "changeOrder")
+                        onchange=(action (mut k))
                         tagName="div"
                         classNames="gh-contentfilter-menu gh-contentfilter-sort"
                         triggerClass="gh-contentfilter-menu-trigger"
