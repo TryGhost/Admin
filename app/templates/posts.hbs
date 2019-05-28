@@ -7,57 +7,57 @@
                 <div class="gh-contentfilter-left">
                     {{#unless session.user.isContributor}}
                     {{#power-select
-                                selected=selectedType
-                                options=availableTypes
-                                searchEnabled=false
-                                onchange=(action "changeType")
-                                tagName="div"
-                                classNames="gh-contentfilter-menu gh-contentfilter-type"
-                                triggerClass="gh-contentfilter-menu-trigger"
-                                dropdownClass="gh-contentfilter-menu-dropdown"
-                                matchTriggerWidth=false
-                                data-test-type-select=true
-                                as |type|
-                            }}
+                        selected=selectedType
+                        options=availableTypes
+                        searchEnabled=false
+                        onchange=(action "changeType")
+                        tagName="div"
+                        classNames="gh-contentfilter-menu gh-contentfilter-type"
+                        triggerClass="gh-contentfilter-menu-trigger"
+                        dropdownClass="gh-contentfilter-menu-dropdown"
+                        matchTriggerWidth=false
+                        data-test-type-select=true
+                        as |type|
+                    }}
                     {{type.name}}
                     {{/power-select}}
                     {{/unless}}
             
                     {{#unless session.user.isAuthorOrContributor}}
                     {{#power-select
-                                selected=selectedAuthor
-                                options=availableAuthors
-                                searchField="name"
-                                onchange=(action "changeAuthor")
-                                tagName="div"
-                                classNames="gh-contentfilter-menu gh-contentfilter-author"
-                                triggerClass="gh-contentfilter-menu-trigger"
-                                dropdownClass="gh-contentfilter-menu-dropdown"
-                                searchPlaceholder="Search authors"
-                                matchTriggerWidth=false
-                                data-test-author-select=true
-                                as |author|
-                            }}
+                        selected=selectedAuthor
+                        options=availableAuthors
+                        searchField="name"
+                        onchange=(action "changeAuthor")
+                        tagName="div"
+                        classNames="gh-contentfilter-menu gh-contentfilter-author"
+                        triggerClass="gh-contentfilter-menu-trigger"
+                        dropdownClass="gh-contentfilter-menu-dropdown"
+                        searchPlaceholder="Search authors"
+                        matchTriggerWidth=false
+                        data-test-author-select=true
+                        as |author|
+                    }}
                     {{author.name}}
                     {{/power-select}}
                     {{/unless}}
             
                     {{#unless session.user.isContributor}}
                     {{#power-select
-                                selected=selectedTag
-                                options=availableTags
-                                searchField="name"
-                                onchange=(action "changeTag")
-                                tagName="div"
-                                classNames="gh-contentfilter-menu gh-contentfilter-tag"
-                                triggerClass="gh-contentfilter-menu-trigger"
-                                dropdownClass="gh-contentfilter-menu-dropdown"
-                                searchPlaceholder="Search tags"
-                                matchTriggerWidth=false
-                                optionsComponent="power-select-vertical-collection-options"
-                                data-test-tag-select=true
-                                as |tag|
-                            }}
+                        selected=selectedTag
+                        options=availableTags
+                        searchField="name"
+                        onchange=(action "changeTag")
+                        tagName="div"
+                        classNames="gh-contentfilter-menu gh-contentfilter-tag"
+                        triggerClass="gh-contentfilter-menu-trigger"
+                        dropdownClass="gh-contentfilter-menu-dropdown"
+                        searchPlaceholder="Search tags"
+                        matchTriggerWidth=false
+                        optionsComponent="power-select-vertical-collection-options"
+                        data-test-tag-select=true
+                        as |tag|
+                    }}
                     {{tag.name}}
                     {{/power-select}}
                     {{/unless}}
@@ -66,18 +66,18 @@
                 <div class="gh-contentfilter-left">
                     {{!-- Sort by: --}}
                     {{#power-select
-                                selected=selectedOrder
-                                options=availableOrders
-                                searchEnabled=false
-                                onchange=(action "changeOrder")
-                                tagName="div"
-                                classNames="gh-contentfilter-menu gh-contentfilter-sort"
-                                triggerClass="gh-contentfilter-menu-trigger"
-                                dropdownClass="gh-contentfilter-menu-dropdown"
-                                matchTriggerWidth=false
-                                data-test-order-select=true
-                                as |order|
-                            }}
+                        selected=selectedOrder
+                        options=availableOrders
+                        searchEnabled=false
+                        onchange=(action "changeOrder")
+                        tagName="div"
+                        classNames="gh-contentfilter-menu gh-contentfilter-sort"
+                        triggerClass="gh-contentfilter-menu-trigger"
+                        dropdownClass="gh-contentfilter-menu-dropdown"
+                        matchTriggerWidth=false
+                        data-test-order-select=true
+                        as |order|
+                    }}
                     {{order.name}}
                     {{/power-select}}
                 </div>
