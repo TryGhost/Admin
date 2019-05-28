@@ -46,30 +46,6 @@
     position: relative; /* for the editor in safari */
 }
 
-
-/* Top menu
-/* ---------------------------------------------------------- */
-.gh-topmenu {
-    position: fixed;
-    top: 0;
-    left: 264px;
-    right: 0;
-    display: flex;
-    height: 73px;
-    border-bottom: 1px solid color-mod(var(--lightgrey) l(-3%));
-    z-index: 600;
-    background: #F1F3F8;
-}
-
-.gh-topmenu-content {
-    padding: 20px 4vw;
-    max-width: 1400px;
-    flex-grow: 1;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-}
-
 .gh-user-avatar {
     position: relative;
     display: block;

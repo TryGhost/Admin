@@ -312,6 +312,10 @@ input:focus,
     fill: var(--darkgrey);
 }
 
+.gh-canvas-header {
+    background: #263238;
+}
+
 .gh-loading-spinner {
     border-color: rgba(255,255,255,0.1);
 }
@@ -394,10 +398,6 @@ input:focus,
 
 .apps-card-app-icon {
     mix-blend-mode: normal;
-}
-
-.gh-topmenu {
-    background: #263238;
 }
 
 .gh-contentfilter-menu-trigger, 
