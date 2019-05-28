@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 19px 0 11px;
+    margin: 0 32px;
     padding: 0;
     list-style: none;
 }
@@ -65,11 +65,12 @@
 .gh-contentfilter-menu-trigger--active {
     background: var(--white);
     font-size: 1.3rem;
-    padding: 1px 8px;
+    color: var(--middarkgrey);
+    padding: 0 8px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.01), 0 1px 2px rgba(0, 0, 0, 0.05);
     outline: none;
     border: none;
-    border-radius: 4px !important;
+    border-radius: 9999px !important;
 }
 
 .gh-contentfilter-menu-trigger:hover {
