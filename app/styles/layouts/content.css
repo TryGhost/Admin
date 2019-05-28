@@ -197,6 +197,10 @@
     white-space: nowrap;
 }
 
+.gh-post-list-updated {
+    white-space: nowrap;
+}
+
 .gh-post-list-updated,
 .gh-post-list-author {
     color: var(--midgrey);

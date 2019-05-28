@@ -136,15 +136,15 @@
 .gh-setting-action .input-toggle-component {
     float: none;
     margin-right: 0;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
 }
 
 .gh-setting-action .input-toggle-component:before {
-    top: 7px;
-    left: 6px;
-    width: 15px;
-    height: 9px;
+    top: 6px;
+    left: 5px;
+    width: 12px;
+    height: 7px;
 }
 
 .gh-setting-content-extended {
