@@ -1,3 +1,8 @@
+<div class="gh-post-list-featured">
+    {{#if this.isFeatured}}
+        <span title="Featured">{{svg-jar "star-filled" class="fill-blue w3 h3"}}</span>
+    {{/if}}
+</div>
 <div class="gh-post-list-title">
     <h3 class="gh-content-entry-title">
         {{#link-to "editor.edit" this.post.displayName this.post.id class="permalink" title="Edit this post"}}
@@ -6,17 +11,11 @@
     </h3>
     {{#if isScheduled}}
         <p>
-            {{#if this.isFeatured}}
-                <span class="gh-content-status-featured">{{svg-jar "star-filled"}} Featured</span>
-            {{/if}}
             <span class="gh-schedule-time">Will go live {{gh-format-post-time this.post.publishedAtUTC scheduled=true}}</span>
             <span class="gh-schedule-subtext">&dash; {{this.subText}}</span>
         </p>
     {{else}}
         <p>
-            {{#if this.isFeatured}}
-                <span class="gh-content-status-featured">{{svg-jar "star-filled"}} Featured</span>
-            {{/if}}
             {{this.subText}}
         </p>
     {{/if}}
@@ -28,7 +27,7 @@
     {{/if}}
 
     {{#if this.isDraft}}
-    <span class="gh-content-status-draft gh-badge gh-badge-red">Draft</span>
+    <span class="gh-content-status-draft gh-badge gh-badge-purple">Draft</span>
     {{/if}}
 
     {{#if (and this.isPublished (not this.post.page))}}

@@ -298,7 +298,7 @@
     padding: 6px;
     margin: 0;
     top: -5px;
-    right: 20px;
+    right: 16px;
 }
 
 .gh-nav-list .gh-nav-new-post span {
@@ -326,7 +326,7 @@
 }
 
 .gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--lightgrey) l(+1%) s(-5%));
+    background: color-mod(var(--lightgrey) l(-2%) s(-5%));
 }
 
 .gh-nav-list .gh-secondary-action {
@@ -334,7 +334,7 @@
     z-index: 999;
     padding: 4px;
     margin: 0;
-    right: 24px;
+    right: 20px;
     top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;

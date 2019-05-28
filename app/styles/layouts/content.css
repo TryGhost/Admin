@@ -156,12 +156,17 @@
     white-space: nowrap;
 }
 
-.gh-post-list-status {
-    white-space: nowrap;
+.gh-post-list-header.first {
+    padding: 0;
 }
 
-.gh-post-list-status,
+.gh-post-list-header.title {
+    padding: 6px 20px 6px 8px;
+}
+
+.gh-post-list-featured,
 .gh-post-list-title,
+.gh-post-list-status,
 .gh-post-list-updated,
 .gh-post-list-author {
     display: table-cell;
@@ -170,11 +175,24 @@
     vertical-align: middle;
 }
 
-.gh-posts-list-item:last-of-type .gh-post-list-status,
+.gh-posts-list-item:last-of-type .gh-post-list-featured,
 .gh-posts-list-item:last-of-type .gh-post-list-title,
+.gh-posts-list-item:last-of-type .gh-post-list-status,
 .gh-posts-list-item:last-of-type .gh-post-list-updated,
 .gh-posts-list-item:last-of-type .gh-post-list-author {
     border-bottom: none;
+}
+
+.gh-post-list-featured {
+    padding: 20px 0 20px 8px;
+}
+
+.gh-post-list-title {
+    padding-left: 8px;
+}
+
+.gh-post-list-status {
+    white-space: nowrap;
 }
 
 .gh-post-list-updated,
@@ -238,7 +256,7 @@
     text-transform: uppercase;
     font-size: 1.2rem;
     font-weight: 500;
-    padding: 0 3px;
+    padding: 0 3px 0 0;
 }
 
 .gh-content-status-featured svg {
