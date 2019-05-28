@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     color: var(--blue) !important;
+    background: transparent !important;
 }
 
 .gh-btn-labs-toggle svg {
