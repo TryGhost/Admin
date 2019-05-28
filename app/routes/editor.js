@@ -21,7 +21,6 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
     activate() {
         this._super(...arguments);
         this.ui.set('isFullScreen', true);
-        this.ui.set('isTopmenuHidden', true);
     },
 
     setupController() {
@@ -47,7 +46,6 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
     deactivate() {
         this._super(...arguments);
         this.ui.set('isFullScreen', false);
-        this.ui.set('isTopmenuHidden', false);
     },
 
     actions: {
@@ -88,8 +86,7 @@ export default AuthenticatedRoute.extend(ShortcutsRoute, {
             titleToken: () => {
                 return this.get('controller.post.title') || 'Editor';
             },
-            mainClasses: ['gh-main-white'],
-            isTopmenuHidden: true
+            mainClasses: ['gh-main-white']
         };
     },
 

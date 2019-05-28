@@ -11,18 +11,15 @@ export default AuthenticatedRoute.extend({
 
     activate() {
         this._super(...arguments);
-        this.ui.set('isTopmenuHidden', true);
     },
 
     deactivate() {
         this._super(...arguments);
-        this.ui.set('isTopmenuHidden', false);
     },
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Site',
-            isTopmenuHidden: true
+            titleToken: 'Site'
         };
     }
 });
