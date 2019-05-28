@@ -294,25 +294,34 @@
         margin: 0;
     }
 
-    .gh-post-list-title {
+    .gh-post-list-featured {
         display: block;
         order: 1;
+        border-bottom: none;
+        position: absolute;
+        left: 0;
+        top: -1px;
+    }
+
+    .gh-post-list-title {
+        display: block;
+        order: 2;
         flex: 1 1 100%;
         border: none;
-        padding: 20px 20px 4px;
+        padding: 20px 28px 4px;
     }
 
     .gh-post-list-status {
         display: inline-block;
-        order: 2;
+        order: 3;
         border: none;
-        padding: 0 4px 20px 20px;
+        padding: 0 4px 20px 28px;
         font-size: 1.3rem;
     }
 
     .gh-post-list-updated {
         display: inline-block;
-        order: 3;
+        order: 4;
         border: none;
         padding: 0 4px 20px;
         font-size: 1.3rem;
@@ -320,9 +329,9 @@
 
     .gh-post-list-author {
         display: inline-block;
-        order: 4;
+        order: 5;
         border: none;
-        padding: 0 4px 20px;
+        padding: 0 28px 20px 4px;
         font-size: 1.3rem;
     }
 
