@@ -1,17 +1,3 @@
-<div class="gh-post-list-status">
-    {{#if this.isScheduled}}
-    <span class="gh-content-status-draft gh-badge">Scheduled</span>
-    {{/if}}
-    
-    {{#if this.isDraft}}
-    <span class="gh-content-status-draft gh-badge gh-badge-red">Draft</span>
-    {{/if}}
-
-    {{#if (and this.isPublished (not this.post.page))}}
-    <span class="gh-content-status-published">Published</span>
-    {{/if}}
-</div>
-
 <div class="gh-post-list-title">
     <h3 class="gh-content-entry-title">
         {{#link-to "editor.edit" this.post.displayName this.post.id class="permalink" title="Edit this post"}}
@@ -33,6 +19,20 @@
             {{/if}}
             {{this.subText}}
         </p>
+    {{/if}}
+</div>
+
+<div class="gh-post-list-status">
+    {{#if this.isScheduled}}
+    <span class="gh-content-status-draft gh-badge">Scheduled</span>
+    {{/if}}
+
+    {{#if this.isDraft}}
+    <span class="gh-content-status-draft gh-badge gh-badge-red">Draft</span>
+    {{/if}}
+
+    {{#if (and this.isPublished (not this.post.page))}}
+    <span class="gh-content-status-published">Published</span>
     {{/if}}
 </div>
 
