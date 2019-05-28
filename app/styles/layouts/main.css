@@ -29,7 +29,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background: #F4F6FA;
+    background: #f3f5f9;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -72,6 +72,7 @@
     background: #FCFCFE;
     transform: translateX(0);
     border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
+    /* box-shadow: -4px 0 6px 3px rgba(0, 0, 0, 0.05); */
 }
 
 .gh-nav-menu {
@@ -520,9 +521,9 @@
     min-height: 72px;
     position: sticky;
     top: 0;
-    background: #F4F6FA;
+    background: #f3f5f9;
     z-index: 600;
-    margin: 0 -20px 2px;
+    margin: 0 -20px;
     padding: 0 20px;
 }
 
