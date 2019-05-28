@@ -130,6 +130,7 @@
     box-shadow: none;
     border-top: 1px solid var(--lightgrey-d1);
     border-radius: 0;
+    margin-top: -2px;
 }
 
 .gh-posts-list-item {
