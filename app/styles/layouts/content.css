@@ -12,23 +12,6 @@
     list-style: none;
 }
 
-.gh-contentfilter-left {
-    display: flex;
-    align-items: center;
-}
-
-.gh-contentfilter-left .gh-contentfilter-menu {
-    margin-right: 10px;
-}
-
-.gh-contentfilter-right {
-    display: flex;
-}
-
-.gh-contentfilter-right .gh-contentfilter-menu {
-    margin-left: 10px;
-}
-
 .gh-contentfilter li {
     position: relative;
     display: inline-block;
@@ -71,6 +54,8 @@
     outline: none;
     border: none;
     border-radius: 9999px !important;
+    margin-left: 10px;
+    white-space: nowrap;
 }
 
 .gh-contentfilter-menu-trigger:hover {
@@ -115,7 +100,6 @@
 
 .content-list {
     position: relative;
-    margin-top: 74px;
 }
 
 .content-list ol {
@@ -346,6 +330,44 @@
 
     .gh-post-headers {
         display: none;
+    }
+
+    .post-header {
+        justify-content: flex-end;
+    }
+
+    .post-header .gh-canvas-title {
+        position: absolute;
+        top: 42px;
+        left: 3vw;
+    }
+
+    .post-header .view-actions {
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 18px;
+    }
+
+    .post-header .view-actions .gh-contentfilter {
+        order: 2;
+        margin: 10px 0;
+        padding: 6px 2px;
+        max-width: calc(100vw - 10px);
+        overflow-x: auto;
+    }
+
+    .post-header .gh-canvas-title {
+        margin-top: -25px;
+    }
+}
+
+@media (max-width: 800px) {
+    .post-header {
+        left: 0;
+    }
+
+    .post-header .gh-canvas-title {
+        left: 20px;
     }
 }
 

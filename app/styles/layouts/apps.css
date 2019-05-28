@@ -19,7 +19,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
     max-width: 1200px;
-    margin: 74px 0 2.4vw;
+    margin: 0 0 2.4vw;
 }
 
 .id-item {

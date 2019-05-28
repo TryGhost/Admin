@@ -58,12 +58,6 @@
     box-shadow: 0 0 0 1px var(--lightgrey-d1);
 }
 
-@media (max-width: 800px) {
-    .gh-topmenu {
-        left: 0;
-    }
-}
-
 
 /* Global Nav
 /* ---------------------------------------------------------- */
@@ -453,7 +447,7 @@
     .gh-mobile-nav-bar a,
     .gh-mobile-nav-bar-more {
         height: 55px;
-        padding: 10px 15px 5px 15px;
+        padding: 10px 10px 5px;
         text-align: center;
         cursor: pointer;
         color: var(--darkgrey);
@@ -462,10 +456,11 @@
         align-items: center;
         justify-content: space-around;
         font-size: 1.2rem;
+        flex-basis: 25%;
     }
 
     .gh-mobile-nav-bar a.active {
-        background: color-mod(var(--blue) lightness(+10%));
+        background: var(--blue);
         color: #fff;
     }
 
@@ -523,14 +518,12 @@
     align-items: center;
     margin: 0;
     min-height: 72px;
-    position: fixed;
-    left: 264px;
-    right: 0;
+    position: sticky;
     top: 0;
     background: #f1f3f8;
-    z-index: 999;
-    margin: 0 calc(3vw - 20px) 0 0;
-    padding: 0 20px 0 3vw;
+    z-index: 600;
+    margin: 0 -20px 2px;
+    padding: 0 20px;
 }
 
 .gh-canvas-title {
@@ -581,7 +574,7 @@
     align-items: center;
     padding: 20px;
     border-bottom: var(--lightgrey) 1px solid;
-    margin: 1px 0 -73px;
+    margin: 1px 0 0;
 }
 
 .view-title {
@@ -619,10 +612,6 @@
     align-items: center;
 }
 
-.view-container {
-    margin-top: 73px;
-}
-
 .view-container,
 .view-content {
     position: relative;
@@ -648,5 +637,11 @@
     }
     .view-content {
         padding: 15px;
+    }
+}
+
+@media (max-width: 800px) {
+    .gh-canvas-header {
+        left: 0;
     }
 }
