@@ -29,7 +29,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background: #F1F3F8;
+    background: #F4F6FA;
     overflow-y: auto;
     /* prevent horizontal scroll in IE11 */
     overflow-x: hidden;
@@ -520,7 +520,7 @@
     min-height: 72px;
     position: sticky;
     top: 0;
-    background: #f1f3f8;
+    background: #F4F6FA;
     z-index: 600;
     margin: 0 -20px 2px;
     padding: 0 20px;
