@@ -29,8 +29,7 @@ export default AuthenticatedRoute.extend({
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Members',
-            mainClasses: ['gh-main-white']
+            titleToken: 'Members'
         };
     }
 });

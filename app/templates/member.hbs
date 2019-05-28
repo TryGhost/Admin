@@ -8,10 +8,10 @@
     </header>
 
     <section class="view-container">
-        <div class="flex flex-row nl2 mt10">
+        <div class="flex flex-row nl2 pt6">
             <GhMemberAvatar class="w20 h20 mr4" @initialsClass="f-subheadline" @member={{member}} />
             <div class="flex flex-column justify-center">
-                <h3 class="ma0 pa0">{{member.name}}</h3>
+                <h3 class="ma0 pa0 fw5">{{member.name}}</h3>
                 <span class="db">
                     <a class="midlightgrey" href="mailto:{{member.email}}">
                         {{member.email}}
@@ -21,10 +21,10 @@
         </div>
 
         <div class="pt1 mt10">
-            <h2 class="f8 ttu fw5 midlightgrey">Overview</h2>
+            <h2 class="f-small ttu fw5 midlightgrey">Overview</h2>
         </div>
 
-        <div class="flex flex-row br4 bg-white mt2 shadow-1">
+        <div class="flex flex-row br3 bg-white mt2 shadow-1">
             <div class="flex flex-column flex-grow-1 pa5 br b--whitegrey w-50">
                 <span class="db ttu f8 midlightgrey">Member since</span>
                 <span class="db f5">{{moment-format member.createdAt "MMMM Do"}}</span>
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <h2 class="pb1 bb b--whitegrey f7 fw4 midgrey mt10 pb2">Danger zone</h2>
+        <h2 class="pb1 bb b--whitegrey-d1 f-small fw5 midlightgrey ttu mt10 pb2">Danger zone</h2>
         <button
             type="button"
             class="gh-btn gh-btn-red gh-btn-icon mt3"

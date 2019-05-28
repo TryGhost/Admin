@@ -98,11 +98,11 @@
 
 /* Highlight whitegrey */
 .highlight-whitegrey {
-    transition: background var(--animation-speed-slow) ease!important;
+    transition: background var(--animation-speed-fast) ease!important;
 }
 
 .highlight-whitegrey:hover {
-    background-color: color-mod(var(--whitegrey) a(50%) s(-12%)) !important;
+    background-color: color-mod(var(--whitegrey-l2)) !important;
     transition: none;
 }
 
