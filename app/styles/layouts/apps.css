@@ -105,10 +105,6 @@
     margin: 2vw 0 0;
 }
 
-.apps-first-header {
-    margin-top: 21px;
-}
-
 .apps-grid-title {
     display: block;
     margin: 1vw 0 5px 1px;
@@ -117,6 +113,11 @@
     font-weight: 500;
     letter-spacing: 0.35px;
     font-size: 1.2rem;
+}
+
+.apps-first-header,
+.apps-first-header .apps-grid-title {
+    margin-top: 0px;
 }
 
 .apps-grid {
