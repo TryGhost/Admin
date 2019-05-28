@@ -546,7 +546,15 @@
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    min-height: 73px;
+    min-height: 72px;
+    position: fixed;
+    left: 264px;
+    right: 0;
+    top: 0;
+    background: #f1f3f8;
+    z-index: 999;
+    margin: 0 calc(3vw - 20px) 0 0;
+    padding: 0 20px 0 3vw;
 }
 
 .gh-canvas-title {
@@ -597,7 +605,7 @@
     align-items: center;
     padding: 20px;
     border-bottom: var(--lightgrey) 1px solid;
-    margin-top: 1px;
+    margin: 1px 0 -73px;
 }
 
 .view-title {
@@ -633,6 +641,10 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
+}
+
+.view-container {
+    margin-top: 73px;
 }
 
 .view-container,

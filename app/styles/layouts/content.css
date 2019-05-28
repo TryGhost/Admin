@@ -111,6 +111,7 @@
 
 .content-list {
     position: relative;
+    margin-top: 74px;
 }
 
 .content-list ol {
@@ -128,7 +129,6 @@
     background: none;
     box-shadow: none;
     border-top: 1px solid var(--lightgrey-d1);
-    margin-top: 20px;
     border-radius: 0;
 }
 
