@@ -22,7 +22,8 @@
     content: "";
     position: absolute;
     height: 3px;
-    background: color-mod(var(--lightgrey) l(-10%) s(-10%));
+    /* background: color-mod(var(--lightgrey) l(-10%) s(-10%)); */
+    background: var(--blue);
     width: 100%;
     bottom: -9px;
     left: 0;

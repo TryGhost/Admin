@@ -230,18 +230,20 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 6px 16px;
+    padding: 6px 36px;
     color: var(--middarkgrey);
     transition: none;
-    margin: 4px 20px;
-    border-radius: 4px;
+    margin: 4px 0px;
+    /* border-radius: 4px; */
 }
 
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
-    background: color-mod(var(--lightgrey) l(+2%) s(-15%));
+    background: color-mod(var(--lightgrey) l(+4%) s(-15%));
     font-weight: 700;
+    border-left: 5px solid var(--blue);
+    padding-left: 31px;
 }
 
 .gh-nav-list a:not(.active):hover {
