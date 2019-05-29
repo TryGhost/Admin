@@ -127,6 +127,11 @@
     background: var(--whitegrey-l2);
 }
 
+.gh-posts-list-item:hover .gh-post-list-featured,
+.gh-posts-list-item:hover + .gh-posts-list-item .gh-post-list-featured {
+    border-color: color-mod(var(--whitegrey));
+}
+
 .gh-posts-list-item a:hover {
     text-decoration: none;
 }
@@ -158,21 +163,21 @@
 .gh-post-list-author {
     display: table-cell;
     padding: 16px 20px;
-    border-bottom: color-mod(var(--whitegrey)) 1px solid;
+    border-top: color-mod(var(--whitegrey)) 1px solid;
     vertical-align: middle;
 }
 
-.gh-posts-list-item:last-of-type .gh-post-list-featured,
-.gh-posts-list-item:last-of-type .gh-post-list-title,
-.gh-posts-list-item:last-of-type .gh-post-list-status,
-.gh-posts-list-item:last-of-type .gh-post-list-updated,
-.gh-posts-list-item:last-of-type .gh-post-list-author {
-    border-bottom: none;
+.gh-posts-list-item:nth-of-type(2) .gh-post-list-featured,
+.gh-posts-list-item:nth-of-type(2) .gh-post-list-title,
+.gh-posts-list-item:nth-of-type(2) .gh-post-list-status,
+.gh-posts-list-item:nth-of-type(2) .gh-post-list-updated,
+.gh-posts-list-item:nth-of-type(2) .gh-post-list-author {
+    border-top: none;
 }
 
 .gh-post-list-featured {
     padding: 20px 6px 20px 10px;
-    border-bottom: none;
+    border-color: transparent;
 }
 
 .gh-post-list-title {
