@@ -1,0 +1,90 @@
+.gh-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--white);
+    display: table;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 6px 10px -8px rgba(0,0,0,.15);
+}
+
+.gh-list.tabbed {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.gh-list-row {
+    display: table-row;
+}
+
+.gh-list-row:not(.header):hover .gh-list-cell,
+.gh-list-row:not(.header):hover .gh-list-data {
+    background: var(--whitegrey-l2);
+}
+
+.gh-list-row:first-child .gh-list-cell:first-child,
+.gh-list-row:first-child .gh-list-data:first-child {
+    border-top-left-radius: 5px;
+}
+
+.gh-list-row:first-child .gh-list-cell:last-child,
+.gh-list-row:first-child .gh-list-data:last-child {
+    border-top-right-radius: 5px;
+}
+
+.gh-list-row:last-child .gh-list-cell:first-child,
+.gh-list-row:last-child .gh-list-data:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.gh-list-row:last-child .gh-list-cell:last-child,
+.gh-list-row:last-child .gh-list-data:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+.gh-list-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.gh-list-header {
+    display: table-cell;
+    vertical-align: middle;
+    border-bottom: var(--lightgrey) 1px solid;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--midgrey);
+    text-transform: uppercase;
+    padding: 10px 20px;
+    white-space: nowrap;
+    background: var(--whitegrey-l2);
+}
+
+.gh-list-data {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 16px 20px;
+    border-top: var(--whitegrey) 1px solid;
+}
+
+.gh-list-row:nth-of-type(2) .gh-list-data {
+    border: none;
+}
+
+.gh-list-data.show-on-hover > *,
+.gh-list-cell.show-on-hover > * {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gh-list-row:hover .gh-list-data.show-on-hover > *,
+.gh-list-row:hover .gh-list-cell.show-on-hover > * {
+    opacity: 1;
+}
+
+.gh-list-data.align-right,
+.gh-list-cell.align-right {
+    text-align: right;
+}

@@ -1,12 +1,64 @@
-<section class="gh-view">
-    <header class="view-header">
-        {{#gh-view-title}}<span>Tags</span>{{/gh-view-title}}
+<section class="gh-canvas">
+    <header class="gh-canvas-header">
+        <h2 class="gh-canvas-title" data-test-screen-title>Tags</h2>
         <section class="view-actions">
             {{#link-to "tags.new" class="gh-btn gh-btn-green"}}<span>New tag</span>{{/link-to}}
         </section>
     </header>
 
-    {{#gh-tags-management-container tags=tags selectedTag=selectedTag enteredMobile="enteredMobile" leftMobile=(action "leftMobile") as |container|}}
+    <section class="gh-tabs">
+        <span class="gh-tab selected">Hashtags</span>
+        <span class="gh-tab">Internal tags</span>
+    </section>
+
+    <section>
+        <ol class="gh-list tabbed">
+            <li class="gh-list-row header">
+                <div class="gh-list-header">Tag</div>
+                <div class="gh-list-header">Slug</div>
+                <div class="gh-list-header">No. of posts</div>
+                <div class="gh-list-header"></div>
+            </li>
+            <li class="gh-list-row">
+                <div class="gh-list-data">
+                    <h2 class="f6 fw5">Fusion</h2>
+                </div>
+                <div class="gh-list-data">
+                    <span class="midgrey nowrap">fusion</span>
+                </div>
+                <div class="gh-list-data">
+                    <span class="midgrey nowrap">12 posts</span>
+                </div>
+                <div class="gh-list-data show-on-hover align-right">
+                    <div class="flex items-center nowrap justify-end">
+                        {{svg-jar "pen" class="w4 h4 mr2 fill-darkgrey"}}
+                        {{svg-jar "trash" class="w4 h4 fill-red"}}
+                    </div>
+                </div>
+            </li>
+            <li class="gh-list-row">
+                <div class="gh-list-data">
+                    <h2 class="f6 fw5">Getting Started</h2>
+                    <p class="f8 midgrey pa0 ma0 mt2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit ab, et harum quam
+                        sapiente sequi voluptate quis quia voluptates.</p>
+                </div>
+                <div class="gh-list-data">
+                    <span class="midgrey nowrap">getting-started</span>
+                </div>
+                <div class="gh-list-data">
+                    <span class="midgrey nowrap">12 posts</span>
+                </div>
+                <div class="gh-list-data show-on-hover align-right">
+                    <div class="flex items-center nowrap justify-end">
+                        {{svg-jar "pen" class="w4 h4 mr2 fill-darkgrey"}}
+                        {{svg-jar "trash" class="w4 h4 fill-red"}}
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    {{!-- {{#gh-tags-management-container tags=tags selectedTag=selectedTag enteredMobile="enteredMobile" leftMobile=(action "leftMobile") as |container|}}
         <div class="tag-list">
             <section class="tag-list-content settings-tags {{if tagListFocused 'keyboard-focused'}}">
                 {{#vertical-collection sortedTags
@@ -23,5 +75,5 @@
         <section class="settings-menu-container tag-settings {{if tagContentFocused 'keyboard-focused'}} {{if container.displaySettingsPane 'tag-settings-in'}}">
             {{outlet}}
         </section>
-    {{/gh-tags-management-container}}
+    {{/gh-tags-management-container}} --}}
 </section>

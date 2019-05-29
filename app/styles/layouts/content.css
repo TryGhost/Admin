@@ -142,14 +142,20 @@
     font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: 0.1px;
-    color: var(--darkgrey);
+    color: var(--midgrey);
     text-transform: uppercase;
     padding: 10px 20px;
     white-space: nowrap;
+    background: var(--whitegrey-l2);
 }
 
-.gh-post-list-header.first {
+.gh-post-list-header:first-child {
     padding: 0;
+    border-top-left-radius: 5px;
+}
+
+.gh-post-list-header:last-child {
+    border-top-right-radius: 5px;
 }
 
 .gh-post-list-header.title {
