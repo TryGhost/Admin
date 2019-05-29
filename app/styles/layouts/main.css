@@ -68,11 +68,10 @@
     flex: 0 0 264px;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* TODO: This is a bullshit Firefox hack */
+    min-width: 0;
     background: #FCFCFE;
     transform: translateX(0);
-    border-right: 1px solid color-mod(var(--lightgrey) l(-3%));
-    /* box-shadow: -4px 0 6px 3px rgba(0, 0, 0, 0.05); */
+    box-shadow: 10px 0 20px -10px rgba(0, 0, 0, 0.05);
 }
 
 .gh-nav-menu {
@@ -646,3 +645,54 @@
         left: 0;
     }
 }
+
+
+/* ------------------------------------------------------ */
+/* TODO: I'm experimenting with two styles for the main navigation. Delete the one that's not needed. */
+
+/* .gh-nav {
+    position: relative;
+    z-index: 800;
+    flex: 0 0 284px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #EEF2F5;
+    transform: translateX(0);
+    box-shadow: none;
+    margin-right: -20px;
+}
+
+.gh-main,
+.gh-canvas-header {
+    background: #EEF2F5;
+}
+
+.gh-nav-list .active {
+    background: color-mod(var(--lightgrey) l(-5%) s(-5%));
+}
+
+.gh-nav-list a:not(.active):not(.gh-nav-new-post):hover {
+    background: color-mod(var(--lightgrey) l(-2%) s(-5%));
+}
+
+.gh-nav-list a.gh-nav-new-post:hover span {
+    background: color-mod(var(--lightgrey) l(-5%) s(-5%));
+}
+
+.gh-nav-menu {
+    border-bottom: none;
+    margin-bottom: -16px;
+}
+
+.gh-nav-list .gh-nav-new-post {
+    right: 20px;
+}
+
+.gh-nav-list .gh-secondary-action {
+    right: 24px;
+}
+
+.gh-main-white {
+    background: var(--white);
+} */
