@@ -56,7 +56,6 @@
     clear: both;
     padding: 6px 10px;
     width: 100%;
-    border-radius: 3px;
     color: color-mod(var(--darkgrey) lightness(+20%));
     text-align: left;
     white-space: nowrap;

@@ -7,10 +7,12 @@
     cursor: pointer;
     text-shadow: none;
     background: none;
+    box-shadow: none;
 }
 
 .gh-publishmenu-trigger:hover {
     background: none;
+    box-shadow: none;
 }
 
 .gh-publishmenu-trigger svg {

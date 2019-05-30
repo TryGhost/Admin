@@ -93,9 +93,9 @@
 
 .gh-nav-menu-dropdown .dropdown-menu>li>a {
     font-size: 1.4rem;
-    margin: 0 6px;
+    margin: 0;
     width: unset;
-    padding: 8px 10px 9px;
+    padding: 8px 14px 9px;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu .divider {

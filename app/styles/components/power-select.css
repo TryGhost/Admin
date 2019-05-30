@@ -49,10 +49,9 @@
 }
 
 .ember-power-select-option {
-    margin: 0 4px;
-    padding: 6px 10px;
+    margin: 0;
+    padding: 6px 14px;
     color: color-mod(var(--darkgrey) lightness(+20%));
-    border-radius: 4px;
 }
 
 .ember-power-select-option[aria-current="true"] {

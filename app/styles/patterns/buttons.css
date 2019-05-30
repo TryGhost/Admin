@@ -369,10 +369,12 @@ Usage: CTA buttons grouped together horizontally.
 .gh-btn-link {
     border: none;
     background: none;
+    box-shadow: none;
 }
 
 .gh-btn-link:hover {
     background: none;
+    box-shadow: none;
 }
 
 
