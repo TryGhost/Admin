@@ -186,7 +186,7 @@
 }
 
 .td-item img {
-    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 8px 26px -5px rgba(0,0,0,.2);
+    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 9px 25px -12px rgba(0,0,0,0.5);
     transition: all .8s ease;
 }
 
@@ -196,7 +196,7 @@
 }
 
 .td-item:hover img {
-    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 10px 40px -5px rgba(0,0,0,.15);
+    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 19px 35px -18px rgba(0,0,0,.4);
     transition: all .3s ease;
 }
 
@@ -239,7 +239,7 @@
 
 .td-cta-box:hover {
     transform: translateY(-2%);
-    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 8px 26px -4px rgba(0,0,0,.08);
+    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 10px 10px -10px rgba(0,0,0,.12);
     transition: all .3s ease;
 }
 
@@ -622,8 +622,8 @@
 .theme-validation-container {
     max-height: calc(100vh - 12vw - 110px);
     overflow-y: scroll;
-    margin: -40px -40px 0;
-    padding: 40px 40px 0;
+    margin: -32px -32px 0;
+    padding: 32px 32px 0;
 }
 
 .theme-validation-item {
