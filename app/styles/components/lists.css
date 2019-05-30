@@ -62,6 +62,14 @@
     background: var(--whitegrey-l2);
 }
 
+.gh-list:not(.tabbed) .gh-list-header:first-child {
+    border-top-left-radius: 5px;
+}
+
+.gh-list:not(.tabbed) .gh-list-header:last-child {
+    border-top-right-radius: 5px;
+}
+
 .gh-list-data {
     display: table-cell;
     vertical-align: middle;

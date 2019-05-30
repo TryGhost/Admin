@@ -9,7 +9,7 @@ export default Component.extend({
     ghostPaths: service(),
 
     tagName: 'li',
-    classNames: ['gh-posts-list-item'],
+    classNames: ['gh-list-row', 'gh-posts-list-item'],
     classNameBindings: ['active'],
 
     post: null,

@@ -84,35 +84,37 @@
     </header>
 
     <section class="content-list">
-        <ol class="posts-list {{unless postsInfinityModel "no-posts"}}">
+        <ol class="gh-list {{unless postsInfinityModel "no-posts"}}">
             {{#if postsInfinityModel}}
-                <li class="dt-row gh-post-headers">
-                    <div class="gh-post-list-header"></div>
-                    <div class="gh-post-list-header title">Title</div>
-                    <div class="gh-post-list-header">Status</div>
-                    <div class="gh-post-list-header">Last update</div>
-                    <div class="gh-post-list-header">Authors</div>
-                </li>
+            <li class="gh-list-row header">
+                <div class="gh-list-header"></div>
+                <div class="gh-list-header gh-posts-title-header">Title</div>
+                <div class="gh-list-header">Status</div>
+                <div class="gh-list-header">Last update</div>
+                <div class="gh-list-header">Authors</div>
+            </li>
             {{/if}}
 
             {{#each postsInfinityModel as |post|}}
-                {{gh-posts-list-item
-                    post=post
-                    onDoubleClick=(action "openEditor")
-                    data-test-post-id=post.id}}
+            {{gh-posts-list-item
+                post=post
+                onDoubleClick=(action "openEditor")
+                data-test-post-id=post.id}}
             {{else}}
-                <li class="no-posts-box">
-                    <div class="no-posts">
-                        {{#if showingAll}}
-                            {{svg-jar "posts-placeholder" class="gh-posts-placeholder"}}
-                            <h3>You haven't written any posts yet!</h3>
-                            {{#link-to "editor.new" "post"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>Write a new post</span></button>{{/link-to}}
-                        {{else}}
-                            <h3>No posts match the current filter</h3>
-                            {{#link-to "posts.index" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>Show all posts</span></button>{{/link-to}}
-                        {{/if}}
-                    </div>
-                </li>
+            <li class="no-posts-box">
+                <div class="no-posts">
+                    {{#if showingAll}}
+                    {{svg-jar "posts-placeholder" class="gh-posts-placeholder"}}
+                    <h3>You haven't written any posts yet!</h3>
+                    {{#link-to "editor.new" "post"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>Write a new
+                            post</span></button>{{/link-to}}
+                    {{else}}
+                    <h3>No posts match the current filter</h3>
+                    {{#link-to "posts.index" (query-params type=null author=null tag=null)}}<button type="button"
+                        class="gh-btn gh-btn-lg"><span>Show all posts</span></button>{{/link-to}}
+                    {{/if}}
+                </div>
+            </li>
             {{/each}}
         </ol>
 
