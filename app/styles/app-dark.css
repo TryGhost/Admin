@@ -394,6 +394,11 @@ input:focus,
     color: color-mod(var(--midgrey) l(+10%) s(-5%));
 }
 
+.gh-nav-list a:not(.active):not(.gh-nav-new-post):not(.gh-secondary-action):hover,
+.gh-nav-list .active {
+    background: color-mod(var(--lightgrey) l(-2%) s(-5%))
+}
+
 .gh-nav-list .gh-nav-nightshift span svg path {
     fill: color-mod(var(--midgrey) l(-5%));
 }
@@ -413,4 +418,16 @@ input:focus,
 .ember-power-select-option[aria-current=true],
 .ember-power-select-group .ember-power-select-option[aria-current=true] {
     background: color-mod(#263238 l(-2%));
+}
+
+/* Dark style Lists */
+
+.gh-list {
+    background: #212A2E;
+}
+
+.gh-list-header,
+.gh-list-row:not(.header):hover .gh-list-cell,
+.gh-list-row:not(.header):hover .gh-list-data {
+    background: color-mod(var(--lightgrey) l(-9%));
 }
