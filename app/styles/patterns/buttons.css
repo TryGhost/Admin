@@ -6,14 +6,16 @@
 .gh-btn {
     display: inline-block;
     outline: none;
-    background: linear-gradient(color-mod(var(--whitegrey-l1) l(-2%)), color-mod(var(--whitegrey-l1) l(-4%)));
+    background: var(--white);
+    box-shadow: 0 2px 5px -3px rgba(0,0,0,.12);
     color: color-mod(var(--midgrey) l(-7%));
     text-decoration: none !important;
     user-select: none;
     fill: color-mod(var(--midgrey) l(-7%));
+    border: 1px solid color-mod(var(--midgrey) l(+35%) s(+10%));
     border-radius: 5px;
-    transition: all 0.2s ease;
-    transition-property: color, border-color, background, width, height;
+    transition: all 0.25s ease;
+    transition-property: color, border-color, background, width, height, box-shadow;
 
     -webkit-font-smoothing: subpixel-antialiased;
 }
@@ -23,20 +25,22 @@
     display: block;
     overflow: hidden;
     padding: 0 11px;
-    height: 31px;
+    height: 29px;
     font-size: 1.3rem;
-    line-height: 31px;
+    line-height: 29px;
     font-weight: 400;
     text-align: center;
     letter-spacing: 0.2px;
     border-radius: 4px;
     white-space: nowrap;
     text-overflow: ellipsis;
+    transition: all 0.25s ease;
 }
 
 .gh-btn:hover {
     color: var(--darkgrey);
-    background: linear-gradient(color-mod(var(--whitegrey-l1) l(-3%)), color-mod(var(--whitegrey-l1) l(-8%)));
+    box-shadow: 0 3px 6px -3px rgba(0,0,0,.18);
+    border-color: color-mod(var(--midgrey) l(+30%) s(+10%));
 }
 
 /* When disabled */
@@ -106,7 +110,11 @@ fieldset[disabled] .gh-btn {
     border: 0;
     color: #fff;
     fill: #fff;
-    transition: none !important;
+    box-shadow: none;
+}
+
+.gh-btn-blue:hover {
+    box-shadow: 0 4px 5px -3px rgba(0,0,0,.18);
 }
 
 /* The background of the span is the main visual element */
@@ -137,7 +145,11 @@ fieldset[disabled] .gh-btn {
     border: 0;
     color: #fff;
     fill: #fff;
-    transition: none !important;
+    box-shadow: none;
+}
+
+.gh-btn-green:hover {
+    box-shadow: 0 4px 5px -3px rgba(0,0,0,.1);
 }
 
 /* The background of the span is the main visual element */
@@ -169,7 +181,11 @@ fieldset[disabled] .gh-btn {
     border: 0;
     color: #fff;
     fill: #fff;
-    transition: none !important;
+    box-shadow: none;
+}
+
+.gh-btn-red:hover {
+    box-shadow: 0 4px 5px -3px rgba(0,0,0,.18);
 }
 
 /* The background of the span is the main visual element */
@@ -205,7 +221,11 @@ fieldset[disabled] .gh-btn {
     border: 0;
     color: #fff;
     fill: #fff;
-    transition: none !important;
+    box-shadow: none;
+}
+
+.gh-btn-black:hover {
+    box-shadow: 0 4px 5px -3px rgba(0,0,0,.1);
 }
 
 /* The background of the span is the main visual element */
@@ -237,6 +257,7 @@ fieldset[disabled] .gh-btn {
 /* ---------------------------------------------------------- */
 
 .gh-btn-white {
+    border: none;
     background: var(--white);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.01), 0 1px 2px rgba(0, 0, 0, 0.05);
     outline: none;
@@ -248,6 +269,11 @@ fieldset[disabled] .gh-btn {
 
 .gh-btn-white span {
     height: 31px;
+    line-height: 31px;
+}
+
+.gh-btn-strong {
+    border-color: color-mod(var(--midgrey) l(+25%));
 }
 
 .gh-btn-block {
