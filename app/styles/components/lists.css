@@ -88,3 +88,35 @@
 .gh-list-cell.align-right {
     text-align: right;
 }
+
+/* Helpers for smaller sizes
+/* --------------------------------------------------- */
+
+@media (max-width: 1000px) {
+    .gh-list-header {
+        display: none;
+    }
+
+    /* Generic helper class to hide cell */
+    .gh-list-hidecell-m {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .gh-list-hidecell-s {
+        display: none;
+    }
+
+    /* Hidden elements are usually controls for the row which should
+       be shown always on mobile sizes */
+    .gh-list-cell.show-on-hover > *,
+    .gh-list-data.show-on-hover > * {
+        opacity: 1;
+    }
+
+    .gh-list-cell.force-hide-s > *,
+    .gh-list-data.force-hide-s > * {
+        opacity: 0;
+    }
+}
