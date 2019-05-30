@@ -51,7 +51,7 @@
     display: block;
     width: 32px;
     height: 32px;
-    margin-right: 8px;
+    margin-right: 10px;
     background-position: 50%;
     background-size: cover;
     border-radius: 100%;
@@ -341,7 +341,7 @@
 }
 
 .gh-nav-bottom {
-    padding: 20px;
+    padding: 20px 20px 24px;
 }
 
 /* Mobile Nav Menu (Slides out)
@@ -414,7 +414,7 @@
     }
 
     .gh-nav-list svg {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 17px;
         height: 17px;
         text-align: center;

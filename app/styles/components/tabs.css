@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--lightgrey-d1);
-    padding: 2px 0 8px;
+    padding: 3px 0 8px;
 }
 
 .gh-tab {
@@ -22,7 +22,6 @@
     content: "";
     position: absolute;
     height: 3px;
-    /* background: color-mod(var(--lightgrey) l(-10%) s(-10%)); */
     background: var(--blue);
     width: 100%;
     bottom: -9px;
