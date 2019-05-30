@@ -484,22 +484,29 @@
 /* ---------------------------------------------------------- */
 
 .settings-code {
-    max-width: 700px;
+    max-width: 100%;
+}
+
+.settings-code label {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
 }
 
 .settings-code p {
-    margin: 0 0 4px 0;
+    margin: 0 0 8px;
+    font-size: 1.3rem;
 }
 
 .settings-code code {
     vertical-align: middle;
+    font-size: 1.2rem;
 }
 
 .settings-code-editor {
     padding: 0;
     min-width: 250px;
     min-height: 300px;
-    max-width: 680px;
+    max-width: 1000px;
     width: 100%;
     height: auto;
     line-height: 22px;

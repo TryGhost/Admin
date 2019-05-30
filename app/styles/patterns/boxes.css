@@ -7,11 +7,12 @@
     border: 1px solid transparent;
     border-left-width: 5px;
     color: var(--midgrey);
-    line-height: 1.4em;
+    line-height: 1.55em;
     letter-spacing: 0.2px;
     background: #fff;
     border-radius: 5px;
     border-color: var(--whitegrey);
+    box-shadow: 0 6px 10px -8px rgba(0,0,0,.15)
 }
 
 .gh-box svg:first-of-type {
