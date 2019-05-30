@@ -357,12 +357,6 @@ input:focus,
     background: #212A2E;
 }
 
-.apps-grid-cell:hover {
-    background: color-mod(var(--whitegrey) a(60%) s(+5%));
-    border-radius: 7px;
-    transition: none;
-}
-
 .td-cta-box {
     background: #212A2E;
 }
@@ -428,6 +422,7 @@ input:focus,
 
 .gh-list-header,
 .gh-list-row:not(.header):hover .gh-list-cell,
-.gh-list-row:not(.header):hover .gh-list-data {
+.gh-list-row:not(.header):hover .gh-list-data,
+.apps-grid-cell:hover {
     background: color-mod(var(--lightgrey) l(-9%));
 }
