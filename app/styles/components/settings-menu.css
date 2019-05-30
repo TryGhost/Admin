@@ -14,9 +14,11 @@
     width: 350px;
     max-width: 100%;
     overflow: hidden;
-    background: color-mod(var(--lightgrey) l(+4%) s(-12%));
+    background: var(--whitegrey-l2);
+    border-left: 1px solid var(--whitegrey);
+    box-shadow: 0 0 16px rgba(27,39,51,0.07);
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
-    transform: translate3d(350px, 0px, 0px);
+    transform: translate3d(360px, 0px, 0px);
 }
 
 .settings-menu-expanded .settings-menu-container {
