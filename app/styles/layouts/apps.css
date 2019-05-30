@@ -154,26 +154,19 @@
     transition: none;
 }
 
-.apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
-.apps-grid-cell:hover .apps-card-app {
-    margin-left: 0px;
-    padding-left: 16px;
-}
-
 .apps-card-app {
     display: flex;
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    padding: 16px 20px 16px 0;
-    margin: 0 -4px 0 16px;
+    padding: 16px 16px;
     height: 65px;
     border-top: var(--lightgrey) 1px solid;
     transition: background 0.3s ease;
 }
 
 .new-integration-cell .apps-card-app {
-    padding: 10px 0;
+    padding: 10px 16px;
     height: auto;
 }
 

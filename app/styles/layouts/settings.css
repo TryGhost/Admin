@@ -19,8 +19,8 @@
 .gh-setting-last {
     display: flex;
     justify-content: space-between;
-    padding: 18px 24px 18px 0;
-    margin-right: -24px;
+    padding: 18px 20px;
+    margin: 0 -20px;
     border-top: var(--lightgrey) 1px solid;
 }
 
