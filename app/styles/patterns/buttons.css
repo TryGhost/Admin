@@ -14,7 +14,7 @@
     fill: color-mod(var(--midgrey) l(-7%));
     border: 1px solid color-mod(var(--midgrey) l(+35%) s(+10%));
     border-radius: 5px;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     transition-property: color, border-color, background, width, height, box-shadow;
 
     -webkit-font-smoothing: subpixel-antialiased;
@@ -34,7 +34,6 @@
     border-radius: 4px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    transition: all 0.25s ease;
 }
 
 .gh-btn:hover {
@@ -62,14 +61,17 @@ fieldset[disabled] .gh-btn {
 
 .gh-btn-hover-blue:hover {
     color: var(--blue);
+    border-color: var(--blue);
 }
 
 .gh-btn-hover-green:hover {
     color: var(--green);
+    border-color: var(--green);
 }
 
 .gh-btn-hover-red:hover {
     color: var(--red);
+    border-color: var(--red);
 }
 
 
