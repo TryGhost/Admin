@@ -292,13 +292,12 @@
     stroke: var(--darkgrey);
 }
 
-.gh-nav-list a.gh-nav-new-post:hover,
-.gh-nav-list a.gh-nav-new-post.active {
-    background: none;
+.gh-nav-list a.gh-nav-new-post:hover span {
+    background: color-mod(var(--lightgrey) l(+3%) s(-15%));
 }
 
-.gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--lightgrey) l(-2%) s(-5%));
+.gh-nav-list a.gh-nav-new-post:hover {
+    background: none;
 }
 
 .gh-nav-list .gh-secondary-action {
