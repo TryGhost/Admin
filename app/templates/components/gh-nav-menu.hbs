@@ -61,6 +61,7 @@
                 {{/if}}
             </li>
             <li>
+                {{#link-to "editor.new" "page" classNames="gh-nav-new-post" alt="New page" data-test-nav="new-page"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "pages.index")}}
                     {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "pages"}}Pages{{/link-to}}
