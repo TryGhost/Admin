@@ -343,7 +343,8 @@ input:focus,
 }
 
 .settings-menu-content .for-radio .input-toggle-component,
-.settings-menu-content .for-checkbox .input-toggle-component {
+.settings-menu-content .for-checkbox .input-toggle-component,
+.settings-menu-content .for-switch .input-toggle-component {
     background: var(--lightgrey);
 }
 

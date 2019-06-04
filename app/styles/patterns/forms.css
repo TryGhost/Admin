@@ -313,8 +313,8 @@ textarea {
     left: 0;
     right: 0;
     bottom: 0;
-    background: color-mod(var(--lightgrey) l(-5%) s(-10%));
-    border: 1px solid color-mod(var(--lightgrey) l(-7%) s(-10%));
+    background: color-mod(var(--lightgrey) l(+4%));
+    border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
     transition: .4s;
     width: 46px !important;
     height: 26px !important;
@@ -335,6 +335,7 @@ textarea {
     top: 3px !important;
     background-color: white;
     transition: .4s;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 3px rgba(0, 0, 0, 0.12);
     border-radius: 999px;
 }
 
