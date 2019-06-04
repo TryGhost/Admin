@@ -113,18 +113,18 @@
     top: 60%;
     left: calc(100% - 3px);
     display: block;
-    width: calc(545px - 100%);
+    width: calc(540px - 100%);
     height: 1px;
     border-bottom: color-mod(var(--lightgrey) l(-5%)) 1px solid;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .ember-power-select-group .ember-power-select-group-name:after {
-        width: calc(224px - 100%);
+        width: calc(524px - 100%);
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .ember-power-select-group .ember-power-select-group-name:after {
         width: calc(80vw - 45px - 100%);
     }
