@@ -290,8 +290,8 @@ textarea {
     cursor: pointer;
     position: relative;
     display: inline-block;
-    width: 46px !important;
-    height: 26px !important;
+    width: 50px !important;
+    height: 28px !important;
 }
 
 .for-switch label p {
@@ -316,8 +316,8 @@ textarea {
     background: color-mod(var(--lightgrey) l(+4%));
     border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
     transition: .4s;
-    width: 46px !important;
-    height: 26px !important;
+    width: 50px !important;
+    height: 28px !important;
     border-radius: 999px;
     transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -329,8 +329,8 @@ textarea {
 .for-switch .input-toggle-component:before {
     position: absolute;
     content: "";
-    height: 18px !important;
-    width: 18px !important;
+    height: 20px !important;
+    width: 20px !important;
     left: 3px !important;
     top: 3px !important;
     background-color: white;
@@ -345,7 +345,7 @@ textarea {
 }
 
 .for-switch input:checked + .input-toggle-component:before {
-    transform: translateX(20px);
+    transform: translateX(22px);
 }
 
 
