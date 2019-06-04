@@ -95,7 +95,7 @@
                     <div class="gh-setting-desc">Swap Ghost admin's colours to a dark background which is easy on the eyes</div>
                 </div>
                 <div class="gh-setting-action">
-                    <div class="for-checkbox">{{gh-feature-flag "nightShift"}}</div>
+                    <div class="for-switch">{{gh-feature-flag "nightShift"}}</div>
                 </div>
             </div>
             {{#if (not-eq feature.labs.publicAPI undefined)}}
@@ -105,7 +105,7 @@
                     <div class="gh-setting-desc">⚠️ Please use the Content API instead, more info in <a href="https://docs.ghost.org/api/content/">the docs</a></div>
                     </div>
                     <div class="gh-setting-action">
-                        <div class="for-checkbox">{{gh-feature-flag "publicAPI"}}</div>
+                        <div class="for-switch">{{gh-feature-flag "publicAPI"}}</div>
                     </div>
                 </div>
             {{/if}}
@@ -117,9 +117,9 @@
                 </div>
                 <div class="gh-setting-action">
                     {{#if feature.members}}
-                        <div class="for-checkbox">{{gh-feature-flag "subscribers" "disabled"}}</div>
+                        <div class="for-switch">{{gh-feature-flag "subscribers" "disabled"}}</div>
                     {{else}}
-                        <div class="for-checkbox">{{gh-feature-flag "subscribers" }}</div>
+                        <div class="for-switch">{{gh-feature-flag "subscribers" }}</div>
                     {{/if}}
                 </div>
             </div>
@@ -229,7 +229,7 @@
                         {{/liquid-if}}
                     </div>
                     <div class="gh-setting-action">
-                        <div class="for-checkbox">{{gh-feature-flag "members"}}</div>
+                        <div class="for-switch">{{gh-feature-flag "members"}}</div>
                     </div>
                 </div>
             {{/if}}
