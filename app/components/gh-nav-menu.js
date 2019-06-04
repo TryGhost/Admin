@@ -18,6 +18,8 @@ export default Component.extend({
 
     iconStyle: '',
 
+    showSearchModal: false,
+
     showMenuExtension: computed('config.clientExtensions.menu', 'session.user.isOwner', function () {
         return this.get('config.clientExtensions.menu') && this.get('session.user.isOwner');
     }),
@@ -62,6 +64,9 @@ export default Component.extend({
             } else {
                 this.router.transitionTo('site');
             }
+        },
+        toggleSearchModal() {
+            this.toggleProperty('showSearchModal');
         }
     },
 

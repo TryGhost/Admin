@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: #f1f4f9;
+    --main-bg-color: #f1f3f7;
 }
 
 /* Global Layout
@@ -165,28 +165,48 @@
     overflow-y: auto;
 }
 
+/* Global search
+/* ---------------------------------------------------------- */
+
+.gh-nav-btn-search {
+    padding: 5px 4px 2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    margin: 2px 0 0;
+}
+
+.gh-nav-btn-search:hover {
+    background: color-mod(var(--lightgrey) l(+3%) s(-15%));
+}
+
+.gh-nav-search-modal {
+    margin: -32px;
+}
+
 .gh-nav-search {
     position: relative;
     min-width: 300px;
 }
 
-.gh-nav-search .ember-power-select-trigger {
+.gh-nav-search-input .ember-power-select-trigger {
     outline: 0;
     background: var(--white);
     border: none;
     border-radius: 5px;
-    border: 1px solid color-mod(var(--lightgrey) l(-3%));
+    border: none;
+    padding: 16px;
 }
 
-.gh-nav-search .ember-power-select-trigger input {
+.gh-nav-search-input .ember-power-select-trigger input {
     height: 25px;
-    margin-left: 22px !important;
+    margin-left: 26px !important;
 }
 
 .gh-nav-search-icon {
     position: absolute;
-    top: 7px;
-    left: 6px;
+    top: 23px;
+    left: 15px;
     bottom: 0;
     z-index: 1;
     width: 16px !important;
@@ -238,7 +258,6 @@
     color: var(--middarkgrey);
     transition: none;
     margin: 4px 0px;
-    /* border-radius: 4px; */
 }
 
 .gh-nav-list .active {

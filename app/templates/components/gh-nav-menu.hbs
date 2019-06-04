@@ -3,8 +3,16 @@
         <div class="gh-nav-menu-icon" style={{iconStyle}}></div>
         <div class="gh-nav-menu-details-blog">{{config.blogTitle}}</div>
     </div>
-    <div class="gh-nav-menu-search">{{svg-jar "search" class="w4 h4 fill-midgrey mr2 mt1"}}</div>
+    <div class="gh-nav-menu-search">
+        <button class="gh-nav-btn-search" {{action "toggleSearchModal"}}><span>{{svg-jar "search" class="w4 h4 fill-midgrey"}}</span></button>
+    </div>
 </header>
+
+{{#if showSearchModal}}
+{{gh-fullscreen-modal "search"
+    close=(action "toggleSearchModal")
+    modifier="action wide"}}
+{{/if}}
 
 <section class="gh-nav-body">
     <div class="gh-nav-top">
