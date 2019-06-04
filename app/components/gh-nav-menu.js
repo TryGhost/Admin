@@ -1,11 +1,13 @@
 import Component from '@ember/component';
+import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {computed} from '@ember/object';
 import {getOwner} from '@ember/application';
 import {htmlSafe} from '@ember/string';
 import {inject as service} from '@ember/service';
 
-export default Component.extend({
+export default Component.extend(ShortcutsMixin, {
     config: service(),
     feature: service(),
     ghostPaths: service(),
@@ -19,6 +21,8 @@ export default Component.extend({
     iconStyle: '',
 
     showSearchModal: false,
+
+    shortcuts: null,
 
     showMenuExtension: computed('config.clientExtensions.menu', 'session.user.isOwner', function () {
         return this.get('config.clientExtensions.menu') && this.get('session.user.isOwner');
@@ -48,12 +52,31 @@ export default Component.extend({
         return this.router.currentRouteName === 'site';
     }),
 
+    init() {
+        this._super(...arguments);
+        
+        let shortcuts = {};
+
+        shortcuts[`${ctrlOrCmd}+k`] = {action: 'toggleSearchModal'};
+        this.shortcuts = shortcuts;
+    },
+
     // the menu has a rendering issue (#8307) when the the world is reloaded
     // during an import which we have worked around by not binding the icon
     // style directly. However we still need to keep track of changing icons
     // so that we can refresh when a new icon is uploaded
     didReceiveAttrs() {
         this._setIconStyle();
+    },
+
+    didInsertElement() {
+        this._super(...arguments);
+        this.registerShortcuts();
+    },
+
+    willDestroyElement() {
+        this.removeShortcuts();
+        this._super(...arguments);
     },
 
     actions: {
