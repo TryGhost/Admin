@@ -39,6 +39,10 @@
     margin-top: 30px;
     margin-bottom: 30px;
     max-width: 550px;
+    pointer-events: none;
+}
+
+.fullscreen-modal * {
     pointer-events: auto;
 }
 
