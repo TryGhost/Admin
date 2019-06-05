@@ -145,6 +145,8 @@ body {
     height: 100%;
     color: var(--darkgrey);
     font-size: 1.4rem;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 ::selection {

@@ -38,12 +38,12 @@ input {
 
 ::-webkit-input-placeholder {
     color: color-mod(var(--midgrey) l(+18%));
-    font-weight: 200;
+    font-weight: 300;
 }
 
 :-ms-input-placeholder {
     color: color-mod(var(--midgrey) l(+18%));
-    font-weight: 200;
+    font-weight: 300;
 }
 
 .error .response {
@@ -133,7 +133,7 @@ select {
     color: color-mod(var(--midgrey) l(-18%));
     font-size: 1.5rem;
     line-height: 1em;
-    font-weight: 300;
+    font-weight: 400;
     user-select: text;
     border-radius: var(--border-radius);
     transition: border-color 0.1s linear;
@@ -314,7 +314,7 @@ textarea {
     right: 0;
     bottom: 0;
     background: color-mod(var(--lightgrey) l(+4%));
-    border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
+    border: 1px solid color-mod(var(--lightgrey) l(-3%) s(-10%));
     transition: .4s;
     width: 50px !important;
     height: 28px !important;
@@ -323,7 +323,7 @@ textarea {
 }
 
 .for-switch label:hover input:not(:checked) + .input-toggle-component {
-    border-color: color-mod(var(--lightgrey) l(-15%) s(-10%));
+    border-color: color-mod(var(--lightgrey) l(-10%) s(-10%));
 }
 
 .for-switch .input-toggle-component:before {

@@ -53,7 +53,6 @@
 .gh-setting-desc {
     line-height: 1.3em;
     color: var(--midgrey);
-    font-weight: 300;
     letter-spacing: 0.3px;
     font-size: 1.3rem;
 }
@@ -212,7 +211,7 @@
     display: inline-flex;
     align-items: center;
     text-transform: none;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 0.9em;
     color: color-mod(var(--midgrey) l(-5%));
 }
@@ -751,7 +750,6 @@
     margin-top: 12px;
     padding-top: 12px;
     font-size: 1.3rem;
-    font-weight: 300;
     border-top: 1px solid var(--lightgrey);
 }
 

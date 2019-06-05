@@ -75,7 +75,7 @@
     min-width: 0;
     background: #FFF;
     transform: translateX(0);
-    box-shadow: 10px 0 20px -10px rgba(0, 0, 0, 0.05);
+    box-shadow: -2px 0 10px -2px rgba(0,0,0,.05);
 }
 
 .gh-nav-menu {
@@ -255,22 +255,25 @@
     display: flex;
     align-items: center;
     padding: 6px 36px;
-    color: var(--middarkgrey);
-    transition: none;
+    color: color-mod(var(--middarkgrey) h(+2) l(+4%));
+    transition: color 0.5s ease;
     margin: 4px 0px;
+    font-weight: 400;
+    -webkit-font-smoothing: 
 }
 
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
-    background: color-mod(var(--lightgrey) l(+3%) s(-15%));
+    /* background: color-mod(var(--lightgrey) l(+3%) s(-15%)); */
     font-weight: 700;
     border-left: 5px solid var(--blue);
     padding-left: 31px;
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: color-mod(var(--lightgrey) s(-15%) a(50%));
+    /* background: color-mod(var(--lightgrey) s(-15%) a(50%)); */
+    color: var(--darkgrey);
     opacity: 1;
 }
 
@@ -281,8 +284,10 @@
     height: 16px;
     fill: var(--midgrey);
     line-height: 1;
+    transition: fill 0.5s ease;
 }
 
+.gh-nav-list a:not(.active):hover svg,
 .gh-nav-list .active svg {
     fill: var(--darkgrey);
 }
@@ -560,7 +565,7 @@
     white-space: nowrap;
     font-size: 2.8rem;
     line-height: 1.2em;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.4px;
     /* match button height to avoid jump on navigation between screens*/
     min-height: 35px;

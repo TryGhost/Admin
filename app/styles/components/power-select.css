@@ -52,7 +52,7 @@
 .ember-power-select-option {
     margin: 0;
     padding: 6px 14px;
-    color: color-mod(var(--darkgrey) lightness(+20%));
+    color: var(--darkgrey);
 }
 
 .ember-power-select-option[aria-current="true"] {
@@ -83,7 +83,8 @@
     background: none !important;
     box-shadow: none !important;
     text-indent: 0 !important;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 400;
     line-height: inherit !important;
 }
 
