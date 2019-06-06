@@ -423,11 +423,17 @@
         left: 0;
         width: 205px;
         height: 100%;
+        background: var(--white);
+        box-shadow: -2px 0 10px -2px rgba(0, 0, 0, 0.2);
         transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
         transform: translate3d(-205px, 0px, 0px);
     }
     .mobile-menu-expanded .gh-nav {
         transform: translate3d(0,0,0);
+    }
+
+    .gh-nav-list .active {
+        background: color-mod(var(--lightgrey) l(+2%) s(-10%));
     }
 }
 
@@ -552,7 +558,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 4vw 3vw calc(4vw - 20px);
+    padding: 0 4vw 4vw calc(4vw - 20px);
     margin: 0 auto;
     max-width: 1400px;
 }
@@ -689,5 +695,9 @@
 @media (max-width: 800px) {
     .gh-canvas-header {
         left: 0;
+    }
+
+    .gh-canvas {
+        padding: 0 4vw 4vw;
     }
 }
