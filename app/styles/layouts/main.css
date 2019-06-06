@@ -582,7 +582,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin: -3px 0 0 1px;
+    margin: -1px 0 0 1px;
     padding: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
