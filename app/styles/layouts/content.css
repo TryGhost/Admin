@@ -268,11 +268,14 @@
         display: inline-block;
         order: 5;
         border: none;
-        padding: 0 28px 20px 4px;
+        padding: 0 28px 20px;
         font-size: 1.3rem;
+        flex-basis: 100%;
+        margin-top: -16px;
     }
 
-    .gh-post-headers {
+    .gh-post-headers,
+    .gh-post-list-actions {
         display: none;
     }
 
