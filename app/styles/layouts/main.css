@@ -207,6 +207,7 @@
 .gh-nav-search-input .ember-power-select-trigger input {
     height: 25px;
     margin-left: 26px !important;
+    font-size: 1.5rem !important;
 }
 
 .gh-nav-search-icon {
