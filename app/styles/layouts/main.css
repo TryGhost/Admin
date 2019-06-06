@@ -266,13 +266,12 @@
     transition: none;
     margin: 4px 20px;
     font-weight: 400;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .gh-nav-list .active {
     position: relative;
     color: var(--active-menu-color);
-    /* background: var(--active-menu-bg-color); */
     font-weight: 700;
 }
 

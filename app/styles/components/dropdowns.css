@@ -56,7 +56,7 @@
     clear: both;
     padding: 6px 10px;
     width: 100%;
-    color: color-mod(var(--darkgrey) lightness(+20%));
+    color: var(--middarkgrey);
     text-align: left;
     white-space: nowrap;
     font-size: 1.3rem;
