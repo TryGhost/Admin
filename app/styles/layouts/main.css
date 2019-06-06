@@ -1,7 +1,10 @@
 :root {
     --main-bg-color: #f1f3f7;
-    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-4%) s(-5%));
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(-5%));
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+5%));
+    /* --active-menu-color: color-mod(var(--blue) l(-15%) s(+15%));
+    --active-menu-bg-color: color-mod(var(--blue) a(8%) s(-20%)); */
+    --active-menu-color: var(--darkgrey);
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+5%));
 }
 
 /* Global Layout
@@ -76,7 +79,6 @@
     flex-direction: column;
     min-width: 0;
     background: var(--main-bg-color);
-    border-right: 1px solid var(--menu-hover-bg-color);
     transform: translateX(0);
 }
 
@@ -256,21 +258,19 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 6px 36px;
+    padding: 6px 16px;
     color: color-mod(var(--middarkgrey) h(+2) l(+4%));
     transition: none;
-    margin: 4px 0px;
+    margin: 4px 20px;
     font-weight: 400;
-    border-radius: 0px;
+    border-radius: 5px;
 }
 
 .gh-nav-list .active {
     position: relative;
-    color: var(--darkgrey);
+    color: var(--active-menu-color);
     background: var(--active-menu-bg-color);
     font-weight: 700;
-    border-left: 5px solid var(--blue);
-    padding-left: 31px;
 }
 
 .gh-nav-list a:not(.active):hover {
@@ -294,7 +294,7 @@
 }
 
 .gh-nav-list .active svg {
-    fill: var(--darkgrey);
+    fill: var(--active-menu-color);
 }
 
 .gh-nav-list .gh-nav-new-post {
