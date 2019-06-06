@@ -262,6 +262,7 @@
         border: none;
         padding: 0 4px 20px;
         font-size: 1.3rem;
+        flex-grow: 1;
     }
 
     .gh-post-list-author {
@@ -281,12 +282,13 @@
 
     .post-header {
         justify-content: flex-end;
+        min-height: 120px;
     }
 
     .post-header .gh-canvas-title {
         position: absolute;
-        top: 42px;
-        left: 3vw;
+        top: 29px;
+        left: calc(2.8vw - 10px);
     }
 
     .post-header .view-actions {
@@ -302,10 +304,6 @@
         max-width: calc(100vw - 10px);
         overflow-x: auto;
     }
-
-    .post-header .gh-canvas-title {
-        margin-top: -25px;
-    }
 }
 
 @media (max-width: 800px) {
@@ -315,12 +313,6 @@
 
     .post-header .gh-canvas-title {
         left: 20px;
-    }
-}
-
-@media (max-width: 900px) {
-    .gh-posts-list-item a {
-        padding-right: 40px;
     }
 }
 

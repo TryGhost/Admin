@@ -560,7 +560,7 @@
     flex-grow: 1;
     padding: 0 2.8vw 4vw calc(2.8vw - 20px);
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1500px;
 }
 
 .gh-canvas-header {
