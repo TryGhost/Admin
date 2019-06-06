@@ -1,5 +1,7 @@
 :root {
     --main-bg-color: #f1f3f7;
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(+2%) s(-5%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(+1%) s(-5%));
 }
 
 /* Global Layout
@@ -177,7 +179,7 @@
 }
 
 .gh-nav-btn-search:hover {
-    background: color-mod(var(--lightgrey) l(+3%) s(-15%));
+    background: var(--menu-hover-bg-color);
 }
 
 .gh-nav-search-modal {
@@ -265,14 +267,14 @@
 .gh-nav-list .active {
     position: relative;
     color: var(--darkgrey);
-    /* background: color-mod(var(--lightgrey) l(+3%) s(-15%)); */
+    background: var(--active-menu-bg-color);
     font-weight: 700;
     border-left: 5px solid var(--blue);
     padding-left: 31px;
 }
 
 .gh-nav-list a:not(.active):hover {
-    /* background: color-mod(var(--lightgrey) s(-15%) a(50%)); */
+    background: var(--menu-hover-bg-color);
     color: var(--darkgrey);
     opacity: 1;
 }
@@ -321,7 +323,7 @@
 }
 
 .gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--lightgrey) l(+3%) s(-15%));
+    background: var(--active-menu-bg-color);
 }
 
 .gh-nav-list a.gh-nav-new-post:hover {
