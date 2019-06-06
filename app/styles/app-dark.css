@@ -64,6 +64,7 @@
     --darkgrey: #e5eff5;
     --midgrey: #738a94;
     --lightgrey: #333F44;
+    --dark-main-bg-color: #263238;
 }
 
 body {
@@ -101,7 +102,6 @@ input:focus,
     border-color: color-mod(var(--lightgrey) l(+10%));
 }
 
-.gh-nav,
 .settings-menu-container,
 .gh-main-white {
     background: #212A2E;
@@ -147,8 +147,13 @@ input:focus,
 }
 
 .gh-main,
+.gh-nav,
 .gh-unsplash-window {
-    background: #263238;
+    background: var(--dark-main-bg-color);
+}
+
+.gh-main-bordered {
+    border-color: transparent;
 }
 
 .gh-btn {
@@ -196,7 +201,7 @@ input:focus,
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus,
 .dropdown-menu > li > button:hover, .dropdown-menu > li > button:focus {
     color: var(--lightgrey);
-    background: color-mod(#263238 l(-2%));
+    background: color-mod(var(--dark-main-bg-color) l(-2%));
 }
 
 .gh-cardmenu {
@@ -268,6 +273,10 @@ input:focus,
     background: rgba(0,0,0,0.5);
 }
 
+.fullscreen-modal-background {
+    background: #000;
+}
+
 .modal-content {
     background: #212A2E;
 }
@@ -294,7 +303,7 @@ input:focus,
 }
 
 .gh-editor-header-small {
-    background: #263238;
+    background: var(--dark-main-bg-color);
 }
 
 .gh-markdown-editor .CodeMirror-cursor {
@@ -315,7 +324,7 @@ input:focus,
 }
 
 .gh-canvas-header {
-    background: #263238;
+    background: var(--dark-main-bg-color);
 }
 
 .gh-loading-spinner {
@@ -390,8 +399,10 @@ input:focus,
 }
 
 .gh-nav-list a:not(.active):not(.gh-nav-new-post):not(.gh-secondary-action):hover,
+.gh-nav-list a.gh-nav-new-post:hover span,
+.gh-nav-btn-search:hover,
 .gh-nav-list .active {
-    background: color-mod(var(--lightgrey) l(-2%) s(-5%))
+    background: color-mod(var(--dark-main-bg-color) l(+5%) s(-5%))
 }
 
 .gh-nav-list .gh-nav-nightshift span svg path {
@@ -412,7 +423,7 @@ input:focus,
 .gh-posts-list-item:hover,
 .ember-power-select-option[aria-current=true],
 .ember-power-select-group .ember-power-select-option[aria-current=true] {
-    background: color-mod(#263238 l(-2%));
+    background: color-mod(var(--dark-main-bg-color) l(-2%));
 }
 
 /* Dark style Lists */

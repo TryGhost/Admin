@@ -19,7 +19,8 @@ export default AuthenticatedRoute.extend({
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Site'
+            titleToken: 'Site',
+            mainClasses: ['gh-main-bordered']
         };
     }
 });

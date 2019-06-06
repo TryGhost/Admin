@@ -336,14 +336,9 @@
 
 /* Empty State
 /* ---------------------------------------------------------- */
-
-/* .content-list ol.no-posts {
-    background: none;
-    box-shadow: none;
-    border-top: 1px solid var(--lightgrey-d1);
-    border-radius: 0;
-    margin-top: 0px;
-} */
+.no-posts + .infinity-loader {
+    padding: 0 !important;
+}
 
 .no-posts-box {
     position: relative;
@@ -353,7 +348,7 @@
     align-items: center;
     margin: 0 auto;
     padding: 0;
-    height: 70vh;
+    height: calc(100vh - 4vw - 88px);
 }
 
 .no-posts-box .no-posts {
