@@ -257,7 +257,7 @@
     display: flex;
     align-items: center;
     padding: 6px 16px;
-    color: color-mod(var(--middarkgrey) h(+2) l(+4%));
+    color: color-mod(var(--middarkgrey) l(-7%));
     transition: none;
     margin: 4px 20px;
     font-weight: 400;
