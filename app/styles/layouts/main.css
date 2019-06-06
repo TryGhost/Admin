@@ -1,8 +1,8 @@
 :root {
-    --main-bg-color: #f1f3f7;
+    --main-bg-color: #eff1f5;
     --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+5%));
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+5%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-5%) s(+5%));
 }
 
 /* Global Layout
@@ -175,7 +175,7 @@
     width: 32px;
     height: 32px;
     border-radius: 999px;
-    margin: 2px 0 0;
+    margin: 2px 4px 0 0;
 }
 
 .gh-nav-btn-search:hover {
@@ -301,7 +301,7 @@
     padding: 6px;
     margin: 0;
     top: -5px;
-    right: 16px;
+    right: 20px;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -342,7 +342,7 @@
     z-index: 999;
     padding: 4px;
     margin: 0;
-    right: 20px;
+    right: 24px;
     top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;
