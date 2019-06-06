@@ -87,12 +87,11 @@
         <ol class="posts-list gh-list {{unless postsInfinityModel "no-posts"}}">
             {{#if postsInfinityModel}}
             <li class="gh-list-row header">
-                <div class="gh-list-header"></div>
+                <div class="gh-list-header">{{!--Favorite indicator column: no header--}}</div>
                 <div class="gh-list-header gh-posts-title-header">Title</div>
                 <div class="gh-list-header">Status</div>
                 <div class="gh-list-header">Last update</div>
                 <div class="gh-list-header">Authors</div>
-                <div class="gh-list-header"></div>
             </li>
             {{/if}}
 

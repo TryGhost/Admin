@@ -137,7 +137,7 @@
 
 .gh-post-list-updated,
 .gh-post-list-author {
-    color: var(--midgrey);
+    color: var(--middarkgrey);
     font-size: 1.3rem;
 }
 
@@ -148,14 +148,14 @@
 }
 
 .gh-content-entry-title a {
-    color: color-mod(var(--darkgrey) l(+3%));
+    color: var(--darkgrey);
 }
 
 .gh-posts-list-item p {
     margin: 2px 0 0;
     font-size: 1.3rem;
     overflow-wrap: break-word;
-    color: var(--midgrey);
+    color: var(--middarkgrey);
 }
 
 .gh-schedule-time {
@@ -209,7 +209,7 @@
 }
 
 .gh-content-entry-author {
-    color: var(--midgrey);
+    color: var(--middarkgrey);
 }
 
 .gh-posts-placeholder {
