@@ -29,7 +29,7 @@
         </ul>
         <ul class="gh-nav-list gh-nav-manage">
             <li class="gh-nav-list-h">Manage</li>
-            <li class="relative">
+            <li class="gh-nav-list-new relative">
                 {{#link-to "editor.new" "post" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "posts.index")}}

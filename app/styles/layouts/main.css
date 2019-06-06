@@ -1,7 +1,7 @@
 :root {
     --main-bg-color: #f1f3f7;
-    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(+2%) s(-5%));
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(+1%) s(-5%));
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-4%) s(-5%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(-5%));
 }
 
 /* Global Layout
@@ -75,9 +75,9 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
-    background: #FFF;
+    background: var(--main-bg-color);
+    border-right: 1px solid var(--menu-hover-bg-color);
     transform: translateX(0);
-    box-shadow: -2px 0 10px -2px rgba(0,0,0,.05);
 }
 
 .gh-nav-menu {
@@ -258,10 +258,10 @@
     align-items: center;
     padding: 6px 36px;
     color: color-mod(var(--middarkgrey) h(+2) l(+4%));
-    transition: color 0.5s ease;
+    transition: none;
     margin: 4px 0px;
     font-weight: 400;
-    -webkit-font-smoothing: 
+    border-radius: 0px;
 }
 
 .gh-nav-list .active {
@@ -274,8 +274,8 @@
 }
 
 .gh-nav-list a:not(.active):hover {
-    background: var(--menu-hover-bg-color);
     color: var(--darkgrey);
+    background: var(--menu-hover-bg-color);
     opacity: 1;
 }
 
@@ -286,10 +286,13 @@
     height: 16px;
     fill: var(--midgrey);
     line-height: 1;
-    transition: fill 0.5s ease;
+    transition: none;
 }
 
-.gh-nav-list a:not(.active):hover svg,
+.gh-nav-list a:not(.active):hover svg {
+    fill: var(--darkgrey);
+}
+
 .gh-nav-list .active svg {
     fill: var(--darkgrey);
 }
@@ -301,6 +304,12 @@
     margin: 0;
     top: -5px;
     right: 16px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gh-nav-list-new:hover .gh-nav-new-post {
+    opacity: 1;
 }
 
 .gh-nav-list .gh-nav-new-post span {
@@ -352,7 +361,7 @@
 }
 
 .gh-nav-list .gh-secondary-action span svg path {
-    fill: color-mod(var(--midlightgrey) l(-5%));
+    fill: var(--middarkgrey);
 }
 
 .gh-nav-list a.gh-secondary-action:hover,
@@ -537,7 +546,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 4vw 3vw;
+    padding: 0 3vw 3vw;
     margin: 0 auto;
     max-width: 1400px;
 }
@@ -676,54 +685,3 @@
         left: 0;
     }
 }
-
-
-/* ------------------------------------------------------ */
-/* TODO: I'm experimenting with two styles for the main navigation. Delete the one that's not needed. */
-
-/* .gh-nav {
-    position: relative;
-    z-index: 800;
-    flex: 0 0 284px;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    background: #EEF2F5;
-    transform: translateX(0);
-    box-shadow: none;
-    margin-right: -20px;
-}
-
-.gh-main,
-.gh-canvas-header {
-    background: #EEF2F5;
-}
-
-.gh-nav-list .active {
-    background: color-mod(var(--lightgrey) l(-5%) s(-5%));
-}
-
-.gh-nav-list a:not(.active):not(.gh-nav-new-post):hover {
-    background: color-mod(var(--lightgrey) l(-2%) s(-5%));
-}
-
-.gh-nav-list a.gh-nav-new-post:hover span {
-    background: color-mod(var(--lightgrey) l(-5%) s(-5%));
-}
-
-.gh-nav-menu {
-    border-bottom: none;
-    margin-bottom: -16px;
-}
-
-.gh-nav-list .gh-nav-new-post {
-    right: 20px;
-}
-
-.gh-nav-list .gh-secondary-action {
-    right: 24px;
-}
-
-.gh-main-white {
-    background: var(--white);
-} */

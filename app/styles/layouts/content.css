@@ -337,13 +337,13 @@
 /* Empty State
 /* ---------------------------------------------------------- */
 
-.content-list ol.no-posts {
+/* .content-list ol.no-posts {
     background: none;
     box-shadow: none;
     border-top: 1px solid var(--lightgrey-d1);
     border-radius: 0;
     margin-top: 0px;
-}
+} */
 
 .no-posts-box {
     position: relative;
