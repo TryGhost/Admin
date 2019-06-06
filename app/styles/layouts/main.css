@@ -1,10 +1,8 @@
 :root {
     --main-bg-color: #f1f3f7;
     --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+5%));
-    /* --active-menu-color: color-mod(var(--blue) l(-15%) s(+15%));
-    --active-menu-bg-color: color-mod(var(--blue) a(8%) s(-20%)); */
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+5%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+5%));
 }
 
 /* Global Layout
@@ -74,7 +72,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 264px;
+    flex: 0 0 280px;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -294,7 +292,7 @@
 }
 
 .gh-nav-list .active svg {
-    fill: var(--active-menu-color);
+    fill: color-mod(var(--blue) l(-12%) s(+15%));
 }
 
 .gh-nav-list .gh-nav-new-post {
@@ -546,7 +544,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 3vw 3vw;
+    padding: 0 3vw 3vw calc(3vw - 20px);
     margin: 0 auto;
     max-width: 1400px;
 }
