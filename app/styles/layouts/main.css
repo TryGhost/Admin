@@ -1,8 +1,8 @@
 :root {
-    --main-bg-color: #f2f4f7;
-    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+1%));
+    --main-bg-color: #f1f3f6;
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+1%));
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-6%) s(+1%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-7%) s(+1%));
 }
 
 /* Global Layout
