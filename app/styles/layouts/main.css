@@ -175,7 +175,7 @@
     width: 32px;
     height: 32px;
     border-radius: 999px;
-    margin: 2px 4px 0 0;
+    margin: 2px 0 0;
 }
 
 .gh-nav-btn-search:hover {
@@ -301,7 +301,7 @@
     padding: 6px;
     margin: 0;
     top: -5px;
-    right: 20px;
+    right: 16px;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -342,7 +342,7 @@
     z-index: 999;
     padding: 4px;
     margin: 0;
-    right: 24px;
+    right: 20px;
     top: 1px;
     opacity: 0;
     transition: opacity ease 0.2s;
