@@ -75,6 +75,7 @@
     vertical-align: middle;
     padding: 16px 20px;
     border-top: var(--whitegrey) 1px solid;
+    transition: none !important;
 }
 
 .gh-list-row:nth-of-type(2) .gh-list-data {

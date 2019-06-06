@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: #f1f3f6;
+    --main-bg-color: #f2f4f7;
     --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+1%));
     --active-menu-color: var(--darkgrey);
     --active-menu-bg-color: color-mod(var(--main-bg-color) l(-7%) s(+8%));
@@ -559,7 +559,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 4vw 4vw calc(4vw - 20px);
+    padding: 0 2vw 4vw calc(2vw - 20px);
     margin: 0 auto;
     max-width: 1400px;
 }

@@ -1,13 +1,12 @@
-<div class="gh-list-data gh-post-list-featured">
+{{#link-to "editor.edit" this.post.displayName this.post.id class="permalink gh-list-data gh-post-list-featured" title="Edit this post"}}
     {{#if this.isFeatured}}
         <span title="Featured">{{svg-jar "star-filled" class="fill-blue w3 h3"}}</span>
     {{/if}}
-</div>
-<div class="gh-list-data gh-post-list-title">
+{{/link-to}}
+
+{{#link-to "editor.edit" this.post.displayName this.post.id class="permalink gh-list-data gh-post-list-title" title="Edit this post"}}
     <h3 class="gh-content-entry-title">
-        {{#link-to "editor.edit" this.post.displayName this.post.id class="permalink" title="Edit this post"}}
         {{this.post.title}}
-        {{/link-to}}
     </h3>
     {{#if isScheduled}}
         <p>
@@ -19,9 +18,9 @@
             {{this.subText}}
         </p>
     {{/if}}
-</div>
+{{/link-to}}
 
-<div class="gh-list-data gh-post-list-status">
+{{#link-to "editor.edit" this.post.displayName this.post.id class="permalink gh-list-data gh-post-list-status" title="Edit this post"}}
     {{#if this.isScheduled}}
     <span class="gh-content-status-draft gh-badge nowrap">Scheduled</span>
     {{/if}}
@@ -33,10 +32,12 @@
     {{#if (and this.isPublished (not this.post.page))}}
     <span class="gh-content-status-published nowrap">Published</span>
     {{/if}}
-</div>
+{{/link-to}}
 
-<div class="gh-list-data gh-post-list-updated">
+{{#link-to "editor.edit" this.post.displayName this.post.id class="permalink gh-list-data gh-post-list-updated" title="Edit this post"}}
     <span class="nowrap">{{gh-format-post-time this.post.updatedAtUTC draft=true}}</span>
-</div>
+{{/link-to}}
 
-<div class="gh-list-data gh-post-list-author"><span class="gh-content-entry-author">{{this.authorNames}}</span></div>
+{{#link-to "editor.edit" this.post.displayName this.post.id class="permalink gh-list-data gh-post-list-author" title="Edit this post"}}
+    <span class="gh-content-entry-author">{{this.authorNames}}</span>
+{{/link-to}}
