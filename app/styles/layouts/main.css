@@ -559,7 +559,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 2vw 4vw calc(2vw - 20px);
+    padding: 0 2.8vw 4vw calc(2.8vw - 20px);
     margin: 0 auto;
     max-width: 1400px;
 }
