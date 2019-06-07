@@ -93,12 +93,15 @@
     </div>
     <div class="gh-nav-bottom">
         {{#gh-basic-dropdown horizontalPosition="left" verticalPosition="top" calculatePosition=userDropdownPosition as |dropdown|}}
-        {{#dropdown.trigger tagName="div" class="flex items-center outline-0 pointer space-between"}}
+        {{#dropdown.trigger tagName="div" class="flex items-center outline-0 pointer space-between pa2"}}
         <div class="flex-auto flex items-center">
             <div class="gh-user-avatar" style={{background-image-style session.user.profileImageUrl}}></div>
-            <span class="mr2 fw6">{{session.user.name}}</span>
+            <div class="flex flex-column items-start justify-center">
+                <span class="mr2 {{if session.user.name "mb1"}} fw6 lh-solid word-wrap">{{session.user.name}}</span>
+                <span class="mr2 fw4 middarkgrey lh-solid word-wrap">{{session.user.email}}</span>
+            </div>
         </div>
-        {{svg-jar "ellipsis" class="w4 mr2 fill-midgrey nudge-top--1"}}
+        {{svg-jar "arrow-down" class="w3 mr2 nudge-top--2 fill-darkgrey"}}
         {{/dropdown.trigger}}
         
         {{#dropdown.content class="gh-nav-menu-dropdown"}}

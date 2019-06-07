@@ -288,7 +288,7 @@
     .post-header .gh-canvas-title {
         position: absolute;
         top: 29px;
-        left: calc(4vw - 10px);
+        left: calc(40px - 10px);
     }
 
     .post-header .view-actions {
@@ -343,7 +343,7 @@
     align-items: center;
     margin: 0 auto;
     padding: 0;
-    height: calc(100vh - 4vw - 84px);
+    height: calc(100vh - 84px - 24px);
 }
 
 .no-posts-box .no-posts {

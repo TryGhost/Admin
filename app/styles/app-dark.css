@@ -394,18 +394,20 @@ input:focus,
     filter: invert(100%);
 }
 
+.gh-nav {
+    border-right: 1px solid color-mod(var(--dark-main-bg-color) l(+4%));
+}
+
 .gh-nav-list a {
     color: color-mod(var(--midgrey) l(+10%) s(-5%));
 }
 
-.gh-nav-list a:not(.active):not(.gh-nav-new-post):not(.gh-secondary-action):hover,
-.gh-nav-list a.gh-nav-new-post:hover span,
+.gh-nav-list a:not(.active):not(.gh-nav-new-post):hover,
+.gh-nav-list .gh-secondary-action:hover span,
+.gh-nav-bottom .ember-basic-dropdown-trigger:hover,
+.gh-nav-list .active,
 .gh-nav-btn-search:hover {
     background: color-mod(var(--dark-main-bg-color) l(+5%) s(-5%))
-}
-
-.gh-nav-list .active {
-    background: none;
 }
 
 .gh-nav-list .gh-nav-nightshift span svg path {

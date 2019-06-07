@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(240, 242, 244);
+    --main-bg-color: rgb(241, 243, 245);
     --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+8%));
     --active-menu-color: var(--darkgrey);
     --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+8%));
@@ -48,7 +48,7 @@
 }
 
 .gh-main-bordered {
-    border-left: 1px solid color-mod(var(--main-bg-color) l(-5%) s(-5%));
+    /* border-left: 1px solid color-mod(var(--main-bg-color) l(-5%)); */
 }
 
 /*  Flexbox fix. https://github.com/TryGhost/Ghost/issues/5804#issuecomment-141416812 */
@@ -59,14 +59,15 @@
 
 .gh-user-avatar {
     position: relative;
+    flex-shrink: 0;
     display: block;
-    width: 32px;
-    height: 32px;
-    margin-right: 10px;
+    width: 36px;
+    height: 36px;
+    margin: 0px 10px 0 0;
     background-position: 50%;
     background-size: cover;
     border-radius: 100%;
-    box-shadow: 0 0 0 1px var(--lightgrey-d1);
+    border: 1px solid color-mod(var(--main-bg-color) l(-8%));
 }
 
 
@@ -82,6 +83,7 @@
     min-width: 0;
     background: var(--main-bg-color);
     transform: translateX(0);
+    border-right: 1px solid color-mod(var(--main-bg-color) l(-4%));
 }
 
 .gh-nav-menu {
@@ -93,11 +95,11 @@
 }
 
 .gh-nav-menu-dropdown .dropdown-menu {
-    top: -293px;
-    left: 15px;
+    top: -310px;
+    left: 0px;
     margin: 10px 0 0;
     box-shadow: 0 18px 45px -5px rgba(0, 0, 0, 0.15);
-    min-width: 248px;
+    min-width: 240px;
     padding: 6px 0;
 }
 
@@ -367,7 +369,12 @@
 }
 
 .gh-nav-bottom {
-    padding: 24px 24px 32px;
+    margin: 24px;
+}
+
+.gh-nav-bottom .ember-basic-dropdown-trigger:hover {
+    background: var(--menu-hover-bg-color);
+    border-radius: 4px;
 }
 
 /* Mobile Nav Menu (Slides out)
@@ -540,7 +547,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 4vw 4vw calc(4vw - 24px);
+    padding: 0 24px 24px; /* calc(4vw - 24px); */
     margin: 0 auto;
     max-width: 1500px;
 }
