@@ -1,8 +1,8 @@
 :root {
     --main-bg-color: rgb(239, 241, 243);
-    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+10%));
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+5%));
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-7%) s(+10%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-4%) s(+5%));
 }
 
 /* Global Layout
@@ -176,10 +176,10 @@
 
 .gh-nav-btn-search {
     padding: 5px 4px 2px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 999px;
-    margin: 2px 0 0;
+    margin: 3px 0 0;
 }
 
 .gh-nav-btn-search:hover {
@@ -272,6 +272,7 @@
 .gh-nav-list .active {
     position: relative;
     color: var(--active-menu-color);
+    background: var(--active-menu-bg-color);
     font-weight: 700;
 }
 
@@ -305,7 +306,7 @@
     padding: 6px;
     margin: 0;
     right: 20px;
-    top: -7px;
+    top: -6px;
     opacity: 0;
     transition: opacity ease 0.2s;
 }
@@ -315,8 +316,8 @@
 }
 
 .gh-nav-list .gh-secondary-action span {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 100%;
     display: flex;
     align-items: center;
@@ -539,7 +540,7 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 2.8vw 4vw calc(2.8vw - 20px);
+    padding: 0 2.8vw 4vw calc(2.8vw - 24px);
     margin: 0 auto;
     max-width: 1500px;
 }
