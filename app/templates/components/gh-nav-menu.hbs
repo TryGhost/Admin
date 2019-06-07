@@ -30,7 +30,7 @@
         <ul class="gh-nav-list gh-nav-manage">
             <li class="gh-nav-list-h">Manage</li>
             <li class="gh-nav-list-new relative">
-                {{#link-to "editor.new" "post" classNames="gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
+                {{#link-to "editor.new" "post" classNames="gh-secondary-action gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "posts.index")}}
                     {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
@@ -98,7 +98,7 @@
             <div class="gh-user-avatar" style={{background-image-style session.user.profileImageUrl}}></div>
             <span class="mr2 fw6">{{session.user.name}}</span>
         </div>
-        {{svg-jar "ellipsis" class="w4 fill-midgrey nudge-top--1 nudge-right--7"}}
+        {{svg-jar "ellipsis" class="w4 mr2 fill-midgrey nudge-top--1"}}
         {{/dropdown.trigger}}
         
         {{#dropdown.content class="gh-nav-menu-dropdown"}}
