@@ -2,7 +2,6 @@
     <header class="gh-canvas-header post-header">
         <h2 class="gh-canvas-title" data-test-screen-title>Pages</h2>
         <section class="view-actions">
-            {{#if postsInfinityModel}}
             <div class="gh-contentfilter">
                 {{#unless session.user.isContributor}}
                 {{#power-select
@@ -77,7 +76,6 @@
                 {{order.name}}
                 {{/power-select}}
             </div>
-            {{/if}}
 
             {{#link-to "editor.new" "page" class="gh-btn gh-btn-green" data-test-new-page-button=true}}<span>New page</span>{{/link-to}}
         </section>
