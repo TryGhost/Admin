@@ -288,7 +288,7 @@
     .post-header .gh-canvas-title {
         position: absolute;
         top: 29px;
-        left: calc(40px - 10px);
+        left: 21px;
     }
 
     .post-header .view-actions {
