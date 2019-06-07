@@ -331,6 +331,11 @@
 
 /* Empty State
 /* ---------------------------------------------------------- */
+.no-posts {
+    background: none;
+    box-shadow: none;
+}
+
 .no-posts + .infinity-loader {
     padding: 0 !important;
 }
@@ -343,7 +348,7 @@
     align-items: center;
     margin: 0 auto;
     padding: 0;
-    height: calc(100vh - 84px - 24px);
+    height: calc(100vh - 84px - 32px);
 }
 
 .no-posts-box .no-posts {

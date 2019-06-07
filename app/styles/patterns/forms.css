@@ -313,9 +313,9 @@ textarea {
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--white);
-    border: 1px solid color-mod(var(--midgrey) l(+35%) s(+10%));
-    transition: .4s;
+    background: var(--whitegrey-l2);
+    border: 1px solid color-mod(var(--lightgrey) l(-3%));
+    transition: .3s;
     width: 50px !important;
     height: 28px !important;
     border-radius: 999px;
@@ -329,19 +329,19 @@ textarea {
 .for-switch .input-toggle-component:before {
     position: absolute;
     content: "";
-    height: 20px !important;
-    width: 20px !important;
-    left: 3px !important;
-    top: 3px !important;
+    height: 22px !important;
+    width: 22px !important;
+    left: 2px !important;
+    top: 2px !important;
     background-color: white;
-    transition: .4s;
+    transition: .3s;
     box-shadow: 0 0 1px rgba(0,0,0,.6), 0 2px 3px rgba(0,0,0,.2);
     border-radius: 999px;
 }
 
 .for-switch input:checked + .input-toggle-component {
     background: var(--green);
-    border-color: color-mod(var(--green) l(-3%));
+    border-color: transparent;
 }
 
 .for-switch input:checked + .input-toggle-component:before {

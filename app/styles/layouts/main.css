@@ -94,7 +94,7 @@
     top: -310px;
     left: 0px;
     margin: 10px 0 0;
-    box-shadow: 0 18px 45px -5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.08), 0 18px 45px -5px rgba(0, 0, 0, 0.15);
     min-width: 240px;
     padding: 6px 0;
 }
@@ -544,12 +544,13 @@
 
 .gh-canvas {
     flex-grow: 1;
-    padding: 0 24px 24px;
+    padding: 0 24px 48px;
     margin: 0 auto;
-    max-width: 1320px;
+    max-width: 1220px;
 }
 
 .gh-canvas-header {
+    position: relative;
     flex-shrink: 0;
     display: flex;
     justify-content: space-between;
@@ -560,9 +561,20 @@
     top: 0;
     background: var(--main-bg-color);
     z-index: 600;
-    margin: 0 -20px 2px;
-    padding: 0 20px;
+    margin: 0 -24px 2px;
+    padding: 0 24px;
 }
+
+/* This will need to be displayed depending on scrolling position */
+/* .gh-canvas-header::before {
+    position: absolute;
+    content: "";
+    background: color-mod(var(--lightgrey) l(-2%));
+    height: 1px;
+    bottom: 0;
+    left: 24px;
+    right: 24px;
+} */
 
 .gh-canvas-title {
     display: flex;
