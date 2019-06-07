@@ -248,7 +248,7 @@
     background: #fff;
     border-radius: 5px;
     text-align: left;
-    box-shadow: 0 18px 45px -5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 10px -8px rgba(0,0,0,.17);
 }
 
 .gh-flow-content .account-image {
@@ -357,7 +357,7 @@
     border: #dae1e3 1px solid;
     font-size: 1.5rem;
     line-height: 1.4em;
-    font-weight: 100;
+    font-weight: 400;
 }
 
 .gh-flow-content .pw-strength {
