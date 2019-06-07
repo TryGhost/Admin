@@ -152,10 +152,6 @@ input:focus,
     background: var(--dark-main-bg-color);
 }
 
-.gh-main-bordered {
-    border-color: transparent;
-}
-
 .gh-btn {
     border: color-mod(var(--darkgrey) l(-27%) blackness(+15%)) 1px solid ;
     color: color-mod(var(--darkgrey) l(-27%) blackness(+15%));
@@ -395,14 +391,14 @@ input:focus,
 }
 
 .gh-nav {
-    border-right: 1px solid color-mod(var(--dark-main-bg-color) l(+4%));
+    border-right: none;
 }
 
 .gh-nav-list a {
     color: color-mod(var(--midgrey) l(+10%) s(-5%));
 }
 
-.gh-nav-list a:not(.active):not(.gh-nav-new-post):hover,
+.gh-nav-list a:not(.active):not(.gh-secondary-action):hover,
 .gh-nav-list .gh-secondary-action:hover span,
 .gh-nav-bottom .ember-basic-dropdown-trigger:hover,
 .gh-nav-list .active,
@@ -418,6 +414,7 @@ input:focus,
     mix-blend-mode: normal;
 }
 
+.gh-nav,
 .gh-contentfilter-menu-trigger, 
 .gh-contentfilter-menu-trigger--active, 
 .gh-contentfilter-menu-trigger:focus,

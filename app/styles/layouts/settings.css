@@ -164,7 +164,7 @@
     justify-content: space-between;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
-    max-width: 1200px;
+    max-width: 1320px;
     margin: 0 0 4vw;
 }
 
