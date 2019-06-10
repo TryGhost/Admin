@@ -2,7 +2,7 @@
     --main-bg-color: rgb(241, 243, 247);
     --menu-hover-bg-color: color-mod(var(--main-bg-color) s(+8%));
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+8%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+8%));
 }
 
 /* Global Layout
@@ -73,7 +73,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 264px;
+    flex: 0 0 272px;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -147,9 +147,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     line-height: 1.3em;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .gh-nav-menu-details-user {
@@ -177,7 +177,7 @@
     width: 30px;
     height: 30px;
     border-radius: 999px;
-    margin: 3px -4px 0 0;
+    margin: 3px -6px 0 0;
 }
 
 .gh-nav-btn-search:hover {
@@ -231,7 +231,7 @@
 }
 
 .gh-nav-list {
-    margin: 20px 0 0;
+    margin: 32px 0 0;
     padding: 0;
     list-style: none;
     font-size: 1.4rem;
@@ -259,7 +259,7 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 6px 16px;
+    padding: 6px 32px;
     color: color-mod(var(--middarkgrey) l(-10%));
     transition: none;
     margin: 2px 5px;
@@ -303,7 +303,7 @@
     z-index: 999;
     padding: 6px;
     margin: 0;
-    right: 12px;
+    right: 8px;
     top: -6px;
     opacity: 0;
     transition: opacity ease 0.2s;
