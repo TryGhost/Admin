@@ -1,8 +1,8 @@
 :root {
-    --main-bg-color: rgb(241, 243, 245);
-    --menu-hover-bg-color: color-mod(var(--main-bg-color) l(+1%) s(+8%));
+    --main-bg-color: rgb(241, 243, 247);
+    --menu-hover-bg-color: color-mod(var(--main-bg-color) s(+8%));
     --active-menu-color: var(--darkgrey);
-    --active-menu-bg-color: color-mod(var(--main-bg-color) l(+1%) s(+8%));
+    --active-menu-bg-color: color-mod(var(--main-bg-color) l(-2%) s(+8%));
 }
 
 /* Global Layout
@@ -259,11 +259,12 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 6px 40px;
+    padding: 6px 16px;
     color: color-mod(var(--middarkgrey) l(-10%));
     transition: none;
-    margin: 4px 0px;
+    margin: 2px 5px;
     font-weight: 400;
+    border-radius: 5px;
 }
 
 .gh-nav-list .active {
@@ -271,8 +272,6 @@
     color: var(--active-menu-color);
     background: var(--active-menu-bg-color);
     font-weight: 700;
-    border-left: 3px solid var(--blue);
-    padding-left: 37px;
 }
 
 .gh-nav-list a:not(.active):hover {
@@ -339,7 +338,7 @@
 
 .gh-nav-list .gh-secondary-action:hover,
 .gh-nav-list a.gh-secondary-action:hover,
-.gh-nav-list .gh-secondary-action.active {
+.gh-nav-list .active + .gh-secondary-action:hover span {
     background: none;
 }
 

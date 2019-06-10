@@ -30,13 +30,13 @@
         <ul class="gh-nav-list gh-nav-manage">
             <li class="gh-nav-list-h">Manage</li>
             <li class="gh-nav-list-new relative">
-                {{#link-to "editor.new" "post" classNames="gh-secondary-action gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq router.currentRouteName "posts.index")}}
                     {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
                 {{else}}
                     {{#link-to "posts" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
                 {{/if}}
+                {{#link-to "editor.new" "post" classNames="gh-secondary-action gh-nav-new-post" alt="New story" data-test-nav="new-story"}}<span>{{svg-jar "add-stroke"}}</span>{{/link-to}}
             </li>
             <li>
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
@@ -101,7 +101,7 @@
                 <span class="mr2 fw4 f8 middarkgrey lh-solid word-wrap">{{session.user.email}}</span>
             </div>
         </div>
-        {{svg-jar "ellipsis" class="w4 mr1 fill-middarkgrey"}}
+        {{svg-jar "arrow-down" class="w3 mr1 fill-darkgrey"}}
         {{/dropdown.trigger}}
         
         {{#dropdown.content class="gh-nav-menu-dropdown"}}
