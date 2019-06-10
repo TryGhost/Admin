@@ -181,7 +181,7 @@
 }
 
 .gh-nav-btn-search:hover {
-    background: var(--menu-hover-bg-color);
+    background: var(--active-menu-bg-color);
 }
 
 .gh-nav-search-modal {
@@ -333,7 +333,7 @@
 }
 
 .gh-nav-list .gh-secondary-action:hover span {
-    background: var(--menu-hover-bg-color);
+    background: var(--active-menu-bg-color);
 }
 
 .gh-nav-list .gh-secondary-action:hover,
