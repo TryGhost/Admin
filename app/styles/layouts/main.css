@@ -73,7 +73,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 272px;
+    flex: 0 0 268px;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -91,11 +91,11 @@
 }
 
 .gh-nav-menu-dropdown .dropdown-menu {
-    top: -310px;
+    top: -288px;
     left: 0px;
     margin: 10px 0 0;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.08), 0 18px 45px -5px rgba(0, 0, 0, 0.15);
-    min-width: 240px;
+    min-width: 244px;
     padding: 6px 0;
 }
 
@@ -103,7 +103,7 @@
     font-size: 1.4rem;
     margin: 0;
     width: unset;
-    padding: 8px 14px 9px;
+    padding: 7px 14px 8px;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu .divider {
