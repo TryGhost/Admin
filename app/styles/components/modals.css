@@ -29,7 +29,7 @@
     z-index: 50;
     height: 100vh;
     background: #324750;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .fullscreen-modal {
@@ -78,7 +78,7 @@
     background-color: #fff;
     background-clip: padding-box;
     border-radius: 6px;
-    box-shadow: 1px 3px 8px rgba(0,0,0,.09), 2px 40px 38px -23px rgba(0,0,0,0.2);
+    box-shadow: 1px 3px 8px rgba(0,0,0,.09), 2px 32px 38px -20px rgba(0,0,0,0.25);
 }
 
 .modal-content * {

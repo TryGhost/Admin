@@ -91,8 +91,8 @@
 }
 
 .gh-nav-menu-dropdown .dropdown-menu {
-    top: -288px;
-    left: 0px;
+    top: -300px;
+    left: 30px;
     margin: 10px 0 0;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.08), 0 18px 45px -5px rgba(0, 0, 0, 0.15);
     min-width: 244px;
@@ -185,6 +185,7 @@
 }
 
 .gh-nav-search-modal {
+    position: relative;
     margin: -32px;
 }
 
@@ -224,11 +225,30 @@
     fill: var(--midlightgrey);
 }
 
+.gh-search-tips {
+    position: absolute;
+    top: calc(100% + 5px);
+    padding: 0 8px;
+    border-radius: 5px;
+    right: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-align: right;
+    background: none;
+    color: var(--whitegrey);
+    text-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+}
+
 @media (max-width: 800px) {
     .gh-nav-search {
         min-width: 220px;
     }
 }
+
+
+/* Navigation
+/* ---------------------------------------------------------- */
 
 .gh-nav-list {
     margin: 32px 0 0;
@@ -365,7 +385,7 @@
 }
 
 .gh-nav-bottom {
-    margin: 12px 12px 24px;
+    margin: 12px 5px 24px;
 }
 
 .gh-nav-bottom .ember-basic-dropdown-trigger:hover {
