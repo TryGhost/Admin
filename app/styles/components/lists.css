@@ -18,8 +18,8 @@
     display: table-row;
 }
 
-.gh-list-row:not(.header):hover .gh-list-cell,
-.gh-list-row:not(.header):hover .gh-list-data {
+.gh-list-row:not(.header):not(.loading):hover .gh-list-cell,
+.gh-list-row:not(.header):not(.loading):hover .gh-list-data {
     background: var(--whitegrey-l2);
 }
 
@@ -128,4 +128,46 @@
     .gh-list-data.force-hide-s > * {
         opacity: 0;
     }
+}
+
+
+/* Fake loading list
+/* -------------------------------------------------- */
+
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -800px 0
+    }
+    100%{
+        background-position: 800px 0
+    }
+}
+
+.gh-list-loadingcell div {
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: var(--lightgrey);
+    background: linear-gradient(to right, var(--lightgrey) 8%, color-mod(var(--lightgrey) l(+2%)) 18%, var(--lightgrey) 33%);
+    background-size: 800px 104px;
+    position: relative;
+    max-width: 440px;
+    height: 14px;
+}
+
+.gh-list-loadingcell:hover {
+    background: none;
+}
+
+.gh-list-loadingcell .gh-list-loading-title {
+    max-width: 440px;
+    height: 14px;
+}
+
+.gh-list-loadingcell .gh-list-loading-detail {
+    max-width: 320px;
+    height: 10px;
+    margin-top: 8px;
 }
