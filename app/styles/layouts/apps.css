@@ -329,13 +329,12 @@
     align-content: flex-start;
     margin-bottom: 30px;
 }
+
 .app-icon {
     position: relative;
-    flex: 0 0 60px;
-    margin: 0 10px 0 0;
-    padding: 5px;
-    width: 60px;
-    height: 60px;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
     background-position: center center;
     background-size: cover;
     border-radius: 10%;
