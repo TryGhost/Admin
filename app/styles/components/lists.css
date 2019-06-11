@@ -134,13 +134,27 @@
 /* Fake loading list
 /* -------------------------------------------------- */
 
-@keyframes placeHolderShimmer{
+@keyframes placeHolderShimmer {
     0%{
         background-position: -800px 0
     }
     100%{
         background-position: 800px 0
     }
+}
+
+@keyframes fadeLoadingList {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.gh-list.loading {
+    opacity: 0;
+    animation: fadeLoadingList 0.3s ease 0.75s 1 forwards;
 }
 
 .gh-list-loadingcell div {
@@ -154,7 +168,7 @@
     background-size: 800px 104px;
     position: relative;
     max-width: 440px;
-    height: 14px;
+    height: 13px;
 }
 
 .gh-list-loadingcell:hover {
@@ -163,11 +177,11 @@
 
 .gh-list-loadingcell .gh-list-loading-title {
     max-width: 440px;
-    height: 14px;
+    height: 13px;
 }
 
 .gh-list-loadingcell .gh-list-loading-detail {
     max-width: 320px;
-    height: 10px;
+    height: 9px;
     margin-top: 8px;
 }
