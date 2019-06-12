@@ -238,6 +238,14 @@
     margin: 0;
 }
 
+.settings-menu-pane .gh-date-time-picker-date {
+    margin-right: 4px;
+}
+
+.settings-menu-pane .gh-date-time-picker-time {
+    margin-left: 4px;
+}
+
 
 /* Background
 /* ---------------------------------------------------------- */
