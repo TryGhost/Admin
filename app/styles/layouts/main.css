@@ -579,7 +579,7 @@
     position: sticky;
     top: 0;
     background: var(--main-bg-color);
-    z-index: 600;
+    z-index: 700;
     margin: 0 -24px 2px;
     padding: 0 24px;
 

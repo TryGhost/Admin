@@ -165,7 +165,7 @@ button, .btn-base {
 ---------------------------------------------------------- */
 [data-tooltip] {
     position: relative;
-    z-index: 9999;
+    z-index: 600;
 }
 
 [data-tooltip]:before {
