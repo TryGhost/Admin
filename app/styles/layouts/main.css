@@ -582,6 +582,15 @@
     z-index: 600;
     margin: 0 -24px 2px;
     padding: 0 24px;
+
+    border-bottom: 1px solid;
+    border-color: color-mod(color-mod(var(--main-bg-color) l(-4%)) a(0%));
+    transition-duration: 300ms;
+    transition-property: border-color;
+}
+
+.gh-canvas-header--sticky {
+    border-color: color-mod(var(--main-bg-color) l(-4%));
 }
 
 .gh-main-white .gh-canvas-header {

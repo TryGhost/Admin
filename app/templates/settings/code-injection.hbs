@@ -1,12 +1,12 @@
 <section class="gh-canvas">
-    <header class="gh-canvas-header">
+    <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
             Code injection
         </h2>
         <section class="view-actions">
             {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button=true}}
         </section>
-    </header>
+    </GhCanvasHeader>
 
     {{#if showLeaveSettingsModal}}
         {{gh-fullscreen-modal "leave-settings"
@@ -29,7 +29,7 @@
                         <p>Code here will be injected into the <code>\{{ghost_head}}</code> tag on every page of the site</p>
                         {{gh-cm-editor settings.codeinjectionHead id="ghost-head" class="gh-input settings-code-editor" name="codeInjection[ghost_head]" type="text" update=(action (mut settings.codeinjectionHead))}}
                     </div>
-                    
+
                     <div class="form-group settings-code">
                         <label for="ghost-foot">Site Footer</label>
                         <p>Code here will be injected into the <code>\{{ghost_foot}}</code> tag on every page of the site</p>

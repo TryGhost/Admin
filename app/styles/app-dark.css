@@ -419,8 +419,8 @@ input:focus,
 }
 
 .gh-nav,
-.gh-contentfilter-menu-trigger, 
-.gh-contentfilter-menu-trigger--active, 
+.gh-contentfilter-menu-trigger,
+.gh-contentfilter-menu-trigger--active,
 .gh-contentfilter-menu-trigger:focus,
 .tags-container,
 .content-list ol {
@@ -430,7 +430,7 @@ input:focus,
 .gh-posts-list-item:hover,
 .ember-power-select-option[aria-current=true],
 .ember-power-select-group .ember-power-select-option[aria-current=true],
-.gh-list-row:not(.header):not(.loading):hover .gh-list-cell, 
+.gh-list-row:not(.header):not(.loading):hover .gh-list-cell,
 .gh-list-row:not(.header):not(.loading):hover .gh-list-data,
 .settings-tag .tag-edit-button.active {
     background: color-mod(var(--dark-main-bg-color) l(-2%));

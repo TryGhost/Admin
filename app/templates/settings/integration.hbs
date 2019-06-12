@@ -1,6 +1,6 @@
 <section class="gh-canvas">
     <form class="mb15" {{action (perform "save") on="submit"}}>
-        <header class="gh-canvas-header">
+        <GhCanvasHeader class="gh-canvas-header">
             <h2 class="gh-canvas-title" data-test-screen-title>
                 {{#link-to "settings.integrations" data-test-link="integrations-back"}}Integrations{{/link-to}}
                 <span>{{svg-jar "arrow-right"}}</span>
@@ -9,7 +9,7 @@
             <section class="view-actions">
                 {{gh-task-button task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-button="save"}}
             </section>
-        </header>
+        </GhCanvasHeader>
 
         <h4 class="midlightgrey f-small fw5 ttu">Configuration</h4>
         <div class="pa5 pt3 pb3 br4 shadow-1 bg-grouped-table mt2">
