@@ -1,7 +1,10 @@
 <div class="ember-power-select-search" onmousedown={{action "captureMouseDown"}}>
     {{svg-jar "search" class="gh-nav-search-icon"}}
-    <input type="search" autocomplete="off"
-        autocorrect="off" autocapitalize="off"
+    <input type="search"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        autofocus="true"
         value={{if extra.labelPath (get selected extra.labelPath) selected}}
         spellcheck="false" role="combobox"
         placeholder={{placeholder}}

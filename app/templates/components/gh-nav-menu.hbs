@@ -9,9 +9,9 @@
 </header>
 
 {{#if showSearchModal}}
-{{gh-fullscreen-modal "search"
-    close=(action "toggleSearchModal")
-    modifier="action wide"}}
+    {{gh-fullscreen-modal "search"
+        close=(action "toggleSearchModal")
+        modifier="action wide"}}
 {{/if}}
 
 <section class="gh-nav-body">
@@ -103,7 +103,7 @@
         </div>
         {{svg-jar "arrow-down" class="w3 mr1 fill-darkgrey"}}
         {{/dropdown.trigger}}
-        
+
         {{#dropdown.content class="gh-nav-menu-dropdown"}}
         <ul class="dropdown-menu dropdown-triangle-top" role="menu"
             {{action dropdown.actions.close on="click" preventDefault=false}}>
@@ -127,7 +127,7 @@
                     to Use Ghost</a>
             </li>
             <li class="divider"></li>
-        
+
             {{#if showDropdownExtension}}
             {{#each config.clientExtensions.dropdown.items as |menuItem| }}
             {{#if menuItem.divider}}
@@ -139,7 +139,7 @@
             </li>
             {{/if}}
             {{/each}}
-        
+
             {{/if}}
             <li role="presentation">
                 {{#link-to "signout" classNames="dropdown-item user-menu-signout" role="menuitem" tabindex="-1"}}{{svg-jar "signout"}}
