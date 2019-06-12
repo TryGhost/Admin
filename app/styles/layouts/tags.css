@@ -1,6 +1,11 @@
 /* Tag Management /ghost/settings/tags/
 /* ---------------------------------------------------------- */
 
+.tags-view {
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
 .tags-container {
     background: var(--white);
     border-radius: 5px;
