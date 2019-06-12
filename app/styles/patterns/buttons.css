@@ -26,7 +26,7 @@
     overflow: hidden;
     padding: 0 11px;
     height: 29px;
-    font-size: 1.3rem;
+    font-size: 1.3rem !important;
     line-height: 29px;
     font-weight: 400;
     text-align: center;

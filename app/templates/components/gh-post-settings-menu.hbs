@@ -147,7 +147,7 @@
                     onTemplateSelect=(action (mut post.customTemplate))}}
 
                 {{#unless post.isNew}}
-                    <button type="button" class="gh-btn gh-btn-link gh-btn-icon settings-menu-delete-button" {{action "deletePost"}}><span>{{svg-jar "trash"}} Delete {{capitalize post.displayName}}</span></button>
+                    <button type="button" class="gh-btn gh-btn-hover-red gh-btn-icon settings-menu-delete-button" {{action "deletePost"}}><span>{{svg-jar "trash"}} Delete {{capitalize post.displayName}}</span></button>
                 {{/unless}}
 
                 </form>

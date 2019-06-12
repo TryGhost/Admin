@@ -165,14 +165,10 @@
 }
 
 .settings-menu-delete-button {
-    padding-left: 0;
     color: var(--red);
-    font-size: 1rem;
-    text-transform: uppercase;
 }
 
 .settings-menu-delete-button span {
-    padding: 0;
     font-size: inherit;
 }
 
