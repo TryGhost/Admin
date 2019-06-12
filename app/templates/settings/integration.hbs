@@ -14,9 +14,9 @@
         <h4 class="midlightgrey f-small fw5 ttu">Configuration</h4>
         <div class="pa5 pt3 pb3 br4 shadow-1 bg-grouped-table mt2">
             <div class="flex">
-                <div class="flex flex-column mr7 items-start">
-                    <label>Icon</label>
-                    <figure class="relative flex items-center h-100 ma0 br4 hide-child ba b--whitegrey-d2 pa8 mt1 bg-white" style={{iconImageStyle}}>
+                <div class="flex flex-column items-start">
+                    <label class="mb1">Icon</label>
+                    <figure class="relative flex items-center h-100 ma0 br4 hide-child ba b--whitegrey-d2 pa8 bg-white" style={{iconImageStyle}}>
                         {{#aspect-ratio-box class="flex items-center h-100" ratio="1/1" base="height"}}
                             {{#unless integration.iconImage}}
                                 {{svg-jar "integration" class="w11 h11"}}
@@ -52,7 +52,7 @@
                         {{/gh-uploader}}
                     </figure>
                 </div>
-                <div class="flex-auto">
+                <div class="flex-auto ml12">
                     {{#gh-validation-status-container
                         class="flex flex-column w-100 mr3"
                         errors=integration.errors
