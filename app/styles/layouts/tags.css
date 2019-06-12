@@ -8,14 +8,14 @@
 .settings-tag {
     position: relative;
     display: block;
-    padding: 0 45px 0 0;
+    padding: 0 60px 0 0;
     border-bottom: var(--lightgrey) 1px solid;
 }
 
 .settings-tag .tag-edit-button {
     display: block;
-    padding: 20px;
-    width: calc(100% + 45px);
+    padding: 16px 20px;
+    width: calc(100% + 60px);
     text-align: left;
 }
 
@@ -39,23 +39,23 @@
 
 .settings-tag .tag-title {
     color: var(--darkgrey);
-    font-size: 1.6rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .settings-tag .tag-description {
     margin: 0;
-    color: var(--midgrey);
+    color: var(--middarkgrey);
     word-wrap: break-word;
     font-size: 13px;
 }
 
 .settings-tag .tags-count {
     position: absolute;
-    top: 20px;
-    right: 12px;
+    top: calc(50% - 11px);
+    right: 20px;
     color: var(--midgrey);
-    font-size: 16px;
+    font-size: 1.4rem;
 }
 
 /* Tag List (Left pane)
