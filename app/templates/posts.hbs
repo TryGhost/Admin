@@ -108,7 +108,7 @@
                             post</span></button>{{/link-to}}
                     {{else}}
                     <h3>No posts match the current filter</h3>
-                    {{#link-to "posts.index" (query-params type=null author=null tag=null)}}<button type="button"
+                    {{#link-to "posts" (query-params type=null author=null tag=null)}}<button type="button"
                         class="gh-btn gh-btn-lg"><span>Show all posts</span></button>{{/link-to}}
                     {{/if}}
                 </div>

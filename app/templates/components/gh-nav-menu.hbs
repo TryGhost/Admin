@@ -32,7 +32,7 @@
             <li class="gh-nav-list-h">Manage</li>
             <li class="gh-nav-list-new relative">
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
-                {{#if (eq router.currentRouteName "posts.index")}}
+                {{#if (eq router.currentRouteName "posts")}}
                     {{#link-to "posts" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
                 {{else}}
                     {{#link-to "posts" data-test-nav="posts"}}{{svg-jar "content"}}Posts{{/link-to}}
@@ -41,7 +41,7 @@
             </li>
             <li>
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
-                {{#if (eq router.currentRouteName "pages.index")}}
+                {{#if (eq router.currentRouteName "pages")}}
                     {{#link-to "pages" (query-params type=null author=null tag=null order=null) classNames="active" data-test-nav="pages"}}{{svg-jar "page"}}Pages{{/link-to}}
                 {{else}}
                     {{#link-to "pages" data-test-nav="pages"}}{{svg-jar "page"}}Pages{{/link-to}}

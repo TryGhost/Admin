@@ -107,7 +107,7 @@
                             {{#link-to "editor.new" "page"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>Create a new page</span></button>{{/link-to}}
                         {{else}}
                             <h3>No pages match the current filter</h3>
-                            {{#link-to "pages.index" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>Show all pages</span></button>{{/link-to}}
+                            {{#link-to "pages" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>Show all pages</span></button>{{/link-to}}
                         {{/if}}
                     </div>
                 </li>
