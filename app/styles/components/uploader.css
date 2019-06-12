@@ -15,6 +15,7 @@
     background: #fff;
     border-radius: 4px;
     border-radius: 4px;
+    border: 1px solid var(--whitegrey);
 }
 
 .gh-image-uploader.-drag-over {

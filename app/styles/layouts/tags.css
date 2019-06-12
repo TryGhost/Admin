@@ -100,7 +100,6 @@
 /* ---------------------------------------------------------- */
 
 .tag-settings {
-    background: var(--white);
     position: absolute;
     top: 0;
     right: 0;
@@ -114,6 +113,7 @@
     transform: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    box-shadow: none;
 }
 
 .tag-settings .no-posts {
@@ -126,11 +126,6 @@
 
 .tag-settings .settings-menu-pane {
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
-}
-
-.tag-settings .gh-image-uploader {
-    background: var(--whitegrey-l2);
-    border: 1px solid var(--whitegrey);
 }
 
 @media (max-width: 600px) {

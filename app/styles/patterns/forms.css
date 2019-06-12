@@ -5,7 +5,7 @@ form label {
     display: block;
     color: var(--darkgrey);
     font-size: 1.3rem;
-    font-weight: bold;
+    font-weight: 600;
     user-select: text;
 }
 
@@ -57,7 +57,7 @@ input {
 .form-group {
     position: relative;
     width: 100%;
-    max-width: 700px;
+    max-width: 620px;
     margin-bottom: 1.6em;
     user-select: text;
 }
@@ -68,7 +68,7 @@ input {
 
 .form-group p {
     margin: 4px 0 0 0;
-    color: var(--midgrey);
+    color: var(--midlightgrey);
     font-size: 1.25rem;
 }
 
@@ -129,14 +129,14 @@ select {
     width: 100%;
     height: 31px;
     padding: 6px 12px;
-    border: color-mod(var(--lightgrey) l(-5%) s(-10%)) 1px solid;
+    border: var(--input-border);
+    background: var(--input-bg-color);
     color: color-mod(var(--midgrey) l(-18%));
     font-size: 1.4rem;
     line-height: 1em;
     font-weight: 400;
     user-select: text;
     border-radius: var(--border-radius);
-    transition: border-color 0.1s linear;
     letter-spacing: 0.1px;
 
     -webkit-appearance: none;
@@ -157,12 +157,16 @@ select.error {
 }
 
 .gh-input:focus,
-.gh-input.focus,
+.gh-input.focus {
+    outline: 0;
+    border-color: color-mod(var(--blue));
+    box-shadow: inset 0 0 0 1px var(--blue);
+    background: var(--white);
+}
+
 .gh-select:focus,
 select:focus {
-    outline: 0;
-    border-color: color-mod(var(--midlightgrey));
-    background: var(--white);
+    background: color-mod(var(--input-bg-color) l(-3%));
 }
 
 textarea {
@@ -376,7 +380,7 @@ textarea {
 }
 
 .gh-select svg path {
-    stroke: color-mod(var(--midgrey) l(+15%));
+    stroke: var(--darkgrey);
 }
 
 .gh-select select {
@@ -385,7 +389,6 @@ textarea {
     line-height: normal;
     text-indent: 0.01px;
     text-overflow: "";
-    background: #fff;
 
     appearance: none;
     -webkit-appearance: none;

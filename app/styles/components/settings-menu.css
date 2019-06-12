@@ -14,10 +14,11 @@
     width: 350px;
     max-width: 100%;
     overflow: hidden;
-    background: var(--whitegrey-l2);
-    border-left: 1px solid var(--whitegrey);
+    background: var(--white);
+    /* border-left: 1px solid var(--whitegrey); */
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
     transform: translate3d(360px, 0px, 0px);
+    box-shadow: 0 0 1px rgba(99, 114, 130, 0.16), -4px 0 16px rgba(27, 39, 51, 0.08);
 }
 
 .settings-menu-expanded .settings-menu-container {
@@ -212,6 +213,29 @@
 .settings-menu-content .for-radio .input-toggle-component,
 .settings-menu-content .for-checkbox .input-toggle-component {
     background: #fff;
+}
+
+.settings-menu-pane .ember-power-select-multiple-trigger {
+    border: var(--input-border);
+    background: var(--input-bg-color);
+}
+
+.settings-menu-pane .ember-power-select-trigger[aria-expanded=true] {
+    border-color: transparent;
+    background: color-mod(var(--input-bg-color) l(-3%));
+}
+
+.settings-menu-pane .ember-power-select-dropdown {
+    border: none;
+    border-top: none;
+    margin: 0 1px;
+    width: calc(100% - 2px);
+    box-shadow: 0 0 0 1px rgba(99,114,130,0.16), 0 8px 16px rgba(27,39,51,0.08);
+}
+
+.settings-menu-pane .gh-date-time-picker-date,
+.settings-menu-pane .gh-date-time-picker-time {
+    margin: 0;
 }
 
 

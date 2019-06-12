@@ -116,7 +116,8 @@
 /* Google SERP Preview */
 .seo-preview {
     font-family: Arial, sans-serif;
-    background: #fff;
+    background: var(--whitegrey-l2);
+    border: 1px solid var(--whitegrey);
     padding: 10px 12px;
 }
 
@@ -364,6 +365,11 @@
     letter-spacing: 0.04rem;
     overflow: hidden;
     box-shadow: none;
+}
+
+.gh-editor-title:focus {
+    box-shadow: none !important;
+    border: none !important;
 }
 
 .gh-editor-wordcount {
