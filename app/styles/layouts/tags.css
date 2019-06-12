@@ -29,6 +29,7 @@
 .settings-tag .tag-edit-button.active {
     border-left: 4px solid;
     padding-left: 16px;
+    background: var(--whitegrey-l2);
 }
 
 .settings-tag .label {
@@ -94,6 +95,7 @@
 /* ---------------------------------------------------------- */
 
 .tag-settings {
+    background: var(--white);
     position: absolute;
     top: 0;
     right: 0;
@@ -119,6 +121,11 @@
 
 .tag-settings .settings-menu-pane {
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+.tag-settings .gh-image-uploader {
+    background: var(--whitegrey-l2);
+    border: 1px solid var(--whitegrey);
 }
 
 @media (max-width: 600px) {

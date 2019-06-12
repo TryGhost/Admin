@@ -68,9 +68,9 @@
 
 .settings-menu-header h4 {
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.75rem;
     line-height: 1.375;
-    font-weight: normal;
+    font-weight: 600;
 }
 
 .settings-menu-header .close {
@@ -140,8 +140,8 @@
 }
 
 .settings-menu-content textarea.gh-input {
-    font-size: 1.5rem;
-    line-height: 1.3em;
+    font-size: 1.4rem;
+    line-height: 1.4em;
 }
 
 .settings-menu-content .gh-cm-editor-textarea {
