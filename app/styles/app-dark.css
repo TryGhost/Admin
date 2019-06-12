@@ -357,6 +357,11 @@ input:focus,
     background: var(--lightgrey);
 }
 
+.settings-menu-expanded .content-cover,
+.mobile-menu-expanded .content-cover {
+    background: transparent;
+}
+
 .gh-box {
     background: var(--lightgrey);
     color: var(--darkgrey);
