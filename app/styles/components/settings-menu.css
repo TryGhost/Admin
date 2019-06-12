@@ -165,6 +165,7 @@
 }
 
 .settings-menu-delete-button {
+    background: transparent;
     color: var(--red);
 }
 

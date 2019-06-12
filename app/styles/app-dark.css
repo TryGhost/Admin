@@ -153,6 +153,10 @@ input:focus,
     background: var(--dark-main-bg-color);
 }
 
+.gh-image-uploader-unsplash {
+    filter: invert(100%);
+}
+
 .gh-btn {
     border: color-mod(var(--darkgrey) l(-27%) blackness(+15%)) 1px solid ;
     color: color-mod(var(--darkgrey) l(-27%) blackness(+15%));
@@ -418,14 +422,22 @@ input:focus,
 .gh-contentfilter-menu-trigger, 
 .gh-contentfilter-menu-trigger--active, 
 .gh-contentfilter-menu-trigger:focus,
+.tags-container,
 .content-list ol {
     background: #212A2E;
 }
 
 .gh-posts-list-item:hover,
 .ember-power-select-option[aria-current=true],
-.ember-power-select-group .ember-power-select-option[aria-current=true] {
+.ember-power-select-group .ember-power-select-option[aria-current=true],
+.gh-list-row:not(.header):not(.loading):hover .gh-list-cell, 
+.gh-list-row:not(.header):not(.loading):hover .gh-list-data,
+.settings-tag .tag-edit-button.active {
     background: color-mod(var(--dark-main-bg-color) l(-2%));
+}
+
+.tag-settings .gh-image-uploader {
+    background-color: transparent;
 }
 
 /* Dark style Lists */
