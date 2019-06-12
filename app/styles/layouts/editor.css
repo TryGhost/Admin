@@ -348,7 +348,7 @@
 
 .gh-editor-inner {
     height: 100%;
-    max-width: 760px;
+    max-width: 740px;
     margin: 0 auto;
 }
 
@@ -515,7 +515,7 @@
 
 .gh-editor .gh-editor-title,
 .gh-markdown-editor .CodeMirror-wrap {
-    max-width: 760px;
+    max-width: 740px;
     margin-right: auto;
     margin-left: auto;
     border: none;
