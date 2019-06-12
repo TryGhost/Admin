@@ -131,13 +131,12 @@ select {
     padding: 6px 12px;
     border: var(--input-border);
     background: var(--input-bg-color);
-    color: color-mod(var(--midgrey) l(-18%));
+    color: var(--darkgrey);
     font-size: 1.4rem;
     line-height: 1em;
     font-weight: 400;
     user-select: text;
     border-radius: var(--border-radius);
-    letter-spacing: 0.1px;
 
     -webkit-appearance: none;
 }

@@ -509,6 +509,7 @@
     width: 100%;
     height: auto;
     line-height: 22px;
+    border: 1px solid var(--lightgrey);
 }
 
 .settings-code-editor:hover {
