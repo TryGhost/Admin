@@ -32,6 +32,8 @@ export default Component.extend({
     currentSearch: '',
     selection: null,
 
+    onSelected() {},
+
     posts: computedGroup('Posts'),
     pages: computedGroup('Pages'),
     users: computedGroup('Users'),
@@ -80,6 +82,8 @@ export default Component.extend({
             if (!selected) {
                 return;
             }
+
+            this.onSelected(selected);
 
             if (selected.category === 'Posts') {
                 let id = selected.id.replace('post.', '');
