@@ -98,6 +98,8 @@
     width: 34%;
     border: none;
     transform: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .tag-settings .no-posts {

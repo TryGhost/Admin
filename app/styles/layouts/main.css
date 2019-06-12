@@ -640,14 +640,17 @@
     margin: 0 10px;
 }
 
+/* Only used in tags screen
+/* TODO: remove and re-use gh-canvas...
+/* ---------------------------------------------------- */
+
 .view-header {
     flex-shrink: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    border-bottom: var(--lightgrey) 1px solid;
-    margin: 1px 0 0;
+    padding: 24px;
+    margin: 2px 0 0;
 }
 
 .view-title {
@@ -657,9 +660,12 @@
     margin: -3px 0 0 1px;
     padding: 0;
     text-overflow: ellipsis;
-    font-size: 2.9rem;
+    white-space: nowrap;
+    font-size: 2.8rem;
     line-height: 1.2em;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    min-height: 35px;
 }
 
 .view-title a {
@@ -689,6 +695,13 @@
 .view-content {
     position: relative;
     flex-grow: 1;
+}
+
+.view-container {
+    background: var(--white);
+    border-radius: 5px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 0 3px rgba(0,0,0,.01), 0 6px 10px -8px rgba(0,0,0,.17);
+    margin: 0 24px 24px;
 }
 
 .view-content {
