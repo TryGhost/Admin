@@ -11,6 +11,6 @@
         oninput={{action 'search' value="target.value"}}
         onmousedown={{action "captureMouseDown"}}
         onkeydown={{action "handleKeydown"}}
-        onblur={{action "resetInput"}}>
+        onkeyup={{action "handleKeyup"}}>
     {{!-- <button class="gh-nav-search-button" {{action "focusInput"}}>{{svg-jar "search"}}<span class="sr-only">Search</span></button> --}}
 </div>

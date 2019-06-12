@@ -23,8 +23,8 @@ Router.map(function () {
     this.route('about');
     this.route('site');
 
-    this.route('posts', function () {});
-    this.route('pages', function () {});
+    this.route('posts');
+    this.route('pages');
 
     this.route('editor', function () {
         this.route('new', {path: ':type'});
