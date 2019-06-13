@@ -429,7 +429,6 @@
         width: 205px;
         height: 100%;
         background: var(--white);
-        box-shadow: -2px 0 10px -2px rgba(0, 0, 0, 0.2);
         transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
         transform: translate3d(-205px, 0px, 0px);
     }
@@ -514,6 +513,8 @@
         justify-content: space-around;
         font-size: 1.2rem;
         flex-basis: 25%;
+        margin: 4px;
+        border-radius: 5px;
     }
 
     .gh-mobile-nav-bar a.active {

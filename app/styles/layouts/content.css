@@ -327,6 +327,14 @@
     .post-header .gh-canvas-title {
         left: 20px;
     }
+
+    .gh-post-list-updated {
+        display: none;
+    }
+
+    .gh-post-list-author {
+        max-width: calc(100% - 140px);
+    }
 }
 
 @media (min-width: 901px) {
