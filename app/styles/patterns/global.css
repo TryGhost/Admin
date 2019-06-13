@@ -19,6 +19,11 @@
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
     --font-family-mono: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 
+    /* Shadows */
+    --shadow-1: 0 0 1px rgba(0,0,0,.12), 0 1px 6px rgba(0,0,0,0.03), 0 6px 10px -8px rgba(0,0,0,.1);
+    --shadow-2: 0 0 1px rgba(0,0,0,.05), 0 5px 18px rgba(0,0,0,.08);
+    --shadow-3: 0 0 1px rgba(0,0,0,.05), 0 8px 28px rgba(0,0,0,.12);
+
     /* Inputs */
     --input-bg-color: color-mod(var(--whitegrey) h(+7) s(-12%) l(+4%));
     --input-border: transparent 1px solid;

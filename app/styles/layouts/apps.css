@@ -125,7 +125,7 @@
     align-items: flex-start;
     border-radius: 5px;
     background: var(--white);
-    box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 0 3px rgba(0,0,0,.01), 0 6px 10px -8px rgba(0,0,0,.17);
+    box-shadow: var(--shadow-1);
 }
 
 .apps-grid-note {

@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(241, 243, 246);
+    --main-bg-color: rgb(243, 245, 248);
     --menu-hover-bg-color: color-mod(var(--main-bg-color) s(+8%));
     --active-menu-color: var(--darkgrey);
     --active-menu-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+8%));
@@ -580,7 +580,7 @@
     top: 0;
     background: var(--main-bg-color);
     z-index: 700;
-    margin: 0 -24px 1px;
+    margin: 0 -24px 3px;
     padding: 0 24px;
 
     border-bottom: 1px solid;
