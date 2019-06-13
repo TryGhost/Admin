@@ -65,6 +65,7 @@
     --midgrey: #738a94;
     --lightgrey: #333F44;
     --dark-main-bg-color: #263238;
+    --blue: color-mod(#3eb0ef l(+5%) s(+5%));
 }
 
 body {
