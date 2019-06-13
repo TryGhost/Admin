@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: rgb(239, 243, 248);
+    --main-bg-color: rgb(241, 243, 246);
     --menu-hover-bg-color: color-mod(var(--main-bg-color) s(+8%));
     --active-menu-color: var(--darkgrey);
     --active-menu-bg-color: color-mod(var(--main-bg-color) l(-3%) s(+8%));
