@@ -10,7 +10,7 @@
                     searchEnabled=false
                     onchange=(action "changeType")
                     tagName="div"
-                    classNames="gh-contentfilter-menu gh-contentfilter-type"
+                    classNames=typeClassNames
                     triggerClass="gh-contentfilter-menu-trigger"
                     dropdownClass="gh-contentfilter-menu-dropdown"
                     matchTriggerWidth=false
@@ -28,7 +28,7 @@
                     searchField="name"
                     onchange=(action "changeAuthor")
                     tagName="div"
-                    classNames="gh-contentfilter-menu gh-contentfilter-author"
+                    classNames=authorClassNames
                     triggerClass="gh-contentfilter-menu-trigger"
                     dropdownClass="gh-contentfilter-menu-dropdown"
                     searchPlaceholder="Search authors"
@@ -47,7 +47,7 @@
                     searchField="name"
                     onchange=(action "changeTag")
                     tagName="div"
-                    classNames="gh-contentfilter-menu gh-contentfilter-tag"
+                    classNames=tagClassNames
                     triggerClass="gh-contentfilter-menu-trigger"
                     dropdownClass="gh-contentfilter-menu-dropdown"
                     searchPlaceholder="Search tags"

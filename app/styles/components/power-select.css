@@ -62,7 +62,7 @@
 
 .ember-power-select-option[aria-selected="true"] {
     color: var(--darkgrey);
-    font-weight: 600;
+    font-weight: 700;
     background: transparent;
 }
 

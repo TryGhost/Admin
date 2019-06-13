@@ -66,6 +66,12 @@
     color: var(--darkgrey);
 }
 
+.gh-contentfilter-selected .gh-contentfilter-menu-trigger,
+.gh-contentfilter-selected .gh-contentfilter-menu-trigger:hover {
+    color: var(--blue);
+    font-weight: 500;
+}
+
 .gh-contentfilter-menu-trigger svg path {
     stroke: color-mod(var(--midgrey) l(-7%));
 }
