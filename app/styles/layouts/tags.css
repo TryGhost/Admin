@@ -114,6 +114,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: none;
+    background: var(--white);
 }
 
 .tag-settings .no-posts {

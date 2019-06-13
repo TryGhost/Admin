@@ -14,11 +14,11 @@
     width: 350px;
     max-width: 100%;
     overflow: hidden;
-    background: var(--white);
-    /* border-left: 1px solid var(--whitegrey); */
+    background: var(--whitegrey-l2);
+    border-left: 1px solid var(--whitegrey);
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
     transform: translate3d(360px, 0px, 0px);
-    box-shadow: 0 0 1px rgba(99, 114, 130, 0.1), 1px 0 16px rgba(27, 39, 51, 0.08);
+    /* box-shadow: 0 0 1px rgba(99, 114, 130, 0.1), 1px 0 16px rgba(27, 39, 51, 0.08); */
 }
 
 .settings-menu-expanded .settings-menu-container {
@@ -109,6 +109,20 @@
 /* Content
 /* ---------------------------------------------------------- */
 
+.settings-menu-container:not(.ember-power-select-multiple-trigger):not(.tag-settings) input,
+.settings-menu-container:not(.tag-settings) .gh-input,
+.settings-menu-pane .gh-date-time-picker-date,
+.settings-menu-pane .gh-date-time-picker-time {
+    background: var(--white);
+    border: 1px solid var(--lightgrey);
+}
+
+.settings-menu-container .ember-power-select-multiple-trigger input,
+.settings-menu-pane .gh-date-time-picker-date input,
+.settings-menu-pane .gh-date-time-picker-time input {
+    border: none !important;
+}
+
 .settings-menu-content {
     padding: 0 24px 24px;
 }
@@ -167,11 +181,18 @@
 
 .settings-menu-delete-button {
     background: transparent;
+    box-shadow: none;
     color: var(--red);
+    border: none;
+}
+
+.settings-menu-delete-button:hover {
+    box-shadow: none;
 }
 
 .settings-menu-delete-button span {
     font-size: inherit;
+    padding: 6px 0;
 }
 
 .settings-menu-delete-button svg {
@@ -215,7 +236,7 @@
     background: #fff;
 }
 
-.settings-menu-pane .ember-power-select-multiple-trigger {
+/* .settings-menu-pane .ember-power-select-multiple-trigger {
     border: var(--input-border);
     background: var(--input-bg-color);
 }
@@ -223,7 +244,7 @@
 .settings-menu-pane .ember-power-select-trigger[aria-expanded=true] {
     border-color: transparent;
     background: color-mod(var(--input-bg-color) l(-3%));
-}
+} */
 
 .settings-menu-pane .ember-power-select-dropdown {
     border: none;
@@ -268,7 +289,7 @@
     z-index: 900;
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
-    background: color-mod(#324750 a(2%));
+    background: transparent;
     /* Not off the screen, to give a parallax effect */
     animation: coverFadeIn 0.3s ease 0.1s 1 forwards;
 }

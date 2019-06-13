@@ -84,7 +84,11 @@ input,
 .gh-input,
 .gh-select,
 .for-switch .input-toggle-component,
-.gh-select select {
+.gh-select select,
+.settings-menu-container:not(.ember-power-select-multiple-trigger):not(.tag-settings) input,
+.settings-menu-container:not(.tag-settings) .gh-input,
+.settings-menu-pane .gh-date-time-picker-date,
+.settings-menu-pane .gh-date-time-picker-time {
     color: var(--darkgrey);
     border-color: color-mod(var(--lightgrey));
     background: color-mod(var(--lightgrey));
@@ -183,6 +187,7 @@ input:focus,
 
 .settings-menu-delete-button {
     color: var(--red);
+    border: none;
 }
 
 .gh-publishmenu-trigger {
