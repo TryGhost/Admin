@@ -254,6 +254,10 @@
         border: none;
         padding: 0 4px 20px 28px;
         font-size: 1.3rem;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .gh-post-list-updated {
@@ -262,17 +266,26 @@
         border: none;
         padding: 0 4px 20px;
         font-size: 1.3rem;
-        flex-grow: 1;
+        max-width: calc((100% - 140px) * 1/4);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .gh-post-list-author {
         display: inline-block;
         order: 5;
         border: none;
-        padding: 0 28px 20px;
+        padding: 0 4px 20px 0;
         font-size: 1.3rem;
-        flex-basis: 100%;
-        margin-top: -16px;
+        max-width: calc((100% - 140px) * 3/4);;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .gh-post-list-author:before {
+        content: "- by";
     }
 
     .gh-post-headers,
