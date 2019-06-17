@@ -409,6 +409,7 @@
 .gh-flow-invite textarea {
     background: var(--input-bg-color) url(img/invite-placeholder.png) 10px 8px no-repeat;
     background-size: 185px 32px;
+    border: var(--input-border);
     box-shadow: none; /* Remove some default styling for Firefox (required attribute) */
     font-size: 1.4rem;
     line-height: 1.8rem;
@@ -455,10 +456,12 @@
 .error-content,
 .main-error {
     user-select: text;
+    font-weight: 400;
 }
 
 .gh-flow-content .error input {
     border-color: var(--red);
+    box-shadow: none;
 }
 
 .gh-flow-content .error .gh-input-icon svg {

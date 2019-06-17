@@ -33,7 +33,7 @@
     position: absolute;
     top: 7px;
     right: 1px;
-    bottom: 6px;
+    bottom: 7px;
     border-left: color-mod(var(--lightgrey) l(-5%) s(-10%)) 1px solid;
     border-radius: 0;
 }
@@ -42,7 +42,7 @@
     font-size: 1.1rem;
     line-height: 19px;
     padding: 0 11px 0 12px;
-    margin-bottom: 2px;
+    margin-top: -1px;
 }
 
 .forgotten-link:hover {

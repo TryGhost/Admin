@@ -129,6 +129,10 @@
     transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
+.tag-settings .gh-image-uploader {
+    background: var(--whitegrey-l2);
+}
+
 @media (max-width: 600px) {
     .tag-settings {
         min-width: 0;
@@ -143,7 +147,6 @@
         transform: translate3d(0px, 0px, 0px);
     }
 }
-
 
 /* New tag list
 /* ---------------------------------------------------------- */
