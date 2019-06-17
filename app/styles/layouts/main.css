@@ -57,9 +57,9 @@
     position: relative;
     flex-shrink: 0;
     display: block;
-    width: 36px;
-    height: 36px;
-    margin: 0px 10px 0 0;
+    width: 34px;
+    height: 34px;
+    margin: 0px 8px 0 0;
     background-position: 50%;
     background-size: cover;
     border-radius: 100%;
