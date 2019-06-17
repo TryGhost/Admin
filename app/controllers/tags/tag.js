@@ -79,7 +79,7 @@ export default Controller.extend({
     _deleteTagSuccess() {
         let currentRoute = this.router.currentRouteName || '';
 
-        if (currentRoute.match(/^settings\.tags/)) {
+        if (currentRoute.match(/^tags/)) {
             this.transitionToRoute('tags.index');
         }
     },
