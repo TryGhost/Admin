@@ -128,6 +128,9 @@ export default Service.extend({
         return this.lazyLoader.loadStyle('dark', 'assets/ghost-dark.css', true).then(() => {
             $('link[title=dark]').prop('disabled', !nightShift);
             $('link[title=light]').prop('disabled', nightShift);
+        }).catch((err) => {
+            $('link[title=dark]').prop('disabled', true);
+            $('link[title=light]').prop('disabled', false);
         });
     }
 });
