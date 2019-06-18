@@ -17,7 +17,7 @@
                     data-test-type-select=true
                     as |type|
                 }}
-                {{type.name}}
+                    {{type.name}}
                 {{/power-select}}
                 {{/unless}}
 
@@ -36,7 +36,7 @@
                     data-test-author-select=true
                     as |author|
                 }}
-                {{author.name}}
+                    {{author.name}}
                 {{/power-select}}
                 {{/unless}}
 
@@ -56,7 +56,7 @@
                     data-test-tag-select=true
                     as |tag|
                 }}
-                {{tag.name}}
+                    {{tag.name}}
                 {{/power-select}}
                 {{/unless}}
 
@@ -73,7 +73,7 @@
                     data-test-order-select=true
                     as |order|
                 }}
-                {{order.name}}
+                    {{order.name}}
                 {{/power-select}}
             </div>
 
@@ -84,13 +84,13 @@
     <section class="content-list">
         <ol class="gh-list {{unless postsInfinityModel "no-posts"}}">
             {{#if postsInfinityModel}}
-            <li class="gh-list-row header">
-                <div class="gh-list-header">{{!--Favorite indicator column: no header--}}</div>
-                <div class="gh-list-header gh-posts-title-header">Title</div>
-                <div class="gh-list-header">Status</div>
-                <div class="gh-list-header">Last update</div>
-                <div class="gh-list-header">Authors</div>
-            </li>
+                <li class="gh-list-row header">
+                    <div class="gh-list-header">{{!--Favorite indicator column: no header--}}</div>
+                    <div class="gh-list-header gh-posts-title-header">Title</div>
+                    <div class="gh-list-header">Status</div>
+                    <div class="gh-list-header">Last update</div>
+                    <div class="gh-list-header">Authors</div>
+                </li>
             {{/if}}
 
             {{#each postsInfinityModel as |page|}}
@@ -104,10 +104,14 @@
                         {{#if showingAll}}
                             {{svg-jar "pages-placeholder" class="gh-pages-placeholder"}}
                             <h3>You haven't created any pages yet!</h3>
-                            {{#link-to "editor.new" "page"}}<button type="button" class="gh-btn gh-btn-green gh-btn-lg"><span>Create a new page</span></button>{{/link-to}}
+                            {{#link-to "editor.new" "page" class="gh-btn gh-btn-green gh-btn-lg"}}
+                                <span>Create a new page</span>
+                            {{/link-to}}
                         {{else}}
                             <h3>No pages match the current filter</h3>
-                            {{#link-to "pages" (query-params type=null author=null tag=null)}}<button type="button" class="gh-btn gh-btn-lg"><span>Show all pages</span></button>{{/link-to}}
+                            {{#link-to "pages" (query-params type=null author=null tag=null) class="gh-btn gh-btn-lg"}}
+                                <span>Show all pages</span>
+                            {{/link-to}}
                         {{/if}}
                     </div>
                 </li>
