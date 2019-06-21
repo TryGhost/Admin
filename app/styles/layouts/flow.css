@@ -448,7 +448,7 @@
     font-size: 1.2rem;
 }
 
-.gh-flow-content .success .gh-input-icon svg {
+.gh-flow-content form:not(.gh-signin) .success .gh-input-icon svg {
     fill: var(--green);
 }
 
