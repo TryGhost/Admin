@@ -23,7 +23,7 @@
     "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "engines": {
-    "node": ">= 6"
+    "node": "^8.9.0 || ^10.13.0"
   },
   "devDependencies": {
     "@ember/optional-features": "0.6.1",
