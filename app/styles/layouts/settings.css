@@ -71,19 +71,22 @@
 }
 
 .gh-setting-content-extended label {
+    display: block;
     font-size: 1.25rem;
-    line-height: 1.15em;
     font-weight: 600;
     color: var(--darkgrey);
+    margin-bottom: 4px;
 }
 
 .gh-setting-content-extended textarea {
+    font-size: 1.5rem;
+    line-height: 1.4em;
     max-width: initial;
 }
 
 .gh-setting-content-extended .gh-image-uploader {
     margin: 0;
-    border: 1px solid color-mod(var(--lightgrey));
+    border: 1px solid var(--lightgrey);
 }
 
 

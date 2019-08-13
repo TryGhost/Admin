@@ -198,13 +198,13 @@
             </div>
         </div>
 
-        <div class="gh-setting-header">Site SEO</div>
+        <div class="gh-setting-header">Site meta settings</div>
         <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
             <div class="gh-setting-first flex-column">
                 <div class="flex flex-row justify-between w-100">
                     <div class="gh-setting-content">
                         <div class="gh-setting-title">Meta data</div>
-                        <div class="gh-setting-desc">Extra home page content for search engines</div>
+                        <div class="gh-setting-desc">Extra content for search engines</div>
                     </div>
                     <div class="gh-setting-action">
                         <button type="button" class="gh-btn" {{action (toggle "metaDataOpen" this)}} data-test-toggle-social><span>{{if metaDataOpen "Close" "Expand"}}</span></button>
@@ -212,10 +212,10 @@
                 </div>
                 {{#liquid-if metaDataOpen}}
                     <div class="gh-setting-content-extended">
-                        <div class="flex flex-row">
-                            <div class="w-100">
+                        <div class="flex flex-column flex-row-ns">
+                            <div class="flex-basis-1-2-m flex-basis-2-3-l mr5">
                                 {{#gh-form-group errors=this.settings.errors hasValidated=this.settings.hasValidated property="metaTitle"}}
-                                    <label for="metaTitle">Home SEO title</label>
+                                    <label for="metaTitle">Meta title</label>
                                     {{gh-text-input
                                         id="metaTitle"
                                         type="text"
@@ -224,10 +224,10 @@
                                         data-test-input="metaTitle"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="metaTitle" data-test-error="metaTitle"}}
-                                    <p>The title appears browser tabs and search engine results for your home page.</p>
+                                    <p>The title appears browser tabs and search engine results for your site.</p>
                                 {{/gh-form-group}}
                                 {{#gh-form-group errors=this.settings.errors hasValidated=this.settings.hasValidated property="metaDescription"}}
-                                    <label for="metaDescription">Home SEO description</label>
+                                    <label for="metaDescription">Meta description</label>
                                     {{gh-textarea
                                         id="metaDescription"
                                         type="text"
@@ -236,11 +236,11 @@
                                         data-test-input="metaDescription"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="metaDescription" data-test-error="metaDescription"}}
-                                    <p>A short description of your home page, it should be between 50 and 300 characters.</p>
+                                    <p>A short description of your site, it should be between 50 and 300 characters.</p>
                                 {{/gh-form-group}}
                             </div>
-                            <div style="margin-left: 20px; width: 300px">
-                                <label>Preview</label>
+                            <div class="flex-basis-1-2-m flex-basis-1-3-l">
+                                <label>Search engine result preview</label>
                                 <div class="seo-preview">
                                     <div class="seo-preview-title">{{truncate (or this.settings.metaTitle this.settings.title) 70}}</div>
                                     <div class="seo-preview-link">{{truncate this.config.blogUrl 70}}</div>
@@ -255,7 +255,7 @@
                 <div class="flex flex-row justify-between w-100">
                     <div class="gh-setting-content">
                         <div class="gh-setting-title">Twitter card</div>
-                        <div class="gh-setting-desc">Customise structured data of your home page for Twitter</div>
+                        <div class="gh-setting-desc">Customise structured data of your site for Twitter</div>
                     </div>
                     <div class="gh-setting-action">
                         <button type="button" class="gh-btn" {{action (toggle "twitterCardOpen" this)}} data-test-toggle-social><span>{{if twitterCardOpen "Close" "Expand"}}</span></button>
@@ -263,10 +263,9 @@
                 </div>
                 {{#liquid-if twitterCardOpen}}
                     <div class="gh-setting-content-extended">
-                        <div class="flex flex-row">
-                            <div class="w-100">
+                        <div class="flex flex-column flex-row-ns">
+                            <div class="flex-basis-1-2-m flex-basis-2-3-l mr5 nudge-top--7">
                                 {{#gh-form-group}}
-                                    <label>Twitter thumbnail image</label>
                                     {{gh-image-uploader-with-preview
                                         image=this.settings.twitterImage
                                         text="Add Twitter image"
@@ -297,7 +296,7 @@
                                     {{gh-error-message errors=this.settings.errors property="twitterDescription" data-test-error="twitterDescription"}}
                                 {{/gh-form-group}}
                             </div>
-                            <div style="margin-left: 20px; width: 300px">
+                            <div class="flex-basis-1-2-m flex-basis-1-3-l nt4-ns">
                                 <label>Preview</label>
                                 <div class="gh-twitter-preview">
                                     {{#if this.settings.twitterImage}}
@@ -324,7 +323,7 @@
                 <div class="flex flex-row justify-between w-100">
                     <div class="gh-setting-content">
                         <div class="gh-setting-title">Facebook card</div>
-                        <div class="gh-setting-desc">Customise structured data of your home page</div>
+                        <div class="gh-setting-desc">Customise structured data of your site</div>
                     </div>
                     <div class="gh-setting-action">
                         <button type="button" class="gh-btn" {{action (toggle "facebookCardOpen" this)}} data-test-toggle-social><span>{{if facebookCardOpen "Close" "Expand"}}</span></button>
@@ -332,10 +331,9 @@
                 </div>
                 {{#liquid-if facebookCardOpen}}
                     <div class="gh-setting-content-extended">
-                        <div class="flex flex-row">
-                            <div class="w-100">
+                        <div class="flex flex-column flex-row-ns">
+                            <div class="flex-basis-1-2-m flex-basis-2-3-l mr5 nudge-top--7">
                                 {{#gh-form-group}}
-                                    <label>Facebook thumbnail image</label>
                                     {{gh-image-uploader-with-preview
                                         image=this.settings.ogImage
                                         text="Add Facebook image"
@@ -366,7 +364,7 @@
                                     {{gh-error-message errors=this.settings.errors property="ogDescription" data-test-error="ogDescription"}}
                                 {{/gh-form-group}}
                             </div>
-                            <div style="margin-left: 20px; width: 300px">
+                            <div class="flex-basis-1-2-m flex-basis-1-3-l nt4-ns">
                                 <label>Preview</label>
                                 <div class="gh-og-preview">
                                     {{#if this.settings.ogImage}}
