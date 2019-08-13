@@ -219,18 +219,20 @@
                                     {{gh-text-input
                                         id="metaTitle"
                                         type="text"
+                                        placeholder=(truncate this.settings.title 70)
                                         value=(readonly this.settings.metaTitle)
                                         input=(action (mut this.settings.metaTitle) value="target.value")
                                         data-test-input="metaTitle"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="metaTitle" data-test-error="metaTitle"}}
-                                    <p>The title appears browser tabs and search engine results for your site.</p>
+                                    <p>The title appears on browser tabs and search engine results for your site.</p>
                                 {{/gh-form-group}}
                                 {{#gh-form-group errors=this.settings.errors hasValidated=this.settings.hasValidated property="metaDescription"}}
                                     <label for="metaDescription">Meta description</label>
                                     {{gh-textarea
                                         id="metaDescription"
                                         type="text"
+                                        placeholder=(truncate this.settings.description 300)
                                         value=(readonly this.settings.metaDescription)
                                         input=(action (mut this.settings.metaDescription) value="target.value")
                                         data-test-input="metaDescription"
@@ -279,6 +281,7 @@
                                     {{gh-text-input
                                         id="twitterTitle"
                                         type="text"
+                                        placeholder=(truncate this.settings.title 70)
                                         value=(readonly this.settings.twitterTitle)
                                         input=(action (mut this.settings.twitterTitle) value="target.value")
                                         data-test-input="metaData"
@@ -289,6 +292,7 @@
                                     <label for="twitterDescription">Twitter description</label>
                                     {{gh-textarea
                                         id="twitterDescription"
+                                        placeholder=(truncate this.settings.description 300)
                                         value=(readonly this.settings.twitterDescription)
                                         input=(action (mut this.settings.twitterDescription) value="target.value")
                                         data-test-input="twitterDescription"
@@ -347,6 +351,7 @@
                                     {{gh-text-input
                                         id="ogTitle"
                                         type="text"
+                                        placeholder=(truncate this.settings.title 70)
                                         value=(readonly this.settings.ogTitle)
                                         input=(action (mut this.settings.ogTitle) value="target.value")
                                         data-test-input="metaData"
@@ -357,6 +362,7 @@
                                     <label for="ogDescription">Facebook description</label>
                                     {{gh-textarea
                                         id="ogDescription"
+                                        placeholder=(truncate this.settings.description 300)
                                         value=(readonly this.settings.ogDescription)
                                         input=(action (mut this.settings.ogDescription) value="target.value")
                                         data-test-input="ogDescription"
