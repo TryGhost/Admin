@@ -225,7 +225,7 @@
                                         data-test-input="metaTitle"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="metaTitle" data-test-error="metaTitle"}}
-                                    <p>Appears on browser tabs and search engine results for your site. Recommended: <b>70</b> characters.</p>
+                                    <p>Recommended: <b>70</b> characters. You’ve used <b>{{gh-count-down-characters this.settings.metaTitle 70}}</b></p>
                                 {{/gh-form-group}}
                                 {{#gh-form-group errors=this.settings.errors hasValidated=this.settings.hasValidated property="metaDescription"}}
                                     <label for="metaDescription">Meta description</label>
@@ -238,7 +238,7 @@
                                         data-test-input="metaDescription"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="metaDescription" data-test-error="metaDescription"}}
-                                    <p>A short description of your site. Recommended: <b>156</b> characters.</p>
+                                    <p>Recommended: <b>156</b> characters. You’ve used <b>{{gh-count-down-characters this.settings.metaDescription 156}}</b></p>
                                 {{/gh-form-group}}
                             </div>
                             <div class="flex-basis-1-2-m flex-basis-1-3-l">
