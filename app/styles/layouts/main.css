@@ -124,11 +124,16 @@
     padding: 6px 0;
 }
 
-.gh-nav-menu-dropdown .dropdown-menu>li>a {
+.gh-nav-menu-dropdown .dropdown-menu>li>a,
+.gh-nav-menu-dropdown .dropdown-menu>li>button {
     font-size: 1.4rem;
     margin: 0;
     width: unset;
     padding: 7px 14px 8px;
+}
+
+.gh-nav-menu-dropdown .dropdown-menu>li>button {
+    width: 100%;
 }
 
 .gh-nav-menu-dropdown .dropdown-menu .divider {
