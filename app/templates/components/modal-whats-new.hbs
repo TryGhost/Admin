@@ -1,46 +1,50 @@
-{{#if (or this.whatsNew.fetchLatest.isRunning (not this.changelogEntry))}}
-    <header class="modal-header" data-test-modal="whats-new">
-        <h1>What's new</h1>
-    </header>
-    <button class="close" href="" title="Close" {{on "click" this.closeModal}}>
-        {{svg-jar "close"}}
-    </button>
-    <div class="modal-body h30">
-        {{#if this.whatsNew.fetchLatest.isRunning}}
-            <GhLoadingSpinner />
-        {{else}}
-            <p>Nothing new to report right now, check back soon!</p>
-        {{/if}}
-    </div>
+<div class="gh-wn-container">
+    {{#if (or this.whatsNew.fetchLatest.isRunning (not this.changelogEntry))}}
+        <header class="modal-header" data-test-modal="whats-new">
+            <h1>What's new</h1>
+        </header>
+        <button class="close" href="" title="Close" {{on "click" this.closeModal}}>
+            {{svg-jar "close"}}
+        </button>
+        <div class="modal-body h30">
+            {{#if this.whatsNew.fetchLatest.isRunning}}
+                <GhLoadingSpinner />
+            {{else}}
+                <p>Nothing new to report right now, check back soon!</p>
+            {{/if}}
+        </div>
 
-{{else}}
+    {{else}}
 
-    <header class="modal-header" data-test-modal="whats-new">
-        <h1>What's new · {{moment-format this.changelogEntry.published_at "MMM D YYYY"}}</h1>
-        <h1>{{this.changelogEntry.title}}</h1>
-    </header>
-    <button class="close" href="" title="Close" {{on "click" this.closeModal}}>
-        {{svg-jar "close"}}
-    </button>
-    <div class="modal-body">
-        {{#if this.changelogEntry.feature_image}}
-            <img src={{this.changelogEntry.feature_image}} />
-        {{/if}}
-        {{#if this.changelogEntry.custom_excerpt}}
-            <p>{{this.changelogEntry.custom_excerpt}}</p>
-            <p>
-                <a href={{this.changelogEntry.url}} target="_blank" rel="noopener noreferrer">
-                    Read the full post →
-                </a>
-            </p>
-        {{else}}
-            {{{this.changelogEntry.html}}}
-        {{/if}}
-    </div>
-    <div class="modal-footer">
-        <a href={{this.whatsNew.changelogUrl}} target="_blank" rel="noopener noreferrer">
-            See past updates
-        </a>
-    </div>
+        <header class="modal-header gh-wn-header" data-test-modal="whats-new">
+            <img src="assets/img/whats-new-header-bg.svg" class="background-img" />
+            <span>{{svg-jar "gift" class="w5 h5 fill-white"}}</span>
+            <h2>What's new? • {{moment-format this.changelogEntry.published_at "MMMM D YYYY"}}</h2>
+        </header>
+        <button class="close gh-wn-close" href="" title="Close" {{on "click" this.closeModal}}>
+            {{svg-jar "close"}}
+        </button>
+        <div class="modal-body gh-wn-content">
+            <h1 class="f1 fw6 ma0 pa0 mb3">{{this.changelogEntry.title}}</h1>
+            {{#if this.changelogEntry.feature_image}}
+                <img src={{this.changelogEntry.feature_image}} />
+            {{/if}}
+            {{#if this.changelogEntry.custom_excerpt}}
+                <p>{{this.changelogEntry.custom_excerpt}}</p>
+                <p>
+                    <a href={{this.changelogEntry.url}} target="_blank" rel="noopener noreferrer">
+                        Read the full post →
+                    </a>
+                </p>
+            {{else}}
+                {{{this.changelogEntry.html}}}
+            {{/if}}
+        </div>
+        <div class="modal-footer gh-wn-footer">
+            <a href={{this.whatsNew.changelogUrl}} target="_blank" rel="noopener noreferrer">
+                See past updates
+            </a>
+        </div>
 
-{{/if}}
+    {{/if}}
+</div>
