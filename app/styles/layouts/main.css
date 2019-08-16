@@ -675,6 +675,17 @@
     margin: 0 10px;
 }
 
+/* What's new badges
+/* ---------------------------------------------------- */
+.gh-whats-new-badge-account {
+    top: -6px;
+    right: -6px;
+    border: 1px solid var(--white);
+    width: 12px;
+    height: 12px;
+}
+
+
 /* Used on tags, settings, labs, design etc.
 /* TODO: remove and re-use gh-canvas...
 /* ---------------------------------------------------- */

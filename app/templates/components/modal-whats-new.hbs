@@ -1,4 +1,4 @@
-<div class="gh-wn-container">
+<div class="gh-wn-container {{if this.changelogEntry.custom_excerpt "gh-wn-excerpt"}} {{if this.changelogEntry.feature_image "gh-wn-feature-img"}}">
     {{#if (or this.whatsNew.fetchLatest.isRunning (not this.changelogEntry))}}
         <header class="modal-header" data-test-modal="whats-new">
             <h1>What's new</h1>
@@ -37,12 +37,7 @@
         <div class="modal-body gh-wn-content">
             <h1 class="f1 fw6 ma0 pa0 mb3">{{this.changelogEntry.title}}</h1>
             {{#if this.changelogEntry.custom_excerpt}}
-                <p class="ma0 mb5 pa0">{{this.changelogEntry.custom_excerpt}}</p>
-                <p class="ma0 pa0">
-                    <a href={{this.changelogEntry.url}} target="_blank" rel="noopener noreferrer">
-                        Read the full post →
-                    </a>
-                </p>
+                <p class="ma0 pa0">{{this.changelogEntry.custom_excerpt}} <a href={{this.changelogEntry.url}} target="_blank" class="dib fw6" rel="noopener noreferrer">Read the full post →</a></p>
             {{else}}
                 {{{this.changelogEntry.html}}}
             {{/if}}

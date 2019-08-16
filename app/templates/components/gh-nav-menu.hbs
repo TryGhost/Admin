@@ -99,7 +99,7 @@
             {{#dropdown.trigger tagName="div" class="flex items-center outline-0 pointer space-between pa2 pl4 pr3"}}
                 <div class="flex-auto flex items-center">
                     <div class="gh-user-avatar relative" style={{background-image-style session.user.profileImageUrl}}>
-                        {{#if this.whatsNew.hasNew}}<span class="absolute top-0 left-0 nt2 nl2">🔵</span>{{/if}}
+                        {{#if this.whatsNew.hasNew}}<span class="absolute dib bg-blue ba b--white br-100 gh-whats-new-badge-account"></span>{{/if}}
                     </div>
                     <div class="flex flex-column items-start justify-center">
                         <span class="gh-user-name {{if session.user.name "mb1"}}" title="{{session.user.name}}">{{session.user.name}}</span>
@@ -120,7 +120,7 @@
                     <li role="presentation">
                         <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
                             {{svg-jar "gift"}} What's new?
-                            {{#if this.whatsNew.hasNew}}<span class="flex-grow-1 tr">🔵</span>{{/if}}
+                            {{#if this.whatsNew.hasNew}}<div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>{{/if}}
                         </button>
                     </li>
                     <li class="divider"></li>

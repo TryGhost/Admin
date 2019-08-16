@@ -22,7 +22,7 @@
     display: block;
     padding: 18px 32px 12px;
     height: 32vh;
-    max-height: 280px;
+    max-height: 220px;
     min-height: 120px;
 }
 
@@ -40,7 +40,8 @@
 
 .gh-wn-title-container {
     display: flex;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+    align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
     margin: -18px -32px;
     padding: 19px 32px 32px;
 }
@@ -51,7 +52,7 @@
     font-weight: 600;
     text-transform: uppercase;
     color: #FFF;
-    margin: 0 0 7px 8px;
+    margin: 0 8px 4px;
 }
 
 .gh-wn-content {
@@ -59,6 +60,10 @@
     padding: 20px 32px;
     max-height: calc(100vh - 170px);
     overflow-y: scroll;
+}
+
+.gh-wn-container.gh-wn-feature-img .gh-wn-content {
+    max-height: calc(100vh - 335px);
 }
 
 .gh-wn-close {
@@ -75,4 +80,5 @@
     margin: 0 -32px -32px;
     padding: 14px 32px 16px;
     border-top: 1px solid var(--whitegrey);
+    justify-content: space-between;
 }
