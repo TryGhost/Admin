@@ -51,6 +51,7 @@ export default function () {
                 {
                     title: 'Custom image alt tags',
                     custom_excerpt: null,
+                    feature_image: null,
                     html: '<p>We just shipped custom image alt tag support in the Ghost editor. This is one of our most requested features - and great news for accessibility and search engine optimisation for your Ghost publication.</p><p>Previously, you\'d need to use a Markdown card to add an image alt tag. Now you can create alt tags on the go directly from the editor, without the need to add any additional cards or custom tags.</p><!--kg-card-begin: image--><figure class="kg-card kg-image-card"><img src="https://mainframe.ghost.io/content/images/2019/08/image-alt-tag.gif" class="kg-image"></figure><!--kg-card-end: image--><p>To write your alt tag, hit the <code>alt</code> button on the right in the caption line, type your alt text and then hit the button again to return to the caption text. </p><p><em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><a href="https://ghost.org/pricing/">Ghost(Pro)</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> users already have access to custom image alt tags. Self hosted developers can use <a href="https://ghost.org/docs/api/ghost-cli/">Ghost-CLI</a> to install the latest release!</em></p>',
                     slug: 'image-alt-text-support',
                     published_at: '2019-08-05T07:46:16.000+00:00',
@@ -59,12 +60,13 @@ export default function () {
             ],
             changelogMajor: [
                 {
-                    title: 'Custom image alt tags (major)',
-                    custom_excerpt: null,
+                    title: 'Eleventy and Ghost',
+                    feature_image: 'https://res.cloudinary.com/tryghost/image/fetch/w_1560,c_fit,f_auto/https://mainframe.ghost.io/content/images/2019/08/eleventy-starter-feature-2.png',
+                    custom_excerpt: 'We’ve expanded our roster of headless starter repositories – now you can build a completely custom front-end for a Ghost site with Eleventy.',
                     html: '<p>We just shipped custom image alt tag support in the Ghost editor. This is one of our most requested features - and great news for accessibility and search engine optimisation for your Ghost publication.</p><p>Previously, you\'d need to use a Markdown card to add an image alt tag. Now you can create alt tags on the go directly from the editor, without the need to add any additional cards or custom tags.</p><!--kg-card-begin: image--><figure class="kg-card kg-image-card"><img src="https://mainframe.ghost.io/content/images/2019/08/image-alt-tag.gif" class="kg-image"></figure><!--kg-card-end: image--><p>To write your alt tag, hit the <code>alt</code> button on the right in the caption line, type your alt text and then hit the button again to return to the caption text. </p><p><em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><a href="https://ghost.org/pricing/">Ghost(Pro)</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> users already have access to custom image alt tags. Self hosted developers can use <a href="https://ghost.org/docs/api/ghost-cli/">Ghost-CLI</a> to install the latest release!</em></p>',
-                    slug: 'image-alt-text-support',
+                    slug: 'eleventy',
                     published_at: '2019-08-14T07:46:16.000+00:00',
-                    url: 'https://ghost.org/blog/image-alt-text-support/'
+                    url: 'https://ghost.org/blog/eleventy/'
                 }
             ],
             changelogUrl: 'https://ghost.org/blog/'

@@ -16,22 +16,29 @@
 
     {{else}}
 
-        <header class="modal-header gh-wn-header" data-test-modal="whats-new">
-            <img src="assets/img/whats-new-header-bg.svg" class="background-img" />
-            <span>{{svg-jar "gift" class="w5 h5 fill-white"}}</span>
-            <h2>What's new? • {{moment-format this.changelogEntry.published_at "MMMM D YYYY"}}</h2>
-        </header>
+        {{#if this.changelogEntry.feature_image}}
+            <header class="modal-header gh-wn-header-feature-img" style="background-image:url('{{this.changelogEntry.feature_image}}')" data-test-modal="whats-new">
+                <div class="gh-wn-title-container">
+                    <span>{{svg-jar "gift" class="w5 h5 fill-white"}}</span>
+                    <h2>What's new? • {{moment-format this.changelogEntry.published_at "MMMM D YYYY"}}</h2>
+                </div>
+            </header>
+        {{else}}
+            <header class="modal-header gh-wn-header" data-test-modal="whats-new">
+                <img src="assets/img/whats-new-header-bg.svg" class="background-img" />
+                <span>{{svg-jar "gift" class="w5 h5 fill-white"}}</span>
+                <h2>What's new? • {{moment-format this.changelogEntry.published_at "MMMM D YYYY"}}</h2>
+            </header>
+        {{/if}}
+
         <button class="close gh-wn-close" href="" title="Close" {{on "click" this.closeModal}}>
             {{svg-jar "close"}}
         </button>
         <div class="modal-body gh-wn-content">
             <h1 class="f1 fw6 ma0 pa0 mb3">{{this.changelogEntry.title}}</h1>
-            {{#if this.changelogEntry.feature_image}}
-                <img src={{this.changelogEntry.feature_image}} />
-            {{/if}}
             {{#if this.changelogEntry.custom_excerpt}}
-                <p>{{this.changelogEntry.custom_excerpt}}</p>
-                <p>
+                <p class="ma0 mb5 pa0">{{this.changelogEntry.custom_excerpt}}</p>
+                <p class="ma0 pa0">
                     <a href={{this.changelogEntry.url}} target="_blank" rel="noopener noreferrer">
                         Read the full post →
                     </a>
