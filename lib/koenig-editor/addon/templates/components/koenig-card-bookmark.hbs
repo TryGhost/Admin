@@ -15,10 +15,28 @@
     editor=editor
     as |card|
 }}
-    {{#if payload.html}}
+    {{#if payload.metadata}}
         <div class="kg-card-hover">
             <div class="koenig-embed-{{payload.type}} flex justify-center relative" data-kg-embed>
-                <iframe class="bn miw-100" scrolling="no"></iframe>
+                {{!-- <iframe class="bn miw-100" scrolling="no"></iframe> --}}
+                <figure class="kg-card kg-bookmark-card also-new-tag">
+                    <div class="kg-bookmark-container">
+                        <a href={{payload.metadata.url}}>
+                            <div class="kg-bookmark-content">
+                                <div class="kg-bookmark-title">{{payload.metadata.title}}</div>
+                                <div class="kg-bookmark-description">{{payload.metadata.description}}</div>
+                                <div class="kg-bookmark-metadata">
+                                    <img src={{payload.metadata.icon}} class="kg-bookmark-logo">
+                                    <span class="kg-bookmark-author">{{payload.metadata.type}}</span>
+                                    <span class="kg-bookmark-url">{{payload.metadata.provider}}</span>
+                                </div>
+                            </div>
+                            <div class="kg-bookmark-thumbnail">
+                                <img src={{payload.metadata.image}} >
+                            </div>
+                        </a>
+                    </div>
+                </figure>
                 <div class="koenig-card-click-overlay ba b--transparent" data-kg-overlay></div>
             </div>
 
