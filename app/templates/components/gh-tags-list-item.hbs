@@ -1,0 +1,43 @@
+{{#link-to "tags.tag" tag class="gh-list-data" title="Edit tag"}}
+    <h3>
+        {{this.tag.name}}
+    </h3>
+    {{#if this.description}}
+        <p class="ma0 pa0 f8 midgrey">
+            {{this.description}}
+        </p>
+    {{/if}}
+{{/link-to}}
+
+{{#link-to "tags.tag" tag class="gh-list-data middarkgrey f8" title="Edit tag"}}
+    <span class="nowrap">{{this.slug}}</span>
+{{/link-to}}
+
+<div class="gh-list-data">
+    {{#if this.postsCount}}
+        {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="blue f8" title="List posts with this tag"}}
+            <span class="nowrap">{{this.postsLabel}}</span>
+        {{/link-to}}
+    {{else}}
+        <span class="nowrap f8 midlightgrey">{{this.postsLabel}}</span>
+    {{/if}}
+</div>
+
+<div class="gh-list-data gh-tags-list-actions-container">
+    <div class="flex items-center justify-end w-100">
+        <div class="flex items-center gh-tags-list-actions">
+            <span {{action "toggleDeleteTagModal"}}>{{svg-jar "trash" class="w6 h6 fill-red pa1 mr5 pointer"}}</span>
+        </div>
+        {{#link-to "tags.tag" tag title="Edit tag"}}
+            <span>{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span>
+        {{/link-to}}
+    </div>
+</div>
+
+{{#if showDeleteTagModal}}
+{{gh-fullscreen-modal "delete-tag"
+    model=tag
+    confirm=(action "deleteTag")
+    close=(action "toggleDeleteTagModal")
+    modifier="action wide"}}
+{{/if}}
