@@ -42,7 +42,8 @@ let markdownitNamedHeaders = function markdownitNamedHeaders(md) {
 let md = markdownit({
     html: true,
     breaks: true,
-    linkify: true
+    linkify: true,
+    typographer: true
 })
     .use(markdownitFootnote)
     .use(markdownitLazyHeaders)
