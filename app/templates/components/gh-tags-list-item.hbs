@@ -14,7 +14,7 @@
 {{/link-to}}
 
 {{#if this.postsCount}}
-    {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="gh-list-data blue f8" title="List posts with this tag"}}
+    {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="gh-list-data blue gh-tags-count f8" title=(concat "List posts tagged with '" this.tag.name "'")}}
         <span class="nowrap">{{this.postsLabel}}</span>
     {{/link-to}}
 {{else}}
