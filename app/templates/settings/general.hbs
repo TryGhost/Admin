@@ -207,7 +207,7 @@
                         <div class="gh-setting-desc">Extra content for search engines</div>
                     </div>
                     <div class="gh-setting-action">
-                        <button type="button" class="gh-btn" {{action (toggle "metaDataOpen" this)}} data-test-toggle-social><span>{{if metaDataOpen "Close" "Expand"}}</span></button>
+                        <button type="button" class="gh-btn" {{action (toggle "metaDataOpen" this)}} data-test-toggle-meta><span>{{if metaDataOpen "Close" "Expand"}}</span></button>
                     </div>
                 </div>
                 {{#liquid-if metaDataOpen}}
@@ -260,7 +260,7 @@
                         <div class="gh-setting-desc">Customise structured data of your site for Twitter</div>
                     </div>
                     <div class="gh-setting-action">
-                        <button type="button" class="gh-btn" {{action (toggle "twitterCardOpen" this)}} data-test-toggle-social><span>{{if twitterCardOpen "Close" "Expand"}}</span></button>
+                        <button type="button" class="gh-btn" {{action (toggle "twitterCardOpen" this)}} data-test-toggle-twitter><span>{{if twitterCardOpen "Close" "Expand"}}</span></button>
                     </div>
                 </div>
                 {{#liquid-if twitterCardOpen}}
@@ -284,7 +284,7 @@
                                         placeholder=(truncate this.settings.title 70)
                                         value=(readonly this.settings.twitterTitle)
                                         input=(action (mut this.settings.twitterTitle) value="target.value")
-                                        data-test-input="metaData"
+                                        data-test-input="twitterTitle"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="twitterTitle" data-test-error="twitterTitle"}}
                                 {{/gh-form-group}}
@@ -330,7 +330,7 @@
                         <div class="gh-setting-desc">Customise structured data of your site</div>
                     </div>
                     <div class="gh-setting-action">
-                        <button type="button" class="gh-btn" {{action (toggle "facebookCardOpen" this)}} data-test-toggle-social><span>{{if facebookCardOpen "Close" "Expand"}}</span></button>
+                        <button type="button" class="gh-btn" {{action (toggle "facebookCardOpen" this)}} data-test-toggle-facebook><span>{{if facebookCardOpen "Close" "Expand"}}</span></button>
                     </div>
                 </div>
                 {{#liquid-if facebookCardOpen}}
@@ -354,7 +354,7 @@
                                         placeholder=(truncate this.settings.title 70)
                                         value=(readonly this.settings.ogTitle)
                                         input=(action (mut this.settings.ogTitle) value="target.value")
-                                        data-test-input="metaData"
+                                        data-test-input="ogTitle"
                                     }}
                                     {{gh-error-message errors=this.settings.errors property="ogTitle" data-test-error="ogTitle"}}
                                 {{/gh-form-group}}
