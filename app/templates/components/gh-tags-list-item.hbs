@@ -13,26 +13,21 @@
     <span class="nowrap">{{this.slug}}</span>
 {{/link-to}}
 
-<div class="gh-list-data">
-    {{#if this.postsCount}}
-        {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="blue f8" title="List posts with this tag"}}
-            <span class="nowrap">{{this.postsLabel}}</span>
-        {{/link-to}}
-    {{else}}
+{{#if this.postsCount}}
+    {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="gh-list-data blue f8" title="List posts with this tag"}}
+        <span class="nowrap">{{this.postsLabel}}</span>
+    {{/link-to}}
+{{else}}
+    {{#link-to "tags.tag" tag class="gh-list-data" title="Edit tag"}}
         <span class="nowrap f8 midlightgrey">{{this.postsLabel}}</span>
-    {{/if}}
-</div>
+    {{/link-to}}
+{{/if}}
 
-<div class="gh-list-data gh-tags-list-actions-container">
+{{#link-to "tags.tag" tag class="gh-list-data" title="Edit tag"}}
     <div class="flex items-center justify-end w-100">
-        <div class="flex items-center gh-tags-list-actions">
-            <span {{action "toggleDeleteTagModal"}}>{{svg-jar "trash" class="w6 h6 fill-red pa1 mr5 pointer"}}</span>
-        </div>
-        {{#link-to "tags.tag" tag title="Edit tag"}}
-            <span>{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span>
-        {{/link-to}}
+        <span class="nr2">{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span>
     </div>
-</div>
+{{/link-to}}
 
 {{#if showDeleteTagModal}}
 {{gh-fullscreen-modal "delete-tag"

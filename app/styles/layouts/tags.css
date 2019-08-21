@@ -1,18 +1,5 @@
 /* Tag list
 /* ---------------------------------------------------------- */
-.gh-tags-list-actions-container {
-    padding-right: 12px;
-}
-
-.gh-tags-list-actions {
-    opacity: 0;
-    transition: all .2s ease-in-out;
-}
-
-.gh-tags-list-item:hover .gh-tags-list-actions {
-    opacity: 1.0;
-}
-
 .gh-tag-settings-container {
     max-height: calc(100vh - 12vw - 180px);
     overflow-y: scroll;
@@ -43,6 +30,18 @@ textarea.gh-tag-details-textarea {
     min-height: 147px;
 }
 
+.gh-tags-placeholder {
+    width: 118px;
+    margin: -30px 0 15px;
+}
+
+.tags-view {
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+
+
 
 /* ---------------------------------------------------------- */
 
@@ -50,11 +49,6 @@ textarea.gh-tag-details-textarea {
 /* Tag Management /ghost/tags/
 /* TODO: the CSS below comes from the old design. To be cleaned up!
 /* ---------------------------------------------------------- */
-
-.tags-view {
-    max-width: 1220px;
-    margin: 0 auto;
-}
 
 .tags-container {
     background: var(--white);
