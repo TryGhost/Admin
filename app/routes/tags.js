@@ -5,6 +5,12 @@ import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 
 export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
+    queryParams: {
+        type: {
+            refreshModel: true,
+            replace: true
+        }
+    },
 
     shortcuts: null,
 
@@ -33,7 +39,6 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
     model() {
         let promise = this.store.query('tag', {limit: 'all', include: 'count.posts'});
         let tags = this.store.peekAll('tag');
-
         if (this.store.peekAll('tag').get('length') === 0) {
             return promise.then(() => tags);
         } else {
