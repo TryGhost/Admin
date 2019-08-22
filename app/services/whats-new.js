@@ -3,19 +3,23 @@ import fetch from 'fetch';
 import moment from 'moment';
 import {action} from '@ember/object';
 import {computed} from '@ember/object';
-import {get} from '@ember/object';
+import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default Service.extend({
     session: service(),
 
-    changelogLatest: null,
-    changelogMajorLatest: null,
+    entries: null,
     changelogUrl: 'https://ghost.org/blog/',
     isShowingModal: false,
 
     _user: null,
+
+    init() {
+        this._super(...arguments);
+        this.entries = [];
+    },
 
     whatsNewSettings: computed('_user.accessibility', function () {
         let settingsJson = this.get('_user.accessibility') || '{}';
@@ -23,43 +27,16 @@ export default Service.extend({
         return settings.whatsNew;
     }),
 
-    latest: computed('changelogLatest.published_at', 'changelogMajorLatest.published_at', function () {
-        let {changelogLatest, changelogMajorLatest} = this;
-
-        if (!changelogLatest && !changelogMajorLatest) {
-            return null;
-        }
-
-        if (!changelogLatest || !changelogMajorLatest) {
-            return changelogLatest || changelogMajorLatest;
-        }
-
-        let latestMoment = moment(get(changelogLatest, 'published_at') || '2000-01-01');
-        let latestMajorMoment = moment(get(changelogMajorLatest, 'published_at') || '2000-01-01');
-
-        return latestMoment.isAfter(latestMajorMoment) ? changelogLatest : changelogMajorLatest;
-    }),
-
-    hasNew: computed('whatsNewSettings.lastSeenDate', 'latest.published_at', function () {
-        if (!this.latest) {
+    hasNew: computed('whatsNewSettings.lastSeenDate', 'entries.[]', function () {
+        if (isEmpty(this.entries)) {
             return false;
         }
 
-        let lastSeenDate = this.get('whatsNewSettings.lastSeenDate');
-        let lastSeenMoment = moment(lastSeenDate || '2019-01-01 00:00:00');
-        let latestDate = this.get('latest.published_at');
-        let latestMoment = moment(latestDate || lastSeenDate);
-        return latestMoment.isAfter(lastSeenMoment);
-    }),
+        let [latestEntry] = this.entries;
 
-    hasNewMajor: computed('whatsNewSettings.lastSeenDate', 'changelogMajorLatest.published_at', function () {
-        if (!this.changelogMajorLatest) {
-            return false;
-        }
-
-        let lastSeenDate = this.get('whatsNewSettings.lastSeenDate');
-        let lastSeenMoment = moment(lastSeenDate || '2019-08-14 00:00:00');
-        let latestDate = this.get('changelogMajorLatest.published_at');
+        let lastSeenDate = this.get('whatsNewSettings.lastSeenDate') || '2019-01-01 00:00:00';
+        let lastSeenMoment = moment(lastSeenDate);
+        let latestDate = latestEntry.published_at;
         let latestMoment = moment(latestDate || lastSeenDate);
         return latestMoment.isAfter(lastSeenMoment);
     }),
@@ -88,8 +65,7 @@ export default Service.extend({
             }
 
             let result = yield response.json();
-            this.set('changelogLatest', result.changelog[0]);
-            this.set('changelogMajorLatest', result.changelogMajor[0]);
+            this.set('entries', result.posts || []);
             this.set('changelogUrl', result.changelogUrl);
         } catch (e) {
             console.error(e); // eslint-disable-line
@@ -99,14 +75,17 @@ export default Service.extend({
     updateLastSeen: task(function* () {
         let settingsJson = this._user.accessibility || '{}';
         let settings = JSON.parse(settingsJson);
+        let [latestEntry] = this.entries;
+
+        if (!latestEntry) {
+            return;
+        }
 
         if (!settings.whatsNew) {
             settings.whatsNew = {};
         }
 
-        if (this.get('latest.published_at')) {
-            settings.whatsNew.lastSeenDate = this.latest.published_at;
-        }
+        settings.whatsNew.lastSeenDate = latestEntry.published_at;
 
         this._user.set('accessibility', JSON.stringify(settings));
         yield this._user.save();

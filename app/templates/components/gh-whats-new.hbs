@@ -1,4 +1,4 @@
-{{#if (or this.whatsNew.hasNewMajor this.whatsNew.isShowingModal)}}
+{{#if this.whatsNew.isShowingModal}}
     <GhFullscreenModal
         @modal="whats-new"
         @modifier="wide"

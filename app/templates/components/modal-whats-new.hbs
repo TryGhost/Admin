@@ -9,72 +9,21 @@
 </button>
 
 <div class="modal-body gh-wn-content">
-
-    {{!-- Post with custom excerpt and feature image --}}
-    <div class="gh-wn-entry">
-        <h4>07 August 2019</h4>
-        <h1 class="f1 fw6 ma0 pa0 mb3">Eleventy and Ghost</h1>
-        <img src="https://res.cloudinary.com/tryghost/image/fetch/w_800,c_fit,f_auto/https://mainframe.ghost.io/content/images/2019/08/eleventy-starter-feature-2.png" class="mb5" alt="Eleventy and Ghost">
-        <p>
-            We’ve expanded our roster of headless starter repositories with Eleventy – a static site generator that’s swiftly
-            growing in popularity within the JAMstack community.
-        </p>
-        <a href="https://ghost.org/blog/eleventy/" target="_blank" class="dib fw6 mb6" rel="noopener noreferrer">Read the full post →</a>
-    </div>
-
-    {{!-- Post without custom excerpt --}}
-    <div class="gh-wn-entry">
-        <h4>05 August 2019</h4>
-        <h1 class="f1 fw6 ma0 pa0 mb3">Custom image alt tags</h1>
-        <p>We just shipped custom image alt tag support in the Ghost editor. This is one of our most requested features –
-            and great news for accessibility and search engine optimisation for your Ghost publication.</p>
-        <p>Previously, you'd need to use a Markdown card to add an image alt tag. Now you can create alt tags on the go
-            directly from the editor, without the need to add any additional cards or custom tags.</p>
-        <figure class="kg-card kg-image-card"><img src="https://mainframe.ghost.io/content/images/2019/08/image-alt-tag.gif"
-                class="kg-image"></figure>
-        <p>To write your alt tag, hit the <code>alt</code> button on the right in the caption line, type your alt text and
-            then hit the button again to return to the caption text. </p>
-        <p><em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><a href="https://ghost.org/pricing/">Ghost(Pro)</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> users already have access to custom image alt tags. Self hosted developers can use <a href="https://ghost.org/docs/api/ghost-cli/">Ghost-CLI</a> to install the latest release!</em></p>
-    </div>
-
-    {{!-- Post without custom excerpt --}}
-    <div class="gh-wn-entry">
-        <h4>20 June 2019</h4>
-        <h1 class="f1 fw6 ma0 pa0 mb3">Ghost Admin design updates</h1>
-        <p>Ghost Admin just had a facelift and some big improvements to usability. Now browsing your published posts and
-            drafts is much more intuitive and you can filter your content by author, tag, and post status, or sort by newest
-            and oldest.</p>
-        <!--kg-card-begin: image-->
-        <figure class="kg-card kg-image-card"><img
-                src="https://mainframe.ghost.io/content/images/2019/07/ghost-admin-design-update-1.png" class="kg-image">
-        </figure>
-        <!--kg-card-end: image-->
-        <p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><a href="https://ghost.org/pricing/">Ghost(Pro)</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> users can already access the new admin area. Self hosted developers can use <a href="https://ghost.org/docs/api/ghost-cli/">Ghost-CLI</a> to install the latest release.</p>
-    </div>
-
-    {{!-- Post with custom excerpt and feature image --}}
-    <div class="gh-wn-entry">
-        <h4>27 May 2019</h4>
-        <h1 class="f1 fw6 ma0 pa0 mb3">A new Ghost Admin API</h1>
-        <img class="changelog-image" src="https://res.cloudinary.com/tryghost/image/fetch/w_800,c_fit,f_auto/https://mainframe.ghost.io/content/images/2019/05/ghostadmin-api-postimg--1-.png" class="mb5" alt="A new Ghost Admin API">
-        <p>The Ghost Content API makes it possible to pull any content out of Ghost, or use it as a Headless CMS. Today we're
-            excited to be able to share our new Admin API, which does just the opposite: It creates total flexibility around how you get content in to Ghost.</p>
-        <a href="https://ghost.org/blog/admin-api/" target="_blank" class="dib fw6 mb6" rel="noopener noreferrer">Read the full
-            post →</a>
-    </div>
-
-    {{!-- Post without custom excerpt --}}
-    <div class="gh-wn-entry">
-        <h4>29 April 2019</h4>
-        <h1 class="f1 fw6 ma0 pa0 mb3">Install privacy focussed analytics on your site</h1>
-        <p>It's possible to integrate your Ghost publication with modern analytics tools that are privacy-focused, GDPR
-                compliant and don't track your site visitors. Find out how with the latest additions to our integrations
-                library: <a href="https://ghost.org/integrations/simple-analytics/">Simple Analytics</a> and <a
-                    href="https://ghost.org/integrations/fathom/">Fathom</a>.
-        </p>
-        <p>We're excited to add these solutions alongside <a href="https://ghost.org/integrations/analytics/">other popular analytics tools</a>, like Google Analytics and Segment. Keeping on top of your site metrics is a breeze using sensible code injection in Ghost.</p>
-    </div>
-
+    {{#each this.whatsNew.entries as |entry|}}
+        <div class="gh-wn-entry">
+            <h4>{{moment-format entry.published_at "DD MMMM YYYY"}}</h4>
+            <h1 class="f1 fw6 ma0 pa0 mb3">{{entry.title}}</h1>
+            {{#if entry.feature_image}}
+                <img class="mb5" src={{entry.feature_image}}>
+            {{/if}}
+            {{#if entry.custom_excerpt}}
+                <p>{{entry.custom_excerpt}}</p>
+                <a href={{entry.url}} class="dib fw6 mb6" target="_blank" rel="noopener noreferrer">Read the full post →</a>
+            {{else}}
+                {{{entry.html}}}
+            {{/if}}
+        </div>
+    {{/each}}
 </div>
 <div class="modal-footer gh-wn-footer">
     <a href={{this.whatsNew.changelogUrl}} target="_blank" rel="noopener noreferrer">
