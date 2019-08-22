@@ -118,14 +118,10 @@
                         {{/link-to}}
                     </li>
                     <li role="presentation">
-                        {{#if this.whatsNew.hasNew}}
-                            <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
-                                {{svg-jar "gift"}} What's new?
-                                <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>
-                            </button>
-                        {{else}}
-                            <a href="{{this.whatsNew.changelogUrl}}" target="_blank" class="dropdown-item" rel="noopener noreferrer">{{svg-jar "gift"}} What's new?</a>
-                        {{/if}}
+                        <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
+                            {{svg-jar "gift"}} What's new?
+                            <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>
+                        </button>
                     </li>
                     <li class="divider"></li>
                     <li role="presentation">
