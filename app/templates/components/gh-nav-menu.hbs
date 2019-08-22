@@ -120,7 +120,9 @@
                     <li role="presentation">
                         <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
                             {{svg-jar "gift"}} What's new?
-                            <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>
+                            {{#if this.whatsNew.hasNew}}
+                                <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>
+                            {{/if}}
                         </button>
                     </li>
                     <li class="divider"></li>
