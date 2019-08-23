@@ -807,6 +807,7 @@
 /* Cards
 /* --------------------------------------------------------------- */
 .kg-bookmark-card {
+    width: 100%;
     box-sizing: border-box;
     border: 1px solid var(--whitegrey);
     background: var(--white);
@@ -817,18 +818,20 @@
     color: var(--darkgrey);
     text-decoration: none;
     box-shadow: none;
+    max-height: 160px;
 }
 
 .kg-bookmark-content {
     display: flex;
-    flex-wrap: wrap;
-    align-items: start;
-    align-content: flex-start;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 100%;
+    align-items: flex-start;
+    justify-content: start;
     padding: 20px;
 }
 
 .kg-bookmark-title {
-    flex-grow: 1;
     font-size: 1.5rem;
     line-height: 1.5em;
     font-weight: 600;
@@ -839,11 +842,16 @@
 }
 
 .kg-bookmark-description {
+    display: -webkit-box;
     font-size: 1.4rem;
     line-height: 1.5em;
     margin-top: 12px;
     color: var(--middarkgrey);
     font-weight: 400;
+    max-height: 44px;
+    overflow-y: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .kg-bookmark-thumbnail {
