@@ -1,28 +1,9 @@
 /* Tag list
 /* ---------------------------------------------------------- */
-.gh-tag-settings-container {
-    max-height: calc(100vh - 12vw - 180px);
-    overflow-y: scroll;
-    margin: 0 -32px;
-    padding: 0 32px;
-    border-bottom: 1px solid var(--lightgrey);
-}
-
-.gh-tag-settings-header {
-    margin-bottom: 24px;
-}
 
 .gh-tags-count:hover {
     color: color-mod(var(--blue) l(-25%) s(+15%));
     font-weight: 500;
-}
-
-.gh-tag-settings-header h1 {
-    font-size: 2.2rem;
-    line-height: 1.15em;
-    font-weight: 600;
-    letter-spacing: .4px;
-    margin: 0;
 }
 
 textarea.gh-tag-details-textarea {
