@@ -26,9 +26,9 @@
                                 <div class="kg-bookmark-title">{{payload.metadata.title}}</div>
                                 <div class="kg-bookmark-description">{{payload.metadata.description}}</div>
                                 <div class="kg-bookmark-metadata">
-                                    <img src={{payload.metadata.icon}} class="kg-bookmark-logo">
-                                    <span class="kg-bookmark-author">{{payload.metadata.type}}</span>
-                                    <span class="kg-bookmark-url">{{payload.metadata.provider}}</span>
+                                    <img src={{payload.metadata.logo}} class="kg-bookmark-logo">
+                                    <span class="kg-bookmark-author">{{payload.metadata.author}}</span>
+                                    <span class="kg-bookmark-url">{{payload.metadata.publisher}}</span>
                                 </div>
                             </div>
                             <div class="kg-bookmark-thumbnail">
@@ -44,7 +44,7 @@
                 {{card.captionInput
                     caption=payload.caption
                     update=(action "updateCaption")
-                    placeholder="Type caption for embed (optional)"
+                    placeholder="Type caption for bookmark (optional)"
                 }}
             {{/if}}
         </div>
