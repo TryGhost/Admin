@@ -14,7 +14,6 @@ export default Component.extend({
     classNameBindings: ['active'],
 
     active: false,
-    showDeleteTagModal: false,
 
     // closure actions
     onClick() {},
@@ -34,15 +33,6 @@ export default Component.extend({
     didReceiveAttrs() {
         if (this.active) {
             this.scrollIntoView();
-        }
-    },
-
-    actions: {
-        toggleDeleteTagModal() {
-            this.toggleProperty('showDeleteTagModal');
-        },
-        deleteTag() {
-            return this._deleteTag();
         }
     },
 

@@ -28,11 +28,3 @@
         <span class="nr2">{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span>
     </div>
 {{/link-to}}
-
-{{#if showDeleteTagModal}}
-{{gh-fullscreen-modal "delete-tag"
-    model=tag
-    confirm=(action "deleteTag")
-    close=(action "toggleDeleteTagModal")
-    modifier="action wide"}}
-{{/if}}
