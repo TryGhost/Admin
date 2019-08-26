@@ -818,7 +818,7 @@
     color: var(--darkgrey);
     text-decoration: none;
     box-shadow: none;
-    max-height: 160px;
+    min-height: 120px; /* Just to make sure it's not a super-tiny box */
 }
 
 .kg-bookmark-content {
@@ -845,7 +845,7 @@
     display: -webkit-box;
     font-size: 1.4rem;
     line-height: 1.5em;
-    margin-top: 12px;
+    margin-top: 10px;
     color: var(--middarkgrey);
     font-weight: 400;
     max-height: 44px;
@@ -855,16 +855,18 @@
 }
 
 .kg-bookmark-thumbnail {
-    flex-basis: 33%;
+    position: relative;
     flex-grow: 1;
     min-width: 33%;
-    max-height: 100%;
 }
 
 .kg-bookmark-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .kg-bookmark-metadata {
