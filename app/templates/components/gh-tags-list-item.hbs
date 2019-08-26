@@ -1,24 +1,24 @@
 {{#link-to "tags.tag" tag class="gh-list-data" title="Edit tag"}}
-    <h3>
+    <h3 class="gh-tag-list-name">
         {{this.tag.name}}
     </h3>
     {{#if this.description}}
-        <p class="ma0 pa0 f8 midgrey">
+        <p class="ma0 pa0 f8 midgrey gh-tag-list-description">
             {{this.description}}
         </p>
     {{/if}}
 {{/link-to}}
 
-{{#link-to "tags.tag" tag class="gh-list-data middarkgrey f8" title="Edit tag"}}
+{{#link-to "tags.tag" tag class="gh-list-data middarkgrey f8 gh-tag-list-slug" title="Edit tag"}}
     <span class="nowrap">{{this.slug}}</span>
 {{/link-to}}
 
 {{#if this.postsCount}}
-    {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="gh-list-data blue gh-tags-count f8" title=(concat "List posts tagged with '" this.tag.name "'")}}
+    {{#link-to "posts" (query-params type=null author=null tag=tag.slug order=null) class="gh-list-data blue gh-tag-list-posts-count gh-tags-count f8" title=(concat "List posts tagged with '" this.tag.name "'")}}
         <span class="nowrap">{{this.postsLabel}}</span>
     {{/link-to}}
 {{else}}
-    {{#link-to "tags.tag" tag class="gh-list-data" title="Edit tag"}}
+    {{#link-to "tags.tag" tag class="gh-list-data gh-tag-list-posts-count" title="Edit tag"}}
         <span class="nowrap f8 midlightgrey">{{this.postsLabel}}</span>
     {{/link-to}}
 {{/if}}
