@@ -8,10 +8,6 @@ export default Controller.extend({
 
     queryParams: ['type'],
     type: 'public',
-
-    init() {
-        this._super(...arguments);
-    },
     tags: alias('model'),
     selectedTag: alias('tagController.tag'),
 
