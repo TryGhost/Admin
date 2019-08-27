@@ -30,12 +30,6 @@ export default Component.extend({
         return (noOfPosts === 1) ? `${noOfPosts} post` : `${noOfPosts} posts`;
     }),
 
-    didReceiveAttrs() {
-        if (this.active) {
-            this.scrollIntoView();
-        }
-    },
-
     click() {
         this.onClick(this.tag);
     },
@@ -44,28 +38,6 @@ export default Component.extend({
         this.onDoubleClick(this.tag);
     },
 
-    scrollIntoView() {
-        let element = this.$();
-        let offset = element.offset().top;
-        let elementHeight = element.height();
-        let container = $('.content-list');
-        let containerHeight = container.height();
-        let currentScroll = container.scrollTop();
-        let isBelowTop, isAboveBottom, isOnScreen;
-
-        isAboveBottom = offset < containerHeight;
-        isBelowTop = offset > elementHeight;
-
-        isOnScreen = isBelowTop && isAboveBottom;
-
-        if (!isOnScreen) {
-            // Scroll so that element is centered in container
-            // 40 is the amount of padding on the container
-            container.clearQueue().animate({
-                scrollTop: currentScroll + offset - 40 - containerHeight / 2
-            });
-        }
-    },
     _deleteTag() {
         let tag = this.tag;
 
