@@ -1,4 +1,3 @@
-/* global key */
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
