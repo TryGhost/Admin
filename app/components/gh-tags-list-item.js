@@ -10,13 +10,8 @@ export default Component.extend({
 
     tagName: 'li',
     classNames: ['gh-list-row', 'gh-tags-list-item'],
-    classNameBindings: ['active'],
 
     active: false,
-
-    // closure actions
-    onClick() {},
-    onDoubleClick() {},
 
     id: alias('tag.id'),
     slug: alias('tag.slug'),
@@ -28,14 +23,6 @@ export default Component.extend({
         let noOfPosts = this.postsCount || 0;
         return (noOfPosts === 1) ? `${noOfPosts} post` : `${noOfPosts} posts`;
     }),
-
-    click() {
-        this.onClick(this.tag);
-    },
-
-    doubleClick() {
-        this.onDoubleClick(this.tag);
-    },
 
     _deleteTag() {
         let tag = this.tag;
