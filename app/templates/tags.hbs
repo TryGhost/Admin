@@ -20,17 +20,18 @@
                     <div class="gh-list-header">No. of posts</div>
                     <div class="gh-list-header"></div>
                 </li>
-                {{#vertical-collection sortedTags
-                        estimateHeight=16
-                        minHeight=67
-                        bufferSize=5
-                        containerSelector=".tags-list"
-                        as |tag|
+                {{#vertical-collection
+                    items=sortedTags
+                    key="id"
+                    containerSelector=".tags-list"
+                    estimateHeight=60
+                    bufferSize=20
+                    as |tag|
+                }}
+                    {{gh-tags-list-item
+                        tag=tag
+                        data-test-tag-id=tag.id
                     }}
-                        {{gh-tags-list-item
-                            tag=tag
-                            data-test-tag-id=tag.id
-                        }}
                 {{/vertical-collection}}
             {{else}}
                 <li class="no-posts-box">
