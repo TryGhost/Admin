@@ -813,7 +813,7 @@
     background: var(--white);
 }
 
-.kg-bookmark-container a {
+.koenig-editor__editor .kg-bookmark-container {
     display: flex;
     color: var(--darkgrey);
     text-decoration: none;
@@ -827,7 +827,7 @@
     flex-grow: 1;
     flex-basis: 100%;
     align-items: flex-start;
-    justify-content: start;
+    justify-content: flex-start;
     padding: 20px;
 }
 
@@ -837,7 +837,7 @@
     font-weight: 600;
 }
 
-.kg-bookmark-container a:hover .kg-bookmark-title {
+.kg-bookmark-container:hover .kg-bookmark-title {
     color: var(--blue);
 }
 
@@ -878,7 +878,7 @@
     margin-top: 14px;
 }
 
-.kg-bookmark-logo {
+.kg-bookmark-icon {
     width: 20px;
     height: 20px;
     margin-right: 6px;
