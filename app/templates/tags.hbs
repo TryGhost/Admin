@@ -20,13 +20,19 @@
                     <div class="gh-list-header">No. of posts</div>
                     <div class="gh-list-header"></div>
                 </li>
-            {{/if}}
-
-            {{#each sortedTags as |tag|}}
-            {{gh-tags-list-item
-                    tag=tag
-                    data-test-tag-id=tag.id}}
-                {{else}}
+                {{#vertical-collection sortedTags
+                        estimateHeight=16
+                        minHeight=67
+                        bufferSize=5
+                        containerSelector=".tags-list"
+                        as |tag|
+                    }}
+                        {{gh-tags-list-item
+                            tag=tag
+                            data-test-tag-id=tag.id
+                        }}
+                {{/vertical-collection}}
+            {{else}}
                 <li class="no-posts-box">
                     <div class="no-posts">
                             {{svg-jar "tags-placeholder" class="gh-tags-placeholder"}}
@@ -36,7 +42,7 @@
                             {{/link-to}}
                     </div>
                 </li>
-            {{/each}}
+            {{/if}}
         </ol>
     </section>
 </section>
