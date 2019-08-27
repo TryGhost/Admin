@@ -1,4 +1,5 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
 
 export default AuthenticatedRoute.extend({
@@ -31,8 +32,8 @@ export default AuthenticatedRoute.extend({
     showUnsavedChangesModal(transition) {
         if (transition.from && transition.from.name.match(/^tags\.new/) && transition.targetName) {
             let {controller} = this;
-
-            if (!controller.tag.isDeleted && controller.tag.hasDirtyAttributes) {
+            let isUnchanged = isEmpty(Object.keys(controller.tag.changedAttributes()));
+            if (!controller.tag.isDeleted && !isUnchanged) {
                 transition.abort();
                 controller.send('toggleUnsavedChangesModal', transition);
                 return;
