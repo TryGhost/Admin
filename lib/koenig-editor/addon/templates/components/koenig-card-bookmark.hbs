@@ -20,30 +20,28 @@
             <div class="koenig-embed-{{payload.type}} flex justify-center relative" data-kg-embed>
                 {{!-- <iframe class="bn miw-100" scrolling="no"></iframe> --}}
                 <figure class="kg-card kg-bookmark-card also-new-tag">
-                    <div class="kg-bookmark-container">
-                        <a href={{payload.metadata.url}}>
-                            <div class="kg-bookmark-content">
-                                <div class="kg-bookmark-title">{{payload.metadata.title}}</div>
-                                <div class="kg-bookmark-description">{{payload.metadata.description}}</div>
-                                <div class="kg-bookmark-metadata">
-                                    {{#if payload.metadata.logo}}
-                                        <img src={{payload.metadata.logo}} class="kg-bookmark-logo">
-                                    {{/if}}
-                                    {{#if payload.metadata.author}}
-                                        <span class="kg-bookmark-author">{{payload.metadata.author}}</span>
-                                    {{/if}}
-                                    {{#if payload.metadata.publisher}}
-                                        <span class="kg-bookmark-url">{{payload.metadata.publisher}}</span>
-                                    {{/if}}
-                                </div>
+                    <a href={{payload.metadata.url}} class="kg-bookmark-container">
+                        <div class="kg-bookmark-content">
+                            <div class="kg-bookmark-title">{{payload.metadata.title}}</div>
+                            <div class="kg-bookmark-description">{{payload.metadata.description}}</div>
+                            <div class="kg-bookmark-metadata">
+                                {{#if payload.metadata.icon}}
+                                    <img src={{payload.metadata.icon}} class="kg-bookmark-icon">
+                                {{/if}}
+                                {{#if payload.metadata.author}}
+                                    <span class="kg-bookmark-author">{{payload.metadata.author}}</span>
+                                {{/if}}
+                                {{#if payload.metadata.publisher}}
+                                    <span class="kg-bookmark-url">{{payload.metadata.publisher}}</span>
+                                {{/if}}
                             </div>
-                            {{#if payload.metadata.image}}
-                                <div class="kg-bookmark-thumbnail">
-                                    <img src={{payload.metadata.image}} >
-                                </div>
-                            {{/if}}
-                        </a>
-                    </div>
+                        </div>
+                        {{#if payload.metadata.thumbnail}}
+                            <div class="kg-bookmark-thumbnail">
+                                <img src={{payload.metadata.thumbnail}} >
+                            </div>
+                        {{/if}}
+                    </a>
                 </figure>
                 <div class="koenig-card-click-overlay ba b--transparent" data-kg-overlay></div>
             </div>
