@@ -6,6 +6,7 @@ export default AuthenticatedRoute.extend({
     router: service(),
 
     controllerName: 'tags.tag',
+    templateName: 'tags/tag',
 
     init() {
         this._super(...arguments);
@@ -16,10 +17,6 @@ export default AuthenticatedRoute.extend({
 
     model() {
         return this.store.createRecord('tag');
-    },
-
-    renderTemplate() {
-        this.render('tags.tag');
     },
 
     // reset the model so that mobile screens react to an empty selectedTag
