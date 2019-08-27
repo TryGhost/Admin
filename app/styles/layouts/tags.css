@@ -21,6 +21,13 @@ textarea.gh-tag-details-textarea {
     margin: -30px 0 15px;
 }
 
+.gh-tag-list-slug {
+    white-space: nowrap;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .tags-view {
     max-width: 1220px;
     margin: 0 auto;
