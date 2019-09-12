@@ -32,7 +32,7 @@ export default Component.extend({
     initials: computed('member.name', function () {
         let name = this.member.name;
         if (name) {
-            let names = this.member.name.split(' ');
+            let names = name.split(' ');
             let intials = [names[0][0], names[names.length - 1][0]];
             return intials.join('').toUpperCase();
         }
