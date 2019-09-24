@@ -3,7 +3,6 @@ import {authenticateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
 import {click, currentRouteName, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
-import {fileUpload} from '../helpers/file-upload';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
