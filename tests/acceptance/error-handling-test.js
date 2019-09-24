@@ -80,18 +80,6 @@ describe('Acceptance: Error Handling', function () {
                 expect(findAll('.gh-alert').length).to.equal(1);
                 expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
-
-            it('can be triggered when passed in to a component', async function () {
-                this.server.post('/subscribers/csv/', versionMismatchResponse);
-
-                await visit('/subscribers');
-                await click('[data-test-link="import-csv"]');
-                await fileUpload('.fullscreen-modal input[type="file"]', ['test'], {name: 'test.csv'});
-
-                // alert is shown
-                expect(findAll('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').textContent).to.match(/refresh/);
-            });
         });
 
         describe('logged out', function () {

@@ -71,16 +71,6 @@ export default [
         value: ''
     },
     {
-        id: 12,
-        key: 'labs',
-        value: '{"subscribers":true}',
-        type: 'blog',
-        created_at: '2015-01-12T18:29:01.000Z',
-        created_by: 1,
-        updated_at: '2015-10-27T17:39:58.288Z',
-        updated_by: 1
-    },
-    {
         id: 13,
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
