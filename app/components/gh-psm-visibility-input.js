@@ -2,8 +2,8 @@ import Component from '@ember/component';
 
 const VISIBILITIES = [
     {label: 'Everyone', name: 'public'},
-    {label: 'Free & Paying Members', name: 'members'},
-    {label: 'Paying Members', name: 'paid'}
+    {label: 'Free and paying members', name: 'members'},
+    {label: 'Only paying members', name: 'paid'}
 ];
 
 export default Component.extend({
