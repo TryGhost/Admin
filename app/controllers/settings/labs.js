@@ -180,6 +180,10 @@ export default Controller.extend({
                 .click();
         },
 
+        setDefaultContentVisibility(value) {
+            this.set('settings.defaultContentVisibility', value);
+        },
+
         setSubscriptionSettings(key, event) {
             let subscriptionSettings = this.parseSubscriptionSettings(this.get('settings.membersSubscriptionSettings'));
             let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
