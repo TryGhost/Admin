@@ -1,4 +1,5 @@
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 import {blur, fillIn, find, findAll, render} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
@@ -20,16 +21,22 @@ describe('Integration: Component: gh-psm-visibility-input', function () {
     });
 
     it('updates post visibility on change', async function () {
+        let setVisibility = sinon.spy();
+
         this.set('post', {
-            visibility: 'public'
+            visibility: 'public',
+            set: setVisibility
         });
 
         await render(hbs`{{gh-psm-visibility-input post=post}}`);
+        expect(this.element, 'top-level elements').to.exist;
+        expect(findAll('option'), 'number of options').to.have.length(3);
         expect(find('select').value, 'selected option value').to.equal('public');
 
         await fillIn('select', 'paid');
         await blur('select');
 
-        expect(this.get('post.visibility')).to.be.equal('paid');
+        expect(setVisibility.calledOnce).to.be.true;
+        expect(setVisibility.calledWith('visibility', 'paid')).to.be.true;
     });
 });
