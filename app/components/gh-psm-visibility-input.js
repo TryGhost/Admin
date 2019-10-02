@@ -15,8 +15,8 @@ export default Component.extend({
     // public attrs
     post: null,
 
-    selectedVisibility: computed('post', function () {
-        return this.post.get('visibility') || this.settings.get('defaultContentVisibility');
+    selectedVisibility: computed('post.visibility', function () {
+        return this.get('post.visibility') || this.settings.get('defaultContentVisibility');
     }),
 
     init() {
