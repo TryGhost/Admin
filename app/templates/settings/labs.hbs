@@ -123,11 +123,10 @@
                     {{/if}}
                 </div>
             </div>
-            {{#if config.enableDeveloperExperiments}}
-                <div class="gh-setting">
-                    <div class="gh-setting-content">
-                        <div class="gh-setting-title">Members</div>
-                        <div class="gh-setting-desc">Enable free or paid member registration.</div>
+            <div class="gh-setting">
+                <div class="gh-setting-content">
+                    <div class="gh-setting-title">Members</div>
+                    <div class="gh-setting-desc">Enable free or paid member registration.</div>
 
                         {{#liquid-if feature.labs.members class="nr25"}}
 
@@ -142,7 +141,7 @@
                                             <div class="gh-radio-label">Public</div>
                                         </div>
                                     </div>
-                                
+
                                     <div class="gh-radio {{if (eq settings.defaultContentVisibility "members") "active"}}"
                                         {{action "setDefaultContentVisibility" "members" on="click"}}>
                                         <div class="gh-radio-button" data-test-publishmenu-published-option></div>
@@ -150,7 +149,7 @@
                                             <div class="gh-radio-label">Free and paying members</div>
                                         </div>
                                     </div>
-                                
+
                                     <div class="gh-radio {{if (eq settings.defaultContentVisibility "paid") "active"}}"
                                         {{action "setDefaultContentVisibility" "paid" on="click"}}>
                                         <div class="gh-radio-button" data-test-publishmenu-published-option></div>
@@ -203,7 +202,7 @@
                                                 {{/gh-form-group}}
                                             </div>
                                         </div>
-                                    
+
                                 </section>
                             </div>
 
@@ -216,13 +215,12 @@
                                 }}
                             </div>
 
-                        {{/liquid-if}}
-                    </div>
-                    <div class="gh-setting-action">
-                        <div class="for-switch">{{gh-feature-flag "members"}}</div>
-                    </div>
+                    {{/liquid-if}}
                 </div>
-            {{/if}}
+                <div class="gh-setting-action">
+                    <div class="for-switch">{{gh-feature-flag "members"}}</div>
+                </div>
+            </div>
             <div class="gh-setting">
                 {{#gh-uploader
                     extensions=jsonExtension
