@@ -37,6 +37,30 @@
 </head>
 <body>
 
+<style>
+.ember-load-indicator {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #f2f4f7;
+}
+@media (min-width: 800px) {
+    .ember-load-indicator .gh-loading-content { padding-left: 267px; }
+    .ember-load-indicator:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 267px;
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='539' viewBox='0 0 220 539'%3E%3Cg opacity='0.6' fill='none' fill-rule='evenodd'%3E%3Crect width='73' height='12' x='16' y='391' fill='%23E7ECF3' rx='6'/%3E%3Crect width='62' height='10' y='359' fill='%23C8D2D8' rx='5'/%3E%3Crect width='77' height='12' x='16' y='425' fill='%23E7ECF3' rx='6'/%3E%3Crect width='109' height='12' x='16' y='459' fill='%23E7ECF3' rx='6'/%3E%3Crect width='97' height='12' x='16' y='493' fill='%23E7ECF3' rx='6'/%3E%3Crect width='53' height='12' x='16' y='527' fill='%23E7ECF3' rx='6'/%3E%3Crect width='63' height='12' x='16' y='162' fill='%23E7ECF3' rx='6'/%3E%3Crect width='52' height='10' y='132' fill='%23C8D2D8' rx='5'/%3E%3Crect width='77' height='12' x='16' y='196' fill='%23E7ECF3' rx='6'/%3E%3Crect width='59' height='12' x='16' y='230' fill='%23E7ECF3' rx='6'/%3E%3Crect width='87' height='12' x='16' y='264' fill='%23E7ECF3' rx='6'/%3E%3Crect width='53' height='12' x='16' y='298' fill='%23E7ECF3' rx='6'/%3E%3Crect width='99' height='15' y='63' fill='%23E7ECF3' rx='7.5'/%3E%3Crect width='220' height='19' fill='%23E7ECF3' rx='9.5'/%3E%3C/g%3E%3C/svg%3E%0A") 24px 35px no-repeat;
+    }
+}
+</style>
+
 <div class="ember-load-indicator">
     <div class="gh-loading-content">
         <div class="gh-loading-spinner"></div>
