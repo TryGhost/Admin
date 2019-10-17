@@ -55,7 +55,7 @@ export default Component.extend({
     seoURL: computed('scratchSlug', function () {
         let blogUrl = this.get('config.blogUrl');
         let seoSlug = this.scratchSlug || '';
-
+        
         let seoURL = `${blogUrl}/tag/${seoSlug}`;
 
         // only append a slash to the URL if the slug exists
@@ -122,6 +122,12 @@ export default Component.extend({
 
         deleteTag() {
             this.showDeleteTagModal();
+        },
+
+        onKeydown(property, event) {
+            if (event.key === 'Enter' || (event.keyCode === 83 && event.metaKey)) {
+                this.setProperty(property, event.target.value);
+            }
         }
     },
 
@@ -131,11 +137,9 @@ export default Component.extend({
             this.$('.settings-menu-pane').scrollTop(0);
         }
     },
-
     focusIn() {
         key.setScope('tag-settings-form');
     },
-
     focusOut() {
         key.setScope('default');
     }

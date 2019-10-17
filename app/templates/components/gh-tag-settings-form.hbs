@@ -8,6 +8,7 @@
                     name="name"
                     value=(readonly scratchName)
                     tabindex="1"
+                    keyDown=(action 'onKeydown' 'name')
                     input=(action (mut scratchName) value="target.value")
                     focus-out=(action 'setProperty' 'name' scratchName)}}
         <p class="description">Start with # to create internal tags. <a
@@ -23,6 +24,7 @@
                     id="tag-slug"
                     name="slug"
                     tabindex="2"
+                    keyDown=(action 'onKeydown' 'slug')
                     focus-out=(action 'setProperty' 'slug' scratchSlug)
                     input=(action (mut scratchSlug) value="target.value")}}
         {{gh-url-preview prefix="tag" slug=scratchSlug tagName="p" classNames="description"}}
@@ -37,6 +39,7 @@
                     class="gh-tag-details-textarea"
                     tabindex="3"
                     value=(readonly scratchDescription)
+                    keyDown=(action 'onKeydown' 'description')
                     input=(action (mut scratchDescription) value="target.value")
                     focus-out=(action 'setProperty' 'description' scratchDescription)
                 }}
@@ -67,6 +70,7 @@
                     placeholder=scratchName
                     tabindex="4"
                     value=(readonly scratchMetaTitle)
+                    keyDown=(action 'onKeydown' 'metaTitle')
                     input=(action (mut scratchMetaTitle) value="target.value")
                     focus-out=(action "setProperty" "metaTitle" scratchMetaTitle)}}
         {{gh-error-message errors=tag.errors property="metaTitle"}}
@@ -82,6 +86,7 @@
                     placeholder=scratchDescription
                     tabindex="5"
                     value=(readonly scratchMetaDescription)
+                    keyDown=(action 'onKeydown' 'metaDescription')
                     input=(action (mut scratchMetaDescription) value="target.value")
                     focus-out=(action "setProperty" "metaDescription" scratchMetaDescription)
                 }}
