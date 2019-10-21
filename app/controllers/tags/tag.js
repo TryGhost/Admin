@@ -30,6 +30,10 @@ export default Controller.extend({
         save() {
             return this.save.perform();
         },
+        
+        discardEnter() {
+            return false;
+        },
 
         toggleUnsavedChangesModal(transition) {
             let leaveTransition = this.leaveScreenTransition;

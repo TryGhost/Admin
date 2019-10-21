@@ -61,6 +61,10 @@ export default Controller.extend({
             }
         },
 
+        discardEnter() {
+            return false;
+        },
+
         leaveScreen() {
             let transition = this.leaveScreenTransition;
 

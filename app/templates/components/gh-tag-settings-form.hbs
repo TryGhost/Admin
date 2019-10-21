@@ -8,6 +8,7 @@
                     name="name"
                     value=(readonly scratchName)
                     tabindex="1"
+                    stopEnterKeyDownPropagation=true
                     input=(action (mut scratchName) value="target.value")
                     focus-out=(action 'setProperty' 'name' scratchName)}}
         <p class="description">Start with # to create internal tags. <a
@@ -23,6 +24,7 @@
                     id="tag-slug"
                     name="slug"
                     tabindex="2"
+                    stopEnterKeyDownPropagation=true
                     focus-out=(action 'setProperty' 'slug' scratchSlug)
                     input=(action (mut scratchSlug) value="target.value")}}
         {{gh-url-preview prefix="tag" slug=scratchSlug tagName="p" classNames="description"}}
@@ -66,6 +68,7 @@
                     name="metaTitle"
                     placeholder=scratchName
                     tabindex="4"
+                    stopEnterKeyDownPropagation=true
                     value=(readonly scratchMetaTitle)
                     input=(action (mut scratchMetaTitle) value="target.value")
                     focus-out=(action "setProperty" "metaTitle" scratchMetaTitle)}}

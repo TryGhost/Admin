@@ -9,6 +9,7 @@
                     value=(readonly scratchName)
                     tabindex="1"
                     input=(action (mut scratchName) value="target.value")
+                    stopEnterKeyDownPropagation=true
                     focus-out=(action 'setProperty' 'name' scratchName)}}
         {{gh-error-message errors=member.errors property="name"}}
         {{/gh-form-group}}
@@ -22,6 +23,7 @@
             name="email"
             tabindex="2"
             focus-out=(action 'setProperty' 'email' scratchEmail)
+            stopEnterKeyDownPropagation=true
             input=(action (mut scratchEmail) value="target.value")}}
         {{/gh-form-group}}
 
