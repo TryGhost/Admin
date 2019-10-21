@@ -48,6 +48,32 @@ p.gh-members-list-email {
     pointer-events: none;
 }
 
+@media (max-width: 450px) {
+    .members-header {
+        justify-content: flex-end;
+        min-height: 120px;
+    }
+
+    .members-header .gh-canvas-title {
+        position: absolute;
+        top: 29px;
+        left: 21px;
+    }
+
+    .members-header .view-actions {
+        margin-top: 62px;
+        width: 100%;
+    }
+
+    .members-header .view-actions .gh-members-header-search {
+        width: 100%;
+    }
+
+    .view-actions input.gh-members-list-searchfield {
+        min-width: 0;
+    }
+}
+
 
 /* Member details
 /* ----------------------------------------- */
