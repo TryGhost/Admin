@@ -49,13 +49,13 @@ p.gh-members-list-email {
 }
 
 @media (max-width: 1000px) {
-    .gh-list-header, .gh-list-hidecell-m {
+    .members-list .gh-list-header, .gh-list-hidecell-m {
         display: table-cell;
     }
 }
 
-@media (max-width: 700px) {
-    .gh-list-header, .gh-list-hidecell-m {
+@media (max-width: 900px) {
+    .members-list .gh-list-header, .gh-list-hidecell-m {
         display: none;
     }
 
