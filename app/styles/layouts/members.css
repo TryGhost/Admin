@@ -45,6 +45,7 @@ p.gh-members-list-email {
 
 .gh-member-actions-menu.fade-out {
     animation-duration: .001s;
+    pointer-events: none;
 }
 
 
