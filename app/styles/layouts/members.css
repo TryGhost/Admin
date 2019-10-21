@@ -48,6 +48,74 @@ p.gh-members-list-email {
     pointer-events: none;
 }
 
+@media (max-width: 1000px) {
+    .gh-list-header, .gh-list-hidecell-m {
+        display: table-cell;
+    }
+}
+
+@media (max-width: 700px) {
+    .gh-list-header, .gh-list-hidecell-m {
+        display: none;
+    }
+
+    .gh-members-list-item {
+        display: flex;
+        position: relative;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--lightgrey);
+        margin: 0;
+    }
+
+    .gh-members-list-item:nth-of-type(2) {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .gh-members-list-item .gh-list-data {
+        border-top: none !important;
+    }
+
+    .gh-members-list-item:hover {
+        background: var(--whitegrey-l2);
+    }
+
+    .gh-members-list-item:hover .gh-list-data {
+        background: none !important;
+    }
+
+    .gh-members-list-basic {
+        display: block;
+        flex: 1 1 100%;
+    }
+
+    .gh-members-list-subscribed-at {
+        display: inline-block;
+        width: unset;
+        padding: 0 0 16px 64px;
+        margin-top: -7px;
+        font-size: 1.2rem;
+    }
+
+    .gh-members-list-chevron {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .gh-list h3.gh-members-name-noname {
+        margin-top: -14px;
+    }
+
+    .gh-members-subscribed-noname {
+        display: inline-block;
+        margin-top: -32px;
+        padding-bottom: 16px;
+    }
+}
+
 @media (max-width: 450px) {
     .members-header {
         justify-content: flex-end;
