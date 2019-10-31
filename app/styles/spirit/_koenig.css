@@ -63,8 +63,8 @@
 
 /* H1 should be almost the same size as the post title to suggest avoid using it */
 .koenig-editor__editor h1 {
-    font-size: 4.8rem;
-    line-height: 1.25em;
+    font-size: 4.4rem;
+    line-height: 1.15em;
 }
 
 .koenig-editor__editor h2 {
