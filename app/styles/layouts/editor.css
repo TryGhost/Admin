@@ -383,6 +383,12 @@
     }
 }
 
+@media (max-width: 500px) {
+    .gh-editor-title {
+        font-size: 3.4rem;
+    }
+}
+
 /* SimpleMDE editor
 /* ---------------------------------------------------------- */
 
