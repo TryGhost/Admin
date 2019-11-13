@@ -10,9 +10,9 @@ export default Component.extend({
     ghostPaths: service(),
     notifications: service(),
     settings: service(),
+    session: service(),
 
     post: null,
-    emailTestScratch: '',
     sendTestEmailError: '',
     savePost: null,
 
@@ -21,6 +21,7 @@ export default Component.extend({
 
     emailSubject: or('emailSubjectScratch', 'post.title'),
     emailSubjectScratch: alias('post.emailSubjectScratch'),
+    emailTestScratch: or('', 'session.user.email'),
 
     mailgunError: computed('settings.memberSubscriptionSettings', function () {
         return !this._isMailgunConfigured();

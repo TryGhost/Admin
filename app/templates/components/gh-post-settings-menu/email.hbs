@@ -53,7 +53,7 @@
                         class="post-setting-email-test"
                         id="email-test"
                         name="post-setting-email-test"
-                        placeholder=(truncate 'noreply@example.com' 40)
+                        placeholder=(truncate emailTestScratch 40)
                         value=(readonly emailTestScratch)
                         input=(action (mut emailTestScratch) value="target.value")
                         stopEnterKeyDownPropagation=true
