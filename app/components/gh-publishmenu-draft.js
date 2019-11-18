@@ -24,8 +24,9 @@ export default Component.extend({
         let mailgunIsConfigured = this.get('settings.bulkEmailSettings.isEnabled');
         let isPost = this.post.displayName === 'post';
         let hasSentEmail = !!this.post.email;
+        let emailBatchFailed = !!this.post.email && (this.post.email.status === 'failed');
 
-        return membersEnabled && mailgunIsConfigured && isPost && !hasSentEmail;
+        return membersEnabled && mailgunIsConfigured && isPost && (!hasSentEmail || emailBatchFailed);
     }),
 
     didInsertElement() {

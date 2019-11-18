@@ -28,6 +28,12 @@
                             <td class="pa2 pl0 fw7 f8 w16 nowrap">Sent on:</td>
                             <td class="pa0 truncate midgrey">{{gh-format-post-time this.post.email.createdAtUTC}}</td>
                         </tr>
+                        {{#if post.email.error}}
+                        <tr>
+                            <td class="pa2 pl0 fw7 f8 w16 nowrap">Error:</td>
+                            <td class="pa0 truncate red">There was an error sending the post by email. Please doublecheck your Mailgun settings in Members > Labs</td>
+                        </tr>
+                        {{/if}}
                     </tbody>
                 </table>
             </div>
