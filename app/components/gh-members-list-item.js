@@ -17,10 +17,10 @@ export default Component.extend({
     id: alias('member.id'),
     email: alias('member.email'),
     name: alias('member.name'),
-    memberSince: computed('member.createdAt', function () {
-        return moment(this.member.createdAt).from(moment());
+    memberSince: computed('member.createdAtUTC', function () {
+        return moment(this.member.createdAtUTC).from(moment());
     }),
-    createdDate: computed('member.createdAt', function () {
-        return moment(this.member.createdAt).format('MMM DD, YYYY');
+    createdDate: computed('member.createdAtUTC', function () {
+        return moment(this.member.createdAtUTC).format('MMM DD, YYYY');
     })
 });
