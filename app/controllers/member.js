@@ -29,7 +29,7 @@ export default Controller.extend({
             this.toggleProperty('showDeleteMemberModal');
         },
         finaliseDeletion() {
-            // decrememnt the total member count manually so there's no flash
+            // decrement the total member count manually so there's no flash
             // when transitioning back to the members list
             if (this.members.memberCount) {
                 this.members.decrementProperty('memberCount');
