@@ -48,6 +48,10 @@ p.gh-members-list-email {
     pointer-events: none;
 }
 
+.members-header .gh-members-header-search {
+    margin: 0 24px 0 14px;
+}
+
 @media (max-width: 1000px) {
     .members-list .gh-list-header, .gh-list-hidecell-m {
         display: table-cell;
