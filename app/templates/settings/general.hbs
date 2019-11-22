@@ -167,20 +167,21 @@
             <div class="gh-setting" data-test-setting="logo">
                 <div class="gh-setting-content">
                     <div class="gh-setting-title">Accent Color</div>
-                    <div class="gh-setting-desc">The primary color for your brand displayed across your theme</div>
+                    <div class="gh-setting-desc">Primary color used in your publication theme</div>
                 </div>
                 <div class="gh-setting-action">
-                    {{#gh-form-group errors=settings.errors hasValidated=settings.hasValidated property="brandColor"}}
+                    {{#gh-form-group errors=settings.errors hasValidated=settings.hasValidated property="brandColor" class="input-color-form-group"}}
                         <div class="input-color">
-                            <div class="color-box" style={{this.backgroundStyle}}></div>
                             {{gh-text-input
                                 name="brand-color"
-                                placeholder="#abcdef"
+                                placeholder="abcdef"
                                 autocorrect="off"
+                                maxlength="6"
                                 focus-out=(action "validateBrandColor")
                                 value=brandColor
                                 data-test-brand-color-input=true
                             }}
+                            <div class="color-box" style={{this.backgroundStyle}}></div>
                         </div>
                         {{gh-error-message errors=settings.errors property="brandColor" data-test-brandColor-error=true}}
                     {{/gh-form-group}}
