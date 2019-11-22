@@ -15,6 +15,10 @@ export default Controller.extend({
     notifications: service(),
 
     member: alias('model'),
+
+    displayName: computed('member.{name,email}', function () {
+        return this.member.name || this.member.email || 'New member';
+    }),
     subscribedAt: computed('member.createdAtUTC', function () {
         let memberSince = moment(this.member.createdAtUTC).from(moment());
         let createdDate = moment(this.member.createdAtUTC).format('MMM DD, YYYY');

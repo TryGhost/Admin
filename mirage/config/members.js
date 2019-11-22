@@ -4,7 +4,7 @@ export default function mockMembers(server) {
     server.post('/members/', function ({members}) {
         let attrs = this.normalizedRequestAttrs();
 
-        return members.create(attrs);
+        return members.create(Object.assign({}, attrs, {id: 99}));
     });
 
     server.get('/members/', paginatedResponse('members'));

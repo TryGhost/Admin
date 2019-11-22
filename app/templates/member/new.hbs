@@ -3,14 +3,7 @@
         <GhCanvasHeader class="gh-canvas-header">
             <h2 class="gh-canvas-title" data-test-screen-title>
                 {{#link-to "members" data-test-link="members-back"}}Members{{/link-to}}
-                <span>{{svg-jar "arrow-right"}}</span>
-                {{#if member.name}}
-                    {{member.name}}
-                {{else if member.email}}
-                    {{member.email}}
-                {{else}}
-                    New member
-                {{/if}}
+                <span>{{svg-jar "arrow-right"}}</span>{{displayName}}
             </h2>
             <section class="view-actions">
                 {{gh-task-button type="button" task=save class="gh-btn gh-btn-blue gh-btn-icon" data-test-button="save"}}

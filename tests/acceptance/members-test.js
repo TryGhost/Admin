@@ -109,5 +109,60 @@ describe('Acceptance: Members', function () {
             // lands on correct page
             expect(currentURL(), 'currentURL').to.equal('/members');
         });
+
+        it('can create a new member', async function () {
+            this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
+
+            await visit('/members');
+
+            // second wait is needed for the vertical-collection to settle
+            await wait();
+
+            // lands on correct page
+            expect(currentURL(), 'currentURL').to.equal('/members');
+
+            // it has correct page title
+            expect(document.title, 'page title').to.equal('Members - Test Blog');
+
+            // it lists all members
+            expect(findAll('.members-list .gh-members-list-item').length, 'members list count')
+                .to.equal(1);
+
+            //  start new member
+            await click('[data-test-new-member-button="true"]');
+
+            // it navigates to the new member route
+            expect(currentURL(), 'new member URL').to.equal('/members/new');
+            // it displays the new member form
+            expect(find('.member-basic-info-form .gh-canvas-header h2').textContent, 'settings pane title')
+                .to.contain('New member');
+
+            // // all fields start blank
+            findAll('.gh-member-basic-settings-form input, .gh-member-basic-settings-form textarea').forEach(function (elem) {
+                expect(elem.value, `input field for ${elem.getAttribute('name')}`)
+                    .to.be.empty;
+            });
+
+            expect(find('.gh-member-basic-settings-form input[name="email"]').disabled, 'makes sure email is disabled')
+                .to.equal(false);
+
+            // save new member
+            await fillIn('.gh-member-basic-settings-form input[name="name"]', 'New Name');
+            await blur('.gh-member-basic-settings-form input[name="name"]');
+
+            await fillIn('.gh-member-basic-settings-form input[name="email"]', 'example@domain.com');
+            await blur('.gh-member-basic-settings-form input[name="email"]');
+
+            await click('[data-test-button="save"]');
+
+            // extra timeout needed for FF on Linux - sometimes it doesn't update
+            // quick enough, especially on Travis, and an extra wait() call
+            // doesn't help
+            await timeout(200);
+
+            // disables email field after member has been created
+            expect(find('.gh-member-basic-settings-form input[name="email-disabled"]').disabled, 'makes sure email is disabled')
+                .to.equal(true);
+        });
     });
 });
