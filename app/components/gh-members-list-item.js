@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import moment from 'moment';
-import {alias} from '@ember/object/computed';
-import {computed, or} from '@ember/object';
+import {alias, or} from '@ember/object/computed';
+import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 
 export default Component.extend({
@@ -18,7 +18,7 @@ export default Component.extend({
     email: alias('member.email'),
     name: alias('member.name'),
 
-    displayName: or('member.name', 'member.email}'),
+    displayName: or('member.name', 'member.email'),
 
     memberSince: computed('member.createdAtUTC', function () {
         return moment(this.member.createdAtUTC).from(moment());
