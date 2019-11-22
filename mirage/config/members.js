@@ -1,6 +1,12 @@
 import {paginatedResponse} from '../utils';
 
 export default function mockMembers(server) {
+    server.post('/members/', function ({members}) {
+        let attrs = this.normalizedRequestAttrs();
+
+        return members.create(attrs);
+    });
+
     server.get('/members/', paginatedResponse('members'));
 
     server.get('/members/:id/', function ({members}, {params}) {
@@ -14,6 +20,8 @@ export default function mockMembers(server) {
             }]
         });
     });
+
+    server.put('/members/:id/');
 
     server.del('/members/:id/');
 }
