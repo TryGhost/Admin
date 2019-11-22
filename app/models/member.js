@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import attr from 'ember-data/attr';
 
-export default DS.Model.extend(ValidationEngine, {
+export default Model.extend(ValidationEngine, {
     validationType: 'member',
 
     name: attr('string'),
