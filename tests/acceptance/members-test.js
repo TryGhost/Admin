@@ -89,6 +89,9 @@ describe('Acceptance: Members', function () {
             expect(find('.gh-member-basic-settings-form input[name="name"]').value, 'loads correct member into form')
                 .to.equal(member1.name);
 
+            expect(find('.gh-member-basic-settings-form input[name="email-disabled"]').disabled, 'makes sure email is disabled')
+                .to.equal(true);
+
             // trigger save
             await fillIn('.gh-member-basic-settings-form input[name="name"]', 'New Name');
             await blur('.gh-member-basic-settings-form input[name="name"]');

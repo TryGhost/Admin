@@ -29,6 +29,7 @@
             {{gh-error-message errors=member.errors property="email"}}
         {{else}}
             {{gh-text-input
+                name="email-disabled"
                 disabled=true
                 value=(readonly scratchEmail)}}
         {{/if}}
