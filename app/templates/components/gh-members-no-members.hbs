@@ -1,7 +1,6 @@
 <div>
     <div class="gh-btn gh-btn-green"
-         onclick={{action "addYourself"}}
-         data-test-make-yourself-member="true">
+         onclick={{action "addYourself"}}>
         <span>Add your own email address to test</span>
     </div>
 
@@ -15,7 +14,7 @@
                         <div class="gh-setting-desc">Import members from CSV</div>
                     </div>
                     <div class="gh-setting-action">
-                        {{#link-to "members.import" class="gh-btn" data-test-import-member-csv="true"}}
+                        {{#link-to "members.import" class="gh-btn"}}
                             <span>Import</span>
                          {{/link-to}}
                     </div>
@@ -31,8 +30,8 @@
                     </div>
                     <div class="gh-setting-action">
                         {{!--Remove below and uncomment link-to when new member route is merged --}}
-                        <div class="gh-btn" data-test-import-member-csv="true"><span>Create</span></div>
-                        {{!-- {{#link-to "member.new" class="gh-btn gh-btn-green" data-test-new-member-button="true"}}<span>Create</span>{{/link-to}} --}}
+                        <div class="gh-btn"><span>Create</span></div>
+                        {{!-- {{#link-to "member.new" class="gh-btn gh-btn-green"}}<span>Create</span>{{/link-to}} --}}
                     </div>
                 </div>
             </div>
