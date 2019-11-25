@@ -1,0 +1,41 @@
+<div>
+    <div class="gh-btn gh-btn-green"
+         onclick={{action "addYourself"}}
+         data-test-make-yourself-member="true">
+        <span>Add your own email address to test</span>
+    </div>
+
+    <div class="gh-setting-header">Or you can:</div>
+
+    <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
+        <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
+            <div class="gh-setting-first flex-column">
+                <div class="flex flex-row justify-between w-100">
+                    <div class="gh-setting-content">
+                        <div class="gh-setting-desc">Import members from CSV</div>
+                    </div>
+                    <div class="gh-setting-action">
+                        {{#link-to "members.import" class="gh-btn" data-test-import-member-csv="true"}}
+                            <span>Import</span>
+                         {{/link-to}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
+            <div class="gh-setting-first flex-column">
+                <div class="flex flex-row justify-between w-100">
+                    <div class="gh-setting-content">
+                        <div class="gh-setting-desc">Create new member</div>
+                    </div>
+                    <div class="gh-setting-action">
+                        {{!--Remove below and uncomment link-to when new member route is merged --}}
+                        <div class="gh-btn" data-test-import-member-csv="true"><span>Create</span></div>
+                        {{!-- {{#link-to "member.new" class="gh-btn gh-btn-green" data-test-new-member-button="true"}}<span>Create</span>{{/link-to}} --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
