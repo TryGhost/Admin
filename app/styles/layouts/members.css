@@ -5,6 +5,26 @@
     color: #fff;
 }
 
+.gh-member-gravatar {
+    position: relative;
+}
+
+.gh-member-gravatar-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    box-sizing: content-box;
+    width: calc(100% - 8px);
+    border: #fff 4px solid;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 100%;
+    animation: fade-in 1s;
+}
+
 /* Members list
 /* ----------------------------------------- */
 

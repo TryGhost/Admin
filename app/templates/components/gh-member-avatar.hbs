@@ -1,3 +1,8 @@
-<div class="flex items-center justify-center br-100" style={{this.backgroundStyle}} ...attributes>
-    <span class="gh-member-avatar-label {{this.initialsClass}}">{{this.initials}}</span>
-</div>
+<figure class="gh-member-gravatar">
+    <div class="flex items-center justify-center br-100" style={{this.backgroundStyle}} ...attributes>
+        <span class="gh-member-avatar-label {{this.initialsClass}}">{{this.initials}}</span>
+    </div>
+    <div class="gh-member-gravatar-img" style={{avatarStyle}} ...attributes>
+        <span class="sr-only">Avatar</span>
+    </div>
+</figure>
