@@ -9,7 +9,6 @@ import {
 } from 'ghost-admin/components/gh-image-uploader';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
-import {oneWay} from '@ember/object/computed';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -44,8 +43,6 @@ export default Controller.extend({
         this.iconExtensions = ICON_EXTENSIONS;
     },
 
-    brandColor: oneWay('settings.brandColor'),
-
     privateRSSUrl: computed('config.blogUrl', 'settings.publicHash', function () {
         let blogUrl = this.get('config.blogUrl');
         let publicHash = this.get('settings.publicHash');
@@ -54,8 +51,16 @@ export default Controller.extend({
     }),
 
     backgroundStyle: computed('settings.brandColor', function () {
-        let color = this.get('settings.brandColor') || 'red';
+        let color = this.get('settings.brandColor') || '#ffffff';
         return htmlSafe(`background-color: ${color}`);
+    }),
+
+    brandColor: computed('settings.brandColor', function () {
+        let color = this.get('settings.brandColor');
+        if (color && color[0] === '#') {
+            return color.slice(1);
+        }
+        return color;
     }),
 
     actions: {
@@ -267,7 +272,7 @@ export default Controller.extend({
             }
         },
         validateBrandColor() {
-            let newColor = this.brandColor;
+            let newColor = this.get('brandColor');
             let oldColor = this.get('settings.brandColor');
             let errMessage = '';
 
