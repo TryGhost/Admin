@@ -25,8 +25,8 @@
                             {{gh-navitem
                                 navItem=navItem
                                 baseUrl=blogUrl
-                                addItem=(action "addNavItem" false)
-                                deleteItem=(action "deleteNavItem" false)
+                                addItem=(action "addNavItem")
+                                deleteItem=(action "deleteNavItem")
                                 updateUrl=(action "updateUrl")
                                 updateLabel=(action "updateLabel")
                                 data-test-navitem=index}}
@@ -36,7 +36,7 @@
                 {{gh-navitem
                     navItem=newNavItem
                     baseUrl=blogUrl
-                    addItem=(action "addNavItem" false)
+                    addItem=(action "addNavItem")
                     updateUrl=(action "updateUrl")
                     data-test-navitem="new"}}
             </form>
@@ -51,8 +51,8 @@
                             {{gh-navitem
                                 navItem=navItem
                                 baseUrl=blogUrl
-                                addItem=(action "addNavItem" true)
-                                deleteItem=(action "deleteNavItem" true)
+                                addItem=(action "addNavItem")
+                                deleteItem=(action "deleteNavItem")
                                 updateUrl=(action "updateUrl")
                                 updateLabel=(action "updateLabel")
                                 data-test-navitem=index}}
@@ -62,7 +62,7 @@
                 {{gh-navitem
                     navItem=newSecondaryNavItem
                     baseUrl=blogUrl
-                    addItem=(action "addNavItem" true)
+                    addItem=(action "addNavItem")
                     updateUrl=(action "updateUrl")
                     data-test-navitem="new"}}
             </form>

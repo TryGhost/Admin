@@ -26,7 +26,7 @@ export default Controller.extend({
     init() {
         this._super(...arguments);
         this.set('newNavItem', NavigationItem.create({isNew: true}));
-        this.set('newSecondaryNavItem', NavigationItem.create({isNew: true}));
+        this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
     },
 
     showDeleteThemeModal: notEmpty('themeToDelete'),
@@ -42,31 +42,23 @@ export default Controller.extend({
             this.save.perform();
         },
 
-        addNavItem(secondary) {
-            let itemToAdd = this.newNavItem;
-
-            if (secondary) {
-                itemToAdd = this.newSecondaryNavItem;
-            } else {
-                itemToAdd = this.newNavItem;
-            }
-
+        addNavItem(item) {
             // If the url sent through is blank (user never edited the url)
-            if (itemToAdd.get('url') === '') {
-                itemToAdd.set('url', '/');
+            if (item.get('url') === '') {
+                item.set('url', '/');
             }
 
-            return itemToAdd.validate().then(() => {
-                this.addNewNavItem(secondary);
+            return item.validate().then(() => {
+                this.addNewNavItem(item);
             });
         },
 
-        deleteNavItem(secondary, item) {
+        deleteNavItem(item) {
             if (!item) {
                 return;
             }
 
-            let navItems = secondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
+            let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
 
             navItems.removeObject(item);
             this.set('dirtyAttributes', true);
@@ -204,7 +196,7 @@ export default Controller.extend({
 
         reset() {
             this.set('newNavItem', NavigationItem.create({isNew: true}));
-            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true}));
+            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
         }
     },
 
@@ -216,11 +208,11 @@ export default Controller.extend({
         let validationPromises = [];
 
         if (!this.newNavItem.get('isBlank')) {
-            validationPromises.pushObject(this.send('addNavItem'));
+            validationPromises.pushObject(this.send('addNavItem', this.newNavItem));
         }
 
         if (!this.newSecondaryNavItem.get('isBlank')) {
-            validationPromises.pushObject(this.send('addNavItem', true));
+            validationPromises.pushObject(this.send('addNavItem', this.newSecondaryNavItem));
         }
 
         navItems.map((item) => {
@@ -243,23 +235,15 @@ export default Controller.extend({
         }
     }),
 
-    addNewNavItem(secondary) {
-        let navItems, itemToAdd;
+    addNewNavItem(item) {
+        let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
 
-        if (secondary) {
-            navItems = this.get('settings.secondaryNavigation');
-            itemToAdd = this.newSecondaryNavItem;
-        } else {
-            navItems = this.get('settings.navigation');
-            itemToAdd = this.newNavItem;
-        }
-
-        itemToAdd.set('isNew', false);
-        navItems.pushObject(itemToAdd);
+        item.set('isNew', false);
+        navItems.pushObject(item);
         this.set('dirtyAttributes', true);
 
-        if (secondary) {
-            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true}));
+        if (item.isSecondary) {
+            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
             $('.gh-blognav-container:last .gh-blognav-line:last input:first').focus();
         } else {
             this.set('newNavItem', NavigationItem.create({isNew: true}));
