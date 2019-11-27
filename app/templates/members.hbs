@@ -44,6 +44,9 @@
     </GhCanvasHeader>
 
     <section class="view-container">
+        <div style="margin-bottom: 28px;">
+            {{gh-members-chart members=members}}
+        </div>
         <section class="content-list">
             <ol class="members-list gh-list {{unless this.filteredMembers "no-posts"}}">
                 {{#if this.filteredMembers}}

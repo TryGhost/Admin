@@ -1,0 +1,19 @@
+<div style="width:100%">
+    <div style="width:100%">
+        {{ember-chart type='line' options=subData.chartData.options data=subData.chartData.data height=300}}
+    </div>
+    <div style="border: 1px solid black;display:flex;flex-direction:row;margin: 12px 0">
+        <div style="flex-grow: 1;padding:12px 24px;border-right: 1px solid black">
+            <div> Total Members </div>
+            <div> {{subData.totalSubs}} </div>
+        </div>
+        <div style="flex-grow: 1;padding:12px 24px;border-right: 1px solid black">
+            <div> Members in last 30 days </div>
+            <div> {{subData.totalSubsLastMonth}} </div>
+        </div>
+        <div style="flex-grow: 1;padding:12px 24px;">
+            <div> Members today </div>
+            <div> {{subData.totalSubsToday}} </div>
+        </div>
+    </div>
+</div>
