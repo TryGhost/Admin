@@ -1,23 +1,31 @@
 /* Global
 /* ----------------------------------------- */
+
+/* Members avatar
+/* ----------------------------------------- */
+.gh-member-gravatar {
+    position: relative;
+}
+
+.gh-member-initials {
+    border: #fff 4px solid;
+}
+
 .gh-member-avatar-label {
     display: block;
     color: #fff;
 }
 
-.gh-member-gravatar {
-    position: relative;
-}
-
 .gh-member-gravatar-img {
+    display: block;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    display: block;
-    box-sizing: content-box;
     width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    box-sizing: content-box;
     border: #fff 4px solid;
     background-position: center center;
     background-size: cover;
