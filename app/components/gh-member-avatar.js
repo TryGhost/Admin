@@ -69,7 +69,7 @@ export default Component.extend({
 
         if (validator.isEmail(email || '')) {
             let size = this.size;
-            let gravatarUrl = `//www.gravatar.com/avatar/${md5(email)}?s=${size}&d=404`;
+            let gravatarUrl = `//www.gravatar.com/avatar/${md5(email)}?s=${size}&d=blank`;
 
             try {
                 // HEAD request is needed otherwise jquery attempts to process
