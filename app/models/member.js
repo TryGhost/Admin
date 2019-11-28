@@ -10,5 +10,5 @@ export default Model.extend(ValidationEngine, {
     note: attr('string'),
     createdAtUTC: attr('moment-utc'),
     stripe: attr('member-subscription'),
-    subscribed: attr('boolean')
+    subscribed: attr('boolean', {defaultValue: true})
 });
