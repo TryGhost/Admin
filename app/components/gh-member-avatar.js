@@ -25,7 +25,6 @@ export default Component.extend({
     tagName: '',
     email: '',
     size: 180,
-    debounce: 300,
 
     member: null,
     placeholderStyle: htmlSafe('background-image: url()'),
@@ -66,8 +65,6 @@ export default Component.extend({
     },
 
     setGravatar: task(function* () {
-        yield timeout(this.debounce);
-
         let email = this.member.email;
 
         if (validator.isEmail(email || '')) {
