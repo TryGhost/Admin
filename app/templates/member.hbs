@@ -20,8 +20,8 @@
                 <h3 class="f2 fw5 ma0 pa0">
                     {{or member.name member.email}}
                 </h3>
-                <p class="f6 pa0 ma0 midgrey">
-                    {{#if member.name}}
+                <p class="f6 pa0 ma0 midlightgrey-d1">
+                    {{#if (and member.name member.email)}}
                         <span class="darkgrey fw5">{{member.email}}</span> –
                     {{/if}}
                     Created on {{this.subscribedAt}}

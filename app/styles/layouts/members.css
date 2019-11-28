@@ -195,6 +195,10 @@ textarea.gh-member-details-textarea {
     max-width: 100%;
 }
 
+.gh-new-member-avatar {
+    background: var(--midlightgrey-l1);
+}
+
 /* Import modal
 /* ---------------------------------------------------------- */
 
