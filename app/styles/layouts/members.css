@@ -15,13 +15,12 @@
 .gh-member-gravatar-img {
     display: block;
     position: absolute;
-    border: 1px solid color-mod(var(--main-bg-color) l(-8%));
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    width: calc(100% - 2px);
-    height: calc(100% - 2px);
+    width: 100%;
+    height: 100%;
     box-sizing: content-box;
     background-position: center center;
     background-size: cover;
@@ -30,6 +29,11 @@
 
 .gh-member-initials {
     border: none;
+    box-shadow: 0 0 0 1px var(--white);
+}
+
+.gh-member-detail-avatar .gh-member-initials {
+    box-shadow: 0 0 0 1px var(--main-bg-color);
 }
 
 /* Members list
