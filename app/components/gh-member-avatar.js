@@ -5,9 +5,7 @@ import validator from 'validator';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {inject as service} from '@ember/service';
-import {task, timeout} from 'ember-concurrency';
-
-const ANIMATION_TIMEOUT = 1000;
+import {task} from 'ember-concurrency';
 
 const stringToHslColor = function (str, saturation, lightness) {
     var hash = 0;
@@ -77,8 +75,6 @@ export default Component.extend({
                 yield request(gravatarUrl, {type: 'HEAD'});
                 // gravatar exists so switch style and let browser load it
                 this._setAvatarImage(gravatarUrl);
-                // wait for fade-in animation to finish before removing placeholder
-                yield timeout(ANIMATION_TIMEOUT);
                 this._setPlaceholderImage('');
             } catch (e) {
                 // gravatar doesn't exist so make sure we're still showing the placeholder
