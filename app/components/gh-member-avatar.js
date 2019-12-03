@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
-import {inject as service} from '@ember/service';
 
 const stringToHslColor = function (str, saturation, lightness) {
     var hash = 0;
@@ -14,12 +13,9 @@ const stringToHslColor = function (str, saturation, lightness) {
 };
 
 export default Component.extend({
-    config: service(),
-
     tagName: '',
 
     member: null,
-
     initialsClass: computed('sizeClass', function () {
         return this.sizeClass || 'gh-member-list-avatar';
     }),
