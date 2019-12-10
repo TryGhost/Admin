@@ -146,7 +146,7 @@
                                     <td class="gh-member-stripe-data">{{subscription.status}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="gh-member-stripe-label">Next renewal date</td>
+                                    <td class="gh-member-stripe-label">{{#if subscription.cancelAtPeriodEnd}}Cancels on{{else}}Next renewal date{{/if}}</td>
                                     <td class="gh-member-stripe-data">{{subscription.validUntil}}</td>
                                 </tr>
                             </table>
