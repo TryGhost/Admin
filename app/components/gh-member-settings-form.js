@@ -27,6 +27,7 @@ export default Component.extend({
         if (subscriptions && subscriptions.length > 0) {
             return subscriptions.map((subscription) => {
                 return {
+                    id: subscription.id,
                     customer: subscription.customer,
                     name: subscription.name || '',
                     email: subscription.email || '',

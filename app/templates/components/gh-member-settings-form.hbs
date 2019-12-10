@@ -149,6 +149,14 @@
                                     <td class="gh-member-stripe-label">{{#if subscription.cancelAtPeriodEnd}}Cancels on{{else}}Next renewal date{{/if}}</td>
                                     <td class="gh-member-stripe-data">{{subscription.validUntil}}</td>
                                 </tr>
+                                <tr>
+                                    <td class="gh-member-stripe-label">Stripe subscription ID</td>
+                                    <td class="gh-member-stripe-data">
+                                        <a href="https://dashboard.stripe.com/subscriptions/{{subscription.id}}" target="_blank" rel="noopener" data-tooltip="View on Stripe">
+                                            {{subscription.id}}
+                                        </a>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
