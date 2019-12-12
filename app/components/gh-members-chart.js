@@ -8,16 +8,13 @@ export default Component.extend({
     feature: service(),
     members: null,
     range: '30',
+    startDateLabel: '',
     selectedRange: computed('range', function () {
         const availableRange = this.get('availableRange');
         return availableRange.findBy('days', this.get('range'));
     }),
     availableRange: computed(function () {
         return [
-            {
-                name: 'Last 10 days',
-                days: '10'
-            },
             {
                 name: 'Last 30 days',
                 days: '30'
@@ -28,7 +25,7 @@ export default Component.extend({
             },
             {
                 name: 'Last year',
-                days: 'last-year'
+                days: '365'
             },
             {
                 name: 'All time',
@@ -64,6 +61,9 @@ export default Component.extend({
             let isValid = moment(member.createdAtUTC).isSame(moment(), 'day');
             return isValid;
         }).length;
+
+        this.set('startDateLabel', moment(startDate).format('MMM DD, YYYY'));
+
         return {
             chartData: this.getChartData(members, rangeStartDate, rangeEndDate, isNightShiftEnabled),
             totalSubs: totalSubs,

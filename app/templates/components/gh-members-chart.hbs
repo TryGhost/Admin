@@ -28,7 +28,7 @@
             {{ember-chart type='LineWithLine' options=subData.chartData.options data=subData.chartData.data height=300}}
         </div>
         <div class="flex justify-between pa4 pt0 pb2 nt1">
-            <span class="f8 midlightgrey">Back then</span>
+            <span class="f8 midlightgrey">{{startDateLabel}}</span>
             <span class="f8 midlightgrey">Today</span>
         </div>
     </div>
@@ -40,7 +40,7 @@
             <div class="gh-members-chart-summary-data">{{subData.totalSubs}}</div>
         </div>
         <div class="flex-auto flex flex-column justify-center items-start pa4 bb b--whitegrey">
-            <h3 class="f-small ttu midgrey fw5">Signed up in last {{range}} days</h3>
+            <h3 class="f-small ttu midgrey fw5">Signed up in the last {{range}} days</h3>
             <div class="gh-members-chart-summary-data">{{subData.totalSubsLastMonth}}</div>
         </div>
         <div class="flex-auto flex flex-column justify-center items-start pa4">
