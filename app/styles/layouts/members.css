@@ -92,6 +92,7 @@ p.gh-members-list-email {
 }
 
 .gh-members-chart-header {
+    padding: 16px 16px 0;
     margin-bottom: 16px;
 }
 
@@ -108,7 +109,9 @@ p.gh-members-list-email {
 }
 
 .gh-members-chart-container {
-    height: 220px;
+    height: 182px;
+    margin: 0;
+    padding: 0 7px 4px;
 }
 
 .gh-members-chart-summary {

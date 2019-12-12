@@ -72,7 +72,7 @@ export default Component.extend({
                     ctx.beginPath();
                     ctx.moveTo(x, topY);
                     ctx.lineTo(x, bottomY);
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = 1;
                     ctx.strokeStyle = '#343f44';
                     ctx.stroke();
                     ctx.restore();
@@ -113,12 +113,21 @@ export default Component.extend({
                     backgroundColor: 'rgba(62,176,239,.9)',
                     pointRadius: 0,
                     pointHitRadius: 10,
-                    borderColor: 'rgba(62,176,239,.9)'
+                    borderColor: 'rgba(62,176,239,.9)',
+                    borderJoinStyle: 'round'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 5, // Needed otherwise the top dot is cut
+                        right: 10,
+                        bottom: 3,
+                        left: 10
+                    }
+                },
                 title: {
                     /** Options: https://www.chartjs.org/docs/latest/configuration/title.html */
                     display: false
@@ -153,6 +162,7 @@ export default Component.extend({
                             drawTicks: false
                         },
                         ticks: {
+                            display: false,
                             maxRotation: 0,
                             minRotation: 0,
                             padding: 6,

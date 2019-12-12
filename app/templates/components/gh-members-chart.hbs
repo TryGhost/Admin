@@ -1,7 +1,7 @@
 <div class="flex justify-between mb6 items-stretch">
 
     {{!-- Chart title/filter graph --}}
-    <div class="flex-auto bg-white br3 shadow-1 bg-grouped-table pa4 mr6">
+    <div class="flex-auto bg-white br3 shadow-1 bg-grouped-table mr6">
         <div class="flex justify-between gh-members-chart-header">
             <h2 class="f-small ttu midgrey fw5">Total members</h2>
             <div class="view-actions">
@@ -27,19 +27,23 @@
         <div class="gh-members-chart-container">
             {{ember-chart type='LineWithLine' options=subData.chartData.options data=subData.chartData.data height=300}}
         </div>
+        <div class="flex justify-between pa4 pt0 pb3">
+            <span class="f-small midlightgrey">Back then</span>
+            <span class="f-small midlightgrey">Today</span>
+        </div>
     </div>
 
     {{!-- Summary --}}
     <div class="flex flex-column justify-between gh-members-chart-summary bg-white br3 shadow-1 bg-grouped-table">
-        <div class="flex-auto flex flex-column justify-start items-start pa4 bb b--whitegrey">
+        <div class="flex-auto flex flex-column justify-center items-start pa4 bb b--whitegrey">
             <h3 class="f-small ttu midgrey fw5">Total Members</h3>
             <div class="gh-members-chart-summary-data">{{subData.totalSubs}}</div>
         </div>
-        <div class="flex-auto flex flex-column justify-start items-start pa4 bb b--whitegrey">
+        <div class="flex-auto flex flex-column justify-center items-start pa4 bb b--whitegrey">
             <h3 class="f-small ttu midgrey fw5">Signed up in last {{range}} days</h3>
             <div class="gh-members-chart-summary-data">{{subData.totalSubsLastMonth}}</div>
         </div>
-        <div class="flex-auto flex flex-column justify-start items-start pa4">
+        <div class="flex-auto flex flex-column justify-center items-start pa4">
             <h3 class="f-small ttu midgrey fw5">Signed up today</h3>
             <div class="gh-members-chart-summary-data">{{subData.totalSubsToday}}</div>
         </div>
