@@ -73,7 +73,7 @@ export default Component.extend({
                     ctx.moveTo(x, topY);
                     ctx.lineTo(x, bottomY);
                     ctx.lineWidth = 2;
-                    ctx.strokeStyle = '#07C';
+                    ctx.strokeStyle = '#343f44';
                     ctx.stroke();
                     ctx.restore();
                 }
@@ -125,7 +125,8 @@ export default Component.extend({
                 },
                 tooltips: {
                     intersect: false,
-                    mode: 'index'
+                    mode: 'index',
+                    displayColors: false
                 },
                 hover: {
                     mode: 'index',
