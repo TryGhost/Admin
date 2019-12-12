@@ -2,8 +2,10 @@
 import Component from '@ember/component';
 import moment from 'moment';
 import {computed, get} from '@ember/object';
+import {inject as service} from '@ember/service';
 
 export default Component.extend({
+    feature: service(),
     members: null,
     range: '31',
     selectedRange: computed('range', function () {
@@ -31,7 +33,9 @@ export default Component.extend({
         ];
     }),
 
-    subData: computed('members.@each', 'range', function () {
+    subData: computed('members.@each', 'range', 'feature.nightShift', function () {
+        let isNightShiftEnabled = this.feature.nightShift;
+        console.log('Do something with nightshift', isNightShiftEnabled);
         let {members, range} = this;
         let rangeInDays = parseInt(range);
         let startDate = moment().subtract((rangeInDays), 'days');
