@@ -124,7 +124,7 @@ export default Component.extend({
                     padding: {
                         top: 5, // Needed otherwise the top dot is cut
                         right: 10,
-                        bottom: 3,
+                        bottom: 5,
                         left: 10
                     }
                 },
@@ -159,7 +159,9 @@ export default Component.extend({
                     xAxes: [{
                         labelString: 'Date',
                         gridLines: {
-                            drawTicks: false
+                            drawTicks: false,
+                            color: '#E5EFF5',
+                            zeroLineColor: '#E5EFF5'
                         },
                         ticks: {
                             display: false,
@@ -188,7 +190,8 @@ export default Component.extend({
                     yAxes: [{
                         gridLines: {
                             drawTicks: false,
-                            display: false
+                            display: false,
+                            drawBorder: false,
                         },
                         ticks: {
                             display: false,
