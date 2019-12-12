@@ -136,8 +136,9 @@ export default Component.extend({
                     intersect: false,
                     mode: 'index',
                     displayColors: false,
-                    xPadding: 8,
-                    yPadding: 6,
+                    backgroundColor: '#343f44',
+                    xPadding: 7,
+                    yPadding: 7,
                     cornerRadius: 5,
                     caretSize: 7,
                     caretPadding: 4,
@@ -148,7 +149,8 @@ export default Component.extend({
                 },
                 hover: {
                     mode: 'index',
-                    intersect: false
+                    intersect: false,
+                    animationDuration: 0
                 },
                 legend: {
                     /** https://www.chartjs.org/docs/latest/configuration/legend.html */
