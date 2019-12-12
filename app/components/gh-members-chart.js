@@ -144,7 +144,7 @@ export default Component.extend({
                     bodyFontSize: 13,
                     titleFontStyle: 'normal',
                     titleFontColor: 'rgba(255, 255, 255, 0.7)',
-                    titleMarginBottom: 4,
+                    titleMarginBottom: 4
                 },
                 hover: {
                     mode: 'index',
