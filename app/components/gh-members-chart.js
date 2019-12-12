@@ -91,7 +91,7 @@ export default Component.extend({
                     ctx.moveTo(x, topY);
                     ctx.lineTo(x, bottomY);
                     ctx.lineWidth = 1;
-                    ctx.strokeStyle = (isNightShiftEnabled ? 'rgba(255, 255, 255, 0.4)' : '#343f44');
+                    ctx.strokeStyle = (isNightShiftEnabled ? 'rgba(62, 176, 239, 0.65)' : 'rgba(62, 176, 239, 0.8)');
                     ctx.stroke();
                     ctx.restore();
                 }
@@ -118,7 +118,6 @@ export default Component.extend({
             data: {
                 labels: dateLabel,
                 datasets: [{
-                    /** Options: https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties */
                     label: 'Total members',
                     lineTension: 0,
                     data: monthData,
@@ -142,7 +141,6 @@ export default Component.extend({
                     }
                 },
                 title: {
-                    /** Options: https://www.chartjs.org/docs/latest/configuration/title.html */
                     display: false
                 },
                 tooltips: {
@@ -154,7 +152,7 @@ export default Component.extend({
                     yPadding: 7,
                     cornerRadius: 5,
                     caretSize: 7,
-                    caretPadding: 4,
+                    caretPadding: 5,
                     bodyFontSize: 13,
                     titleFontStyle: 'normal',
                     titleFontColor: 'rgba(255, 255, 255, 0.7)',
@@ -163,14 +161,12 @@ export default Component.extend({
                 hover: {
                     mode: 'index',
                     intersect: false,
-                    animationDuration: 0
+                    animationDuration: 150
                 },
                 legend: {
-                    /** https://www.chartjs.org/docs/latest/configuration/legend.html */
                     display: false
                 },
                 scales: {
-                    /**https://www.chartjs.org/docs/latest/axes/cartesian/linear.html */
                     xAxes: [{
                         labelString: 'Date',
                         gridLines: {
