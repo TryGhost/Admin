@@ -106,7 +106,7 @@ export default Component.extend({
                 labels: dateLabel,
                 datasets: [{
                     /** Options: https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties */
-                    label: 'Total Members',
+                    label: 'Total members',
                     lineTension: 0,
                     data: monthData,
                     fill: false,
@@ -126,7 +126,16 @@ export default Component.extend({
                 tooltips: {
                     intersect: false,
                     mode: 'index',
-                    displayColors: false
+                    displayColors: false,
+                    xPadding: 8,
+                    yPadding: 6,
+                    cornerRadius: 5,
+                    caretSize: 7,
+                    caretPadding: 4,
+                    bodyFontSize: 13,
+                    titleFontStyle: 'normal',
+                    titleFontColor: 'rgba(255, 255, 255, 0.7)',
+                    titleMarginBottom: 4,
                 },
                 hover: {
                     mode: 'index',
@@ -172,6 +181,7 @@ export default Component.extend({
                             display: false
                         },
                         ticks: {
+                            display: false,
                             precision: 0,
                             padding: 6,
                             beginAtZero: true,
