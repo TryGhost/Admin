@@ -7,7 +7,7 @@ import {inject as service} from '@ember/service';
 export default Component.extend({
     feature: service(),
     members: null,
-    range: '31',
+    range: '30',
     selectedRange: computed('range', function () {
         const availableRange = this.get('availableRange');
         return availableRange.findBy('slug', this.get('range'));
@@ -16,19 +16,19 @@ export default Component.extend({
         return [
             {
                 name: 'Last 10 days',
-                slug: '11'
+                slug: '10'
             },
             {
                 name: 'Last 30 days',
-                slug: '31'
+                slug: '30'
             },
             {
                 name: 'Last 60 days',
-                slug: '61'
+                slug: '60'
             },
             {
                 name: 'Last 90 days',
-                slug: '91'
+                slug: '90'
             }
         ];
     }),
@@ -96,7 +96,7 @@ export default Component.extend({
         let monthData = [];
         let dateLabel = [];
         let startDate = moment().subtract((range), 'days');
-        for (let i = 0; i < range; i++) {
+        for (let i = 0; i < range + 1; i++) {
             let m = moment(startDate).add(i, 'days');
             dateLabel.push(m.format(dateFormat));
             let membersTillDate = members.filter((member) => {
