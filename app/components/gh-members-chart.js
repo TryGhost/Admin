@@ -5,7 +5,7 @@ import {computed, get} from '@ember/object';
 
 export default Component.extend({
     members: null,
-    range: '30',
+    range: '31',
     selectedRange: computed('range', function () {
         const availableRange = this.get('availableRange');
         return availableRange.findBy('slug', this.get('range'));
@@ -14,19 +14,19 @@ export default Component.extend({
         return [
             {
                 name: 'Last 10 days',
-                slug: '10'
+                slug: '11'
             },
             {
                 name: 'Last 30 days',
-                slug: '30'
+                slug: '31'
             },
             {
                 name: 'Last 60 days',
-                slug: '60'
+                slug: '61'
             },
             {
                 name: 'Last 90 days',
-                slug: '90'
+                slug: '91'
             }
         ];
     }),
@@ -34,7 +34,7 @@ export default Component.extend({
     subData: computed('members.@each', 'range', function () {
         let {members, range} = this;
         let rangeInDays = parseInt(range);
-        let startDate = moment().subtract((rangeInDays - 1), 'days');
+        let startDate = moment().subtract((rangeInDays), 'days');
         let totalSubs = members.length || 0;
         let totalSubsLastMonth = members.filter((member) => {
             let isValid = moment(member.createdAtUTC).isSameOrAfter(startDate, 'day');
@@ -91,7 +91,7 @@ export default Component.extend({
         let dateFormat = 'D MMM';
         let monthData = [];
         let dateLabel = [];
-        let startDate = moment().subtract((range - 1), 'days');
+        let startDate = moment().subtract((range), 'days');
         for (let i = 0; i < range; i++) {
             let m = moment(startDate).add(i, 'days');
             dateLabel.push(m.format(dateFormat));
