@@ -62,6 +62,16 @@ export default Component.extend({
 
     init() {
         this._super(...arguments);
+        this.setChartJSDefaults();
+    },
+
+    actions: {
+        changeDateRange(range) {
+            this.set('range', get(range, 'days'));
+        }
+    },
+
+    setChartJSDefaults() {
         let isNightShiftEnabled = this.feature.nightShift;
         Chart.defaults.LineWithLine = Chart.defaults.line;
         Chart.controllers.LineWithLine = Chart.controllers.line.extend({
@@ -89,13 +99,8 @@ export default Component.extend({
         });
     },
 
-    actions: {
-        changeDateRange(range) {
-            this.set('range', get(range, 'days'));
-        }
-    },
-
     getChartData(members, range, isNightShiftEnabled) {
+        this.setChartJSDefaults();
         let dateFormat = 'D MMM';
         let monthData = [];
         let dateLabel = [];
