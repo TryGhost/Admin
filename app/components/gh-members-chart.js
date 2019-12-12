@@ -43,7 +43,7 @@ export default Component.extend({
         let rangeInDays = 31, rangeStartDate, rangeEndDate;
         if (range === 'last-year') {
             rangeStartDate = moment().startOf('year').subtract(1, 'year');
-            rangeEndDate = moment().endOf('year').subtract(1, 'year');
+            rangeEndDate = moment().endOf('year').subtract(1, 'year').subtract(1, 'day');
         } else if (range === 'all-time') {
             let firstMemberCreatedDate = members.length ? members.lastObject.get('createdAtUTC') : moment().subtract((30), 'days');
             rangeStartDate = moment(firstMemberCreatedDate);
