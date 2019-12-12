@@ -1,3 +1,4 @@
+/* global Chart */
 import Component from '@ember/component';
 import moment from 'moment';
 import {computed, get} from '@ember/object';
@@ -52,6 +53,34 @@ export default Component.extend({
         };
     }),
 
+    init() {
+        this._super(...arguments);
+        Chart.defaults.LineWithLine = Chart.defaults.line;
+        Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+            draw: function (ease) {
+                Chart.controllers.line.prototype.draw.call(this, ease);
+
+                if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+                    var activePoint = this.chart.tooltip._active[0],
+                        ctx = this.chart.ctx,
+                        x = activePoint.tooltipPosition().x,
+                        topY = this.chart.scales['y-axis-0'].top,
+                        bottomY = this.chart.scales['y-axis-0'].bottom;
+
+                    // draw line
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(x, topY);
+                    ctx.lineTo(x, bottomY);
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#07C';
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        });
+    },
+
     actions: {
         changeDateRange(range) {
             this.set('range', get(range, 'slug'));
@@ -62,7 +91,6 @@ export default Component.extend({
         let dateFormat = 'D MMM';
         let monthData = [];
         let dateLabel = [];
-        let displayTitle = `Total members in last ${range} days`;
         let startDate = moment().subtract((range - 1), 'days');
         for (let i = 0; i < range; i++) {
             let m = moment(startDate).add(i, 'days');
@@ -77,16 +105,16 @@ export default Component.extend({
             data: {
                 labels: dateLabel,
                 datasets: [{
-                        /** Options: https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties */
-                        label: 'Total Members',
-                        lineTension: 0,
-                        data: monthData,
-                        fill: false,
-                        backgroundColor: 'rgba(62,176,239,.9)',
-                        pointRadius: 0,
-                        pointHitRadius: 10,
-                        borderColor: 'rgba(62,176,239,.9)'
-                    }]
+                    /** Options: https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties */
+                    label: 'Total Members',
+                    lineTension: 0,
+                    data: monthData,
+                    fill: false,
+                    backgroundColor: 'rgba(62,176,239,.9)',
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    borderColor: 'rgba(62,176,239,.9)'
+                }]
             },
             options: {
                 responsive: true,
@@ -95,8 +123,13 @@ export default Component.extend({
                     /** Options: https://www.chartjs.org/docs/latest/configuration/title.html */
                     display: false
                 },
-                tooltip: {
-                    displayColors: false
+                tooltips: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                hover: {
+                    mode: 'index',
+                    intersect: false
                 },
                 legend: {
                     /** https://www.chartjs.org/docs/latest/configuration/legend.html */
@@ -105,21 +138,40 @@ export default Component.extend({
                 scales: {
                     /**https://www.chartjs.org/docs/latest/axes/cartesian/linear.html */
                     xAxes: [{
+                        labelString: 'Date',
                         gridLines: {
                             drawTicks: false
                         },
-                        labelString: 'Date',
                         ticks: {
-                            maxTicksLimit: 10
+                            maxRotation: 0,
+                            minRotation: 0,
+                            padding: 6,
+                            callback: function (value, index, values) {
+                                if (index === 0) {
+                                    return value;
+                                }
+                                if (index === (values.length - 1)) {
+                                    return 'Today';
+                                }
+                                return '';
+                            }
                         }
                     }],
                     yAxes: [{
                         gridLines: {
+                            drawTicks: false,
                             display: false
                         },
                         ticks: {
-                            display: false,
-                            precision: 0
+                            precision: 0,
+                            padding: 6,
+                            beginAtZero: true,
+                            callback: function (value, index) {
+                                if (index === 0) {
+                                    return value;
+                                }
+                                return '';
+                            }
                         }
                     }]
                 }

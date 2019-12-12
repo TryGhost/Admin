@@ -1,5 +1,5 @@
 <div class="flex justify-between mb6 items-stretch">
-    
+
     {{!-- Chart title/filter graph --}}
     <div class="flex-auto bg-white br3 shadow-1 bg-grouped-table pa4 mr6">
         <div class="flex justify-between gh-members-chart-header">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="gh-members-chart-container">
-            {{ember-chart type='line' options=subData.chartData.options data=subData.chartData.data height=300}}
+            {{ember-chart type='LineWithLine' options=subData.chartData.options data=subData.chartData.data height=300}}
         </div>
     </div>
 
