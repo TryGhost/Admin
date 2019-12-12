@@ -147,14 +147,22 @@ export default Component.extend({
                             maxRotation: 0,
                             minRotation: 0,
                             padding: 6,
+                            autoSkip: false,
+                            maxTicksLimit: 10,
                             callback: function (value, index, values) {
+                                let maxTicksAllowed = 10;
+                                let tickGap = Math.round(values.length / maxTicksAllowed);
+                                tickGap = Math.max(tickGap, 1);
                                 if (index === 0) {
                                     return value;
                                 }
                                 if (index === (values.length - 1)) {
                                     return 'Today';
                                 }
-                                return '';
+
+                                if (index % tickGap === 0) {
+                                    return '';
+                                }
                             }
                         }
                     }],
