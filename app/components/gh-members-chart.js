@@ -35,7 +35,6 @@ export default Component.extend({
 
     subData: computed('members.@each', 'range', 'feature.nightShift', function () {
         let isNightShiftEnabled = this.feature.nightShift;
-        console.log('Do something with nightshift', isNightShiftEnabled);
         let {members, range} = this;
         let rangeInDays = parseInt(range);
         let startDate = moment().subtract((rangeInDays), 'days');
@@ -50,7 +49,7 @@ export default Component.extend({
             return isValid;
         }).length;
         return {
-            chartData: this.getChartData(members, rangeInDays),
+            chartData: this.getChartData(members, rangeInDays, isNightShiftEnabled),
             totalSubs: totalSubs,
             totalSubsToday: totalSubsToday,
             totalSubsLastMonth: totalSubsLastMonth
@@ -59,6 +58,7 @@ export default Component.extend({
 
     init() {
         this._super(...arguments);
+        let isNightShiftEnabled = this.feature.nightShift;
         Chart.defaults.LineWithLine = Chart.defaults.line;
         Chart.controllers.LineWithLine = Chart.controllers.line.extend({
             draw: function (ease) {
@@ -77,7 +77,7 @@ export default Component.extend({
                     ctx.moveTo(x, topY);
                     ctx.lineTo(x, bottomY);
                     ctx.lineWidth = 1;
-                    ctx.strokeStyle = '#343f44';
+                    ctx.strokeStyle = (isNightShiftEnabled ? 'rgba(255, 255, 255, 0.4)' : '#343f44');
                     ctx.stroke();
                     ctx.restore();
                 }
@@ -91,7 +91,7 @@ export default Component.extend({
         }
     },
 
-    getChartData(members, range) {
+    getChartData(members, range, isNightShiftEnabled) {
         let dateFormat = 'D MMM';
         let monthData = [];
         let dateLabel = [];
@@ -166,8 +166,8 @@ export default Component.extend({
                         labelString: 'Date',
                         gridLines: {
                             drawTicks: false,
-                            color: '#E5EFF5',
-                            zeroLineColor: '#E5EFF5'
+                            color: (isNightShiftEnabled ? '#333F44' : '#E5EFF5'),
+                            zeroLineColor: (isNightShiftEnabled ? '#333F44' : '#E5EFF5')
                         },
                         ticks: {
                             display: false,
@@ -197,7 +197,7 @@ export default Component.extend({
                         gridLines: {
                             drawTicks: false,
                             display: false,
-                            drawBorder: false,
+                            drawBorder: false
                         },
                         ticks: {
                             display: false,
