@@ -154,7 +154,7 @@ export default Component.extend({
                 hover: {
                     mode: 'index',
                     intersect: false,
-                    animationDuration: 0
+                    animationDuration: 600
                 },
                 legend: {
                     /** https://www.chartjs.org/docs/latest/configuration/legend.html */
