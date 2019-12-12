@@ -28,11 +28,11 @@ export default Component.extend({
             },
             {
                 name: 'Last year',
-                days: '365'
+                days: 'last-year'
             },
             {
                 name: 'All time',
-                days: '500'
+                days: 'all-time'
             }
         ];
     }),
@@ -40,7 +40,19 @@ export default Component.extend({
     subData: computed('members.@each', 'range', 'feature.nightShift', function () {
         let isNightShiftEnabled = this.feature.nightShift;
         let {members, range} = this;
-        let rangeInDays = parseInt(range);
+        let rangeInDays = 31, rangeStartDate, rangeEndDate;
+        if (range === 'last-year') {
+            rangeStartDate = moment().startOf('year').subtract(1, 'year');
+            rangeEndDate = moment().endOf('year').subtract(1, 'year');
+        } else if (range === 'all-time') {
+            let firstMemberCreatedDate = members.length ? members.lastObject.get('createdAtUTC') : moment().subtract((30), 'days');
+            rangeStartDate = moment(firstMemberCreatedDate);
+            rangeEndDate = moment();
+        } else {
+            rangeInDays = parseInt(range);
+            rangeStartDate = moment().subtract((rangeInDays), 'days');
+            rangeEndDate = moment();
+        }
         let startDate = moment().subtract((rangeInDays), 'days');
         let totalSubs = members.length || 0;
         let totalSubsLastMonth = members.filter((member) => {
@@ -53,7 +65,7 @@ export default Component.extend({
             return isValid;
         }).length;
         return {
-            chartData: this.getChartData(members, rangeInDays, isNightShiftEnabled),
+            chartData: this.getChartData(members, rangeStartDate, rangeEndDate, isNightShiftEnabled),
             totalSubs: totalSubs,
             totalSubsToday: totalSubsToday,
             totalSubsLastMonth: totalSubsLastMonth
@@ -99,14 +111,12 @@ export default Component.extend({
         });
     },
 
-    getChartData(members, range, isNightShiftEnabled) {
+    getChartData(members, startDate, endDate, isNightShiftEnabled) {
         this.setChartJSDefaults();
-        let dateFormat = 'D MMM';
+        let dateFormat = 'D MMM YY';
         let monthData = [];
         let dateLabel = [];
-        let startDate = moment().subtract((range), 'days');
-        for (let i = 0; i < range + 1; i++) {
-            let m = moment(startDate).add(i, 'days');
+        for (var m = startDate; m.diff(endDate, 'days') <= 0; m.add(1, 'days')) {
             dateLabel.push(m.format(dateFormat));
             let membersTillDate = members.filter((member) => {
                 let isValid = moment(member.createdAtUTC).isSameOrBefore(m, 'day');
