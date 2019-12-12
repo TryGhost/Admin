@@ -1,13 +1,39 @@
 import Component from '@ember/component';
 import moment from 'moment';
-import {computed} from '@ember/object';
+import {computed, get} from '@ember/object';
 
 export default Component.extend({
     members: null,
+    range: '30',
+    selectedRange: computed('range', function () {
+        const availableRange = this.get('availableRange');
+        return availableRange.findBy('slug', this.get('range'));
+    }),
+    availableRange: computed(function () {
+        return [
+            {
+                name: 'Last 10 days',
+                slug: '10'
+            },
+            {
+                name: 'Last 30 days',
+                slug: '30'
+            },
+            {
+                name: 'Last 60 days',
+                slug: '60'
+            },
+            {
+                name: 'Last 90 days',
+                slug: '90'
+            }
+        ];
+    }),
 
-    subData: computed('members.@each', function () {
-        let {members} = this;
-        let startDate = moment().subtract(29, 'days');
+    subData: computed('members.@each', 'range', function () {
+        let {members, range} = this;
+        let rangeInDays = parseInt(range);
+        let startDate = moment().subtract((rangeInDays - 1), 'days');
         let totalSubs = members.length || 0;
         let totalSubsLastMonth = members.filter((member) => {
             let isValid = moment(member.createdAtUTC).isSameOrAfter(startDate, 'day');
@@ -19,19 +45,26 @@ export default Component.extend({
             return isValid;
         }).length;
         return {
-            chartData: this.getChartData(members),
+            chartData: this.getChartData(members, rangeInDays),
             totalSubs: totalSubs,
             totalSubsToday: totalSubsToday,
             totalSubsLastMonth: totalSubsLastMonth
         };
     }),
 
-    getChartData(members) {
+    actions: {
+        changeDateRange(range) {
+            this.set('range', get(range, 'slug'));
+        }
+    },
+
+    getChartData(members, range) {
         let dateFormat = 'D MMM';
         let monthData = [];
         let dateLabel = [];
-        let startDate = moment().subtract(29, 'days');
-        for (let i = 0; i < 30; i++) {
+        let displayTitle = `Total members in last ${range} days`;
+        let startDate = moment().subtract((range - 1), 'days');
+        for (let i = 0; i < range; i++) {
             let m = moment(startDate).add(i, 'days');
             dateLabel.push(m.format(dateFormat));
             let membersTillDate = members.filter((member) => {
@@ -61,7 +94,7 @@ export default Component.extend({
                 title: {
                     /** Options: https://www.chartjs.org/docs/latest/configuration/title.html */
                     display: true,
-                    text: 'Total members in last 30 days',
+                    text: displayTitle,
                     fontSize: 20
                 },
                 tooltip: {
@@ -71,8 +104,12 @@ export default Component.extend({
                     /** https://www.chartjs.org/docs/latest/configuration/legend.html */
                 },
                 scales: {
+                    /**https://www.chartjs.org/docs/latest/axes/cartesian/linear.html */
                     xAxes: [{
-                        labelString: 'Date'
+                        labelString: 'Date',
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
                     }],
                     yAxes: [{
                         ticks: {

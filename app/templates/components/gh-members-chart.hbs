@@ -1,4 +1,23 @@
 <div style="width:100%">
+    <section class="view-actions">
+        <div class="gh-contentfilter">
+            {{#power-select
+                        selected=selectedRange
+                        options=availableRange
+                        searchEnabled=false
+                        onchange=(action "changeDateRange")
+                        tagName="div"
+                        classNames="gh-contentfilter-menu gh-contentfilter-type"
+                        triggerClass="gh-contentfilter-menu-trigger"
+                        dropdownClass="gh-contentfilter-menu-dropdown"
+                        matchTriggerWidth=false
+                        data-test-type-select=true
+                        as |range|
+                    }}
+            {{range.name}}
+            {{/power-select}}
+        </div>
+    </section>
     <div style="width:100%">
         {{ember-chart type='line' options=subData.chartData.options data=subData.chartData.data height=300}}
     </div>
@@ -8,7 +27,7 @@
             <div> {{subData.totalSubs}} </div>
         </div>
         <div style="flex-grow: 1;padding:12px 24px;border-right: 1px solid black">
-            <div> Members in last 30 days </div>
+            <div> Members in last {{range}} days </div>
             <div> {{subData.totalSubsLastMonth}} </div>
         </div>
         <div style="flex-grow: 1;padding:12px 24px;">
