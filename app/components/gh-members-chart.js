@@ -113,7 +113,7 @@ export default Component.extend({
 
     getChartData(members, startDate, endDate, isNightShiftEnabled) {
         this.setChartJSDefaults();
-        let dateFormat = 'D MMM YY';
+        let dateFormat = 'MMM DD, YYYY';
         let monthData = [];
         let dateLabel = [];
         for (var m = startDate; m.diff(endDate, 'days') <= 0; m.add(1, 'days')) {
