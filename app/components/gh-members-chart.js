@@ -10,25 +10,29 @@ export default Component.extend({
     range: '30',
     selectedRange: computed('range', function () {
         const availableRange = this.get('availableRange');
-        return availableRange.findBy('slug', this.get('range'));
+        return availableRange.findBy('days', this.get('range'));
     }),
     availableRange: computed(function () {
         return [
             {
                 name: 'Last 10 days',
-                slug: '10'
+                days: '10'
             },
             {
                 name: 'Last 30 days',
-                slug: '30'
-            },
-            {
-                name: 'Last 60 days',
-                slug: '60'
+                days: '30'
             },
             {
                 name: 'Last 90 days',
-                slug: '90'
+                days: '90'
+            },
+            {
+                name: 'Last year',
+                days: '365'
+            },
+            {
+                name: 'All time',
+                days: '500'
             }
         ];
     }),
@@ -87,7 +91,7 @@ export default Component.extend({
 
     actions: {
         changeDateRange(range) {
-            this.set('range', get(range, 'slug'));
+            this.set('range', get(range, 'days'));
         }
     },
 
