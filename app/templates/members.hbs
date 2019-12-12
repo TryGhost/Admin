@@ -44,9 +44,11 @@
     </GhCanvasHeader>
 
     <section class="view-container">
-        <section>
-            {{gh-members-chart members=members}}
-        </section>
+        {{#unless this.searchText}}
+            <section>
+                {{gh-members-chart members=members}}
+            </section>
+        {{/unless}}
         <section class="content-list">
             <ol class="members-list gh-list {{unless this.filteredMembers "no-posts"}}">
                 {{#if this.filteredMembers}}
