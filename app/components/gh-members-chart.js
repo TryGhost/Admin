@@ -76,43 +76,49 @@ export default Component.extend({
         return {
             data: {
                 labels: dateLabel,
-                datasets: [
-                    {
+                datasets: [{
                         /** Options: https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties */
                         label: 'Total Members',
                         lineTension: 0,
                         data: monthData,
                         fill: false,
                         backgroundColor: 'rgba(62,176,239,.9)',
+                        pointRadius: 0,
+                        pointHitRadius: 10,
                         borderColor: 'rgba(62,176,239,.9)'
-                    }
-                ]
+                    }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 title: {
                     /** Options: https://www.chartjs.org/docs/latest/configuration/title.html */
-                    display: true,
-                    text: displayTitle,
-                    fontSize: 20
+                    display: false
                 },
                 tooltip: {
                     displayColors: false
                 },
                 legend: {
                     /** https://www.chartjs.org/docs/latest/configuration/legend.html */
+                    display: false
                 },
                 scales: {
                     /**https://www.chartjs.org/docs/latest/axes/cartesian/linear.html */
                     xAxes: [{
+                        gridLines: {
+                            drawTicks: false
+                        },
                         labelString: 'Date',
                         ticks: {
-                            maxTicksLimit: 15
+                            maxTicksLimit: 10
                         }
                     }],
                     yAxes: [{
+                        gridLines: {
+                            display: false
+                        },
                         ticks: {
+                            display: false,
                             precision: 0
                         }
                     }]

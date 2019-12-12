@@ -1,38 +1,47 @@
-<div style="width:100%">
-    <section class="view-actions">
-        <div class="gh-contentfilter">
-            {{#power-select
-                        selected=selectedRange
-                        options=availableRange
-                        searchEnabled=false
-                        onchange=(action "changeDateRange")
-                        tagName="div"
-                        classNames="gh-contentfilter-menu gh-contentfilter-type"
-                        triggerClass="gh-contentfilter-menu-trigger"
-                        dropdownClass="gh-contentfilter-menu-dropdown"
-                        matchTriggerWidth=false
-                        data-test-type-select=true
-                        as |range|
-                    }}
-            {{range.name}}
-            {{/power-select}}
+<div class="flex justify-between mb6 items-stretch">
+    
+    {{!-- Chart title/filter graph --}}
+    <div class="flex-auto bg-white br3 shadow-1 bg-grouped-table pa4 mr6">
+        <div class="flex justify-between gh-members-chart-header">
+            <h2 class="f-small ttu midgrey fw5">Total members</h2>
+            <div class="view-actions">
+                <div class="gh-contentfilter">
+                    {{#power-select
+                                            selected=selectedRange
+                                            options=availableRange
+                                            searchEnabled=false
+                                            onchange=(action "changeDateRange")
+                                            tagName="div"
+                                            classNames="gh-contentfilter-menu gh-contentfilter-type"
+                                            triggerClass="gh-contentfilter-menu-trigger"
+                                            dropdownClass="gh-contentfilter-menu-dropdown"
+                                            matchTriggerWidth=false
+                                            data-test-type-select=true
+                                            as |range|
+                                        }}
+                    {{range.name}}
+                    {{/power-select}}
+                </div>
+            </div>
         </div>
-    </section>
-    <div style="width:100%">
-        {{ember-chart type='line' options=subData.chartData.options data=subData.chartData.data height=300}}
+        <div class="gh-members-chart-container">
+            {{ember-chart type='line' options=subData.chartData.options data=subData.chartData.data height=300}}
+        </div>
     </div>
-    <div style="border: 1px solid black;display:flex;flex-direction:row;margin: 12px 0">
-        <div style="flex-grow: 1;padding:12px 24px;border-right: 1px solid black">
-            <div> Total Members </div>
-            <div> {{subData.totalSubs}} </div>
+
+    {{!-- Summary --}}
+    <div class="flex flex-column justify-between gh-members-chart-summary bg-white br3 shadow-1 bg-grouped-table">
+        <div class="flex-auto flex flex-column justify-start items-start pa4 bb b--whitegrey">
+            <h3 class="f-small ttu midgrey fw5">Total Members</h3>
+            <div class="gh-members-chart-summary-data">{{subData.totalSubs}}</div>
         </div>
-        <div style="flex-grow: 1;padding:12px 24px;border-right: 1px solid black">
-            <div> Members in last {{range}} days </div>
-            <div> {{subData.totalSubsLastMonth}} </div>
+        <div class="flex-auto flex flex-column justify-start items-start pa4 bb b--whitegrey">
+            <h3 class="f-small ttu midgrey fw5">Signed up in last {{range}} days</h3>
+            <div class="gh-members-chart-summary-data">{{subData.totalSubsLastMonth}}</div>
         </div>
-        <div style="flex-grow: 1;padding:12px 24px;">
-            <div> Members today </div>
-            <div> {{subData.totalSubsToday}} </div>
+        <div class="flex-auto flex flex-column justify-start items-start pa4">
+            <h3 class="f-small ttu midgrey fw5">Signed up today</h3>
+            <div class="gh-members-chart-summary-data">{{subData.totalSubsToday}}</div>
         </div>
     </div>
 </div>

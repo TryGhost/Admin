@@ -91,6 +91,36 @@ p.gh-members-list-email {
     padding-right: 12px;
 }
 
+.gh-members-chart-header {
+    margin-bottom: 16px;
+}
+
+.gh-members-chart-header .gh-contentfilter {
+    margin: 0 0 0 20px;
+    height: 16px;
+}
+
+.gh-members-chart-header .gh-contentfilter-type .gh-contentfilter-menu-trigger {
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.05);
+    height: 16px;
+    padding: 0 8px;
+}
+
+.gh-members-chart-container {
+    height: 220px;
+}
+
+.gh-members-chart-summary {
+    flex-basis: 284px;
+}
+
+.gh-members-chart-summary-data {
+    font-size: 3.6rem;
+    color: var(--darkgrey);
+    line-height: 4.0rem;
+}
+
 @media (max-width: 1000px) {
     .members-list .gh-list-header, .gh-list-hidecell-m {
         display: table-cell;
