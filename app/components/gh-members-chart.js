@@ -119,7 +119,8 @@ export default Component.extend({
                 labels: dateLabel,
                 datasets: [{
                     label: 'Total members',
-                    lineTension: 0,
+                    // lineTension: 0,
+                    cubicInterpolationMode: 'monotone',
                     data: monthData,
                     fill: false,
                     backgroundColor: 'rgba(62,176,239,.9)',
@@ -161,7 +162,7 @@ export default Component.extend({
                 hover: {
                     mode: 'index',
                     intersect: false,
-                    animationDuration: 150
+                    animationDuration: 120
                 },
                 legend: {
                     display: false
