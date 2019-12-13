@@ -15,15 +15,15 @@ export default Component.extend({
     availableRange: computed(function () {
         return [
             {
-                name: 'Last 30 days',
+                name: '30 days',
                 days: '30'
             },
             {
-                name: 'Last 90 days',
+                name: '90 days',
                 days: '90'
             },
             {
-                name: 'Last year',
+                name: '365 days',
                 days: '365'
             },
             {

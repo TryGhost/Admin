@@ -487,6 +487,9 @@ input:focus,
 }
 
 /* Members */
+.gh-members-chart-header {
+    background: color-mod(var(--lightgrey) l(-9%));
+}
 .gh-members-chart-header .gh-contentfilter-type .gh-contentfilter-menu-trigger {
     box-shadow: 0 0 0 1px color-mod(var(--darkgrey) l(-27%) blackness(+15%) alpha(50%));
 }
