@@ -123,7 +123,8 @@ p.gh-members-list-email {
 }
 
 .gh-members-chart-summary {
-    flex-basis: 284px;
+    flex-basis: 24%;
+    min-width: 230px;
 }
 
 .gh-members-chart-summary-data {
@@ -132,12 +133,48 @@ p.gh-members-list-email {
     line-height: 4.0rem;
 }
 
+@media (max-width: 1100px) {
+    .gh-members-chart-summary-data {
+        font-size: 2.8rem;
+        line-height: 2.8rem;
+    }
+
+    .gh-members-chart-container {
+        height: 166px;
+    }
+}
+
 @media (max-width: 1000px) {
     .members-list .gh-list-header, .gh-list-hidecell-m {
         display: table-cell;
     }
+
+    .gh-members-chart-wrapper {
+        flex-direction: column;
+    }
+
+    .gh-members-chart-box {
+        margin: 0 0 24px;
+    }
 }
 
+@media (min-width: 440px) and (max-width: 1000px) {
+    .gh-members-chart-summary {
+        flex-direction: row;
+    }
+    
+    .gh-members-chart-summary div {
+        flex-basis: 33%;
+        border-bottom: none;
+        justify-content: flex-start;
+    }
+    
+    .gh-members-chart-summary > div:nth-of-type(1),
+    .gh-members-chart-summary > div:nth-of-type(2) {
+        border-right: 1px solid var(--whitegrey);
+    }
+}
+    
 @media (max-width: 900px) {
     .members-list .gh-list-header, .gh-list-hidecell-m {
         display: none;
