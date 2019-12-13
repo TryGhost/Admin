@@ -8,7 +8,6 @@ export default Component.extend({
     feature: service(),
     members: null,
     range: '30',
-    startDateLabel: '',
     selectedRange: computed('range', function () {
         const availableRange = this.get('availableRange');
         return availableRange.findBy('days', this.get('range'));
@@ -37,23 +36,24 @@ export default Component.extend({
     subData: computed('members.@each', 'range', 'feature.nightShift', function () {
         let isNightShiftEnabled = this.feature.nightShift;
         let {members, range} = this;
-        let rangeInDays = 31, rangeStartDate, rangeEndDate;
+        let rangeInDays, rangeStartDate, rangeEndDate;
         if (range === 'last-year') {
             rangeStartDate = moment().startOf('year').subtract(1, 'year');
             rangeEndDate = moment().endOf('year').subtract(1, 'year').subtract(1, 'day');
+            rangeInDays = rangeEndDate.diff(rangeStartDate, 'days');
         } else if (range === 'all-time') {
-            let firstMemberCreatedDate = members.length ? members.lastObject.get('createdAtUTC') : moment().subtract((30), 'days');
+            let firstMemberCreatedDate = members.length ? members.lastObject.get('createdAtUTC') : moment().subtract(365, 'days');
             rangeStartDate = moment(firstMemberCreatedDate);
             rangeEndDate = moment();
+            rangeInDays = rangeEndDate.diff(rangeStartDate, 'days');
         } else {
             rangeInDays = parseInt(range);
             rangeStartDate = moment().subtract((rangeInDays), 'days');
             rangeEndDate = moment();
         }
-        let startDate = moment().subtract((rangeInDays), 'days');
         let totalSubs = members.length || 0;
         let totalSubsLastMonth = members.filter((member) => {
-            let isValid = moment(member.createdAtUTC).isSameOrAfter(startDate, 'day');
+            let isValid = moment(member.createdAtUTC).isSameOrAfter(rangeStartDate, 'day');
             return isValid;
         }).length;
 
@@ -62,13 +62,12 @@ export default Component.extend({
             return isValid;
         }).length;
 
-        this.set('startDateLabel', moment(startDate).format('MMM DD, YYYY'));
-
         return {
-            chartData: this.getChartData(members, rangeStartDate, rangeEndDate, isNightShiftEnabled),
+            startDateLabel: moment(rangeStartDate).format('MMM DD, YYYY'),
+            chartData: this.getChartData(members, moment(rangeStartDate), moment(rangeEndDate), isNightShiftEnabled),
             totalSubs: totalSubs,
             totalSubsToday: totalSubsToday,
-            totalSubsLastMonth: totalSubsLastMonth
+            totalSubsInRange: totalSubsLastMonth
         };
     }),
 
@@ -111,12 +110,23 @@ export default Component.extend({
         });
     },
 
+    getTicksForRange(rangeInDays) {
+        if (rangeInDays <= 30) {
+            return 6;
+        } else if (rangeInDays <= 90) {
+            return 18;
+        } else {
+            return 24;
+        }
+    },
+
     getChartData(members, startDate, endDate, isNightShiftEnabled) {
         this.setChartJSDefaults();
         let dateFormat = 'MMM DD, YYYY';
         let monthData = [];
         let dateLabel = [];
-        for (var m = startDate; m.diff(endDate, 'days') <= 0; m.add(1, 'days')) {
+        let rangeInDays = endDate.diff(startDate, 'days');
+        for (var m = moment(startDate); m.diff(endDate, 'days') <= 0; m.add(1, 'days')) {
             dateLabel.push(m.format(dateFormat));
             let membersTillDate = members.filter((member) => {
                 let isValid = moment(member.createdAtUTC).isSameOrBefore(m, 'day');
@@ -124,12 +134,12 @@ export default Component.extend({
             }).length;
             monthData.push(membersTillDate);
         }
+        let maxTicksAllowed = this.getTicksForRange(rangeInDays);
         return {
             data: {
                 labels: dateLabel,
                 datasets: [{
                     label: 'Total members',
-                    // lineTension: 0,
                     cubicInterpolationMode: 'monotone',
                     data: monthData,
                     fill: false,
@@ -193,9 +203,12 @@ export default Component.extend({
                             autoSkip: false,
                             maxTicksLimit: 10,
                             callback: function (value, index, values) {
-                                let maxTicksAllowed = 10;
-                                let tickGap = Math.round(values.length / maxTicksAllowed);
-                                tickGap = Math.max(tickGap, 1);
+                                let step = (values.length - 1) / (maxTicksAllowed);
+                                let steps = [];
+                                for (let i = 0; i < maxTicksAllowed; i++) {
+                                    steps.push(Math.round(i * step));
+                                }
+
                                 if (index === 0) {
                                     return value;
                                 }
@@ -203,7 +216,7 @@ export default Component.extend({
                                     return 'Today';
                                 }
 
-                                if (index % tickGap === 0) {
+                                if (steps.includes(index)) {
                                     return '';
                                 }
                             }
@@ -217,15 +230,7 @@ export default Component.extend({
                         },
                         ticks: {
                             display: false,
-                            precision: 0,
-                            padding: 6,
-                            beginAtZero: true,
-                            callback: function (value, index) {
-                                if (index === 0) {
-                                    return value;
-                                }
-                                return '';
-                            }
+                            beginAtZero: true
                         }
                     }]
                 }
