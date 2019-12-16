@@ -124,6 +124,7 @@
             @modal="upgrade-host-limit"
             @model={{hash
                 message=hostLimitError.context
+                details=hostLimitError.details
                 upgradeLink=hostLimitError.help
             }}
             @close={{action "closeUpgradeModal"}}
