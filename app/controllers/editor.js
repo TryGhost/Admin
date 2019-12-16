@@ -10,7 +10,7 @@ import {get} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
-import {isInvalidError} from 'ember-ajax/errors';
+import {isForbiddenError, isInvalidError} from 'ember-ajax/errors';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task, taskGroup, timeout} from 'ember-concurrency';
@@ -98,7 +98,8 @@ export default Controller.extend({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
     showEmailPreviewModal: false,
-
+    showUpgradeModal: false,
+    hostLimitError: null,
     // koenig related properties
     wordcount: null,
 
@@ -255,6 +256,14 @@ export default Controller.extend({
             this.toggleProperty('showReAuthenticateModal');
         },
 
+        openUpgradeModal() {
+            this.set('showUpgradeModal', true);
+        },
+
+        closeUpgradeModal() {
+            this.set('showUpgradeModal', false);
+        },
+
         setKoenigEditor(koenig) {
             this._koenig = koenig;
 
@@ -378,6 +387,14 @@ export default Controller.extend({
 
             return post;
         } catch (error) {
+            // trigger upgrade modal if forbidden error
+            if (error && isForbiddenError(error) && error.payload && error.payload.errors && error.payload.errors[0].message) {
+                this.set('post.status', prevStatus);
+                this.set('hostLimitError', error.payload.errors[0]);
+                this.set('showUpgradeModal', true);
+                return;
+            }
+
             // re-throw if we have a general server error
             if (error && !isInvalidError(error)) {
                 this.send('error', error);
