@@ -46,6 +46,10 @@ export default Component.extend({
             rangeStartDate = moment(firstMemberCreatedDate);
             rangeEndDate = moment();
             rangeInDays = rangeEndDate.diff(rangeStartDate, 'days');
+            if (rangeInDays < 5) {
+                rangeStartDate = moment().subtract(6, 'days');
+                rangeInDays = rangeEndDate.diff(rangeStartDate, 'days');
+            }
             let step = this.getTicksForRange(rangeInDays);
             rangeInDays = Math.ceil(rangeInDays / step) * step;
             rangeStartDate = moment().subtract(rangeInDays, 'days');
