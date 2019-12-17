@@ -730,8 +730,8 @@ export default Controller.extend({
     /* Private methods -------------------------------------------------------*/
 
     _isHostLimitError(error) {
-        return (error && error.payload && error.payload.errors && error.payload.errors[0].message
-            && error.payload.errors[0].type === 'HostLimitError' && isForbiddenError(error));
+        return (error && isForbiddenError(error) && error.payload && error.payload.errors && error.payload.errors[0].message
+            && error.payload.errors[0].type === 'HostLimitError');
     },
 
     _hasDirtyAttributes() {
