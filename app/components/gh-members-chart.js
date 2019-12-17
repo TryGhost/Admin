@@ -129,7 +129,7 @@ export default Component.extend({
         let monthData = [];
         let dateLabel = [];
         let rangeInDays = endDate.diff(startDate, 'days');
-        for (var m = moment(startDate); m.diff(endDate, 'days') <= 0; m.add(1, 'days')) {
+        for (var m = moment(startDate); m.isSameOrBefore(endDate, 'day'); m.add(1, 'days')) {
             dateLabel.push(m.format(dateFormat));
             let membersTillDate = members.filter((member) => {
                 let isValid = moment(member.createdAtUTC).isSameOrBefore(m, 'day');
