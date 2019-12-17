@@ -387,8 +387,8 @@ export default Controller.extend({
 
             return post;
         } catch (error) {
-            // trigger upgrade modal if forbidden error
-            if (error && isForbiddenError(error) && error.payload && error.payload.errors && error.payload.errors[0].message) {
+            // trigger upgrade modal if forbidden(403) error
+            if (error && error.payload && error.payload.errors && error.payload.errors[0].message && isForbiddenError(error)) {
                 this.set('post.status', prevStatus);
                 this.set('hostLimitError', error.payload.errors[0]);
                 this.set('showUpgradeModal', true);

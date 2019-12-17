@@ -1,15 +1,10 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import {computed} from '@ember/object';
-import {inject as service} from '@ember/service';
 
 export default ModalComponent.extend({
-    session: service(),
     upgradeMessage: computed('details', function () {
-        const errorDetails = this.model.details;
-        return {
-            limit: errorDetails.limit,
-            total: errorDetails.attempted
-        };
+        const {limit, total} = this.model.details;
+        return {limit, total};
     }),
     actions: {
         upgrade: function () {
