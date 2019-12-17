@@ -10,7 +10,8 @@ import {get} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
-import {isForbiddenError, isInvalidError} from 'ember-ajax/errors';
+import {isHostLimitError} from 'ghost-admin/services/ajax';
+import {isInvalidError} from 'ember-ajax/errors';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task, taskGroup, timeout} from 'ember-concurrency';
@@ -388,7 +389,7 @@ export default Controller.extend({
             return post;
         } catch (error) {
             // trigger upgrade modal if forbidden(403) error
-            if (this._isHostLimitError(error)) {
+            if (isHostLimitError(error)) {
                 this.set('post.status', prevStatus);
                 this.set('hostLimitError', error.payload.errors[0]);
                 this.set('showUpgradeModal', true);
@@ -728,11 +729,6 @@ export default Controller.extend({
     }).drop(),
 
     /* Private methods -------------------------------------------------------*/
-
-    _isHostLimitError(error) {
-        return (error && isForbiddenError(error) && error.payload && error.payload.errors && error.payload.errors[0].message
-            && error.payload.errors[0].type === 'HostLimitError');
-    },
 
     _hasDirtyAttributes() {
         let post = this.post;
