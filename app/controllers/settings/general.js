@@ -50,13 +50,13 @@ export default Controller.extend({
         return `${blogUrl}/${publicHash}/rss`;
     }),
 
-    backgroundStyle: computed('settings.brandColor', function () {
-        let color = this.get('settings.brandColor') || '#ffffff';
+    backgroundStyle: computed('settings.brand.primaryColor', function () {
+        let color = this.get('settings.brand.primaryColor') || '#ffffff';
         return htmlSafe(`background-color: ${color}`);
     }),
 
-    brandColor: computed('settings.brandColor', function () {
-        let color = this.get('settings.brandColor');
+    brandColor: computed('settings.brand.primaryColor', function () {
+        let color = this.get('settings.brand.primaryColor');
         if (color && color[0] === '#') {
             return color.slice(1);
         }
@@ -273,7 +273,7 @@ export default Controller.extend({
         },
         validateBrandColor() {
             let newColor = this.get('brandColor');
-            let oldColor = this.get('settings.brandColor');
+            let oldColor = this.get('settings.brand.primaryColor');
             let errMessage = '';
 
             // reset errors and validation
@@ -282,7 +282,7 @@ export default Controller.extend({
 
             if (newColor === '') {
                 // Clear out the brand color
-                this.set('settings.brandColor', '');
+                this.set('settings.brand.primaryColor', '');
                 return;
             }
 
@@ -296,9 +296,9 @@ export default Controller.extend({
             }
 
             if (newColor.match(/#[0-9A-Fa-f]{6}$/)) {
-                this.set('settings.brandColor', '');
+                this.set('settings.brand.primaryColor', '');
                 run.schedule('afterRender', this, function () {
-                    this.set('settings.brandColor', newColor);
+                    this.set('settings.brand.primaryColor', newColor);
                 });
             } else {
                 errMessage = 'The color should be in valid hex format';
