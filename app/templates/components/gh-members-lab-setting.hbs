@@ -71,11 +71,11 @@
 
                     <div class="flex items-center justify-center mt1 gh-input-group gh-labs-price-label">
                         <GhTextInput
-                            @value={{readonly this.subscriptionSettings.stripeConfig.plans.monthly.dollarAmount}}
+                            @value={{readonly this.subscriptionSettings.stripeConfig.plans.monthly.amount}}
                             @type="number"
                             @input={{action "setSubscriptionSettings" "month"}}
                         />
-                        <span class="gh-input-append">USD/month</span>
+                        <span class="gh-input-append">{{this.subscriptionSettings.stripeConfig.plans.monthly.currency}}/month</span>
                     </div>
                     </GhFormGroup>
                 </div>
@@ -84,7 +84,7 @@
                     <label class="fw6 f8">Yearly price</label>
                     <div class="flex items-center justify-center mt1 gh-input-group gh-labs-price-label">
                         <GhTextInput
-                            @value={{readonly this.subscriptionSettings.stripeConfig.plans.yearly.dollarAmount}}
+                            @value={{readonly this.subscriptionSettings.stripeConfig.plans.yearly.amount}}
                             @type="number"
                             @input={{action "setSubscriptionSettings" "year"}}
                         />

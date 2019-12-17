@@ -37,8 +37,12 @@ export default Component.extend({
         });
         let monthlyPlan = stripeProcessor.config.plans.find(plan => plan.interval === 'month');
         let yearlyPlan = stripeProcessor.config.plans.find(plan => plan.interval === 'year');
-        monthlyPlan.dollarAmount = parseInt(monthlyPlan.amount) ? (monthlyPlan.amount / 100) : 0;
-        yearlyPlan.dollarAmount = parseInt(yearlyPlan.amount) ? (yearlyPlan.amount / 100) : 0;
+
+        // NOTE: need to be careful about division by zero if we introduce zero decimal currencies
+        //       ref.: https://stripe.com/docs/currencies#zero-decimal
+        monthlyPlan.amount = parseInt(monthlyPlan.amount) ? (monthlyPlan.amount / 100) : 0;
+        yearlyPlan.amount = parseInt(yearlyPlan.amount) ? (yearlyPlan.amount / 100) : 0;
+
         stripeProcessor.config.plans = {
             monthly: monthlyPlan,
             yearly: yearlyPlan
