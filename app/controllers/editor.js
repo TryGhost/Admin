@@ -390,7 +390,7 @@ export default Controller.extend({
         } catch (error) {
             // trigger upgrade modal if forbidden(403) error
             if (isHostLimitError(error)) {
-                this.set('post.status', prevStatus);
+                this.post.rollbackAttributes();
                 this.set('hostLimitError', error.payload.errors[0]);
                 this.set('showUpgradeModal', true);
                 return;
@@ -740,7 +740,7 @@ export default Controller.extend({
         // if the Adapter failed to save the post isError will be true
         // and we should consider the post still dirty.
         if (post.get('isError')) {
-            this._leaveModalReason = {reason: 'isError', context: post.errors};
+            this._leaveModalReason = {reason: 'isError', context: post.errors.messages};
             return true;
         }
 
