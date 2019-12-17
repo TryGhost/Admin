@@ -75,7 +75,7 @@
                             @type="number"
                             @input={{action "setSubscriptionSettings" "month"}}
                         />
-                        <span class="gh-input-append">{{this.subscriptionSettings.stripeConfig.plans.monthly.currency}}/month</span>
+                        <span class="gh-input-append"><span class="ttu"></span>{{this.subscriptionSettings.stripeConfig.plans.monthly.currency}}</span>/month</span>
                     </div>
                     </GhFormGroup>
                 </div>
@@ -88,7 +88,7 @@
                             @type="number"
                             @input={{action "setSubscriptionSettings" "year"}}
                         />
-                        <span class="gh-input-append">USD/year</span>
+                        <span class="gh-input-append"><span class="ttu">{{this.subscriptionSettings.stripeConfig.plans.yearly.currency}}</span>/year</span>
                     </div>
                     </GhFormGroup>
                 </div>
