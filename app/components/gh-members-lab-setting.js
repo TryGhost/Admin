@@ -7,10 +7,28 @@ import {set} from '@ember/object';
 const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3'};
 const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3'};
 
+const currencies = [
+    {
+        label: 'USD', value: 'usd'
+    },
+    {
+        label: 'EUR', value: 'eur'
+    },
+    {
+        label: 'GBP', value: 'gbp'
+    },
+    {
+        label: 'AUD', value: 'aud'
+    }
+];
+
 export default Component.extend({
     feature: service(),
     config: service(),
     mediaQueries: service(),
+
+    currencies: currencies,
+    selectedCurrency: null,
 
     defaultContentVisibility: reads('settings.defaultContentVisibility'),
 
@@ -68,6 +86,7 @@ export default Component.extend({
     init() {
         this._super(...arguments);
         this.set('mailgunRegions', [US, EU]);
+        this.set('selectedCurrency', this.get('subscriptionSettings.stripeConfig.plans.monthly.currency'));
     },
 
     actions: {
@@ -117,6 +136,12 @@ export default Component.extend({
             if (key === 'fromAddress') {
                 subscriptionSettings.fromAddress = event.target.value;
             }
+
+            if (key === 'currency') {
+                this.set('selectedCurrency', event.value);
+                stripeProcessor.config.plans.forEach(plan => (plan.currency = event.value));
+            }
+
             this.setMembersSubscriptionSettings(subscriptionSettings);
         }
     }
