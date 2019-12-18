@@ -7,7 +7,7 @@ import {set} from '@ember/object';
 const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3'};
 const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3'};
 
-const currencies = [
+const CURRENCIES = [
     {
         label: 'USD', value: 'usd'
     },
@@ -27,10 +27,16 @@ export default Component.extend({
     config: service(),
     mediaQueries: service(),
 
-    currencies: currencies,
-    selectedCurrency: null,
+    currencies: null,
+
+    // passed in actions
+    setMembersSubscriptionSettings() {},
 
     defaultContentVisibility: reads('settings.defaultContentVisibility'),
+
+    selectedCurrency: computed('subscriptionSettings.stripeConfig.plans.monthly.currency', function () {
+        return CURRENCIES.findBy('value', this.get('subscriptionSettings.stripeConfig.plans.monthly.currency'));
+    }),
 
     mailgunRegion: computed('settings.bulkEmailSettings.baseUrl', function () {
         if (!this.settings.get('bulkEmailSettings.baseUrl')) {
@@ -86,13 +92,14 @@ export default Component.extend({
     init() {
         this._super(...arguments);
         this.set('mailgunRegions', [US, EU]);
-        this.set('selectedCurrency', this.get('subscriptionSettings.stripeConfig.plans.monthly.currency'));
+        this.set('currencies', CURRENCIES);
     },
 
     actions: {
         setDefaultContentVisibility(value) {
             this.setDefaultContentVisibility(value);
         },
+
         setBulkEmailSettings(key, event) {
             let bulkEmailSettings = this.get('settings.bulkEmailSettings') || {};
             bulkEmailSettings[key] = event.target.value;
@@ -101,11 +108,13 @@ export default Component.extend({
             }
             this.setBulkEmailSettings(bulkEmailSettings);
         },
+
         setBulkEmailRegion(region) {
             let bulkEmailSettings = this.get('settings.bulkEmailSettings') || {};
             set(bulkEmailSettings, 'baseUrl', region.baseUrl);
             this.setBulkEmailSettings(bulkEmailSettings);
         },
+
         setSubscriptionSettings(key, event) {
             let subscriptionSettings = this.settings.parseSubscriptionSettings(this.get('settings.membersSubscriptionSettings'));
             let stripeProcessor = subscriptionSettings.paymentProcessors.find((proc) => {
@@ -138,7 +147,6 @@ export default Component.extend({
             }
 
             if (key === 'currency') {
-                this.set('selectedCurrency', event.value);
                 stripeProcessor.config.plans.forEach(plan => (plan.currency = event.value));
             }
 
