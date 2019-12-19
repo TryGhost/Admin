@@ -9,16 +9,16 @@ const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v
 
 const CURRENCIES = [
     {
-        label: 'USD', value: 'usd'
+        label: 'USD - US Dollar', value: 'usd'
     },
     {
-        label: 'EUR', value: 'eur'
+        label: 'AUD - Australian Dollar', value: 'aud'
     },
     {
-        label: 'GBP', value: 'gbp'
+        label: 'EUR - Euro', value: 'eur'
     },
     {
-        label: 'AUD', value: 'aud'
+        label: 'GBP - British Pound', value: 'gbp'
     }
 ];
 
