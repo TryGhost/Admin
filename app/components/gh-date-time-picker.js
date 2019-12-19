@@ -81,8 +81,9 @@ export default Component.extend({
             this.set('_date', moment().tz(blogTimezone));
         }
 
+        // reset scratch date if date is changed externally
         if ((date && date.valueOf()) !== (this._lastDate && this._lastDate.valueOf())) {
-            this.set('_scratchDate', null);
+            this._resetScratchDate();
         }
         this._lastDate = this.date;
 
@@ -153,7 +154,7 @@ export default Component.extend({
         }
 
         if (!event.target.value) {
-            this._resetDate();
+            this._resetScratchDate();
         } else {
             this._setDate(event.target.value);
         }
@@ -161,7 +162,7 @@ export default Component.extend({
 
     onDateKeydown: action(function (event) {
         if (event.key === 'Escape') {
-            this._resetDate();
+            this._resetScratchDate();
         }
 
         if (event.key === 'Enter') {
@@ -181,8 +182,9 @@ export default Component.extend({
 
     // internal methods
 
-    _resetDate() {
+    _resetScratchDate() {
         this.set('_scratchDate', null);
+        this.set('_scratchDateError', null);
     },
 
     _setDate(dateStr) {
@@ -198,8 +200,7 @@ export default Component.extend({
         }
 
         this.send('setDate', date.toDate());
-        this.set('_scratchDate', null);
-        this.set('_scratchDateError', null);
+        this._resetScratchDate();
         return true;
     }
 });
