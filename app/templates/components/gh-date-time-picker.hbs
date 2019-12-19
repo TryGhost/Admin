@@ -14,7 +14,7 @@
                     disabled={{this.disabled}}
                     {{on "input" this.onDateInput}}
                     {{on "blur" this.onDateBlur}}
-                    {{on "keydown" this.onDateKeydown}}
+                    {{on "keydown" (fn this.onDateKeydown dp)}}
                     data-test-date-time-picker-date-input>
                 {{svg-jar "calendar"}}
             </div>
@@ -32,6 +32,7 @@
             disabled={{this.disabled}}
             oninput={{action (mut this._time) value="target.value"}}
             onblur={{action "setTime" this._time}}
+            {{did-insert this.registerTimeInput}}
             data-test-date-time-picker-time-input
         >
         <small class="gh-date-time-picker-timezone">({{this.timezone}})</small>

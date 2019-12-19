@@ -141,6 +141,10 @@ export default Component.extend({
         }
     },
 
+    registerTimeInput: action(function (elem) {
+        this._timeInputElem = elem;
+    }),
+
     onDateInput: action(function (event) {
         this.set('_scratchDate', event.target.value);
     }),
@@ -160,13 +164,30 @@ export default Component.extend({
         }
     }),
 
-    onDateKeydown: action(function (event) {
+    onDateKeydown: action(function (datepicker, event) {
         if (event.key === 'Escape') {
             this._resetScratchDate();
         }
 
         if (event.key === 'Enter') {
             this._setDate(event.target.value);
+        }
+
+        // close the dropdown and manually focus the time input if necessary
+        // so that keyboard focus behaves as expected
+        if (event.key === 'Tab' && datepicker.isOpen) {
+            datepicker.actions.close();
+
+            // manual focus is required because the dropdown is rendered in place
+            // and the default browser behaviour will move focus to the dropdown
+            // which is then removed from the DOM making it look like focus has
+            // disappeared. Shift+Tab is fine because the DOM is not changing in
+            // that direction
+            if (!event.shiftKey && this._timeInputElem) {
+                event.preventDefault();
+                this._timeInputElem.focus();
+                this._timeInputElem.select();
+            }
         }
 
         // capture a Ctrl/Cmd+S combo to make sure that the model value is updated
