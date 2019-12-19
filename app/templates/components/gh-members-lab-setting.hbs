@@ -68,7 +68,7 @@
                 <div class="w-100 w-50-ns mr3-ns">
                     <GhFormGroup @class="for-select">
                         <label class="fw6 f8"for="currency">Plan currency</label>
-                        <span class="gh-select">
+                        <span class="gh-select mt1">
                             {{one-way-select this.selectedCurrency
                                 id="currency"
                                 name="currency"
@@ -82,8 +82,7 @@
                     </GhFormGroup>
                 </div>
             </div>
-
-            <div class="w-100 w-50-l flex flex-column flex-row-ns mt8">
+            <div class="w-100 w-50-l flex flex-column flex-row-ns">
                 <div class="w-100 w-50-ns mr3-ns">
                     <GhFormGroup>
                     <label class="fw6 f8">Monthly price</label>
@@ -112,7 +111,6 @@
                     </GhFormGroup>
                 </div>
             </div>
-            <div class="f8 fw4 midgrey">Currently only USD is supported, more currencies <a href="https://ghost.org/docs/members/" target="_blank" rel="noopener">coming soon</a></div>
         {{/liquid-if}}
     </section>
 
