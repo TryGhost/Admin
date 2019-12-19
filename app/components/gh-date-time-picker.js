@@ -1,9 +1,11 @@
 import Component from '@ember/component';
 import moment from 'moment';
-import {computed} from '@ember/object';
+import {action, computed} from '@ember/object';
 import {isBlank, isEmpty} from '@ember/utils';
 import {or, reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
+
+const DATE_FORMAT = 'YYYY-MM-DD';
 
 export default Component.extend({
     settings: service(),
@@ -11,6 +13,7 @@ export default Component.extend({
     tagName: '',
 
     date: '',
+    dateFormat: DATE_FORMAT,
     time: '',
     errors: null,
     dateErrorProperty: null,
@@ -20,16 +23,30 @@ export default Component.extend({
     _previousTime: '',
     _minDate: null,
     _maxDate: null,
+    _scratchDate: null,
+    _scratchDateError: null,
 
     blogTimezone: reads('settings.activeTimezone'),
     hasError: or('dateError', 'timeError'),
+
+    dateValue: computed('_date', '_scratchDate', function () {
+        if (this._scratchDate !== null) {
+            return this._scratchDate;
+        } else {
+            return this._date.format(DATE_FORMAT);
+        }
+    }),
 
     timezone: computed('blogTimezone', function () {
         let blogTimezone = this.blogTimezone;
         return moment.utc().tz(blogTimezone).format('z');
     }),
 
-    dateError: computed('errors.[]', 'dateErrorProperty', function () {
+    dateError: computed('errors.[]', 'dateErrorProperty', '_scratchDateError', function () {
+        if (this._scratchDateError) {
+            return this._scratchDateError;
+        }
+
         let errors = this.errors;
         let property = this.dateErrorProperty;
 
@@ -64,6 +81,11 @@ export default Component.extend({
             this.set('_date', moment().tz(blogTimezone));
         }
 
+        if ((date && date.valueOf()) !== (this._lastDate && this._lastDate.valueOf())) {
+            this.set('_scratchDate', null);
+        }
+        this._lastDate = this.date;
+
         if (isBlank(time)) {
             this.set('_time', this._date.format('HH:mm'));
         } else {
@@ -73,17 +95,17 @@ export default Component.extend({
 
         // unless min/max date is at midnight moment will diable that day
         if (minDate === 'now') {
-            this.set('_minDate', moment(moment().format('YYYY-MM-DD')));
+            this.set('_minDate', moment(moment().format(DATE_FORMAT)));
         } else if (!isBlank(minDate)) {
-            this.set('_minDate', moment(moment(minDate).format('YYYY-MM-DD')));
+            this.set('_minDate', moment(moment(minDate).format(DATE_FORMAT)));
         } else {
             this.set('_minDate', null);
         }
 
         if (maxDate === 'now') {
-            this.set('_maxDate', moment(moment().format('YYYY-MM-DD')));
+            this.set('_maxDate', moment(moment().format(DATE_FORMAT)));
         } else if (!isBlank(maxDate)) {
-            this.set('_maxDate', moment(moment(maxDate).format('YYYY-MM-DD')));
+            this.set('_maxDate', moment(moment(maxDate).format(DATE_FORMAT)));
         } else {
             this.set('_maxDate', null);
         }
@@ -116,5 +138,67 @@ export default Component.extend({
                 }
             }
         }
+    },
+
+    onDateInput: action(function (event) {
+        this.set('_scratchDate', event.target.value);
+    }),
+
+    onDateBlur: action(function (event) {
+        // make sure we're not doing anything just because the calendar dropdown
+        // is opened and clicked
+        if (event.target.value === this._date.format('YYYY-MM-DD')) {
+            return;
+        }
+
+        if (!event.target.value) {
+            this._resetDate();
+        } else {
+            this._setDate(event.target.value);
+        }
+    }),
+
+    onDateKeydown: action(function (event) {
+        if (event.key === 'Escape') {
+            this._resetDate();
+        }
+
+        if (event.key === 'Enter') {
+            this._setDate(event.target.value);
+        }
+
+        // capture a Ctrl/Cmd+S combo to make sure that the model value is updated
+        // before the save occurs or we abort the save if the value is invalid
+        if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
+            let wasValid = this._setDate(event.target.value);
+            if (!wasValid) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+            }
+        }
+    }),
+
+    // internal methods
+
+    _resetDate() {
+        this.set('_scratchDate', null);
+    },
+
+    _setDate(dateStr) {
+        if (!dateStr.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+            this.set('_scratchDateError', 'Invalid date format, must be YYYY-MM-DD');
+            return false;
+        }
+
+        let date = moment(dateStr, DATE_FORMAT);
+        if (!date.isValid) {
+            this.set('_scratchDateError', 'Invalid date');
+            return false;
+        }
+
+        this.send('setDate', date.toDate());
+        this.set('_scratchDate', null);
+        this.set('_scratchDateError', null);
+        return true;
     }
 });

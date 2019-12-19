@@ -8,7 +8,14 @@
     }}
         {{#dp.trigger tabindex="-1" data-test-date-time-picker-datepicker=true}}
             <div class="gh-date-time-picker-date {{if this.dateError "error"}}">
-                <input type="text" readonly value={{moment-format this._date "YYYY-MM-DD"}} disabled={{this.disabled}} data-test-date-time-picker-date-input>
+                <input type="text"
+                    placeholder={{this.dateFormat}}
+                    value={{readonly this.dateValue}}
+                    disabled={{this.disabled}}
+                    {{on "input" this.onDateInput}}
+                    {{on "blur" this.onDateBlur}}
+                    {{on "keydown" this.onDateKeydown}}
+                    data-test-date-time-picker-date-input>
                 {{svg-jar "calendar"}}
             </div>
         {{/dp.trigger}}
