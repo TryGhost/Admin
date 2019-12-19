@@ -11,6 +11,8 @@ export default Component.extend({
     config: service(),
     mediaQueries: service(),
 
+    mailDomain: computed.or('config.mail.domain', 'blogDomain'),
+
     mailgunRegion: computed('settings.bulkEmailSettings.baseUrl', function () {
         if (!this.settings.get('bulkEmailSettings.baseUrl')) {
             return US;
