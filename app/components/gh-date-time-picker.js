@@ -148,6 +148,7 @@ export default Component.extend({
         // make sure we're not doing anything just because the calendar dropdown
         // is opened and clicked
         if (event.target.value === this._date.format('YYYY-MM-DD')) {
+            this.set('_scratchDateError', null);
             return;
         }
 
