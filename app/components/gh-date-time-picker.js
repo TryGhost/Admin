@@ -33,7 +33,7 @@ export default Component.extend({
         if (this._scratchDate !== null) {
             return this._scratchDate;
         } else {
-            return this._date.format(DATE_FORMAT);
+            return moment(this._date).format(DATE_FORMAT);
         }
     }),
 
@@ -88,7 +88,7 @@ export default Component.extend({
         this._lastDate = this.date;
 
         if (isBlank(time)) {
-            this.set('_time', this._date.format('HH:mm'));
+            this.set('_time', moment(this._date).format('HH:mm'));
         } else {
             this.set('_time', this.time);
         }
@@ -152,7 +152,7 @@ export default Component.extend({
     onDateBlur: action(function (event) {
         // make sure we're not doing anything just because the calendar dropdown
         // is opened and clicked
-        if (event.target.value === this._date.format('YYYY-MM-DD')) {
+        if (event.target.value === moment(this._date).format('YYYY-MM-DD')) {
             this.set('_scratchDateError', null);
             return;
         }
