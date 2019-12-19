@@ -6,6 +6,8 @@ import {inject as service} from '@ember/service';
 export default AuthenticatedRoute.extend(CurrentUserSettings, {
     router: service(),
 
+    _requiresBackgroundRefresh: true,
+
     init() {
         this._super(...arguments);
         this.router.on('routeWillChange', (transition) => {
@@ -20,23 +22,33 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
     },
 
     model(params) {
-        return this.store.queryRecord('tag', {slug: params.tag_slug});
+        this._requiresBackgroundRefresh = false;
+
+        if (params.tag_slug) {
+            return this.store.queryRecord('tag', {slug: params.tag_slug});
+        } else {
+            return this.store.createRecord('tag');
+        }
     },
 
-    serialize(model) {
-        return {tag_slug: model.get('slug')};
+    serialize(tag) {
+        return {tag_slug: tag.get('slug')};
     },
 
-    setupController() {
+    setupController(controller, tag) {
         this._super(...arguments);
+        if (this._requiresBackgroundRefresh) {
+            controller.fetchTag.perform(tag.get('slug'));
+        }
     },
 
-    // reset the model so that mobile screens react to an empty selectedTag
     deactivate() {
         this._super(...arguments);
-        let {controller} = this;
-        controller.model.rollbackAttributes();
-        this.set('controller.model', null);
+
+        // clean up newly created records and revert unsaved changes to existing
+        this.controller.tag.rollbackAttributes();
+
+        this._requiresBackgroundRefresh = true;
     },
 
     actions: {
@@ -46,15 +58,17 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
     },
 
     showUnsavedChangesModal(transition) {
-        if (transition.from && transition.from.name.match(/^tags\.tag/) && transition.targetName) {
+        if (transition.from && transition.from.name === this.routeName && transition.targetName) {
             let {controller} = this;
 
-            if (!controller.tag.isDeleted && controller.tag.hasDirtyAttributes) {
+            // tag.changedAttributes is always true for new tags but number of changed attrs is reliable
+            let isChanged = Object.keys(controller.tag.changedAttributes()).length > 0;
+
+            if (!controller.tag.isDeleted && isChanged) {
                 transition.abort();
                 controller.send('toggleUnsavedChangesModal', transition);
                 return;
             }
         }
     }
-
 });

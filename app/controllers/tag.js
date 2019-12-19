@@ -1,19 +1,27 @@
-import Controller, {inject as controller} from '@ember/controller';
-import windowProxy from 'ghost-admin/utils/window-proxy';
+import Controller from '@ember/controller';
+import EmberObject from '@ember/object';
+import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import {alias} from '@ember/object/computed';
+import {computed, defineProperty} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
 import {task} from 'ember-concurrency';
 
+const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription'];
+
 export default Controller.extend({
-    tagsController: controller('tags'),
     notifications: service(),
     router: service(),
 
     showDeleteTagModal: false,
 
     tag: alias('model'),
-    isMobile: alias('tagsController.isMobile'),
+
+    scratchTag: computed('tag', function () {
+        let scratchTag = EmberObject.create({tag: this.tag});
+        SCRATCH_PROPS.forEach(prop => defineProperty(scratchTag, prop, boundOneWay(`tag.${prop}`)));
+        return scratchTag;
+    }),
 
     actions: {
         setProperty(propKey, value) {
@@ -25,8 +33,13 @@ export default Controller.extend({
         },
 
         deleteTag() {
-            return this._deleteTag();
+            return this.tag.destroyRecord().then(() => {
+                return this.transitionToRoute('tags');
+            }, (error) => {
+                return this.notifications.showAPIError(error, {key: 'tag.delete'});
+            });
         },
+
         save() {
             return this.save.perform();
         },
@@ -56,27 +69,54 @@ export default Controller.extend({
         },
 
         leaveScreen() {
-            let transition = this.leaveScreenTransition;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on model props
             this.tag.rollbackAttributes();
-
-            return transition.retry();
+            return this.leaveScreenTransition.retry();
         }
     },
 
+    save: task(function* () {
+        let {tag, scratchTag} = this;
+
+        // if Cmd+S is pressed before the field loses focus make sure we're
+        // saving the intended property values
+        let scratchProps = scratchTag.getProperties(SCRATCH_PROPS);
+        tag.setProperties(scratchProps);
+
+        try {
+            yield tag.save();
+
+            // replace 'new' route with 'tag' route
+            this.replaceRoute('tag', tag);
+
+            return tag;
+        } catch (error) {
+            if (error) {
+                this.notifications.showAPIError(error, {key: 'tag.save'});
+            }
+        }
+    }),
+
+    fetchTag: task(function* (slug) {
+        this.set('isLoading', true);
+
+        yield this.store.queryRecord('tag', {slug}).then((tag) => {
+            this.set('tag', tag);
+            this.set('isLoading', false);
+            return tag;
+        });
+    }),
+
     _saveTagProperty(propKey, newValue) {
         let tag = this.tag;
-        let isNewTag = tag.get('isNew');
         let currentValue = tag.get(propKey);
 
         if (newValue) {
             newValue = newValue.trim();
+        }
+
+        // avoid modifying empty values and triggering inadvertant unsaved changes modals
+        if (newValue !== false && !newValue && !currentValue) {
+            return;
         }
 
         // Quit if there was no change
@@ -87,64 +127,15 @@ export default Controller.extend({
         tag.set(propKey, newValue);
 
         // Generate slug based on name for new tag when empty
-        if (propKey === 'name' && !tag.get('slug') && isNewTag) {
+        if (propKey === 'name' && !tag.slug && tag.isNew) {
             let slugValue = slugify(newValue);
             if (/^#/.test(newValue)) {
                 slugValue = 'hash-' + slugValue;
             }
             tag.set('slug', slugValue);
         }
+
         // TODO: This is required until .validate/.save mark fields as validated
         tag.get('hasValidated').addObject(propKey);
-    },
-
-    save: task(function* () {
-        let tag = this.tag;
-        let isNewTag = tag.get('isNew');
-        try {
-            let savedTag = yield tag.save();
-            // replace 'new' route with 'tag' route
-            this.replaceRoute('tags.tag', savedTag);
-
-            // update the URL if the slug changed
-            if (!isNewTag) {
-                let currentPath = window.location.hash;
-
-                let newPath = currentPath.split('/');
-                if (newPath[newPath.length - 1] !== savedTag.get('slug')) {
-                    newPath[newPath.length - 1] = savedTag.get('slug');
-                    newPath = newPath.join('/');
-
-                    windowProxy.replaceState({path: newPath}, '', newPath);
-                }
-            }
-            return savedTag;
-        } catch (error) {
-            if (error) {
-                this.notifications.showAPIError(error, {key: 'tag.save'});
-            }
-        }
-    }),
-
-    _deleteTag() {
-        let tag = this.tag;
-
-        return tag.destroyRecord().then(() => {
-            this._deleteTagSuccess();
-        }, (error) => {
-            this._deleteTagFailure(error);
-        });
-    },
-
-    _deleteTagSuccess() {
-        let currentRoute = this.router.currentRouteName || '';
-
-        if (currentRoute.match(/^tags/)) {
-            this.transitionToRoute('tags.index');
-        }
-    },
-
-    _deleteTagFailure(error) {
-        this.notifications.showAPIError(error, {key: 'tag.delete'});
     }
 });

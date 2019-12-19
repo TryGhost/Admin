@@ -88,8 +88,8 @@ input,
 .gh-select,
 .for-switch .input-toggle-component,
 .gh-select select,
-.settings-menu-container:not(.ember-power-select-multiple-trigger):not(.tag-settings) input,
-.settings-menu-container:not(.tag-settings) .gh-input,
+.settings-menu-container:not(.ember-power-select-multiple-trigger):not(.tag-settings) input:not([disabled]),
+.settings-menu-container:not(.tag-settings) .gh-input:not([disabled]),
 .settings-menu-pane .gh-date-time-picker-date,
 .settings-menu-pane .gh-date-time-picker-time {
     color: var(--darkgrey);
@@ -165,6 +165,20 @@ input:focus,
 .ember-power-calendar-day--selected,
 .ember-power-calendar-day--selected:not([disabled]):hover {
     color: var(--darkgrey);
+}
+
+.ember-power-calendar-day--today,
+.ember-power-calendar-day:not([disabled]):hover {
+    background-color: color-mod(var(--lightgrey) l(-5%));
+}
+
+.ember-power-calendar-day--selected,
+.ember-power-calendar-day--selected:not([disabled]):hover {
+    background: color-mod(var(--blue) l(-10%));
+}
+
+.ember-power-calendar-day--interactive[disabled] {
+    opacity: 0.2;
 }
 
 .gh-main,
@@ -484,4 +498,12 @@ input:focus,
 .gh-list-row:not(.header):hover .gh-list-data,
 .apps-grid-cell:hover {
     background: color-mod(var(--lightgrey) l(-9%));
+}
+
+/* Members */
+.gh-members-chart-header {
+    background: color-mod(var(--lightgrey) l(-9%));
+}
+.gh-members-chart-header .gh-contentfilter-type .gh-contentfilter-menu-trigger {
+    box-shadow: 0 0 0 1px color-mod(var(--darkgrey) l(-27%) blackness(+15%) alpha(50%));
 }

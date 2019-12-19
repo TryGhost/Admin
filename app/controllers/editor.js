@@ -10,6 +10,7 @@ import {get} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
+import {isHostLimitError} from 'ghost-admin/services/ajax';
 import {isInvalidError} from 'ember-ajax/errors';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
@@ -98,7 +99,8 @@ export default Controller.extend({
     showLeaveEditorModal: false,
     showReAuthenticateModal: false,
     showEmailPreviewModal: false,
-
+    showUpgradeModal: false,
+    hostLimitError: null,
     // koenig related properties
     wordcount: null,
 
@@ -218,6 +220,10 @@ export default Controller.extend({
                 }
 
                 // we genuinely have unsaved data, show the modal
+                if (this.post) {
+                    Object.assign(this._leaveModalReason, {status: this.post.status});
+                }
+                console.log('showing leave editor modal', this._leaveModalReason); // eslint-disable-line
                 this.set('showLeaveEditorModal', true);
             }
         },
@@ -249,6 +255,14 @@ export default Controller.extend({
 
         toggleReAuthenticateModal() {
             this.toggleProperty('showReAuthenticateModal');
+        },
+
+        openUpgradeModal() {
+            this.set('showUpgradeModal', true);
+        },
+
+        closeUpgradeModal() {
+            this.set('showUpgradeModal', false);
         },
 
         setKoenigEditor(koenig) {
@@ -374,6 +388,14 @@ export default Controller.extend({
 
             return post;
         } catch (error) {
+            // trigger upgrade modal if forbidden(403) error
+            if (isHostLimitError(error)) {
+                this.post.rollbackAttributes();
+                this.set('hostLimitError', error.payload.errors[0]);
+                this.set('showUpgradeModal', true);
+                return;
+            }
+
             // re-throw if we have a general server error
             if (error && !isInvalidError(error)) {
                 this.send('error', error);
@@ -668,6 +690,7 @@ export default Controller.extend({
         this.set('hasDirtyAttributes', false);
         this.set('shouldFocusEditor', false);
         this.set('leaveEditorTransition', null);
+        this.set('showLeaveEditorModal', false);
         this.set('infoMessage', null);
         this.set('wordCount', null);
 
@@ -717,19 +740,22 @@ export default Controller.extend({
         // if the Adapter failed to save the post isError will be true
         // and we should consider the post still dirty.
         if (post.get('isError')) {
+            this._leaveModalReason = {reason: 'isError', context: post.errors.messages};
             return true;
         }
 
         // post.tags is an array so hasDirtyAttributes doesn't pick up
         // changes unless the array ref is changed
-        let currentTags = (this._tagNames || []).join('');
-        let previousTags = (this._previousTagNames || []).join('');
+        let currentTags = (this._tagNames || []).join(', ');
+        let previousTags = (this._previousTagNames || []).join(', ');
         if (currentTags !== previousTags) {
+            this._leaveModalReason = {reason: 'tags are different', context: {currentTags, previousTags}};
             return true;
         }
 
         // titleScratch isn't an attr so needs a manual dirty check
         if (this.titleScratch !== this.title) {
+            this._leaveModalReason = {reason: 'title is different', context: {current: this.title, scratch: this.titleScratch}};
             return true;
         }
 
@@ -742,6 +768,7 @@ export default Controller.extend({
             let scratchJSON = JSON.stringify(scratch);
 
             if (scratchJSON !== mobiledocJSON) {
+                this._leaveModalReason = {reason: 'mobiledoc is different', context: {current: mobiledocJSON, scratch: scratchJSON}};
                 return true;
             }
         }
@@ -750,12 +777,22 @@ export default Controller.extend({
         // so we need a manual check to see if any
         if (post.get('isNew')) {
             let changedAttributes = Object.keys(post.changedAttributes());
+
+            if (changedAttributes.length) {
+                this._leaveModalReason = {reason: 'post.changedAttributes.length > 0', context: post.changedAttributes()};
+            }
             return changedAttributes.length ? true : false;
         }
 
         // we've covered all the non-tracked cases we care about so fall
         // back on Ember Data's default dirty attribute checks
-        return post.get('hasDirtyAttributes');
+        let {hasDirtyAttributes} = post;
+
+        if (hasDirtyAttributes) {
+            this._leaveModalReason = {reason: 'post.hasDirtyAttributes === true', context: post.changedAttributes()};
+        }
+
+        return hasDirtyAttributes;
     },
 
     _showSaveNotification(prevStatus, status, delay) {

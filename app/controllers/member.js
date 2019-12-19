@@ -1,20 +1,29 @@
 import Controller from '@ember/controller';
+import EmberObject from '@ember/object';
+import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
-import {computed} from '@ember/object';
+import {computed, defineProperty} from '@ember/object';
 import {inject as controller} from '@ember/controller';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
+const SCRATCH_PROPS = ['name', 'email', 'note'];
+
 export default Controller.extend({
     members: controller(),
+    notifications: service(),
+    router: service(),
     store: service(),
 
-    router: service(),
-
-    notifications: service(),
-
     member: alias('model'),
+
+    scratchMember: computed('member', function () {
+        let scratchMember = EmberObject.create({member: this.member});
+        SCRATCH_PROPS.forEach(prop => defineProperty(scratchMember, prop, boundOneWay(`member.${prop}`)));
+        return scratchMember;
+    }),
+
     subscribedAt: computed('member.createdAtUTC', function () {
         let memberSince = moment(this.member.createdAtUTC).from(moment());
         let createdDate = moment(this.member.createdAtUTC).format('MMM DD, YYYY');
@@ -25,16 +34,21 @@ export default Controller.extend({
         setProperty(propKey, value) {
             this._saveMemberProperty(propKey, value);
         },
+
         toggleDeleteMemberModal() {
             this.toggleProperty('showDeleteMemberModal');
         },
-        finaliseDeletion() {
-            // decrement the total member count manually so there's no flash
-            // when transitioning back to the members list
-            if (this.members.memberCount) {
-                this.members.decrementProperty('memberCount');
-            }
-            this.router.transitionTo('members');
+
+        save() {
+            return this.save.perform();
+        },
+
+        deleteMember() {
+            return this.member.destroyRecord().then(() => {
+                return this.transitionToRoute('members');
+            }, (error) => {
+                return this.notifications.showAPIError(error, {key: 'member.delete'});
+            });
         },
 
         toggleUnsavedChangesModal(transition) {
@@ -62,28 +76,26 @@ export default Controller.extend({
         },
 
         leaveScreen() {
-            let transition = this.leaveScreenTransition;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on model props
             this.member.rollbackAttributes();
-
-            return transition.retry();
-        },
-
-        save() {
-            return this.save.perform();
+            return this.leaveScreenTransition.retry();
         }
     },
 
     save: task(function* () {
-        let member = this.member;
+        let {member, scratchMember} = this;
+
+        // if Cmd+S is pressed before the field loses focus make sure we're
+        // saving the intended property values
+        let scratchProps = scratchMember.getProperties(SCRATCH_PROPS);
+        member.setProperties(scratchProps);
+
         try {
-            return yield member.save();
+            yield member.save();
+
+            // replace 'member.new' route with 'member' route
+            this.replaceRoute('member', member);
+
+            return member;
         } catch (error) {
             if (error) {
                 this.notifications.showAPIError(error, {key: 'member.save'});
@@ -91,19 +103,30 @@ export default Controller.extend({
         }
     }).drop(),
 
-    _saveMemberProperty(propKey, newValue) {
-        let member = this.member;
-        member.set(propKey, newValue);
-    },
-
     fetchMember: task(function* (memberId) {
         this.set('isLoading', true);
+
         yield this.store.findRecord('member', memberId, {
             reload: true
-        }).then((data) => {
-            this.set('member', data);
+        }).then((member) => {
+            this.set('member', member);
             this.set('isLoading', false);
+            return member;
         });
-    })
+    }),
 
+    _saveMemberProperty(propKey, newValue) {
+        let currentValue = this.member.get(propKey);
+
+        if (newValue) {
+            newValue = newValue.trim();
+        }
+
+        // avoid modifying empty values and triggering inadvertant unsaved changes modals
+        if (newValue !== false && !newValue && !currentValue) {
+            return;
+        }
+
+        this.member.set(propKey, newValue);
+    }
 });
