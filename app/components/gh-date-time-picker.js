@@ -219,7 +219,7 @@ export default Component.extend({
         }
 
         let date = moment(dateStr, DATE_FORMAT);
-        if (!date.isValid) {
+        if (!date.isValid()) {
             this.set('_scratchDateError', 'Invalid date');
             return false;
         }
