@@ -18,6 +18,7 @@ export default Component.extend({
     errors: null,
     dateErrorProperty: null,
     timeErrorProperty: null,
+    isActive: true,
 
     _time: '',
     _previousTime: '',
@@ -25,6 +26,9 @@ export default Component.extend({
     _maxDate: null,
     _scratchDate: null,
     _scratchDateError: null,
+
+    // actions
+    setTypedDateError() {},
 
     blogTimezone: reads('settings.activeTimezone'),
     hasError: or('dateError', 'timeError'),
@@ -81,6 +85,13 @@ export default Component.extend({
             this.set('_date', moment().tz(blogTimezone));
         }
 
+        // reset scratch date if the component becomes inactive
+        // (eg, PSM is closed, or save type is changed away from scheduled)
+        if (!this.isActive && this._lastIsActive) {
+            this._resetScratchDate();
+        }
+        this._lastIsActive = this.isActive;
+
         // reset scratch date if date is changed externally
         if ((date && date.valueOf()) !== (this._lastDate && this._lastDate.valueOf())) {
             this._resetScratchDate();
@@ -110,6 +121,10 @@ export default Component.extend({
         } else {
             this.set('_maxDate', null);
         }
+    },
+
+    willDestroyElement() {
+        this.setTypedDateError(null);
     },
 
     actions: {
@@ -209,23 +224,28 @@ export default Component.extend({
 
     _resetScratchDate() {
         this.set('_scratchDate', null);
-        this.set('_scratchDateError', null);
+        this._setScratchDateError(null);
     },
 
     _setDate(dateStr) {
         if (!dateStr.match(/^\d\d\d\d-\d\d-\d\d$/)) {
-            this.set('_scratchDateError', 'Invalid date format, must be YYYY-MM-DD');
+            this._setScratchDateError('Invalid date format, must be YYYY-MM-DD');
             return false;
         }
 
         let date = moment(dateStr, DATE_FORMAT);
         if (!date.isValid()) {
-            this.set('_scratchDateError', 'Invalid date');
+            this._setScratchDateError('Invalid date');
             return false;
         }
 
         this.send('setDate', date.toDate());
         this._resetScratchDate();
         return true;
+    },
+
+    _setScratchDateError(error) {
+        this.set('_scratchDateError', error);
+        this.setTypedDateError(error);
     }
 });
