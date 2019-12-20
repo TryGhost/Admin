@@ -12,7 +12,7 @@
                     placeholder={{this.dateFormat}}
                     value={{readonly this.dateValue}}
                     disabled={{this.disabled}}
-                    {{on "input" this.onDateInput}}
+                    {{on "input" (fn this.onDateInput dp)}}
                     {{on "blur" this.onDateBlur}}
                     {{on "keydown" (fn this.onDateKeydown dp)}}
                     data-test-date-time-picker-date-input>

@@ -145,7 +145,8 @@ export default Component.extend({
         this._timeInputElem = elem;
     }),
 
-    onDateInput: action(function (event) {
+    onDateInput: action(function (datepicker, event) {
+        datepicker.actions.close();
         this.set('_scratchDate', event.target.value);
     }),
 
