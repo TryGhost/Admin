@@ -154,7 +154,7 @@ export default Component.extend({
         // make sure we're not doing anything just because the calendar dropdown
         // is opened and clicked
         if (event.target.value === moment(this._date).format('YYYY-MM-DD')) {
-            this.set('_scratchDateError', null);
+            this._resetScratchDate();
             return;
         }
 
@@ -172,6 +172,9 @@ export default Component.extend({
 
         if (event.key === 'Enter') {
             this._setDate(event.target.value);
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            datepicker.actions.close();
         }
 
         // close the dropdown and manually focus the time input if necessary
