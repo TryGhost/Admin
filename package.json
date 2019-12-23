@@ -66,7 +66,7 @@
     "ember-cli-moment-shim": "3.7.1",
     "ember-cli-node-assets": "0.2.2",
     "ember-cli-postcss": "5.0.0",
-    "ember-cli-pretender": "3.1.1",
+    "ember-cli-pretender": "3.2.0",
     "ember-cli-shims": "1.2.0",
     "ember-cli-string-helpers": "4.0.5",
     "ember-cli-test-loader": "2.2.0",
