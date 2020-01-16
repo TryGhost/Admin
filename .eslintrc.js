@@ -19,7 +19,11 @@ module.exports = {
         // disable linting of `this.get` until there's a reliable autofix
         'ghost/ember/use-ember-get-and-set': 'off',
 
-        // disable linting of mixins until we migrate away
-        'ghost/ember/no-new-mixins': 'off'
+        // disable linting of mixins until we've migrated away
+        'ghost/ember/no-new-mixins': 'off',
+
+        // turn on some Octane rules
+        'ghost/ember/classic-decorator-hooks': 'error',
+        'ghost/ember/classic-decorator-no-classic-methods': 'error'
     }
 };

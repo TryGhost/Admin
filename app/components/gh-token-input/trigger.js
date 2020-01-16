@@ -1,13 +1,15 @@
 import EmberPowerSelectMultipleTrigger from 'ember-power-select/components/power-select-multiple/trigger';
+import classic from 'ember-classic-decorator';
 import {action, get} from '@ember/object';
 import {assert} from '@ember/debug';
 import {isBlank} from '@ember/utils';
 
+@classic
 export default class Trigger extends EmberPowerSelectMultipleTrigger {
     @action
     handleOptionMouseDown(event) {
         if (!event.target.closest('[data-selected-index]')) {
-            let optionMouseDown = this.get('extra.optionMouseDown');
+            let optionMouseDown = get(this, 'extra.optionMouseDown');
             if (optionMouseDown) {
                 return optionMouseDown(event);
             }
@@ -18,7 +20,7 @@ export default class Trigger extends EmberPowerSelectMultipleTrigger {
 
     @action
     handleOptionTouchStart(event) {
-        let optionTouchStart = this.get('extra.optionTouchStart');
+        let optionTouchStart = get(this, 'extra.optionTouchStart');
         if (optionTouchStart) {
             return optionTouchStart(event);
         }
@@ -46,11 +48,11 @@ export default class Trigger extends EmberPowerSelectMultipleTrigger {
             if (isBlank(e.target.value)) {
                 let lastSelection = this.select.selected[this.select.selected.length - 1];
                 if (lastSelection) {
-                    this.select.actions.select(this.get('buildSelection')(lastSelection, this.select), e);
+                    this.select.actions.select(this.buildSelection(lastSelection, this.select), e);
                     if (typeof lastSelection === 'string') {
                         this.select.actions.search(lastSelection);
                     } else {
-                        let searchField = this.get('searchField');
+                        let searchField = this.searchField;
                         assert('`{{power-select-multiple}}` requires a `searchField` when the options are not strings to remove options using backspace', searchField);
                         this.select.actions.search(get(lastSelection, searchField));
                     }
