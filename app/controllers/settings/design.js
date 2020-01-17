@@ -1,206 +1,222 @@
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
+import {notEmpty} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';
 import NavigationItem from 'ghost-admin/models/navigation-item';
 import RSVP from 'rsvp';
-import {computed} from '@ember/object';
 import {isEmpty} from '@ember/utils';
 import {isThemeValidationError} from 'ghost-admin/services/ajax';
-import {notEmpty} from '@ember/object/computed';
-import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
-export default Controller.extend({
-    config: service(),
-    ghostPaths: service(),
-    notifications: service(),
-    session: service(),
-    settings: service(),
+@classic
+export default class DesignController extends Controller {
+    @service config;
+    @service ghostPaths;
+    @service notifications;
+    @service session;
+    @service settings;
 
-    dirtyAttributes: false,
-    newNavItem: null,
-    newSecondaryNavItem: null,
-    themes: null,
-    themeToDelete: null,
+    dirtyAttributes = false;
+    newNavItem = null;
+    newSecondaryNavItem = null;
+    themes = null;
+    themeToDelete = null;
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.set('newNavItem', NavigationItem.create({isNew: true}));
         this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
-    },
+    }
 
-    showDeleteThemeModal: notEmpty('themeToDelete'),
+    @notEmpty('themeToDelete')
+    showDeleteThemeModal;
 
-    blogUrl: computed('config.blogUrl', function () {
+    @computed('config.blogUrl')
+    get blogUrl() {
         let url = this.get('config.blogUrl');
 
         return url.slice(-1) !== '/' ? `${url}/` : url;
-    }),
+    }
 
-    actions: {
-        save() {
-            this.save.perform();
-        },
+    @action
+    save() {
+        this.saveTask.perform();
+    }
 
-        addNavItem(item) {
-            // If the url sent through is blank (user never edited the url)
-            if (item.get('url') === '') {
-                item.set('url', '/');
+    @action
+    addNavItem(item) {
+        // If the url sent through is blank (user never edited the url)
+        if (item.get('url') === '') {
+            item.set('url', '/');
+        }
+
+        return item.validate().then(() => {
+            this.addNewNavItem(item);
+        });
+    }
+
+    @action
+    deleteNavItem(item) {
+        if (!item) {
+            return;
+        }
+
+        let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
+
+        navItems.removeObject(item);
+        this.set('dirtyAttributes', true);
+    }
+
+    @action
+    updateLabel(label, navItem) {
+        if (!navItem) {
+            return;
+        }
+
+        navItem.set('label', label);
+        this.set('dirtyAttributes', true);
+    }
+
+    @action
+    updateUrl(url, navItem) {
+        if (!navItem) {
+            return;
+        }
+
+        navItem.set('url', url);
+        this.set('dirtyAttributes', true);
+
+        return url;
+    }
+
+    @action
+    toggleLeaveSettingsModal(transition) {
+        let leaveTransition = this.leaveSettingsTransition;
+
+        if (!transition && this.showLeaveSettingsModal) {
+            this.set('leaveSettingsTransition', null);
+            this.set('showLeaveSettingsModal', false);
+            return;
+        }
+
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.set('leaveSettingsTransition', transition);
+
+            // if a save is running, wait for it to finish then transition
+            if (this.get('save.isRunning')) {
+                return this.get('save.last').then(() => {
+                    transition.retry();
+                });
             }
 
-            return item.validate().then(() => {
-                this.addNewNavItem(item);
-            });
-        },
+            // we genuinely have unsaved data, show the modal
+            this.set('showLeaveSettingsModal', true);
+        }
+    }
 
-        deleteNavItem(item) {
-            if (!item) {
-                return;
+    @action
+    leaveSettings() {
+        let transition = this.leaveSettingsTransition;
+        let settings = this.settings;
+
+        if (!transition) {
+            this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+            return;
+        }
+
+        // roll back changes on settings props
+        settings.rollbackAttributes();
+        this.set('dirtyAttributes', false);
+
+        return transition.retry();
+    }
+
+    @action
+    activateTheme(theme) {
+        return theme.activate().then((theme) => {
+            if (!isEmpty(theme.get('warnings'))) {
+                this.set('themeWarnings', theme.get('warnings'));
+                this.set('showThemeWarningsModal', true);
             }
 
-            let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
-
-            navItems.removeObject(item);
-            this.set('dirtyAttributes', true);
-        },
-
-        updateLabel(label, navItem) {
-            if (!navItem) {
-                return;
+            if (!isEmpty(theme.get('errors'))) {
+                this.set('themeErrors', theme.get('errors'));
+                this.set('showThemeWarningsModal', true);
             }
+        }).catch((error) => {
+            if (isThemeValidationError(error)) {
+                let errors = error.payload.errors[0].details.errors;
+                let fatalErrors = [];
+                let normalErrors = [];
 
-            navItem.set('label', label);
-            this.set('dirtyAttributes', true);
-        },
-
-        updateUrl(url, navItem) {
-            if (!navItem) {
-                return;
-            }
-
-            navItem.set('url', url);
-            this.set('dirtyAttributes', true);
-
-            return url;
-        },
-
-        toggleLeaveSettingsModal(transition) {
-            let leaveTransition = this.leaveSettingsTransition;
-
-            if (!transition && this.showLeaveSettingsModal) {
-                this.set('leaveSettingsTransition', null);
-                this.set('showLeaveSettingsModal', false);
-                return;
-            }
-
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveSettingsTransition', transition);
-
-                // if a save is running, wait for it to finish then transition
-                if (this.get('save.isRunning')) {
-                    return this.get('save.last').then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showLeaveSettingsModal', true);
-            }
-        },
-
-        leaveSettings() {
-            let transition = this.leaveSettingsTransition;
-            let settings = this.settings;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on settings props
-            settings.rollbackAttributes();
-            this.set('dirtyAttributes', false);
-
-            return transition.retry();
-        },
-
-        activateTheme(theme) {
-            return theme.activate().then((theme) => {
-                if (!isEmpty(theme.get('warnings'))) {
-                    this.set('themeWarnings', theme.get('warnings'));
-                    this.set('showThemeWarningsModal', true);
-                }
-
-                if (!isEmpty(theme.get('errors'))) {
-                    this.set('themeErrors', theme.get('errors'));
-                    this.set('showThemeWarningsModal', true);
-                }
-            }).catch((error) => {
-                if (isThemeValidationError(error)) {
-                    let errors = error.payload.errors[0].details.errors;
-                    let fatalErrors = [];
-                    let normalErrors = [];
-
-                    // to have a proper grouping of fatal errors and none fatal, we need to check
-                    // our errors for the fatal property
-                    if (errors.length > 0) {
-                        for (let i = 0; i < errors.length; i += 1) {
-                            if (errors[i].fatal) {
-                                fatalErrors.push(errors[i]);
-                            } else {
-                                normalErrors.push(errors[i]);
-                            }
+                // to have a proper grouping of fatal errors and none fatal, we need to check
+                // our errors for the fatal property
+                if (errors.length > 0) {
+                    for (let i = 0; i < errors.length; i += 1) {
+                        if (errors[i].fatal) {
+                            fatalErrors.push(errors[i]);
+                        } else {
+                            normalErrors.push(errors[i]);
                         }
                     }
-
-                    this.set('themeErrors', normalErrors);
-                    this.set('themeFatalErrors', fatalErrors);
-                    this.set('showThemeErrorsModal', true);
-                    return;
                 }
 
-                throw error;
-            });
-        },
-
-        downloadTheme(theme) {
-            let downloadURL = `${this.get('ghostPaths.apiRoot')}/themes/${theme.name}/download/`;
-            let iframe = $('#iframeDownload');
-
-            if (iframe.length === 0) {
-                iframe = $('<iframe>', {id: 'iframeDownload'}).hide().appendTo('body');
+                this.set('themeErrors', normalErrors);
+                this.set('themeFatalErrors', fatalErrors);
+                this.set('showThemeErrorsModal', true);
+                return;
             }
 
-            iframe.attr('src', downloadURL);
-        },
+            throw error;
+        });
+    }
 
-        deleteTheme(theme) {
-            if (theme) {
-                return this.set('themeToDelete', theme);
-            }
+    @action
+    downloadTheme(theme) {
+        let downloadURL = `${this.get('ghostPaths.apiRoot')}/themes/${theme.name}/download/`;
+        let iframe = $('#iframeDownload');
 
-            return this._deleteTheme();
-        },
-
-        hideDeleteThemeModal() {
-            this.set('themeToDelete', null);
-        },
-
-        hideThemeWarningsModal() {
-            this.set('themeWarnings', null);
-            this.set('themeErrors', null);
-            this.set('themeFatalErrors', null);
-            this.set('showThemeWarningsModal', false);
-            this.set('showThemeErrorsModal', false);
-        },
-
-        reset() {
-            this.set('newNavItem', NavigationItem.create({isNew: true}));
-            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
+        if (iframe.length === 0) {
+            iframe = $('<iframe>', {id: 'iframeDownload'}).hide().appendTo('body');
         }
-    },
 
-    save: task(function* () {
+        iframe.attr('src', downloadURL);
+    }
+
+    @action
+    deleteTheme(theme) {
+        if (theme) {
+            return this.set('themeToDelete', theme);
+        }
+
+        return this._deleteTheme();
+    }
+
+    @action
+    hideDeleteThemeModal() {
+        this.set('themeToDelete', null);
+    }
+
+    @action
+    hideThemeWarningsModal() {
+        this.set('themeWarnings', null);
+        this.set('themeErrors', null);
+        this.set('themeFatalErrors', null);
+        this.set('showThemeWarningsModal', false);
+        this.set('showThemeErrorsModal', false);
+    }
+
+    @action
+    reset() {
+        this.set('newNavItem', NavigationItem.create({isNew: true}));
+        this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
+    }
+
+    @task
+    *saveTask() {
         let navItems = this.get('settings.navigation');
         let secondaryNavItems = this.get('settings.secondaryNavigation');
 
@@ -233,7 +249,7 @@ export default Controller.extend({
                 throw error;
             }
         }
-    }),
+    }
 
     addNewNavItem(item) {
         let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
@@ -249,7 +265,7 @@ export default Controller.extend({
             this.set('newNavItem', NavigationItem.create({isNew: true}));
             $('.gh-blognav-container:first .gh-blognav-line:last input:first').focus();
         }
-    },
+    }
 
     _deleteTheme() {
         let theme = this.store.peekRecord('theme', this.themeToDelete.name);
@@ -267,4 +283,4 @@ export default Controller.extend({
             this.notifications.showAPIError(error);
         });
     }
-});
+}

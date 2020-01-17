@@ -32,7 +32,7 @@
                                 </span>
                                 <div class="absolute top-1 right-2">
                                     <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
-                                        <button type="button" {{action (perform this.copyAdminKey)}} class="white fw4 flex items-center">
+                                        <button type="button" {{on "click" (perform this.copyAdminKey)}} class="white fw4 flex items-center">
                                             {{#if this.copyAdminKey.isRunning}}
                                                 {{svg-jar "check-circle" class="w3 v-mid mr2"}} Copied
                                             {{else}}
@@ -53,7 +53,7 @@
                                 </span>
                                 <div class="absolute top-1 right-2">
                                     <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
-                                        <button type="button" {{action (perform this.copyApiUrl)}} class="white fw4 flex items-center">
+                                        <button type="button" {{on "click" (perform this.copyApiUrl)}} class="white fw4 flex items-center">
                                             {{#if this.copyApiUrl.isRunning}}
                                                 {{svg-jar "check-circle" class="w3 v-mid mr2"}} Copied
                                             {{else}}

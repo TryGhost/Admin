@@ -1,4 +1,6 @@
 import PostsController from './posts';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 
 const TYPES = [{
     name: 'All pages',
@@ -18,15 +20,15 @@ const TYPES = [{
 }];
 
 /* eslint-disable ghost/ember/alias-model-in-controller */
-export default PostsController.extend({
+@classic
+export default class PagesController extends PostsController {
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.availableTypes = TYPES;
-    },
-
-    actions: {
-        openEditor(page) {
-            this.transitionToRoute('editor.edit', 'page', page.get('id'));
-        }
     }
-});
+
+    @action
+    openEditor(page) {
+        this.transitionToRoute('editor.edit', 'page', page.get('id'));
+    }
+}

@@ -1,7 +1,7 @@
 <div class="gh-flow">
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
-            <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
+            <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{on "submit" (perform this.authenticate)}}>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
                     <span class="gh-input-icon gh-icon-mail">
                         {{svg-jar "email"}}
@@ -16,7 +16,7 @@
                             @tabindex="1"
                             @value={{readonly this.signin.identification}}
                             @input={{action (mut this.signin.identification) value="target.value"}}
-                            @focus-out={{action "validate" "identification"}}
+                            @focus-out={{fn this.validate "identification"}}
                         />
                     </span>
                 </GhFormGroup>

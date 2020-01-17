@@ -4,14 +4,15 @@
         {{!-- Do not show Invite user button to authors --}}
         {{#unless this.currentUser.isAuthorOrContributor}}
             <section class="view-actions">
-                <button class="gh-btn gh-btn-green" {{action "toggleInviteUserModal"}} ><span>Invite people</span></button>
+                <button class="gh-btn gh-btn-green" {{on "click" this.toggleInviteUserModal}} ><span>Invite people</span></button>
             </section>
         {{/unless}}
     </GhCanvasHeader>
 
     {{#if this.showInviteUserModal}}
-        <GhFullscreenModal @modal="invite-new-user"
-            @close={{action "toggleInviteUserModal"}}
+        <GhFullscreenModal
+            @modal="invite-new-user"
+            @close={{this.toggleInviteUserModal}}
             @modifier="action wide" />
     {{/if}}
 

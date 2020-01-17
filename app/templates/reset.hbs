@@ -1,7 +1,7 @@
 <div class="gh-flow">
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content fade-in">
-            <form id="reset" class="gh-signin" method="post" novalidate="novalidate" {{action "submit" on="submit"}}>
+            <form id="reset" class="gh-signin" method="post" novalidate="novalidate" {{on "submit" this.submit}}>
                 <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="newPassword">
                     <span class="gh-input-icon gh-icon-lock">
                         {{svg-jar "lock"}}

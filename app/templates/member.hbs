@@ -11,7 +11,7 @@
                 {{/if}}
             </h2>
             <section class="view-actions">
-                <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
+                <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.saveTask}} @data-test-button="save" />
             </section>
         </GhCanvasHeader>
 
@@ -46,7 +46,7 @@
         <GhMemberSettingsForm
             @member={{this.member}}
             @scratchMember={{this.scratchMember}}
-            @setProperty={{action "setProperty"}}
+            @setProperty={{this.setProperty}}
             @isLoading={{this.isLoading}} />
     </form>
 
@@ -54,7 +54,7 @@
         <button
             type="button"
             class="gh-btn gh-btn-red gh-btn-icon mt3"
-            {{on "click" (action "toggleDeleteMemberModal")}}
+            {{on "click" this.toggleDeleteMemberModal}}
             data-test-button="delete-member"
         >
             <span>Delete member</span>
@@ -65,8 +65,8 @@
 {{#if this.showUnsavedChangesModal}}
     <GhFullscreenModal
         @modal="leave-settings"
-        @confirm={{action "leaveScreen"}}
-        @close={{action "toggleUnsavedChangesModal"}}
+        @confirm={{this.leaveScreen}}
+        @close={{this.toggleUnsavedChangesModal}}
         @modifier="action wide" />
 {{/if}}
 
@@ -74,7 +74,7 @@
     <GhFullscreenModal
         @modal="delete-member"
         @model={{this.member}}
-        @confirm={{action "deleteMember"}}
-        @close={{action "toggleDeleteMemberModal"}}
+        @confirm={{this.deleteMember}}
+        @close={{this.toggleDeleteMemberModal}}
         @modifier="action wide" />
 {{/if}}

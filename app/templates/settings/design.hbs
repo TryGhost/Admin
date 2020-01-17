@@ -4,14 +4,14 @@
             Design
         </h2>
         <section class="view-actions">
-            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
+            <GhTaskButton @task={{this.saveTask}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
         </section>
     </GhCanvasHeader>
 
     {{#if this.showLeaveSettingsModal}}
         <GhFullscreenModal @modal="leave-settings"
-            @confirm={{action "leaveSettings"}}
-            @close={{action "toggleLeaveSettingsModal"}}
+            @confirm={{this.leaveSettings}}
+            @close={{this.toggleLeaveSettingsModal}}
             @modifier="action wide" />
     {{/if}}
 
@@ -25,10 +25,10 @@
                             <GhNavitem
                                 @navItem={{navItem}}
                                 @baseUrl={{this.blogUrl}}
-                                @addItem={{action "addNavItem"}}
-                                @deleteItem={{action "deleteNavItem"}}
-                                @updateUrl={{action "updateUrl"}}
-                                @updateLabel={{action "updateLabel"}}
+                                @addItem={{this.addNavItem}}
+                                @deleteItem={{this.deleteNavItem}}
+                                @updateUrl={{this.updateUrl}}
+                                @updateLabel={{this.updateLabel}}
                                 data-test-navitem={{index}} />
                         </DraggableObject>
                     {{/each}}
@@ -36,8 +36,8 @@
                 <GhNavitem
                     @navItem={{this.newNavItem}}
                     @baseUrl={{this.blogUrl}}
-                    @addItem={{action "addNavItem"}}
-                    @updateUrl={{action "updateUrl"}}
+                    @addItem={{this.addNavItem}}
+                    @updateUrl={{this.updateUrl}}
                     data-test-navitem="new" />
             </form>
         </div>
@@ -51,10 +51,10 @@
                             <GhNavitem
                                 @navItem={{navItem}}
                                 @baseUrl={{this.blogUrl}}
-                                @addItem={{action "addNavItem"}}
-                                @deleteItem={{action "deleteNavItem"}}
-                                @updateUrl={{action "updateUrl"}}
-                                @updateLabel={{action "updateLabel"}}
+                                @addItem={{this.addNavItem}}
+                                @deleteItem={{this.deleteNavItem}}
+                                @updateUrl={{this.updateUrl}}
+                                @updateLabel={{this.updateLabel}}
                                 data-test-navitem={{index}} />
                         </DraggableObject>
                     {{/each}}
@@ -62,8 +62,8 @@
                 <GhNavitem
                     @navItem={{this.newSecondaryNavItem}}
                     @baseUrl={{this.blogUrl}}
-                    @addItem={{action "addNavItem"}}
-                    @updateUrl={{action "updateUrl"}}
+                    @addItem={{this.addNavItem}}
+                    @updateUrl={{this.updateUrl}}
                     data-test-navitem="new" />
             </form>
         </div>
@@ -154,9 +154,9 @@
 
             <GhThemeTable
                 @themes={{this.themes}}
-                @activateTheme={{action "activateTheme"}}
-                @downloadTheme={{action "downloadTheme"}}
-                @deleteTheme={{action "deleteTheme"}} />
+                @activateTheme={{this.activateTheme}}
+                @downloadTheme={{this.downloadTheme}}
+                @deleteTheme={{this.deleteTheme}} />
 
             <LinkTo @route="settings.design.uploadtheme" class="gh-btn gh-btn-green gh-themes-uploadbtn" data-test-upload-theme-button={{true}}>
                 <span>Upload a theme</span>
@@ -164,37 +164,40 @@
 
 
             {{#if this.showDeleteThemeModal}}
-                <GhFullscreenModal @modal="delete-theme"
+                <GhFullscreenModal
+                    @modal="delete-theme"
                     @model={{hash
                         theme=this.themeToDelete
-                        download=(action "downloadTheme" this.themeToDelete)
+                        download=(fn this.downloadTheme this.themeToDelete)
                     }}
-                    @close={{action "hideDeleteThemeModal"}}
-                    @confirm={{action "deleteTheme"}}
+                    @close={{this.hideDeleteThemeModal}}
+                    @confirm={{this.deleteTheme}}
                     @modifier="action wide" />
             {{/if}}
 
             {{#if this.showThemeWarningsModal}}
-                <GhFullscreenModal @modal="theme-warnings"
+                <GhFullscreenModal
+                    @modal="theme-warnings"
                     @model={{hash
                         title="Activation successful"
                         warnings=this.themeWarnings
                         errors=this.themeErrors
                         canActivate=true
                     }}
-                    @close={{action "hideThemeWarningsModal"}}
+                    @close={{this.hideThemeWarningsModal}}
                     @modifier="action wide" />
             {{/if}}
 
             {{#if this.showThemeErrorsModal}}
-                <GhFullscreenModal @modal="theme-warnings"
+                <GhFullscreenModal
+                    @modal="theme-warnings"
                     @model={{hash
                         title="Activation failed"
                         errors=this.themeErrors
                         fatalErrors=this.themeFatalErrors
                         canActivate=false
                     }}
-                    @close={{action "hideThemeWarningsModal"}}
+                    @close={{this.hideThemeWarningsModal}}
                     @modifier="action wide" />
             {{/if}}
         </div>
@@ -204,7 +207,8 @@
 
 {{outlet}}
 
-<GhTourItem @throbberId="upload-a-theme"
+<GhTourItem
+    @throbberId="upload-a-theme"
     @target=".gh-themes-uploadbtn"
     @throbberAttachment="top middle"
     @popoverTriangleClass="bottom"

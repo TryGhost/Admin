@@ -1,17 +1,21 @@
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 
-export default Controller.extend({
-    integration: alias('model'),
+@classic
+export default class NewController extends Controller {
+    @alias('model')
+    integration;
 
-    actions: {
-        save() {
-            return this.integration.save();
-        },
-
-        cancel() {
-            // 'new' route's dectivate hook takes care of rollback
-            this.transitionToRoute('settings.integrations');
-        }
+    @action
+    save() {
+        return this.integration.save();
     }
-});
+
+    @action
+    cancel() {
+        // 'new' route's dectivate hook takes care of rollback
+        this.transitionToRoute('settings.integrations');
+    }
+}

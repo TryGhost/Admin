@@ -5,16 +5,16 @@
             <GhContentfilter
                 @selectedType={{this.selectedType}}
                 @availableTypes={{this.availableTypes}}
-                @onTypeChange={{action (mut k)}}
+                @onTypeChange={{fn (mut k)}}
                 @selectedAuthor={{this.selectedAuthor}}
                 @availableAuthors={{this.availableAuthors}}
-                @onAuthorChange={{action (mut k)}}
+                @onAuthorChange={{fn (mut k)}}
                 @selectedTag={{this.selectedTag}}
                 @availableTags={{this.availableTags}}
-                @onTagChange={{action (mut k)}}
+                @onTagChange={{fn (mut k)}}
                 @selectedOrder={{this.selectedOrder}}
                 @availableOrders={{this.availableOrders}}
-                @onOrderChange={{action (mut k)}}
+                @onOrderChange={{fn (mut k)}}
             />
 
             <LinkTo @route="editor.new" @model="page" class="gh-btn gh-btn-green" data-test-new-page-button={{true}}><span>New page</span></LinkTo>

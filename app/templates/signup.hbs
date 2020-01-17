@@ -6,8 +6,8 @@
                 <h1>Create your account</h1>
             </header>
 
-            <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate" onsubmit={{action "submit"}}>
-                <GhProfileImage @email={{this.signupDetails.email}} @setImage={{action "setImage"}} />
+            <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate" {{on "submit" this.submit}}>
+                <GhProfileImage @email={{this.signupDetails.email}} @setImage={{this.setImage}} />
 
                 <GhFormGroup @errors={{this.signupDetails.errors}} @hasValidated={{this.signupDetails.hasValidated}} @property="name">
                     <label for="name">Full name</label>
@@ -23,7 +23,7 @@
                             @autocomplete="name"
                             @value={{readonly this.signupDetails.name}}
                             @input={{action (mut this.signupDetails.name) value="target.value"}}
-                            @focus-out={{action "validate" "name"}}
+                            @focus-out={{fn this.validate "name"}}
                             data-test-input="name"
                         />
                     </span>
@@ -44,7 +44,7 @@
                             @autocomplete="username email"
                             @value={{readonly this.signupDetails.email}}
                             @input={{action (mut this.signupDetails.email) value="target.value"}}
-                            @focus-out={{action "validate" "email"}}
+                            @focus-out={{fn this.validate "email"}}
                             data-test-input="email"
                         />
                     </span>
@@ -65,7 +65,7 @@
                             @autocomplete="new-password"
                             @value={{readonly this.signupDetails.password}}
                             @input={{action (mut this.signupDetails.password) value="target.value"}}
-                            @focus-out={{action "validate" "password"}}
+                            @focus-out={{fn this.validate "password"}}
                             data-test-input="password"
                         />
                     </span>

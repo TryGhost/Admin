@@ -1,23 +1,26 @@
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import moment from 'moment';
-import {computed} from '@ember/object';
+import {action, computed} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 /* eslint-disable ghost/ember/alias-model-in-controller */
-export default Controller.extend({
-    store: service(),
+@classic
+export default class MembersController extends Controller {
+    @service store;
 
-    members: null,
-    searchText: '',
+    members = null;
+    searchText = '';
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.set('members', this.store.peekAll('member'));
-    },
+    }
 
-    filteredMembers: computed('members.@each.{name,email}', 'searchText', function () {
+    @computed('members.@each.{name,email}', 'searchText')
+    get filteredMembers() {
         let {members, searchText} = this;
         searchText = searchText.toLowerCase();
 
@@ -34,25 +37,25 @@ export default Controller.extend({
         });
 
         return filtered;
-    }),
+    }
 
-    actions: {
-        exportData() {
-            let exportUrl = ghostPaths().url.api('members/csv');
-            let downloadURL = `${exportUrl}?limit=all`;
-            let iframe = document.getElementById('iframeDownload');
+    @action
+    exportData() {
+        let exportUrl = ghostPaths().url.api('members/csv');
+        let downloadURL = `${exportUrl}?limit=all`;
+        let iframe = document.getElementById('iframeDownload');
 
-            if (!iframe) {
-                iframe = document.createElement('iframe');
-                iframe.id = 'iframeDownload';
-                iframe.style.display = 'none';
-                document.body.append(iframe);
-            }
-            iframe.setAttribute('src', downloadURL);
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'iframeDownload';
+            iframe.style.display = 'none';
+            document.body.append(iframe);
         }
-    },
+        iframe.setAttribute('src', downloadURL);
+    }
 
-    fetchMembers: task(function* () {
+    @task
+    *fetchMembers() {
         let newFetchDate = new Date();
 
         if (this._hasFetchedAll) {
@@ -72,5 +75,5 @@ export default Controller.extend({
         }
 
         this._lastFetchDate = newFetchDate;
-    })
-});
+    }
+}

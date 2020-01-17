@@ -1,74 +1,84 @@
-/* eslint-disable ghost/ember/alias-model-in-controller */
-import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+/* eslint-disable ghost/ember/alias-model-in-controller */
+import Controller from '@ember/controller';
+import {task} from 'ember-concurrency-decorators';
 
-export default Controller.extend({
-    notifications: service(),
-    settings: service(),
+@classic
+export default class UnsplashController extends Controller {
+    @service
+    notifications;
 
-    dirtyAttributes: null,
-    rollbackValue: null,
-    leaveSettingsTransition: null,
+    @service
+    settings;
 
-    unsplashSettings: alias('settings.unsplash'),
+    dirtyAttributes = null;
+    rollbackValue = null;
+    leaveSettingsTransition = null;
 
-    actions: {
-        save() {
-            this.save.perform();
-        },
+    @alias('settings.unsplash')
+    unsplashSettings;
 
-        update(value) {
-            if (!this.dirtyAttributes) {
-                this.set('rollbackValue', this.get('unsplashSettings.isActive'));
-            }
-            this.set('unsplashSettings.isActive', value);
-            this.set('dirtyAttributes', true);
-        },
+    @action
+    save() {
+        this.saveTask.perform();
+    }
 
-        toggleLeaveSettingsModal(transition) {
-            let leaveTransition = this.leaveSettingsTransition;
-
-            if (!transition && this.showLeaveSettingsModal) {
-                this.set('leaveSettingsTransition', null);
-                this.set('showLeaveSettingsModal', false);
-                return;
-            }
-
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveSettingsTransition', transition);
-
-                // if a save is running, wait for it to finish then transition
-                if (this.get('save.isRunning')) {
-                    return this.get('save.last').then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showLeaveSettingsModal', true);
-            }
-        },
-
-        leaveSettings() {
-            let transition = this.leaveSettingsTransition;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on model props
-            this.set('unsplashSettings.isActive', this.rollbackValue);
-            this.set('dirtyAttributes', false);
-            this.set('rollbackValue', null);
-
-            return transition.retry();
+    @action
+    update(value) {
+        if (!this.dirtyAttributes) {
+            this.set('rollbackValue', this.get('unsplashSettings.isActive'));
         }
-    },
+        this.set('unsplashSettings.isActive', value);
+        this.set('dirtyAttributes', true);
+    }
 
-    save: task(function* () {
+    @action
+    toggleLeaveSettingsModal(transition) {
+        let leaveTransition = this.leaveSettingsTransition;
+
+        if (!transition && this.showLeaveSettingsModal) {
+            this.set('leaveSettingsTransition', null);
+            this.set('showLeaveSettingsModal', false);
+            return;
+        }
+
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.set('leaveSettingsTransition', transition);
+
+            // if a save is running, wait for it to finish then transition
+            if (this.get('save.isRunning')) {
+                return this.get('save.last').then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.set('showLeaveSettingsModal', true);
+        }
+    }
+
+    @action
+    leaveSettings() {
+        let transition = this.leaveSettingsTransition;
+
+        if (!transition) {
+            this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+            return;
+        }
+
+        // roll back changes on model props
+        this.set('unsplashSettings.isActive', this.rollbackValue);
+        this.set('dirtyAttributes', false);
+        this.set('rollbackValue', null);
+
+        return transition.retry();
+    }
+
+    @task({drop: true})
+    *saveTask() {
         let unsplash = this.unsplashSettings;
         let settings = this.settings;
 
@@ -83,5 +93,5 @@ export default Controller.extend({
                 throw error;
             }
         }
-    }).drop()
-});
+    }
+}

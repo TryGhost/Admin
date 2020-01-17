@@ -1,80 +1,89 @@
 import Controller from '@ember/controller';
-import EmberObject from '@ember/object';
+import EmberObject, {action} from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import classic from 'ember-classic-decorator';
 import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription'];
 
-export default Controller.extend({
-    notifications: service(),
-    router: service(),
+@classic
+export default class TagController extends Controller {
+    @service notifications;
+    @service router;
 
-    showDeleteTagModal: false,
+    showDeleteTagModal = false;
 
-    tag: alias('model'),
+    @alias('model')
+    tag;
 
-    scratchTag: computed('tag', function () {
+    @computed('tag', function () {
         let scratchTag = EmberObject.create({tag: this.tag});
         SCRATCH_PROPS.forEach(prop => defineProperty(scratchTag, prop, boundOneWay(`tag.${prop}`)));
         return scratchTag;
-    }),
+    })
+    scratchTag;
 
-    actions: {
-        setProperty(propKey, value) {
-            this._saveTagProperty(propKey, value);
-        },
+    @action
+    setProperty(propKey, value) {
+        this._saveTagProperty(propKey, value);
+    }
 
-        toggleDeleteTagModal() {
-            this.toggleProperty('showDeleteTagModal');
-        },
+    @action
+    toggleDeleteTagModal() {
+        this.toggleProperty('showDeleteTagModal');
+    }
 
-        deleteTag() {
-            return this.tag.destroyRecord().then(() => {
-                return this.transitionToRoute('tags');
-            }, (error) => {
-                return this.notifications.showAPIError(error, {key: 'tag.delete'});
-            });
-        },
+    @action
+    deleteTag() {
+        return this.tag.destroyRecord().then(() => {
+            return this.transitionToRoute('tags');
+        }, (error) => {
+            return this.notifications.showAPIError(error, {key: 'tag.delete'});
+        });
+    }
 
-        save() {
-            return this.save.perform();
-        },
+    @action
+    save() {
+        return this.saveTask.perform();
+    }
 
-        toggleUnsavedChangesModal(transition) {
-            let leaveTransition = this.leaveScreenTransition;
+    @action
+    toggleUnsavedChangesModal(transition) {
+        let leaveTransition = this.leaveScreenTransition;
 
-            if (!transition && this.showUnsavedChangesModal) {
-                this.set('leaveScreenTransition', null);
-                this.set('showUnsavedChangesModal', false);
-                return;
-            }
-
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveScreenTransition', transition);
-
-                // if a save is running, wait for it to finish then transition
-                if (this.save.isRunning) {
-                    return this.save.last.then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showUnsavedChangesModal', true);
-            }
-        },
-
-        leaveScreen() {
-            this.tag.rollbackAttributes();
-            return this.leaveScreenTransition.retry();
+        if (!transition && this.showUnsavedChangesModal) {
+            this.set('leaveScreenTransition', null);
+            this.set('showUnsavedChangesModal', false);
+            return;
         }
-    },
 
-    save: task(function* () {
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.set('leaveScreenTransition', transition);
+
+            // if a save is running, wait for it to finish then transition
+            if (this.save.isRunning) {
+                return this.save.last.then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.set('showUnsavedChangesModal', true);
+        }
+    }
+
+    @action
+    leaveScreen() {
+        this.tag.rollbackAttributes();
+        return this.leaveScreenTransition.retry();
+    }
+
+    @task
+    *saveTask() {
         let {tag, scratchTag} = this;
 
         // if Cmd+S is pressed before the field loses focus make sure we're
@@ -94,9 +103,10 @@ export default Controller.extend({
                 this.notifications.showAPIError(error, {key: 'tag.save'});
             }
         }
-    }),
+    }
 
-    fetchTag: task(function* (slug) {
+    @task
+    *fetchTag(slug) {
         this.set('isLoading', true);
 
         yield this.store.queryRecord('tag', {slug}).then((tag) => {
@@ -104,7 +114,7 @@ export default Controller.extend({
             this.set('isLoading', false);
             return tag;
         });
-    }),
+    }
 
     _saveTagProperty(propKey, newValue) {
         let tag = this.tag;
@@ -138,4 +148,4 @@ export default Controller.extend({
         // TODO: This is required until .validate/.save mark fields as validated
         tag.get('hasValidated').addObject(propKey);
     }
-});
+}

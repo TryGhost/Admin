@@ -1,4 +1,4 @@
 <GhFullscreenModal @modal="import-members"
-    @close={{action "close"}}
-    @confirm={{action "fetchNewMembers"}}
+    @close={{this.close}}
+    @confirm={{this.fetchNewMembers}}
     @modifier="action wide" />

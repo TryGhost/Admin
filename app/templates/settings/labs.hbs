@@ -25,12 +25,13 @@
                     {{#liquid-if this.feature.labs.members}}
                     <GhMembersLabSetting
                         @settings={{this.settings}}
-                        @setDefaultContentVisibility={{action "setDefaultContentVisibility"}}
-                        @setMembersSubscriptionSettings={{action "setMembersSubscriptionSettings"}}
-                        @setBulkEmailSettings={{action "setBulkEmailSettings"}}
+                        @setDefaultContentVisibility={{this.setDefaultContentVisibility}}
+                        @setMembersSubscriptionSettings={{this.setMembersSubscriptionSettings}}
+                        @setBulkEmailSettings={{this.setBulkEmailSettings}}
                     />
                     <div class="mt5 pl5 pr5 pb5">
-                        <GhTaskButton @buttonText="Save members settings"
+                        <GhTaskButton
+                            @buttonText="Save members settings"
                             @task={{this.saveSettings}}
                             @successText="Saved"
                             @runningText="Saving"
@@ -55,7 +56,7 @@
                             @id="importfile"
                             @classNames="flex"
                             @uploadButtonText={{this.uploadButtonText}}
-                            @onUpload={{action "onUpload"}}
+                            @onUpload={{this.onUpload}}
                             @acceptEncoding={{this.importMimeType}}
                             data-test-file-input="import"
                         />
@@ -95,7 +96,7 @@
                     <div class="gh-setting-desc">Download all of your posts and settings in a single, glorious JSON file</div>
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-blue" {{action "downloadFile" "db"}}><span>Export</span></button>
+                    <button type="button" class="gh-btn gh-btn-hover-blue" {{on "click" (fn this.downloadFile "db")}}><span>Export</span></button>
                 </div>
             </div>
             <div class="gh-setting-last">
@@ -104,7 +105,7 @@
                     <div class="gh-setting-desc">Permanently delete all posts and tags from the database, a hard reset</div>
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn gh-btn-hover-red js-delete" {{action "toggleDeleteAllModal"}}><span>Delete</span></button>
+                    <button type="button" class="gh-btn gh-btn-hover-red js-delete" {{on "click" this.toggleDeleteAllModal}}><span>Delete</span></button>
                 </div>
             </div>
         </div>
@@ -143,7 +144,7 @@
                         <button
                             type="button"
                             class="gh-btn gh-btn-icon {{if this.redirectSuccess "gh-btn-green"}} {{if this.redirectFailure "gh-btn-red"}}"
-                            onclick={{action "triggerFileDialog"}}
+                            {{on "click" this.triggerFileDialog}}
                             data-test-button="upload-redirects"
                         >
                             <span>
@@ -156,7 +157,7 @@
                                 {{/if}}
                             </span>
                         </button>
-                        <span><a href="#" {{action "downloadFile" "redirects/json"}} data-test-link="download-redirects">Download current redirects</a></span>
+                        <span><a href="javascript:void(0)" {{on "click" (fn this.downloadFile "redirects/json")}} data-test-link="download-redirects">Download current redirects</a></span>
                     {{/if}}
 
                     <div style="display:none">
@@ -188,7 +189,7 @@
                         <button
                             type="button"
                             class="gh-btn gh-btn-icon {{if this.routesSuccess "gh-btn-green"}} {{if this.routesFailure "gh-btn-red"}}"
-                            onclick={{action "triggerFileDialog"}}
+                            {{on "click" this.triggerFileDialog}}
                             data-test-button="upload-routes"
                         >
                             <span>
@@ -201,7 +202,7 @@
                                 {{/if}}
                             </span>
                         </button>
-                        <span><a href="#" {{action "downloadFile" "settings/routes/yaml"}} data-test-link="download-routes">Download current routes.yaml</a></span>
+                        <span><a href="javascript:void(0)" {{on "click" (fn this.downloadFile "settings/routes/yaml")}} data-test-link="download-routes">Download current routes.yaml</a></span>
                     {{/if}}
 
                     <div style="display:none">
@@ -229,7 +230,8 @@
 </section>
 
 {{#if this.showDeleteAllModal}}
-    <GhFullscreenModal @modal="delete-all"
-        @close={{action "toggleDeleteAllModal"}}
+    <GhFullscreenModal
+        @modal="delete-all"
+        @close={{this.toggleDeleteAllModal}}
         @modifier="action wide" />
 {{/if}}

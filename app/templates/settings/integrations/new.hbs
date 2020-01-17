@@ -1,5 +1,5 @@
 <GhFullscreenModal @modal="new-integration"
     @model={{this.integration}}
-    @confirm={{action "save"}}
-    @close={{action "cancel"}}
+    @confirm={{this.save}}
+    @close={{this.cancel}}
     @modifier="action wide" />

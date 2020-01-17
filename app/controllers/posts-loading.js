@@ -1,20 +1,38 @@
 import Controller, {inject as controller} from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import {readOnly} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
 /* eslint-disable ghost/ember/alias-model-in-controller */
-export default Controller.extend({
+@classic
+export default class PostsLoadingController extends Controller {
+    @service session;
+    @service ui;
 
-    postsController: controller('posts'),
-    session: service(),
-    ui: service(),
+    @controller('posts')
+    postsController;
 
-    availableTypes: readOnly('postsController.availableTypes'),
-    selectedType: readOnly('postsController.selectedType'),
-    availableTags: readOnly('postsController.availableTags'),
-    selectedTag: readOnly('postsController.selectedTag'),
-    availableAuthors: readOnly('postsController.availableAuthors'),
-    selectedAuthor: readOnly('postsController.selectedAuthor'),
-    availableOrders: readOnly('postsController.availableOrders'),
-    selectedOrder: readOnly('postsController.selectedOrder')
-});
+    @readOnly('postsController.availableTypes')
+    availableTypes;
+
+    @readOnly('postsController.selectedType')
+    selectedType;
+
+    @readOnly('postsController.availableTags')
+    availableTags;
+
+    @readOnly('postsController.selectedTag')
+    selectedTag;
+
+    @readOnly('postsController.availableAuthors')
+    availableAuthors;
+
+    @readOnly('postsController.selectedAuthor')
+    selectedAuthor;
+
+    @readOnly('postsController.availableOrders')
+    availableOrders;
+
+    @readOnly('postsController.selectedOrder')
+    selectedOrder;
+}

@@ -1,34 +1,38 @@
-/* eslint-disable ghost/ember/alias-model-in-controller */
-import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+/* eslint-disable ghost/ember/alias-model-in-controller */
+import Controller from '@ember/controller';
+import {task} from 'ember-concurrency-decorators';
 
-export default Controller.extend({
-    settings: service(),
-    store: service(),
+@classic
+export default class IntegrationsController extends Controller {
+    @service settings;
+    @service store;
 
-    _allIntegrations: null,
+    _allIntegrations = null;
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this._allIntegrations = this.store.peekAll('integration');
-    },
+    }
 
     // filter over the live query so that the list is automatically updated
     // as integrations are added/removed
-    integrations: computed('_allIntegrations.@each.{isNew,type}', function () {
+    @computed('_allIntegrations.@each.{isNew,type}')
+    get integrations() {
         return this._allIntegrations.reject((integration) => {
             return integration.isNew || integration.type !== 'custom';
         });
-    }),
+    }
 
     // use ember-concurrency so that we can use the derived state to show
     // a spinner only in the integrations list and avoid delaying the whole
     // screen display
-    fetchIntegrations: task(function* () {
+    @task
+    *fetchIntegrations() {
         return yield this.store.findAll('integration');
-    }),
+    }
 
     // used by individual integration routes' `model` hooks
     integrationModelHook(prop, value, route, transition) {
@@ -49,4 +53,4 @@ export default Controller.extend({
             return integration;
         });
     }
-});
+}

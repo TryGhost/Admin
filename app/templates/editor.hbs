@@ -49,8 +49,8 @@
                             @post={{this.post}}
                             @postStatus={{this.post.status}}
                             @saveTask={{this.save}}
-                            @setSaveType={{action "setSaveType"}}
-                            @onOpen={{action "cancelAutosave"}}
+                            @setSaveType={{this.setSaveType}}
+                            @onOpen={{this.cancelAutosave}}
                             @backgroundTask={{this.backgroundLoader}}
                             @memberCount={{this.memberCount}} />
                     {{/if}}
@@ -69,18 +69,18 @@
         <GhKoenigEditor
             @title={{readonly this.post.titleScratch}}
             @titlePlaceholder={{concat (capitalize this.post.displayName) " Title"}}
-            @onTitleChange={{action "updateTitleScratch"}}
-            @onTitleBlur={{action (perform this.saveTitle)}}
+            @onTitleChange={{this.updateTitleScratch}}
+            @onTitleBlur={{perform this.saveTitle}}
             @body={{readonly this.post.scratch}}
             @bodyPlaceholder={{concat "Begin writing your " this.post.displayName "..."}}
             @bodyAutofocus={{this.shouldFocusEditor}}
-            @onBodyChange={{action "updateScratch"}}
+            @onBodyChange={{this.updateScratch}}
             @headerOffset={{editor.headerHeight}}
             @scrollContainerSelector=".gh-koenig-editor"
             @scrollOffsetTopSelector=".gh-editor-header-small"
             @scrollOffsetBottomSelector=".gh-mobile-nav-bar"
-            @onEditorCreated={{action "setKoenigEditor"}}
-            @onWordCountChange={{action "updateWordCount"}}
+            @onEditorCreated={{this.setKoenigEditor}}
+            @onWordCountChange={{this.updateWordCount}}
         />
 
         <div class="absolute flex items-center br3 bg-white {{if editor.headerClass "right-4 bottom-4" "right-6 bottom-6"}}">
@@ -93,29 +93,33 @@
     </GhEditor>
 
     {{#if this.showDeletePostModal}}
-        <GhFullscreenModal @modal="delete-post"
+        <GhFullscreenModal
+            @modal="delete-post"
             @model={{hash post=this.post onSuccess=(route-action 'redirectToContentScreen')}}
-            @close={{action "toggleDeletePostModal"}}
+            @close={{this.toggleDeletePostModal}}
             @modifier="action wide" />
     {{/if}}
 
     {{#if this.showLeaveEditorModal}}
-        <GhFullscreenModal @modal="leave-editor"
-            @confirm={{action "leaveEditor"}}
-            @close={{action "toggleLeaveEditorModal"}}
+        <GhFullscreenModal
+            @modal="leave-editor"
+            @confirm={{this.leaveEditor}}
+            @close={{this.toggleLeaveEditorModal}}
             @modifier="action wide" />
     {{/if}}
 
     {{#if this.showReAuthenticateModal}}
-        <GhFullscreenModal @modal="re-authenticate"
-            @close={{action "toggleReAuthenticateModal"}}
+        <GhFullscreenModal
+            @modal="re-authenticate"
+            @close={{this.toggleReAuthenticateModal}}
             @modifier="action wide" />
     {{/if}}
 
     {{#if this.showEmailPreviewModal}}
-        <GhFullscreenModal @modal="post-email-preview"
+        <GhFullscreenModal
+            @modal="post-email-preview"
             @model={{this.post}}
-            @close={{action "toggleEmailPreviewModal"}}
+            @close={{this.toggleEmailPreviewModal}}
             @modifier="full-overlay email-preview" />
     {{/if}}
 
@@ -127,7 +131,7 @@
                 details=hostLimitError.details
                 upgradeLink=hostLimitError.help
             }}
-            @close={{action "closeUpgradeModal"}}
+            @close={{this.closeUpgradeModal}}
             @modifier="action wide"
         />
     {{/if}}
@@ -136,8 +140,8 @@
         <GhPostSettingsMenu
             @post={{this.post}}
             @showSettingsMenu={{this.ui.showSettingsMenu}}
-            @toggleEmailPreviewModal={{action "toggleEmailPreviewModal"}}
-            @deletePost={{action "toggleDeletePostModal"}}
+            @toggleEmailPreviewModal={{this.toggleEmailPreviewModal}}
+            @deletePost={{this.toggleDeletePostModal}}
             @updateSlug={{this.updateSlug}}
             @savePost={{this.savePost}}
         />

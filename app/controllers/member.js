@@ -1,87 +1,97 @@
 import Controller from '@ember/controller';
-import EmberObject from '@ember/object';
+import EmberObject, {action} from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import classic from 'ember-classic-decorator';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
 import {inject as controller} from '@ember/controller';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 const SCRATCH_PROPS = ['name', 'email', 'note'];
 
-export default Controller.extend({
-    members: controller(),
-    notifications: service(),
-    router: service(),
-    store: service(),
+@classic
+export default class MemberController extends Controller {
+    @controller members;
+    @service notifications;
+    @service router;
+    @service store;
 
-    member: alias('model'),
+    @alias('model')
+    member;
 
-    scratchMember: computed('member', function () {
+    @computed('member', function () {
         let scratchMember = EmberObject.create({member: this.member});
         SCRATCH_PROPS.forEach(prop => defineProperty(scratchMember, prop, boundOneWay(`member.${prop}`)));
         return scratchMember;
-    }),
+    })
+    scratchMember;
 
-    subscribedAt: computed('member.createdAtUTC', function () {
+    @computed('member.createdAtUTC', function () {
         let memberSince = moment(this.member.createdAtUTC).from(moment());
         let createdDate = moment(this.member.createdAtUTC).format('MMM DD, YYYY');
         return `${createdDate} (${memberSince})`;
-    }),
+    })
+    subscribedAt;
 
-    actions: {
-        setProperty(propKey, value) {
-            this._saveMemberProperty(propKey, value);
-        },
+    @action
+    save() {
+        this.saveTask.perform();
+    }
 
-        toggleDeleteMemberModal() {
-            this.toggleProperty('showDeleteMemberModal');
-        },
+    @action
+    setProperty(propKey, value) {
+        this._saveMemberProperty(propKey, value);
+    }
 
-        save() {
-            return this.save.perform();
-        },
+    @action
+    toggleDeleteMemberModal() {
+        this.toggleProperty('showDeleteMemberModal');
+    }
 
-        deleteMember() {
-            return this.member.destroyRecord().then(() => {
-                return this.transitionToRoute('members');
-            }, (error) => {
-                return this.notifications.showAPIError(error, {key: 'member.delete'});
-            });
-        },
+    @action
+    deleteMember() {
+        return this.member.destroyRecord().then(() => {
+            return this.transitionToRoute('members');
+        }, (error) => {
+            return this.notifications.showAPIError(error, {key: 'member.delete'});
+        });
+    }
 
-        toggleUnsavedChangesModal(transition) {
-            let leaveTransition = this.leaveScreenTransition;
+    @action
+    toggleUnsavedChangesModal(transition) {
+        let leaveTransition = this.leaveScreenTransition;
 
-            if (!transition && this.showUnsavedChangesModal) {
-                this.set('leaveScreenTransition', null);
-                this.set('showUnsavedChangesModal', false);
-                return;
-            }
-
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveScreenTransition', transition);
-
-                // if a save is running, wait for it to finish then transition
-                if (this.save.isRunning) {
-                    return this.save.last.then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showUnsavedChangesModal', true);
-            }
-        },
-
-        leaveScreen() {
-            this.member.rollbackAttributes();
-            return this.leaveScreenTransition.retry();
+        if (!transition && this.showUnsavedChangesModal) {
+            this.set('leaveScreenTransition', null);
+            this.set('showUnsavedChangesModal', false);
+            return;
         }
-    },
 
-    save: task(function* () {
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.set('leaveScreenTransition', transition);
+
+            // if a save is running, wait for it to finish then transition
+            if (this.save.isRunning) {
+                return this.save.last.then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.set('showUnsavedChangesModal', true);
+        }
+    }
+
+    @action
+    leaveScreen() {
+        this.member.rollbackAttributes();
+        return this.leaveScreenTransition.retry();
+    }
+
+    @task({drop: true})
+    *saveTask() {
         let {member, scratchMember} = this;
 
         // if Cmd+S is pressed before the field loses focus make sure we're
@@ -101,9 +111,10 @@ export default Controller.extend({
                 this.notifications.showAPIError(error, {key: 'member.save'});
             }
         }
-    }).drop(),
+    }
 
-    fetchMember: task(function* (memberId) {
+    @task
+    *fetchMember(memberId) {
         this.set('isLoading', true);
 
         yield this.store.findRecord('member', memberId, {
@@ -113,7 +124,7 @@ export default Controller.extend({
             this.set('isLoading', false);
             return member;
         });
-    }),
+    }
 
     _saveMemberProperty(propKey, newValue) {
         let currentValue = this.member.get(propKey);
@@ -129,4 +140,4 @@ export default Controller.extend({
 
         this.member.set(propKey, newValue);
     }
-});
+}

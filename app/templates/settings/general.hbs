@@ -5,14 +5,14 @@
             General settings
         </h2>
         <section class="view-actions">
-            <GhTaskButton @buttonText="Save settings" @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button="true" />
+            <GhTaskButton @buttonText="Save settings" @task={{this.saveTask}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button="true" />
         </section>
     </GhCanvasHeader>
 
     {{#if this.showLeaveSettingsModal}}
         <GhFullscreenModal @modal="leave-settings"
-            @confirm={{action "leaveSettings"}}
-            @close={{action "toggleLeaveSettingsModal"}}
+            @confirm={{this.leaveSettings}}
+            @close={{this.toggleLeaveSettingsModal}}
             @modifier="action wide" />
     {{/if}}
 
@@ -51,7 +51,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn" {{action (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info><span>{{if this.pubInfoOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{fn (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info><span>{{if this.pubInfoOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
 
@@ -64,12 +64,12 @@
                         <GhTimezoneSelect
                             @activeTimezone={{this.settings.activeTimezone}}
                             @availableTimezones={{this.availableTimezones}}
-                            @update={{action "setTimezone"}} />
+                            @update={{this.setTimezone}} />
                     </div>
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if this.timezoneOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{fn (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if this.timezoneOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
             <div class="gh-setting-last">
@@ -92,7 +92,7 @@
                     {{/liquid-if}}
                 </div>
                 <div class="gh-setting-action">
-                    <button type="button" class="gh-btn" {{action (toggle "defaultLocaleOpen" this)}} data-test-toggle-default-locale><span>{{if this.defaultLocaleOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{fn (toggle "defaultLocaleOpen" this)}} data-test-toggle-default-locale><span>{{if this.defaultLocaleOpen "Close" "Expand"}}</span></button>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                 <GhUploader
                     @extensions={{this.iconExtensions}}
                     @paramsHash={{hash purpose="icon"}}
-                    @onComplete={{action "imageUploaded" "icon"}}
+                    @onComplete={{fn this.imageUploaded "icon"}}
                     as |uploader|
                 >
                 <div class="gh-setting-content">
@@ -117,12 +117,12 @@
                     {{#if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else if this.settings.icon}}
-                        <img class="blog-icon" src="{{this.settings.icon}}" onclick={{action "triggerFileDialog"}} alt="icon" data-test-icon-img>
-                        <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "icon"}} data-test-delete-image="icon">
+                        <img class="blog-icon" src="{{this.settings.icon}}" {{on "click" this.triggerFileDialog}} alt="icon" data-test-icon-img>
+                        <button type="button" class="gh-setting-action-smallimg-delete" {{on "click" (fn this.removeImage "icon")}} data-test-delete-image="icon">
                             <span>delete</span>
                         </button>
                     {{else}}
-                        <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
+                        <button type="button" class="gh-btn" {{on "click" this.triggerFileDialog}} data-test-image-upload-btn="icon">
                             <span>Upload Image</span>
                         </button>
                     {{/if}}
@@ -135,7 +135,7 @@
             <div class="gh-setting" data-test-setting="logo">
                 <GhUploader
                     @extensions={{this.imageExtensions}}
-                    @onComplete={{action "imageUploaded" "logo"}}
+                    @onComplete={{fn this.imageUploaded "logo"}}
                     as |uploader|
                 >
                 <div class="gh-setting-content">
@@ -149,12 +149,12 @@
                     {{#if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else if this.settings.logo}}
-                        <img class="blog-logo" src="{{this.settings.logo}}" onclick={{action "triggerFileDialog"}} alt="logo" data-test-logo-img>
-                        <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "logo"}} data-test-delete-image="logo">
+                        <img class="blog-logo" src="{{this.settings.logo}}" {{on "click" this.triggerFileDialog}} alt="logo" data-test-logo-img>
+                        <button type="button" class="gh-setting-action-smallimg-delete" {{on "click" (fn this.removeImage "logo")}} data-test-delete-image="logo">
                             <span>delete</span>
                         </button>
                     {{else}}
-                        <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="logo">
+                        <button type="button" class="gh-btn" {{on "click" this.triggerFileDialog}} data-test-image-upload-btn="logo">
                             <span>Upload Image</span>
                         </button>
                     {{/if}}
@@ -178,7 +178,7 @@
                                     @placeholder="abcdef"
                                     @autocorrect="off"
                                     @maxlength="6"
-                                    @focus-out={{action "validateBrandColor"}}
+                                    @focus-out={{this.validateBrandColor}}
                                     @value={{brandColor}}
                                     data-test-brand-color-input={{true}}
                                 />
@@ -192,7 +192,7 @@
             <div class="gh-setting-last" data-test-setting="coverImage">
                 <GhUploader
                     @extensions={{this.imageExtensions}}
-                    @onComplete={{action "imageUploaded" "coverImage"}}
+                    @onComplete={{fn this.imageUploaded "coverImage"}}
                     as |uploader|
                 >
                 <div class="gh-setting-content">
@@ -206,12 +206,12 @@
                     {{#if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else if this.settings.coverImage}}
-                        <img class="blog-cover" src="{{this.settings.coverImage}}" onclick={{action "triggerFileDialog"}} alt="cover photo" data-test-cover-img>
-                        <button type="button" class="gh-setting-action-largeimg-delete" {{action "removeImage" "coverImage"}} data-test-delete-image="coverImage">
+                        <img class="blog-cover" src="{{this.settings.coverImage}}" {{on "click" this.triggerFileDialog}} alt="cover photo" data-test-cover-img>
+                        <button type="button" class="gh-setting-action-largeimg-delete" {{on "click" (fn this.removeImage "coverImage")}} data-test-delete-image="coverImage">
                             <span>delete</span>
                         </button>
                     {{else}}
-                        <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="coverImage">
+                        <button type="button" class="gh-btn" {{on "click" this.triggerFileDialog}} data-test-image-upload-btn="coverImage">
                             <span>Upload Image</span>
                         </button>
                     {{/if}}
@@ -297,8 +297,8 @@
                                         @image={{this.settings.twitterImage}}
                                         @text="Add Twitter image"
                                         @allowUnsplash={{true}}
-                                        @update={{action (mut this.settings.twitterImage)}}
-                                        @remove={{action (mut this.settings.twitterImage "")}}
+                                        @update={{fn (mut this.settings.twitterImage)}}
+                                        @remove={{fn (mut this.settings.twitterImage "")}}
                                     />
                                 </GhFormGroup>
                                 <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitterTitle">
@@ -367,8 +367,8 @@
                                         @image={{this.settings.ogImage}}
                                         @text="Add Facebook image"
                                         @allowUnsplash={{true}}
-                                        @update={{action (mut this.settings.ogImage)}}
-                                        @remove={{action (mut this.settings.ogImage "")}}
+                                        @update={{fn (mut this.settings.ogImage)}}
+                                        @remove={{fn (mut this.settings.ogImage "")}}
                                     />
                                 </GhFormGroup>
                                 <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="ogTitle">
@@ -434,7 +434,7 @@
                                 @autocorrect="off"
                                 @value={{readonly this.settings.facebook}}
                                 @input={{action (mut this._scratchFacebook) value="target.value"}}
-                                @focus-out={{action "validateFacebookUrl"}}
+                                @focus-out={{this.validateFacebookUrl}}
                                 data-test-facebook-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="facebook" data-test-facebook-error=true />
@@ -447,7 +447,7 @@
                                 @autocorrect="off"
                                 @value={{readonly this.settings.twitter}}
                                 @input={{action (mut this._scratchTwitter) value="target.value"}}
-                                @focus-out={{action "validateTwitterUrl"}}
+                                @focus-out={{this.validateTwitterUrl}}
                                 data-test-twitter-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="twitter" data-test-twitter-error=true />

@@ -11,9 +11,10 @@
         </h2>
 
         {{#if this.showLeaveSettingsModal}}
-            <GhFullscreenModal @modal="leave-settings"
-                @confirm={{action "leaveSettings"}}
-                @close={{action "toggleLeaveSettingsModal"}}
+            <GhFullscreenModal
+                @modal="leave-settings"
+                @confirm={{this.leaveSettings}}
+                @close={{this.toggleLeaveSettingsModal}}
                 @modifier="action wide" />
         {{/if}}
 
@@ -29,33 +30,34 @@
                     <GhDropdown @name="user-actions-menu" @tagName="ul" @classNames="user-actions-menu dropdown-menu dropdown-triangle-top-right">
                         {{#if this.canMakeOwner}}
                             <li>
-                                <button {{action "toggleTransferOwnerModal"}}>
+                                <button {{on "click" this.toggleTransferOwnerModal}}>
                                     Make Owner
                                 </button>
                                 {{#if this.showTransferOwnerModal}}
-                                    <GhFullscreenModal @modal="transfer-owner"
-                                        @confirm={{action "transferOwnership"}}
-                                        @close={{action "toggleTransferOwnerModal"}}
+                                    <GhFullscreenModal
+                                        @modal="transfer-owner"
+                                        @confirm={{this.transferOwnership}}
+                                        @close={{this.toggleTransferOwnerModal}}
                                         @modifier="action wide" />
                                 {{/if}}
                             </li>
                         {{/if}}
                         {{#if this.deleteUserActionIsVisible}}
                             <li>
-                                <button {{action "toggleDeleteUserModal"}} class="delete" data-test-delete-button>
+                                <button {{on "click" this.toggleDeleteUserModal}} class="delete" data-test-delete-button>
                                     Delete User
                                 </button>
                             </li>
                             {{#if this.user.isActive}}
                                 <li>
-                                    <button {{action "toggleSuspendUserModal"}} class="suspend" data-test-suspend-button>
+                                    <button {{on "click" this.toggleSuspendUserModal}} class="suspend" data-test-suspend-button>
                                         Suspend User
                                     </button>
                                 </li>
                             {{/if}}
                             {{#if this.user.isSuspended}}
                                 <li>
-                                    <button {{action "toggleUnsuspendUserModal"}} class="unsuspend" data-test-unsuspend-button>
+                                    <button {{on "click" this.toggleUnsuspendUserModal}} class="unsuspend" data-test-unsuspend-button>
                                         Un-suspend User
                                     </button>
                                 </li>
@@ -68,26 +70,29 @@
             <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @task={{this.save}} data-test-save-button={{true}} />
 
             {{#if this.showDeleteUserModal}}
-                <GhFullscreenModal @modal="delete-user"
+                <GhFullscreenModal
+                    @modal="delete-user"
                     @model={{this.user}}
-                    @confirm={{action "deleteUser"}}
-                    @close={{action "toggleDeleteUserModal"}}
+                    @confirm={{this.deleteUser}}
+                    @close={{this.toggleDeleteUserModal}}
                     @modifier="action wide" />
             {{/if}}
 
             {{#if this.showSuspendUserModal}}
-                <GhFullscreenModal @modal="suspend-user"
+                <GhFullscreenModal
+                    @modal="suspend-user"
                     @model={{this.user}}
-                    @confirm={{action "suspendUser"}}
-                    @close={{action "toggleSuspendUserModal"}}
+                    @confirm={{this.suspendUser}}
+                    @close={{this.toggleSuspendUserModal}}
                     @modifier="action wide" />
             {{/if}}
 
             {{#if this.showUnsuspendUserModal}}
-                <GhFullscreenModal @modal="unsuspend-user"
+                <GhFullscreenModal
+                    @modal="unsuspend-user"
                     @model={{this.user}}
-                    @confirm={{action "unsuspendUser"}}
-                    @close={{action "toggleUnsuspendUserModal"}}
+                    @confirm={{this.unsuspendUser}}
+                    @close={{this.toggleUnsuspendUserModal}}
                     @modifier="action wide" />
             {{/if}}
         </section>
@@ -96,25 +101,27 @@
     {{!-- <div class="bg-"> --}}
     <section class="br3 shadow-1 bg-grouped-table">
         <div class="gm-main view-container settings-user">
-            <form class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform this.save) on="submit"}}>
+            <form class="user-profile" novalidate="novalidate" autocomplete="off" {{on "submit" (perform this.save)}}>
 
                 <figure class="user-cover" style={{background-image-style this.user.coverImageUrl}}>
-                    <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{action "toggleUploadCoverModal"}}><span>Change Cover</span></button>
+                    <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{on "click" this.toggleUploadCoverModal}}><span>Change Cover</span></button>
                     {{#if this.showUploadCoverModal}}
-                        <GhFullscreenModal @modal="upload-image"
+                        <GhFullscreenModal
+                            @modal="upload-image"
                             @model={{hash model=this.user imageProperty="coverImage"}}
-                            @close={{action "toggleUploadCoverModal"}}
+                            @close={{this.toggleUploadCoverModal}}
                             @modifier="action wide" />
                     {{/if}}
                 </figure>
 
                 <figure class="user-image bg-whitegrey">
                     <div id="user-image" class="img" style={{background-image-style this.user.profileImageUrl}}><span class="hidden">{{this.user.name}}"s Picture</span></div>
-                    <button type="button" {{action "toggleUploadImageModal"}} class="edit-user-image">Edit Picture</button>
+                    <button type="button" {{on "click" this.toggleUploadImageModal}} class="edit-user-image">Edit Picture</button>
                     {{#if this.showUploadImageModal}}
-                        <GhFullscreenModal @modal="upload-image"
+                        <GhFullscreenModal
+                            @modal="upload-image"
                             @model={{hash model=this.user imageProperty="profileImage" paramsHash=(hash purpose="profile_image")}}
-                            @close={{action "toggleUploadImageModal"}}
+                            @close={{this.toggleUploadImageModal}}
                             @modifier="action wide" />
                     {{/if}}
                 </figure>
@@ -152,7 +159,7 @@
                                 @autocorrect="off"
                                 @value={{readonly this.slugValue}}
                                 @input={{action (mut this.slugValue) value="target.value"}}
-                                @focus-out={{action (perform this.updateSlug this.slugValue)}}
+                                @focus-out={{perform this.updateSlug this.slugValue}}
                                 data-test-slug-input={{true}}
                             />
                             <p><GhBlogUrl />/author/{{this.slugValue}}</p>
@@ -193,7 +200,7 @@
                                         @optionValuePath="id"
                                         @optionLabelPath="name"
                                         @value={{this.user.role}}
-                                        @update={{action "changeRole"}}
+                                        @update={{this.changeRole}}
                                     />
                                 </span>
                                 <p>What permissions should this user have?</p>
@@ -238,7 +245,7 @@
                                 @name="user[facebook]"
                                 @value={{readonly this.user.facebook}}
                                 @input={{action (mut this._scratchFacebook) value="target.value"}}
-                                @focus-out={{action "validateFacebookUrl"}}
+                                @focus-out={{this.validateFacebookUrl}}
                                 data-test-facebook-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.user.errors}} @property="facebook" data-test-error="user-facebook" />
@@ -255,7 +262,7 @@
                                 @name="user[twitter]"
                                 @value={{readonly this.user.twitter}}
                                 @input={{action (mut this._scratchTwitter) value="target.value"}}
-                                @focus-out={{action "validateTwitterUrl"}}
+                                @focus-out={{this.validateTwitterUrl}}
                                 data-test-twitter-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.user.errors}} @property="twitter" data-test-error="user-twitter" />
@@ -285,7 +292,7 @@
 
             {{!-- If an administrator is viewing Owner's profile then hide inputs for change password --}}
             {{#if this.canChangePassword}}
-                <form id="password-reset" class="user-profile" novalidate="novalidate" autocomplete="off" {{action (perform this.user.saveNewPassword) on="submit"}}>
+                <form id="password-reset" class="user-profile" novalidate="novalidate" autocomplete="off" {{on "submit" (perform this.user.saveNewPassword)}}>
                     <div class="pa5">
                         <fieldset class="user-details-password">
                             {{#if this.isOwnProfile}}
@@ -298,7 +305,7 @@
                                         @value={{readonly this.user.password}}
                                         @input={{action "updatePassword" value="target.value"}}
                                         @keyEvents={{hash
-                                            Enter=(action (perform this.user.saveNewPassword))
+                                            Enter=(perform this.user.saveNewPassword)
                                         }}
                                         data-test-old-pass-input={{true}}
                                     />
@@ -315,7 +322,7 @@
                                     @id="user-password-new"
                                     @input={{action "updateNewPassword" value="target.value"}}
                                     @keyEvents={{hash
-                                        Enter=(action (perform this.user.saveNewPassword))
+                                        Enter=(perform this.user.saveNewPassword)
                                     }}
                                     data-test-new-pass-input={{true}}
                                 />
@@ -330,7 +337,7 @@
                                     @id="user-new-password-verification"
                                     @input={{action "updateNe2Password" value="target.value"}}
                                     @keyEvents={{hash
-                                        Enter=(action (perform this.user.saveNewPassword))
+                                        Enter=(perform this.user.saveNewPassword)
                                     }}
                                     data-test-ne2-pass-input={{true}}
                                 />

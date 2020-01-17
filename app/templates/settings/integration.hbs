@@ -1,5 +1,5 @@
 <section class="gh-canvas">
-    <form class="mb15" {{action (perform "save") on="submit"}}>
+    <form class="mb15" {{on "submit" (perform "save")}}>
         <GhCanvasHeader class="gh-canvas-header">
             <h2 class="gh-canvas-title" data-test-screen-title>
                 <LinkTo @route="settings.integrations" data-test-link="integrations-back">Integrations</LinkTo>
@@ -25,7 +25,7 @@
 
                         <GhUploader
                             @extensions={{this.imageExtensions}}
-                            @onComplete={{action "setIconImage"}}
+                            @onComplete={{this.setIconImage}}
                             as |uploader|
                         >
                             {{#if uploader.isUploading}}
@@ -36,7 +36,7 @@
                                 <button
                                     type="button"
                                     class="child absolute top-0 left-0 w-100 h-100 br4 b white text-center bg-black-70 f8"
-                                    {{action "triggerIconFileDialog"}}
+                                    {{on "click" this.triggerIconFileDialog}}
                                 >
                                     Upload
                                 </button>
@@ -102,7 +102,7 @@
                                 </span>
                                 <div class="absolute top-1 right-0">
                                     <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
-                                        <button type="button" {{action (perform this.copyContentKey)}} class="white fw4 flex items-center">
+                                        <button type="button" {{on "click" (perform this.copyContentKey)}} class="white fw4 flex items-center">
                                             {{#if this.copyContentKey.isRunning}}
                                             {{svg-jar "check-circle" class="w3 v-mid mr2"}} Copied
                                             {{else}}
@@ -123,7 +123,7 @@
                                 </span>
                                 <div class="absolute top-1 right-0">
                                     <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
-                                        <button type="button" {{action (perform this.copyAdminKey)}} class="white fw4 flex items-center">
+                                        <button type="button" {{on "click" (perform this.copyAdminKey)}} class="white fw4 flex items-center">
                                             {{#if this.copyAdminKey.isRunning}}
                                             {{svg-jar "check-circle" class="w3 v-mid mr2"}} Copied
                                             {{else}}
@@ -144,7 +144,7 @@
                                 </span>
                                 <div class="absolute top-1 right-0">
                                     <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
-                                        <button type="button" {{action (perform this.copyApiUrl)}} class="white fw4 flex items-center">
+                                        <button type="button" {{on "click" (perform this.copyApiUrl)}} class="white fw4 flex items-center">
                                             {{#if this.copyApiUrl.isRunning}}
                                             {{svg-jar "check-circle" class="w3 v-mid mr2"}} Copied
                                             {{else}}
@@ -185,7 +185,7 @@
                                 <LinkTo @route="settings.integration.webhooks.edit" @models={{array this.integration webhook}} data-test-link="edit-webhook">
                                     {{svg-jar "pen" class="w6 h6 fill-midgrey pa1 mr1"}}
                                 </LinkTo>
-                                <button {{action "confirmWebhookDeletion" webhook}} data-test-button="delete-webhook">
+                                <button {{on "click" (fn this.confirmWebhookDeletion webhook)}} data-test-button="delete-webhook">
                                     {{svg-jar "trash" class="w6 fill-red pa1"}}
                                 </button>
                             </div>
@@ -225,29 +225,29 @@
             {{/if}}
         </table>
     </div>
-    <button class="gh-btn gh-btn-red gh-btn-icon mb15 mt15" {{action "confirmIntegrationDeletion"}}>
+    <button class="gh-btn gh-btn-red gh-btn-icon mb15 mt15" {{on "click" this.confirmIntegrationDeletion}}>
         <span> Delete Integration </span>
     </button>
 </section>
 
 {{#if this.showUnsavedChangesModal}}
     <GhFullscreenModal @modal="leave-settings"
-        @confirm={{action "leaveScreen"}}
-        @close={{action "toggleUnsavedChangesModal"}}
+        @confirm={{this.leaveScreen}}
+        @close={{this.toggleUnsavedChangesModal}}
         @modifier="action wide" />
 {{/if}}
 
 {{#if this.showDeleteIntegrationModal}}
     <GhFullscreenModal @modal="delete-integration"
-        @confirm={{action "deleteIntegration"}}
-        @close={{action "cancelIntegrationDeletion"}}
+        @confirm={{this.deleteIntegration}}
+        @close={{this.cancelIntegrationDeletion}}
         @modifier="action wide" />
 {{/if}}
 
 {{#if this.webhookToDelete}}
     <GhFullscreenModal @modal="delete-webhook"
-        @confirm={{action "deleteWebhook"}}
-        @close={{action "cancelWebhookDeletion"}}
+        @confirm={{this.deleteWebhook}}
+        @close={{this.cancelWebhookDeletion}}
         @modifier="action wide" />
 {{/if}}
 

@@ -1,35 +1,39 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
-export default Controller.extend(ValidationEngine, {
-    ghostPaths: service(),
-    notifications: service(),
-    session: service(),
-    ajax: service(),
-    config: service(),
+@classic
+export default class ResetController extends Controller.extend(ValidationEngine) {
+    @service ajax;
+    @service config;
+    @service ghostPaths;
+    @service notifications;
+    @service session;
 
-    newPassword: '',
-    ne2Password: '',
-    token: '',
-    flowErrors: '',
+    newPassword = '';
+    ne2Password = '';
+    token = '';
+    flowErrors = '';
 
-    validationType: 'reset',
+    // ValidationEngine settings
+    validationType = 'reset';
 
-    email: computed('token', function () {
+    @computed('token')
+    email() {
         // The token base64 encodes the email (and some other stuff),
         // each section is divided by a '|'. Email comes second.
         return atob(this.token).split('|')[1];
-    }),
+    }
 
-    actions: {
-        submit() {
-            return this.resetPassword.perform();
-        }
-    },
+    @action
+    submit() {
+        return this.resetPassword.perform();
+    }
 
     // Used to clear sensitive information
     clearData() {
@@ -38,9 +42,10 @@ export default Controller.extend(ValidationEngine, {
             ne2Password: '',
             token: ''
         });
-    },
+    }
 
-    resetPassword: task(function* () {
+    @task({drop: true})
+    *resetPassword() {
         let credentials = this.getProperties('newPassword', 'ne2Password', 'token');
         let authUrl = this.get('ghostPaths.url').api('authentication', 'passwordreset');
 
@@ -74,5 +79,5 @@ export default Controller.extend(ValidationEngine, {
                 throw error;
             }
         }
-    }).drop()
-});
+    }
+}

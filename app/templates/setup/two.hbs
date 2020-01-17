@@ -3,7 +3,7 @@
 </header>
 
 <form id="setup" class="gh-flow-create">
-    <GhProfileImage @email={{this.email}} @setImage={{action "setImage"}} />
+    <GhProfileImage @email={{this.email}} @setImage={{this.setImage}} />
 
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="blogTitle">
         <label for="blog-title">Site title</label>
@@ -18,7 +18,7 @@
                 @autocorrect="off"
                 @value={{readonly this.blogTitle}}
                 @input={{action (mut this.blogTitle) value="target.value"}}
-                @focus-out={{action "preValidate" "blogTitle"}}
+                @focus-out={{fn this.preValidate "blogTitle"}}
                 data-test-blog-title-input={{true}} />
         </span>
         <GhErrorMessage @errors={{this.errors}} @property="blogTitle" />
@@ -37,7 +37,7 @@
                 @autocomplete="name"
                 @value={{readonly this.name}}
                 @input={{action (mut this.name) value="target.value"}}
-                @focus-out={{action "preValidate" "name"}}
+                @focus-out={{fn this.preValidate "name"}}
                 data-test-name-input={{true}} />
         </span>
         <GhErrorMessage @errors={{this.errors}} @property="name" />
@@ -57,7 +57,7 @@
                 @autocomplete="username email"
                 @value={{readonly this.email}}
                 @input={{action (mut this.email) value="target.value"}}
-                @focus-out={{action "preValidate" "email"}}
+                @focus-out={{fn this.preValidate "email"}}
                 data-test-email-input={{true}} />
         </span>
         <GhErrorMessage @errors={{this.errors}} @property="email" />
@@ -77,7 +77,7 @@
                 @autocomplete="new-password"
                 @value={{readonly this.password}}
                 @input={{action (mut this.password) value="target.value"}}
-                @focus-out={{action "preValidate" "password"}}
+                @focus-out={{fn this.preValidate "password"}}
                 data-test-password-input={{true}} />
         </span>
         <GhErrorMessage @errors={{this.errors}} @property="password" />

@@ -5,7 +5,7 @@
 
 <div><img class="gh-flow-faces" src="assets/img/users.png" alt="" /></div>
 
-<form class="gh-flow-invite" {{action "invite" on="submit"}}>
+<form class="gh-flow-invite" {{on "submit" this.invite}}>
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="users">
         <label for="users">Enter one email address per line, we’ll handle the rest! {{svg-jar "email"}}</label>
         <GhTextarea
@@ -13,7 +13,7 @@
             @required="required"
             @value={{readonly this.users}}
             @input={{action (mut this.users) value="target.value"}}
-            @focus-out={{action "validate"}}
+            @focus-out={{this.validate}}
         />
     </GhFormGroup>
 
@@ -35,6 +35,6 @@
     </GhTaskButton>
 </form>
 
-<button class="gh-flow-skip" {{action "skipInvite"}}>
+<button class="gh-flow-skip" {{on "click" this.skipInvite}}>
     I'll do this later, take me to my site!
 </button>

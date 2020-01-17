@@ -6,14 +6,14 @@
             AMP
         </h2>
         <section class="view-actions">
-            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
+            <GhTaskButton @task={{this.saveTask}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
         </section>
     </GhCanvasHeader>
 
     {{#if this.showLeaveSettingsModal}}
         <GhFullscreenModal @modal="leave-settings"
-            @confirm={{action "leaveSettings"}}
-            @close={{action "toggleLeaveSettingsModal"}}
+            @confirm={{this.leaveSettings}}
+            @close={{this.toggleLeaveSettingsModal}}
             @modifier="action wide" />
     {{/if}}
 

@@ -1,63 +1,75 @@
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
+import {alias, sort} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
 import RSVP from 'rsvp';
-import {alias, sort} from '@ember/object/computed';
-import {computed} from '@ember/object';
-import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
-export default Controller.extend({
-    session: service(),
-    store: service(),
+@classic
+export default class IndexController extends Controller {
+    @service session;
+    @service store;
 
-    showInviteUserModal: false,
-
-    inviteOrder: null,
-    userOrder: null,
+    showInviteUserModal = false;
+    inviteOrder = null;
+    userOrder = null;
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.inviteOrder = ['email'];
         this.userOrder = ['name', 'email'];
-    },
+    }
 
-    currentUser: alias('model'),
+    @alias('model')
+    currentUser;
 
-    sortedInvites: sort('filteredInvites', 'inviteOrder'),
-    sortedActiveUsers: sort('activeUsers', 'userOrder'),
-    sortedSuspendedUsers: sort('suspendedUsers', 'userOrder'),
+    @sort('filteredInvites', 'inviteOrder')
+    sortedInvites;
 
-    invites: computed(function () {
+    @sort('activeUsers', 'userOrder')
+    sortedActiveUsers;
+
+    @sort('suspendedUsers', 'userOrder')
+    sortedSuspendedUsers;
+
+    @computed
+    get invites() {
         return this.store.peekAll('invite');
-    }),
+    }
 
-    filteredInvites: computed('invites.@each.isNew', function () {
+    @computed('invites.@each.isNew')
+    get filteredInvites() {
         return this.invites.filterBy('isNew', false);
-    }),
+    }
 
-    allUsers: computed(function () {
+    @computed
+    get allUsers() {
         return this.store.peekAll('user');
-    }),
+    }
 
-    activeUsers: computed('allUsers.@each.status', function () {
+    @computed('allUsers.@each.status')
+    get activeUsers() {
         return this.allUsers.filter((user) => {
             return user.status !== 'inactive';
         });
-    }),
+    }
 
-    suspendedUsers: computed('allUsers.@each.status', function () {
+    @computed('allUsers.@each.status')
+    get suspendedUsers() {
         return this.allUsers.filter((user) => {
             return user.status === 'inactive';
         });
-    }),
+    }
 
-    actions: {
-        toggleInviteUserModal() {
-            this.toggleProperty('showInviteUserModal');
-        }
-    },
+    @action
+    toggleInviteUserModal() {
+        this.toggleProperty('showInviteUserModal');
+    }
 
-    backgroundUpdate: task(function* () {
+    @task
+    *backgroundUpdate() {
         let users = this.fetchUsers.perform();
         let invites = this.fetchInvites.perform();
 
@@ -66,13 +78,15 @@ export default Controller.extend({
         } catch (error) {
             this.send('error', error);
         }
-    }),
+    }
 
-    fetchUsers: task(function* () {
+    @task
+    *fetchUsers() {
         yield this.store.query('user', {limit: 'all'});
-    }),
+    }
 
-    fetchInvites: task(function* () {
+    @task
+    *fetchInvites() {
         if (this.currentUser.isAuthorOrContributor) {
             return;
         }
@@ -83,5 +97,5 @@ export default Controller.extend({
         yield this.store.query('role', {limit: 'all'});
 
         return yield this.store.query('invite', {limit: 'all'});
-    })
-});
+    }
+}

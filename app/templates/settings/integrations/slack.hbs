@@ -6,14 +6,14 @@
             Slack
         </h2>
         <section class="view-actions">
-            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
+            <GhTaskButton @task={{this.saveTask}} @class="gh-btn gh-btn-blue gh-btn-icon" data-test-save-button={{true}} />
         </section>
     </GhCanvasHeader>
 
     {{#if this.showLeaveSettingsModal}}
         <GhFullscreenModal @modal="leave-settings"
-            @confirm={{action "leaveSettings"}}
-            @close={{action "toggleLeaveSettingsModal"}}
+            @confirm={{this.leaveSettings}}
+            @close={{this.toggleLeaveSettingsModal}}
             @modifier="action wide" />
     {{/if}}
 
@@ -30,7 +30,7 @@
             </div>
         </section>
 
-        <form class="app-config-form" id="slack-settings" novalidate="novalidate" {{action "save" on="submit"}}>
+        <form class="app-config-form" id="slack-settings" novalidate="novalidate" {{on "submit" (perform this.saveTask)}}>
             <div class="gh-setting-header gh-first-header">Slack configuration</div>
 
                 <div class="flex flex-column br4 shadow-1 bg-grouped-table pa8 mt2">
@@ -46,9 +46,9 @@
                                     @value={{readonly this.slackSettings.url}}
                                     @input={{action "updateURL" value="target.value"}}
                                     @keyEvents={{hash
-                                        Enter=(action "save")
+                                        Enter=(perform this.saveTask)
                                     }}
-                                    @focus-out={{action "triggerDirtyState"}}
+                                    @focus-out={{this.triggerDirtyState}}
                                     data-test-slack-url-input={{true}}
                                 />
                                 {{#unless this.slackSettings.errors.url}}
@@ -72,9 +72,9 @@
                                     @value={{readonly this.slackSettings.username}}
                                     @input={{action "updateUsername" value="target.value"}}
                                     @keyEvents={{hash
-                                        Enter=(action "save")
+                                        Enter=(perform this.saveTask)
                                     }}
-                                    @focus-out={{action "triggerDirtyState"}}
+                                    @focus-out={{this.triggerDirtyState}}
                                     data-test-slack-username-input={{true}}
                                 />
                                 {{#if this.slackSettings.errors.username}}

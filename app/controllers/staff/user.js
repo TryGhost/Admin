@@ -1,57 +1,78 @@
 import Controller from '@ember/controller';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import classic from 'ember-classic-decorator';
 import isNumber from 'ghost-admin/utils/isNumber';
 import validator from 'validator';
 import windowProxy from 'ghost-admin/utils/window-proxy';
+import {action, computed} from '@ember/object';
 import {alias, and, not, or, readOnly} from '@ember/object/computed';
-import {computed} from '@ember/object';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
-import {task, taskGroup} from 'ember-concurrency';
+import {task, taskGroup} from 'ember-concurrency-decorators';
 
-export default Controller.extend({
-    ajax: service(),
-    config: service(),
-    dropdown: service(),
-    ghostPaths: service(),
-    notifications: service(),
-    session: service(),
-    slugGenerator: service(),
+@classic
+export default class UserController extends Controller {
+    @service ajax;
+    @service config;
+    @service dropdown;
+    @service ghostPaths;
+    @service notifications;
+    @service session;
+    @service slugGenerator;
 
-    leaveSettingsTransition: null,
-    dirtyAttributes: false,
-    showDeleteUserModal: false,
-    showSuspendUserModal: false,
-    showTransferOwnerModal: false,
-    showUploadCoverModal: false,
-    showUplaodImageModal: false,
-    _scratchFacebook: null,
-    _scratchTwitter: null,
+    leaveSettingsTransition = null;
+    dirtyAttributes = false;
+    showDeleteUserModal = false;
+    showSuspendUserModal = false;
+    showTransferOwnerModal = false;
+    showUploadCoverModal = false;
+    showUplaodImageModal = false;
+    _scratchFacebook = null;
+    _scratchTwitter = null;
 
-    saveHandlers: taskGroup().enqueue(),
+    @taskGroup({enqueue: true})
+    saveHandlers;
 
-    user: alias('model'),
-    currentUser: alias('session.user'),
+    @alias('model')
+    user;
 
-    email: readOnly('user.email'),
-    slugValue: boundOneWay('user.slug'),
+    @alias('session.user')
+    currentUser;
 
-    canChangeEmail: not('isAdminUserOnOwnerProfile'),
-    canChangePassword: not('isAdminUserOnOwnerProfile'),
-    canMakeOwner: and('currentUser.isOwner', 'isNotOwnProfile', 'user.isAdmin', 'isNotSuspended'),
-    isAdminUserOnOwnerProfile: and('currentUser.isAdmin', 'user.isOwner'),
-    isNotOwnersProfile: not('user.isOwner'),
-    isNotSuspended: not('user.isSuspended'),
-    rolesDropdownIsVisible: and('currentUser.isOwnerOrAdmin', 'isNotOwnProfile', 'isNotOwnersProfile'),
-    userActionsAreVisible: or('deleteUserActionIsVisible', 'canMakeOwner'),
+    @readOnly('user.email')
+    email;
 
-    isNotOwnProfile: not('isOwnProfile'),
-    isOwnProfile: computed('user.id', 'currentUser.id', function () {
+    @boundOneWay('user.slug')
+    slugValue;
+
+    @not('isAdminUserOnOwnerProfile')
+    canChangeEmail;
+    @not('isAdminUserOnOwnerProfile')
+    canChangePassword;
+    @and('currentUser.isOwner', 'isNotOwnProfile', 'user.isAdmin', 'isNotSuspended')
+    canMakeOwner;
+    @and('currentUser.isAdmin', 'user.isOwner')
+    isAdminUserOnOwnerProfile;
+    @not('user.isOwner')
+    isNotOwnersProfile;
+    @not('user.isSuspended')
+    isNotSuspended;
+    @and('currentUser.isOwnerOrAdmin', 'isNotOwnProfile', 'isNotOwnersProfile')
+    rolesDropdownIsVisible;
+    @or('deleteUserActionIsVisible', 'canMakeOwner')
+    userActionsAreVisible;
+
+    @not('isOwnProfile')
+    isNotOwnProfile;
+
+    @computed('user.id', 'currentUser.id')
+    get isOwnProfile() {
         return this.get('user.id') === this.get('currentUser.id');
-    }),
+    }
 
-    deleteUserActionIsVisible: computed('currentUser.{isOwnerOrAdmin,isEditor}', 'user.{isOwner,isAuthorOrContributor}', 'isOwnProfile', function () {
+    @computed('currentUser.{isOwnerOrAdmin,isEditor}', 'user.{isOwner,isAuthorOrContributor}', 'isOwnProfile')
+    get deleteUserActionIsVisible() {
         // users can't delete themselves
         if (this.isOwnProfile) {
             return false;
@@ -67,296 +88,315 @@ export default Controller.extend({
         }
 
         return false;
-    }),
+    }
 
-    coverTitle: computed('user.name', function () {
+    @computed('user.name')
+    get coverTitle() {
         return `${this.get('user.name')}'s Cover Image`;
-    }),
+    }
 
-    roles: computed(function () {
+    @computed
+    get roles() {
         return this.store.query('role', {permissions: 'assign'});
-    }),
+    }
 
-    actions: {
-        changeRole(newRole) {
-            this.user.set('role', newRole);
-            this.set('dirtyAttributes', true);
-        },
+    @action
+    changeRole(newRole) {
+        this.user.set('role', newRole);
+        this.set('dirtyAttributes', true);
+    }
 
-        deleteUser() {
-            return this._deleteUser().then(() => {
-                this._deleteUserSuccess();
-            }, () => {
-                this._deleteUserFailure();
+    @action
+    deleteUser() {
+        return this._deleteUser().then(() => {
+            this._deleteUserSuccess();
+        }, () => {
+            this._deleteUserFailure();
+        });
+    }
+
+    @action
+    toggleDeleteUserModal() {
+        if (this.deleteUserActionIsVisible) {
+            this.toggleProperty('showDeleteUserModal');
+        }
+    }
+
+    @action
+    suspendUser() {
+        this.user.set('status', 'inactive');
+        return this.save.perform();
+    }
+
+    @action
+    toggleSuspendUserModal() {
+        if (this.deleteUserActionIsVisible) {
+            this.toggleProperty('showSuspendUserModal');
+        }
+    }
+
+    @action
+    unsuspendUser() {
+        this.user.set('status', 'active');
+        return this.save.perform();
+    }
+
+    @action
+    toggleUnsuspendUserModal() {
+        if (this.deleteUserActionIsVisible) {
+            this.toggleProperty('showUnsuspendUserModal');
+        }
+    }
+
+    @action
+    validateFacebookUrl() {
+        let newUrl = this._scratchFacebook;
+        let oldUrl = this.get('user.facebook');
+        let errMessage = '';
+
+        // reset errors and validation
+        this.get('user.errors').remove('facebook');
+        this.get('user.hasValidated').removeObject('facebook');
+
+        if (newUrl === '') {
+            // Clear out the Facebook url
+            this.set('user.facebook', '');
+            return;
+        }
+
+        // _scratchFacebook will be null unless the user has input something
+        if (!newUrl) {
+            newUrl = oldUrl;
+        }
+
+        try {
+            // strip any facebook URLs out
+            newUrl = newUrl.replace(/(https?:\/\/)?(www\.)?facebook\.com/i, '');
+
+            // don't allow any non-facebook urls
+            if (newUrl.match(/^(http|\/\/)/i)) {
+                throw 'invalid url';
+            }
+
+            // strip leading / if we have one then concat to full facebook URL
+            newUrl = newUrl.replace(/^\//, '');
+            newUrl = `https://www.facebook.com/${newUrl}`;
+
+            // don't allow URL if it's not valid
+            if (!validator.isURL(newUrl)) {
+                throw 'invalid url';
+            }
+
+            this.set('user.facebook', '');
+            run.schedule('afterRender', this, function () {
+                this.set('user.facebook', newUrl);
             });
-        },
-
-        toggleDeleteUserModal() {
-            if (this.deleteUserActionIsVisible) {
-                this.toggleProperty('showDeleteUserModal');
-            }
-        },
-
-        suspendUser() {
-            this.user.set('status', 'inactive');
-            return this.save.perform();
-        },
-
-        toggleSuspendUserModal() {
-            if (this.deleteUserActionIsVisible) {
-                this.toggleProperty('showSuspendUserModal');
-            }
-        },
-
-        unsuspendUser() {
-            this.user.set('status', 'active');
-            return this.save.perform();
-        },
-
-        toggleUnsuspendUserModal() {
-            if (this.deleteUserActionIsVisible) {
-                this.toggleProperty('showUnsuspendUserModal');
-            }
-        },
-
-        validateFacebookUrl() {
-            let newUrl = this._scratchFacebook;
-            let oldUrl = this.get('user.facebook');
-            let errMessage = '';
-
-            // reset errors and validation
-            this.get('user.errors').remove('facebook');
-            this.get('user.hasValidated').removeObject('facebook');
-
-            if (newUrl === '') {
-                // Clear out the Facebook url
-                this.set('user.facebook', '');
-                return;
-            }
-
-            // _scratchFacebook will be null unless the user has input something
-            if (!newUrl) {
-                newUrl = oldUrl;
-            }
-
-            try {
-                // strip any facebook URLs out
-                newUrl = newUrl.replace(/(https?:\/\/)?(www\.)?facebook\.com/i, '');
-
-                // don't allow any non-facebook urls
-                if (newUrl.match(/^(http|\/\/)/i)) {
-                    throw 'invalid url';
-                }
-
-                // strip leading / if we have one then concat to full facebook URL
-                newUrl = newUrl.replace(/^\//, '');
-                newUrl = `https://www.facebook.com/${newUrl}`;
-
-                // don't allow URL if it's not valid
-                if (!validator.isURL(newUrl)) {
-                    throw 'invalid url';
-                }
-
-                this.set('user.facebook', '');
-                run.schedule('afterRender', this, function () {
-                    this.set('user.facebook', newUrl);
-                });
-            } catch (e) {
-                if (e === 'invalid url') {
-                    errMessage = 'The URL must be in a format like '
-                               + 'https://www.facebook.com/yourPage';
-                    this.get('user.errors').add('facebook', errMessage);
-                    return;
-                }
-
-                throw e;
-            } finally {
-                this.get('user.hasValidated').pushObject('facebook');
-            }
-        },
-
-        validateTwitterUrl() {
-            let newUrl = this._scratchTwitter;
-            let oldUrl = this.get('user.twitter');
-            let errMessage = '';
-
-            // reset errors and validation
-            this.get('user.errors').remove('twitter');
-            this.get('user.hasValidated').removeObject('twitter');
-
-            if (newUrl === '') {
-                // Clear out the Twitter url
-                this.set('user.twitter', '');
-                return;
-            }
-
-            // _scratchTwitter will be null unless the user has input something
-            if (!newUrl) {
-                newUrl = oldUrl;
-            }
-
-            if (newUrl.match(/(?:twitter\.com\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
-                let username = [];
-
-                if (newUrl.match(/(?:twitter\.com\/)(\S+)/)) {
-                    [, username] = newUrl.match(/(?:twitter\.com\/)(\S+)/);
-                } else {
-                    [username] = newUrl.match(/([^/]+)\/?$/mi);
-                }
-
-                // check if username starts with http or www and show error if so
-                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
-                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
-
-                    this.get('user.errors').add('twitter', errMessage);
-                    this.get('user.hasValidated').pushObject('twitter');
-                    return;
-                }
-
-                newUrl = `https://twitter.com/${username}`;
-
-                this.get('user.hasValidated').pushObject('twitter');
-
-                this.set('user.twitter', '');
-                run.schedule('afterRender', this, function () {
-                    this.set('user.twitter', newUrl);
-                });
-            } else {
+        } catch (e) {
+            if (e === 'invalid url') {
                 errMessage = 'The URL must be in a format like '
-                           + 'https://twitter.com/yourUsername';
+                            + 'https://www.facebook.com/yourPage';
+                this.get('user.errors').add('facebook', errMessage);
+                return;
+            }
+
+            throw e;
+        } finally {
+            this.get('user.hasValidated').pushObject('facebook');
+        }
+    }
+
+    @action
+    validateTwitterUrl() {
+        let newUrl = this._scratchTwitter;
+        let oldUrl = this.get('user.twitter');
+        let errMessage = '';
+
+        // reset errors and validation
+        this.get('user.errors').remove('twitter');
+        this.get('user.hasValidated').removeObject('twitter');
+
+        if (newUrl === '') {
+            // Clear out the Twitter url
+            this.set('user.twitter', '');
+            return;
+        }
+
+        // _scratchTwitter will be null unless the user has input something
+        if (!newUrl) {
+            newUrl = oldUrl;
+        }
+
+        if (newUrl.match(/(?:twitter\.com\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
+            let username = [];
+
+            if (newUrl.match(/(?:twitter\.com\/)(\S+)/)) {
+                [, username] = newUrl.match(/(?:twitter\.com\/)(\S+)/);
+            } else {
+                [username] = newUrl.match(/([^/]+)\/?$/mi);
+            }
+
+            // check if username starts with http or www and show error if so
+            if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
+                errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
+
                 this.get('user.errors').add('twitter', errMessage);
                 this.get('user.hasValidated').pushObject('twitter');
                 return;
             }
-        },
 
-        transferOwnership() {
-            let user = this.user;
-            let url = this.get('ghostPaths.url').api('users', 'owner');
+            newUrl = `https://twitter.com/${username}`;
 
-            this.dropdown.closeDropdowns();
+            this.get('user.hasValidated').pushObject('twitter');
 
-            return this.ajax.put(url, {
-                data: {
-                    owner: [{
-                        id: user.get('id')
-                    }]
-                }
-            }).then((response) => {
-                // manually update the roles for the users that just changed roles
-                // because store.pushPayload is not working with embedded relations
-                if (response && isEmberArray(response.users)) {
-                    response.users.forEach((userJSON) => {
-                        let user = this.store.peekRecord('user', userJSON.id);
-                        let role = this.store.peekRecord('role', userJSON.roles[0].id);
-
-                        user.set('role', role);
-                    });
-                }
-
-                this.notifications.showAlert(`Ownership successfully transferred to ${user.get('name')}`, {type: 'success', key: 'owner.transfer.success'});
-            }).catch((error) => {
-                this.notifications.showAPIError(error, {key: 'owner.transfer'});
+            this.set('user.twitter', '');
+            run.schedule('afterRender', this, function () {
+                this.set('user.twitter', newUrl);
             });
-        },
-
-        toggleLeaveSettingsModal(transition) {
-            let leaveTransition = this.leaveSettingsTransition;
-
-            if (!transition && this.showLeaveSettingsModal) {
-                this.set('leaveSettingsTransition', null);
-                this.set('showLeaveSettingsModal', false);
-                return;
-            }
-
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveSettingsTransition', transition);
-
-                // if a save is running, wait for it to finish then transition
-                if (this.get('saveHandlers.isRunning')) {
-                    return this.get('saveHandlers.last').then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showLeaveSettingsModal', true);
-            }
-        },
-
-        leaveSettings() {
-            let transition = this.leaveSettingsTransition;
-            let user = this.user;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on user props
-            user.rollbackAttributes();
-            // roll back the slugValue property
-            if (this.dirtyAttributes) {
-                this.set('slugValue', user.get('slug'));
-                this.set('dirtyAttributes', false);
-            }
-
-            return transition.retry();
-        },
-
-        toggleTransferOwnerModal() {
-            if (this.canMakeOwner) {
-                this.toggleProperty('showTransferOwnerModal');
-            }
-        },
-
-        toggleUploadCoverModal() {
-            this.toggleProperty('showUploadCoverModal');
-        },
-
-        toggleUploadImageModal() {
-            this.toggleProperty('showUploadImageModal');
-        },
-
-        // TODO: remove those mutation actions once we have better
-        // inline validations that auto-clear errors on input
-        updatePassword(password) {
-            this.set('user.password', password);
-            this.get('user.hasValidated').removeObject('password');
-            this.get('user.errors').remove('password');
-        },
-
-        updateNewPassword(password) {
-            this.set('user.newPassword', password);
-            this.get('user.hasValidated').removeObject('newPassword');
-            this.get('user.errors').remove('newPassword');
-        },
-
-        updateNe2Password(password) {
-            this.set('user.ne2Password', password);
-            this.get('user.hasValidated').removeObject('ne2Password');
-            this.get('user.errors').remove('ne2Password');
+        } else {
+            errMessage = 'The URL must be in a format like '
+                        + 'https://twitter.com/yourUsername';
+            this.get('user.errors').add('twitter', errMessage);
+            this.get('user.hasValidated').pushObject('twitter');
+            return;
         }
-    },
+    }
+
+    @action
+    transferOwnership() {
+        let user = this.user;
+        let url = this.get('ghostPaths.url').api('users', 'owner');
+
+        this.dropdown.closeDropdowns();
+
+        return this.ajax.put(url, {
+            data: {
+                owner: [{
+                    id: user.get('id')
+                }]
+            }
+        }).then((response) => {
+            // manually update the roles for the users that just changed roles
+            // because store.pushPayload is not working with embedded relations
+            if (response && isEmberArray(response.users)) {
+                response.users.forEach((userJSON) => {
+                    let user = this.store.peekRecord('user', userJSON.id);
+                    let role = this.store.peekRecord('role', userJSON.roles[0].id);
+
+                    user.set('role', role);
+                });
+            }
+
+            this.notifications.showAlert(`Ownership successfully transferred to ${user.get('name')}`, {type: 'success', key: 'owner.transfer.success'});
+        }).catch((error) => {
+            this.notifications.showAPIError(error, {key: 'owner.transfer'});
+        });
+    }
+
+    @action
+    toggleLeaveSettingsModal(transition) {
+        let leaveTransition = this.leaveSettingsTransition;
+
+        if (!transition && this.showLeaveSettingsModal) {
+            this.set('leaveSettingsTransition', null);
+            this.set('showLeaveSettingsModal', false);
+            return;
+        }
+
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.set('leaveSettingsTransition', transition);
+
+            // if a save is running, wait for it to finish then transition
+            if (this.get('saveHandlers.isRunning')) {
+                return this.get('saveHandlers.last').then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.set('showLeaveSettingsModal', true);
+        }
+    }
+
+    @action
+    leaveSettings() {
+        let transition = this.leaveSettingsTransition;
+        let user = this.user;
+
+        if (!transition) {
+            this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+            return;
+        }
+
+        // roll back changes on user props
+        user.rollbackAttributes();
+        // roll back the slugValue property
+        if (this.dirtyAttributes) {
+            this.set('slugValue', user.get('slug'));
+            this.set('dirtyAttributes', false);
+        }
+
+        return transition.retry();
+    }
+
+    @action
+    toggleTransferOwnerModal() {
+        if (this.canMakeOwner) {
+            this.toggleProperty('showTransferOwnerModal');
+        }
+    }
+
+    @action
+    toggleUploadCoverModal() {
+        this.toggleProperty('showUploadCoverModal');
+    }
+
+    @action
+    toggleUploadImageModal() {
+        this.toggleProperty('showUploadImageModal');
+    }
+
+    // TODO: remove those mutation actions once we have better
+    // inline validations that auto-clear errors on input
+    @action
+    updatePassword(password) {
+        this.set('user.password', password);
+        this.get('user.hasValidated').removeObject('password');
+        this.get('user.errors').remove('password');
+    }
+
+    @action
+    updateNewPassword(password) {
+        this.set('user.newPassword', password);
+        this.get('user.hasValidated').removeObject('newPassword');
+        this.get('user.errors').remove('newPassword');
+    }
+
+    @action
+    updateNe2Password(password) {
+        this.set('user.ne2Password', password);
+        this.get('user.hasValidated').removeObject('ne2Password');
+        this.get('user.errors').remove('ne2Password');
+    }
 
     _deleteUser() {
         if (this.deleteUserActionIsVisible) {
             let user = this.user;
             return user.destroyRecord();
         }
-    },
+    }
 
     _deleteUserSuccess() {
         this.notifications.closeAlerts('user.delete');
         this.store.unloadAll('post');
         this.transitionToRoute('staff');
-    },
+    }
 
     _deleteUserFailure() {
         this.notifications.showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
-    },
+    }
 
-    updateSlug: task(function* (newSlug) {
+    @task({group: 'saveHandlers'})
+    *updateSlug(newSlug) {
         let slug = this.get('user.slug');
 
         newSlug = newSlug || slug;
@@ -401,9 +441,10 @@ export default Controller.extend({
         this.set('dirtyAttributes', true);
 
         return true;
-    }).group('saveHandlers'),
+    }
 
-    save: task(function* () {
+    @task({group: 'saveHandlers'})
+    *save() {
         let user = this.user;
         let slugValue = this.slugValue;
         let slugChanged;
@@ -439,5 +480,5 @@ export default Controller.extend({
                 this.notifications.showAPIError(error, {key: 'user.update'});
             }
         }
-    }).group('saveHandlers')
-});
+    }
+}
