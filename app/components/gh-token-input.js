@@ -13,7 +13,7 @@ import {
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {tagName} from '@ember-decorators/component';
-import {task} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 const {Handlebars} = Ember;
 
@@ -119,14 +119,15 @@ class GhTokenInput extends Component {
 
     // tasks -------------------------------------------------------------------
 
-    @task(function* () {
+    @task
+    *optionsWithoutSelectedTask() {
         let options = yield this.options;
         let selected = yield this.selected;
         return options.filter(o => !selected.includes(o));
-    })
-    optionsWithoutSelectedTask;
+    }
 
-    @task(function* (term, select) {
+    @task
+    *searchAndSuggestTask(term, select) {
         let newOptions = (yield this.optionsWithoutSelected).toArray();
 
         if (term.length === 0) {
@@ -149,8 +150,7 @@ class GhTokenInput extends Component {
         this._addCreateOption(term, newOptions);
 
         return newOptions;
-    })
-    searchAndSuggestTask;
+    }
 
     // internal ----------------------------------------------------------------
 
