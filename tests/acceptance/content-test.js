@@ -1,7 +1,7 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
+import {click, currentURL, find, findAll, visit} from '@ember/test-helpers';
 import {clickTrigger, selectChoose} from 'ember-power-select/test-support/helpers';
-import {currentURL, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
@@ -114,6 +114,28 @@ describe('Acceptance: Content', function () {
             expect(options[1].textContent.trim()).to.equal('A - First');
             expect(options[2].textContent.trim()).to.equal('B - Second');
             expect(options[3].textContent.trim()).to.equal('Z - Last');
+        });
+
+        it('can clear filter from filter actions dropdown', async function () {
+            // actions dropdown is not visible when there's no filter
+            await visit('/posts');
+            expect(find('[data-test-dd-trigger="filter-actions"]')).to.not.exist;
+
+            // actions dropdown is visible after filtering
+            await selectChoose('[data-test-type-select]', 'Published posts');
+            expect(currentURL()).to.equal('/posts?type=published');
+            expect(find('[data-test-dd-trigger="filter-actions"]')).to.exist;
+            expect(find('[data-test-dd-content="filter-actions"]')).to.not.exist;
+
+            // actions dropdown opens when clicking
+            await click('[data-test-dd-trigger="filter-actions"]');
+            expect(find('[data-test-dd-content="filter-actions"]')).to.exist;
+
+            // clears filter and closes dropdown when clicking link
+            await click('[data-test-link="filter-actions-clear"]');
+            expect(currentURL()).to.equal('/posts');
+            expect(find('[data-test-dd-trigger="filter-actions"]')).to.not.exist;
+            expect(find('[data-test-dd-content="filter-actions"]')).to.not.exist;
         });
     });
 
