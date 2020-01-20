@@ -77,18 +77,22 @@ export default Component.extend(ShortcutsMixin, {
         toggleSearchModal() {
             this.toggleProperty('showSearchModal');
         },
-        createSiteIdentityToken: task(function* (){
-            const ghostIdentityUrl = this.get('ghostPaths.url').api('ghost-identity');
-
-            try {
-                const token = yield this.ajax.post(ghostIdentityUrl);
-                console.log(token);
-                alert(token);
-            } catch (err) {
-                console.error(err.message);
-            }
-        })
+        createSiteIdentityToken() {
+            this.createSiteIdentityToken.perform();
+        }
     },
+
+    createSiteIdentityToken: task(function* (){
+        const ghostIdentityUrl = this.get('ghostPaths.url').api('ghost-identity');
+
+        try {
+            const {token} = yield this.ajax.post(ghostIdentityUrl);
+            console.log(token);
+            alert(token);
+        } catch (err) {
+            console.error(err.message);
+        }
+    }),
 
     // equivalent to "left: auto; right: -20px"
     userDropdownPosition(trigger, dropdown) {
