@@ -6,6 +6,7 @@ import {and, equal, match} from '@ember/object/computed';
 import {getOwner} from '@ember/application';
 import {htmlSafe} from '@ember/string';
 import {inject as service} from '@ember/service';
+import {task} from 'ember-concurrency';
 
 export default Component.extend(ShortcutsMixin, {
     config: service(),
@@ -15,6 +16,7 @@ export default Component.extend(ShortcutsMixin, {
     session: service(),
     ui: service(),
     whatsNew: service(),
+    ajax: service(),
 
     tagName: 'nav',
     classNames: ['gh-nav'],
@@ -74,7 +76,18 @@ export default Component.extend(ShortcutsMixin, {
         },
         toggleSearchModal() {
             this.toggleProperty('showSearchModal');
-        }
+        },
+        createSiteIdentityToken: task(function* (){
+            const ghostIdentityUrl = this.get('ghostPaths.url').api('ghost-identity');
+
+            try {
+                const token = yield this.ajax.post(ghostIdentityUrl);
+                console.log(token);
+                alert(token);
+            } catch (err) {
+                console.error(err.message);
+            }
+        })
     },
 
     // equivalent to "left: auto; right: -20px"
