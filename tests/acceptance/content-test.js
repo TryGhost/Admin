@@ -137,6 +137,45 @@ describe('Acceptance: Content', function () {
             expect(find('[data-test-dd-trigger="filter-actions"]')).to.not.exist;
             expect(find('[data-test-dd-content="filter-actions"]')).to.not.exist;
         });
+
+        it('can navigate to custom views', async function () {
+            admin.accessibility = JSON.stringify({
+                views: [{
+                    route: 'posts',
+                    name: 'Scheduled posts',
+                    filter: {
+                        type: 'scheduled'
+                    }
+                }]
+            });
+            admin.save();
+
+            await visit('/posts');
+
+            // screen has default title and sidebar is showing inactive custom view
+            expect(find('[data-test-screen-title]').textContent.trim()).to.equal('Posts');
+            expect(find('[data-test-nav-custom="Scheduled posts"]')).to.exist;
+            expect(find('[data-test-nav-custom="Scheduled posts"]').textContent.trim()).to.equal('Scheduled posts');
+            expect(find('[data-test-nav-custom="Scheduled posts"]')).to.not.have.class('active');
+
+            // clicking sidebar custom view link works
+            await click('[data-test-nav-custom="Scheduled posts"]');
+            expect(currentURL()).to.equal('/posts?type=scheduled');
+            expect(find('[data-test-screen-title]').textContent.trim()).to.equal('Scheduled posts');
+            expect(find('[data-test-nav-custom="Scheduled posts"]')).to.have.class('active');
+
+            // clicking the main posts link resets
+            await click('[data-test-nav="posts"]');
+            expect(currentURL()).to.equal('/posts');
+            expect(find('[data-test-screen-title]').textContent.trim()).to.equal('Posts');
+            expect(find('[data-test-nav-custom="Scheduled posts"]')).to.not.have.class('active');
+
+            // changing a filter to match a custom view shows custom view
+            await selectChoose('[data-test-type-select]', 'Scheduled posts');
+            expect(currentURL()).to.equal('/posts?type=scheduled');
+            expect(find('[data-test-screen-title]').textContent.trim()).to.equal('Scheduled posts');
+            expect(find('[data-test-nav-custom="Scheduled posts"]')).to.have.class('active');
+        });
     });
 
     describe('as author', function () {

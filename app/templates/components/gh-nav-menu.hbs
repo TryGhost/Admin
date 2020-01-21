@@ -33,18 +33,35 @@
             <li class="gh-nav-list-new relative">
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq this.router.currentRouteName "posts")}}
-                    <LinkTo @route="posts" @query={{hash type=null author=null tag=null order=null}} @classNames="active" data-test-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
+                    <LinkTo @route="posts" @query={{reset-posts-query}} @classNames="active" data-test-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
                 {{else}}
                     <LinkTo @route="posts" data-test-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
                 {{/if}}
                 <LinkTo @route="editor.new" @model="post" @classNames="gh-secondary-action gh-nav-new-post" @alt="New story" data-test-nav="new-story"><span>{{svg-jar "add-stroke"}}</span></LinkTo>
+
+                {{#if this.customViews.forPosts}}
+                    <ul>
+                        {{#each this.customViews.forPosts as |view|}}
+                            <li><LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
             </li>
             <li>
                 {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
                 {{#if (eq this.router.currentRouteName "pages")}}
-                    <LinkTo @route="pages" @query={{hash type=null author=null tag=null order=null}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                    <LinkTo @route="pages" @query={{reset-posts-query}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
                 {{else}}
                     <LinkTo @route="pages" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                {{/if}}
+
+
+                {{#if this.customViews.forPages}}
+                    <ul>
+                        {{#each this.customViews.forPages as |view|}}
+                            <li><LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
+                        {{/each}}
+                    </ul>
                 {{/if}}
             </li>
             {{#if (gh-user-can-admin this.session.user)}}

@@ -34,6 +34,7 @@ const ORDERS = [{
 
 export default Controller.extend({
 
+    customViews: service(),
     store: service(),
 
     queryParams: ['type', 'author', 'tag', 'order'],
