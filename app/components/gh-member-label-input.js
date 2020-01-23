@@ -14,6 +14,8 @@ export default Component.extend({
     // internal attrs
     _availableLabels: null,
 
+    selectedLabels: computed.reads('member.labels'),
+
     availableLabels: sort('_availableLabels.[]', function (labelA, labelB) {
         // ignorePunctuation means the # in label names is ignored
         return labelA.name.localeCompare(labelB.name, undefined, {ignorePunctuation: true});

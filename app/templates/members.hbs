@@ -50,26 +50,18 @@
 
     <section class="view-container">
         {{#if filteredMembers}}
-            {{#unless this.searchText}}
+            {{#if this.showingAll}}
                 <section>
                     <GhMembersChart @members={{members}} />
                 </section>
-            {{/unless}}
+            {{/if}}
         {{/if}}
         <section class="content-list">
             <ol class="members-list gh-list {{unless this.filteredMembers "no-posts"}}">
                 {{#if this.filteredMembers}}
                     <li class="gh-list-row header">
                         <div class="gh-list-header">
-                            {{#if this.searchText}}
-                                Search result
-                            {{else}}
-                                {{#if this.fetchMembers.lastSuccessful}}
-                                    {{pluralize this.members.length "member"}}
-                                {{else}}
-                                    Loading...
-                                {{/if}}
-                            {{/if}}
+                            {{listHeader}}
                         </div>
                         <div class="gh-list-header gh-list-cellwidth-20 nowrap">Created</div>
                         <div class="gh-list-header gh-list-cellwidth-chevron"></div>
@@ -87,11 +79,11 @@
                         <li class="no-posts-box">
                             <div class="no-posts">
                                 {{svg-jar "members-placeholder" class="gh-members-placeholder"}}
-                                {{#if this.searchText}}
-                                    <h3>No members found!</h3>
-                                {{else}}
+                                {{#if this.showingAll}}
                                     <h3>No members yet</h3>
                                     <GhMembersNoMembers />
+                                {{else}}
+                                    <h3>No members found!</h3>
                                 {{/if}}
                             </div>
                         </li>
