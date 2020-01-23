@@ -1,7 +1,7 @@
 // TODO: remove usage of Ember Data's private `Errors` class when refactoring validations
 // eslint-disable-next-line
 import CustomViewValidator from 'ghost-admin/validators/custom-view';
-import DS from 'ember-data';
+import DS from 'ember-data'; // eslint-disable-line
 import IntegrationValidator from 'ghost-admin/validators/integration';
 import InviteUserValidator from 'ghost-admin/validators/invite-user';
 import MemberValidator from 'ghost-admin/validators/member';
