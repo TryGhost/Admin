@@ -1,0 +1,43 @@
+<header class="modal-header" data-test-modal="custom-view-form">
+    <h1>{{if this.model.isNew "New view" "Edit view"}}</h1>
+</header>
+{{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+<button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
+    {{svg-jar "close"}}
+</button>
+
+<div class="modal-body">
+    <p>Saved views appear in the sidebar.</p>
+    <fieldset>
+        <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
+            <label for="view-name" class="fw6">View name</label>
+            <GhTextInput
+                @id="view-name"
+                @value={{this.model.name}}
+                @placeholder="Breaking news"
+                @focus-out={{action "validate" "name" target=this.model}}
+            />
+            <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="custom-view-name" />
+        </GhFormGroup>
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    <button
+        class="gh-btn"
+        {{action "closeModal"}}
+        {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+        {{action (optional this.noop) on="mouseDown"}}
+        data-test-button="cancel-custom-view-form"
+    >
+        <span>Cancel</span>
+    </button>
+
+    <GhTaskButton
+        @buttonText="Save"
+        @successText="Saved"
+        @task={{this.saveTask}}
+        @taskArgs={{this.model}}
+        @class="gh-btn gh-btn-green gh-btn-icon"
+        data-test-button="save-custom-view" />
+</div>

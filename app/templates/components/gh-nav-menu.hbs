@@ -40,7 +40,7 @@
                 <LinkTo @route="editor.new" @model="post" @classNames="gh-secondary-action gh-nav-new-post" @alt="New story" data-test-nav="new-story"><span>{{svg-jar "add-stroke"}}</span></LinkTo>
 
                 {{#if this.customViews.forPosts}}
-                    <ul>
+                    <ul class="list">
                         {{#each this.customViews.forPosts as |view|}}
                             <li><LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
                         {{/each}}
@@ -57,7 +57,7 @@
 
 
                 {{#if this.customViews.forPages}}
-                    <ul>
+                    <ul class="list">
                         {{#each this.customViews.forPages as |view|}}
                             <li><LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
                         {{/each}}

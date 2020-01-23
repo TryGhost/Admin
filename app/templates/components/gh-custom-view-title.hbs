@@ -1,0 +1,10 @@
+<h2 class="gh-canvas-title" data-test-screen-title>
+    {{#if this.customViews.activeView}}
+        {{this.customViews.activeView.name}}
+        <button type="button" {{on "click" this.customViews.toggleFormModal}}>
+            <span>{{svg-jar "pen"}}</span>
+        </button>
+    {{else}}
+        {{or @defaultTitle "No @defaultTitle provided"}}
+    {{/if}}
+</h2>

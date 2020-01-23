@@ -81,14 +81,18 @@
                 <dropdown.Content data-test-dd-content="filter-actions">
                     <ul class="dropdown-menu">
                         <li>
-                            <LinkTo @route={{this.router.currentRouteName}} @query={{hash type=null author=null tag=null order=null}} data-test-link="filter-actions-clear">
+                            <LinkTo @route={{this.router.currentRouteName}} @query={{reset-posts-query}} data-test-link="filter-actions-clear">
                                 Clear filter
                             </LinkTo>
                         </li>
+                        {{#unless this.customViews.activeView}}
+                            <li>
+                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>New view</button>
+                            </li>
+                        {{/unless}}
                     </ul>
                 </dropdown.Content>
             </GhBasicDropdown>
         </div>
     {{/if}}
 </div>
-
