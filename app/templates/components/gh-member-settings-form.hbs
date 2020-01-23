@@ -33,6 +33,10 @@
                         @value={{this.scratchMember.email}} />
                 {{/if}}
             </GhFormGroup>
+            <GhFormGroup>
+                <label for="label-input">Labels</label>
+                <GhMemberLabelInput @member={{this.member}} @triggerId="label-input" />
+            </GhFormGroup>
         </div>
         <div class="mb6 mb0-ns w-100 w-50-ns">
             <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="note">

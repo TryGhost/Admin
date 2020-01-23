@@ -1,4 +1,4 @@
-import Model, {attr} from '@ember-data/model';
+import Model, {attr, hasMany} from '@ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 
 export default Model.extend(ValidationEngine, {
@@ -10,5 +10,6 @@ export default Model.extend(ValidationEngine, {
     createdAtUTC: attr('moment-utc'),
     stripe: attr('member-subscription'),
     subscribed: attr('boolean', {defaultValue: true}),
+    labels: hasMany('label', {embedded: 'always', async: false}),
     comped: attr('boolean', {defaultValue: false})
 });
