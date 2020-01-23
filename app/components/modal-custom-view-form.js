@@ -22,5 +22,11 @@ export default ModalComponent.extend({
         let view = yield this.customViews.saveViewTask.perform(this.model);
         this.send('closeModal');
         return view;
+    }),
+
+    deleteTask: task(function* () {
+        let view = yield this.customViews.deleteViewTask.perform(this.model);
+        this.send('closeModal');
+        return view;
     })
 });

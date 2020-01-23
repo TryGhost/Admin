@@ -124,6 +124,25 @@ export default class CustomViewsService extends Service {
         return view;
     }
 
+    @task
+    *deleteViewTask(view) {
+        let matchingView = this.viewList.find(existingView => isViewEqual(existingView, view));
+        if (matchingView) {
+            this.viewList.removeObject(matchingView);
+
+            let user = yield this.session.user;
+
+            // rebuild the "views" array in our user settings json string
+            let userSettings = JSON.parse(user.get('accessibility'));
+            userSettings.views = this.viewList.map(view => view.toJSON());
+            user.set('accessibility', JSON.stringify(userSettings));
+
+            yield user.save();
+
+            return true;
+        }
+    }
+
     get forPosts() {
         return this.viewList.filter(view => view.route === 'posts');
     }

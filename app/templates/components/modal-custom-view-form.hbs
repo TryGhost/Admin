@@ -23,15 +23,27 @@
 </div>
 
 <div class="modal-footer">
-    <button
-        class="gh-btn"
-        {{action "closeModal"}}
-        {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
-        {{action (optional this.noop) on="mouseDown"}}
-        data-test-button="cancel-custom-view-form"
-    >
-        <span>Cancel</span>
-    </button>
+    {{#if this.model.isNew}}
+        <button
+            class="gh-btn"
+            {{action "closeModal"}}
+            {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+            {{action (optional this.noop) on="mouseDown"}}
+            data-test-button="cancel-custom-view-form"
+        >
+            <span>Cancel</span>
+        </button>
+    {{else}}
+        <button
+            class="gh-btn gh-btn-red gh-btn-icon"
+            {{on "click" (perform this.deleteTask)}}
+            {{on "mousedown" (optional this.noop)}}
+            data-test-button="delete-custom-view"
+        >
+            <span>{{svg-jar "trash"}} Delete</span>
+        </button
+        >
+    {{/if}}
 
     <GhTaskButton
         @buttonText="Save"
