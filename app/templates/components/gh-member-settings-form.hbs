@@ -182,4 +182,19 @@
             <p class="ma0 pa0 tc midgrey">Member doesn't have an active Stripe subscription</p>
         </div>
     {{/if}}
+    <div class="pa5 pb0 pt4 flex flex-column justify-between bt b--whitegrey">
+        <GhFormGroup @classNames="gh-members-complimentary-checkbox">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="gh-setting-title">Complimentary premium plan</h4>
+                </div>
+                <div class="for-switch">
+                    <label class="switch" for="comped-checkbox">
+                        <Input @checked={{this.member.comped}} @type="checkbox" @id="comped-checkbox" @name="comped" />
+                        <span class="input-toggle-component"></span>
+                    </label>
+                </div>
+            </div>
+        </GhFormGroup>
+    </div>
 {{/if}}
