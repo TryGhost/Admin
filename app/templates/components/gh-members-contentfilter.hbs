@@ -1,0 +1,19 @@
+<div class="gh-contentfilter" ...attributes>
+    <PowerSelect
+        @selected={{@selectedLabel}}
+        @options={{@availableLabels}}
+        @searchField="name"
+        @onChange={{@onLabelChange}}
+        @tagName="div"
+        @classNames={{concat "gh-contentfilter-menu gh-contentfilter-tag " (if @selectedLabel.slug "gh-contentfilter-selected")}}
+        @triggerClass="gh-contentfilter-menu-trigger"
+        @dropdownClass="gh-contentfilter-menu-dropdown"
+        @searchPlaceholder="Search labels"
+        @matchTriggerWidth={{false}}
+        @optionsComponent="power-select-vertical-collection-options"
+        data-test-tag-select="true"
+        as |label|
+    >
+        {{label.name}}
+    </PowerSelect>
+</div>

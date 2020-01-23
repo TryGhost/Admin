@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import moment from 'moment';
 import {computed} from '@ember/object';
+import {get} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
@@ -9,13 +10,46 @@ import {task} from 'ember-concurrency';
 export default Controller.extend({
     store: service(),
 
+    queryParams: ['label'],
+
+    label: null,
     members: null,
     searchText: '',
+
+    _hasLoadedLabels: false,
 
     init() {
         this._super(...arguments);
         this.set('members', this.store.peekAll('member'));
     },
+
+    showingAll: computed('label', function () {
+        let {label} = this.getProperties(['label']);
+
+        return !label;
+    }),
+
+    _availableLabels: computed(function () {
+        return this.get('store').peekAll('label');
+    }),
+
+    availableLabels: computed('_availableLabels.[]', function () {
+        let labels = this.get('_availableLabels')
+            .filter(label => label.get('id') !== null)
+            .sort((labelA, labelB) => labelA.name.localeCompare(labelB.name, undefined, {ignorePunctuation: true}));
+        let options = labels.toArray();
+
+        options.unshiftObject({name: 'All labels', slug: null});
+
+        return options;
+    }),
+
+    selectedLabel: computed('label', '_availableLabels.[]', function () {
+        let label = this.get('label');
+        let labels = this.get('availableLabels');
+
+        return labels.findBy('slug', label);
+    }),
 
     filteredMembers: computed('members.@each.{name,email}', 'searchText', function () {
         let {members, searchText} = this;
@@ -49,6 +83,9 @@ export default Controller.extend({
                 document.body.append(iframe);
             }
             iframe.setAttribute('src', downloadURL);
+        },
+        changeLabel(label) {
+            this.set('label', get(label, 'slug'));
         }
     },
 
