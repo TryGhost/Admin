@@ -127,10 +127,10 @@ export default class CustomViewsService extends Service {
         // - we create a new instance of a view from an existing one when editing to act as a "scratch" view
         let matchingView = this.viewList.find(existingView => isViewEqual(existingView, view));
         if (matchingView) {
-            this.viewList.removeObject(matchingView);
+            this.viewList.replace(this.viewList.indexOf(matchingView), 1, [view]);
+        } else {
+            this.viewList.push(view);
         }
-
-        this.viewList.push(view);
 
         // rebuild the "views" array in our user settings json string
         let userSettings = JSON.parse(this.session.user.get('accessibility'));
