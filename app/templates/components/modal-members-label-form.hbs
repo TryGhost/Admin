@@ -1,0 +1,65 @@
+<header class="modal-header" data-test-modal="label-form">
+    <h1>{{if this.model.isNew "New label" "Edit label"}}</h1>
+</header>
+{{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+<button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
+    {{svg-jar "close"}}
+</button>
+
+<div class="modal-body">
+    <p>Member labels</p>
+    <fieldset>
+        <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
+            <label for="label-name" class="fw6">Label name</label>
+            <GhTextInput
+                @id="label-name"
+                @value={{this.model.name}}
+                @placeholder="VIP"
+                @focus-out={{action "validate" "name" target=this.model}}
+            />
+            <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="label-name" />
+        </GhFormGroup>
+        <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="slug">
+            <label for="label-slug" class="fw6">Label slug</label>
+            <GhTextInput
+                @id="label-slug"
+                @value={{this.model.slug}}
+                @placeholder="vip"
+                @focus-out={{action "validate" "slug" target=this.model}}
+            />
+            <GhErrorMessage @errors={{this.model.errors}} @property="slug" data-test-error="label-slug" />
+        </GhFormGroup>
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    {{#if this.model.isNew}}
+        <button
+            class="gh-btn"
+            {{action "closeModal"}}
+            {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+            {{action (optional this.noop) on="mouseDown"}}
+            data-test-button="cancel-label-form"
+        >
+            <span>Cancel</span>
+        </button>
+    {{else}}
+        <button
+            class="gh-btn gh-btn-red gh-btn-icon"
+            {{on "click" (perform this.deleteTask)}}
+            {{on "mousedown" (optional this.noop)}}
+            data-test-button="delete-label"
+        >
+            <span>{{svg-jar "trash"}} Delete</span>
+        </button
+        >
+    {{/if}}
+
+    <GhTaskButton
+        @buttonText="Save"
+        @successText="Saved"
+        @task={{this.saveTask}}
+        @taskArgs={{this.model}}
+        @class="gh-btn gh-btn-green gh-btn-icon"
+        data-test-button="save-label" />
+</div>
