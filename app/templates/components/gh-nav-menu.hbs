@@ -42,7 +42,12 @@
                 {{#if this.customViews.forPosts}}
                     <ul class="list">
                         {{#each this.customViews.forPosts as |view|}}
-                            <li><LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
+                            <li>
+                                <LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
+                                    <div class="dib w4 h4 mr2 bg-{{view.color}} br-100"></div>
+                                    {{view.name}}
+                                </LinkTo>
+                            </li>
                         {{/each}}
                     </ul>
                 {{/if}}
@@ -59,7 +64,12 @@
                 {{#if this.customViews.forPages}}
                     <ul class="list">
                         {{#each this.customViews.forPages as |view|}}
-                            <li><LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>{{view.name}}</LinkTo></li>
+                            <li>
+                                <LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
+                                    <div class="dib w4 h4 mr2 bg-{{view.color}} br-100"></div>
+                                    {{view.name}}
+                                </LinkTo>
+                            </li>
                         {{/each}}
                     </ul>
                 {{/if}}

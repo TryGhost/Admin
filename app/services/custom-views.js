@@ -7,11 +7,21 @@ import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
 
+const VIEW_COLORS = [
+    'pink',
+    'purple',
+    'blue',
+    'green',
+    'yellow',
+    'red'
+];
+
 const CustomView = EmberObject.extend(ValidationEngine, {
     validationType: 'customView',
 
     name: '',
     route: '',
+    color: '',
     filter: null,
     isNew: false,
 
@@ -19,6 +29,9 @@ const CustomView = EmberObject.extend(ValidationEngine, {
         this._super(...arguments);
         if (!this.filter) {
             this.filter = {};
+        }
+        if (!this.color) {
+            this.color = VIEW_COLORS[Math.floor(Math.random() * VIEW_COLORS.length)];
         }
     },
 
@@ -28,6 +41,7 @@ const CustomView = EmberObject.extend(ValidationEngine, {
         return {
             name: this.name,
             route: this.route,
+            color: this.color,
             filter: this.filter
         };
     }
@@ -147,6 +161,10 @@ export default class CustomViewsService extends Service {
 
             return true;
         }
+    }
+
+    get availableColors() {
+        return VIEW_COLORS;
     }
 
     get forPosts() {

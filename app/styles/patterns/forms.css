@@ -350,6 +350,86 @@ textarea {
 }
 
 
+.gh-radio-color {
+    position: relative;
+}
+
+.gh-radio-color > input[type="radio"] {
+    -moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background: none;
+	opacity: .00001;
+	z-index: 2;
+}
+
+.gh-radio-color > label {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.gh-radio-color label span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    transition: transform .2s ease-in-out;
+  }
+
+.gh-radio-color label:hover span {
+    transform: scale(1.25);
+  }
+
+.gh-radio-color input[type="radio"]:checked + label span {
+    transform: scale(1.25);
+}
+
+.gh-radio-color label span.gh-radio-color-blue {
+    background-color: var(--blue);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-blue {
+    border: 2px solid color-mod(var(--blue) l(-15%));
+}
+
+.gh-radio-color label span.gh-radio-color-green {
+    background-color: var(--green);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-green {
+    border: 2px solid color-mod(var(--green) l(-15%));
+}
+
+.gh-radio-color label span.gh-radio-color-purple {
+    background-color: var(--purple);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-purple {
+    border: 2px solid color-mod(var(--purple) l(-15%));
+}
+
+.gh-radio-color label span.gh-radio-color-yellow {
+    background-color: var(--yellow);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-yellow {
+    border: 2px solid color-mod(var(--yellow) l(-15%));
+}
+
+.gh-radio-color label span.gh-radio-color-red {
+    background-color: var(--red);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-red {
+    border: 2px solid color-mod(var(--red) l(-15%));
+}
+
+.gh-radio-color label span.gh-radio-color-pink {
+    background-color: var(--pink);
+}
+.gh-radio-color input[type="radio"]:checked + label span.gh-radio-color-pink {
+    border: 2px solid color-mod(var(--pink) l(-15%));
+}
+
+
+
 /* Switch
 /* ---------------------------------------------------------- */
 .for-switch label,
