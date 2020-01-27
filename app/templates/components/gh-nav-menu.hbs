@@ -31,14 +31,8 @@
         <ul class="gh-nav-list gh-nav-manage">
             <li class="gh-nav-list-h">Manage</li>
             <li class="gh-nav-list-new relative">
-                {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
-                {{#if (eq this.router.currentRouteName "posts")}}
-                    <LinkTo @route="posts" @query={{reset-posts-query}} @classNames="active" data-test-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
-                {{else}}
-                    <LinkTo @route="posts" data-test-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
-                {{/if}}
+                <GhLinkToCustomViewsIndex @route="posts" @query={{reset-posts-query}} data-test-nav="posts">{{svg-jar "content"}}Posts</GhLinkToCustomViewsIndex>
                 <LinkTo @route="editor.new" @model="post" @classNames="gh-secondary-action gh-nav-new-post" @alt="New story" data-test-nav="new-story"><span>{{svg-jar "add-stroke"}}</span></LinkTo>
-
                 {{#if this.customViews.forPosts}}
                     <ul class="gh-nav-view-list">
                         {{#each this.customViews.forPosts as |view|}}
@@ -54,14 +48,7 @@
                 {{/if}}
             </li>
             <li>
-                {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
-                {{#if (eq this.router.currentRouteName "pages")}}
-                    <LinkTo @route="pages" @query={{reset-posts-query}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
-                {{else}}
-                    <LinkTo @route="pages" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
-                {{/if}}
-
-
+                <GhLinkToCustomViewsIndex @route="pages" @query={{reset-posts-query}} data-test-nav="pages">{{svg-jar "page"}}Pages</GhLinkToCustomViewsIndex>
                 {{#if this.customViews.forPages}}
                     <ul class="gh-nav-view-list">
                         {{#each this.customViews.forPages as |view|}}

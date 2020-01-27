@@ -175,18 +175,20 @@ export default class CustomViewsService extends Service {
         return this.viewList.filter(view => view.route === 'pages');
     }
 
-    get forCurrentRoute() {
-        return this.viewList.filter(view => view.route === this.router.currentRouteName);
+    get activeView() {
+        if (!this.router.currentRoute) {
+            return undefined;
+        }
+        return this.findView(this.router.currentRouteName, this.router.currentRoute.queryParams);
     }
 
-    get activeView() {
-        if (this.forCurrentRoute.length > 0) {
-            let {queryParams} = this.router.currentRoute;
+    findView(routeName, queryParams) {
+        let _routeName = routeName.replace(/_loading$/, '');
 
-            return this.forCurrentRoute.find(view => isFilterEqual(view.filter, queryParams));
-        }
-
-        return null;
+        return this.viewList.find((view) => {
+            return view.route === _routeName
+                && isFilterEqual(view.filter, queryParams);
+        });
     }
 
     newView() {
