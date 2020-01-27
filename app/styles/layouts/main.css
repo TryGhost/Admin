@@ -450,6 +450,15 @@
 
 .gh-nav-view-list a {
     padding-left: 58px;
+    padding-right: 12px;
+}
+
+.gh-nav-viewname {
+    display: inline-block;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .gh-nav-view-list a .svg-blue svg {

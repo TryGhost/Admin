@@ -1,8 +1,8 @@
 <h2 class="gh-canvas-title" data-test-screen-title>
     {{#if this.customViews.activeView}}
         {{this.customViews.activeView.name}}
-        <button type="button" {{on "click" this.customViews.toggleFormModal}}>
-            <span>{{svg-jar "pen"}}</span>
+        <button type="button" class="mb1" {{on "click" this.customViews.toggleFormModal}}>
+            <span>{{svg-jar "pen" class="fill-midgrey"}}</span>
         </button>
     {{else}}
         {{or @defaultTitle "No @defaultTitle provided"}}
