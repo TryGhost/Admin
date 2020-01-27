@@ -85,11 +85,15 @@
                                 Clear filter
                             </LinkTo>
                         </li>
-                        {{#unless this.customViews.activeView}}
+                        {{#if this.customViews.activeView}}
+                            <li>
+                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Edit view</button>
+                            </li>
+                        {{else}}
                             <li>
                                 <button type="button" {{on "click" this.customViews.toggleFormModal}}>New view</button>
                             </li>
-                        {{/unless}}
+                        {{/if}}
                     </ul>
                 </dropdown.Content>
             </GhBasicDropdown>

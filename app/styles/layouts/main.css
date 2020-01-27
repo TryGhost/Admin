@@ -758,6 +758,15 @@
     margin: 0 10px;
 }
 
+.gh-btn-edit-view {
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.gh-canvas-title:hover .gh-btn-edit-view {
+    opacity: 1.0;
+}
+
 /* What's new badges
 /* ---------------------------------------------------- */
 .gh-whats-new-badge-account {
