@@ -440,6 +440,66 @@
     width: calc(100% - 40px) !important;
 }
 
+.gh-nav-view-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 1.4rem;
+    line-height: 1.6em;
+}
+
+.gh-nav-view-list a {
+    padding-left: 58px;
+}
+
+.gh-nav-view-list a .svg-blue svg {
+    fill: var(--blue);
+}
+
+.gh-nav-view-list a:hover .svg-blue svg {
+    fill: color-mod(var(--blue) l(-8%));
+}
+
+.gh-nav-view-list a .svg-green svg {
+    fill: var(--green);
+}
+
+.gh-nav-view-list a:hover .svg-green svg {
+    fill: color-mod(var(--green) l(-8%));
+}
+
+.gh-nav-view-list a .svg-purple svg {
+    fill: var(--purple);
+}
+
+.gh-nav-view-list a:hover .svg-purple svg {
+    fill: color-mod(var(--purple) l(-8%));
+}
+
+.gh-nav-view-list a .svg-yellow svg {
+    fill: color-mod(var(--yellow) l(-5%));
+}
+
+.gh-nav-view-list a:hover .svg-yellow svg {
+    fill: color-mod(var(--yellow) l(-12%));
+}
+
+.gh-nav-view-list a .svg-red svg {
+    fill: var(--red);
+}
+
+.gh-nav-view-list a:hover .svg-red svg {
+    fill: color-mod(var(--red) l(-8%));
+}
+
+.gh-nav-view-list a .svg-pink svg {
+    fill: var(--pink);
+}
+
+.gh-nav-view-list a:hover .svg-pink svg {
+    fill: color-mod(var(--pink) l(-8%));
+}
+
 /* Mobile Nav Menu (Slides out)
 /* ---------------------------------------------------------- */
 
