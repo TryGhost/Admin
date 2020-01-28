@@ -1,1 +1,10 @@
-<LinkTo @route={{@route}} @query={{this.resetQuery}} @current-when={{this.isActive}} ...attributes>{{yield}}</LinkTo>
+<LinkTo
+    @route={{@route}}
+    @query={{this.resetQuery}}
+    @current-when={{this.isActive}}
+    {{did-insert this.watchRouterEvents}}
+    {{will-destroy this.unwatchRouterEvents}}
+    ...attributes
+>
+    {{yield}}
+</LinkTo>
