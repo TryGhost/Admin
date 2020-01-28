@@ -82,14 +82,14 @@
                     <ul class="dropdown-menu">
                         {{#if this.customViews.activeView}}
                             <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Edit view</button>
+                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Edit saved filter</button>
                             </li>
                             <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Delete view</button>
+                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Delete saved filter</button>
                             </li>
                         {{else}}
                             <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>New view</button>
+                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Save filter</button>
                             </li>
                         {{/if}}
                     </ul>

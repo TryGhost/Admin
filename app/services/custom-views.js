@@ -8,12 +8,15 @@ import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
 
 const VIEW_COLORS = [
-    'pink',
-    'purple',
+    'midgrey',
     'blue',
     'green',
+    'red',
+    'teal',
+    'purple',
     'yellow',
-    'red'
+    'orange',
+    'pink'
 ];
 
 const CustomView = EmberObject.extend(ValidationEngine, {

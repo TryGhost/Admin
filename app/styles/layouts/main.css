@@ -509,6 +509,30 @@
     fill: color-mod(var(--pink) l(-8%));
 }
 
+.gh-nav-view-list a .svg-midgrey svg {
+    fill: var(--midgrey);
+}
+
+.gh-nav-view-list a:hover .svg-midgrey svg {
+    fill: color-mod(var(--midgrey) l(-8%));
+}
+
+.gh-nav-view-list a .svg-teal svg {
+    fill: #4dcddc;
+}
+
+.gh-nav-view-list a:hover .svg-teal svg {
+    fill: color-mod(#4dcddc l(-8%));
+}
+
+.gh-nav-view-list a .svg-orange svg {
+    fill: #fe8b05;
+}
+
+.gh-nav-view-list a:hover .svg-orange svg {
+    fill: color-mod(#fe8b05 l(-8%));
+}
+
 /* Mobile Nav Menu (Slides out)
 /* ---------------------------------------------------------- */
 
