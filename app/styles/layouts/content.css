@@ -118,6 +118,16 @@
     content: "Sort by: ";
 }
 
+.gh-contentfilter-actions svg {
+    width: 14px;
+    height: 14px;
+    margin: -2px -4px 0;
+}
+
+.gh-contentfilter-actions svg g {
+    fill: var(--middarkgrey);
+}
+
 
 /* Content List
 /* ---------------------------------------------------------- */

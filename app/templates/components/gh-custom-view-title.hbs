@@ -3,8 +3,5 @@
     {{#if this.customViews.activeView}}
         <span>{{svg-jar "arrow-right"}}</span>
         <span class="truncate">{{this.customViews.activeView.name}}</span>
-        <button type="button" class="gh-btn-edit-view mb1" {{on "click" this.customViews.toggleFormModal}}>
-            <span>{{svg-jar "pen" class="fill-midgrey"}}</span>
-        </button>
     {{/if}}
 </h2>
