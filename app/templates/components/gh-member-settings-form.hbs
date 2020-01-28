@@ -67,6 +67,7 @@
     </div>
 </div>
 
+{{#unless this.member.isNew}}
 <h4 class="midlightgrey f-small fw5 ttu mt12">Stripe info</h4>
 
 {{#if this.isLoading}}
@@ -199,3 +200,4 @@
         </div>
     </div>
 {{/if}}
+{{/unless}}
