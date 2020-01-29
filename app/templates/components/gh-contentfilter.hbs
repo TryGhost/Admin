@@ -72,10 +72,10 @@
         {{#if order.name}}{{order.name}}{{else}}<span class="red">Unknown</span>{{/if}}
     </PowerSelect>
 
-    {{#if (and (or @selectedType.value @selectedAuthor.slug @selectedTag.slug @selectedOrder.value) (not this.customViews.activeView.isDefault))}}
+    {{#if (and (eq this.router.currentRouteName "posts") (or @selectedType.value @selectedAuthor.slug @selectedTag.slug @selectedOrder.value) (not this.customViews.activeView.isDefault))}}
         <div class="dropdown gh-contentfilter-menu gh-contentfilter-actions">
             {{#if this.customViews.activeView}}
-                <button type="button" class="gh-contentfilter-menu-trigger gh-contentfilter-button" 
+                <button type="button" class="gh-contentfilter-menu-trigger gh-contentfilter-button"
                     {{on "click" this.customViews.toggleFormModal}} title="Edit current view...">
                     {{svg-jar "edit-view"}}
                 </button>

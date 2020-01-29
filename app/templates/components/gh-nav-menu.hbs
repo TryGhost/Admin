@@ -53,23 +53,11 @@
                 {{/if}}
             </li>
             <li>
-                <GhLinkToCustomViewsIndex @route="pages" @query={{reset-posts-query}} data-test-nav="pages">{{svg-jar "page"}}Pages</GhLinkToCustomViewsIndex>
-                {{#if this.customViews.forPages}}
-                    <button type="button" class="absolute left-3 top-2 z-9999" {{on "click" (fn this.navigation.toggleExpansion "pages")}}>
-                        {{svg-jar (if this.navigation.settings.expanded.pages "arrow-down" "arrow-right")}}
-                    </button>
-                    {{#liquid-if this.navigation.settings.expanded.pages}}
-                        <ul class="gh-nav-view-list">
-                            {{#each this.customViews.forPages as |view|}}
-                                <li>
-                                    <LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
-                                        <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "page")}}</span>
-                                        <span class="gh-nav-viewname">{{view.name}}</span>
-                                    </LinkTo>
-                                </li>
-                            {{/each}}
-                        </ul>
-                    {{/liquid-if}}
+                {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
+                {{#if (eq this.router.currentRouteName "pages")}}
+                    <LinkTo @route="pages" @query={{hash type=null author=null tag=null order=null}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                {{else}}
+                    <LinkTo @route="pages" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
                 {{/if}}
             </li>
             {{#if (gh-user-can-admin this.session.user)}}
