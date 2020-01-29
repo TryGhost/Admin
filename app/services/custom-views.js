@@ -55,7 +55,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Draft',
     color: 'red',
-    icon: 'post',
+    icon: 'content',
     filter: {
         type: 'draft'
     }
@@ -63,7 +63,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Scheduled',
     color: 'yellow',
-    icon: 'post',
+    icon: 'content',
     filter: {
         type: 'scheduled'
     }
@@ -71,7 +71,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Published',
     color: 'green',
-    icon: 'post',
+    icon: 'content',
     filter: {
         type: 'published'
     }
@@ -106,7 +106,7 @@ export default class CustomViewsService extends Service {
     @service router;
     @service session;
 
-    @tracked viewList = [...DEFAULT_VIEWS];
+    @tracked viewList = [];
     @tracked showFormModal = false;
 
     constructor() {
@@ -127,9 +127,19 @@ export default class CustomViewsService extends Service {
         let views = JSON.parse(user.get('accessibility')).views;
         views = isArray(views) ? views : [];
 
-        this.viewList = [...DEFAULT_VIEWS, ...views.map((view) => {
+        let viewList = [];
+
+        // contributors can only see their own draft posts so it doesn't make
+        // sense to show them default views which change the status/type filter
+        if (!user.isContributor) {
+            viewList.push(...DEFAULT_VIEWS);
+        }
+
+        viewList.push(...views.map((view) => {
             return CustomView.create(view);
-        })];
+        }));
+
+        this.viewList = viewList;
     }
 
     @action
