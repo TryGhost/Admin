@@ -54,24 +54,24 @@ const CustomView = EmberObject.extend(ValidationEngine, {
 const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Draft',
-    color: 'red',
-    icon: 'content',
+    color: 'midgrey',
+    icon: 'pencil',
     filter: {
         type: 'draft'
     }
 }, {
     route: 'posts',
     name: 'Scheduled',
-    color: 'yellow',
-    icon: 'content',
+    color: 'midgrey',
+    icon: 'clockface',
     filter: {
         type: 'scheduled'
     }
 }, {
     route: 'posts',
     name: 'Published',
-    color: 'green',
-    icon: 'content',
+    color: 'midgray',
+    icon: 'published-post',
     filter: {
         type: 'published'
     }
