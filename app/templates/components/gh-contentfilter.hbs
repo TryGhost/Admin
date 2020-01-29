@@ -74,27 +74,17 @@
 
     {{#if (and (or @selectedType.value @selectedAuthor.slug @selectedTag.slug @selectedOrder.value) (not this.customViews.activeView.isDefault))}}
         <div class="dropdown gh-contentfilter-menu gh-contentfilter-actions">
-            <GhBasicDropdown @calculatePosition={{this.calculateActionsDropdownPosition}} as |dropdown|>
-                <dropdown.Trigger class="ember-power-select-trigger gh-contentfilter-menu-trigger" title="Filter actions..." data-test-dd-trigger="filter-actions">
-                    {{svg-jar "v-ellipsis"}}
-                </dropdown.Trigger>
-                <dropdown.Content data-test-dd-content="filter-actions">
-                    <ul class="dropdown-menu">
-                        {{#if this.customViews.activeView}}
-                            <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Edit saved filter</button>
-                            </li>
-                            <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Delete saved filter</button>
-                            </li>
-                        {{else}}
-                            <li>
-                                <button type="button" {{on "click" this.customViews.toggleFormModal}}>Save filter</button>
-                            </li>
-                        {{/if}}
-                    </ul>
-                </dropdown.Content>
-            </GhBasicDropdown>
+            {{#if this.customViews.activeView}}
+                <button type="button" class="gh-contentfilter-menu-trigger gh-contentfilter-button" 
+                    {{on "click" this.customViews.toggleFormModal}} title="Edit current view...">
+                    {{svg-jar "edit-view"}}
+                </button>
+            {{else}}
+                <button type="button" class="gh-contentfilter-menu-trigger gh-contentfilter-button"
+                    {{on "click" this.customViews.toggleFormModal}} title="Save as view...">
+                    {{svg-jar "add-view"}}
+                </button>
+            {{/if}}
         </div>
     {{/if}}
 </div>

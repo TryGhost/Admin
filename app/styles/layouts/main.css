@@ -465,7 +465,8 @@
     fill: var(--blue);
 }
 
-.gh-nav-view-list a:hover .svg-blue svg {
+.gh-nav-view-list a:hover .svg-blue svg,
+.gh-nav-view-list .active .svg-blue svg {
     fill: color-mod(var(--blue) l(-8%));
 }
 
@@ -473,7 +474,8 @@
     fill: var(--green);
 }
 
-.gh-nav-view-list a:hover .svg-green svg {
+.gh-nav-view-list a:hover .svg-green svg,
+.gh-nav-view-list .active .svg-green svg {
     fill: color-mod(var(--green) l(-8%));
 }
 
@@ -481,7 +483,8 @@
     fill: var(--purple);
 }
 
-.gh-nav-view-list a:hover .svg-purple svg {
+.gh-nav-view-list a:hover .svg-purple svg,
+.gh-nav-view-list .active .svg-purple svg {
     fill: color-mod(var(--purple) l(-8%));
 }
 
@@ -489,7 +492,8 @@
     fill: color-mod(var(--yellow) l(-5%));
 }
 
-.gh-nav-view-list a:hover .svg-yellow svg {
+.gh-nav-view-list a:hover .svg-yellow svg,
+.gh-nav-view-list .active .svg-yellow svg {
     fill: color-mod(var(--yellow) l(-12%));
 }
 
@@ -497,7 +501,8 @@
     fill: var(--red);
 }
 
-.gh-nav-view-list a:hover .svg-red svg {
+.gh-nav-view-list a:hover .svg-red svg,
+.gh-nav-view-list .active .svg-red svg {
     fill: color-mod(var(--red) l(-8%));
 }
 
@@ -505,7 +510,8 @@
     fill: var(--pink);
 }
 
-.gh-nav-view-list a:hover .svg-pink svg {
+.gh-nav-view-list a:hover .svg-pink svg,
+.gh-nav-view-list .active .svg-pink svg {
     fill: color-mod(var(--pink) l(-8%));
 }
 
@@ -513,15 +519,17 @@
     fill: var(--midgrey);
 }
 
-.gh-nav-view-list a:hover .svg-midgrey svg {
-    fill: color-mod(var(--midgrey) l(-8%));
+.gh-nav-view-list a:hover .svg-midgrey svg,
+.gh-nav-view-list .active .svg-midgrey svg {
+    fill: var(--darkgrey);
 }
 
 .gh-nav-view-list a .svg-teal svg {
     fill: #4dcddc;
 }
 
-.gh-nav-view-list a:hover .svg-teal svg {
+.gh-nav-view-list a:hover .svg-teal svg,
+.gh-nav-view-list .active .svg-teal svg {
     fill: color-mod(#4dcddc l(-8%));
 }
 
@@ -529,7 +537,8 @@
     fill: #fe8b05;
 }
 
-.gh-nav-view-list a:hover .svg-orange svg {
+.gh-nav-view-list a:hover .svg-orange svg,
+.gh-nav-view-list .active .svg-orange svg {
     fill: color-mod(#fe8b05 l(-8%));
 }
 

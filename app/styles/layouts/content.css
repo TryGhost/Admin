@@ -119,13 +119,19 @@
 }
 
 .gh-contentfilter-actions svg {
-    width: 14px;
-    height: 14px;
-    margin: -2px -4px 0;
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
 }
 
 .gh-contentfilter-actions svg g {
-    fill: var(--middarkgrey);
+    stroke: var(--middarkgrey);
+}
+
+.gh-contentfilter-button {
+    display: flex;
+    height: 33px;
+    line-height: 33px;
 }
 
 
