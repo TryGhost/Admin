@@ -53,7 +53,7 @@ const CustomView = EmberObject.extend(ValidationEngine, {
 
 const DEFAULT_VIEWS = [{
     route: 'posts',
-    name: 'Draft',
+    name: 'Drafts',
     color: 'midgrey',
     icon: 'pencil',
     filter: {
