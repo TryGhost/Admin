@@ -34,32 +34,42 @@
                 <GhLinkToCustomViewsIndex @route="posts" @query={{reset-posts-query}} data-test-nav="posts">{{svg-jar "posts"}}Posts</GhLinkToCustomViewsIndex>
                 <LinkTo @route="editor.new" @model="post" @classNames="gh-secondary-action gh-nav-new-post" @alt="New story" data-test-nav="new-story"><span>{{svg-jar "add-stroke"}}</span></LinkTo>
                 {{#if this.customViews.forPosts}}
-                    <ul class="gh-nav-view-list">
-                        {{#each this.customViews.forPosts as |view|}}
-                            <li>
-                                <LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
-                                    {{!-- <div class="dib w4 h4 mr2 bg-{{view.color}} br-100"></div> --}}
-                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "post")}}</span>
-                                    <span class="gh-nav-viewname">{{view.name}}</span>
-                                </LinkTo>
-                            </li>
-                        {{/each}}
-                    </ul>
+                    <button type="button" class="absolute left-3 top-2 z-9999" {{on "click" (fn this.navigation.toggleExpansion "posts")}}>
+                        {{svg-jar (if this.navigation.settings.expanded.posts "arrow-down" "arrow-right")}}
+                    </button>
+                    {{#liquid-if this.navigation.settings.expanded.posts}}
+                        <ul class="gh-nav-view-list">
+                            {{#each this.customViews.forPosts as |view|}}
+                                <li>
+                                    <LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
+                                        {{!-- <div class="dib w4 h4 mr2 bg-{{view.color}} br-100"></div> --}}
+                                        <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "post")}}</span>
+                                        <span class="gh-nav-viewname">{{view.name}}</span>
+                                    </LinkTo>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/liquid-if}}
                 {{/if}}
             </li>
             <li>
                 <GhLinkToCustomViewsIndex @route="pages" @query={{reset-posts-query}} data-test-nav="pages">{{svg-jar "page"}}Pages</GhLinkToCustomViewsIndex>
                 {{#if this.customViews.forPages}}
-                    <ul class="gh-nav-view-list">
-                        {{#each this.customViews.forPages as |view|}}
-                            <li>
-                                <LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
-                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "page")}}</span>
-                                    <span class="gh-nav-viewname">{{view.name}}</span>
-                                </LinkTo>
-                            </li>
-                        {{/each}}
-                    </ul>
+                    <button type="button" class="absolute left-3 top-2 z-9999" {{on "click" (fn this.navigation.toggleExpansion "pages")}}>
+                        {{svg-jar (if this.navigation.settings.expanded.pages "arrow-down" "arrow-right")}}
+                    </button>
+                    {{#liquid-if this.navigation.settings.expanded.pages}}
+                        <ul class="gh-nav-view-list">
+                            {{#each this.customViews.forPages as |view|}}
+                                <li>
+                                    <LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
+                                        <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "page")}}</span>
+                                        <span class="gh-nav-viewname">{{view.name}}</span>
+                                    </LinkTo>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/liquid-if}}
                 {{/if}}
             </li>
             {{#if (gh-user-can-admin this.session.user)}}

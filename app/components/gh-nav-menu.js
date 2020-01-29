@@ -12,6 +12,7 @@ export default Component.extend(ShortcutsMixin, {
     customViews: service(),
     feature: service(),
     ghostPaths: service(),
+    navigation: service(),
     router: service(),
     session: service(),
     ui: service(),
