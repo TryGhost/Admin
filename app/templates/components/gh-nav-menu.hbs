@@ -39,7 +39,7 @@
                             <li>
                                 <LinkTo @route="posts" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
                                     {{!-- <div class="dib w4 h4 mr2 bg-{{view.color}} br-100"></div> --}}
-                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar "content"}}</span>
+                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "content")}}</span>
                                     <span class="gh-nav-viewname">{{view.name}}</span>
                                 </LinkTo>
                             </li>
@@ -54,7 +54,7 @@
                         {{#each this.customViews.forPages as |view|}}
                             <li>
                                 <LinkTo @route="pages" @query={{reset-posts-query view.filter}} data-test-nav-custom={{view.name}}>
-                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar "page"}}</span>
+                                    <span class="flex items-center svg-{{view.color}}">{{svg-jar (or view.icon "page")}}</span>
                                     <span class="gh-nav-viewname">{{view.name}}</span>
                                 </LinkTo>
                             </li>

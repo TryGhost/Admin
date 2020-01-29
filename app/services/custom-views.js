@@ -55,6 +55,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Draft',
     color: 'red',
+    icon: 'post',
     filter: {
         type: 'draft'
     }
@@ -62,6 +63,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Scheduled',
     color: 'yellow',
+    icon: 'post',
     filter: {
         type: 'scheduled'
     }
@@ -69,6 +71,7 @@ const DEFAULT_VIEWS = [{
     route: 'posts',
     name: 'Published',
     color: 'green',
+    icon: 'post',
     filter: {
         type: 'published'
     }
