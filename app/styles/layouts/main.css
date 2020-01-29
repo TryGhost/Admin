@@ -360,6 +360,25 @@
     stroke: var(--active-menu-color);
 }
 
+.gh-nav-button-expand.expanded {
+    padding-left: 9px;
+}
+
+.gh-nav-button-expand svg {
+    width: 9px;
+    height: 9px;
+    margin-bottom: 1px;
+}
+
+.gh-nav-button-expand svg path {
+    stroke-width: 2.0px;
+    stroke: var(--midgrey);
+}
+
+.gh-nav-button-expand:hover svg path {
+    stroke: color-mod(var(--darkgrey) l(-5%));
+}
+
 .gh-nav-list .gh-secondary-action {
     position: absolute;
     z-index: 999;
