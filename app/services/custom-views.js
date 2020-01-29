@@ -27,6 +27,7 @@ const CustomView = EmberObject.extend(ValidationEngine, {
     color: '',
     filter: null,
     isNew: false,
+    isDefault: false,
 
     init() {
         this._super(...arguments);
@@ -48,6 +49,31 @@ const CustomView = EmberObject.extend(ValidationEngine, {
             filter: this.filter
         };
     }
+});
+
+const DEFAULT_VIEWS = [{
+    route: 'posts',
+    name: 'Draft',
+    color: 'red',
+    filter: {
+        type: 'draft'
+    }
+}, {
+    route: 'posts',
+    name: 'Scheduled',
+    color: 'yellow',
+    filter: {
+        type: 'scheduled'
+    }
+}, {
+    route: 'posts',
+    name: 'Published',
+    color: 'green',
+    filter: {
+        type: 'published'
+    }
+}].map((view) => {
+    return CustomView.create(Object.assign({}, view, {isDefault: true}));
 });
 
 let isFilterEqual = function (filterA, filterB) {
@@ -77,7 +103,7 @@ export default class CustomViewsService extends Service {
     @service router;
     @service session;
 
-    @tracked viewList = [];
+    @tracked viewList = [...DEFAULT_VIEWS];
     @tracked showFormModal = false;
 
     constructor() {
@@ -98,9 +124,9 @@ export default class CustomViewsService extends Service {
         let views = JSON.parse(user.get('accessibility')).views;
         views = isArray(views) ? views : [];
 
-        this.viewList = views.map((view) => {
+        this.viewList = [...DEFAULT_VIEWS, ...views.map((view) => {
             return CustomView.create(view);
-        });
+        })];
     }
 
     @action
@@ -136,12 +162,7 @@ export default class CustomViewsService extends Service {
         }
 
         // rebuild the "views" array in our user settings json string
-        let userSettings = JSON.parse(this.session.user.get('accessibility'));
-        userSettings.views = this.viewList.map(view => view.toJSON());
-        this.session.user.set('accessibility', JSON.stringify(userSettings));
-
-        let user = yield this.session.user;
-        yield user.save();
+        yield this._saveViewSettings();
 
         view.set('isNew', false);
         return view;
@@ -150,18 +171,9 @@ export default class CustomViewsService extends Service {
     @task
     *deleteViewTask(view) {
         let matchingView = this.viewList.find(existingView => isViewEqual(existingView, view));
-        if (matchingView) {
+        if (matchingView && !matchingView.isDefault) {
             this.viewList.removeObject(matchingView);
-
-            let user = yield this.session.user;
-
-            // rebuild the "views" array in our user settings json string
-            let userSettings = JSON.parse(user.get('accessibility'));
-            userSettings.views = this.viewList.map(view => view.toJSON());
-            user.set('accessibility', JSON.stringify(userSettings));
-
-            yield user.save();
-
+            yield this._saveViewSettings();
             return true;
         }
     }
@@ -204,5 +216,13 @@ export default class CustomViewsService extends Service {
 
     editView() {
         return CustomView.create(this.activeView || this.newView());
+    }
+
+    async _saveViewSettings() {
+        let user = await this.session.user;
+        let userSettings = JSON.parse(user.get('accessibility'));
+        userSettings.views = this.viewList.reject(view => view.isDefault).map(view => view.toJSON());
+        user.set('accessibility', JSON.stringify(userSettings));
+        return user.save();
     }
 }

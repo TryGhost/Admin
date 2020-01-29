@@ -72,7 +72,7 @@
         {{#if order.name}}{{order.name}}{{else}}<span class="red">Unknown</span>{{/if}}
     </PowerSelect>
 
-    {{#if (or @selectedType.value @selectedAuthor.slug @selectedTag.slug @selectedOrder.value)}}
+    {{#if (and (or @selectedType.value @selectedAuthor.slug @selectedTag.slug @selectedOrder.value) (not this.customViews.activeView.isDefault))}}
         <div class="dropdown gh-contentfilter-menu gh-contentfilter-actions">
             <GhBasicDropdown @calculatePosition={{this.calculateActionsDropdownPosition}} as |dropdown|>
                 <dropdown.Trigger class="ember-power-select-trigger gh-contentfilter-menu-trigger" title="Filter actions..." data-test-dd-trigger="filter-actions">
