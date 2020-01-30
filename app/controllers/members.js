@@ -16,6 +16,8 @@ export default Controller.extend({
     label: null,
     members: null,
     searchText: '',
+    modalLabel: null,
+    showLabelModal: false,
 
     _hasLoadedLabels: false,
 
@@ -109,8 +111,37 @@ export default Controller.extend({
         },
         changeLabel(label) {
             this.set('label', get(label, 'slug'));
+        },
+        addLabel() {
+            const newLabel = this.store.createRecord('label', {
+                name: 'Test'
+            });
+            this.set('modalLabel', newLabel);
+            this.toggleProperty('showLabelModal');
+        },
+        toggleLabelModal() {
+            this.toggleProperty('showLabelModal');
         }
     },
+
+    saveNewLabel: task(function* () {
+        let labelName = 'Test';
+        const label = this.store.createRecord('label', {
+            name: 'Test'
+        });
+
+        try {
+            // NOTE: has to be before member.save() is performed otherwise component is
+            //       destroyed before notification is shown
+            this.notifications.showNotification(`You've successfully added ${labelName}!`.htmlSafe());
+
+            return yield label.save();
+        } catch (error) {
+            if (error) {
+                this.notifications.showAPIError(error, {key: 'label.save'});
+            }
+        }
+    }).drop(),
 
     fetchMembers: task(function* () {
         let newFetchDate = new Date();

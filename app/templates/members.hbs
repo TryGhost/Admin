@@ -34,6 +34,11 @@
                             <span>Export CSV</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#" {{action 'addLabel'}} class="mr2">
+                            <span>Add Label</span>
+                        </a>
+                    </li>
                 </GhDropdown>
             </span>
             <div class="relative gh-members-header-search">
@@ -95,3 +100,12 @@
 </section>
 
 {{outlet}}
+
+{{#if this.showLabelModal}}
+    <GhFullscreenModal
+        @modal="members-label-form"
+        @model={{this.modalLabel}}
+        @close={{action "toggleLabelModal"}}
+        @modifier="action wide"
+    />
+{{/if}}

@@ -19,16 +19,6 @@
             />
             <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="label-name" />
         </GhFormGroup>
-        <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="slug">
-            <label for="label-slug" class="fw6">Label slug</label>
-            <GhTextInput
-                @id="label-slug"
-                @value={{this.model.slug}}
-                @placeholder="vip"
-                @focus-out={{action "validate" "slug" target=this.model}}
-            />
-            <GhErrorMessage @errors={{this.model.errors}} @property="slug" data-test-error="label-slug" />
-        </GhFormGroup>
     </fieldset>
 </div>
 
@@ -57,7 +47,9 @@
 
     <GhTaskButton
         @buttonText="Save"
+        @runningText="Saving..."
         @successText="Saved"
+        @disabled={{this.model.errors}}
         @task={{this.saveTask}}
         @taskArgs={{this.model}}
         @class="gh-btn gh-btn-green gh-btn-icon"

@@ -1,15 +1,14 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
-    customViews: service(),
+
+    model: null,
 
     confirm() {},
-
     init() {
         this._super(...arguments);
-        this.set('model', this.customViews.editView());
+        // this.set('model', this.customViews.editView());
     },
 
     actions: {
@@ -19,14 +18,14 @@ export default ModalComponent.extend({
     },
 
     saveTask: task(function* () {
-        let view = yield this.customViews.saveViewTask.perform(this.model);
+        let label = yield this.model.save();
         this.send('closeModal');
-        return view;
+        return label;
     }),
 
     deleteTask: task(function* () {
-        let view = yield this.customViews.deleteViewTask.perform(this.model);
-        this.send('closeModal');
-        return view;
+    //     let view = yield this.customViews.deleteViewTask.perform(this.model);
+    //     this.send('closeModal');
+    //     return view;
     })
 });
