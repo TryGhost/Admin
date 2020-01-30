@@ -233,7 +233,7 @@ export default class CustomViewsService extends Service {
 
     async _saveViewSettings() {
         let user = await this.session.user;
-        let userSettings = JSON.parse(user.get('accessibility'));
+        let userSettings = JSON.parse(user.get('accessibility')) || {};
         userSettings.views = this.viewList.reject(view => view.isDefault).map(view => view.toJSON());
         user.set('accessibility', JSON.stringify(userSettings));
         return user.save();

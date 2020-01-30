@@ -15,6 +15,7 @@
                 @value={{this.model.name}}
                 @placeholder="Breaking news"
                 @focus-out={{action "validate" "name" target=this.model}}
+                data-test-input="custom-view-name"
             />
             {{#if this.model.errors}}
                 <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="custom-view-name" />
