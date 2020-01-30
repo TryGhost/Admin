@@ -45,9 +45,18 @@
 /* Members list
 /* ----------------------------------------- */
 
-.view-actions input.gh-members-list-searchfield {
+.members-header .view-actions input.gh-members-list-searchfield {
     min-width: 220px;
     padding-left: 30px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.members-header .view-actions .gh-input-search-icon {
+    width: 14px;
+    height: 14px;
+    top: 10px;
+    left: 10px;
 }
 
 .gh-members-list-searchfield.active {
@@ -78,6 +87,8 @@ p.gh-members-list-email {
 
 .gh-member-actions-menu {
     top: calc(100% + 6px);
+    right: 10px;
+    left: auto;
 }
 
 .gh-member-actions-menu.fade-out {
@@ -132,6 +143,17 @@ p.gh-members-list-email {
     color: var(--darkgrey);
     line-height: 4.0rem;
 }
+
+.members-header .gh-contentfilter {
+    margin-right: 0;
+}
+
+.members-header .gh-contentfilter-tag .gh-contentfilter-menu-trigger {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+/* .members-header .gh-member */
 
 @media (max-width: 1100px) {
     .gh-members-chart-summary-data {

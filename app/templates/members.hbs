@@ -7,23 +7,25 @@
                 @availableLabels={{this.availableLabels}}
                 @onLabelChange={{action "changeLabel"}}
             />
+            <div class="relative gh-members-header-search">
+                {{svg-jar "search" class="gh-input-search-icon"}}
+                <GhTextInput
+                    placeholder="Search members..."
+                    @value={{this.searchText}}
+                    @input={{action (mut this.searchText) value="target.value"}}
+                    class="gh-members-list-searchfield {{if this.searchText "active"}}" />
+            </div>
             <span class="dropdown">
-                <GhDropdownButton
-                    @dropdownName="members-actions-menu"
-                    @classNames="gh-btn gh-btn-white gh-btn-icon only-has-icon gh-actions-cog"
-                    @title="Members Actions"
-                    @data-test-user-actions="true"
-                >
+                <GhDropdownButton @dropdownName="members-actions-menu"
+                    @classNames="gh-btn gh-btn-white gh-btn-icon only-has-icon gh-actions-cog" @title="Members Actions"
+                    @data-test-user-actions="true">
                     <span>
                         {{svg-jar "settings"}}
                         <span class="hidden">Members Actions</span>
                     </span>
                 </GhDropdownButton>
-                <GhDropdown
-                    @name="members-actions-menu"
-                    @tagName="ul"
-                    @classNames="gh-member-actions-menu dropdown-menu dropdown-triangle-top-right"
-                >
+                <GhDropdown @name="members-actions-menu" @tagName="ul"
+                    @classNames="gh-member-actions-menu dropdown-menu dropdown-triangle-top-right">
                     <li>
                         <LinkTo @route="members.import" class="mr2" data-test-link="import-csv">
                             <span>Import CSV</span>
@@ -41,14 +43,6 @@
                     </li>
                 </GhDropdown>
             </span>
-            <div class="relative gh-members-header-search">
-                {{svg-jar "search" class="gh-input-search-icon"}}
-                <GhTextInput
-                    placeholder="Search members..."
-                    @value={{this.searchText}}
-                    @input={{action (mut this.searchText) value="target.value"}}
-                    class="gh-members-list-searchfield {{if this.searchText "active"}}" />
-            </div>
             <LinkTo @route="member.new" class="gh-btn gh-btn-green" data-test-new-member-button="true"><span>New member</span></LinkTo>
         </section>
     </GhCanvasHeader>
