@@ -33,8 +33,8 @@ export default Controller.extend({
         }
         if (this.fetchMembers.lastSuccessful) {
             let count = pluralize(filteredMembers.length, 'member');
-            if (selectedLabel.slug) {
-                return `${count} tagged as '${selectedLabel.name}'`;
+            if (selectedLabel && selectedLabel.slug) {
+                return `${count} tagged as ${selectedLabel.name}`;
             }
             return count;
         }
@@ -117,6 +117,13 @@ export default Controller.extend({
                 name: 'Test'
             });
             this.set('modalLabel', newLabel);
+            this.toggleProperty('showLabelModal');
+        },
+        editLabel(label) {
+            let labels = this.get('availableLabels');
+
+            let modalLabel = labels.findBy('slug', label);
+            this.set('modalLabel', modalLabel);
             this.toggleProperty('showLabelModal');
         },
         toggleLabelModal() {

@@ -32,9 +32,14 @@ export default AuthenticatedRoute.extend({
         }
     },
 
+    deactivate() {
+        this._super(...arguments);
+        this.controller.modalLabel && this.controller.modalLabel.rollbackAttributes();
+    },
     buildRouteInfoMetadata() {
         return {
             titleToken: 'Members'
         };
     }
+
 });

@@ -61,6 +61,11 @@
                     <li class="gh-list-row header">
                         <div class="gh-list-header">
                             {{listHeader}}
+                            {{#if label}}
+                                <button type="button" class="gh-btn gh-btn-link" {{action "editLabel" this.label}}>
+                                    <span>( Edit )</span>
+                                </button>
+                            {{/if}}
                         </div>
                         <div class="gh-list-header gh-list-cellwidth-20 nowrap">Created</div>
                         <div class="gh-list-header gh-list-cellwidth-chevron"></div>
