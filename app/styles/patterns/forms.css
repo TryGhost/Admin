@@ -552,7 +552,7 @@ textarea {
 }
 
 .gh-select svg path {
-    stroke: var(--darkgrey);
+    stroke: var(--midlightgrey);
 }
 
 .gh-select select {

@@ -49,7 +49,7 @@
                 <GhTextarea @id="member-note" @name="note" @class="gh-member-details-textarea" @tabindex="3"
                     @value={{this.scratchMember.note}} @focus-out={{action "setProperty" "note" this.scratchMember.note}} />
                 <GhErrorMessage @errors={{this.member.errors}} @property="note" />
-                <p> Maximum: <b>500</b> characters.You’ve used
+                <p> Maximum: <b>500</b> characters. You’ve used
                     {{gh-count-down-characters this.scratchMember.note 500}}</p>
             </GhFormGroup>
         </div>
