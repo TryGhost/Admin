@@ -16,8 +16,11 @@
                 @value={{this.model.name}}
                 @placeholder="VIP"
                 @focus-out={{action "validate" "name" target=this.model}}
+                data-test-input="label-name"
             />
-            <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="label-name" />
+            {{#if this.model.errors}}
+                <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="label-name" />
+            {{/if}}
         </GhFormGroup>
     </fieldset>
 </div>
@@ -36,7 +39,7 @@
     {{else}}
         <button
             class="gh-btn gh-btn-red gh-btn-icon"
-            {{on "click" (perform this.deleteTask)}}
+            {{on "click" (action "delete")}}
             {{on "mousedown" (optional this.noop)}}
             data-test-button="delete-label"
         >
