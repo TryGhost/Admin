@@ -151,6 +151,12 @@ p.gh-members-list-email {
 .members-header .gh-contentfilter-tag .gh-contentfilter-menu-trigger {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.gh-members-not-found-for-label {
+    
 }
 
 /* .members-header .gh-member */

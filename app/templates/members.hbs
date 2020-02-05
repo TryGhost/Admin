@@ -71,9 +71,11 @@
                         <div class="gh-list-header gh-list-cellwidth-20 nowrap">Created</div>
                         <div class="gh-list-header gh-list-cellwidth-chevron"></div>
                     </li>
-                    <VerticalCollection @items={{this.filteredMembers}} @key="id" @containerSelector=".gh-main" @estimateHeight=60 @bufferSize=20 as |member|>
-                        <GhMembersListItem @member={{member}} @data-test-member-id={{member.id}} />
-                    </VerticalCollection>
+                    {{#if this.filteredMembers}}
+                        <VerticalCollection @items={{this.filteredMembers}} @key="id" @containerSelector=".gh-main" @estimateHeight=60 @bufferSize=20 as |member|>
+                            <GhMembersListItem @member={{member}} @data-test-member-id={{member.id}} />
+                        </VerticalCollection>
+                    {{/if}}
 
                 {{else}}
                     {{#if this.fetchMembers.isRunning}}
@@ -88,7 +90,7 @@
                                     <h3>No members yet</h3>
                                     <GhMembersNoMembers />
                                 {{else}}
-                                    <h3>No members found!</h3>
+                                    <h3>No members match the current filter</h3>
                                 {{/if}}
                             </div>
                         </li>
