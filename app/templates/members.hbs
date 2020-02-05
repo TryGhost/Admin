@@ -62,8 +62,9 @@
                         <div class="gh-list-header">
                             {{listHeader}}
                             {{#if label}}
-                                <button type="button" class="gh-btn gh-btn-link" {{action "editLabel" this.label}}>
-                                    <span>( Edit )</span>
+                                <span class="darkgrey fw6 f8 ttn">"{{this.selectedLabel.name}}"</span>
+                                <button type="button" class="gh-btn gh-btn-text inline" {{action "editLabel" this.label}}>
+                                    (<span>Edit</span>)
                                 </button>
                             {{/if}}
                         </div>

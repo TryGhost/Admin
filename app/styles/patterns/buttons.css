@@ -349,6 +349,10 @@ svg.gh-btn-icon-right {
     font-weight: 300;
 }
 
+.gh-btn-text.inline {
+    display: inline-flex;
+}
+
 .gh-btn-text span {
     height: unset;
     line-height: unset;

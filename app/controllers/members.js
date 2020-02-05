@@ -34,11 +34,11 @@ export default Controller.extend({
         if (this.fetchMembers.lastSuccessful) {
             let count = pluralize(filteredMembers.length, 'member');
             if (selectedLabel && selectedLabel.slug) {
-                return `${count} tagged as ${selectedLabel.name}`;
+                return `${count} tagged with`;
             }
             return count;
         }
-        return 'Loading ...';
+        return 'Loading...';
     }),
 
     showingAll: computed('label', 'searchText', function () {
