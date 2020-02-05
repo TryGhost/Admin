@@ -20,10 +20,12 @@ export default Controller.extend({
     showLabelModal: false,
 
     _hasLoadedLabels: false,
+    _availableLabels: null,
 
     init() {
         this._super(...arguments);
         this.set('members', this.store.peekAll('member'));
+        this._availableLabels = this.store.peekAll('label');
     },
 
     listHeader: computed('selectedLabel', 'searchText', function () {
@@ -47,12 +49,9 @@ export default Controller.extend({
         return !searchText && !label;
     }),
 
-    _availableLabels: computed(function () {
-        return this.get('store').peekAll('label');
-    }),
-
-    availableLabels: computed('_availableLabels.[]', function () {
-        let labels = this.get('_availableLabels')
+    availableLabels: computed('_availableLabels.@each.{isNew}', function () {
+        let labels = this._availableLabels
+            .filter(label => !label.get('isNew'))
             .filter(label => label.get('id') !== null)
             .sort((labelA, labelB) => labelA.name.localeCompare(labelB.name, undefined, {ignorePunctuation: true}));
         let options = labels.toArray();
@@ -62,7 +61,7 @@ export default Controller.extend({
         return options;
     }),
 
-    selectedLabel: computed('label', '_availableLabels.[]', function () {
+    selectedLabel: computed('label', 'availableLabels', function () {
         let label = this.get('label');
         let labels = this.get('availableLabels');
 
