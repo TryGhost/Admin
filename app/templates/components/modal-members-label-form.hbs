@@ -7,14 +7,12 @@
 </button>
 
 <div class="modal-body">
-    <p>Member labels</p>
     <fieldset>
         <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
-            <label for="label-name" class="fw6">Label name</label>
+            <label for="label-name" class="fw6 dib">Label name</label>
             <GhTextInput
                 @id="label-name"
                 @value={{this.model.name}}
-                @placeholder="VIP"
                 @focus-out={{action "validate" "name" target=this.model}}
                 data-test-input="label-name"
             />
