@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
@@ -49,6 +50,10 @@ export default Controller.extend({
             }, (error) => {
                 return this.notifications.showAPIError(error, {key: 'member.delete'});
             });
+        },
+
+        magicLink() {
+            return copyTextToClipboard(this.member.get('magic_link'));
         },
 
         toggleUnsavedChangesModal(transition) {
