@@ -1,20 +1,46 @@
 <section class="gh-canvas">
-    <form class="mb10 member-basic-info-form">
-        <GhCanvasHeader class="gh-canvas-header">
-            <h2 class="gh-canvas-title" data-test-screen-title>
-                <LinkTo @route="members" data-test-link="members-back">Members</LinkTo>
-                <span>{{svg-jar "arrow-right"}}</span>
-                {{#if this.member.isNew}}
-                    New member
-                {{else}}
-                    {{or this.member.name this.member.email}}
-                {{/if}}
-            </h2>
-            <section class="view-actions">
-                <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
-            </section>
-        </GhCanvasHeader>
+    <GhCanvasHeader class="gh-canvas-header">
+        <h2 class="gh-canvas-title" data-test-screen-title>
+            <LinkTo @route="members" data-test-link="members-back">Members</LinkTo>
+            <span>{{svg-jar "arrow-right"}}</span>
+            {{#if this.member.isNew}}
+                New member
+            {{else}}
+                {{or this.member.name this.member.email}}
+            {{/if}}
+        </h2>
 
+        <section class="view-actions">
+            <span class="dropdown">
+                <GhDropdownButton
+                    @dropdownName="member-actions-menu"
+                    @classNames="gh-btn gh-btn-white gh-btn-icon only-has-icon gh-actions-cog"
+                    @title="Member Actions"
+                    @data-test-user-actions="true"
+                >
+                    <span>
+                        {{svg-jar "settings"}}
+                        <span class="hidden">Member Actions</span>
+                    </span>
+                </GhDropdownButton>
+                <GhDropdown
+                    @name="member-actions-menu"
+                    @tagName="ul"
+                    @classNames="gh-member-actions-menu dropdown-menu dropdown-triangle-top-right"
+                >
+                    <li>
+                        <a href="#" {{action 'magicLink'}} class="mr2">
+                            <span>Copy login link</span>
+                        </a>
+                    </li>
+                </GhDropdown>
+            </span>
+
+            <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
+        </section>
+    </GhCanvasHeader>
+
+    <form class="mb10 member-basic-info-form">
         <div class="flex items-center mb10 bt b--lightgrey-d1 pt8">
             {{#if (or this.member.name this.member.email)}}
                 <GhMemberAvatar
