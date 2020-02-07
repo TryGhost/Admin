@@ -53,7 +53,7 @@ export default Controller.extend({
         },
 
         magicLink() {
-            return copyTextToClipboard(this.member.get('magic_link'));
+            return copyTextToClipboard(this.member.get('signin_url'));
         },
 
         toggleUnsavedChangesModal(transition) {
