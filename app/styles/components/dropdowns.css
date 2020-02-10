@@ -234,8 +234,12 @@
 .dropdown-action .dropdown-footer {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 6px 0 0;
     border-top: 1px solid var(--whitegrey);
+}
+
+.dropdown-action .dropdown-footer li:first-of-type {
+    margin-top: 6px;
 }
 
 .dropdown-action .dropdown-footer a {
