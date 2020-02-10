@@ -87,8 +87,11 @@ p.gh-members-list-email {
 
 .gh-member-actions-menu {
     top: calc(100% + 6px);
-    right: 10px;
     left: auto;
+}
+
+.gh-member-actions-menu li {
+    cursor: pointer;
 }
 
 .gh-member-actions-menu.fade-out {
