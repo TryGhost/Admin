@@ -6,6 +6,8 @@
                 @selectedLabel={{this.selectedLabel}}
                 @availableLabels={{this.availableLabels}}
                 @onLabelChange={{action "changeLabel"}}
+                @onLabelAdd={{action "addLabel"}}
+                @onLabelEdit={{action "editLabel"}}
             />
             <div class="relative gh-members-header-search">
                 {{svg-jar "search" class="gh-input-search-icon"}}

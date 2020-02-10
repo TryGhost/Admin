@@ -108,15 +108,27 @@ export default Controller.extend({
             }
             iframe.setAttribute('src', downloadURL);
         },
-        changeLabel(label) {
+        changeLabel(label, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             this.set('label', get(label, 'slug'));
         },
-        addLabel() {
+        addLabel(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             const newLabel = this.store.createRecord('label');
             this.set('modalLabel', newLabel);
             this.toggleProperty('showLabelModal');
         },
-        editLabel(label) {
+        editLabel(label, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             let labels = this.get('availableLabels');
 
             let modalLabel = labels.findBy('slug', label);

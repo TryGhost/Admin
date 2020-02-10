@@ -11,6 +11,7 @@
         <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
             <label for="label-name" class="fw6 dib">Label name</label>
             <GhTextInput
+                @placeholder="VIP"
                 @id="label-name"
                 @value={{this.model.name}}
                 @focus-out={{action "validate" "name" target=this.model}}

@@ -1,5 +1,5 @@
 <div class="gh-contentfilter" ...attributes>
-    <PowerSelect
+    {{!-- <PowerSelect
         @selected={{@selectedLabel}}
         @options={{@availableLabels}}
         @searchField="name"
@@ -15,5 +15,35 @@
         as |label|
     >
         {{label.name}}
-    </PowerSelect>
+    </PowerSelect> --}}
 </div>
+<span class="dropdown">
+    <GhDropdownButton @dropdownName="members-label-menu"
+        @classNames="gh-btn gh-btn-white gh-actions-cog" @title="Member Labels"
+        @data-test-user-actions="true">
+        <span>
+            {{@selectedLabel.name}}
+            {{svg-jar "arrow-down-small" class="w7 h7 fill-blue"}}
+        </span>
+    </GhDropdownButton>
+    <GhDropdown @name="members-label-menu" @tagName="ul"
+        @classNames="gh-member-actions-menu dropdown-menu dropdown-triangle-top-right">
+        <div style="max-height:50vh;overflow-y:scroll">
+            {{#each @availableLabels as |label|}}
+                <li>
+                    <a class="mr2" style="display:flex">
+                        <span {{on "click" (fn @onLabelChange label)}} style="flex-grow: 1;">{{label.name}} </span>
+                        {{#if label.slug}}
+                            <span {{on "click" (fn @onLabelEdit label.slug)}}> {{svg-jar "idea" class="w12 h12 fill-blue"}} </span>
+                        {{/if}}
+                    </a>
+                </li>
+            {{/each}}
+        </div>
+        <li>
+            <a class="mr2" {{on "click" (fn @onLabelAdd)}}>
+                <span>Add Label</span>
+            </a>
+        </li>
+    </GhDropdown>
+</span>

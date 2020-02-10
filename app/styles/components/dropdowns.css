@@ -49,8 +49,8 @@
     margin: 0;
 }
 
-.dropdown-menu > li > a,
-.dropdown-menu > li > button {
+.dropdown-menu li > a,
+.dropdown-menu li > button {
     display: flex;
     align-items: center;
     clear: both;
@@ -74,8 +74,8 @@
 }
 
 @media (max-width: 500px) {
-    .dropdown-menu > li > a,
-    .dropdown-menu > li > button {
+    .dropdown-menu li > a,
+    .dropdown-menu li > button {
         padding: 7px 8px;
         font-size: 1.5rem;
     }
@@ -89,19 +89,19 @@
 /* ---------------------------------------------------------- */
 
 /* Hover/Focus */
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-menu > li > button:hover,
-.dropdown-menu > li > button:focus {
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-menu li > button:hover,
+.dropdown-menu li > button:focus {
     background: color-mod(var(--whitegrey) a(60%) s(-12%));
     color: var(--darkgrey);
     text-decoration: none;
 }
 
-.dropdown-menu > li > a:hover svg,
-.dropdown-menu > li > a:focus svg,
-.dropdown-menu > li > button:hover svg,
-.dropdown-menu > li > button:focus svg {
+.dropdown-menu li > a:hover svg,
+.dropdown-menu li > a:focus svg,
+.dropdown-menu li > button:hover svg,
+.dropdown-menu li > button:focus svg {
     fill: var(--darkgrey);
 }
 
