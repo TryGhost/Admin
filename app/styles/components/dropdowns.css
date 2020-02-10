@@ -190,6 +190,14 @@
     padding: 6px 14px;
 }
 
+.dropdown-action li.selected .dropdown-label {
+    font-weight: 700;
+}
+
+.dropdown-action li.selected a:hover {
+    background: none;
+}
+
 .dropdown-action .dropdown-action-icon {
     display: flex;
     align-items: center;
@@ -199,7 +207,7 @@
     padding: 4px;
     margin-top: -2px;
     margin-bottom: -2px;
-    margin-right: 4px;
+    margin-right: 8px;
     border-radius: 3px;
 }
 
