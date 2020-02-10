@@ -34,13 +34,13 @@
                     <a class="mr2" style="display:flex">
                         <span {{on "click" (fn @onLabelChange label)}} style="flex-grow: 1;">{{label.name}} </span>
                         {{#if label.slug}}
-                            <span {{on "click" (fn @onLabelEdit label.slug)}}> {{svg-jar "idea" class="w12 h12 fill-blue"}} </span>
+                            <span {{on "click" (fn @onLabelEdit label.slug)}}> {{svg-jar "idea" class="w12 h12 fill-red"}} </span>
                         {{/if}}
                     </a>
                 </li>
             {{/each}}
         </div>
-        <li>
+        <li style="border-top: 1px solid #d6e3ea">
             <a class="mr2" {{on "click" (fn @onLabelAdd)}}>
                 <span>Add Label</span>
             </a>
