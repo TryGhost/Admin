@@ -8,7 +8,7 @@ import {computed} from '@ember/object';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
-import {task, taskGroup} from 'ember-concurrency';
+import {task, taskGroup, timeout} from 'ember-concurrency';
 
 export default Controller.extend({
     ajax: service(),
@@ -81,14 +81,6 @@ export default Controller.extend({
         changeRole(newRole) {
             this.user.set('role', newRole);
             this.set('dirtyAttributes', true);
-        },
-
-        deleteUser() {
-            return this._deleteUser().then(() => {
-                this._deleteUserSuccess();
-            }, () => {
-                this._deleteUserFailure();
-            });
         },
 
         toggleDeleteUserModal() {
@@ -339,22 +331,40 @@ export default Controller.extend({
         }
     },
 
-    _deleteUser() {
-        if (this.deleteUserActionIsVisible) {
-            let user = this.user;
-            return user.destroyRecord();
+    _exportDb(filename) {
+        let exportUrl = this.get('ghostPaths.url').api('db');
+        let downloadURL = `${exportUrl}?filename=${filename}`;
+        let iframe = document.getElementById('iframeDownload');
+
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'iframeDownload';
+            iframe.style.display = 'none';
+            document.body.append(iframe);
         }
+
+        iframe.setAttribute('src', downloadURL);
     },
 
-    _deleteUserSuccess() {
-        this.notifications.closeAlerts('user.delete');
-        this.store.unloadAll('post');
-        this.transitionToRoute('staff');
-    },
+    deleteUser: task(function *() {
+        try {
+            const result = yield this.user.destroyRecord();
 
-    _deleteUserFailure() {
-        this.notifications.showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
-    },
+            if (result._meta && result._meta.filename) {
+                this._exportDb(result._meta.filename);
+                // give the iframe some time to trigger the download before
+                // it's removed from the dom when transitioning
+                yield timeout(300);
+            }
+
+            this.notifications.closeAlerts('user.delete');
+            this.store.unloadAll('post');
+            this.transitionToRoute('staff');
+        } catch (error) {
+            this.notifications.showAlert('The user could not be deleted. Please try again.', {type: 'error', key: 'user.delete.failed'});
+            throw error;
+        }
+    }),
 
     updateSlug: task(function* (newSlug) {
         let slug = this.get('user.slug');
