@@ -36,7 +36,11 @@ export default Controller.extend({
         if (this.fetchMembers.lastSuccessful) {
             let count = pluralize(filteredMembers.length, 'member');
             if (selectedLabel && selectedLabel.slug) {
-                return `${count} tagged with`;
+                if (filteredMembers.length > 1) {
+                    return `${count} match current filter`;
+                } else {
+                    return `${count} matches current filter`;
+                }
             }
             return count;
         }

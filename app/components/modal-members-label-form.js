@@ -32,7 +32,7 @@ export default ModalComponent.extend({
     saveTask: task(function* () {
         try {
             let label = yield this.model.save();
-            this.notifications.showNotification('You\'ve successfully saved the label!'.htmlSafe());
+            this.notifications.showNotification('Label saved'.htmlSafe());
             this.send('closeModal');
             return label;
         } catch (error) {
