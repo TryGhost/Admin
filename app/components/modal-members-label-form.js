@@ -7,25 +7,16 @@ export default ModalComponent.extend({
     router: service(),
     notifications: service(),
     model: null,
+    showDeleteLabelModal: false,
 
     confirm() {},
     init() {
         this._super(...arguments);
-        // this.set('model', this.customViews.editView());
     },
 
     actions: {
-        confirm() {
-            return this.saveTask.perform();
-        },
-        delete() {
-            return this.model.destroyRecord().then(() => {
-                let routeName = this.router.currentRouteName;
-                this.send('closeModal');
-                this.router.transitionTo(routeName, {queryParams: resetQueryParams(routeName)});
-            }, (error) => {
-                return this.notifications.showAPIError(error, {key: 'label.delete'});
-            });
+        toggleDeleteLabelModal() {
+            this.toggleProperty('showDeleteLabelModal');
         }
     },
 
@@ -38,6 +29,19 @@ export default ModalComponent.extend({
         } catch (error) {
             if (error) {
                 this.notifications.showAPIError(error, {key: 'label.save'});
+            }
+        }
+    }),
+
+    deleteLabel: task(function * () {
+        try {
+            yield this.model.destroyRecord();
+            let routeName = this.router.currentRouteName;
+            this.send('closeModal');
+            this.router.transitionTo(routeName, {queryParams: resetQueryParams(routeName)});
+        } catch (error) {
+            if (error) {
+                return this.notifications.showAPIError(error, {key: 'label.delete'});
             }
         }
     })
