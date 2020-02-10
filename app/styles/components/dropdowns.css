@@ -153,3 +153,99 @@
 .closed > .dropdown-menu {
     display: none;
 }
+
+
+/* Action dropdown
+/* Dropdowns that can have secondary action button
+/* ---------------------------------------------------------- */
+.dropdown-action {
+    top: calc(100% + 6px);
+    left: auto;
+}
+
+.dropdown-action li {
+    cursor: pointer;
+}
+
+.dropdown-action li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0;
+    padding: 0;
+    color: var(--darkgrey);
+}
+
+.dropdown-action .dropdown-content {
+    max-height: 50vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-action .dropdown-label {
+    flex-grow: 1;
+    padding: 6px 14px;
+}
+
+.dropdown-action .dropdown-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity ease-in-out 0.15s;
+    padding: 4px;
+    margin-top: -2px;
+    margin-bottom: -2px;
+    margin-right: 4px;
+    border-radius: 3px;
+}
+
+.dropdown-action a:hover .dropdown-action-icon {
+    opacity: 1.0;
+}
+
+.dropdown-action .dropdown-action-icon:hover {
+    background: var(--whitegrey-d1);
+}
+
+.dropdown-action .dropdown-action-icon svg {
+    margin: 0;
+}
+
+.dropdown-action .dropdown-action-icon svg path {
+    fill: var(--midgrey);
+}
+
+.dropdown-action .dropdown-action-icon:hover svg path {
+    fill: var(--darkgrey);
+}
+
+.dropdown-action .dropdown-footer {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--whitegrey);
+}
+
+.dropdown-action .dropdown-footer a {
+    padding: 6px 14px;
+}
+
+.dropdown-action .dropdown-footer a span {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-action .dropdown-footer a span svg {
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+}
+
+.dropdown-action.fade-out {
+    animation-duration: .001s;
+    pointer-events: none;
+}
