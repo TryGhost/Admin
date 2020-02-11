@@ -97,7 +97,7 @@
 {{#if this.showLabelModal}}
     <GhFullscreenModal
         @modal="members-label-form"
-        @model={{this.modalLabel}}
+        @model={{this.labelModalData}}
         @close={{action "toggleLabelModal"}}
         @modifier="action wide"
     />

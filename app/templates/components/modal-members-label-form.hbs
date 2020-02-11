@@ -6,7 +6,7 @@
 
     <div class="modal-body">
         <p>
-            You're about to delete label "<strong>{{this.model.name}}</strong>". This is permanent! We warned you, k?
+            You're about to delete label "<strong>{{this.label.name}}</strong>". This is permanent! We warned you, k?
         </p>
     </div>
 
@@ -17,7 +17,7 @@
 {{else}}
 
     <header class="modal-header" data-test-modal="label-form">
-        <h1>{{if this.model.isNew "New label" "Edit label"}}</h1>
+        <h1>{{if this.label.isNew "New label" "Edit label"}}</h1>
     </header>
     {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
     <button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
@@ -26,23 +26,23 @@
 
     <div class="modal-body">
         <fieldset>
-            <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
+            <GhFormGroup @errors={{this.label.errors}} @hasValidated={{this.label.hasValidated}} @property="name">
                 <label for="label-name" class="fw6 dib">Label name</label>
                 <GhTextInput
                     @id="label-name"
-                    @value={{this.model.name}}
-                    @focus-out={{action "validate" "name" target=this.model}}
+                    @value={{this.label.name}}
+                    @focus-out={{action "validate" "name" target=this.label}}
                     data-test-input="label-name"
                 />
-                {{#if this.model.errors}}
-                    <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="label-name" />
+                {{#if this.label.errors}}
+                    <GhErrorMessage @errors={{this.label.errors}} @property="name" data-test-error="label-name" />
                 {{/if}}
             </GhFormGroup>
         </fieldset>
     </div>
 
     <div class="modal-footer">
-        {{#if this.model.isNew}}
+        {{#if this.label.isNew}}
             <button
                 class="gh-btn"
                 {{action "closeModal"}}
@@ -69,7 +69,7 @@
             @runningText="Saving..."
             @successText="Saved"
             @task={{this.saveTask}}
-            @taskArgs={{this.model}}
+            @taskArgs={{this.label}}
             @class="gh-btn gh-btn-green gh-btn-icon"
             data-test-button="save-label" />
     </div>

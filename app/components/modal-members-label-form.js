@@ -1,4 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import {computed} from '@ember/object';
 import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -10,22 +11,52 @@ export default ModalComponent.extend({
     showDeleteLabelModal: false,
 
     confirm() {},
+    label: computed.and('model', 'model.label'),
+
     init() {
         this._super(...arguments);
     },
 
+    willDestroyElement() {
+        this._super(...arguments);
+        this.label.errors.clear();
+        this.label.rollbackAttributes();
+    },
     actions: {
         toggleDeleteLabelModal() {
             this.toggleProperty('showDeleteLabelModal');
+        },
+        validate(property) {
+            return this.label.validate({property});
         }
     },
 
     saveTask: task(function* () {
+        let label = this.model && this.model.label;
+        let availableLabels = (this.model && this.model.labels) || [];
+        if (!label) {
+            return false;
+        }
         try {
-            let label = yield this.model.save();
+            yield label.validate();
+
+            let duplicateLabel = availableLabels.find((existingLabel) => {
+                return existingLabel.name.trim().toLowerCase() === label.name.trim().toLowerCase()
+                    && existingLabel.slug.trim().toLowerCase() !== label.slug.trim().toLowerCase();
+            });
+
+            if (duplicateLabel) {
+                label.errors.add('name', 'Has already been used');
+                label.hasValidated.pushObject('name');
+                // label.invalidate();
+
+                return false;
+            }
+
+            let savedLabel = yield label.save();
             this.notifications.showNotification('Label saved'.htmlSafe());
             this.send('closeModal');
-            return label;
+            return savedLabel;
         } catch (error) {
             if (error) {
                 this.notifications.showAPIError(error, {key: 'label.save'});
@@ -34,8 +65,12 @@ export default ModalComponent.extend({
     }),
 
     deleteLabel: task(function * () {
+        let label = this.model && this.model.label;
+        if (!label) {
+            return false;
+        }
         try {
-            yield this.model.destroyRecord();
+            yield label.destroyRecord();
             let routeName = this.router.currentRouteName;
             this.send('closeModal');
             this.router.transitionTo(routeName, {queryParams: resetQueryParams(routeName)});
@@ -45,4 +80,5 @@ export default ModalComponent.extend({
             }
         }
     })
+
 });

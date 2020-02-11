@@ -72,6 +72,16 @@ export default Controller.extend({
         return labels.findBy('slug', label);
     }),
 
+    labelModalData: computed('modalLabel', 'availableLabels', function () {
+        let label = this.get('modalLabel');
+        let labels = this.get('availableLabels');
+
+        return {
+            label,
+            labels
+        };
+    }),
+
     filteredMembers: computed('members.@each.{name,email}', 'searchText', 'label', function () {
         let {members, searchText, label} = this;
         searchText = searchText.toLowerCase();
