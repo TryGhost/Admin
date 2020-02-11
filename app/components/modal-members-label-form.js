@@ -24,7 +24,8 @@ export default ModalComponent.extend({
     },
     actions: {
         toggleDeleteLabelModal() {
-            this.toggleProperty('showDeleteLabelModal');
+            this.label.rollbackAttributes();
+            this.set('showDeleteLabelModal', true);
         },
         validate(property) {
             return this.label.validate({property});
@@ -42,7 +43,7 @@ export default ModalComponent.extend({
 
             let duplicateLabel = availableLabels.find((existingLabel) => {
                 return existingLabel.name.trim().toLowerCase() === label.name.trim().toLowerCase()
-                    && existingLabel.slug.trim().toLowerCase() !== label.slug.trim().toLowerCase();
+                    && existingLabel.slug !== label.slug;
             });
 
             if (duplicateLabel) {
