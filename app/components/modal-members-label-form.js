@@ -47,7 +47,7 @@ export default ModalComponent.extend({
             });
 
             if (duplicateLabel) {
-                label.errors.add('name', 'Has already been used');
+                label.errors.add('name', 'A label with the same name already exists');
                 label.hasValidated.pushObject('name');
                 // label.invalidate();
 
