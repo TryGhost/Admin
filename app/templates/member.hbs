@@ -29,8 +29,12 @@
                     @classNames="gh-member-actions-menu dropdown-menu dropdown-align-right"
                 >
                     <li>
-                        <a href="#" {{action 'magicLink'}} class="mr2">
-                            <span>Copy login link</span>
+                        <a href="#" {{action (perform this.magicLink)}} class="mr2">
+                            <span>Copy login link
+                            {{#if this.magicLink.isRunning}}
+                                {{svg-jar "check-circle" class="w3 v-mid mr2 stroke-white"}} Copied
+                            {{/if}}
+                            </span>
                         </a>
                     </li>
                 </GhDropdown>

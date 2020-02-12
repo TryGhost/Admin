@@ -56,11 +56,6 @@ export default Controller.extend({
             });
         },
 
-        magicLink() {
-            copyTextToClipboard(this.member.get('signin_url'));
-            this.dropdown.closeDropdowns();
-        },
-
         toggleUnsavedChangesModal(transition) {
             let leaveTransition = this.leaveScreenTransition;
 
@@ -90,6 +85,12 @@ export default Controller.extend({
             return this.leaveScreenTransition.retry();
         }
     },
+
+    magicLink: task(function* () {
+        copyTextToClipboard(this.member.get('signin_url'));
+        yield timeout(3000);
+        this.dropdown.closeDropdowns();
+    }),
 
     save: task(function* () {
         let {member, scratchMember} = this;
