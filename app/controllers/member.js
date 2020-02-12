@@ -13,6 +13,7 @@ const SCRATCH_PROPS = ['name', 'email', 'note'];
 
 export default Controller.extend({
     members: controller(),
+    dropdown: service(),
     notifications: service(),
     router: service(),
     store: service(),
@@ -53,7 +54,8 @@ export default Controller.extend({
         },
 
         magicLink() {
-            return copyTextToClipboard(this.member.get('signin_url'));
+            copyTextToClipboard(this.member.get('signin_url'));
+            this.dropdown.closeDropdowns();
         },
 
         toggleUnsavedChangesModal(transition) {
