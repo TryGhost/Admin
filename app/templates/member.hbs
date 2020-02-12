@@ -29,12 +29,14 @@
                     @classNames="gh-member-actions-menu dropdown-menu dropdown-align-right"
                 >
                     <li>
-                        <a href="#" {{action (perform this.magicLink)}} class="mr2">
-                            <span>Copy login link
+                        <a href="#" {{action (perform this.magicLink)}} class="mr2 flex justify-between items-center">
+                            <span>Copy login link</span>
                             {{#if this.magicLink.isRunning}}
-                                {{svg-jar "check-circle" class="w3 v-mid mr2 stroke-white"}} Copied
-                            {{/if}}
+                            <span class="flex items-center member-link-copied ml2">
+                                {{svg-jar "check-circle" class="w3 stroke-green animated-icon"}} 
+                                <span class="green-d1 fade-in">Copied</span>
                             </span>
+                            {{/if}}
                         </a>
                     </li>
                 </GhDropdown>

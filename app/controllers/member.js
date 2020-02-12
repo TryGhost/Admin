@@ -88,7 +88,7 @@ export default Controller.extend({
 
     magicLink: task(function* () {
         copyTextToClipboard(this.member.get('signin_url'));
-        yield timeout(3000);
+        yield timeout(1800);
         this.dropdown.closeDropdowns();
     }),
 
