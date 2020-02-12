@@ -43,6 +43,10 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
         // clean up newly created records and revert unsaved changes to existing
         this.controller.member.rollbackAttributes();
 
+        if (this.controller.signinUrlTask) {
+            this.controller.signinUrlTask.cancel();
+        }
+
         this._requiresBackgroundRefresh = true;
     },
 

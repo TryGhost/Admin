@@ -7,9 +7,10 @@ import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
 import {inject as controller} from '@ember/controller';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {task, timeout} from 'ember-concurrency';
 
 const SCRATCH_PROPS = ['name', 'email', 'note'];
+const URL_FETCH_TIMEOUT = 60000; // 1 minute timeout as token lives for 10 minutes
 
 export default Controller.extend({
     members: controller(),
@@ -17,6 +18,8 @@ export default Controller.extend({
     notifications: service(),
     router: service(),
     store: service(),
+
+    signinUrlTask: null,
 
     member: alias('model'),
 
@@ -113,13 +116,15 @@ export default Controller.extend({
     fetchMember: task(function* (memberId) {
         this.set('isLoading', true);
 
-        yield this.store.findRecord('member', memberId, {
+        let member = yield this.store.findRecord('member', memberId, {
             reload: true
-        }).then((member) => {
-            this.set('member', member);
-            this.set('isLoading', false);
-            return member;
         });
+
+        this.set('member', member);
+        this.set('isLoading', false);
+
+        yield timeout(URL_FETCH_TIMEOUT);
+        this._signinUrlUpdateTask.perform();
     }),
 
     _saveMemberProperty(propKey, newValue) {
@@ -135,5 +140,21 @@ export default Controller.extend({
         }
 
         this.member.set(propKey, newValue);
-    }
+    },
+
+    _updateSigninUrl: task(function*() {
+        let member = yield this.store.findRecord('member', this.member.get('id'), {
+            reload: true
+        });
+
+        this.set('member.signin_url', member.signin_url);
+    }).drop(),
+
+    _signinUrlUpdateTask: task(function*() {
+        yield this._updateSigninUrl.perform();
+
+        yield timeout(URL_FETCH_TIMEOUT);
+
+        this.signinUrlTask = this._signinUrlUpdateTask.perform();
+    }).restartable()
 });
