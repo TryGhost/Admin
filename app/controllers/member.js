@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import config from 'ghost-admin/config/environment';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
@@ -124,8 +125,10 @@ export default Controller.extend({
         this.set('member', member);
         this.set('isLoading', false);
 
-        yield timeout(URL_FETCH_TIMEOUT);
-        this._signinUrlUpdateTask.perform();
+        if (config.environment !== 'test') {
+            yield timeout(URL_FETCH_TIMEOUT);
+            this._signinUrlUpdateTask.perform();
+        }
     }),
 
     _saveMemberProperty(propKey, newValue) {
