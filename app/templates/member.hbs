@@ -11,35 +11,12 @@
         </h2>
 
         <section class="view-actions">
-            <span class="dropdown">
-                <GhDropdownButton
-                    @dropdownName="member-actions-menu"
-                    @classNames="gh-btn gh-btn-white gh-btn-icon only-has-icon gh-actions-cog"
-                    @title="Member Actions"
-                    @data-test-user-actions="true"
-                >
-                    <span>
-                        {{svg-jar "settings"}}
-                        <span class="hidden">Member Actions</span>
-                    </span>
-                </GhDropdownButton>
-                <GhDropdown
-                    @name="member-actions-menu"
-                    @tagName="ul"
-                    @classNames="gh-member-actions-menu dropdown-menu dropdown-align-right"
-                >
-                    <li>
-                        <a href="#" {{action (perform this.magicLink)}} class="mr2 flex justify-between items-center">
-                            <span>Copy login link</span>
-                            {{#if this.magicLink.isRunning}}
-                            <span class="flex items-center member-link-copied ml2">
-                                {{svg-jar "check-circle" class="w3 stroke-green animated-icon"}} 
-                                <span class="green-d1 fade-in">Copied</span>
-                            </span>
-                            {{/if}}
-                        </a>
-                    </li>
-                </GhDropdown>
+            <span data-tooltip="Get link for logging in to your site as this member" class="tooltip-bottom">
+                <GhTaskButton 
+                    @buttonText="Impersonate" 
+                    @task={{this.magicLink}} 
+                    @successText="Login link copied"
+                    @class="gh-btn gh-btn-white gh-btn-icon mr2" />
             </span>
 
             <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
