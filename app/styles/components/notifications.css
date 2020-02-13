@@ -4,7 +4,7 @@
 /* Base notification style */
 .gh-notifications {
     position: absolute;
-    bottom: 20px;
+    bottom: 32px;
     left: 20px;
     z-index: 7000;
     display: flex;
@@ -16,20 +16,19 @@
     position: relative;
     display: flex;
     margin-top: 5px;
-    padding: 4px;
-    width: 232px;
-    border: color-mod(var(--blue) l(-10%)) 1px solid;
+    padding: 4px 8px;
+    width: 272px;
     background: var(--blue);
-    border-radius: 4px;
-    box-shadow: rgba(0,0,0,0.06) 0 1px 7px;
+    border-radius: 14px;
+    box-shadow:
+        0 1.1px 2.3px rgba(0, 0, 0, 0.028),
+        0 3.8px 7.8px rgba(0, 0, 0, 0.042),
+        0 17px 35px rgba(0, 0, 0, 0.07)
+    ;
     color: #fff;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1.25em;
     opacity: 1.0;
-}
-
-.gh-notification:hover {
-    cursor: pointer;
 }
 
 .gh-notification-content {
@@ -37,7 +36,6 @@
     padding: 10px 15px;
     border-radius: 3px;
     transition: background 0.2s ease;
-    color: rgba(255,255,255,0.8);
 }
 
 .gh-notification-title {
@@ -50,6 +48,7 @@
 .gh-notification a {
     color: #fff;
     text-decoration: underline;
+    font-weight: 500;
 }
 
 .gh-notification em {
@@ -59,34 +58,32 @@
 
 .gh-notification-close {
     position: absolute;
-    top: 1px;
-    right: 1px;
-    padding: 6px 6px 5px 5px;
-    background: var(--blue);
-    border-radius: 2px;
-    font-size: 7px;
-    line-height: 5px;
+    top: 6px;
+    right: 6px;
+    padding: 8px;
+    background: none;
+    border-radius: 999px;
+    line-height: 0;
 }
 
 .gh-notification-close svg {
-    height: 7px;
-    width: 7px;
+    height: 9px;
+    width: 9px;
     stroke: #fff;
-    opacity: 0.8;
 }
 
 .gh-notification-close svg path {
     stroke-width: 2px;
 }
 
-.gh-notification-close:hover svg {
-    opacity: 1.0;
+.gh-notification-close:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .gh-notification-passive {
-    animation: fade-out;
+    /* animation: fade-out;
     animation-delay: 5s;
-    animation-iteration-count: 1;
+    animation-iteration-count: 1; */
 }
 
 .gh-notification-passive:hover {
