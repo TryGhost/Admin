@@ -165,6 +165,8 @@
 .dropdown-action {
     top: calc(100% + 6px);
     left: auto;
+    width: 210px;
+    overflow-x: hidden;
 }
 
 .dropdown-action li {
@@ -181,6 +183,7 @@
 }
 
 .dropdown-action .dropdown-content {
+    width: 240px;
     max-height: 50vh;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -192,6 +195,10 @@
 .dropdown-action .dropdown-label {
     flex-grow: 1;
     padding: 6px 14px;
+    width: 185px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .dropdown-action li.selected .dropdown-label {
@@ -211,7 +218,7 @@
     padding: 4px;
     margin-top: -2px;
     margin-bottom: -2px;
-    margin-right: 8px;
+    margin-right: 20px;
     border-radius: 3px;
 }
 

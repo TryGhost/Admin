@@ -13,7 +13,7 @@
             {{#each @availableLabels as |label|}}
                 <li class="{{if (eq @selectedLabel.name label.name) "selected"}}">
                     <a>
-                        <span class="dropdown-label" {{on "click" (fn @onLabelChange label)}}>{{label.name}} </span>
+                        <span class="dropdown-label" title="{{label.name}}" {{on "click" (fn @onLabelChange label)}}>{{label.name}} </span>
                         {{#if label.slug}}
                             <span class="dropdown-action-icon" {{on "click" (fn @onLabelEdit label.slug)}}> {{svg-jar "pen"}} </span>
                         {{/if}}
