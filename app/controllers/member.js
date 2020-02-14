@@ -12,6 +12,7 @@ const SCRATCH_PROPS = ['name', 'email', 'note'];
 
 export default Controller.extend({
     members: controller(),
+    session: service(),
     dropdown: service(),
     notifications: service(),
     router: service(),

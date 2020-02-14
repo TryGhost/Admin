@@ -11,13 +11,15 @@
         </h2>
 
         <section class="view-actions">
-            <span data-tooltip="Get link for logging in to your site as this member" class="tooltip-bottom">
-                <button
-                    class="gh-btn gh-btn-white gh-btn-icon mr2"
-                    {{on "click" (action "toggleImpersonateMemberModal")}}>
-                    <span>Impersonate</span>
-                </button>
-            </span>
+            {{#if this.session.user.isOwner}}
+                <span data-tooltip="Get link for logging in to your site as this member" class="tooltip-bottom">
+                    <button
+                        class="gh-btn gh-btn-white gh-btn-icon mr2"
+                        {{on "click" (action "toggleImpersonateMemberModal")}}>
+                        <span>Impersonate</span>
+                    </button>
+                </span>
+            {{/if}}
 
             <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
         </section>
