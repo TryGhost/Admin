@@ -12,21 +12,27 @@
     </p>
 
     <fieldset>
-        <GhFormGroup>
-            <GhTextInput
-                @id="member-signin-url"
-                @name="email"
-                @shouldFocus={{true}}
-                @autocapitalize="off"
-                @autocorrect="off"
-                @value={{readonly signin_url}}
-            />
-        <button
-            type="button"
-            class="gh-btn gh-btn-red gh-btn-icon mt3"
-            {{on "click" (action "copyMagicLink")}}>Copy link </button>
-        </GhFormGroup>
+        <GhTextInput
+            @id="member-signin-url"
+            @name="member-signin-url"
+            @value={{readonly signin_url}}
+        />
+        <GhTaskButton
+            @class="gh-btn gh-btn-white gh-btn-icon mt3"
+            @task={{this.copyMagicLink}}>
+            <span>Copy link</span>
+            {{#if task.isRunning}}
+                <span class="flex items-center member-link-copied ml2">
+                    {{svg-jar "check-circle" class="w3 stroke-green animated-icon"}}
+                    <span class="green-d1 fade-in">Copied</span>
+                </span>
+            {{/if}}
+        </GhTaskButton>
     </fieldset>
+</div>
 
-    <button {{action "closeModal"}}>Ok</button>
+<div class="modal-footer">
+    <button
+      {{action "closeModal"}}
+      class="gh-btn"><span>Ok</span></button>
 </div>
