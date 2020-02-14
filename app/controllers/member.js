@@ -1,13 +1,12 @@
 import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
-import config from 'ghost-admin/config/environment';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
 import {inject as controller} from '@ember/controller';
 import {inject as service} from '@ember/service';
-import {task, timeout} from 'ember-concurrency';
+import {task} from 'ember-concurrency';
 
 const SCRATCH_PROPS = ['name', 'email', 'note'];
 
