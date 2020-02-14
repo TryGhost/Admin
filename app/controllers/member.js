@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import config from 'ghost-admin/config/environment';
-import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import moment from 'moment';
 import {alias} from '@ember/object/computed';
 import {computed, defineProperty} from '@ember/object';
@@ -11,7 +10,6 @@ import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
 const SCRATCH_PROPS = ['name', 'email', 'note'];
-const URL_FETCH_TIMEOUT = 60000; // 1 minute timeout as token lives for 10 minutes
 
 export default Controller.extend({
     members: controller(),
@@ -20,6 +18,7 @@ export default Controller.extend({
     router: service(),
     store: service(),
 
+    showImpersonateMemberModal: false,
     signinUrlTask: null,
 
     member: alias('model'),
@@ -43,6 +42,10 @@ export default Controller.extend({
 
         toggleDeleteMemberModal() {
             this.toggleProperty('showDeleteMemberModal');
+        },
+
+        toggleImpersonateMemberModal() {
+            this.toggleProperty('showImpersonateMemberModal');
         },
 
         save() {
@@ -87,11 +90,6 @@ export default Controller.extend({
         }
     },
 
-    magicLink: task(function* () {
-        copyTextToClipboard(this.member.get('signin_url'));
-        return true;
-    }),
-
     save: task(function* () {
         let {member, scratchMember} = this;
 
@@ -123,11 +121,6 @@ export default Controller.extend({
 
         this.set('member', member);
         this.set('isLoading', false);
-
-        if (config.environment !== 'test') {
-            yield timeout(URL_FETCH_TIMEOUT);
-            this._signinUrlUpdateTask.perform();
-        }
     }),
 
     _saveMemberProperty(propKey, newValue) {
@@ -143,21 +136,5 @@ export default Controller.extend({
         }
 
         this.member.set(propKey, newValue);
-    },
-
-    _updateSigninUrl: task(function*() {
-        let member = yield this.store.findRecord('member', this.member.get('id'), {
-            reload: true
-        });
-
-        this.set('member.signin_url', member.signin_url);
-    }).drop(),
-
-    _signinUrlUpdateTask: task(function*() {
-        yield this._updateSigninUrl.perform();
-
-        yield timeout(URL_FETCH_TIMEOUT);
-
-        this.signinUrlTask = this._signinUrlUpdateTask.perform();
-    }).restartable()
+    }
 });
