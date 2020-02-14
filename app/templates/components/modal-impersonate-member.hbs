@@ -1,0 +1,32 @@
+<header class="modal-header">
+    <h1>Impersonate</h1>
+</header>
+{{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+<a class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
+    {{svg-jar "close"}}<span class="hidden">Close</span>
+</a>
+
+<div class="modal-body">
+    <p>
+        Use the link below to log in to your site as <b>{{this.member.name}}</b>.
+    </p>
+
+    <fieldset>
+        <GhFormGroup>
+            <GhTextInput
+                @id="member-signin-url"
+                @name="email"
+                @shouldFocus={{true}}
+                @autocapitalize="off"
+                @autocorrect="off"
+                @value={{readonly signin_url}}
+            />
+        <button
+            type="button"
+            class="gh-btn gh-btn-red gh-btn-icon mt3"
+            {{on "click" (action "copyMagicLink")}}>Copy link </button>
+        </GhFormGroup>
+    </fieldset>
+
+    <button {{action "closeModal"}}>Ok</button>
+</div>
