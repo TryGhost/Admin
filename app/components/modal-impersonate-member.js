@@ -7,12 +7,13 @@ import {task, timeout} from 'ember-concurrency';
 const URL_FETCH_TIMEOUT = 60000; // 1 minute timeout as token lives for 10 minutes
 
 export default ModalComponent.extend({
+    config: service(),
     store: service(),
 
-    classNames: 'modal-impersonate-member',
+    classNames: "modal-impersonate-member",
 
     signin_url: null,
-    member: alias('model'),
+    member: alias("model"),
 
     init() {
         this._super(...arguments);
@@ -24,20 +25,23 @@ export default ModalComponent.extend({
         this._signinUrlUpdateTask.perform();
     },
 
-    actions: {
-    },
+    actions: {},
 
-    copyMagicLink: task(function* () {
-        copyTextToClipboard(this.member.get('signin_url'));
+    copyMagicLink: task(function*() {
+        copyTextToClipboard(this.member.get("signin_url"));
         return true;
     }),
 
     _updateSigninUrl: task(function*() {
-        let member = yield this.store.findRecord('member', this.member.get('id'), {
-            reload: true
-        });
+        let member = yield this.store.findRecord(
+            "member",
+            this.member.get("id"),
+            {
+                reload: true
+            }
+        );
 
-        this.set('signin_url', member.signin_url);
+        this.set("signin_url", member.signin_url);
     }).drop(),
 
     _signinUrlUpdateTask: task(function*() {

@@ -1,5 +1,5 @@
-<header class="modal-header">
-    <h1>Impersonate</h1>
+<header class="modal-header flex justify-center">
+    <h1 style="margin: 0;">Impersonate</h1>
 </header>
 {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
 <a class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
@@ -7,32 +7,34 @@
 </a>
 
 <div class="modal-body">
-    <p>
-        Use the link below to log in to your site as <b>{{this.member.name}}</b>.
+    <div class="flex items-center justify-center mt4 mb4">
+        <GhMemberAvatar 
+            @member={{this.member}}
+            @sizeClass={{if this.member.name 'f-subheadline fw4 lh-zero tracked-1' 'f-headline fw4 lh-zero tracked-1'}}
+            @containerClass="w25 h25 gh-member-detail-avatar" />
+    </div>
+
+    <p class="tc pl4 pr4">
+        This is an authenticated link to sign into <strong>{{this.config.blogTitle}}</strong> as <strong>{{this.member.email}}</strong> - you can send it to them if they need it, or use it to sign into their account for customer support.
     </p>
 
     <fieldset>
-        <GhTextInput
-            @id="member-signin-url"
-            @name="member-signin-url"
-            @value={{readonly signin_url}}
-        />
-        <GhTaskButton
-            @class="gh-btn gh-btn-white gh-btn-icon mt3"
-            @task={{this.copyMagicLink}}>
-            <span>Copy link</span>
-            {{#if task.isRunning}}
-                <span class="flex items-center member-link-copied ml2">
-                    {{svg-jar "check-circle" class="w3 stroke-green animated-icon"}}
-                    <span class="green-d1 fade-in">Copied</span>
-                </span>
-            {{/if}}
-        </GhTaskButton>
+        <div class="gh-input-group">
+            <GhTextInput
+                @id="member-signin-url"
+                @name="member-signin-url"
+                @disabled={{true}}
+                @value={{readonly signin_url}}
+            />
+            <GhTaskButton 
+                @buttonText="Copy link" 
+                @task={{this.copyMagicLink}} 
+                @successText="Link copied"
+                @class="gh-btn gh-btn-blue gh-btn-icon" />
+        </div>
     </fieldset>
 </div>
 
-<div class="modal-footer">
-    <button
-      {{action "closeModal"}}
-      class="gh-btn"><span>Ok</span></button>
+<div>
+    <p class="tc pt4 mb2">This link is only valid for the next <strong>10 minutes</strong></p>
 </div>

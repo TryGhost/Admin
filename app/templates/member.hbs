@@ -12,11 +12,13 @@
 
         <section class="view-actions">
             {{#if this.session.user.isOwner}}
-                <button
-                    class="gh-btn gh-btn-white gh-btn-icon mr2"
-                    {{on "click" (action "toggleImpersonateMemberModal")}}>
-                    <span>Impersonate</span>
-                </button>
+                {{#unless this.member.isNew}}
+                    <button
+                        class="gh-btn gh-btn-white gh-btn-icon mr2"
+                        {{on "click" (action "toggleImpersonateMemberModal")}}>
+                        <span>Impersonate</span>
+                    </button>
+                {{/unless}}
             {{/if}}
 
             <GhTaskButton @class="gh-btn gh-btn-blue gh-btn-icon" @type="button" @task={{this.save}} @data-test-button="save" />
@@ -29,7 +31,7 @@
                 <GhMemberAvatar
                     @member={{this.member}}
                     @sizeClass={{if this.member.name 'f-subheadline fw4 lh-zero tracked-1' 'f-headline fw4 lh-zero tracked-1'}}
-                    @containerClass="w18 h18 mr4 gh-member-detail-avatar"
+                    @containerClass="w20 h20 mr4 gh-member-detail-avatar"
                 />
             {{else}}
                 <div class="flex items-center justify-center br-100 w18 h18 mr4 gh-new-member-avatar">
