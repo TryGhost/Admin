@@ -29,7 +29,6 @@ export default ModalComponent.extend({
 
     copyMagicLink: task(function* () {
         copyTextToClipboard(this.member.get('signin_url'));
-        yield timeout(2000);
         return true;
     }),
 
