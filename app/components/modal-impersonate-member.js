@@ -30,6 +30,7 @@ export default ModalComponent.extend({
     copySigninUrl: task(function* () {
         copyTextToClipboard(this.get('signinUrl'));
         yield timeout(1000);
+        return true;
     }),
 
     _updateSigninUrl: task(function*() {
