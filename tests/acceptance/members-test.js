@@ -143,7 +143,7 @@ describe('Acceptance: Members', function () {
                     .to.be.empty;
             });
 
-            expect(find('.gh-member-basic-settings-form input[name="email"]').disabled, 'makes sure email is not disabled')
+            expect(find('.gh-member-settings-primary input[name="email"]').disabled, 'makes sure email is not disabled')
                 .to.equal(false);
 
             // save new member
