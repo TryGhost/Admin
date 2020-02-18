@@ -10,10 +10,10 @@ export default ModalComponent.extend({
     config: service(),
     store: service(),
 
-    classNames: "modal-impersonate-member",
+    classNames: 'modal-impersonate-member',
 
-    signin_url: null,
-    member: alias("model"),
+    signinUrl: null,
+    member: alias('model'),
 
     init() {
         this._super(...arguments);
@@ -27,21 +27,21 @@ export default ModalComponent.extend({
 
     actions: {},
 
-    copyMagicLink: task(function*() {
-        copyTextToClipboard(this.member.get("signin_url"));
-        return true;
+    copySigninUrl: task(function* () {
+        copyTextToClipboard(this.get('signinUrl'));
+        yield timeout(1000);
     }),
 
     _updateSigninUrl: task(function*() {
-        let member = yield this.store.findRecord(
-            "member",
-            this.member.get("id"),
+        let member = yield this.store.queryRecord(
+            'member',
             {
-                reload: true
+                id: this.member.get('id'),
+                include: 'signin_url'
             }
         );
 
-        this.set("signin_url", member.signin_url);
+        this.set('signinUrl', member.signinUrl);
     }).drop(),
 
     _signinUrlUpdateTask: task(function*() {

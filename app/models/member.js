@@ -7,7 +7,7 @@ export default Model.extend(ValidationEngine, {
     name: attr('string'),
     email: attr('string'),
     note: attr('string'),
-    signin_url: attr('string'),
+    signinUrl: attr('string', {defaultValue: ''}),
     createdAtUTC: attr('moment-utc'),
     stripe: attr('member-subscription'),
     subscribed: attr('boolean', {defaultValue: true}),
