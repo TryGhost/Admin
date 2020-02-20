@@ -58,6 +58,7 @@
 .gh-notification p {
     margin: 0;
     padding: 0;
+    line-height: 1.4em;
 }
 
 .gh-notification a {
@@ -97,20 +98,20 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* .gh-notification-passive {
+.gh-notification-passive {
     animation: notification-fade-in, fade-out;
     animation-delay: 0s, 5s;
     animation-duration: 0.3s, 0.3s;
     animation-iteration-count: 1;
-} */
+}
 
 /* FOR TESTING */
-.gh-notification-passive {
+/* .gh-notification-passive {
     animation: notification-fade-in;
     animation-delay: 0s;
     animation-duration: 0.3s;
     animation-iteration-count: 1;
-}
+} */
 
 .gh-notification-passive:hover {
     animation: notification-fade-in;

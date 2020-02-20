@@ -814,7 +814,7 @@ export default Controller.extend({
             message = `Draft ${message} &nbsp;<a href="${path}" target="_blank">View ${type}</a>`;
         }
 
-        notifications.showNotification(message.htmlSafe(), {title: 'Hello title', type: 'success', delayed: delay});
+        notifications.showNotification(message.htmlSafe(), {type: 'success', delayed: delay});
     },
 
     _showErrorAlert(prevStatus, status, error, delay) {

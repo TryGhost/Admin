@@ -22,7 +22,7 @@ export default Component.extend({
         try {
             // NOTE: has to be before member.save() is performed otherwise component is
             //       destroyed before notification is shown
-            this.notifications.showNotification('You\'ve successfully added yourself as a member!'.htmlSafe());
+            this.notifications.showNotification('You\'ve successfully added yourself as a member.'.htmlSafe(), {title: "Member added"});
 
             return yield member.save();
         } catch (error) {
