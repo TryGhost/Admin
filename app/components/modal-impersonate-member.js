@@ -34,15 +34,9 @@ export default ModalComponent.extend({
     }),
 
     _updateSigninUrl: task(function*() {
-        let member = yield this.store.queryRecord(
-            'member',
-            {
-                id: this.member.get('id'),
-                include: 'signin_url'
-            }
-        );
+        const memberSignin = yield this.member.fetchSigninUrl();
 
-        this.set('signinUrl', member.signinUrl);
+        this.set('signinUrl', memberSignin.url);
     }).drop(),
 
     _signinUrlUpdateTask: task(function*() {

@@ -23,5 +23,9 @@ export default Model.extend(ValidationEngine, {
 
         labels.removeObjects(oldLabels);
         oldLabels.invoke('deleteRecord');
+    },
+
+    fetchSigninUrl() {
+        return this.store.adapterFor('member-signin-url').fetch(this);
     }
 });
