@@ -33,29 +33,37 @@
 }
 
 .gh-notification-icon {
+    margin: 8px 0 0 6px;
+}
+
+.gh-notification-icon svg {
     width: 18px;
     height: 18px;
-    margin: 8px 0 0 6px;
 }
 
 .gh-notification-content {
     flex-grow: 1;
     padding: 9px 15px 10px 10px;
     border-radius: 3px;
-    transition: background 0.2s ease;
+    max-width: 200px;
 }
 
 .gh-notification-title {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.gh-notification p {
+    margin: 0;
+    padding: 0;
 }
 
 .gh-notification a {
     color: #fff;
     text-decoration: underline;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .gh-notification em {
@@ -89,15 +97,34 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* .gh-notification-passive {
+    animation: notification-fade-in, fade-out;
+    animation-delay: 0s, 5s;
+    animation-duration: 0.3s, 0.3s;
+    animation-iteration-count: 1;
+} */
+
+/* FOR TESTING */
 .gh-notification-passive {
-    animation: fade-out;
-    animation-delay: 5s;
+    animation: notification-fade-in;
+    animation-delay: 0s;
     animation-duration: 0.3s;
     animation-iteration-count: 1;
 }
 
 .gh-notification-passive:hover {
-    animation: fade-in;
+    animation: notification-fade-in;
+}
+
+@keyframes notification-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 /* Red notification

@@ -63,19 +63,19 @@ const messageMap = {
     success: {
         post: {
             published: {
-                published: 'Updated.',
-                draft: 'Saved.',
-                scheduled: 'Scheduled.'
+                published: 'updated',
+                draft: 'saved',
+                scheduled: 'scheduled'
             },
             draft: {
-                published: 'Published!',
-                draft: 'Saved.',
-                scheduled: 'Scheduled.'
+                published: 'published',
+                draft: 'saved',
+                scheduled: 'scheduled'
             },
             scheduled: {
-                scheduled: 'Updated.',
-                draft: 'Unscheduled.',
-                published: 'Published!'
+                scheduled: 'updated',
+                draft: 'unscheduled',
+                published: 'published'
             }
         }
     }
@@ -807,14 +807,14 @@ export default Controller.extend({
         if (status === 'published') {
             type = this.get('post.page') ? 'Page' : 'Post';
             path = this.get('post.url');
+            message = `${type} ${message} &nbsp;<a href="${path}" target="_blank">View ${type}</a>`;
         } else {
             type = 'Preview';
             path = this.get('post.previewUrl');
+            message = `Draft ${message} &nbsp;<a href="${path}" target="_blank">View ${type}</a>`;
         }
 
-        message += `&nbsp;<a href="${path}" target="_blank">View ${type}</a>`;
-
-        notifications.showNotification(message.htmlSafe(), {delayed: delay});
+        notifications.showNotification(message.htmlSafe(), {title: 'Hello title', type: 'success', delayed: delay});
     },
 
     _showErrorAlert(prevStatus, status, error, delay) {

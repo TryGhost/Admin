@@ -75,6 +75,7 @@ export default Service.extend({
         this.handleNotification({
             message,
             status: 'alert',
+            title: options.title,
             type: options.type,
             key: options.key
         }, options.delayed);
@@ -83,16 +84,10 @@ export default Service.extend({
     showNotification(message, options) {
         options = options || {};
 
-        if (!options.doNotCloseNotifications) {
-            this.closeNotifications();
-        } else {
-            // TODO: this should be removed along with showErrors
-            options.key = undefined;
-        }
-
         this.handleNotification({
             message,
             status: 'notification',
+            title: options.title,
             type: options.type,
             key: options.key
         }, options.delayed);
