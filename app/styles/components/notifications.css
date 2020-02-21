@@ -17,7 +17,7 @@
     display: flex;
     margin-top: 8px;
     padding: 4px 8px;
-    width: 272px;
+    width: 286px;
     background: color-mod(var(--blue) s(+10%));
     border-radius: 22px;
     box-shadow:
@@ -47,7 +47,7 @@
     flex-direction: column;
     padding: 9px 15px 10px 10px;
     border-radius: 3px;
-    max-width: 200px;
+    max-width: 215px;
 }
 
 .gh-notification-title {
@@ -126,7 +126,7 @@
 @keyframes notification-fade-in-spring {
     0.00% {
         opacity: 0;
-        transform: translateY(20.05px);
+        transform: translateY(32.05px);
     }
     26.52% {
         opacity: 0.3;
