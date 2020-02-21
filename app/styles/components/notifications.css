@@ -41,6 +41,11 @@
     height: 18px;
 }
 
+.gh-notification-icon svg path {
+    stroke-width: 1.5px;
+    stroke: #fff;
+}
+
 .gh-notification-content {
     flex-grow: 1;
     display: flex;
