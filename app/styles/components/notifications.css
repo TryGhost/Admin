@@ -110,28 +110,15 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* First notification needs to draw the attention a bit more */
 .gh-notification-passive {
-    animation: notification-fade-in, fade-out;
-    animation-delay: 0s, 5s;
-    animation-duration: 0.3s, 0.35s;
-    animation-iteration-count: 1;
-    animation-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
-} 
-
-.gh-notification-passive:first-of-type {
-    animation: notification-fade-in-spring, fade-out;
+    animation: notification-fade-in-spring; /*, fade-out;*/
     animation-delay: 0s, 5s;
     animation-duration: 0.6s, 0.35s;
     animation-iteration-count: 1;
     animation-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
-}
+} 
 
 .gh-notification-passive:hover {
-    animation: notification-fade-in;
-}
-
-.gh-notification-passive:first-of-type:hover {
     animation: notification-fade-in-spring;
 }
 
@@ -139,10 +126,11 @@
 @keyframes notification-fade-in-spring {
     0.00% {
         opacity: 0;
-        transform: translateY(46.05px);
+        transform: translateY(20.05px);
     }
     26.52% {
-        transform: translateY(-13.90px);
+        opacity: 0.3;
+        transform: translateY(-7.90px);
     }
     63.26% {
         transform: translateY(2.77px);
