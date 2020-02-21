@@ -43,6 +43,8 @@
 
 .gh-notification-content {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     padding: 9px 15px 10px 10px;
     border-radius: 3px;
     max-width: 200px;
@@ -70,6 +72,16 @@
 .gh-notification em {
     font-weight: bold;
     font-style: normal;
+}
+
+.gh-notification-actions {
+    margin-top: 8px;
+    display: flex;
+}
+
+.gh-notification-actions a {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .gh-notification-close {
@@ -100,7 +112,7 @@
 
 /* First notification needs to draw the attention a bit more */
 .gh-notification-passive {
-    animation: notification-fade-in, fade-out;
+    animation: notification-fade-in; /*, fade-out;*/
     animation-delay: 0s, 5s;
     animation-duration: 0.3s, 0.35s;
     animation-iteration-count: 1;
@@ -108,7 +120,7 @@
 } 
 
 .gh-notification-passive:first-of-type {
-    animation: notification-fade-in-spring, fade-out;
+    animation: notification-fade-in-spring; /*, fade-out;*/
     animation-delay: 0s, 5s;
     animation-duration: 0.6s, 0.35s;
     animation-iteration-count: 1;

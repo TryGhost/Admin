@@ -77,7 +77,8 @@ export default Service.extend({
             status: 'alert',
             title: options.title,
             type: options.type,
-            key: options.key
+            key: options.key,
+            actions: options.actions
         }, options.delayed);
     },
 
@@ -89,7 +90,8 @@ export default Service.extend({
             status: 'notification',
             title: options.title,
             type: options.type,
-            key: options.key
+            key: options.key,
+            actions: options.actions
         }, options.delayed);
     },
 
