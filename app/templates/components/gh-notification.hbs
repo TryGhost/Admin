@@ -20,7 +20,7 @@
         <span class="gh-notification-title">{{this.message.title}}</span>
     {{/if}}
     <p>{{this.message.message}}</p>
-    {{this.message.actions}}
+    <span>{{this.message.actions}}</span>
 </div>
 <button class="gh-notification-close" {{action "closeNotification"}} data-test-button="close-notification">
     {{svg-jar "close"}}<span class="hidden">Close</span>
