@@ -58,6 +58,7 @@
 .gh-notification-title {
     display: block;
     margin-bottom: 8px;
+    margin-top: 1px;
     font-weight: 600;
     font-size: 1.4rem;
 }
