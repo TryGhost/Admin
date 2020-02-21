@@ -141,45 +141,17 @@
     }
 }
 
-@keyframes notification-fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-
 /* Red notification
 /* ---------------------------------------------------------- */
-
 .gh-notification-red {
-    border: color-mod(var(--red) lightness(+28%)) 1px solid;
-}
-
-.gh-notification-red em {
-    color: var(--red);
-}
-
-.gh-notification-red:hover .gh-notification-content {
-    background: color-mod(var(--red) lightness(+40%));
+    background: var(--red);
 }
 
 /* Green notification
 /* ---------------------------------------------------------- */
 
 .gh-notification-green {
-    border: color-mod(var(--green) lightness(+28%)) 1px solid;
-}
-
-.gh-notification-green em {
-    color: var(--green);
-}
-
-.gh-notification-green:hover .gh-notification-content {
-    background: color-mod(var(--green) lightness(+40%));
+    background: var(--green);
 }
 
 /* Schedule notification top
