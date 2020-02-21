@@ -111,7 +111,7 @@
 }
 
 .gh-notification-passive {
-    animation: notification-fade-in-spring; /*, fade-out;*/
+    animation: notification-fade-in-spring, fade-out;
     animation-delay: 0s, 5s;
     animation-duration: 0.6s, 0.35s;
     animation-iteration-count: 1;
