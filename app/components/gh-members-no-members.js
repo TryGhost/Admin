@@ -24,7 +24,7 @@ export default Component.extend({
             //       destroyed before notification is shown
             this.notifications.showNotification('You\'ve successfully added yourself as a member.'.htmlSafe(), 
                 {
-                    title: "Member added"
+                    // title: "Member added"
                 });
 
             return yield member.save();

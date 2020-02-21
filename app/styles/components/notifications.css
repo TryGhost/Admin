@@ -15,7 +15,7 @@
 .gh-notification {
     position: relative;
     display: flex;
-    margin-top: 5px;
+    margin-top: 8px;
     padding: 4px 8px;
     width: 272px;
     background: color-mod(var(--blue) s(+10%));
@@ -33,7 +33,7 @@
 }
 
 .gh-notification-icon {
-    margin: 8px 0 0 6px;
+    margin: 9px 0 0 6px;
 }
 
 .gh-notification-icon svg {
@@ -112,7 +112,7 @@
 
 /* First notification needs to draw the attention a bit more */
 .gh-notification-passive {
-    animation: notification-fade-in; /*, fade-out;*/
+    animation: notification-fade-in, fade-out;
     animation-delay: 0s, 5s;
     animation-duration: 0.3s, 0.35s;
     animation-iteration-count: 1;
@@ -120,7 +120,7 @@
 } 
 
 .gh-notification-passive:first-of-type {
-    animation: notification-fade-in-spring; /*, fade-out;*/
+    animation: notification-fade-in-spring, fade-out;
     animation-delay: 0s, 5s;
     animation-duration: 0.6s, 0.35s;
     animation-iteration-count: 1;
