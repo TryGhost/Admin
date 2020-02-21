@@ -51,7 +51,7 @@ export default Component.extend({
                 if (result.invites[0].status === 'invited-pending') {
                     notifications.showAlert('Invitation email was not sent.  Please try resending.', {type: 'error', key: 'invite.resend.not-sent'});
                 } else {
-                    notifications.showNotification(notificationText, {key: 'invite.resend.success'});
+                    notifications.showNotification(notificationText, {icon: 'send-email', key: 'invite.resend.success'});
                 }
             }).catch((error) => {
                 notifications.showAPIError(error, {key: 'invite.resend'});

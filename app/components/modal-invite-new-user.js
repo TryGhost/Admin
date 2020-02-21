@@ -116,7 +116,7 @@ export default ModalComponent.extend(ValidationEngine, {
             if (invite.get('status') === 'pending') {
                 notifications.showAlert('Invitation email was not sent.  Please try resending.', {type: 'error', key: 'invite.send.failed'});
             } else {
-                notifications.showNotification(notificationText, {key: 'invite.send.success'});
+                notifications.showNotification(notificationText, {icon: 'send-email', key: 'invite.send.success'});
             }
 
             this.send('closeModal');

@@ -76,6 +76,7 @@ export default Service.extend({
             message,
             status: 'alert',
             title: options.title,
+            icon: options.icon,
             type: options.type,
             key: options.key,
             actions: options.actions
@@ -89,6 +90,7 @@ export default Service.extend({
             message,
             status: 'notification',
             title: options.title,
+            icon: options.icon,
             type: options.type,
             key: options.key,
             actions: options.actions
