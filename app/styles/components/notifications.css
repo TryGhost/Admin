@@ -57,14 +57,13 @@
 
 .gh-notification-title {
     display: block;
-    margin-bottom: 8px;
     margin-top: 1px;
     font-weight: 600;
     font-size: 1.4rem;
 }
 
 .gh-notification p {
-    margin: 0;
+    margin: 8px 0 0;
     padding: 0;
     line-height: 1.4em;
 }
@@ -88,10 +87,6 @@
 .gh-notification-actions a {
     display: inline-block;
     margin-right: 10px;
-}
-
-.gh-notification-title + .gh-notification-actions {
-    margin-top: 2px;
 }
 
 .gh-notification-close {
@@ -121,7 +116,7 @@
 }
 
 .gh-notification-passive {
-    animation: notification-fade-in-spring, fade-out;
+    animation: notification-fade-in-spring; /*, fade-out;*/
     animation-delay: 0s, 5s;
     animation-duration: 0.8s, 0.35s;
     animation-iteration-count: 1;
