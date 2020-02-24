@@ -63,9 +63,9 @@
 }
 
 .gh-notification p {
-    margin: 8px 0 0;
+    margin: 10px 0 0;
     padding: 0;
-    line-height: 1.4em;
+    line-height: 1.35em;
 }
 
 .gh-notification a {
@@ -80,7 +80,7 @@
 }
 
 .gh-notification-actions {
-    margin-top: 8px;
+    margin-top: 10px;
     display: flex;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .gh-notification-passive {
-    animation: notification-fade-in-spring; /*, fade-out;*/
+    animation: notification-fade-in-spring, fade-out;
     animation-delay: 0s, 5s;
     animation-duration: 0.8s, 0.35s;
     animation-iteration-count: 1;
