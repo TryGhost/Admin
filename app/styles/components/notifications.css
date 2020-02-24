@@ -33,12 +33,12 @@
 }
 
 .gh-notification-icon {
-    margin: 9px 0 0 6px;
+    margin: 10px 0 0 6px;
 }
 
 .gh-notification-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .gh-notification-icon svg path {
@@ -72,7 +72,7 @@
 .gh-notification a {
     color: #fff;
     text-decoration: underline;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .gh-notification em {
@@ -88,6 +88,10 @@
 .gh-notification-actions a {
     display: inline-block;
     margin-right: 10px;
+}
+
+.gh-notification-title + .gh-notification-actions {
+    margin-top: 2px;
 }
 
 .gh-notification-close {
@@ -119,7 +123,7 @@
 .gh-notification-passive {
     animation: notification-fade-in-spring, fade-out;
     animation-delay: 0s, 5s;
-    animation-duration: 0.5s, 0.35s;
+    animation-duration: 0.8s, 0.35s;
     animation-iteration-count: 1;
     animation-timing-function: cubic-bezier(0.445, 0.050, 0.550, 0.950);
 } 
@@ -131,18 +135,18 @@
 @keyframes notification-fade-in-spring {
     0.00% {
         opacity: 0;
-        transform: translateY(32.05px);
+        transform: translateX(-232.05px);
     }
     26.52% {
         opacity: 0.5;
-        transform: translateY(-5.90px);
+        transform: translateX(5.90px);
     }
     63.26% {
-        transform: translateY(1.77px);
+        transform: translateX(-1.77px);
         opacity: 1;
     }
     100.00% {
-        transform: translateY(0px);
+        transform: translateX(0px);
     }
 }
 

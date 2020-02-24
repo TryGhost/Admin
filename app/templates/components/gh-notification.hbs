@@ -14,11 +14,11 @@
     {{/if}}
 </div>
 <div class="gh-notification-content" data-test-text="notification-content">
-    {{#if this.message.title}}
-        <span class="gh-notification-title">{{this.message.title}}</span>
-    {{/if}}
+    <span class="gh-notification-title">{{this.message.message}}</span>
     
-    <p>{{this.message.message}}</p>
+    {{#if this.message.description}}
+        <p>{{this.message.description}}</p>
+    {{/if}}
 
     {{#if this.message.actions}}
         <span class="gh-notification-actions">{{this.message.actions}}</span>

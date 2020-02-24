@@ -75,7 +75,7 @@ export default Service.extend({
         this.handleNotification({
             message,
             status: 'alert',
-            title: options.title,
+            description: options.description,
             icon: options.icon,
             type: options.type,
             key: options.key,
@@ -89,7 +89,7 @@ export default Service.extend({
         this.handleNotification({
             message,
             status: 'notification',
-            title: options.title,
+            description: options.description,
             icon: options.icon,
             type: options.type,
             key: options.key,

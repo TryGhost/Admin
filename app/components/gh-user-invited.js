@@ -68,8 +68,7 @@ export default Component.extend({
             // reload the invite to get the most up-to-date information
             invite.reload().then(() => {
                 invite.destroyRecord().then(() => {
-                    let notificationText = `Invitation revoked. (${email})`;
-                    notifications.showNotification(notificationText, {key: 'invite.revoke.success'});
+                    notifications.showNotification('Invitation revoked', {key: 'invite.revoke.success', description: `${email}`});
                 }).catch((error) => {
                     notifications.showAPIError(error, {key: 'invite.revoke'});
                 });
