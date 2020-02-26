@@ -32,8 +32,8 @@ export default ModalComponent.extend({
     }),
 
     _signinUrlUpdateTask: task(function*() {
-        const memberSignin = yield this.member.fetchSigninUrl();
+        const memberSigninURL = yield this.member.fetchSigninUrl.perform();
 
-        this.set('signinUrl', memberSignin.url);
+        this.set('signinUrl', memberSigninURL.url);
     }).drop()
 });
