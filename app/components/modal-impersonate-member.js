@@ -13,17 +13,11 @@ export default ModalComponent.extend({
     signinUrl: null,
     member: alias('model'),
 
-    init() {
-        this._super(...arguments);
-    },
-
     didInsertElement() {
         this._super(...arguments);
 
         this._signinUrlUpdateTask.perform();
     },
-
-    actions: {},
 
     copySigninUrl: task(function* () {
         copyTextToClipboard(this.get('signinUrl'));
