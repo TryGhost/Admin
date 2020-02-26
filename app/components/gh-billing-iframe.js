@@ -1,10 +1,13 @@
 import Component from '@ember/component';
+import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 
 export default Component.extend({
     config: service(),
     ghostPaths: service(),
     ajax: service(),
+
+    billingEndpoint: computed.reads('config.billingUrl'),
 
     didRender() {
         let iframe = this.$('iframe')[0];
