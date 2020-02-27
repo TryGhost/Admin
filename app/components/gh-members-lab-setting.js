@@ -151,6 +151,7 @@ export default Component.extend({
 
             if (key === 'currency') {
                 stripeProcessor.config.plans.forEach(plan => (plan.currency = event.value));
+                stripeProcessor.config.currency = event.value;
             }
 
             this.setMembersSubscriptionSettings(subscriptionSettings);
