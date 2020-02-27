@@ -15,6 +15,9 @@ const CURRENCIES = [
         label: 'AUD - Australian Dollar', value: 'aud'
     },
     {
+        label: 'CAD - Canadian Dollar', value: 'cad'
+    },
+    {
         label: 'EUR - Euro', value: 'eur'
     },
     {
