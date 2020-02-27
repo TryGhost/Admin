@@ -10,7 +10,7 @@ export default Component.extend({
     billingEndpoint: computed.reads('config.billingUrl'),
 
     didRender() {
-        let iframe = this.$('iframe')[0];
+        let iframe = this.element.querySelector('#billing-frame');
         window.addEventListener('message', (event) => {
             if (event && event.data && event.data.request === 'token') {
                 const ghostIdentityUrl = this.get('ghostPaths.url').api('ghost-identity');

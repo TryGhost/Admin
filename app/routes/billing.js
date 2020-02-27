@@ -6,6 +6,7 @@ export default AuthenticatedRoute.extend({
     router: service(),
 
     beforeModel() {
+        // Transition to home if billing is not available
         if (!this.get('config.billingUrl')) {
             return this.transitionTo('home');
         }
