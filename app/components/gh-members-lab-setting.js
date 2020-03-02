@@ -150,7 +150,22 @@ export default Component.extend({
             }
 
             if (key === 'currency') {
-                stripeProcessor.config.plans.forEach(plan => (plan.currency = event.value));
+                stripeProcessor.config.plans.forEach((plan) => {
+                    if (plan.name !== 'Complimentary') {
+                        plan.currency = event.value;
+                    }
+                });
+
+                // NOTE: need to keep Complimentary plans with all available currencies so they don't conflict
+                //       when applied to members with existing subscriptions in different currencies (ref. https://stripe.com/docs/billing/customer#currency)
+                let currentCurrencyComplimentary = stripeProcessor.config.plans.filter(plan => (plan.currency === event.value && plan.name === 'Complimentary'));
+
+                if (!currentCurrencyComplimentary.length) {
+                    let complimentary = stripeProcessor.config.plans.find(plan => (plan.name === 'Complimentary'));
+                    let newComplimentary = Object.assign({}, complimentary, {currency: event.value});
+                    stripeProcessor.config.plans.push(newComplimentary);
+                }
+
                 stripeProcessor.config.currency = event.value;
             }
 
