@@ -166,7 +166,7 @@ const GhTaskButton = Component.extend({
     }),
 
     _resetButtonState: task(function* () {
-        yield timeout(5000);
+        yield timeout(2500);
         if (!this.get('task.last.isRunning')) {
             // Reset last task to bring button back to idle state
             yield this.set('task.last', null);
