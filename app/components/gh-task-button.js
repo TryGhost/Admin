@@ -160,7 +160,7 @@ const GhTaskButton = Component.extend({
     _handleMainTask: task(function* () {
         this._resetButtonState.cancelAll();
         yield this.task.perform(this.taskArgs);
-        if (this.autoReset && !this.showSuccess) {
+        if (this.autoReset && this.showSuccess) {
             this._resetButtonState.perform();
         }
     }),
