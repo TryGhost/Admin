@@ -6,10 +6,6 @@ export default Service.extend({
     config: service(),
     ghostPaths: service(),
 
-    init() {
-        this._super(...arguments);
-    },
-
     billingWindowOpen: false,
     upgrade: true,
     action: null,

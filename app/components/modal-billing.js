@@ -6,7 +6,6 @@ export default ModalComponent.extend({
 
     actions: {
         closeModal() {
-            this._super(arguments);
             this.billing.closeBillingWindow();
         }
     }
