@@ -16,6 +16,9 @@ export default Controller.extend({
 
     imageExtensions: IMAGE_EXTENSIONS,
     imageMimeTypes: IMAGE_MIME_TYPES,
+    showRegenerateKeyModal: false,
+    selectedApiKey: null,
+    isApiKeyRegenerated: false,
 
     integration: alias('model'),
 
@@ -25,6 +28,13 @@ export default Controller.extend({
         let url = this.ghostPaths.url.join(origin, subdir);
 
         return url.replace(/\/$/, '');
+    }),
+
+    regeneratedKeyType: computed('isApiKeyRegenerated', 'selectedApiKey', function () {
+        if (this.isApiKeyRegenerated) {
+            return this.get('selectedApiKey.type');
+        }
+        return null;
     }),
 
     allWebhooks: computed(function () {
@@ -120,6 +130,20 @@ export default Controller.extend({
             this.set('showDeleteIntegrationModal', false);
         },
 
+        confirmRegenerateKeyModal(apiKey) {
+            this.set('showRegenerateKeyModal', true);
+            this.set('isApiKeyRegenerated', false);
+            this.set('selectedApiKey', apiKey);
+        },
+
+        cancelRegenerateKeyModal() {
+            this.set('showRegenerateKeyModal', false);
+        },
+
+        regenerateKey() {
+            this.updateIntegration.perform();
+        },
+
         confirmWebhookDeletion(webhook) {
             this.set('webhookToDelete', webhook);
         },
@@ -131,8 +155,12 @@ export default Controller.extend({
         deleteWebhook() {
             return this.webhookToDelete.destroyRecord();
         }
-
     },
+
+    updateIntegration: task(function* () {
+        yield this.store.queryRecord('integration', this.integration.id);
+        this.set('isApiKeyRegenerated', true);
+    }),
 
     saveIntegration: task(function* () {
         return yield this.integration.save();

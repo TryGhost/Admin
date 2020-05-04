@@ -1,0 +1,15 @@
+<header class="modal-header">
+    <h1>Regenerate {{capitalize this.apiKey.type}} API Key</h1>
+</header>
+<a class="close" href="" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+
+<div class="modal-body">
+    <p>
+        You can rengenerate <strong>{{capitalize this.apiKey.type}} API Key</strong> any time, but any scripts or applications using it will need to be updated.
+    </p>
+</div>
+
+<div class="modal-footer">
+    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <GhTaskButton @buttonText="Regenerate {{capitalize this.apiKey.type}} API Key" @successText="Regnerated" @task={{this.regenerateKey}} @class="gh-btn gh-btn-red" />
+</div>

@@ -111,6 +111,16 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div class="absolute top-1 right-15">
+                                    <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
+                                        <button type="button" {{action "confirmRegenerateKeyModal" this.integration.contentKey}} class="white fw4 flex items-center">
+                                            Regenerate
+                                        </button>
+                                    </div>
+                                </div>
+                                {{#if (eq this.regeneratedKeyType this.integration.contentKey.type)}}
+                                    <div class="green absolute top-7 left-0"> Content API Key was successfully regenerated </div>
+                                {{/if}}
                             </div>
                         </td>
                     </tr>
@@ -132,6 +142,16 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div class="absolute top-1 right-15">
+                                    <div class="pt1 pr3 pb1 pl3 bg-black-70 child br3 f8 nudge-top--4 nudge-right--1">
+                                        <button type="button" {{action "confirmRegenerateKeyModal" this.integration.adminKey}} class="white fw4 flex items-center">
+                                            Regenerate
+                                        </button>
+                                    </div>
+                                </div>
+                                {{#if (eq this.regeneratedKeyType this.integration.adminKey.type)}}
+                                    <div class="green absolute top-7 left-0"> Admin API Key was successfully regenerated </div>
+                                {{/if}}
                             </div>
                         </td>
                     </tr>
@@ -234,6 +254,14 @@
     <GhFullscreenModal @modal="leave-settings"
         @confirm={{action "leaveScreen"}}
         @close={{action "toggleUnsavedChangesModal"}}
+        @modifier="action wide" />
+{{/if}}
+
+{{#if this.showRegenerateKeyModal}}
+    <GhFullscreenModal @modal="regenerate-key"
+        @model={{this.selectedApiKey}}
+        @confirm={{action "regenerateKey"}}
+        @close={{action "cancelRegenerateKeyModal"}}
         @modifier="action wide" />
 {{/if}}
 
