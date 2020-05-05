@@ -5,6 +5,7 @@ import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
     ajax: service(),
+    store: service(),
     ghostPaths: service(),
     errorMessage: null,
     // Allowed actions
@@ -20,14 +21,15 @@ export default ModalComponent.extend({
         try {
             let url = this.get('ghostPaths.url').api('/integrations/', this.integration.id, 'api_key', this.apiKey.id, 'refresh');
             try {
-                yield this.ajax.post(url, {
+                const response = yield this.ajax.post(url, {
                     data: {
                         integrations: [{id: this.integration.id}]
                     }
                 });
+                this.store.pushPayload(response);
                 yield this.confirm();
             } catch (e) {
-                let errMessage = 'Unable to regenerate new keys, please try again.';
+                let errMessage = 'There was an error regenerating the Admin API Key. Please try again';
                 this.set('errorMessage', errMessage);
                 return;
             }

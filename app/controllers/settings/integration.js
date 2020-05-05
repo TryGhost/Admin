@@ -141,7 +141,7 @@ export default Controller.extend({
         },
 
         regenerateKey() {
-            this.updateIntegration.perform();
+            this.set('isApiKeyRegenerated', true);
         },
 
         confirmWebhookDeletion(webhook) {
@@ -156,11 +156,6 @@ export default Controller.extend({
             return this.webhookToDelete.destroyRecord();
         }
     },
-
-    updateIntegration: task(function* () {
-        yield this.store.findRecord('integration', this.integration.id, {backgroundReload: true});
-        this.set('isApiKeyRegenerated', true);
-    }),
 
     saveIntegration: task(function* () {
         return yield this.integration.save();

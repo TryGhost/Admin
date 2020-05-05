@@ -50,14 +50,9 @@ export default Controller.extend({
         },
 
         regenerateKey() {
-            this.updateIntegration.perform();
+            this.set('isApiKeyRegenerated', true);
         }
     },
-
-    updateIntegration: task(function* () {
-        yield this.store.findRecord('integration', this.integration.id, {backgroundReload: true});
-        this.set('isApiKeyRegenerated', true);
-    }),
 
     copyAdminKey: task(function* () {
         copyTextToClipboard(this.integration.adminKey.secret);
