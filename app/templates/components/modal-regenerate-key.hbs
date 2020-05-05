@@ -7,6 +7,9 @@
     <p>
         You can rengenerate <strong>{{capitalize this.apiKey.type}} API Key</strong> any time, but any scripts or applications using it will need to be updated.
     </p>
+    {{#if this.errorMessage}}
+        <p class='red'> {{this.errorMessage}}</p>
+    {{/if}}
 </div>
 
 <div class="modal-footer">
