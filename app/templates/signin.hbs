@@ -1,6 +1,11 @@
 <div class="gh-flow">
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
+            {{#if this.passwordResetEmailSent}}
+                <p>For security you need to create new password.</p>
+                <p>An email has been sent to you with instructions.</p>
+                <p>This will be a text linking to more info about the password reset</p>
+            {{else}}
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
                     <span class="gh-input-icon gh-icon-mail">
@@ -57,6 +62,7 @@
             </form>
 
             <p class="main-error">{{if this.flowErrors this.flowErrors}}&nbsp;</p>
+            {{/if}}
         </section>
     </div>
 </div>
