@@ -6,6 +6,7 @@ import {task} from 'ember-concurrency';
 export default ModalComponent.extend({
     ajax: service(),
     ghostPaths: service(),
+    errorMessage: null,
     // Allowed actions
     confirm: () => {},
     apiKey: alias('model.apiKey'),
@@ -17,16 +18,18 @@ export default ModalComponent.extend({
     },
     regenerateKey: task(function* () {
         try {
-            let url = this.get('ghostPaths.url').api('/integrations/', this.integration.id, 'api_key', this.apiKey.id, 'regenerate');
+            let url = this.get('ghostPaths.url').api('/integrations/', this.integration.id, 'api_key', this.apiKey.id, 'refresh');
             try {
-                yield this.ajax.put(url, {
+                yield this.ajax.post(url, {
                     data: {
                         integrations: [{id: this.integration.id}]
                     }
                 });
                 yield this.confirm();
             } catch (e) {
-                // Show Error
+                let errMessage = 'Unable to regenerate new keys, please try again.';
+                this.set('errorMessage', errMessage);
+                return;
             }
         } finally {
             this.send('closeModal');
