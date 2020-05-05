@@ -247,7 +247,10 @@
 
 {{#if this.showRegenerateKeyModal}}
     <GhFullscreenModal @modal="regenerate-key"
-        @model={{this.selectedApiKey}}
+        @model={{hash
+            apiKey=this.selectedApiKey
+            integration=this.integration
+        }}
         @confirm={{action "regenerateKey"}}
         @close={{action "cancelRegenerateKeyModal"}}
         @modifier="action wide" />

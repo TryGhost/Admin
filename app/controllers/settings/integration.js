@@ -158,7 +158,7 @@ export default Controller.extend({
     },
 
     updateIntegration: task(function* () {
-        yield this.store.queryRecord('integration', this.integration.id);
+        yield this.store.findRecord('integration', this.integration.id, {backgroundReload: true});
         this.set('isApiKeyRegenerated', true);
     }),
 

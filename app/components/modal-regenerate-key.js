@@ -8,7 +8,8 @@ export default ModalComponent.extend({
     ghostPaths: service(),
     // Allowed actions
     confirm: () => {},
-    apiKey: alias('model'),
+    apiKey: alias('model.apiKey'),
+    integration: alias('model.integration'),
     actions: {
         confirm() {
             this.regenerateApiKey.perform();
@@ -16,9 +17,13 @@ export default ModalComponent.extend({
     },
     regenerateKey: task(function* () {
         try {
-            let url = this.get('ghostPaths.url').api('/api_keys/', this.apiKey.id, 'regenerate');
+            let url = this.get('ghostPaths.url').api('/integrations/', this.integration.id, 'api_key', this.apiKey.id, 'regenerate');
             try {
-                yield this.ajax.post(url);
+                yield this.ajax.put(url, {
+                    data: {
+                        integrations: [{id: this.integration.id}]
+                    }
+                });
                 yield this.confirm();
             } catch (e) {
                 // Show Error
