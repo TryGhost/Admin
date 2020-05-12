@@ -7,6 +7,7 @@
         @onChange={{@onTypeChange}}
         @tagName="div"
         @classNames={{concat "gh-contentfilter-menu gh-contentfilter-type " (if @selectedType.value "gh-contentfilter-selected")}}
+        @triggerComponent="gh-power-select/trigger"
         @triggerClass="gh-contentfilter-menu-trigger"
         @dropdownClass="gh-contentfilter-menu-dropdown"
         @matchTriggerWidth={{false}}
@@ -25,6 +26,7 @@
         @onChange={{@onAuthorChange}}
         @tagName="div"
         @classNames={{concat "gh-contentfilter-menu gh-contentfilter-author " (if @selectedAuthor.slug "gh-contentfilter-selected")}}
+        @triggerComponent="gh-power-select/trigger"
         @triggerClass="gh-contentfilter-menu-trigger"
         @dropdownClass="gh-contentfilter-menu-dropdown"
         @searchPlaceholder="Search authors"
@@ -44,6 +46,7 @@
         @onChange={{@onTagChange}}
         @tagName="div"
         @classNames={{concat "gh-contentfilter-menu gh-contentfilter-tag " (if @selectedTag.slug "gh-contentfilter-selected")}}
+        @triggerComponent="gh-power-select/trigger"
         @triggerClass="gh-contentfilter-menu-trigger"
         @dropdownClass="gh-contentfilter-menu-dropdown"
         @searchPlaceholder="Search tags"
@@ -63,6 +66,7 @@
         @onChange={{@onOrderChange}}
         @tagName="div"
         @classNames="gh-contentfilter-menu gh-contentfilter-sort"
+        @triggerComponent="gh-power-select/trigger"
         @triggerClass="gh-contentfilter-menu-trigger"
         @dropdownClass="gh-contentfilter-menu-dropdown"
         @matchTriggerWidth={{false}}
