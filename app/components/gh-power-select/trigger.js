@@ -1,6 +1,8 @@
-import layout from '../../templates/components/gh-power-select/trigger';
-import trigger from 'ember-power-select/components/power-select/trigger';
+import PowerSelectTrigger from 'ember-power-select/components/power-select/trigger';
+import templateLayout from '../../templates/components/gh-power-select/trigger';
+import {layout} from '@ember-decorators/component';
 
-export default trigger.extend({
-    layout
-});
+@layout(templateLayout)
+export default class Trigger extends PowerSelectTrigger {
+
+}
