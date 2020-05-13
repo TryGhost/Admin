@@ -7,13 +7,13 @@ import {inject as service} from '@ember/service';
 class GhBasicDropdown extends BasicDropdown {
     @service dropdown
 
-    onInit() {
+    constructor() {
+        super(...arguments);
         this.dropdown.on('close', this, this.close);
     }
 
     willDestroy() {
         this.dropdown.off('close', this, this.close);
-        super.willDestroyElement(...arguments);
     }
 }
 
