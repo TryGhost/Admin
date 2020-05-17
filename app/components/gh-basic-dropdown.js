@@ -1,5 +1,5 @@
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
-import templateLayout from 'ember-basic-dropdown/templates/components/basic-dropdown';
+import templateLayout from '../templates/components/gh-basic-dropdown';
 import {layout} from '@ember-decorators/component';
 import {inject as service} from '@ember/service';
 
