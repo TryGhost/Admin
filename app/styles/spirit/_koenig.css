@@ -559,6 +559,24 @@
     margin: 3.2rem 0 0;
 }
 
+.koenig-card-code-header {
+    z-index: -1;
+    position: absolute;
+    top: -20px;
+    right: .8rem;
+    background: #ff0;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #eee;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: black;
+    font-family: monospace;
+}
+
 .koenig-editor .gh-markdown-editor pre {
     border: none;
     background: none;

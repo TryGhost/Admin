@@ -21,8 +21,11 @@ const CmEditorComponent = Component.extend({
     lineWrapping: false,
     mode: 'htmlmixed',
     theme: 'xq-light',
+    styleSelectedText: true,
 
     _editor: null, // reference to CodeMirror editor
+
+    _prevSelectedLineNumber: null,
 
     // Allowed actions
     'focus-in': () => {},
@@ -73,7 +76,7 @@ const CmEditorComponent = Component.extend({
     }),
 
     _initCodeMirror() {
-        let options = this.getProperties('lineNumbers', 'lineWrapping', 'indentUnit', 'mode', 'theme', 'autofocus');
+        let options = this.getProperties('lineNumbers', 'lineWrapping', 'indentUnit', 'mode', 'theme', 'autofocus', 'styleSelectedText');
         assign(options, {value: this._value});
 
         let textarea = this.element.querySelector('textarea');
@@ -82,6 +85,13 @@ const CmEditorComponent = Component.extend({
         }
 
         this._editor = new CodeMirror.fromTextArea(textarea, options);
+
+        if (this.linesInfo) {
+            this.linesInfo.split(',').forEach((lineNumber) => {
+                const indexLikeNumber = Number(lineNumber) - 1;
+                this._highlightLine(indexLikeNumber, false);
+            });
+        }
 
         // by default CodeMirror will place the cursor at the beginning of the
         // content, it makes more sense for the cursor to be at the end
@@ -93,6 +103,7 @@ const CmEditorComponent = Component.extend({
         this._setupCodeMirrorEventHandler('focus', this, this._focus);
         this._setupCodeMirrorEventHandler('blur', this, this._blur);
         this._setupCodeMirrorEventHandler('change', this, this._update);
+        this._setupCodeMirrorEventHandler('gutterClick', this, this._gutterClick);
     },
 
     _setupCodeMirrorEventHandler(event, target, method) {
@@ -116,7 +127,55 @@ const CmEditorComponent = Component.extend({
 
     _blur(/* codeMirror, event */) {
         this.set('isFocused', false);
+    },
+
+    _gutterClick(codeMirror, lineNumber, gutter, event) {
+        if (event.shiftKey && Number.isInteger(this._prevSelectedLineNumber)) { //multiple selection branch
+            const min = Math.min(this._prevSelectedLineNumber, lineNumber);
+            const selectedLineNumbers = Array.from(Array(Math.abs(this._prevSelectedLineNumber - lineNumber) + 1), (_, i) => min + i);
+
+            selectedLineNumbers.forEach((lineNumber) => {
+                const marks = this._editor.findMarksAt({line: lineNumber, ch: 0});
+
+                if (!marks.length) {
+                    this._highlightLine(lineNumber);
+                    this._prevSelectedLineNumber = lineNumber;
+                }
+            });
+        } else { // single selection branch
+            const marks = this._editor.findMarksAt({line: lineNumber, ch: 0});
+
+            if (marks.length) {
+                marks[0].clear();
+                this.updateLinesInfo('remove', lineNumber + 1);
+                if (this._prevSelectedLineNumber === lineNumber) {
+                    this._prevSelectedLineNumber = null;
+                }
+            } else {
+                this._highlightLine(lineNumber);
+                this._prevSelectedLineNumber = lineNumber;
+            }
+        }
+    },
+
+    _highlightLine(lineNumber, notifyParent = true) {
+        const lineLength = this._editor.getLine(lineNumber).length || 1;
+        const marker = this._editor.markText({line: lineNumber, ch: 0}, {line: lineNumber, ch: lineLength}, {className: 'CodeMirror-selected-line'});
+
+        const hideCallback = () => {
+            this.updateLinesInfo('remove', lineNumber + 1);
+            marker.clear();
+            marker.off('hide', hideCallback);
+        };
+
+        // clear markers on line removal
+        marker.on('hide', hideCallback);
+
+        if (notifyParent) {
+            this.updateLinesInfo('add', lineNumber + 1);
+        }
     }
+
 });
 
 export default CmEditorComponent;

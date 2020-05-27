@@ -24,18 +24,31 @@
             @textareaClass="o-0"
             @autofocus={{true}}
             @lineWrapping={{true}}
+            @linesInfo={{this.payload.line}}
             @update={{action "updateCode"}}
+            @updateLinesInfo={{action "updateLinesInfo"}}
             @mode={{this.cmMode}}
+        />
+        <input
+                type="text"
+                value={{readonly this.payload.filename}}
+                onblur={{action (mut this.payload.filename) value="target.value"}}
+                placeholder="File name"
+                class="absolute w-20 pa1 ba b--lightgrey br2 f8 tracked-2 fw4 z-999 outline-0 anim-normal"
+                style="top:6px; right: 6px"
         />
         <input
             type="text"
             value={{readonly this.payload.language}}
             onblur={{action (mut this.payload.language) value="target.value"}}
-            placeholder="Language..."
+            placeholder="Language"
             class="absolute w-20 pa1 ba b--lightgrey br2 f8 tracked-2 fw4 z-999 outline-0 anim-normal"
             style={{this.languageInputStyle}}
         />
     {{else}}
+        {{#if this.payload.filename}}
+            <div class="koenig-card-code-header">{{this.payload.filename}}</div>
+        {{/if}}
         <div class="koenig-card-html-rendered">
             <pre><code class="line-numbers {{if this.payload.language (concat "language-" this.payload.language)}}">{{this.escapedCode}}</code></pre>
         </div>

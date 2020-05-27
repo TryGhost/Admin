@@ -15,4 +15,14 @@
 
 .CodeMirror-linenumber {
     min-width: 14px;
+    cursor: pointer;
+}
+
+.CodeMirror-selected-line {
+    background-color: rgba(204,153,255,.5);
+}
+
+.CodeMirror-selected-line:first-child {
+    border-left: 5px solid rgba(204,153,255,.8);
+    margin-left: -5px;
 }
