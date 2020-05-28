@@ -159,7 +159,7 @@
                             {{/if}}
                         </button>
                     </li>
-                    <li class="divider"></li>
+                    <li class="divider" role="separator"></li>
                     <li role="presentation">
                         <LinkTo @route="staff.user" @model={{this.session.user.slug}} @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="user-profile">
                             {{svg-jar "user-circle"}} Your Profile
@@ -183,12 +183,12 @@
                             {{svg-jar "book-open"}} How to Use Ghost
                         </a>
                     </li>
-                    <li class="divider"></li>
+                    <li class="divider" role="separator"></li>
 
                     {{#if this.showDropdownExtension}}
                         {{#each this.config.clientExtensions.dropdown.items as |menuItem| }}
                             {{#if menuItem.divider}}
-                                <li class="divider"></li>
+                                <li class="divider" role="separator"></li>
                             {{else}}
                                 <li role="presentation">
                                     <a href="{{menuItem.href}}" target="_blank" class="dropdown-item {{menuItem.classes}}" role="menuitem" tabindex="-1">
