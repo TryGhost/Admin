@@ -34,7 +34,7 @@ export default Component.extend({
     ajax: service(),
 
     currencies: null,
-    showFromAddressConfirmationModal: false,
+    showFromAddressConfirmation: false,
 
     // passed in actions
     setMembersSubscriptionSettings() {},
@@ -111,7 +111,7 @@ export default Component.extend({
 
     actions: {
         toggleFromAddressConfirmation() {
-            this.toggleProperty('showFromAddressConfirmationModal');
+            this.toggleProperty('showFromAddressConfirmation');
         },
 
         setDefaultContentVisibility(value) {
@@ -202,7 +202,7 @@ export default Component.extend({
                     from_address: this.subscriptionSettings.fromAddress
                 }
             });
-            this.toggleProperty('showFromAddressConfirmationModal');
+            this.toggleProperty('showFromAddressConfirmation');
             return response;
         } catch (e) {
             // Failed to send email, retry

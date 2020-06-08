@@ -246,6 +246,11 @@
                         />
                     </div>
                 </GhFormGroup>
+                {{#if this.showFromAddressConfirmation}}
+                <div class="flex items-center green-d1 nt3 lh-1">
+                    {{svg-jar "check-circle" class="w4 h4 mr1 stroke-green-d1"}} <span class="nudge-left--2">Check your inbox and click the link to confirm</span>
+                </div>
+                {{/if}}
             </div>
         {{/liquid-if}}
     </section>
@@ -312,13 +317,3 @@
         </section>
     {{/unless}}
 </div>
-
-{{#if this.showFromAddressConfirmationModal}}
-    <GhFullscreenModal
-        @modal="from-address-confirmation"
-        @model={{hash
-            fromAddress=this.subscriptionSettings.fromAddress
-        }}
-        @close={{action "toggleFromAddressConfirmation"}}
-        @modifier="action wide" />
-{{/if}}
