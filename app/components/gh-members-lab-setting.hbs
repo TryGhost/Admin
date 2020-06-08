@@ -220,7 +220,7 @@
         <div class="flex justify-between">
             <div>
                 <h4 class="gh-setting-title">From address</h4>
-                <p class="gh-setting-desc pa0 ma0">Customise from address</p>
+                <p class="gh-setting-desc pa0 ma0">The email address your members receive newsletters from</p>
             </div>
             <div>
                 <button type="button" class="gh-btn" {{action (toggle "membersFromOpen" this)}} data-test-toggle-membersFrom><span>{{if this.membersFromOpen "Close" "Expand"}}</span></button>
@@ -241,12 +241,10 @@
                             @runningText="Sending..."
                             @successText="Confirmation Email Sent"
                             @task={{this.updateFromAddress}}
-                            @idleClass='gh-btn-blue'
-                            @class="gh-btn gh-btn-icon ml2"
+                            @class="gh-btn gh-btn-icon gh-btn-textfield-group ml2"
                             data-test-button="update-from-address"
                         />
                     </div>
-                    <div class="f8 fw4 midgrey mt1">Your members will receive system emails from this address</div>
                 </GhFormGroup>
             </div>
         {{/liquid-if}}
