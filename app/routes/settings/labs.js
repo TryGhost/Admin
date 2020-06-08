@@ -25,7 +25,7 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
     setupController(controller) {
         if (controller.fromAddressUpdate === 'success') {
             this.notifications.showAlert(
-                `Members "From Address" was updated successfully`.htmlSafe(),
+                `Done! Newsletter “From address” has been updated`.htmlSafe(),
                 {type: 'success', key: 'members.settings.from-address.updated'}
             );
         }
