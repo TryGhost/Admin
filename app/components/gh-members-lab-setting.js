@@ -44,6 +44,23 @@ export default Component.extend({
 
     stripeDirect: reads('config.stripeDirect'),
 
+    stripeConnectIntegration: computed('settings.stripeConnectIntegration', function () {
+        try {
+            const integration = JSON.parse(this.get('settings.stripeConnectIntegration'));
+            if (!integration || !integration.account_id) {
+                return null;
+            }
+
+            return {
+                id: integration.account_id,
+                name: integration.display_name,
+                livemode: integration.livemode
+            };
+        } catch (err) {
+            return null;
+        }
+    }),
+
     selectedCurrency: computed('subscriptionSettings.stripeConfig.plans.monthly.currency', function () {
         return CURRENCIES.findBy('value', this.get('subscriptionSettings.stripeConfig.plans.monthly.currency'));
     }),
