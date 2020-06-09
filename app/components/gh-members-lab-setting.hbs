@@ -56,7 +56,7 @@
                 <div>
                     <h4 class="gh-setting-title">Connect to Stripe</h4>
                     {{#if this.stripeConnectIntegration}}
-                        <p class="gh-setting-desc pa0 ma0">Connected to {{this.stripeConnectIntegration.name}}</p>
+                        <p class="gh-setting-desc pa0 ma0">Connected to <a href="https://dashboard.stripe.com/{{this.stripeConnectIntegration.id}}" target="_blank">{{this.stripeConnectIntegration.name}}</a></p>
                     {{else}}
                         <p class="gh-setting-desc pa0 ma0">Connect to Stripe to create subscriptions and take payments</p>
                     {{/if}}
