@@ -55,7 +55,7 @@
             <div class="flex justify-between">
                 <div>
                     <h4 class="gh-setting-title">Connect to Stripe</h4>
-                    <p class="gh-setting-desc pa0 ma0">Connect to Stripe to create subscriptions and take payments</p>
+                    <p class="gh-setting-desc pa0 ma0">Connect with Stripe to generate a secure key for subscription payments</p>
                 </div>
                 <div>
                     <button type="button" class="gh-btn" {{action (toggle "membersStripeOpen" this)}} data-test-toggle-membersstripe><span>{{if this.membersStripeOpen "Close" "Expand"}}</span></button>
@@ -65,19 +65,25 @@
             {{#liquid-if this.membersStripeOpen}}
             <div class="flex flex-column flex-row-l items-start justify-between mb4 mt6">
                 <div class="w-100 w-50-l">
-                    <div class="mb4">
-                        <a href="{{this.stripeConnectAuthUrl}}" class="stripe-connect" target="_blank"><span>Connect with Stripe</span></a>
+                    
+                    <label class="fw6 f8">Generate secure key</label>
+                    <div class="mt2 mb2">
+                        <a href="{{this.stripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
                     </div>
                     <div class="nudge-top--3">
-                        <label class="fw6 f8 mt4">Stripe Connect authentication token</label>
-                        <GhTextInput
+                        <GhTextarea 
+                            @class="gh-members-stripe-connect-token"
+                            @placeholder="Paste your secure key here"
+                            @input={{action "setStripeConnectIntegrationToken" "stripe_connect_integration_token"}}
+                        />
+                        {{!-- <GhTextInput
                             @type="password"
                             @input={{action "setStripeConnectIntegrationToken" "stripe_connect_integration_token"}}
                             @class="mt1 password"
-                        />
+                        /> --}}
                     </div>
                 </div>
-                <div class="ml0 ml5-l mt6">
+                <div class="ml0 ml5-l mt8">
                     <div class="gh-members-stripe-info">
                         <div class="gh-members-stripe-info-header">
                             <h4>How you get paid</h4>
