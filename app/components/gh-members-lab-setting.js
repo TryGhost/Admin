@@ -215,7 +215,11 @@ export default Component.extend({
         }
     }).drop(),
 
-    get stripeConnectAuthUrl() {
-        return this.ghostPaths.url.api('members/stripe_connect');
+    get liveStripeConnectAuthUrl() {
+        return this.ghostPaths.url.api('members/stripe_connect') + '?mode=live';
+    },
+
+    get testStripeConnectAuthUrl() {
+        return this.ghostPaths.url.api('members/stripe_connect') + '?mode=test';
     }
 });
