@@ -32,6 +32,7 @@ export default Component.extend({
     mediaQueries: service(),
     ghostPaths: service(),
     ajax: service(),
+    settings: service(),
 
     currencies: null,
     showFromAddressConfirmation: false,
@@ -215,6 +216,11 @@ export default Component.extend({
             this.setStripeConnectIntegrationTokenSetting(event.target.value);
         }
     },
+
+    saveSettings: task(function* () {
+        const response = yield this.settings.save();
+        return response;
+    }).drop(),
 
     updateFromAddress: task(function* () {
         let url = this.get('ghostPaths.url').api('/settings/members/email');
