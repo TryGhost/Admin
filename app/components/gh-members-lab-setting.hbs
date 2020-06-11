@@ -73,7 +73,7 @@
                         <div class="flex items-center mb4 justify-between gh-members-connectbutton-container">
                             <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
                             <div class="ml5 flex items-center flex-nowrap">
-                                <span class="mr2 f8 midgrey {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">Use test mode</span>
+                                <span class="mr2 f8 midgrey {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} test mode</span>
                                 <div class="for-switch small">
                                     <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
                                         <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
