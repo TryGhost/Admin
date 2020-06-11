@@ -70,10 +70,11 @@
             <div class="mb4 mt6">
                 <div class="flex flex-column flex-row-l items-start justify-between">
                     <div class="w-100 w-50-l">
-                        <div class="flex items-center mb4 justify-between gh-members-connectbutton-container">
+                        <label class="fw6 f8">Generate secure key</label>
+                        <div class="flex items-center mb4 justify-between gh-members-connectbutton-container mt2">
                             <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
-                            <div class="ml5 flex items-center flex-nowrap">
-                                <span class="mr2 f8 midgrey {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} test mode</span>
+                            <div class="ml2 flex items-center flex-nowrap">
+                                <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} test mode</span>
                                 <div class="for-switch small">
                                     <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
                                         <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
@@ -88,9 +89,10 @@
                                 @placeholder="Paste your secure key here"
                                 @input={{action "setStripeConnectIntegrationToken" "stripe_connect_integration_token"}}
                             />
+                            {{#if this.stripeConnectError}}<p class="mb0 mt2 f8 red">{{this.stripeConnectError}}</p>{{/if}}
                         </div>
                     </div>
-                    <div class="mt5 mt5-m mt0-l ml0 ml5-l">
+                    <div class="mt5 mt5-m mt8-l ml0 ml5-l">
                         <div class="gh-members-stripe-info">
                             <div class="gh-members-stripe-info-header">
                                 <h4>How you get paid</h4>
@@ -104,7 +106,7 @@
                     </div>
                 </div>
                 <GhTaskButton @buttonText="Save Stripe settings"
-                                @task={{this.saveSettings}}
+                                @task={{this.saveStripeSettings}}
                                 @successText="Saved"
                                 @runningText="Saving"
                                 @class="gh-btn gh-btn-blue gh-btn-icon mt6"

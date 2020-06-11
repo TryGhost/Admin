@@ -217,9 +217,21 @@ export default Component.extend({
         }
     },
 
-    saveSettings: task(function* () {
-        const response = yield this.settings.save();
-        return response;
+    saveStripeSettings: task(function* () {
+        this.set('stripeConnectError', null);
+        if (this.get('settings.stripeConnectIntegrationToken')) {
+            try {
+                return yield this.settings.save();
+            } catch (error) {
+                if (error.payload && error.payload.errors) {
+                    this.set('stripeConnectError', 'Invalid secure key');
+                    return false;
+                }
+                throw error;
+            }
+        } else {
+            this.set('stripeConnectError', 'Please enter a secure key');
+        }
     }).drop(),
 
     updateFromAddress: task(function* () {
