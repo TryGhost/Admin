@@ -109,7 +109,7 @@
 .gh-members-stripe-connect-token {
     background: var(--whitegrey-l2);
     min-height: unset;
-    height: 83px;
+    height: 73px;
     max-width: 380px;
     font-family: var(--font-family-mono);
     font-size: 1.3rem;

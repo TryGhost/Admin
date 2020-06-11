@@ -67,46 +67,48 @@
             </div>
 
             {{#liquid-if this.membersStripeOpen}}
-            <div class="flex flex-column flex-row-l items-start justify-between mb4 mt6">
-                <div class="w-100 w-50-l">
-                    <div class="flex items-center mb4 justify-between gh-members-connectbutton-container">
-                        <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
-                        <div class="ml5 flex items-center flex-nowrap">
-                            <span class="mr2 f8 midgrey">Test mode</span>
-                            <div class="for-switch small">
-                                <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
-                                    <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
-                                    <span class="input-toggle-component mt1"></span>
-                                </label>
+            <div class="mb4 mt6">
+                <div class="flex flex-column flex-row-l items-start justify-between">
+                    <div class="w-100 w-50-l">
+                        <div class="flex items-center mb4 justify-between gh-members-connectbutton-container">
+                            <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
+                            <div class="ml5 flex items-center flex-nowrap">
+                                <span class="mr2 f8 midgrey">Test mode</span>
+                                <div class="for-switch small">
+                                    <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
+                                        <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
+                                        <span class="input-toggle-component mt1"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="nudge-top--3">
-                        <GhTextarea 
-                            @class="gh-members-stripe-connect-token"
-                            @placeholder="Paste your secure key here"
-                            @input={{action "setStripeConnectIntegrationToken" "stripe_connect_integration_token"}}
-                        />
-                    </div>
-                    <GhTaskButton @buttonText="Save Stripe settings"
-                            @task={{this.saveSettings}}
-                            @successText="Saved"
-                            @runningText="Saving"
-                            @class="gh-btn gh-btn-blue gh-btn-icon mt6"
-                        />
-                </div>
-                <div class="ml0 ml5-l">
-                    <div class="gh-members-stripe-info">
-                        <div class="gh-members-stripe-info-header">
-                            <h4>How you get paid</h4>
-                            {{svg-jar "stripe-verified-partner-badge" class="gh-members-stripe-badge"}}
+                        <div class="nudge-top--3">
+                            <GhTextarea 
+                                @class="gh-members-stripe-connect-token"
+                                @placeholder="Paste your secure key here"
+                                @input={{action "setStripeConnectIntegrationToken" "stripe_connect_integration_token"}}
+                            />
                         </div>
-                        <p class="f8 mt2 mb0">
-                            Stripe is our exclusive direct payments partner.<br />
-                            Ghost collects <strong>no fees</strong> on any payments! If you don’t have a Stripe account yet, you can <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">sign up here</a>.
-                        </p>
+                    </div>
+                    <div class="mt5 mt5-m mt0-l ml0 ml5-l">
+                        <div class="gh-members-stripe-info">
+                            <div class="gh-members-stripe-info-header">
+                                <h4>How you get paid</h4>
+                                {{svg-jar "stripe-verified-partner-badge" class="gh-members-stripe-badge"}}
+                            </div>
+                            <p class="f8 mt2 mb0">
+                                Stripe is our exclusive direct payments partner.<br />
+                                Ghost collects <strong>no fees</strong> on any payments! If you don’t have a Stripe account yet, you can <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">sign up here</a>.
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <GhTaskButton @buttonText="Save Stripe settings"
+                                @task={{this.saveSettings}}
+                                @successText="Saved"
+                                @runningText="Saving"
+                                @class="gh-btn gh-btn-blue gh-btn-icon mt6"
+                            />
             </div>
             {{/liquid-if}}
         {{/if}}
