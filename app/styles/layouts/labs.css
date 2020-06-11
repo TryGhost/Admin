@@ -106,6 +106,14 @@
     width: 36px !important
 }
 
+.gh-members-connectbutton-container .for-switch input:checked + .input-toggle-component {
+    background: #F1946A;
+}
+
+.gh-members-connect-testmodeon {
+    color: #F1946A;
+}
+
 .gh-members-stripe-connect-token {
     background: var(--whitegrey-l2);
     min-height: unset;
