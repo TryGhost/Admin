@@ -68,11 +68,18 @@
 
             {{#liquid-if this.membersStripeOpen}}
             <div class="flex flex-column flex-row-l items-start justify-between mb4 mt6">
-                <div class="w-100 w-50-l">                    
-                    <label class="fw6 f8">Generate secure key</label>
-                    <div class="mb4">
-                        <a href="{{this.liveStripeConnectAuthUrl}}" class="stripe-connect" target="_blank"><span>Connect with Stripe</span></a>
-                        <a href="{{this.testStripeConnectAuthUrl}}" class="stripe-connect" target="_blank"><span>Connect with Stripe (testmode)</span></a>
+                <div class="w-100 w-50-l">
+                    <div class="flex items-center mb4 justify-between gh-members-connectbutton-container">
+                        <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect light-blue" target="_blank"><span>Connect with Stripe</span></a>
+                        <div class="ml5 flex items-center flex-nowrap">
+                            <span class="mr2 f8 midgrey">Test mode</span>
+                            <div class="for-switch small">
+                                <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
+                                    <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
+                                    <span class="input-toggle-component mt1"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="nudge-top--3">
                         <GhTextarea 

@@ -94,6 +94,18 @@
     color: #555ABF;
 }
 
+.gh-members-connectbutton-container {
+    max-width: 380px;
+}
+
+.gh-members-connectbutton-container .for-switch {
+    line-height: 1em;
+}
+
+.gh-members-connectbutton-container .for-switch label {
+    width: 36px !important
+}
+
 .gh-members-stripe-connect-token {
     background: var(--whitegrey-l2);
     min-height: unset;
