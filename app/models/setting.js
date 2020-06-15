@@ -43,5 +43,8 @@ export default Model.extend(ValidationEngine, {
     ogDescription: attr('string'),
     ogImage: attr('string'),
     bulkEmailSettings: attr('json-string'),
+    showSignupName: attr('boolean'),
+    showBeacon: attr('boolean'),
+    allowedPlans: attr('json-string'),
     sharedViews: attr('string')
 });

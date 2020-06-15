@@ -291,6 +291,17 @@
             </div>
         {{/liquid-if}}
     </section>
+        <section class="bb b--whitegrey pa5">
+        <div class="flex justify-between">
+            <div>
+                <h4 class="gh-setting-title">Modal settings</h4>
+                <p class="gh-setting-desc pa0 ma0">Customize members modal signup flow</p>
+            </div>
+            <div>
+                <button type="button" class="gh-btn" {{action (toggle "showMembersModalSettings" this)}} data-test-toggle-membersFrom><span> Customize </span></button>
+            </div>
+        </div>
+    </section>
     {{#unless this.hasBulkEmailConfig}}
         <section class="bb b--whitegrey pa5">
             <div class="flex justify-between">
@@ -354,3 +365,9 @@
         </section>
     {{/unless}}
 </div>
+
+{{#if this.showMembersModalSettings}}
+    <GhFullscreenModal @modal="members-modal-settings"
+        @close={{action "closeMembersModalSettings"}}
+        @modifier="action wide" />
+{{/if}}

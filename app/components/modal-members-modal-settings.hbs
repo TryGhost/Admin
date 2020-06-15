@@ -1,0 +1,124 @@
+<header class="modal-header" data-test-modal="custom-view-form">
+    <h1>Members modal settings</h1>
+</header>
+{{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+<button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
+    {{svg-jar "close"}}
+</button>
+
+<div class="modal-body">
+    <fieldset>
+        <div class="pt3">
+            <GhFormGroup @classNames="gh-members-subscribed-checkbox pb4 mb0">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="gh-setting-title">Display name in signup form</h4>
+                    </div>
+                    <div class="for-switch">
+                        <label class="switch" for="signup-name-checkbox">
+                            <input
+                                type="checkbox"
+                                checked={{this.settings.showSignupName}}
+                                id="signup-name-checkbox"
+                                name="signup-name-checkbox" onclick={{action "toggleSignupName" value="target.checked"}}>
+                            <span class="input-toggle-component"></span>
+                        </label>
+                    </div>
+                </div>
+            </GhFormGroup>
+            <div>
+                <div class="mb3">
+                    <h4 class="gh-setting-title">Plans available at signup</h4>
+                </div>
+                <div class="form-group mb0 for-checkbox">
+                    <label
+                        class="checkbox"
+                        for="featured"
+                        {{action "toggleAllowedPlan" "free"}}
+                    >
+                        <input
+                            type="checkbox"
+                            checked={{this.isFreeChecked}}
+                            class="gh-input post-settings-featured"
+                            onclick={{action "toggleAllowedPlan" "free" value="target.checked"}}
+                            data-test-checkbox="featured"
+                        >
+                        <span class="input-toggle-component"></span>
+                        <p>Free</p>
+                    </label>
+                </div>
+                <div class="form-group mb0 for-checkbox">
+                    <label
+                        class="checkbox"
+                        for="featured"
+                        {{action "toggleAllowedPlan" "monthly"}}
+                    >
+                        <input
+                            type="checkbox"
+                            checked={{this.isMonthlyChecked}}
+                            class="gh-input post-settings-featured"
+                            onclick={{action "toggleAllowedPlan" "monthly" value="target.checked"}}
+                            data-test-checkbox="featured"
+                        >
+                        <span class="input-toggle-component"></span>
+                        <p>Monthly</p>
+                    </label>
+                </div>
+                <div class="form-group mb0 for-checkbox">
+                    <label
+                        class="checkbox"
+                        for="featured"
+                        {{action "toggleAllowedPlan" "yearly"}}
+                    >
+                        <input
+                            type="checkbox"
+                            checked={{this.isYearlyChecked}}
+                            class="gh-input post-settings-featured"
+                            onclick={{action "toggleAllowedPlan" "yearly" value="target.checked"}}
+                            data-test-checkbox="featured"
+                        >
+                        <span class="input-toggle-component"></span>
+                        <p>Yearly</p>
+                    </label>
+                </div>
+            </div>
+            <GhFormGroup @classNames="gh-members-subscribed-checkbox mb0 bt pt3 b--whitegrey">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="gh-setting-title">Show beacon</h4>
+                    </div>
+                    <div class="for-switch">
+                        <label class="switch" for="beacon-checkbox">
+                            <input
+                                type="checkbox"
+                                checked={{this.settings.showBeacon}}
+                                id="beacon-checkbox"
+                                name="beacon-checkbox" onclick={{action "toggleBeaconSetting" value="target.checked"}}>
+                            <span class="input-toggle-component"></span>
+                        </label>
+                    </div>
+                </div>
+            </GhFormGroup>
+        </div>
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    <button
+        class="gh-btn"
+        {{action "closeModal"}}
+        {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+        {{on "mousedown" (optional this.noop)}}
+        data-test-button="cancel-custom-view-form"
+    >
+        <span>Cancel</span>
+    </button>
+
+    <GhTaskButton
+        @buttonText="Save and close"
+        @successText="Saved"
+        @task={{this.saveTask}}
+        @idleClass="gh-btn-green"
+        @class="gh-btn gh-btn-icon"
+        data-test-button="save-members-modal-setting" />
+</div>
