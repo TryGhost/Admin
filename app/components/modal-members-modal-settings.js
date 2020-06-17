@@ -11,18 +11,18 @@ export default ModalComponent.extend({
     confirm() {},
     close() {},
 
-    isFreeChecked: computed('settings.allowedPlans.[]', function () {
-        const allowedPlans = this.settings.get('allowedPlans') || [];
+    isFreeChecked: computed('settings.membersjsAllowedPlans.[]', function () {
+        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
         return allowedPlans.includes('free');
     }),
 
-    isMonthlyChecked: computed('settings.allowedPlans.[]', function () {
-        const allowedPlans = this.settings.get('allowedPlans') || [];
+    isMonthlyChecked: computed('settings.membersjsAllowedPlans.[]', function () {
+        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
         return allowedPlans.includes('monthly');
     }),
 
-    isYearlyChecked: computed('settings.allowedPlans.[]', function () {
-        const allowedPlans = this.settings.get('allowedPlans') || [];
+    isYearlyChecked: computed('settings.membersjsAllowedPlans.[]', function () {
+        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
         return allowedPlans.includes('yearly');
     }),
 
@@ -32,20 +32,20 @@ export default ModalComponent.extend({
 
     actions: {
         toggleAllowedPlan(plan) {
-            const allowedPlans = this.settings.get('allowedPlans') || [];
+            const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
             if (allowedPlans.includes(plan)) {
-                this.settings.set('allowedPlans', allowedPlans.filter(p => p !== plan));
+                this.settings.set('membersjsAllowedPlans', allowedPlans.filter(p => p !== plan));
             } else {
                 allowedPlans.push(plan);
-                this.settings.set('allowedPlans', [...allowedPlans]);
+                this.settings.set('membersjsAllowedPlans', [...allowedPlans]);
             }
         },
         toggleBeaconSetting(showBeacon) {
-            this.settings.set('showBeacon', showBeacon);
+            this.settings.set('membersjsShowBeacon', showBeacon);
         },
 
         toggleSignupName(showSignupName) {
-            this.settings.set('showSignupName', showSignupName);
+            this.settings.set('membersjsShowSignupName', showSignupName);
         },
 
         confirm() {
@@ -53,7 +53,7 @@ export default ModalComponent.extend({
         },
 
         isPlanSelected(plan) {
-            const allowedPlans = this.settings.get('allowedPlans');
+            const allowedPlans = this.settings.get('membersjsAllowedPlans');
             return allowedPlans.includes(plan);
         }
     },
