@@ -5,11 +5,8 @@ import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
-    customViews: service(),
-    router: service(),
     settings: service(),
     confirm() {},
-    close() {},
 
     subscriptionSettings: alias('model.subscriptionSettings'),
     stripeConnectIntegration: alias('model.stripeConnectIntegration'),
