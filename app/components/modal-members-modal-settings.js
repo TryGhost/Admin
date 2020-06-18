@@ -1,4 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import {alias} from '@ember/object/computed';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -7,23 +8,32 @@ export default ModalComponent.extend({
     customViews: service(),
     router: service(),
     settings: service(),
-
     confirm() {},
     close() {},
 
-    isFreeChecked: computed('settings.membersjsAllowedPlans.[]', function () {
+    subscriptionSettings: alias('model.subscriptionSettings'),
+    stripeConnectIntegration: alias('model.stripeConnectIntegration'),
+
+    isFreeChecked: computed('settings.{membersjsAllowedPlans.[],membersSubscriptionSettings}', function () {
+        const allowSelfSignup = this.subscriptionSettings.allowSelfSignup;
         const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
-        return allowedPlans.includes('free');
+        return (allowSelfSignup && allowedPlans.includes('free'));
     }),
 
-    isMonthlyChecked: computed('settings.membersjsAllowedPlans.[]', function () {
-        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
-        return allowedPlans.includes('monthly');
+    isStripeConfigured: computed('settings.{stripeConnectIntegration,membersSubscriptionSettings}', function () {
+        const stripeConfig = this.subscriptionSettings.stripeConfig;
+        const stripeIntegration = this.stripeConnectIntegration;
+        return (!!stripeConfig.public_token && !!stripeConfig.secret_token) || stripeIntegration;
     }),
 
-    isYearlyChecked: computed('settings.membersjsAllowedPlans.[]', function () {
+    isMonthlyChecked: computed('settings.membersjsAllowedPlans.[]', 'isStripeConfigured', function () {
         const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
-        return allowedPlans.includes('yearly');
+        return (this.isStripeConfigured && allowedPlans.includes('monthly'));
+    }),
+
+    isYearlyChecked: computed('settings.membersjsAllowedPlans.[]', 'isStripeConfigured', function () {
+        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
+        return (this.isStripeConfigured && allowedPlans.includes('yearly'));
     }),
 
     init() {
@@ -31,14 +41,14 @@ export default ModalComponent.extend({
     },
 
     actions: {
-        toggleAllowedPlan(plan) {
-            const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
-            if (allowedPlans.includes(plan)) {
-                this.settings.set('membersjsAllowedPlans', allowedPlans.filter(p => p !== plan));
-            } else {
-                allowedPlans.push(plan);
-                this.settings.set('membersjsAllowedPlans', [...allowedPlans]);
-            }
+        toggleFreePlan(isChecked) {
+            this.updateAllowedPlan('free', isChecked);
+        },
+        toggleMonthlyPlan(isChecked) {
+            this.updateAllowedPlan('monthly', isChecked);
+        },
+        toggleYearlyPlan(isChecked) {
+            this.updateAllowedPlan('yearly', isChecked);
         },
         toggleBeaconSetting(showBeacon) {
             this.settings.set('membersjsShowBeacon', showBeacon);
@@ -55,6 +65,17 @@ export default ModalComponent.extend({
         isPlanSelected(plan) {
             const allowedPlans = this.settings.get('membersjsAllowedPlans');
             return allowedPlans.includes(plan);
+        }
+    },
+
+    updateAllowedPlan(plan, isChecked) {
+        const allowedPlans = this.settings.get('membersjsAllowedPlans') || [];
+
+        if (!isChecked) {
+            this.settings.set('membersjsAllowedPlans', allowedPlans.filter(p => p !== plan));
+        } else {
+            allowedPlans.push(plan);
+            this.settings.set('membersjsAllowedPlans', [...allowedPlans]);
         }
     },
 
