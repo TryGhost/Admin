@@ -72,7 +72,14 @@
                     {{/if}}
                 </div>
                 <div>
-                    <button type="button" class="gh-btn" {{action (toggle "membersStripeOpen" this)}} data-test-toggle-membersstripe><span>{{if this.membersStripeOpen "Close" "Expand"}}</span></button>
+                    {{#if this.stripeConnectIntegration}}
+                        {{#if this.hasActiveStripeSubscriptions}}
+                            There are members with active subscriptions on your site. Cannot disconnect.
+                        {{/if}}
+                        <button type="button" class="gh-btn" {{action "openDisconnectStripeModal"}}><span>Disconnect</span></button>
+                    {{else}}
+                        <button type="button" class="gh-btn" {{action (toggle "membersStripeOpen" this)}} data-test-toggle-membersstripe><span>{{if this.membersStripeOpen "Close" "Expand"}}</span></button>
+                    {{/if}}
                 </div>
             </div>
 
@@ -354,3 +361,13 @@
         </section>
     {{/unless}}
 </div>
+
+{{#if this.showDisconnectStripeConnectModal}}
+    <GhFullscreenModal @modal="disconnect-stripe"
+        @model={{hash
+            stripeConnectIntegration=this.stripeConnectIntegration
+        }}
+        @confirm={{action "disconnectStripeConnectIntegration"}}
+        @close={{action "closeDisconnectStripeModal"}}
+        @modifier="action wide" />
+{{/if}}
