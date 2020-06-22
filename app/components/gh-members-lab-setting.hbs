@@ -67,15 +67,17 @@
                                 <span class="gh-members-connect-testmodelabel">Test mode</span>
                             {{/unless}}
                         </p>
+                        {{#if this.hasActiveStripeSubscriptions}}
+                        <p class="red ma0 pa0 f8">
+                            Cannot disconnect while there are members with active Stripe subscriptions.
+                        </p>
+                        {{/if}}
                     {{else}}
                         <p class="gh-setting-desc pa0 ma0">Connect to Stripe to create subscriptions and take payments</p>
                     {{/if}}
                 </div>
                 <div>
                     {{#if this.stripeConnectIntegration}}
-                        {{#if this.hasActiveStripeSubscriptions}}
-                            There are members with active subscriptions on your site. Cannot disconnect.
-                        {{/if}}
                         <button type="button" class="gh-btn" {{action "openDisconnectStripeModal"}}><span>Disconnect</span></button>
                     {{else}}
                         <button type="button" class="gh-btn" {{action (toggle "membersStripeOpen" this)}} data-test-toggle-membersstripe><span>{{if this.membersStripeOpen "Close" "Expand"}}</span></button>
