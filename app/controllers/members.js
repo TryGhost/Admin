@@ -22,9 +22,11 @@ const PAID_PARAMS = [{
 }];
 
 export default class MembersController extends Controller {
+    @service ajax;
     @service config;
     @service ellaSparse;
     @service feature;
+    @service ghostPaths;
     @service membersStats;
     @service store;
 
@@ -43,6 +45,7 @@ export default class MembersController extends Controller {
     @tracked modalLabel = null;
     @tracked isEditing = false;
     @tracked showLabelModal = false;
+    @tracked showDeleteMembersModal = false;
 
     @tracked _availableLabels = A([]);
 
@@ -140,11 +143,18 @@ export default class MembersController extends Controller {
 
     @action
     toggleEditMode() {
-        this.isEditing = !this.isEditing;
+        if (this.isEditing) {
+            this.resetSelection();
+        } else {
+            this.isEditing = true;
+        }
     }
 
     @action
     toggleSelectAll() {
+        if (this.members.length === 0) {
+            return this.allSelected = false;
+        }
         this.allSelected = !this.allSelected;
     }
 
@@ -210,10 +220,13 @@ export default class MembersController extends Controller {
     }
 
     @action
-    confirmDeleteMembers() {
-        let {members} = this;
-        let count = `${formatNumber(members.length)} ${pluralize(members.length, 'member', {withoutCount: true})}`;
-        alert(`Once deletion is implemented, you'll see a confirmation for deleting ${count} here`);
+    toggleDeleteMembersModal() {
+        this.showDeleteMembersModal = !this.showDeleteMembersModal;
+    }
+
+    @action
+    deleteMembers() {
+        return this.deleteMembersTask.perform();
     }
 
     // Tasks -------------------------------------------------------------------
@@ -283,6 +296,22 @@ export default class MembersController extends Controller {
         });
     }
 
+    @task({drop: true})
+    *deleteMembersTask() {
+        let query = new URLSearchParams({all: true});
+        let url = `${this.ghostPaths.url.api('members')}?${query}`;
+
+        // response contains details of which members failed to be deleted
+        let response = yield this.ajax.del(url);
+
+        // reset and reload
+        this.store.unloadAll('member');
+        this.resetSelection();
+        this.reload();
+
+        return response.meta.stats;
+    }
+
     // Internal ----------------------------------------------------------------
 
     resetSearch() {
@@ -292,5 +321,11 @@ export default class MembersController extends Controller {
     resetSelection() {
         this.isEditing = false;
         this.allSelected = false;
+    }
+
+    reload() {
+        this.membersStats.invalidate();
+        this.membersStats.fetch();
+        this.fetchMembersTask.perform();
     }
 }
