@@ -42,12 +42,21 @@ export default Component.extend({
     showMembersModalSettings: false,
 
     // passed in actions
-    setMembersSubscriptionSettings() {},
     setStripeConnectIntegrationTokenSetting() {},
 
     defaultContentVisibility: reads('settings.defaultContentVisibility'),
 
     stripeDirect: reads('config.stripeDirect'),
+
+    allowSelfSignup: reads('settings.membersAllowSignup'),
+
+    /** OLD **/
+    stripeDirectPublicKey: reads('settings.stripeDirectPublishableKey'),
+    stripeDirectSecretKey: reads('settings.stripeDirectSecretKey'),
+
+    stripeConnectAccountId: reads('settings.stripeConnectAccountId'),
+    stripeConnectAccountName: reads('settings.stripeConnectAccountName'),
+    stripeConnectLivemode: reads('settings.stripeConnectLivemode'),
 
     stripeConnectIntegration: computed('settings.stripeConnectIntegration', function () {
         try {
