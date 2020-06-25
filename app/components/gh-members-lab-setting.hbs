@@ -390,8 +390,7 @@
 {{#if this.showMembersModalSettings}}
     <GhFullscreenModal @modal="members-modal-settings"
         @model={{hash
-            subscriptionSettings=this.subscriptionSettings
-            stripeConnectIntegration=this.stripeConnectIntegration
+            allowSelfSignup=this.allowSelfSignup
         }}
         @close={{action "closeMembersModalSettings"}}
         @modifier="full-overlay portal-settings" />

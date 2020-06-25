@@ -1,17 +1,20 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import {alias} from '@ember/object/computed';
+import {alias, reads} from '@ember/object/computed';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
     settings: service(),
+    membersUtils: service(),
     config: service(),
     page: 'signup',
 
     confirm() {},
-    subscriptionSettings: alias('model.subscriptionSettings'),
-    stripeConnectIntegration: alias('model.stripeConnectIntegration'),
+
+    allowSelfSignup: alias('modal.allowSelfSignup'),
+
+    isStripeConfigured: reads('membersUtils.isStripeEnabled'),
 
     portalPreviewUrl: computed('page', 'isFreeChecked', 'isMonthlyChecked', 'isYearlyChecked', 'settings.{portalName,portalButton}', function () {
         const baseUrl = this.config.get('blogUrl');
@@ -27,15 +30,8 @@ export default ModalComponent.extend({
     }),
 
     isFreeChecked: computed('settings.{portalPlans.[],membersSubscriptionSettings}', function () {
-        const allowSelfSignup = this.subscriptionSettings.allowSelfSignup;
         const allowedPlans = this.settings.get('portalPlans') || [];
-        return (allowSelfSignup && allowedPlans.includes('free'));
-    }),
-
-    isStripeConfigured: computed('settings.{stripeConnectIntegration,membersSubscriptionSettings}', function () {
-        const stripeConfig = this.subscriptionSettings.stripeConfig;
-        const stripeIntegration = this.stripeConnectIntegration;
-        return (!!stripeConfig.public_token && !!stripeConfig.secret_token) || stripeIntegration;
+        return (this.allowSelfSignup && allowedPlans.includes('free'));
     }),
 
     isMonthlyChecked: computed('settings.portalPlans.[]', 'isStripeConfigured', function () {
