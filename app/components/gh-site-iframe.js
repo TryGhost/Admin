@@ -5,7 +5,7 @@ import {inject as service} from '@ember/service';
 export default Component.extend({
     config: service(),
     tagName: '',
-    srcUrl: computed('src', function() {
+    srcUrl: computed('src', function () {
         return this.src || `${this.config.get('blogUrl')}/`;
     }),
     didReceiveAttrs() {
