@@ -1,28 +1,12 @@
-<header class="modal-header gh-ps-header gh-ps-header-border" data-test-modal="portal-settings" style="display:flex">
-    <h2 class="f6 fw6">Modal Settings</h2>
-    {{!-- <div class="gh-contentfilter gh-btn-group gh-ps-btn-group" style="display:flex;flex-grow:1;justify-content:center">
-        <button class="gh-btn {{if (eq this.type "desktop") "gh-btn-group-selected"}}" {{action "changeType" "desktop"}}><span>Desktop</span></button>
-        <button class="gh-btn {{if (eq this.type "mobile") "gh-btn-group-selected"}}" {{action "changeType" "mobile"}}><span>Mobile</span></button>
-    </div> --}}
-    <div class="gh-ps-close">
-        <button class="close" href title="Close" {{on "click" this.closeModal}}>
-            {{svg-jar "close"}}
-        </button>
-    </div>
-</header>
-{{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
-<button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
-    {{svg-jar "close"}}
-</button>
-
 <div class="modal-body gh-ps-modal-body">
     <div style="display:flex;padding: 0 20px 0 20px;flex-grow: 1">
-        <div>
+        <div style="padding: 20px 0 0 0; margin-right: 20px">
+            <h2 class="f6 fw6">Modal Settings</h2>
             <fieldset>
                 <div class="pt3">
                     <GhFormGroup @classNames="gh-members-subscribed-checkbox pb4 mb0">
                         <div class="flex justify-between items-center">
-                            <div>
+                            <div style="margin-right: 12px">
                                 <h4 class="gh-setting-title">Display name in signup form</h4>
                             </div>
                             <div class="for-switch">
@@ -131,28 +115,37 @@
         </div>
         <div style="border-left: 1px solid black;margin: 0 3px 0 3px">
         </div>
-        <div style="position: relative;flex-grow: 1">
-            <GhSiteIframe @guid="test-site-portal" @src={{this.portalPreviewUrl}}></GhSiteIframe>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button
-            class="gh-btn"
-            {{action "closeModal"}}
-            {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
-            {{on "mousedown" (optional this.noop)}}
-            data-test-button="cancel-custom-view-form"
-        >
-            <span>Cancel</span>
-        </button>
+        <div style="display: flex; flex-direction: column; flex-grow: 1; padding: 20px 0 20px 0;">
+            <div style="padding-bottom: 12px;display: flex;justify-content: center;">
+                <span style="padding: 0 20px 0 20px; font-weight: bold"><a href="#" {{action "switchPreviewPage" "signup"}} data-test-link="switch-portal-preview-page">Signup</a></span>
+                <span style="padding: 0 20px 0 20px; font-weight: bold"><a href="#" {{action "switchPreviewPage" "accountHome"}} data-test-link="switch-portal-review-page">Account</a></span>
+            </div>
+            <div style="position: relative;flex-grow: 1">
+                <GhSiteIframe
+                    @guid="test-site-portal"
+                    @src={{this.portalPreviewUrl}}
+                ></GhSiteIframe>
+            </div>
+            <div class="modal-footer">
+                <button
+                    class="gh-btn"
+                    {{action "closeModal"}}
+                    {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+                    {{on "mousedown" (optional this.noop)}}
+                    data-test-button="cancel-custom-view-form"
+                >
+                    <span>Cancel</span>
+                </button>
 
-        <GhTaskButton
-            @buttonText="Save and close"
-            @successText="Saved"
-            @task={{this.saveTask}}
-            @idleClass="gh-btn-green"
-            @class="gh-btn gh-btn-icon"
-            data-test-button="save-members-modal-setting"
-        />
+                <GhTaskButton
+                    @buttonText="Save and close"
+                    @successText="Saved"
+                    @task={{this.saveTask}}
+                    @idleClass="gh-btn-green"
+                    @class="gh-btn gh-btn-icon"
+                    data-test-button="save-members-modal-setting"
+                />
+            </div>
+        </div>
     </div>
 </div>
