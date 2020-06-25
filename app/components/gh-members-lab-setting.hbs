@@ -380,7 +380,7 @@
 {{#if this.showDisconnectStripeConnectModal}}
     <GhFullscreenModal @modal="disconnect-stripe"
         @model={{hash
-            stripeConnectIntegration=this.stripeConnectIntegration
+            stripeConnectAccountName=this.stripeConnectAccountName
         }}
         @confirm={{action "disconnectStripeConnectIntegration"}}
         @close={{action "closeDisconnectStripeModal"}}
