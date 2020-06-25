@@ -8,7 +8,7 @@ export default class MembersUtilsService extends Service {
     get isStripeEnabled() {
         const stripeDirect = this.config.get('stripeDirect');
 
-        const hasDirectKeys = !!this.settings.get('stripeDirectSecretKey') && !!this.settings.get('stripeDirectPublishableKey');
+        const hasDirectKeys = !!this.settings.get('stripeSecretKey') && !!this.settings.get('stripePublishableKey');
         const hasConnectKeys = !!this.settings.get('stripeConnectSecretKey') && !!this.settings.get('stripeConnectPublishableKey');
 
         if (stripeDirect) {

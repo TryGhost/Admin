@@ -51,8 +51,8 @@ export default Component.extend({
     allowSelfSignup: reads('settings.membersAllowSignup'),
 
     /** OLD **/
-    stripeDirectPublicKey: reads('settings.stripeDirectPublishableKey'),
-    stripeDirectSecretKey: reads('settings.stripeDirectSecretKey'),
+    stripeDirectPublicKey: reads('settings.stripePublishableKey'),
+    stripeDirectSecretKey: reads('settings.stripeSecretKey'),
 
     stripeConnectAccountId: reads('settings.stripeConnectAccountId'),
     stripeConnectAccountName: reads('settings.stripeConnectAccountName'),
@@ -175,12 +175,12 @@ export default Component.extend({
 
         setStripeDirectPublicKey(event) {
             this.set('settings.stripeProductName', this.get('settings.title'));
-            this.set('settings.stripeDirectPublishableKey', event.target.value);
+            this.set('settings.stripePublishableKey', event.target.value);
         },
 
         setStripeDirectSecretKey(event) {
             this.set('settings.stripeProductName', this.get('settings.title'));
-            this.set('settings.stripeDirectSecretKey', event.target.value);
+            this.set('settings.stripeSecretKey', event.target.value);
         },
 
         setStripePlan(type, event) {
