@@ -29,7 +29,7 @@ export default ModalComponent.extend({
         return `${baseUrl}${portalBase}?${settingsParam.toString()}`;
     }),
 
-    isFreeChecked: computed('settings.{portalPlans.[],membersSubscriptionSettings}', function () {
+    isFreeChecked: computed('settings.portalPlans.[]', 'allowSelfSignup', function () {
         const allowedPlans = this.settings.get('portalPlans') || [];
         return (this.allowSelfSignup && allowedPlans.includes('free'));
     }),
