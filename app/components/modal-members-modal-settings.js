@@ -12,7 +12,7 @@ export default ModalComponent.extend({
 
     confirm() {},
 
-    allowSelfSignup: alias('modal.allowSelfSignup'),
+    allowSelfSignup: reads('model.allowSelfSignup'),
 
     isStripeConfigured: reads('membersUtils.isStripeEnabled'),
 
