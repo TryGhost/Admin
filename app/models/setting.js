@@ -47,7 +47,7 @@ export default Model.extend(ValidationEngine, {
      * Members settings
      */
     defaultContentVisibility: attr('string'),
-    membersAllowSignup: attr('boolean'),
+    membersAllowFreeSignup: attr('boolean'),
     membersFromAddress: attr('string'),
     stripeProductName: attr('string'),
     stripeSecretKey: attr('string'),
