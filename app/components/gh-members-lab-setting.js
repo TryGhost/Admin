@@ -48,7 +48,7 @@ export default Component.extend({
 
     stripeDirect: reads('config.stripeDirect'),
 
-    allowSelfSignup: reads('settings.membersAllowSignup'),
+    allowSelfSignup: reads('settings.membersAllowFreeSignup'),
 
     /** OLD **/
     stripeDirectPublicKey: reads('settings.stripePublishableKey'),
@@ -170,7 +170,7 @@ export default Component.extend({
         },
 
         toggleSelfSignup() {
-            this.set('settings.membersAllowSignup', !this.get('allowSelfSignup'));
+            this.set('settings.membersAllowFreeSignup', !this.get('allowSelfSignup'));
         },
 
         setStripeDirectPublicKey(event) {
