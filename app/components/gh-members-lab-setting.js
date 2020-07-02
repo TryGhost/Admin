@@ -40,6 +40,9 @@ export default Component.extend({
     currencies: null,
     showFromAddressConfirmation: false,
     showMembersModalSettings: false,
+    stripePlanInvalidAmount: false,
+    _scratchStripeYearlyAmount: null,
+    _scratchStripeMonthlyAmount: null,
 
     // passed in actions
     setStripeConnectIntegrationTokenSetting() {},
@@ -93,11 +96,11 @@ export default Component.extend({
 
         return {
             monthly: {
-                amount: parseInt(monthly.amount) / 100 || 0,
+                amount: parseInt(monthly.amount) / 100 || 5,
                 currency: monthly.currency
             },
             yearly: {
-                amount: parseInt(yearly.amount) / 100 || 0,
+                amount: parseInt(yearly.amount) / 100 || 50,
                 currency: yearly.currency
             }
         };
@@ -166,18 +169,45 @@ export default Component.extend({
             this.set('settings.stripeSecretKey', event.target.value);
         },
 
-        setStripePlan(type, event) {
-            const updatedPlans = this.get('settings.stripePlans').map((plan) => {
-                if (plan.interval === type && plan.name !== 'Complimentary') {
-                    const newAmount = parseInt(event.target.value) * 100 || 0;
-                    return Object.assign({}, plan, {
-                        amount: newAmount
-                    });
-                }
-                return plan;
-            });
+        validateStripePlans() {
+            this.get('settings.errors').remove('stripePlans');
+            this.get('settings.hasValidated').removeObject('stripePlans');
 
-            this.set('settings.stripePlans', updatedPlans);
+            if (this._scratchStripeYearlyAmount === null) {
+                this._scratchStripeYearlyAmount = this.get('stripePlans').yearly.amount;
+            }
+            if (this._scratchStripeMonthlyAmount === null) {
+                this._scratchStripeMonthlyAmount = this.get('stripePlans').monthly.amount;
+            }
+
+            try {
+                const yearlyAmount = parseInt(this._scratchStripeYearlyAmount);
+                const monthlyAmount = parseInt(this._scratchStripeMonthlyAmount);
+                if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
+                    throw new TypeError('Please enter a value greater than 1');
+                }
+
+                const updatedPlans = this.get('settings.stripePlans').map((plan) => {
+                    if (plan.name !== 'Complimentary') {
+                        let newAmount;
+                        if (plan.interval === 'year') {
+                            newAmount = yearlyAmount * 100;
+                        } else if (plan.interval === 'month') {
+                            newAmount = monthlyAmount * 100;
+                        }
+                        return Object.assign({}, plan, {
+                            amount: newAmount
+                        });
+                    }
+                    return plan;
+                });
+
+                this.set('settings.stripePlans', updatedPlans);
+            } catch (err) {
+                this.get('settings.errors').add('stripePlans', err.message);
+            } finally {
+                this.get('settings.hasValidated').pushObject('stripePlans');
+            }
         },
 
         setStripePlansCurrency(event) {
