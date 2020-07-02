@@ -13,6 +13,17 @@ import {isBlank} from '@ember/utils';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 
+const supportedImportFields = [
+    'email',
+    'name',
+    'note',
+    'subscribed_to_emails',
+    'stripe_customer_id',
+    'complimentary_plan',
+    'labels',
+    'created_at'
+];
+
 export default ModalComponent.extend({
     config: service(),
     ajax: service(),
@@ -24,6 +35,7 @@ export default ModalComponent.extend({
     dragClass: null,
     file: null,
     fileData: null,
+    mapping: null,
     paramName: 'membersfile',
     uploading: false,
     uploadPercentage: 0,
@@ -58,6 +70,15 @@ export default ModalComponent.extend({
             this.labels.labels.forEach((label) => {
                 formData.append('labels', label.name);
             });
+        }
+
+        if (this.mapping) {
+            for (const key in this.mapping) {
+                if (this.mapping[key]){
+                    // reversing mapping direction to match the structure accepted in the API
+                    formData.append(`mapping[${this.mapping[key]}]`, key);
+                }
+            }
         }
 
         return formData;
@@ -102,6 +123,7 @@ export default ModalComponent.extend({
                         worker: true, // NOTE: compare speed and file sizes with/without this flag
                         complete: async (results) => {
                             this.set('fileData', results.data);
+                            this._populateMapping();
 
                             let result = await this.memberImportValidator.check(results.data);
 
@@ -122,6 +144,7 @@ export default ModalComponent.extend({
             this.set('labels', {labels: []});
             this.set('file', null);
             this.set('fileData', null);
+            this.set('mapping', null);
             this.set('validationErrors', null);
         },
 
@@ -139,6 +162,19 @@ export default ModalComponent.extend({
             if (!this.closeDisabled) {
                 this._super(...arguments);
             }
+        },
+
+        updateMapping(mapFrom, mapTo) {
+            let currentMapping = this.get('mapping');
+
+            for (const key in currentMapping) {
+                if (currentMapping[key] === mapTo) {
+                    currentMapping[key] = null;
+                }
+            }
+
+            currentMapping[mapFrom] = mapTo;
+            this.set('mapping', currentMapping);
         }
     },
 
@@ -257,5 +293,43 @@ export default ModalComponent.extend({
         }
 
         return true;
+    },
+
+    _populateMapping() {
+        let importedData = this.get('fileData');
+        let importedKeys = Object.keys(importedData[0]);
+
+        let mapping = {};
+
+        supportedImportFields.forEach((destinaitonField) => {
+            let matchedImportedKey = importedKeys.find(key => (key === destinaitonField));
+
+            if (!matchedImportedKey) {
+                if (destinaitonField === 'email') {
+                    // scan sample record for any occurances of '@' symbol to autodetect email
+                    for (const [key, value] of Object.entries(importedData[0])) {
+                        if (value && value.includes('@')) {
+                            matchedImportedKey = key;
+                            break;
+                        }
+                    }
+                }
+
+                if (destinaitonField === 'stripe_customer_id') {
+                    // scan sample record for any occurances of 'cus_' as that's conventional Stripe customer id prefix
+                    for (const [key, value] of Object.entries(importedData[0])) {
+                        if (value && value.startsWith('cus_')) {
+                            matchedImportedKey = key;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            mapping[matchedImportedKey] = destinaitonField;
+            importedKeys = importedKeys.filter(key => (key !== matchedImportedKey));
+        });
+
+        this.set('mapping', mapping);
     }
 });
