@@ -10,22 +10,22 @@ const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v
 
 const CURRENCIES = [
     {
-        label: 'USD - US Dollar', value: 'usd'
+        label: 'USD - US Dollar', value: 'usd', symbol: '$'
     },
     {
-        label: 'AUD - Australian Dollar', value: 'aud'
+        label: 'AUD - Australian Dollar', value: 'aud', symbol: '$'
     },
     {
-        label: 'CAD - Canadian Dollar', value: 'cad'
+        label: 'CAD - Canadian Dollar', value: 'cad', symbol: '$'
     },
     {
-        label: 'EUR - Euro', value: 'eur'
+        label: 'EUR - Euro', value: 'eur', symbol: '€'
     },
     {
-        label: 'GBP - British Pound', value: 'gbp'
+        label: 'GBP - British Pound', value: 'gbp', symbol: '£'
     },
     {
-        label: 'INR - Indian Rupee', value: 'inr'
+        label: 'INR - Indian Rupee', value: 'inr', symbol: '₹'
     }
 ];
 
@@ -181,10 +181,11 @@ export default Component.extend({
             }
 
             try {
+                const selectedCurrency = this.selectedCurrency;
                 const yearlyAmount = parseInt(this._scratchStripeYearlyAmount);
                 const monthlyAmount = parseInt(this._scratchStripeMonthlyAmount);
                 if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
-                    throw new TypeError('Please enter a value greater than 1');
+                    throw new TypeError(`Subscription amount must be at least ${selectedCurrency.symbol}1.00`);
                 }
 
                 const updatedPlans = this.get('settings.stripePlans').map((plan) => {
