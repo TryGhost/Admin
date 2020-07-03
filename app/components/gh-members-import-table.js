@@ -8,14 +8,14 @@ export default class GhMembersImportTable extends Component {
     get currentlyDisplayedData() {
         let rows = [];
 
-        if (this.args && this.args.importData && this.args.mapping) {
+        if (this.args && this.args.importData && this.args.mapping && this.args.mapping.mapping) {
             let currentRecord = this.args.importData[this.dataPreviewIndex];
 
             for (const [key, value] of Object.entries(currentRecord)) {
                 rows.push({
                     key: key,
                     value: value,
-                    mapTo: this.args.mapping[key]
+                    mapTo: this.args.mapping.get(key)
                 });
             }
         }

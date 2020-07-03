@@ -12,17 +12,83 @@ import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
+import {tracked} from '@glimmer/tracking';
 
-const supportedImportFields = [
-    'email',
-    'name',
-    'note',
-    'subscribed_to_emails',
-    'stripe_customer_id',
-    'complimentary_plan',
-    'labels',
-    'created_at'
-];
+class MembersFieldMapping {
+    _supportedImportFields = [
+        'email',
+        'name',
+        'note',
+        'subscribed_to_emails',
+        'stripe_customer_id',
+        'complimentary_plan',
+        'labels',
+        'created_at'
+    ];
+
+    @tracked _mapping = {};
+
+    constructor(sampleRecord) {
+        let importedKeys = Object.keys(sampleRecord);
+
+        this._supportedImportFields.forEach((destinaitonField) => {
+            let matchedImportedKey = importedKeys.find(key => (key === destinaitonField));
+
+            if (!matchedImportedKey) {
+                if (destinaitonField === 'email') {
+                    // scan sample record for any occurances of '@' symbol to autodetect email
+                    for (const [key, value] of Object.entries(sampleRecord)) {
+                        if (value && value.includes('@')) {
+                            matchedImportedKey = key;
+                            break;
+                        }
+                    }
+                }
+
+                if (destinaitonField === 'stripe_customer_id') {
+                    // scan sample record for any occurances of 'cus_' as that's conventional Stripe customer id prefix
+                    for (const [key, value] of Object.entries(sampleRecord)) {
+                        if (value && value.startsWith('cus_')) {
+                            matchedImportedKey = key;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (matchedImportedKey) {
+                this.set(matchedImportedKey, destinaitonField);
+                importedKeys = importedKeys.filter(key => (key !== matchedImportedKey));
+            }
+        });
+    }
+
+    set(key, value) {
+        this._mapping[key] = value;
+
+        // trigger an update
+        // eslint-disable-next-line no-self-assign
+        this._mapping = this._mapping;
+    }
+
+    get(key) {
+        return this._mapping[key];
+    }
+
+    get mapping() {
+        return this._mapping;
+    }
+
+    updateMapping(from, to) {
+        for (const key in this._mapping) {
+            if (this.get(key) === to) {
+                this.set(key, null);
+            }
+        }
+
+        this.set(from, to);
+    }
+}
 
 export default ModalComponent.extend({
     config: service(),
@@ -72,11 +138,14 @@ export default ModalComponent.extend({
             });
         }
 
-        if (this.mapping) {
-            for (const key in this.mapping) {
-                if (this.mapping[key]){
-                    // reversing mapping direction to match the structure accepted in the API
-                    formData.append(`mapping[${this.mapping[key]}]`, key);
+        // TODO: remove "if" below once import validations are production ready
+        if (this.config.get('enableDeveloperExperiments')) {
+            if (this.mapping) {
+                for (const key in this.mapping.mapping) {
+                    if (this.mapping.get(key)){
+                        // reversing mapping direction to match the structure accepted in the API
+                        formData.append(`mapping[${this.mapping.get(key)}]`, key);
+                    }
                 }
             }
         }
@@ -123,7 +192,7 @@ export default ModalComponent.extend({
                         worker: true, // NOTE: compare speed and file sizes with/without this flag
                         complete: async (results) => {
                             this.set('fileData', results.data);
-                            this._populateMapping();
+                            this.set('mapping', new MembersFieldMapping(results.data[0]));
 
                             let result = await this.memberImportValidator.check(results.data);
 
@@ -165,16 +234,7 @@ export default ModalComponent.extend({
         },
 
         updateMapping(mapFrom, mapTo) {
-            let currentMapping = this.get('mapping');
-
-            for (const key in currentMapping) {
-                if (currentMapping[key] === mapTo) {
-                    currentMapping[key] = null;
-                }
-            }
-
-            currentMapping[mapFrom] = mapTo;
-            this.set('mapping', currentMapping);
+            this.mapping.updateMapping(mapFrom, mapTo);
         }
     },
 
@@ -293,43 +353,5 @@ export default ModalComponent.extend({
         }
 
         return true;
-    },
-
-    _populateMapping() {
-        let importedData = this.get('fileData');
-        let importedKeys = Object.keys(importedData[0]);
-
-        let mapping = {};
-
-        supportedImportFields.forEach((destinaitonField) => {
-            let matchedImportedKey = importedKeys.find(key => (key === destinaitonField));
-
-            if (!matchedImportedKey) {
-                if (destinaitonField === 'email') {
-                    // scan sample record for any occurances of '@' symbol to autodetect email
-                    for (const [key, value] of Object.entries(importedData[0])) {
-                        if (value && value.includes('@')) {
-                            matchedImportedKey = key;
-                            break;
-                        }
-                    }
-                }
-
-                if (destinaitonField === 'stripe_customer_id') {
-                    // scan sample record for any occurances of 'cus_' as that's conventional Stripe customer id prefix
-                    for (const [key, value] of Object.entries(importedData[0])) {
-                        if (value && value.startsWith('cus_')) {
-                            matchedImportedKey = key;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            mapping[matchedImportedKey] = destinaitonField;
-            importedKeys = importedKeys.filter(key => (key !== matchedImportedKey));
-        });
-
-        this.set('mapping', mapping);
     }
 });
