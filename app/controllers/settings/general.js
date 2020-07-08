@@ -147,7 +147,7 @@ export default Controller.extend({
             return transition.retry();
         },
 
-        validateFacebookUrl() {
+        validateFacebookUrl(skipRenderLoop) {
             let newUrl = this._scratchFacebook;
             let oldUrl = this.get('settings.facebook');
             let errMessage = '';
@@ -186,6 +186,13 @@ export default Controller.extend({
                 }
 
                 this.set('settings.facebook', '');
+                if (skipRenderLoop) {
+                    this.set('settings.facebook', newUrl);
+                } else {
+                    run.schedule('afterRender', this, function () {
+                        this.set('settings.facebook', newUrl);
+                    });
+                }
                 run.schedule('afterRender', this, function () {
                     this.set('settings.facebook', newUrl);
                 });
@@ -203,7 +210,7 @@ export default Controller.extend({
             }
         },
 
-        validateTwitterUrl() {
+        validateTwitterUrl(skipRenderLoop) {
             let newUrl = this._scratchTwitter;
             let oldUrl = this.get('settings.twitter');
             let errMessage = '';
@@ -246,9 +253,13 @@ export default Controller.extend({
                 this.get('settings.hasValidated').pushObject('twitter');
 
                 this.set('settings.twitter', '');
-                run.schedule('afterRender', this, function () {
+                if (skipRenderLoop) {
                     this.set('settings.twitter', newUrl);
-                });
+                } else {
+                    run.schedule('afterRender', this, function () {
+                        this.set('settings.twitter', newUrl);
+                    });
+                }
             } else {
                 errMessage = 'The URL must be in a format like '
                            + 'https://twitter.com/yourUsername';
@@ -274,6 +285,14 @@ export default Controller.extend({
     save: task(function* () {
         let notifications = this.notifications;
         let config = this.config;
+
+        if (this.settings.get('twitter') !== this._scratchTwitter) {
+            this.send('validateTwitterUrl', true);
+        }
+
+        if (this.settings.get('facebook') !== this._scratchFacebook) {
+            this.send('validateFacebookUrl', true);
+        }
 
         try {
             let settings = yield this.settings.save();
