@@ -282,4 +282,127 @@ describe('Acceptance: Content', function () {
             expect(find(`[data-test-post-id="${contributorPost.id}"]`), 'author post').to.exist;
         });
     });
+
+    // The following describe block attempts to add following tests:
+    // 1. From the Action Menu Posts list page, Add New post with simple title
+    // 2. Can publish draft post immediately 
+    // 3. Schedule a publish of a post
+    // 4. Detailed tests for date selection in schedule of tests
+    // 5. Add tests for un-publish of tests to keep it private draft
+    // 6. Add tests for state channge of posts
+
+    describe('as Priyanka -- Tests for add post and publish post', function () {
+        let contributor, contributorPost;
+
+        beforeEach(async function () {
+            let contributorRole = this.server.create('role', {name: 'Contributor'});
+            contributor = this.server.create('user', {roles: [contributorRole]});
+            let adminRole = this.server.create('role', {name: 'Administrator'});
+            let admin = this.server.create('user', {roles: [adminRole]});
+
+            // Create posts
+            contributorPost = this.server.create('post', {authors: [contributor], status: 'draft', title: 'Priyanka Post Draft'});
+            this.server.create('post', {authors: [contributor], status: 'published', title: 'Priyanka Published Post'});
+            this.server.create('post', {authors: [admin], status: 'scheduled', title: 'Admin Post'});
+
+            return await authenticateSession();
+        });
+
+        afterEach(function () {
+            // Call the delete post functionality to clean up test artifact
+            deletePost();
+        });
+
+        it('can create new draft post', async function () {
+            // Navigate to posts
+            await visit('/posts');
+            
+            // Check if New post button is visibile in the view-actions menu
+            expect(findWithText('[gh-contentfilter="New post"]')).to.exist;
+
+            // Click New post button
+            await click('.gh-btn-green');
+
+            // Wait for the new post editor modal to show up and verify that Publish option does not shows up till text is types
+            expect(findWithText.(<Publish selector>, "Publish")).to.not.exist;
+
+            // FillIn Title 
+            await fillIn('<Title selector>', "Test title");
+
+            // Verify that Publish option shows up
+            expect(findWithText.(<Publish selector>, "Publish")).to.exist;
+
+            // Navigate to Posts mode out of draft mode
+            await click('[contentfilter="Posts"]');
+
+            // modal closes on navigating out
+            expect(find('[data-test-modal="Editor Post"]')).to.not.exist;
+
+            // Assert that newly drafted post appears with status "DRAFT" in the posts list pag
+            // UI updates
+            expect(find('[data-test-nav-custom="posts-Test title"]')).to.exist;
+            expect(find('[data-test-nav-custom="posts-Test title"]').textContent.trim()).to.equal('Test title');
+        });
+
+        it('can publish draft post immediately', async function () {
+            // Navigate to posts
+            await visit('/posts');
+            
+            // Check if New post button is visibile in the view-actions menu
+            expect(findWithText('[gh-contentfilter="New post"]')).to.exist;
+
+            // Click New post button
+            await click('.gh-btn-green');
+
+            // FillIn Title 
+            await fillIn('<Title selector>', "Test title");
+
+            // Wait for the new post editor modal to show up and verify if the Publish option shows up
+            expect(findWithText.(<Publish selector>, "Publish")).to.exist;
+
+            // Click Publish link
+            await.click(findWithText.(<Publish selector>, "Publish"))
+
+            // Wait for the load of the Publish modal options
+            expect(findWithText(<Publish immediately text>)).to.exist;
+
+            // Click on Publish
+            await.click('.gh-btn-blue');
+
+            // Check for success notification
+            // Assert on option changing to "Update" instead of "Publish"
+        });
+
+        it('publish draft post on schedule', async function () {
+           // Navigate to posts
+            await visit('/posts');
+            
+            // Check if New post button is visibile in the view-actions menu
+            expect(findWithText('[gh-contentfilter="New post"]')).to.exist;
+
+            // Click New post button
+            await click('.gh-btn-green');
+
+            // FillIn Title 
+            await fillIn('<Title selector>', "Test title");
+
+            // Wait for the new post editor modal to show up and verify if the Publish option shows up
+            expect(findWithText.(<Publish selector>, "Publish")).to.exist;
+
+            // Click Publish link
+            await.click(findWithText.(<Publish selector>, "Publish"))
+
+            // Wait for the load of the Publish modal options
+            expect(findWithText(<Schedule it for latert>)).to.exist;
+
+            // Choose the schedule date options
+
+
+            // Click on Schedule
+            await.click('.gh-btn-blue');
+
+            // Check for success notification
+            // Assert on option changing to "Scheduled" instead of "Publish"
+        });
+    });
 });
