@@ -292,20 +292,13 @@ describe('Acceptance: Content', function () {
     // 6. Add tests for state channge of posts
 
     describe('as Priyanka -- Tests for add post and publish post', function () {
-        let contributor, contributorPost;
 
         beforeEach(async function () {
-            let contributorRole = this.server.create('role', {name: 'Contributor'});
-            contributor = this.server.create('user', {roles: [contributorRole]});
-            let adminRole = this.server.create('role', {name: 'Administrator'});
-            let admin = this.server.create('user', {roles: [adminRole]});
 
-            // Create posts
-            contributorPost = this.server.create('post', {authors: [contributor], status: 'draft', title: 'Priyanka Post Draft'});
-            this.server.create('post', {authors: [contributor], status: 'published', title: 'Priyanka Published Post'});
-            this.server.create('post', {authors: [admin], status: 'scheduled', title: 'Admin Post'});
+             let role = this.server.create('role', {name: 'Author'});
+            this.server.create('user', {roles: [role], slug: 'test-user'});
 
-            return await authenticateSession();
+            await authenticateSession();
         });
 
         afterEach(function () {
@@ -403,6 +396,44 @@ describe('Acceptance: Content', function () {
 
             // Check for success notification
             // Assert on option changing to "Scheduled" instead of "Publish"
+        });
+
+        it('can add new post', async function () {
+            // Navigate to posts
+            await visit('/posts');
+            
+            // New post button is visibile in the view-actions menu
+            expect(find('[data-test-nav="New post"]')).to.exist;
+
+            await click('[ember-view gh-btn gh-btn-green="New post"]');
+
+            // adding view shows it in the sidebar
+            await click('[data-test-button="add-view"]');
+            expect(find('[data-test-modal="custom-view-form"]')).to.exist;
+            expect(find('[data-test-modal="custom-view-form"] h1').textContent.trim()).to.equal('New view');
+            await fillIn('[data-test-input="custom-view-name"]', 'Test view');
+            await click('[data-test-button="save-custom-view"]');
+            // modal closes on save
+            expect(find('[data-test-modal="custom-view-form"]')).to.not.exist;
+            // UI updates
+            expect(find('[data-test-nav-custom="posts-Test view"]')).to.exist;
+            expect(find('[data-test-nav-custom="posts-Test view"]').textContent.trim()).to.equal('Test view');
+            expect(find('[data-test-button="add-view"]')).to.not.exist;
+            expect(find('[data-test-button="edit-view"]')).to.exist;
+
+            // editing view
+            await click('[data-test-button="edit-view"]');
+            expect(find('[data-test-modal="custom-view-form"]')).to.exist;
+            expect(find('[data-test-modal="custom-view-form"] h1').textContent.trim()).to.equal('Edit view');
+            await fillIn('[data-test-input="custom-view-name"]', 'Updated view');
+            await click('[data-test-button="save-custom-view"]');
+            // modal closes on save
+            expect(find('[data-test-modal="custom-view-form"]')).to.not.exist;
+            // UI updates
+            expect(find('[data-test-nav-custom="posts-Updated view"]')).to.exist;
+            expect(find('[data-test-nav-custom="posts-Updated view"]').textContent.trim()).to.equal('Updated view');
+            expect(find('[data-test-button="add-view"]')).to.not.exist;
+            expect(find('[data-test-button="edit-view"]')).to.exist;
         });
     });
 });
