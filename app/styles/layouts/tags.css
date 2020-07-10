@@ -139,3 +139,18 @@ textarea.gh-tag-details-textarea {
     border: 1px solid var(--lightgrey);
     min-height: 147px;
 }
+
+.gh-tag-setting-codeinjection .CodeMirror {
+    padding: 0 !important;
+    min-height: 240px;
+}
+
+.gh-tag-setting-codeinjection .CodeMirror-scroll {
+    min-height: 240px;
+}
+
+label.gh-tag-setting-codeheader {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+}

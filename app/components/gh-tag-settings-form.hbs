@@ -91,7 +91,7 @@
             </div>
         </div>
         {{#liquid-if this.metadataOpen}}
-        <div class="pa5 pt4 br4 shadow-1 bg-grouped-table mt2 flex flex-column flex-row-ns items-start justify-between">
+        <div class="mt6 flex flex-column flex-row-ns items-start justify-between">
             <div class="flex flex-column items-start mr5 w-100 w-50-m w-two-thirds-l">
                 <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="metaTitle">
                     <label for="meta-title">Meta Title</label>
@@ -157,7 +157,7 @@
             </div>
         </div>
         {{#liquid-if this.twitterMetadataOpen}}
-        <div class="pa5 pt4 br4 shadow-1 bg-grouped-table mt2 flex flex-column flex-row-ns items-start justify-between">
+        <div class="mt6 flex flex-column flex-row-ns items-start justify-between">
             <div class="flex flex-column items-start mr5 w-100 w-50-m w-two-thirds-l">
                 <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="twitterImage">
                     <label for="twitter-image">Twitter image</label>
@@ -234,7 +234,7 @@
             </div>
         </div>
         {{#liquid-if this.facebookMetadataOpen}}
-        <div class="pa5 pt4 br4 shadow-1 bg-grouped-table mt2 flex flex-column flex-row-ns items-start justify-between">
+        <div class="mt6 flex flex-column flex-row-ns items-start justify-between">
             <div class="flex flex-column items-start mr5 w-100 w-50-m w-two-thirds-l">
                 <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="ogImage">
                     <label for="og-image">Facebook image</label>
@@ -311,12 +311,12 @@
             </div>
         </div>
         {{#liquid-if this.codeInjectionOpen}}
-        <div class="pa5 pt4 br4 shadow-1 bg-grouped-table mt2 flex flex-column flex-row-ns flex-wrap items-start justify-between">
+        <div class="mt6 flex flex-column flex-row-ns flex-wrap items-start justify-between">
             <GhFormGroup @class="settings-code" @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="codeinjectionHead">
-                <label for="codeinjection-head">Tag header <code>\{{ghost_head}}</code></label>
+                <label for="codeinjection-head" class="gh-tag-setting-codeheader">Tag header <code class="fw4 ml1">\{{ghost_head}}</code></label>
                 <GhCmEditor @value={{this.codeinjectionHeadScratch}}
                     @id="tag-setting-codeinjection-head"
-                    @class="tag-setting-codeinjection"
+                    @class="gh-tag-setting-codeinjection"
                     @name="tag-setting-codeinjection-head"
                     @focusOut={{action "setProperty" "codeinjectionHead" this.codeinjectionHeadScratch}}
                     @stopEnterKeyDownPropagation="true"
@@ -326,10 +326,10 @@
             </GhFormGroup>
 
             <GhFormGroup @class="settings-code" @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="codeinjectionFoot">
-                <label for="codeinjection-foot">Tag footer <code>\{{ghost_foot}}</code></label>
+                <label for="codeinjection-foot"class="gh-tag-setting-codeheader">Tag footer <code class="fw4 ml1">\{{ghost_foot}}</code></label>
                 <GhCmEditor @value={{this.codeinjectionfootScratch}}
                     @id="tag-setting-codeinjection-foot"
-                    @class="tag-setting-codeinjection"
+                    @class="gh-tag-setting-codeinjection"
                     @name="tag-setting-codeinjection-foot"
                     @focusOut={{action "setProperty" "codeinjectionFoot" this.codeinjectionFootScratch}}
                     @stopEnterKeyDownPropagation="true"
