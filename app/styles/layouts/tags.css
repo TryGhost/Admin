@@ -154,3 +154,23 @@ label.gh-tag-setting-codeheader {
     display: flex;
     align-items: center;
 }
+
+.gh-tag-settings-multiprop {
+    display: flex;
+    max-width: 620px;
+    width: 100%;
+}
+
+.gh-tag-settings-colorcontainer {
+    flex-basis: 112px;
+}
+
+@media (max-width: 1080px) {
+    .gh-tag-settings-multiprop {
+        flex-direction: column;
+    }
+
+    .gh-tag-settings-colorcontainer {
+        flex-basis: unset;
+    }
+}
