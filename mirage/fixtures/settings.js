@@ -117,14 +117,24 @@ export default [
         id: 16,
         created_at: '2016-05-05T15:04:03.115Z',
         created_by: 1,
-        key: 'slack',
+        key: 'slackUrl',
         group: 'slack',
         updated_at: '2016-05-05T18:33:09.168Z',
         updated_by: 1,
-        value: '[{"url":"", "username":"Ghost"}]'
+        value: 'Ghost'
     },
     {
         id: 17,
+        created_at: '2016-05-05T15:04:03.115Z',
+        created_by: 1,
+        key: 'slackUsername',
+        group: 'slack',
+        updated_at: '2016-05-05T18:33:09.168Z',
+        updated_by: 1,
+        value: ''
+    },
+    {
+        id: 18,
         created_at: '2016-05-05T15:40:12.133Z',
         created_by: 1,
         key: 'facebook',
@@ -134,7 +144,7 @@ export default [
         value: 'test'
     },
     {
-        id: 18,
+        id: 19,
         created_at: '2016-05-05T15:40:12.134Z',
         created_by: 1,
         key: 'twitter',
@@ -144,7 +154,7 @@ export default [
         value: '@test'
     },
     {
-        id: 19,
+        id: 20,
         created_at: '2015-09-11T09:44:30.810Z',
         created_by: 1,
         key: 'timezone',
@@ -154,7 +164,7 @@ export default [
         value: 'Etc/UTC'
     },
     {
-        id: 21,
+        id: 22,
         created_at: '2017-01-09T08:40:59.000Z',
         created_by: 1,
         key: 'amp',
@@ -164,7 +174,7 @@ export default [
         value: 'true'
     },
     {
-        id: 22,
+        id: 23,
         key: 'icon',
         value: '/content/images/2014/Feb/favicon.ico',
         group: 'site',
@@ -174,7 +184,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 23,
+        id: 24,
         group: 'members',
         key: 'members_subscription_settings',
         value: '{"allowSelfSignup":true,"fromAddress":"noreply","paymentProcessors":[{"adapter":"stripe","config":{"secret_token":"","public_token":"","product":{"name":"Ghost Subscription"},"plans":[{"name":"Monthly","currency":"usd","interval":"month","amount":""},{"name":"Yearly","currency":"usd","interval":"year","amount":""}]}}]}',
@@ -184,7 +194,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 24,
+        id: 25,
         group: 'email',
         key: 'bulk_email_settings',
         value: '{"provider":"mailgun","apiKey":"","domain":"","baseUrl":""}',
@@ -194,7 +204,7 @@ export default [
         updated_by: 1
     },
     {
-        id: 25,
+        id: 26,
         key: 'secondary_navigation',
         group: 'site',
         created_at: '2019-11-20T09:44:30.810Z',
@@ -202,5 +212,15 @@ export default [
         updated_at: '2019-11-20T13:32:49.868Z',
         updated_by: 1,
         value: JSON.stringify([])
+    },
+    {
+        id: 27,
+        group: 'email',
+        key: 'unsplash',
+        value: true,
+        created_at: '2019-10-09T09:49:00.000Z',
+        created_by: 1,
+        updated_at: '2019-10-09T09:49:00.000Z',
+        updated_by: 1
     }
 ];
