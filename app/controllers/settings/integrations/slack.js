@@ -1,6 +1,5 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import {empty} from '@ember/object/computed';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
@@ -13,15 +12,8 @@ export default Controller.extend({
     settings: service(),
 
     leaveSettingsTransition: null,
-    slackArray: null,
 
-    init() {
-        this._super(...arguments);
-        this.slackArray = [];
-    },
-
-    slackSettings: boundOneWay('settings.slack.firstObject'),
-    testNotificationDisabled: empty('slackSettings.url'),
+    testNotificationDisabled: empty('settings.slackUrl'),
 
     actions: {
         save() {
@@ -30,26 +22,12 @@ export default Controller.extend({
 
         updateURL(value) {
             value = typeof value === 'string' ? value.trim() : value;
-            this.set('slackSettings.url', value);
-            this.get('slackSettings.errors').clear();
+            this.set('settings.slackUrl', value);
         },
 
         updateUsername(value) {
             value = typeof value === 'string' ? value.trimLeft() : value;
-            this.set('slackSettings.username', value);
-            this.get('slackSettings.errors').clear();
-        },
-
-        triggerDirtyState() {
-            let slack = this.slackSettings;
-            let slackArray = this.slackArray;
-            let settings = this.settings;
-
-            // Hack to trigger the `isDirty` state on the settings model by setting a new Array
-            // for slack rather that replacing the existing one which would still point to the
-            // same reference and therfore not setting the model into a dirty state
-            slackArray.clear().pushObject(slack);
-            settings.set('slack', slackArray);
+            this.set('settings.slackUsername', value);
         },
 
         toggleLeaveSettingsModal(transition) {
@@ -78,8 +56,6 @@ export default Controller.extend({
 
         leaveSettings() {
             let transition = this.leaveSettingsTransition;
-            let settings = this.settings;
-            let slackArray = this.slackArray;
 
             if (!transition) {
                 this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
@@ -87,24 +63,16 @@ export default Controller.extend({
             }
 
             // roll back changes on model props
-            settings.rollbackAttributes();
-            slackArray.clear();
+            this.settings.rollbackAttributes();
 
             return transition.retry();
         }
     },
 
     save: task(function* () {
-        let slack = this.slackSettings;
-        let settings = this.settings;
-        let slackArray = this.slackArray;
-
         try {
-            yield slack.validate();
-            // clear existing objects in slackArray to make sure we only push the validated one
-            slackArray.clear().pushObject(slack);
-            yield settings.set('slack', slackArray);
-            return yield settings.save();
+            yield this.settings.validate();
+            return yield this.settings.save();
         } catch (error) {
             if (error) {
                 this.notifications.showAPIError(error);

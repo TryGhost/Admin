@@ -16,7 +16,6 @@ import SettingValidator from 'ghost-admin/validators/setting';
 import SetupValidator from 'ghost-admin/validators/setup';
 import SigninValidator from 'ghost-admin/validators/signin';
 import SignupValidator from 'ghost-admin/validators/signup';
-import SlackIntegrationValidator from 'ghost-admin/validators/slack-integration';
 import TagSettingsValidator from 'ghost-admin/validators/tag-settings';
 import UserValidator from 'ghost-admin/validators/user';
 import WebhookValidator from 'ghost-admin/validators/webhook';
@@ -46,7 +45,6 @@ export default Mixin.create({
         setup: SetupValidator,
         signin: SigninValidator,
         signup: SignupValidator,
-        slackIntegration: SlackIntegrationValidator,
         tag: TagSettingsValidator,
         user: UserValidator,
         member: MemberValidator,
