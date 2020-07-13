@@ -1,6 +1,6 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
-import {alias} from '@ember/object/computed';
+import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
@@ -8,11 +8,9 @@ export default Controller.extend({
     notifications: service(),
     settings: service(),
 
-    dirtyAttributes: null,
-    rollbackValue: null,
     leaveSettingsTransition: null,
 
-    unsplashSettings: alias('settings.unsplash'),
+    unsplashEnabled: reads('settings.unsplash'),
 
     actions: {
         save() {
@@ -20,11 +18,7 @@ export default Controller.extend({
         },
 
         update(value) {
-            if (!this.dirtyAttributes) {
-                this.set('rollbackValue', this.get('unsplashSettings.isActive'));
-            }
-            this.set('unsplashSettings.isActive', value);
-            this.set('dirtyAttributes', true);
+            this.settings.set('unsplash', value);
         },
 
         toggleLeaveSettingsModal(transition) {
@@ -60,23 +54,16 @@ export default Controller.extend({
             }
 
             // roll back changes on model props
-            this.set('unsplashSettings.isActive', this.rollbackValue);
-            this.set('dirtyAttributes', false);
-            this.set('rollbackValue', null);
+            this.settings.rollbackAttributes();
 
             return transition.retry();
         }
     },
 
     save: task(function* () {
-        let unsplash = this.unsplashSettings;
-        let settings = this.settings;
-
         try {
-            settings.set('unsplash', unsplash);
-            this.set('dirtyAttributes', false);
-            this.set('rollbackValue', null);
-            return yield settings.save();
+            yield this.settings.validate();
+            return yield this.settings.save();
         } catch (error) {
             if (error) {
                 this.notifications.showAPIError(error);
