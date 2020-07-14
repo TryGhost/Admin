@@ -27,7 +27,7 @@ export default Model.extend(ValidationEngine, {
     slackUsername: attr('string'),
     amp: attr('boolean'),
     ampGtagId: attr('string'),
-    unsplash: attr('boolean'),
+    unsplashIsActive: attr('boolean'),
     metaTitle: attr('string'),
     metaDescription: attr('string'),
     twitterTitle: attr('string'),

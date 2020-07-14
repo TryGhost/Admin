@@ -10,7 +10,7 @@ export default Controller.extend({
 
     leaveSettingsTransition: null,
 
-    unsplashEnabled: reads('settings.unsplash'),
+    unsplashIsActive: reads('settings.unsplashIsActive'),
 
     actions: {
         save() {
@@ -18,7 +18,7 @@ export default Controller.extend({
         },
 
         update(value) {
-            this.settings.set('unsplash', value);
+            this.settings.set('unsplashIsActive', value);
         },
 
         toggleLeaveSettingsModal(transition) {

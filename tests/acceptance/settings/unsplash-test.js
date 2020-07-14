@@ -76,7 +76,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             await click('[data-test-save-button]');
 
             // server should now have an unsplash setting
-            let [setting] = this.server.db.settings.where({key: 'unsplash'});
+            let [setting] = this.server.db.settings.where({key: 'unsplash_is_active'});
             expect(setting, 'unsplash setting after save').to.exist;
             expect(setting.value).to.equal(true);
 
@@ -91,7 +91,7 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             });
 
             // server should have an updated setting
-            [setting] = this.server.db.settings.where({key: 'unsplash'});
+            [setting] = this.server.db.settings.where({key: 'unsplash_is_active'});
             expect(setting.value).to.equal(false);
         });
 
