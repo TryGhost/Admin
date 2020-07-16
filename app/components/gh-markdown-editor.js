@@ -158,7 +158,7 @@ export default Component.extend(ShortcutsMixin, {
             toolbar.splice(index, 1);
         }
 
-        if (this.get('settings.unsplashIsActive')) {
+        if (this.get('settings.unsplash')) {
             let image = toolbar.findBy('name', 'image');
             let index = toolbar.indexOf(image) + 1;
 
@@ -462,7 +462,7 @@ export default Component.extend(ShortcutsMixin, {
 
                 return `![${alt}](${url})`;
 
-                // full url object, use attrs we're given
+            // full url object, use attrs we're given
             } else {
                 let image = `![${url.alt}](${url.url})`;
 

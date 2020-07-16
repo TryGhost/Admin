@@ -216,7 +216,7 @@ export default [
     {
         id: 27,
         group: 'email',
-        key: 'unsplash_is_active',
+        key: 'unsplash',
         value: true,
         created_at: '2019-10-09T09:49:00.000Z',
         created_by: 1,
