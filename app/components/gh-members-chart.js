@@ -19,7 +19,7 @@ export default Component.extend({
     chartData: null,
     chartOptions: null,
     startDateLabel: computed('membersStats.days', function () {
-        return moment(new Date()).add(- this.membersStats.days + 1, 'days').format(DATE_FORMAT);
+        return moment(new Date()).add(-this.membersStats.days + 1, 'days').format(DATE_FORMAT);
     }),
 
     selectedRange: computed('membersStats.days', function () {
