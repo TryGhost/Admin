@@ -18,13 +18,13 @@ export default Component.extend({
     stats: null,
     chartData: null,
     chartOptions: null,
-    startDateLabel: '',
-
     selectedRange: computed('membersStats.days', function () {
         const availableRanges = this.availableRanges;
         return availableRanges.findBy('days', this.membersStats.days);
     }),
-
+    startDateLabel: computed('membersStats.days', function(){
+        return moment(new Date()).add(-this.membersStats.days+1,'days').format(DATE_FORMAT);
+    }),
     availableRanges: computed(function () {
         return [{
             name: '30 days',
