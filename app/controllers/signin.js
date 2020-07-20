@@ -60,14 +60,6 @@ export default Controller.extend(ValidationEngine, {
                 if (mainError.type === 'PasswordResetRequiredError') {
                     this.set('passwordResetEmailSent', true);
                 }
-
-                if (mainError.context.string.match(/user with that email/i)) {
-                    this.get('signin.errors').add('identification', '');
-                }
-
-                if (mainError.context.string.match(/password is incorrect/i)) {
-                    this.get('signin.errors').add('password', '');
-                }
             } else {
                 console.error(error); // eslint-disable-line no-console
                 // Connection errors don't return proper status message, only req.body
