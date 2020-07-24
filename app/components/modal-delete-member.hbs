@@ -7,6 +7,21 @@
     <p>
         You're about to delete "<strong>{{or this.member.name this.member.email}}</strong>". This is permanent! We warned you, k?
     </p>
+
+    {{#if this.hasActiveStripeSubscriptions}}
+        <div class="flex justify-between">
+            <div>
+                <h4>Cancel Stripe subscription</h4>
+                <p class="pa0 ma0">If disabled, member's Stripe subscription will continue</p>
+            </div>
+            <div class="for-switch">
+                <label class="switch" >
+                    <input type="checkbox" checked={{this.cancelSubscriptions}} class="gh-input" onclick={{action "toggleCancelSubscriptions"}}>
+                    <span class="input-toggle-component mt1"></span>
+                </label>
+            </div>
+        </div>
+    {{/if}}
 </div>
 
 <div class="modal-footer">
