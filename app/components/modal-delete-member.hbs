@@ -15,8 +15,13 @@
                 <p class="pa0 ma0">If disabled, member's Stripe subscription will continue</p>
             </div>
             <div class="for-switch">
-                <label class="switch" >
-                    <input type="checkbox" checked={{this.cancelSubscriptions}} class="gh-input" onclick={{action "toggleCancelSubscriptions"}}>
+                <label class="switch">
+                    <input
+                        class="gh-input"
+                        type="checkbox"
+                        checked={{this.shouldCancelSubscriptions}}
+                        {{on "click" (action "toggleShouldCancelSubscriptions")}}
+                    />
                     <span class="input-toggle-component mt1"></span>
                 </label>
             </div>

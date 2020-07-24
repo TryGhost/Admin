@@ -7,7 +7,7 @@ import {task} from 'ember-concurrency';
 export default ModalComponent.extend({
     membersStats: service(),
 
-    cancelSubscriptions: false,
+    shouldCancelSubscriptions: false,
 
     // Allowed actions
     confirm: () => {},
@@ -33,14 +33,14 @@ export default ModalComponent.extend({
             this.deleteMember.perform();
         },
 
-        toggleCancelSubscriptions() {
-            this.cancelSubscriptions = !this.cancelSubscriptions;
+        toggleShouldCancelSubscriptions() {
+            this.shouldCancelSubscriptions = !this.shouldCancelSubscriptions;
         }
     },
 
     deleteMember: task(function* () {
         try {
-            yield this.confirm(this.cancelSubscriptions);
+            yield this.confirm(this.shouldCancelSubscriptions);
             this.membersStats.invalidate();
         } finally {
             this.send('closeModal');
