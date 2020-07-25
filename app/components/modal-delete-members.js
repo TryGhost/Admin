@@ -1,8 +1,11 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
-    confirmed: false,
+    store: service(),
+
+    completed: false,
     response: null,
     error: null,
 
@@ -11,21 +14,37 @@ export default ModalComponent.extend({
 
     actions: {
         confirm() {
-            this.deleteMembersTask.perform();
+            return this.deleteMembersTask.perform();
+        },
+
+        countPaidMembers() {
+            return this.countPaidMembersTask.perform();
         }
     },
 
     deleteMembersTask: task(function* () {
         try {
-            this.set('response', yield this.confirm());
-            this.set('confirmed', true);
+            let response = yield this.confirm();
+
+            if (!response?.invalid || response?.invalid?.count === 0) {
+                return this.closeModal();
+            }
+
+            this.set('response', response);
+            this.set('completed', true);
         } catch (e) {
-            if (e.payload.errors) {
-                this.set('confirmed', true);
+            if (e.payload && e.payload.errors) {
+                this.set('completed', true);
                 this.set('error', e.payload.errors[0].message);
             }
 
             throw e;
         }
-    }).drop()
+    }).drop(),
+
+    countPaidMembersTask: task(function* () {
+        const query = Object.assign({}, this.model.filterQuery, {paid: true, limit: 1, page: 1});
+        const result = yield this.store.query('member', query);
+        this.set('paidMemberCount', result.meta.pagination.total);
+    })
 });

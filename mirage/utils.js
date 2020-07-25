@@ -1,5 +1,37 @@
 /* eslint-disable max-statements-per-line */
 import {Response} from 'ember-cli-mirage';
+import {isArray} from '@ember/array';
+
+function _normalizeBooleanParams(arr) {
+    if (!isArray(arr)) {
+        return arr;
+    }
+
+    return arr.map((i) => {
+        if (i === 'true') {
+            return true;
+        } else if (i === 'false') {
+            return false;
+        } else {
+            return i;
+        }
+    });
+}
+
+// TODO: use GQL to parse filter string?
+export function extractFilterParam(param, filter = '') {
+    let filterRegex = new RegExp(`${param}:(.*?)(?:\\+|$)`);
+    let match;
+
+    let [, result = ''] = filter.match(filterRegex) || [];
+    if (result.startsWith('[')) {
+        match = result.replace(/^\[|\]$/g, '').split(',').map(slug => slug.replace(/^['"]|['"]$/g, ''));
+    } else if (result) {
+        match = [result.replace(/^['"]|['"]$/g, '')];
+    }
+
+    return _normalizeBooleanParams(match);
+}
 
 export function paginatedResponse(modelName) {
     return function (schema, request) {

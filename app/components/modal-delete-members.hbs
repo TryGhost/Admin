@@ -1,15 +1,28 @@
 <header class="modal-header" data-test-modal="delete-members">
-    <h1>Are you sure you want to delete these members?</h1>
+    <h1>Are you sure?</h1>
 </header>
 <a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
-{{#if (not this.confirmed)}}
-    <div class="modal-body" data-test-state="delete-unconfirmed">
-        <p>
-            You're about to delete
-            <strong data-test-text="delete-count">{{pluralize this.model.memberCount "member"}}</strong>.
-            This is permanent! We warned you, k?
-        </p>
+{{#if (not this.completed)}}
+    <div class="modal-body" data-test-state="delete-incomplete" {{did-insert (action "countPaidMembers")}}>
+        {{#if this.countPaidMembersTask.isRunning}}
+            <div class="flex flex-column items-center">
+                <div class="gh-loading-spinner"></div>
+            </div>
+        {{else}}
+            <p data-test-text="delete-confirmation">
+                {{#if this.paidMemberCount}}
+                    <strong>{{pluralize this.paidMemberCount "member"}}</strong>
+                    {{if (eq this.paidMemberCount 1) "has" "have"}} an active Stripe subscription.
+                    Deleting from Ghost <strong>will not cancel their subscription in Stripe</strong>,
+                    you have to do that manually in Stripe.
+                {{else}}
+                    You're about to delete
+                    <strong data-test-text="delete-count">{{gh-pluralize this.model.memberCount "member"}}</strong>.
+                    This is permanent! We warned you, k?
+                {{/if}}
+            </p>
+        {{/if}}
     </div>
 {{else}}
     <div class="modal-body bg-whitegray-l2 ba b--whitegrey br3 pa4" data-test-state="delete-complete">
@@ -23,24 +36,30 @@
                 </div>
             </div>
         {{else}}
-            <div class="flex items-center">
-                {{svg-jar "check-circle" class="w4 h4 stroke-green mr2"}}
-                <p class="ma0 pa0">
-                    <span class="fw6" data-test-text="deleted-count">{{pluralize this.response.deleted.count "member"}}</span>
-                    deleted
-                </p>
+            <div class="ba b--whitegrey br3 middarkgrey bg-whitegrey-l2">
+                <div class="flex items-start">
+                    <div class="w-50 gh-member-import-result-summary">
+                        <h2 data-test-text="delete-count">{{format-number this.response.deleted.count}}</h2>
+                        <p>{{gh-pluralize this.response.deleted.count "Member" without-count=true}} deleted</p>
+                    </div>
+                    <div class="bl b--whitegrey w-50 gh-member-import-result-summary">
+                        <h2 data-test-text="invalid-count">{{format-number this.response.invalid.count}}</h2>
+                        <p>{{gh-pluralize this.response.invalid.count "Error" without-count=true}}</p>
+                    </div>
+                </div>
             </div>
             {{#if this.response.invalid.count}}
-                <div class="flex items-start mt2" data-test-bulk-delete-errors>
-                    {{svg-jar "warning" class="w4 h4 fill-red mr2 nudge-top--3"}}
-                    <div>
-                        <p class="ma0 pa0">
-                            <span class="fw5" data-test-text="invalid-count">{{pluralize this.response.invalid.count "member"}}</span>
-                            skipped
-                        </p>
-                        {{#each this.response.invalid.errors as |error|}}
-                            <p class="gh-members-import-errordetail">{{error.message}} <span class="fw6">{{error.count}}</span></p>
-                        {{/each}}
+                <div class="mt6 gh-members-upload-errorcontainer error" data-test-bulk-delete-errors>
+                    <div class="flex items-start">
+                        {{svg-jar "warning" class="w5 h5 fill-red nudge-top--3 mr3"}}
+                        <div class="flex-grow w-100">
+                            <p class="ma0 pa0">{{format-number this.response.invalid.count}} {{pluralize this.response.invalid.count "member" without-count=true}} were skipped due to the following errors:</p>
+                            <ul class="ma0 pa0 mt4 list bt b--whitegrey">
+                            {{#each this.response.invalid.errors as |error|}}
+                                <li class="gh-members-import-errormessage" data-test-delete-error>{{error.message}} <span class="fw4">({{format-number error.count}})</span></li>
+                            {{/each}}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             {{/if}}
@@ -49,12 +68,13 @@
 {{/if}}
 
 <div class="modal-footer">
-    {{#if (not this.confirmed)}}
+    {{#if (not this.completed)}}
         <button {{action "closeModal"}} class="gh-btn" data-test-button="cancel">
             <span>Cancel</span>
         </button>
 
         <GhTaskButton
+            @disabled={{this.countPaidMembersTask.isRunning}}
             @buttonText="Delete"
             @successText="Deleted"
             @task={{this.deleteMembersTask}}

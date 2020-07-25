@@ -5,6 +5,7 @@ import {A} from '@ember/array';
 import {action} from '@ember/object';
 import {formatNumber} from 'ghost-admin/helpers/format-number';
 import {pluralize} from 'ember-inflector';
+import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {timeout} from 'ember-concurrency';
@@ -28,6 +29,7 @@ export default class MembersController extends Controller {
     @service feature;
     @service ghostPaths;
     @service membersStats;
+    @service router;
     @service store;
 
     queryParams = [
@@ -56,7 +58,20 @@ export default class MembersController extends Controller {
 
     // Computed properties -----------------------------------------------------
 
-    get listHeader() {
+    // used for component args to avoid passing around controller instances
+    get filterQuery() {
+        const filter = this.label ? `label:'${this.label}'` : '';
+        const paid = this.paidParam;
+        const search = this.searchParam;
+
+        return {
+            filter,
+            paid,
+            search
+        };
+    }
+
+    get listHeaderText() {
         let {searchText, selectedLabel, members} = this;
 
         if (members.loading) {
@@ -113,6 +128,11 @@ export default class MembersController extends Controller {
 
     get selectedPaidParam() {
         return this.paidParams.findBy('value', this.paidParam) || {value: '!unknown'};
+    }
+
+    get canBulkDelete() {
+        const hasFilter = this.label || this.searchParam || this.paidParam;
+        return hasFilter && this.members.length;
     }
 
     // Actions -----------------------------------------------------------------
@@ -278,6 +298,7 @@ export default class MembersController extends Controller {
 
         // reset and reload
         this.store.unloadAll('member');
+        this.router.transitionTo('members.index', {queryParams: resetQueryParams('members.index')});
         this.reload();
 
         return response.meta.stats;

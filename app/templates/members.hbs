@@ -60,7 +60,16 @@
                 <ol class="members-list gh-list {{unless this.members "no-posts"}}">
                     {{#if this.members}}
                         <li class="gh-list-row header relative">
-                            <div class="gh-list-header" data-test-list-header>{{this.listHeader}}</div>
+                            <div class="gh-list-header" data-test-list-header>
+                                {{this.listHeaderText}}
+                                {{#if this.config.enableDeveloperExperiments}}
+                                {{#if this.canBulkDelete}}
+                                    <button class="gh-btn gh-btn-red" {{on "click" this.toggleDeleteMembersModal}} data-test-button="bulk-delete">
+                                        <span style="height: 20px; line-height: 20px; padding: 0 6px">Delete</span>
+                                    </button>
+                                {{/if}}
+                                {{/if}}
+                            </div>
                             <div class="gh-list-header gh-members-list-geolocation gh-list-cellwidth-20 nowrap">Location</div>
                             <div class="gh-list-header gh-members-list-subscribed-at gh-list-cellwidth-20 nowrap">Created</div>
                             <div class="gh-list-header gh-members-list-chevron gh-list-cellwidth-chevron"></div>
@@ -99,7 +108,10 @@
 {{#if this.showDeleteMembersModal}}
     <GhFullscreenModal
         @modal="delete-members"
-        @model={{hash memberCount=this.members.length}}
+        @model={{hash
+            filterQuery=this.filterQuery
+            memberCount=this.members.length
+        }}
         @confirm={{this.deleteMembers}}
         @close={{this.toggleDeleteMembersModal}}
         @modifier="action wide"

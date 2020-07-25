@@ -1,7 +1,42 @@
 import faker from 'faker';
 import moment from 'moment';
 import {Response} from 'ember-cli-mirage';
-import {paginatedResponse} from '../utils';
+import {extractFilterParam, paginateModelCollection} from '../utils';
+import {isEmpty} from '@ember/utils';
+
+let _filterMembersCollection = function (members, queryParams) {
+    let {filter, paid, search} = queryParams;
+
+    let labelFilter = extractFilterParam('label', filter);
+
+    return members.all().filter((member) => {
+        let matchesLabel = true;
+        let matchesPaid = true;
+        let matchesSearch = true;
+
+        if (labelFilter && !member.labels.models.find(label => labelFilter.includes(label.slug))) {
+            matchesLabel = false;
+        }
+
+        if (search && !member.name.indexOf(search) && !member.email.indexOf(search)) {
+            matchesSearch = false;
+        }
+
+        if (paid === 'true') {
+            if (isEmpty(member.subscriptions) || !member.subscriptions.find(sub => sub.status === 'active')) {
+                matchesPaid = false;
+            }
+        }
+
+        if (paid === 'false') {
+            if (member.subscriptions && member.subscriptions.findBy('status', 'active')) {
+                matchesPaid = false;
+            }
+        }
+
+        return matchesLabel && matchesPaid && matchesSearch;
+    });
+};
 
 export function mockMembersStats(server) {
     server.get('/members/stats/', function (db, {queryParams}) {
@@ -62,18 +97,28 @@ export default function mockMembers(server) {
         return members.create(Object.assign({}, attrs, {id: 99}));
     });
 
-    server.get('/members/', paginatedResponse('members'));
+    server.get('/members/', function ({members}, {queryParams}) {
+        let {page, limit} = queryParams;
+
+        page = +page || 1;
+        limit = +limit || 1;
+
+        let collection = _filterMembersCollection(members, queryParams);
+        return paginateModelCollection('members', collection, page, limit);
+    });
 
     server.del('/members/', function ({members}, {queryParams}) {
-        if (queryParams.all !== 'true') {
+        if (!queryParams.filter && !queryParams.search && !queryParams.paid && (!queryParams.all || queryParams.all !== true)) {
             return new Response(422, {}, {errors: [{
                 type: 'IncorrectUsageError',
                 message: 'DELETE /members/ must be used with a filter, search, or all=true query parameter'
             }]});
         }
 
-        let count = members.all().length;
-        members.all().destroy();
+        let collection = _filterMembersCollection(members, queryParams);
+
+        let count = collection.length;
+        collection.destroy();
 
         return {
             meta: {

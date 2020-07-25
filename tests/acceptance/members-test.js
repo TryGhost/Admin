@@ -161,4 +161,129 @@ describe('Acceptance: Members', function () {
                 .to.equal('example@domain.com');
         });
     });
+
+    describe('bulk delete', function () {
+        beforeEach(async function () {
+            this.server.loadFixtures('configs');
+
+            let config = this.server.schema.configs.first();
+            config.update({
+                enableDeveloperExperiments: true
+            });
+
+            let role = this.server.create('role', {name: 'Owner'});
+            this.server.create('user', {roles: [role]});
+
+            return await authenticateSession();
+        });
+
+        it('can delete filtered list of unsubscribed members', async function () {
+            this.server.createList('member', 5);
+            let label = this.server.create('label');
+            this.server.createList('member', 100, {labels: [label]});
+
+            await visit('/members');
+
+            // sanity check on member count
+            expect(find('[data-test-list-header]')).to.contain.text('105 members');
+
+            // bulk delete button is not shown
+            expect(find('[data-test-button="bulk-delete"]')).to.not.exist;
+
+            await click('[data-test-dropdown="label-filter"]');
+            await click(`[data-test-label-filter="${label.slug}"]`);
+
+            // sanity check on member count
+            expect(find('[data-test-list-header]')).to.contain.text('100 members');
+
+            expect(find('[data-test-button="bulk-delete"')).to.exist;
+
+            await click('[data-test-button="bulk-delete"');
+
+            expect(find('[data-test-modal="delete-members"]')).to.exist;
+            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('100 members');
+
+            await click('[data-test-button="confirm"]');
+
+            expect(find('[data-test-modal="delete-members')).to.not.exist;
+            expect(find('[data-test-list-header]')).to.contain.text('5 members');
+            expect(find('[data-test-dropdown="label-filter"]')).to.contain.text('All labels');
+        });
+
+        it('displays warning about paid members', async function () {
+            this.server.createList('member', 5);
+            let label = this.server.create('label');
+            this.server.createList('member', 50, {labels: [label]});
+            this.server.createList('member', 10, 'paid', {labels: [label]});
+            this.server.createList('member', 15, 'paid'); // to ensure paid check is filtering by label
+            await visit('/members');
+
+            // sanity check on member count
+            expect(find('[data-test-list-header]')).to.contain.text('80 members');
+
+            await click('[data-test-dropdown="label-filter"]');
+            await click(`[data-test-label-filter="${label.slug}"]`);
+
+            // sanity check on member count
+            expect(find('[data-test-list-header]')).to.contain.text('60 members');
+
+            await click('[data-test-button="bulk-delete"');
+
+            expect(find('[data-test-modal="delete-members"]')).to.exist;
+            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('10 members');
+
+            await click('[data-test-button="confirm"]');
+
+            expect(find('[data-test-modal="delete-members')).to.not.exist;
+            expect(find('[data-test-list-header]')).to.contain.text('20 members');
+            expect(find('[data-test-dropdown="label-filter"]')).to.contain.text('All labels');
+        });
+
+        it('displays errors if any members fail to delete', async function () {
+            // mock partial failure in DEL /members/
+            this.server.del('/members/', {
+                meta: {
+                    stats: {
+                        deleted: {
+                            count: 2
+                        },
+                        invalid: {
+                            count: 5,
+                            errors: [
+                                {
+                                    message: 'Not found',
+                                    count: 3
+                                },
+                                {
+                                    message: 'Unknown error',
+                                    count: 2
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+
+            let label = this.server.create('label');
+            this.server.createList('member', 12, {labels: [label]});
+
+            await visit('/members');
+            await click('[data-test-dropdown="label-filter"]');
+            await click(`[data-test-label-filter="${label.slug}"]`);
+            await click('[data-test-button="bulk-delete"');
+            await click('[data-test-button="confirm"]');
+
+            expect(find('[data-test-modal="delete-members"]')).to.exist;
+            expect(find('[data-test-state="delete-complete"]')).to.exist;
+            expect(find('[data-test-text="delete-count"]')).to.have.text('2');
+            expect(find('[data-test-text="invalid-count"]')).to.have.text('5');
+            expect(findAll('[data-test-delete-error]')).to.have.length(2);
+            expect(findAll('[data-test-delete-error]')[0]).to.have.text('Not found (3)');
+            expect(findAll('[data-test-delete-error]')[1]).to.have.text('Unknown error (2)');
+
+            await click('[data-test-button="close-modal"]');
+
+            expect(find('[data-test-modal="delete-members"]')).to.not.exist;
+        });
+    });
 });
