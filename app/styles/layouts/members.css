@@ -256,8 +256,23 @@ p.gh-members-list-email {
 }
 
 @media (max-width: 900px) {
-    .members-list .gh-list-header, .gh-list-hidecell-m {
+    .members-list .gh-list-row.header {
+        display: flex;
+        background: var(--whitegrey-l2);
+        border-bottom: 1px solid var(--lightgrey);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin-bottom: 0;
+    }
+
+    .members-list .gh-list-header:not(:first-of-type) {
         display: none;
+    }
+
+    .members-list .gh-list-header, .gh-list-hidecell-m {
+        display: block;
+        background: none;
+        border-bottom: none;
     }
 
     .gh-members-list-item {
