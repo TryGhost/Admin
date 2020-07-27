@@ -408,6 +408,11 @@ svg.gh-btn-icon-right {
     color: var(--red);
 }
 
+.gh-btn-red-hover:hover {
+    color: var(--red);
+    border-color: var(--red);
+}
+
 
 /*
 /* Button Variations

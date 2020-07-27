@@ -294,3 +294,46 @@
     height: 9px;
     margin-top: 8px;
 }
+
+.gh-list-header-actioncontainer {
+    display: flex;
+    align-items: center;
+}
+
+.gh-list-actions {
+    display: flex;
+    align-items: center;
+}
+
+.gh-list-action-divider {
+    display: inline-block;
+    border-left: 1px solid var(--lightgrey-d1);
+    height: 24px;
+    margin: 0 12px;
+}
+
+.gh-list-actions button {
+    height: 26px;
+    line-height: 25px;
+    border: 1px solid var(--lightgrey);
+    background: var(--white);
+    outline: none;
+    transition-property: all;
+}
+
+.gh-list-actions button:hover {
+    outline: none;
+    border-color: 1px solid var(--lightgrey-d2);
+    transition-property: all;
+}
+
+.gh-list-actions button span {
+    height: 24px;
+    line-height: 23px;
+}
+
+.gh-list-actions .gh-btn-red span {
+    background: var(--white);
+    color: var(--red);
+    font-weight: 500;
+}

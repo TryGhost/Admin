@@ -85,11 +85,7 @@ export default class MembersController extends Controller {
         let count = `${formatNumber(members.length)} ${pluralize(members.length, 'member', {withoutCount: true})}`;
 
         if (selectedLabel && selectedLabel.slug) {
-            if (members.length > 1) {
-                return `${count} match current filter`;
-            } else {
-                return `${count} matches current filter`;
-            }
+            return `${count}`;
         }
 
         return count;

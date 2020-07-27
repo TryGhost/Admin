@@ -61,14 +61,19 @@
                     {{#if this.members}}
                         <li class="gh-list-row header relative">
                             <div class="gh-list-header" data-test-list-header>
+                                <div class="gh-list-header-actioncontainer">
                                 {{this.listHeaderText}}
                                 {{#if this.config.enableDeveloperExperiments}}
-                                {{#if this.canBulkDelete}}
-                                    <button class="gh-btn gh-btn-red" {{on "click" this.toggleDeleteMembersModal}} data-test-button="bulk-delete">
-                                        <span style="height: 20px; line-height: 20px; padding: 0 6px">Delete</span>
-                                    </button>
+                                    {{#if this.canBulkDelete}}
+                                        <div class="gh-list-actions">
+                                            <span class="gh-list-action-divider"></span>
+                                            <button class="gh-btn gh-btn-red-hover" {{on "click" this.toggleDeleteMembersModal}} data-test-button="bulk-delete">
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                    {{/if}}
                                 {{/if}}
-                                {{/if}}
+                                </div>
                             </div>
                             <div class="gh-list-header gh-members-list-geolocation gh-list-cellwidth-20 nowrap">Location</div>
                             <div class="gh-list-header gh-members-list-subscribed-at gh-list-cellwidth-20 nowrap">Created</div>

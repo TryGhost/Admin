@@ -1,5 +1,5 @@
 <header class="modal-header" data-test-modal="delete-members">
-    <h1>Are you sure?</h1>
+    <h1>Bulk delete members</h1>
 </header>
 <a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
@@ -10,18 +10,18 @@
                 <div class="gh-loading-spinner"></div>
             </div>
         {{else}}
+        {{#if this.paidMemberCount}}
             <p data-test-text="delete-confirmation">
-                {{#if this.paidMemberCount}}
-                    <strong>{{pluralize this.paidMemberCount "member"}}</strong>
-                    {{if (eq this.paidMemberCount 1) "has" "have"}} an active Stripe subscription.
-                    Deleting from Ghost <strong>will not cancel their subscription in Stripe</strong>,
-                    you have to do that manually in Stripe.
-                {{else}}
-                    You're about to delete
-                    <strong data-test-text="delete-count">{{gh-pluralize this.model.memberCount "member"}}</strong>.
-                    This is permanent! We warned you, k?
-                {{/if}}
+                This will delete <strong data-test-text="delete-count">{{gh-pluralize this.model.memberCount "member account"}}</strong> from Ghost. You can re-import them again later, if needed, as long as you have a backup of their details.
             </p>
+            <p>
+                Active subscriptions in Stripe will <strong>not be changed</strong> in any way, this action will only remove member accounts from Ghost.
+            </p>
+        {{else}}
+            <p data-test-text="delete-confirmation">
+                This will delete <strong data-test-text="delete-count">{{gh-pluralize this.model.memberCount "member account"}}</strong> from Ghost. You can re-import them again later, if needed, as long as you have a backup of their details.
+            </p>
+        {{/if}}
         {{/if}}
     </div>
 {{else}}
@@ -75,7 +75,7 @@
 
         <GhTaskButton
             @disabled={{this.countPaidMembersTask.isRunning}}
-            @buttonText="Delete"
+            @buttonText="Delete {{gh-pluralize this.model.memberCount "member"}}"
             @successText="Deleted"
             @task={{this.deleteMembersTask}}
             @class="gh-btn gh-btn-red gh-btn-icon"
