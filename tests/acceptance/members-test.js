@@ -201,7 +201,7 @@ describe('Acceptance: Members', function () {
             await click('[data-test-button="bulk-delete"');
 
             expect(find('[data-test-modal="delete-members"]')).to.exist;
-            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('100 members');
+            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('100 member accounts');
 
             await click('[data-test-button="confirm"]');
 
@@ -230,7 +230,7 @@ describe('Acceptance: Members', function () {
             await click('[data-test-button="bulk-delete"');
 
             expect(find('[data-test-modal="delete-members"]')).to.exist;
-            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('10 members');
+            expect(find('[data-test-text="delete-confirmation"]')).to.contain.text('60 member accounts');
 
             await click('[data-test-button="confirm"]');
 
