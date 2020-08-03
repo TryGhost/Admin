@@ -5917,7 +5917,7 @@ ember-cli@3.20.0:
     watch-detector "^1.0.0"
     yam "^1.0.0"
 
-ember-compatibility-helpers@^1.1.1, ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0:
+ember-compatibility-helpers@^1.1.1, ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-compatibility-helpers@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.1.tgz#87c92c4303f990ff455c28ca39fb3ee11441aa16"
   integrity sha512-6wzYvnhg1ihQUT5yGqnLtleq3Nv5KNv79WhrEuNU9SwR4uIxCO+KpyC7r3d5VI0EM7/Nmv9Nd0yTkzmTMdVG1A==
@@ -6182,15 +6182,16 @@ ember-modifier-manager-polyfill@^1.1.0, ember-modifier-manager-polyfill@^1.2.0:
     ember-cli-version-checker "^2.1.2"
     ember-compatibility-helpers "^1.2.0"
 
-ember-modifier@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ember-modifier/-/ember-modifier-1.0.3.tgz#ab18250666aad17c0d9170feb178e954148eb4ed"
-  integrity sha512-vWuFyvdkULUyasvEXxe5lcfuPZV/Uqe+b0IQ1yU+TY1RSJnFdVUu/CVHT8Bu4HUJInqzAihwPMTwty7fypzi5Q==
+ember-modifier@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ember-modifier/-/ember-modifier-1.0.4.tgz#9ad1e16f83d4d315daf7a0b828fe96cbd67925f5"
+  integrity sha512-AkflmmMn1iLEwCNvavdtoyuZGLPtujypAyNW/0+aN9uCGqOEtpIxaLqz5E9SII8OVGuFTHJ8a6GwpLNGfuauYA==
   dependencies:
     ember-cli-babel "^7.11.1"
     ember-cli-is-package-missing "^1.0.0"
     ember-cli-normalize-entity-name "^1.0.0"
     ember-cli-string-utils "^1.1.0"
+    ember-compatibility-helpers "^1.2.1"
     ember-modifier-manager-polyfill "^1.2.0"
 
 ember-moment@8.0.0:
