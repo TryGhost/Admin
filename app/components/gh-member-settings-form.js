@@ -3,12 +3,15 @@ import moment from 'moment';
 import {computed} from '@ember/object';
 import {gt} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
+import {task} from 'ember-concurrency';
 
 export default Component.extend({
     membersUtils: service(),
     feature: service(),
     config: service(),
     mediaQueries: service(),
+    ghostPaths: service(),
+    ajax: service(),
 
     // Allowed actions
     setProperty: () => {},
@@ -49,6 +52,38 @@ export default Component.extend({
     actions: {
         setProperty(property, value) {
             this.setProperty(property, value);
+        },
+
+        cancelSubscription(subscriptionId) {
+            this.cancelSubscription.perform(subscriptionId);
+        },
+
+        continueSubscription(subscriptionId) {
+            this.continueSubscription.perform(subscriptionId);
         }
-    }
+    },
+
+    cancelSubscription: task(function* (subscriptionId) {
+        let url = this.get('ghostPaths.url').api('members', this.member.get('id'), 'subscriptions', subscriptionId);
+
+        let response = yield this.ajax.put(url, {
+            data: {
+                cancel_at_period_end: true
+            }
+        });
+
+        return response;
+    }).drop(),
+
+    continueSubscription: task(function* (subscriptionId) {
+        let url = this.get('ghostPaths.url').api('members', this.member.get('id'), 'subscriptions', subscriptionId);
+
+        let response = yield this.ajax.put(url, {
+            data: {
+                cancel_at_period_end: false
+            }
+        });
+
+        return response;
+    }).drop()
 });

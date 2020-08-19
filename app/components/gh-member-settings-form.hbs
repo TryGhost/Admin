@@ -152,8 +152,18 @@
                                     <td class="gh-member-stripe-data">
                                         {{#if subscription.cancelAtPeriodEnd}}
                                             No further renewal
+                                            <a {{action "continueSubscription" subscription.id}} href="" role="button" title="Continue"
+                                                data-tooltip="Continue Subscription">
+                                                Continue
+                                            </a>
                                         {{else}}
-                                            {{subscription.validUntil}}
+                                            <div>
+                                                {{subscription.validUntil}}
+                                                <a {{action "cancelSubscription" subscription.id}} href="" role="button" title="Cancel"
+                                                    data-tooltip="Cancel Subscription">
+                                                    Cancel
+                                                </a>
+                                            </div>
                                         {{/if}}
                                     </td>
                                 </tr>
