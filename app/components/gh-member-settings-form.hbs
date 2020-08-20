@@ -152,21 +152,37 @@
                                     <td class="gh-member-stripe-data">
                                         {{#if subscription.cancelAtPeriodEnd}}
                                             No further renewal
-                                            <a {{action "continueSubscription" subscription.id}} href="" role="button" title="Continue"
-                                                data-tooltip="Continue Subscription">
-                                                Continue
-                                            </a>
                                         {{else}}
-                                            <div>
-                                                {{subscription.validUntil}}
-                                                <a {{action "cancelSubscription" subscription.id}} href="" role="button" title="Cancel"
-                                                    data-tooltip="Cancel Subscription">
-                                                    Cancel
-                                                </a>
-                                            </div>
+                                            {{subscription.validUntil}}
                                         {{/if}}
                                     </td>
                                 </tr>
+                                {{#if (eq subscription.status "active")}}
+                                    <tr>
+                                        <td class="gh-member-stripe-label"></td>
+                                        <td class="gh-member-stripe-data">
+                                            {{#if subscription.cancelAtPeriodEnd}}
+                                                <GhTaskButton
+                                                    @buttonText="Continue Subscription"
+                                                    @successText=""
+                                                    @task={{this.continueSubscription}}
+                                                    @taskArgs={{subscription.id}}
+                                                    @class="gh-btn gh-btn-green gh-btn-icon"
+                                                    data-test-button="continue-subscription"
+                                                />
+                                            {{else}}
+                                                <GhTaskButton
+                                                    @buttonText="Cancel Subscription"
+                                                    @successText=""
+                                                    @task={{this.cancelSubscription}}
+                                                    @taskArgs={{subscription.id}}
+                                                    @class="gh-btn gh-btn-red gh-btn-icon"
+                                                    data-test-button="cancel-subscription"
+                                                />
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                {{/if}}
                             </table>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ export default Component.extend({
     mediaQueries: service(),
     ghostPaths: service(),
     ajax: service(),
+    store: service(),
 
     // Allowed actions
     setProperty: () => {},
@@ -52,14 +53,6 @@ export default Component.extend({
     actions: {
         setProperty(property, value) {
             this.setProperty(property, value);
-        },
-
-        cancelSubscription(subscriptionId) {
-            this.cancelSubscription.perform(subscriptionId);
-        },
-
-        continueSubscription(subscriptionId) {
-            this.continueSubscription.perform(subscriptionId);
         }
     },
 
@@ -72,6 +65,7 @@ export default Component.extend({
             }
         });
 
+        this.store.pushPayload('member', response);
         return response;
     }).drop(),
 
@@ -84,6 +78,7 @@ export default Component.extend({
             }
         });
 
+        this.store.pushPayload('member', response);
         return response;
     }).drop()
 });
