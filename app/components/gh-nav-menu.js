@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
-import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {and, equal, match, or} from '@ember/object/computed';
 import {computed} from '@ember/object';
@@ -83,17 +82,6 @@ export default Component.extend(ShortcutsMixin, {
         toggleBillingModal() {
             this.billing.openBillingWindow(this.router.currentURL);
         }
-    },
-
-    // equivalent to "left: auto; right: -20px"
-    userDropdownPosition(trigger, dropdown) {
-        let {horizontalPosition, verticalPosition, style} = calculatePosition(...arguments);
-        let {width: dropdownWidth} = dropdown.firstElementChild.getBoundingClientRect();
-
-        style.right += (dropdownWidth - 20);
-        style['z-index'] = 1100;
-
-        return {horizontalPosition, verticalPosition, style};
     },
 
     _setIconStyle() {

@@ -196,7 +196,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow: visible;
 }
 
 /* Global search
