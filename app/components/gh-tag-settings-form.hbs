@@ -129,7 +129,7 @@
                         @id="canonical-url"
                         @name="canonicalUrl"
                         @tabindex="4"
-                        @value={{this.scratchTag.canonicalUrl}}
+                        @value={{this.tag.canonicalUrl}}
                         @focus-out={{action "validateCanonicalUrl"}}
                     />
                     <GhErrorMessage @errors={{this.tag.errors}} @property="canonicalUrl" />
@@ -179,8 +179,8 @@
                         @name="twitterTitle"
                         @placeholder={{this.scratchTag.name}}
                         @tabindex="4"
-                        @value={{this.scratchTag.twitterTitle}}
-                        @focus-out={{action "setProperty" "twitterTitle" this.scratchTag.twitterTitle}}
+                        @value={{this.tag.twitterTitle}}
+                        @focus-out={{action "setProperty" "twitterTitle" this.tag.twitterTitle}}
                     />
                     <GhErrorMessage @errors={{this.tag.errors}} @property="twitterTitle" />
                     <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.twitterTitle 70}}</p>
@@ -194,8 +194,8 @@
                         @class="gh-tag-details-textarea"
                         @placeholder={{this.scratchTag.description}}
                         @tabindex="5"
-                        @value={{this.scratchTag.twitterDescription}}
-                        @focus-out={{action "setProperty" "twitterDescription" this.scratchTag.twitterDescription}}
+                        @value={{this.tag.twitterDescription}}
+                        @focus-out={{action "setProperty" "twitterDescription" this.tag.twitterDescription}}
                     />
                     <GhErrorMessage @errors={{this.tag.errors}} @property="twitterDescription" />
                     <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.twitterDescription 156}}</p>
@@ -256,8 +256,8 @@
                         @name="ogTitle"
                         @placeholder={{this.scratchTag.name}}
                         @tabindex="4"
-                        @value={{this.scratchTag.ogTitle}}
-                        @focus-out={{action "setProperty" "ogTitle" this.scratchTag.ogTitle}}
+                        @value={{this.tag.ogTitle}}
+                        @focus-out={{action "setProperty" "ogTitle" this.tag.ogTitle}}
                     />
                     <GhErrorMessage @errors={{this.tag.errors}} @property="ogTitle" />
                     <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.ogTitle 70}}</p>
@@ -271,8 +271,8 @@
                         @class="gh-tag-details-textarea"
                         @placeholder={{this.scratchTag.description}}
                         @tabindex="5"
-                        @value={{this.scratchTag.ogDescription}}
-                        @focus-out={{action "setProperty" "ogDescription" this.scratchTag.ogDescription}}
+                        @value={{this.tag.ogDescription}}
+                        @focus-out={{action "setProperty" "ogDescription" this.tag.ogDescription}}
                     />
                     <GhErrorMessage @errors={{this.tag.errors}} @property="ogDescription" />
                     <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.ogDescription 156}}</p>
@@ -316,26 +316,27 @@
         <div class="mt6 flex flex-column flex-row-ns flex-wrap items-start justify-between">
             <GhFormGroup @class="settings-code" @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="codeinjectionHead">
                 <label for="codeinjection-head" class="gh-tag-setting-codeheader">Tag header <code class="fw4 ml1">\{{ghost_head}}</code></label>
-                <GhCmEditor @value={{this.codeinjectionHeadScratch}}
+
+                <GhCmEditor @value={{this.tag.codeinjectionHead}}
                     @id="tag-setting-codeinjection-head"
                     @class="gh-tag-setting-codeinjection"
                     @name="tag-setting-codeinjection-head"
-                    @focusOut={{action "setProperty" "codeinjectionHead" this.codeinjectionHeadScratch}}
+                    @focusOut={{action "setProperty" "codeinjectionHead" this.tag.codeinjectionHead}}
                     @stopEnterKeyDownPropagation="true"
-                    @update={{action (mut this.codeinjectionHeadScratch)}}
+                    @update={{action (mut this.tag.codeinjectionHead)}}
                 />
                 <GhErrorMessage @errors={{this.tag.errors}} @property="codeinjectionHead"/>
             </GhFormGroup>
 
             <GhFormGroup @class="settings-code" @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="codeinjectionFoot">
                 <label for="codeinjection-foot"class="gh-tag-setting-codeheader">Tag footer <code class="fw4 ml1">\{{ghost_foot}}</code></label>
-                <GhCmEditor @value={{this.codeinjectionfootScratch}}
+                <GhCmEditor @value={{this.tag.codeinjectionFoot}}
                     @id="tag-setting-codeinjection-foot"
                     @class="gh-tag-setting-codeinjection"
                     @name="tag-setting-codeinjection-foot"
-                    @focusOut={{action "setProperty" "codeinjectionFoot" this.codeinjectionFootScratch}}
+                    @focusOut={{action "setProperty" "codeinjectionFoot" this.tag.codeinjectionFoot}}
                     @stopEnterKeyDownPropagation="true"
-                    @update={{action (mut this.codeinjectionFootScratch)}}
+                    @update={{action (mut this.tag.codeinjectionFoot)}}
                 />
                 <GhErrorMessage @errors={{this.tag.errors}} @property="codeinjectionFoot"/>
             </GhFormGroup>
