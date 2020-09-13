@@ -6,6 +6,11 @@ import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 //Author
+/**
+ * This file has test cases to add a post successfully.
+ * Verify the post published successfully. 
+ * Verify the post published on scheduled date.
+ */
 describe('Post: Content', function () {
     let hooks = setupApplicationTest();
     setupMirage(hooks);
