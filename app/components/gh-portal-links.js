@@ -22,6 +22,17 @@ export default Component.extend({
         this.siteUrl = this.config.get('blogUrl');
     },
 
+    didInsertElement() {
+        this._super(...arguments);
+        let siteUrlSpans = this.element.querySelectorAll('div p button');
+        const width = siteUrlSpans[0] ? siteUrlSpans[0].offsetWidth : 0;
+        if (width > 100) {
+            siteUrlSpans.forEach(function (urlSpan) {
+                urlSpan.classList.add('hide');
+            });
+        }
+    },
+
     actions: {
         toggleShowLinks() {
             this.toggleProperty('isLink');
