@@ -3,7 +3,7 @@
         <div class="gh-portal-settings-sidebar">
             <h2 class="f4 fw6 pa0 ma0 flex bb b--whitegrey nl6 nr6 pl6 pr6 mb1 items-center gh-portal-settings-topbarheight">Portal settings</h2>
             <fieldset class="gh-portal-settings-form">
-                <div class="gh-portal-setting-section">
+                <div class="gh-portal-setting-section" onclick={{action "switchToSignupPage"}}>
                     <h3 class="gh-portal-setting-sectionheading">Signup options</h3>
                     <GhFormGroup @classNames="gh-members-subscribed-checkbox pb5 mb0">
                         <div class="flex justify-between items-center">
@@ -92,7 +92,7 @@
                     </div>
                     {{/if}}
                 </div>
-                <div class="gh-portal-setting-section divider-top">
+                <div class="gh-portal-setting-section divider-top" onclick={{action "switchToSignupPage"}}>
                     <h3 class="gh-portal-setting-sectionheading"> Look &amp; Feel </h3>
                     <GhFormGroup @classNames="flex">
                         <div class="flex w-100 items-center justify-between">
