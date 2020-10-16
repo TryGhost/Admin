@@ -470,12 +470,12 @@
 }
 
 .gh-portal-links-group-divider {
-    margin: 8px 0;
+    margin: 8px -32px;
     border-top-color: var(--lightgrey);
 }
 
 .gh-portal-links-group-divider.first {
-    margin-top: -8px;
+    margin-top: -4px;
 }
 
 .gh-portal-custom-icon {
