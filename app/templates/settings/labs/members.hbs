@@ -1,0 +1,58 @@
+<section class="gh-canvas">
+    <GhCanvasHeader class="gh-canvas-header">
+        <h2 class="gh-canvas-title" data-test-screen-title>
+            <LinkTo @route="settings.labs">Labs</LinkTo> > Members
+        </h2>
+    </GhCanvasHeader>
+
+    <section class="view-container settings-debug">
+        <p class="gh-box gh-box-tip">{{svg-jar "idea"}}This is a testing ground for new or experimental features. They may change, break or inexplicably disappear at any time.</p>
+
+        {{#if this.session.user.isOwner}}
+        <div class="gh-setting-header">Members (BETA) </div>
+        <div class="flex flex-column br3 shadow-1 bg-grouped-table mt2">
+            <div class="gh-setting-first gh-setting-last">
+                <div class="gh-members-setting-content">
+                    <div class="flex">
+                        <div class="flex flex-column flex-grow-1">
+                            <div class="gh-setting-title pl5 pt5">Enable members</div>
+                            <div class="gh-setting-desc pl5 pb5">Create registered members and take subscription payments — <a href="https://ghost.org/docs/members/" target="_blank" rel="noopener">Find out more</a></div>
+                        </div>
+                        <div class="gh-setting-action">
+                            <div class="for-switch pa5">
+                                <GhFeatureFlag @flag="members" @testKey="enable-members"/>
+                            </div>
+                        </div>
+                    </div>
+                    {{#liquid-if this.feature.labs.members}}
+                    <GhMembersLabSetting
+                        @settings={{this.settings}}
+                        @fromAddress={{this.fromAddress}}
+                        @supportAddress={{this.supportAddress}}
+                        @setDefaultContentVisibility={{action "setDefaultContentVisibility"}}
+                        @setStripeConnectIntegrationTokenSetting={{action "setStripeConnectIntegrationTokenSetting"}}
+                        @setEmailAddress={{action "setEmailAddress"}}
+                    />
+                    <div class="mt5 pl5 pr5 pb5">
+                        <GhTaskButton @buttonText="Save members settings"
+                            @task={{this.saveSettings}}
+                            @successText="Saved"
+                            @runningText="Saving"
+                            @class="gh-btn gh-btn-blue gh-btn-icon"
+                            data-test-button="save-members-settings"
+                        />
+                    </div>
+                    {{/liquid-if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        
+    </section>
+</section>
+
+{{#if this.showDeleteAllModal}}
+    <GhFullscreenModal @modal="delete-all"
+        @close={{action "toggleDeleteAllModal"}}
+        @modifier="action wide" />
+{{/if}}
