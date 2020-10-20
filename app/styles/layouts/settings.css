@@ -645,6 +645,10 @@
     font-size: 10px;
 }
 
+.gh-setting-linkrow:hover {
+    background: var(--whitegrey-l2);
+}
+
 /* Themes
 /* ---------------------------------------------------------- */
 
