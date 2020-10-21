@@ -496,6 +496,10 @@ Usage: CTA buttons grouped together horizontally.
     box-shadow: none;
 }
 
+.gh-btn-link.blue {
+    color: var(--blue);
+}
+
 
 /* Spin Buttons!
 /* ---------------------------------------------------------- */
