@@ -17,12 +17,10 @@
     </GhCanvasHeader>
 
     <section class="view-container settings-debug">
-        <p class="gh-box gh-box-tip">{{svg-jar "idea"}}This is a testing ground for new or experimental features. They may change, break or inexplicably disappear at any time.</p>
 
         {{#if this.session.user.isOwner}}
-        <div class="gh-setting-header"></div>
         <div class="flex flex-column br3 shadow-1 bg-grouped-table mt2 pa5">
-            <div class="gh-setting-first {{unless this.feature.labs.members 'gh-setting-last'}}">
+            <div class="gh-setting-first gh-setting-last">
                 <div class="gh-members-setting-content">
                     <div class="gh-setting-title">Enable members</div>
                     <div class="gh-setting-desc">Create registered members and take subscription payments — <a href="https://ghost.org/docs/members/" target="_blank" rel="noopener">Find out more</a></div>
@@ -33,43 +31,22 @@
                     </div>
                 </div>
             </div>
-            {{#if (and this.feature.labs.members (or (enable-developer-experiments) this.config.portal))}}
-            <div class="gh-setting-last">
-                <div class="gh-setting-content">
-                    <h4 class="gh-setting-title">Portal settings</h4>
-                    <p class="gh-setting-desc pa0 ma0">Customize members modal signup flow</p>
-                </div>
-                <div class="gh-setting-action">
-                    <button type="button" class="gh-btn" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom><span> Customize </span></button>
-                </div>
-            </div>
-            {{/if}}
         </div>
 
-        {{#liquid-if this.feature.labs.members}}
-        <GhMembersLabSetting
-            @settings={{this.settings}}
-            @fromAddress={{this.fromAddress}}
-            @supportAddress={{this.supportAddress}}
-            @setDefaultContentVisibility={{action "setDefaultContentVisibility"}}
-            @setStripeConnectIntegrationTokenSetting={{action "setStripeConnectIntegrationTokenSetting"}}
-            @setEmailAddress={{action "setEmailAddress"}}
-        />
-        {{/liquid-if}}
+        <div class="gh-setting-liquid-section">
+            {{#liquid-if this.feature.labs.members}}
+            <GhMembersLabSetting
+                @settings={{this.settings}}
+                @fromAddress={{this.fromAddress}}
+                @supportAddress={{this.supportAddress}}
+                @setDefaultContentVisibility={{action "setDefaultContentVisibility"}}
+                @setStripeConnectIntegrationTokenSetting={{action "setStripeConnectIntegrationTokenSetting"}}
+                @setEmailAddress={{action "setEmailAddress"}}
+            />
+            {{/liquid-if}}
+        </div>
 
         {{/if}}
         
     </section>
 </section>
-
-{{#if this.showPortalSettings}}
-    <GhFullscreenModal @modal="portal-settings"
-        @close={{action "closePortalSettings"}}
-        @modifier="full-overlay portal-settings" />
-{{/if}}
-{{#if this.showLeaveSettingsModal}}
-    <GhFullscreenModal @modal="leave-settings"
-        @confirm={{action "leavePortalSettings"}}
-        @close={{action "closeLeaveSettingsModal"}}
-        @modifier="action wide" />
-{{/if}}

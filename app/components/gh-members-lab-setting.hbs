@@ -1,5 +1,20 @@
 <div class="flex flex-column b--whitegrey bt mb5">
 
+    {{#if (and this.feature.labs.members (or (enable-developer-experiments) this.config.portal))}}
+    <div class="gh-setting-header">Portal</div>
+    <section class="flex flex-column br3 shadow-1 bg-grouped-table mt1 pa5 relative gh-settings-portal-section">
+        <div class="gh-setting-last gh-setting-first relative">
+            <div class="gh-setting-content">
+                <h4 class="gh-setting-title">Portal settings</h4>
+                <p class="gh-setting-desc pa0 ma0">Customize members modal signup flow</p>
+            </div>
+            <div class="gh-setting-action">
+                <button type="button" class="gh-btn gh-btn-outline blue" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom><span> Customize </span></button>
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
     <div class="gh-setting-header">Payments</div>
     <section class="flex flex-column br3 shadow-1 bg-grouped-table mt1 pa5">
         {{#if this.stripeDirect}}
@@ -206,7 +221,7 @@
         {{/liquid-if}}
     </section>
 
-    <div class="gh-setting-header">Restrictions</div>
+    <div class="gh-setting-header">Access</div>
     <section class="flex flex-column br3 shadow-1 bg-grouped-table mt1 pa5">
         <div class="gh-setting-first">
             <div class="gh-setting-content">
@@ -265,7 +280,7 @@
         {{/liquid-if}}
     </section>
 
-    <div class="gh-setting-header">Email settings</div>
+    <div class="gh-setting-header">Email</div>
     <section class="flex flex-column br3 shadow-1 bg-grouped-table mt1 pa5">
         <div class="gh-setting-first">
             <div class="gh-setting-content">
@@ -435,5 +450,17 @@
         }}
         @confirm={{action "disconnectStripeConnectIntegration"}}
         @close={{action "closeDisconnectStripeModal"}}
+        @modifier="action wide" />
+{{/if}}
+
+{{#if this.showPortalSettings}}
+    <GhFullscreenModal @modal="portal-settings"
+        @close={{action "closePortalSettings"}}
+        @modifier="full-overlay portal-settings" />
+{{/if}}
+{{#if this.showLeaveSettingsModal}}
+    <GhFullscreenModal @modal="leave-settings"
+        @confirm={{action "leavePortalSettings"}}
+        @close={{action "closeLeaveSettingsModal"}}
         @modifier="action wide" />
 {{/if}}

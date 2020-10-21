@@ -19,8 +19,6 @@ export default Controller.extend({
     importErrors: null,
     importSuccessful: false,
     showDeleteAllModal: false,
-    showLeaveSettingsModal: false,
-    showPortalSettings: false,
     submitting: false,
     uploadButtonText: 'Import',
 
@@ -51,19 +49,6 @@ export default Controller.extend({
     }),
 
     actions: {
-        closePortalSettings() {
-            const changedAttributes = this.settings.changedAttributes();
-            if (changedAttributes && Object.keys(changedAttributes).length > 0) {
-                this.set('showLeaveSettingsModal', true);
-            } else {
-                this.set('showPortalSettings', false);
-            }
-        },
-
-        closeLeaveSettingsModal() {
-            this.set('showLeaveSettingsModal', false);
-        },
-        
         setDefaultContentVisibility(value) {
             this.set('settings.defaultContentVisibility', value);
         },
@@ -74,12 +59,6 @@ export default Controller.extend({
 
         setEmailAddress(type, emailAddress) {
             this.set(type, emailAddress);
-        },
-        
-        leavePortalSettings() {
-            this.settings.rollbackAttributes();
-            this.set('showPortalSettings', false);
-            this.set('showLeaveSettingsModal', false);
         }
     },
 

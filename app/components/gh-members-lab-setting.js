@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
+import {htmlSafe} from '@ember/string';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -75,6 +76,8 @@ export default Component.extend({
     stripeConnectAccountId: reads('settings.stripeConnectAccountId'),
     stripeConnectAccountName: reads('settings.stripeConnectDisplayName'),
     stripeConnectLivemode: reads('settings.stripeConnectLivemode'),
+
+    portalSettingsBorderColor: reads('settings.accentColor'),
 
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
         return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));

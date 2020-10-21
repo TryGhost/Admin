@@ -96,6 +96,32 @@
     border: 1px solid var(--lightgrey);
 }
 
+.gh-setting-liquid-section .liquid-container,
+.gh-setting-liquid-section .liquid-child {
+    padding: 0 20px;
+    margin: 0 -20px;
+}
+
+.gh-settings-portal-section {
+    box-shadow:
+        0 0 1px rgba(0,0,0,.07),
+        0 1.5px 1.2px -11px rgba(0, 0, 0, 0.028),
+        0 5.1px 4px -11px rgba(0, 0, 0, 0.042),
+        0 23px 18px -16px rgba(0, 0, 0, 0.07)
+    ;
+}
+
+.gh-settings-portal-border {
+    position: absolute;
+    content: "";
+    top: -5px;
+    right: -5px;
+    left: -5px;
+    bottom: -5px;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+}
+
 
 /* Images */
 
