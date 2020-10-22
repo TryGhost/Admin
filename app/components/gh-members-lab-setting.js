@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
