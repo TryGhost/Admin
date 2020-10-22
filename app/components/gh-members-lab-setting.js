@@ -308,6 +308,10 @@ export default Component.extend({
             this.settings.rollbackAttributes();
             this.set('showPortalSettings', false);
             this.set('showLeaveSettingsModal', false);
+        },
+
+        openStripeSettings() {
+            this.set('membersStripeOpen', true);
         }
     },
 
