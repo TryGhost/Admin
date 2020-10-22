@@ -2,7 +2,7 @@ import ModalComponent from 'ghost-admin/components/modal-base';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import papaparse from 'papaparse';
 import {
-    UnsupportedMediaTypeError,
+    AcceptedResponse,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
@@ -71,6 +71,7 @@ export default ModalComponent.extend({
 
     labelText: 'Select or drop a CSV file',
 
+    state: 'init',
     // import stages, default is "CSV file selection"
     validating: false,
     customizing: false,
@@ -118,7 +119,7 @@ export default ModalComponent.extend({
 
         if (this.mapping) {
             for (const key in this.mapping.mapping) {
-                if (this.mapping.get(key)){
+                if (this.mapping.get(key)) {
                     // reversing mapping direction to match the structure accepted in the API
                     formData.append(`mapping[${this.mapping.get(key)}]`, key);
                 }
@@ -218,37 +219,6 @@ export default ModalComponent.extend({
         }
     },
 
-    dragOver(event) {
-        if (!event.dataTransfer) {
-            return;
-        }
-
-        // this is needed to work around inconsistencies with dropping files
-        // from Chrome's downloads bar
-        if (navigator.userAgent.indexOf('Chrome') > -1) {
-            let eA = event.dataTransfer.effectAllowed;
-            event.dataTransfer.dropEffect = (eA === 'move' || eA === 'linkMove') ? 'move' : 'copy';
-        }
-
-        event.stopPropagation();
-        event.preventDefault();
-
-        this.set('dragClass', '-drag-over');
-    },
-
-    dragLeave(event) {
-        event.preventDefault();
-        this.set('dragClass', null);
-    },
-
-    drop(event) {
-        event.preventDefault();
-        this.set('dragClass', null);
-        if (event.dataTransfer.files) {
-            this.send('fileSelected', event.dataTransfer.files);
-        }
-    },
-
     generateRequest() {
         let ajax = this.ajax;
         let formData = this.formData;
@@ -261,6 +231,10 @@ export default ModalComponent.extend({
             contentType: false,
             dataType: 'text'
         }).then((importResponse) => {
+            if (importResponse instanceof AcceptedResponse) {
+                console.log('Background job!!');
+                return this._uploadSuccess({});
+            }
             this._uploadSuccess(JSON.parse(importResponse));
         }).catch((error) => {
             this._validationFailed(error);
@@ -296,6 +270,7 @@ export default ModalComponent.extend({
         }
 
         // invoke the passed in confirm action to refresh member data
+        // @TODO wtf does confirm mean?
         this.confirm({label: importResponse.meta.import_label});
     },
 
@@ -330,15 +305,5 @@ export default ModalComponent.extend({
         }
 
         this.set('failureMessage', message);
-    },
-
-    _validateFileType(file) {
-        let [, extension] = (/(?:\.([^.]+))?$/).exec(file.name);
-
-        if (['csv'].indexOf(extension.toLowerCase()) === -1) {
-            return new UnsupportedMediaTypeError();
-        }
-
-        return true;
     }
 });
