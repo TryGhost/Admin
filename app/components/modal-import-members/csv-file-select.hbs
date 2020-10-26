@@ -6,7 +6,7 @@
 {{/if}}
 <div class="upload-form bg-whitegrey-l2 ba b--whitegrey br3">
     <section class="gh-image-uploader gh-members-import-uploader {{this.dragClass}}">
-        <GhFileInput @multiple={{false}} @alt={{this.labelText}} @action={{action "fileSelected"}} @accept={{this.accept}}>
+        <GhFileInput @multiple={{false}} @alt={{this.labelText}} @action={{this.fileSelected}} @accept={{this.accept}}>
         <div class="flex flex-column items-center">
             {{svg-jar "upload" class="w9 h9 mb1 stroke-midgrey"}}
             <div class="description midgrey">{{this.labelText}}</div>

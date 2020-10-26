@@ -1,31 +1,34 @@
-{{#if validationErrors}}
-<div class="failed flex items-start gh-members-upload-errorcontainer {{if this.importDisabled "error" "warning"}}">
+{{#if this.error}}
+<div class="failed flex items-start gh-members-upload-errorcontainer error">
     <div class="mr3">
-        {{#if this.importDisabled}}
         {{svg-jar "warning" class="nudge-top--2 w5 h5 fill-red"}}
-        {{else}}
-        {{svg-jar "warning" class="nudge-top--2 w5 h5 fill-yellow-d1"}}
-        {{/if}}
     </div>
     <div class="ma0">
-        <p class="ma0 pa0 flex-grow w-100">The CSV contains errors! {{unless this.importDisabled "Some members will not be imported."}}</p>
-        {{#if validationErrors}}
+        <p class="ma0 pa0 flex-grow w-100">The import contains errors!</p>
         <ul class="ma0 pa0 mt4 list bt b--whitegrey">
-            {{#each validationErrors as |error|}}
             <li class="gh-members-import-errormessage">
                 <span>{{{error.message}}}</span>
-                {{#if error.context}}
-                <p class="gh-members-import-errorcontext">{{{error.context}}}</p>
-                {{/if}}
             </li>
-            {{/each}}
         </ul>
-        {{/if}}
     </div>
-</div>
-{{else}}
-<div class="bg-whitegrey-l2 ba b--whitegrey br3 gh-image-uploader gh-members-import-spinner">
-    <GhLoadingSpinner />
 </div>
 {{/if}}
 
+{{#if this.fileData}}
+    <GhFormGroup>
+        <div class="gh-members-import-scrollarea">
+            <GhMembersImportTable
+                @data={{this.fileData}}
+                @setMapping={{this.setMapping}}/>
+        </div>
+
+        <div class="mt4">
+            <label for="label-input"><span class="fw6 f8 dib mb1">Label these members</span></label>
+            <GhMemberLabelInput @member={{this.labels}} @triggerId="label-input" />
+        </div>
+    </GhFormGroup>
+{{else}}
+    <div class="bg-whitegrey-l2 ba b--whitegrey br3 gh-image-uploader gh-members-import-spinner">
+        <GhLoadingSpinner />
+    </div>
+{{/if}}

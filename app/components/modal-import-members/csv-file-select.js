@@ -1,34 +1,40 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import {UnsupportedMediaTypeError} from 'ghost-admin/services/ajax';
+import {action} from '@ember/object';
+import {tracked} from '@glimmer/tracking';
 
-export default Component.extend({
-    labelText: 'Select or drop a CSV file',
+export default class CsvFileSelect extends Component {
+    labelText = 'Select or drop a CSV file'
 
-    error: null,
-    dragClass: null,
+    @tracked
+    error = null
+    @tracked
+    dragClass = null
 
-    setFile() {},
+    /*
+    constructor(...args) {
+        super(...args);
+        assert(this.args.setFile);
+    }
+    */
 
-    actions: {
-        fileSelected(fileList) {
-            return this.handleFileSelected(fileList);
-        }
-    },
-
-    handleFileSelected(fileList) {
+    @action
+    fileSelected(fileList) {
         let [file] = Array.from(fileList);
 
         try {
             this._validateFileType(file);
-            this.set('error', null);
+            this.error = null;
         } catch (err) {
-            this.set('error', err);
+            this.error = err;
             return;
         }
 
-        this.setFile(file);
-    },
+        this.args.setFile(file);
+    }
 
+    /*
+    @action
     dragOver(event) {
         if (!event.dataTransfer) {
             return;
@@ -44,21 +50,24 @@ export default Component.extend({
         event.stopPropagation();
         event.preventDefault();
 
-        this.set('dragClass', '-drag-over');
-    },
+        this.dragClass = '-drag-over';
+    }
 
+    @action
     dragLeave(event) {
         event.preventDefault();
-        this.set('dragClass', null);
-    },
+        this.dragClass = null;
+    }
 
+    @action
     drop(event) {
         event.preventDefault();
-        this.set('dragClass', null);
+        this.dragClass = null;
         if (event.dataTransfer.files) {
             this.handleFileSelected(event.dataTransfer.files);
         }
-    },
+    }
+    */
 
     _validateFileType(file) {
         let [, extension] = (/(?:\.([^.]+))?$/).exec(file.name);
@@ -71,4 +80,4 @@ export default Component.extend({
 
         return true;
     }
-});
+}

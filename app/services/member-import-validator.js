@@ -7,13 +7,10 @@ export default Service.extend({
     membersUtils: service(),
     ghostPaths: service(),
 
-    async check(data) {
+    check(data) {
         let sampledData = this._sampleData(data);
         let mapping = this._detectDataTypes(sampledData);
-
-        let validationErrors = [];
-
-        return {validationErrors, mapping};
+        return mapping;
     },
 
     /**
