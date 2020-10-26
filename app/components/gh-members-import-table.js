@@ -55,7 +55,6 @@ export default class GhMembersImportTable extends Component {
     constructor(...args) {
         super(...args);
         const mapping = this.memberImportValidator.check(this.args.data);
-        console.log({mapping});
         this.data = this.args.data;
         this.mapping = new MembersFieldMapping(mapping);
         this.args.setMapping(this.mapping);
@@ -102,7 +101,6 @@ export default class GhMembersImportTable extends Component {
     @action
     updateMapping(mapFrom, mapTo) {
         this.mapping.updateMapping(mapFrom, mapTo);
-        console.log(this.mapping);
         this.args.setMapping(this.mapping);
     }
 
