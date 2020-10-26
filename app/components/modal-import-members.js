@@ -72,6 +72,12 @@ export default ModalComponent.extend({
             this.set('mappingResult', mappingResult);
         },
 
+        upload() {
+            if (this.file && !this.mappingResult.error) {
+                this.generateRequest();
+            }
+        },
+
         reset() {
             this.set('errorMessage', null);
             this.set('file', null);
@@ -79,21 +85,14 @@ export default ModalComponent.extend({
             this.set('state', 'INIT');
         },
 
-        upload() {
-            if (this.file && !this.mappingResult.error) {
-                this.generateRequest();
-            }
-        },
-
-        confirm() {
-            // noop - we don't want the enter key doing anything
-        },
-
         closeModal() {
             if (this.state !== 'UPLOADING') {
                 this._super(...arguments);
             }
-        }
+        },
+
+        // noop - we don't want the enter key doing anything
+        confirm() {}
     },
 
     generateRequest() {
@@ -101,6 +100,7 @@ export default ModalComponent.extend({
         let formData = this.formData;
         let url = this.uploadUrl;
 
+        this.set('state', 'UPLOADING');
         ajax.post(url, {
             data: formData,
             processData: false,
