@@ -792,3 +792,33 @@ p.gh-members-import-errordetail:first-of-type {
         padding: 4px;
     }
 }
+
+/* Email newsletter design settings
+/* -------------------------------------------------------- */
+.gh-members-emailsettings-footer {
+    border-top: 1px solid var(--whitegrey);
+    padding-top: 20px;
+    margin-bottom: 4px;
+}
+
+.gh-members-emailsettings-footer .form-group {
+    align-items: flex-start;
+}
+
+.gh-members-emailsettings-promotelabel {
+    display: flex;
+    align-items: flex-start;
+}
+
+.gh-members-emailsettings-promotelabel svg {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.gh-members-emailsettings-promotelabel svg path {
+    stroke: var(--red);
+}
+
+.gh-members-emailsettings-footer .for-switch {
+    margin-top: -2px;
+}
