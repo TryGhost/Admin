@@ -30,10 +30,11 @@ export default class GhEditorPostStatusComponent extends Component {
         get(this.clock, 'second');
 
         let text = [];
-
-        if (this.args.post.sendEmailWhenPublished) {
-            let paid = this.args.post.visibility === 'paid';
-            text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
+        const sendEmailWhenPublished = this.args.post.sendEmailWhenPublished;
+        if (sendEmailWhenPublished && sendEmailWhenPublished !== 'none') {
+            text.push(`and sent to ${sendEmailWhenPublished} members`);
+            // let paid = this.args.post.visibility === 'paid';
+            // text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
         }
 
         let formattedTime = formatPostTime(

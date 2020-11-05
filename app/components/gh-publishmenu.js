@@ -19,7 +19,7 @@ export default Component.extend({
     postStatus: 'draft',
     runningText: null,
     saveTask: null,
-    sendEmailWhenPublished: false,
+    sendEmailWhenPublished: 'none',
     typedDateError: null,
 
     _publishedAtBlogTZ: null,
@@ -148,6 +148,10 @@ export default Component.extend({
             } else if (saveType === 'publish') {
                 post.set('statusScratch', 'published');
             }
+        },
+
+        setSendEmailWhenPublished(sendEmailWhenPublished) {
+            this.set('sendEmailWhenPublished', sendEmailWhenPublished);
         },
 
         open() {
@@ -286,7 +290,7 @@ export default Component.extend({
         if (
             post.status === 'draft' &&
             !post.email && // email sent previously
-            sendEmailWhenPublished &&
+            sendEmailWhenPublished && sendEmailWhenPublished !== 'none' &&
             !sendEmailConfirmed // set once confirmed so normal save happens
         ) {
             this.openEmailConfirmationModal(dropdown);
@@ -306,7 +310,7 @@ export default Component.extend({
             post = yield this.saveTask.perform({sendEmailWhenPublished});
 
             // revert the email checkbox to avoid weird inbetween states
-            this.set('sendEmailWhenPublished', false);
+            this.set('sendEmailWhenPublished', 'none');
 
             this._cachePublishedAtBlogTZ();
             return post;
@@ -324,7 +328,7 @@ export default Component.extend({
 
     _cleanup() {
         this.set('showConfirmEmailModal', false);
-        this.set('sendEmailWhenPublished', false);
+        this.set('sendEmailWhenPublished', 'none');
 
         // when closing the menu we reset the publishedAtBlogTZ date so that the
         // unsaved changes made to the scheduled date aren't reflected in the PSM

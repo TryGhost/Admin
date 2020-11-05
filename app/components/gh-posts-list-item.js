@@ -14,9 +14,10 @@ export default class GhPostsListItemComponent extends Component {
         let {post} = this.args;
         let text = [];
 
-        if (post.sendEmailWhenPublished) {
-            let paid = post.visibility === 'paid';
-            text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
+        if (post.sendEmailWhenPublished && post.sendEmailWhenPublished !== 'none') {
+            text.push(`and sent to ${post.sendEmailWhenPublished} members`);
+            // let paid = post.visibility === 'paid';
+            // text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
         }
 
         let formattedTime = formatPostTime(
