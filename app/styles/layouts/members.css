@@ -879,6 +879,10 @@ p.gh-members-import-errordetail:first-of-type {
     border-bottom: 1px solid var(--whitegrey);
 }
 
+.gh-members-emailpreview-header.hide {
+    display: none;
+}
+
 .gh-members-emailpreview-header img {
     width: 48px;
     height: 48px;
@@ -945,6 +949,12 @@ p.gh-members-import-errordetail:first-of-type {
     max-width: 560px;
 }
 
+.gh-members-emailpreview-content.sans-serif p {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+    font-size: 1.75rem;
+    line-height: 1.5em;
+}
+
 .gh-members-emailpreview-footer {
     padding: 40px 0 20px;
     display: flex;
@@ -955,10 +965,14 @@ p.gh-members-import-errordetail:first-of-type {
 .gh-members-emailpreview-footercontent {
     margin: 0 0 10px;
     max-width: 380px;
+    font-size: 1.15rem;
+    text-align: center;
+    line-height: 1.4em;
+    color: var(--midgrey-l1);
 }
 
 .gh-members-emailpreview-footercontent p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     text-align: center;
     line-height: 1.4em;
     color: var(--midgrey-l1);
@@ -971,7 +985,7 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-members-emailpreview-footersite {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     text-align: center;
     color: var(--blackgrey);
 }
@@ -985,6 +999,10 @@ p.gh-members-import-errordetail:first-of-type {
     flex-direction: column;
     align-items: center;
     padding: 0 0 25px;
+}
+
+.gh-members-emailpreview-badge.hide {
+    display: none;
 }
 
 .gh-members-emailpreview-badge a {
