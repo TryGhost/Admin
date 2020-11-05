@@ -1,0 +1,11 @@
+<span class="gh-select">
+    <OneWaySelect 
+        {{!-- @value={{this.selectedVisibility}} --}}
+        @options={{this.availableTypographyOptions}}
+        @optionValuePath="name"
+        @optionLabelPath="label"
+        @optionTargetPath="name"
+        @update={{action "updateTypography"}}
+    />
+    {{svg-jar "arrow-down-small"}}
+</span>

@@ -4,20 +4,20 @@
             <div>
                 <h2 class="modal-fullsettings-topbar modal-fullsettings-heading">Email newsletter design</h2>
                 <fieldset class="modal-fullsettings-form">
-                    <div class="modal-fullsettings-section">
+                    <div class="modal-fullsettings-section first">
                         <GhFormGroup>
                             <h4 class="modal-fullsettings-title">Show site logo and title</h4>
                             <div class="for-switch small">
                                 <label
                                     class="switch"
-                                    for="signup-name-checkbox"
+                                    for="show-header"
                                 >
                                     <input
                                         type="checkbox"
                                         {{!-- checked={{this.settings.portalName}} --}}
-                                        id="signup-name-checkbox"
-                                        name="signup-name-checkbox"
-                                        {{!-- onclick={{action "togglePortalName" value="target.checked"}} --}}
+                                        id="show-header"
+                                        name="show-header"
+                                        {{!-- onclick={{action "toggleShowHeader" value="target.checked"}} --}}
                                     >
                                     <span class="input-toggle-component"></span>
                                 </label>
@@ -27,7 +27,22 @@
                     <div class="modal-fullsettings-section">
                         <GhFormGroup @classNames="vertical">
                             <h4 class="modal-fullsettings-title">Typography</h4>
-                            Dropdown
+                            <GhEmaildesignTypographyInput />
+                        </GhFormGroup>
+                    </div>
+
+                    <div class="modal-fullsettings-section">
+                        <GhFormGroup @classNames="vertical">
+                            <h4 class="modal-fullsettings-title">Footer content</h4>
+                            <GhTextarea
+                                @class=""
+                                @id="footer-content"
+                                @name="footer-content"
+                                {{!-- @value={{}} --}}
+                                {{!-- @input={{}} --}}
+                                @stopEnterKeyDownPropagation="true"
+                                {{!-- data-test-field="custom-excerpt" --}}
+                            />
                         </GhFormGroup>
                     </div>
                 </fieldset>
@@ -44,14 +59,14 @@
                     <div class="for-switch small">
                         <label
                             class="switch"
-                            for="signup-name-checkbox"
+                            for="promote-ghost"
                         >
                             <input
                                 type="checkbox"
                                 {{!-- checked={{this.settings.portalName}} --}}
-                                id="signup-name-checkbox"
-                                name="signup-name-checkbox"
-                                {{!-- onclick={{action "togglePortalName" value="target.checked"}} --}}
+                                id="promote-ghost"
+                                name="promote-ghost"
+                                {{!-- onclick={{action "togglePromoteGhost" value="target.checked"}} --}}
                             >
                             <span class="input-toggle-component"></span>
                         </label>

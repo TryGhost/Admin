@@ -228,8 +228,12 @@
 }
 
 .modal-fullsettings-section {
-    margin: 20px -24px;
+    margin: 24px -24px;
     padding: 0 24px;
+}
+
+.modal-fullsettings-section.first {
+    margin-top: 20px;
 }
 
 .modal-fullsettings-section.divider-top {
@@ -255,9 +259,11 @@
 }
 
 .modal-fullsettings-section .form-group.vertical {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    display: block;
+}
+
+.modal-fullsettings-section .form-group.vertical h4 {
+    margin-bottom: 8px;
 }
 
 .modal-fullsettings-section .form-group p {
