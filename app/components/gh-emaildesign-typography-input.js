@@ -2,8 +2,8 @@ import Component from '@ember/component';
 import {inject as service} from '@ember/service';
 
 const TYPOGRAPHY_OPTIONS = [
-    {label: 'Sans-serif', name: 'sans-serif'},
-    {label: 'Serif', name: 'serif'}
+    {label: 'Serif', name: 'serif'},
+    {label: 'Sans-serif', name: 'sans-serif'}
 ];
 
 export default Component.extend({

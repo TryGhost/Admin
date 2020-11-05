@@ -6,7 +6,7 @@
                 <fieldset class="modal-fullsettings-form">
                     <div class="modal-fullsettings-section first">
                         <GhFormGroup>
-                            <h4 class="modal-fullsettings-title">Show site logo and title</h4>
+                            <h4 class="modal-fullsettings-title">Show publication icon and title</h4>
                             <div class="for-switch small">
                                 <label
                                     class="switch"
@@ -15,6 +15,7 @@
                                     <input
                                         type="checkbox"
                                         {{!-- checked={{this.settings.portalName}} --}}
+                                        checked="true"
                                         id="show-header"
                                         name="show-header"
                                         {{!-- onclick={{action "toggleShowHeader" value="target.checked"}} --}}
@@ -27,7 +28,25 @@
                     <div class="modal-fullsettings-section">
                         <GhFormGroup @classNames="vertical">
                             <h4 class="modal-fullsettings-title">Typography</h4>
-                            <GhEmaildesignTypographyInput />
+                            <div class="modal-fullsettings-radiogroup">
+                                <div class="gh-radio active"
+                                    {{!-- {{action "setDefaultContentVisibility" "public" on="click"}} --}}
+                                    >
+                                    <div class="gh-radio-button"></div>
+                                    <div class="gh-radio-content">
+                                        <div class="gh-radio-label">Serif</div>
+                                    </div>
+                                </div>
+                                <div class="gh-radio"
+                                    {{!-- {{action "setDefaultContentVisibility" "public" on="click"}} --}}
+                                    >
+                                    <div class="gh-radio-button"></div>
+                                    <div class="gh-radio-content">
+                                        <div class="gh-radio-label">Sans-serif</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Font style for the email body contents</p>
                         </GhFormGroup>
                     </div>
 
@@ -43,6 +62,7 @@
                                 @stopEnterKeyDownPropagation="true"
                                 {{!-- data-test-field="custom-excerpt" --}}
                             />
+                            <p>Extra content to show at the bottom of all emails</p>
                         </GhFormGroup>
                     </div>
                 </fieldset>
@@ -64,6 +84,7 @@
                             <input
                                 type="checkbox"
                                 {{!-- checked={{this.settings.portalName}} --}}
+                                checked="true"
                                 id="promote-ghost"
                                 name="promote-ghost"
                                 {{!-- onclick={{action "togglePromoteGhost" value="target.checked"}} --}}
@@ -99,7 +120,41 @@
             </div>
 
             <div class="modal-fullsettings-preview-container">
-                [Static email preview]
+                <div class="gh-members-emailpreview-container">
+                    <div class="gh-members-emailpreview-faux">
+                        <p>
+                            <span class="strong">Ghost Site</span> &lt;newsletters@ghostsite.com&gt;
+                        </p>
+                        <p><span class="dark">To:</span> Jamie Larson &lt;jamie@example.com&gt;</p>
+                    </div>
+                    <div class="gh-members-emailpreview-header">
+                        <img src="https://static.ghost.org/v3.0.0/images/ghost-squircle.png" />
+                        <h4>Ghost site</h4>
+                    </div>
+                    <div class="gh-members-emailpreview-title">
+                        <h2>Email newsletter</h2>
+                        <p>
+                            <span>By Jamie Larson – Nov 5 2020 – </span> <a href="javascript:">View online →</a>
+                        </p>
+                    </div>
+                    <div class="gh-members-emailpreview-content">
+                        <p>This is where the contents of your newsletter go. Customise the appearance with the options in the sidebar.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at auctor tellus, in accumsan magna. Sed vel magna velit. Vivamus commodo laoreet malesuada. Nullam efficitur augue et eros fermentum.</p>
+                    </div>
+                    <div class="gh-members-emailpreview-footer">
+                        <div class="gh-members-emailpreview-footercontent">
+                            <p>You are receiving this email because you signed up to exclusive updates at <a href="javascript:">vanschneider.com</a></p> 
+                            <p>Tobias van Schneider, Lendplatz 41, Graz, 6 8010</p>
+                        </div>
+                        <div class="gh-members-emailpreview-footersite">
+                            <span>Ghost Site &copy; – </span> <a href="javascript:">Unsubscribe</a>
+                        </div>
+                    </div>
+                    <div class="gh-members-emailpreview-badge">
+                        <a href="https://ghost.org" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 156 156"><g fill="none" fill-rule="evenodd"><rect fill="#15212B" width="156" height="156" rx="27"></rect><g transform="translate(36 36)" fill="#F6F8FA"><path d="M0 71.007A4.004 4.004 0 014 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0130 84H4a4 4 0 01-4-4.007v-8.986zM50 71.007A4.004 4.004 0 0154 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0180 84H54a4 4 0 01-4-4.007v-8.986z"></path><rect y="34" width="84" height="17" rx="4"></rect><path d="M0 4.007A4.007 4.007 0 014.007 0h41.986A4.003 4.003 0 0150 4.007v8.986A4.007 4.007 0 0145.993 17H4.007A4.003 4.003 0 010 12.993V4.007z"></path><rect x="67" width="17" height="17" rx="4"></rect></g></g></svg> <span>Publish with Ghost</span></a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

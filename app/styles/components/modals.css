@@ -258,6 +258,11 @@
     margin-bottom: 0;
 }
 
+.modal-fullsettings-section .form-group p {
+    font-size: 1.25rem !important;
+    line-height: 1.4em;
+}
+
 .modal-fullsettings-section .form-group.vertical {
     display: block;
 }
@@ -266,9 +271,30 @@
     margin-bottom: 8px;
 }
 
-.modal-fullsettings-section .form-group p {
-    font-size: 1.25rem !important;
-    line-height: 1.4em;
+.modal-fullsettings-section .form-group.vertical p {
+    margin-top: 8px;
+}
+
+.modal-fullsettings-section .gh-select select,
+.modal-fullsettings-section textarea {
+    font-size: 1.4rem;
+}
+
+.modal-fullsettings-radiogroup {
+    margin: 18px 0 0;
+}
+
+.modal-fullsettings-radiogroup .gh-radio {
+    margin-bottom: 14px;
+}
+
+.modal-fullsettings-radiogroup .gh-radio:last-of-type {
+    margin-bottom: 12px;
+}
+
+.modal-fullsettings-radiogroup + p {
+    margin-top: 4px !important;
+    margin-bottom: 28px;
 }
 
 .modal-fullsettings-title {
@@ -286,12 +312,12 @@
 }
 
 .modal-fullsettings-preview-container {
-    position: relative;
-    flex-grow: 1;
     border: 1px solid var(--whitegrey);
     border-radius: 5px;
     overflow: hidden;
     background: var(--whitegrey-l1);
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
 }
 
 /* Content Modifiers
