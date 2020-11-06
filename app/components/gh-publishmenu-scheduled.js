@@ -20,6 +20,14 @@ export default Component.extend({
     disableEmailOption: equal('memberCount', 0),
     showSendEmail: or('session.user.isOwner', 'session.user.isAdmin', 'session.user.isEditor'),
 
+    sendEmailToFreeMembersWhenPublished: computed('post.emailRecipientFilter', function () {
+        return ['free', 'all'].includes(this.post.emailRecipientFilter);
+    }),
+
+    sendEmailToPaidMembersWhenPublished: computed('post.emailRecipientFilter', function () {
+        return ['paid', 'all'].includes(this.post.emailRecipientFilter);
+    }),
+
     timeToPublished: computed('post.publishedAtUTC', 'clock.second', function () {
         let publishedAtUTC = this.get('post.publishedAtUTC');
 

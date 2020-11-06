@@ -105,13 +105,10 @@ export default Component.extend({
                 this.setSendEmailWhenPublished('all');
             } else if (isFree && !isPaid) {
                 this.setSendEmailWhenPublished('free');
-                // this.set('sendEmailWhenPublished', 'free');
             } else if (!isFree && isPaid) {
                 this.setSendEmailWhenPublished('paid');
-                // this.set('sendEmailWhenPublished', 'paid');
             } else if (!isFree && !isPaid) {
                 this.setSendEmailWhenPublished('none');
-                // this.set('sendEmailWhenPublished', 'none');
             }
         }
     },

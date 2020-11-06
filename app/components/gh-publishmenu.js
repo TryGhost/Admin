@@ -133,12 +133,13 @@ export default Component.extend({
         }
 
         this._postStatus = this.postStatus;
-
-        // Set default newsletter recipients
-        if (this.post.visibility === 'public' || this.post.visibility === 'members') {
-            this.set('sendEmailWhenPublished', 'all');
-        } else {
-            this.set('sendEmailWhenPublished', 'paid');
+        if (this.postStatus === 'draft') {
+            // Set default newsletter recipients
+            if (this.post.visibility === 'public' || this.post.visibility === 'members') {
+                this.set('sendEmailWhenPublished', 'all');
+            } else {
+                this.set('sendEmailWhenPublished', 'paid');
+            }
         }
     },
 

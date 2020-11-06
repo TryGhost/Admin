@@ -887,11 +887,6 @@ export default Controller.extend({
         if (emailRecipientFilter && emailRecipientFilter !== 'none') {
             description.push('and delivered to');
             description.push(`<span><strong>${emailRecipientFilter} members</strong></span>`);
-            // if (visibility === 'paid') {
-            //     description.push('<span><strong>paid members</strong></span>');
-            // } else {
-            //     description.push('<span><strong>all members</strong></span>');
-            // }
         }
 
         description.push(`on <span><strong>${publishedAtBlogTZ.format('MMM Do')}</strong></span>`);
