@@ -13,6 +13,7 @@ export default class MembersRoute extends AuthenticatedRoute {
         super.init(...arguments);
         this.router.on('routeWillChange', (transition) => {
             this.showUnsavedChangesModal(transition);
+            this.closeImpersonateModal(transition);
         });
     }
 
@@ -70,6 +71,16 @@ export default class MembersRoute extends AuthenticatedRoute {
                 controller.toggleUnsavedChangesModal(transition);
                 return;
             }
+        }
+    }
+
+    closeImpersonateModal(transition) {
+        // If user navigates away with forward or back button, ensure returning to page 
+        // hides modal
+        if (transition.from && transition.from.name === this.routeName && transition.targetName) {
+            let {controller} = this;
+
+            controller.closeImpersonateMemberModal(transition);
         }
     }
 }
