@@ -316,9 +316,6 @@ export default Component.extend({
             // will show alert for non-date related failed validations
             post = yield this.saveTask.perform({sendEmailWhenPublished});
 
-            // revert the email checkbox to avoid weird inbetween states
-            this.set('sendEmailWhenPublished', 'none');
-
             this._cachePublishedAtBlogTZ();
             return post;
         } catch (error) {
