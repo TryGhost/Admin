@@ -133,6 +133,13 @@ export default Component.extend({
         }
 
         this._postStatus = this.postStatus;
+
+        // Set default newsletter recipients
+        if (this.post.visibility === 'public' || this.post.visibility === 'members') {
+            this.set('sendEmailWhenPublished', 'all');
+        } else {
+            this.set('sendEmailWhenPublished', 'paid');
+        }
     },
 
     actions: {
@@ -328,7 +335,6 @@ export default Component.extend({
 
     _cleanup() {
         this.set('showConfirmEmailModal', false);
-        this.set('sendEmailWhenPublished', 'none');
 
         // when closing the menu we reset the publishedAtBlogTZ date so that the
         // unsaved changes made to the scheduled date aren't reflected in the PSM
