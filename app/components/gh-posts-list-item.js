@@ -21,8 +21,6 @@ export default class GhPostsListItemComponent extends Component {
 
         if (post.emailRecipientFilter && post.emailRecipientFilter !== 'none') {
             text.push(`and sent to ${post.emailRecipientFilter} members`);
-            // let paid = post.visibility === 'paid';
-            // text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
         }
 
         let formattedTime = formatPostTime(

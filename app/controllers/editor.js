@@ -876,7 +876,6 @@ export default Controller.extend({
         let {
             publishedAtUTC,
             emailRecipientFilter,
-            // visibility,
             previewUrl
         } = this.post;
         let publishedAtBlogTZ = moment.tz(publishedAtUTC, this.settings.get('timezone'));
