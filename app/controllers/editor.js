@@ -371,7 +371,7 @@ export default Controller.extend({
                 }
             }
 
-            // let the adapter know it should use the `?filter_email_recipients` QP when saving
+            // let the adapter know it should use the `?email_recipient_filter` QP when saving
             let isPublishing = status === 'published' && !this.post.isPublished;
             let isScheduling = status === 'scheduled' && !this.post.isScheduled;
             if (options.sendEmailWhenPublished && (isPublishing || isScheduling)) {

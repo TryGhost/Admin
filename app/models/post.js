@@ -106,7 +106,7 @@ export default Model.extend(Comparable, ValidationEngine, {
     updatedBy: attr('number'),
     url: attr('string'),
     uuid: attr('string'),
-    filterEmailRecipients: attr('string', {defaultValue: 'none'}),
+    emailRecipientFilter: attr('string', {defaultValue: 'none'}),
 
     authors: hasMany('user', {embedded: 'always', async: false}),
     createdBy: belongsTo('user', {async: true}),

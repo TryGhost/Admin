@@ -12,15 +12,15 @@ export default class GhPostsListItemComponent extends Component {
 
     get sendEmailWhenPublished() {
         let {post} = this.args;
-        return post.filterEmailRecipients && post.filterEmailRecipients !== 'none';
+        return post.emailRecipientFilter && post.emailRecipientFilter !== 'none';
     }
 
     get scheduledText() {
         let {post} = this.args;
         let text = [];
 
-        if (post.filterEmailRecipients && post.filterEmailRecipients !== 'none') {
-            text.push(`and sent to ${post.filterEmailRecipients} members`);
+        if (post.emailRecipientFilter && post.emailRecipientFilter !== 'none') {
+            text.push(`and sent to ${post.emailRecipientFilter} members`);
             // let paid = post.visibility === 'paid';
             // text.push(`and sent to ${paid ? 'paid' : 'all'} members`);
         }
