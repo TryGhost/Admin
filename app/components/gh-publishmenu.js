@@ -11,6 +11,9 @@ const CONFIRM_EMAIL_MAX_POLL_LENGTH = 15 * 1000;
 
 export default Component.extend({
     clock: service(),
+    feature: service(),
+    settings: service(),
+    config: service(),
 
     backgroundTask: null,
     classNames: 'gh-publishmenu',
@@ -30,6 +33,15 @@ export default Component.extend({
     onClose() {},
 
     forcePublishedMenu: reads('post.pastScheduledTime'),
+
+    canSendEmail: computed('feature.labs.members', 'post.{displayName,email}', 'settings.{mailgunApiKey,mailgunDomain,mailgunBaseUrl}', 'config.mailgunIsConfigured', function () {
+        let membersEnabled = this.feature.get('labs.members');
+        let mailgunIsConfigured = this.get('settings.mailgunApiKey') && this.get('settings.mailgunDomain') && this.get('settings.mailgunBaseUrl') || this.get('config.mailgunIsConfigured');
+        let isPost = this.post.displayName === 'post';
+        let hasSentEmail = !!this.post.email;
+
+        return membersEnabled && mailgunIsConfigured && isPost && !hasSentEmail;
+    }),
 
     postState: computed('post.{isPublished,isScheduled}', 'forcePublishedMenu', function () {
         if (this.forcePublishedMenu || this.get('post.isPublished')) {
@@ -133,7 +145,7 @@ export default Component.extend({
         }
 
         this._postStatus = this.postStatus;
-        if (this.postStatus === 'draft') {
+        if (this.postStatus === 'draft' && this.canSendEmail) {
             // Set default newsletter recipients
             if (this.post.visibility === 'public' || this.post.visibility === 'members') {
                 this.set('sendEmailWhenPublished', 'all');
