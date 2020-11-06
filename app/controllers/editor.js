@@ -371,7 +371,7 @@ export default Controller.extend({
                 }
             }
 
-            // let the adapter know it should use the `?send_email_when_published` QP when saving
+            // let the adapter know it should use the `?filter_email_recipients` QP when saving
             let isPublishing = status === 'published' && !this.post.isPublished;
             let isScheduling = status === 'scheduled' && !this.post.isScheduled;
             if (options.sendEmailWhenPublished && (isPublishing || isScheduling)) {
@@ -875,7 +875,7 @@ export default Controller.extend({
     _showScheduledNotification(delayed) {
         let {
             publishedAtUTC,
-            sendEmailWhenPublished,
+            emailRecipientFilter,
             // visibility,
             previewUrl
         } = this.post;
@@ -884,9 +884,9 @@ export default Controller.extend({
         let title = 'Scheduled';
         let description = ['Will be published'];
 
-        if (sendEmailWhenPublished && sendEmailWhenPublished !== 'none') {
+        if (emailRecipientFilter && emailRecipientFilter !== 'none') {
             description.push('and delivered to');
-            description.push(`<span><strong>${sendEmailWhenPublished} members</strong></span>`);
+            description.push(`<span><strong>${emailRecipientFilter} members</strong></span>`);
             // if (visibility === 'paid') {
             //     description.push('<span><strong>paid members</strong></span>');
             // } else {
