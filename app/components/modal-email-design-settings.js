@@ -28,7 +28,7 @@ export default ModalComponent.extend({
         },
 
         toggleBadge(showBadge) {
-            this.set('showBadge', showBadge);
+            this.settings.set('newsletterShowBadge', showBadge);
         },
 
         confirm() {

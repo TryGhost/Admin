@@ -71,5 +71,6 @@ export default Model.extend(ValidationEngine, {
     * Newsletter settings
     */
     newsletterShowHeader: attr('boolean'),
-    newsletterBodyFontCategory: attr('string')
+    newsletterBodyFontCategory: attr('string'),
+    newsletterShowBadge: attr('boolean')
 });

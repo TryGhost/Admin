@@ -48,22 +48,6 @@
                             <p>Font style for the email body contents</p>
                         </GhFormGroup>
                     </div>
-
-                    <div class="modal-fullsettings-section">
-                        <GhFormGroup @classNames="vertical">
-                            <h4 class="modal-fullsettings-title">Footer content</h4>
-                            <GhTextarea
-                                @class=""
-                                @id="footer-content"
-                                @name="footer-content"
-                                @value={{this.footerText}}
-                                {{!-- @input={{}} --}}
-                                @stopEnterKeyDownPropagation="true"
-                                {{!-- data-test-field="custom-excerpt" --}}
-                            />
-                            <p>Extra content to show at the bottom of all emails</p>
-                        </GhFormGroup>
-                    </div>
                 </fieldset>
             </div>
             <div class="modal-fullsettings-section gh-members-emailsettings-footer">
@@ -82,8 +66,7 @@
                         >
                             <input
                                 type="checkbox"
-                                {{!-- checked={{this.settings.portalName}} --}}
-                                checked="true"
+                                checked={{this.settings.newsletterShowBadge}}
                                 id="promote-ghost"
                                 name="promote-ghost"
                                 onclick={{action "toggleBadge" value="target.checked"}}
@@ -148,7 +131,7 @@
                             <span>Ghost Site &copy; – </span> <a href="javascript:">Unsubscribe</a>
                         </div>
                     </div>
-                    <div class="gh-members-emailpreview-badge {{if (not this.showBadge) "hide"}}">
+                    <div class="gh-members-emailpreview-badge {{if (not this.settings.newsletterShowBadge) "hide"}}">
                         <a href="https://ghost.org" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 156 156"><g fill="none" fill-rule="evenodd"><rect fill="#15212B" width="156" height="156" rx="27"></rect><g transform="translate(36 36)" fill="#F6F8FA"><path d="M0 71.007A4.004 4.004 0 014 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0130 84H4a4 4 0 01-4-4.007v-8.986zM50 71.007A4.004 4.004 0 0154 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0180 84H54a4 4 0 01-4-4.007v-8.986z"></path><rect y="34" width="84" height="17" rx="4"></rect><path d="M0 4.007A4.007 4.007 0 014.007 0h41.986A4.003 4.003 0 0150 4.007v8.986A4.007 4.007 0 0145.993 17H4.007A4.003 4.003 0 010 12.993V4.007z"></path><rect x="67" width="17" height="17" rx="4"></rect></g></g></svg> <span>Publish with Ghost</span></a>
                     </div>
                 </div>
