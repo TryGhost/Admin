@@ -281,7 +281,7 @@
                             </div>
                         </GhFormGroup>
                     </div>
-                    <div class="gh-portal-setting-section divider-top">
+                    <div class="gh-portal-setting-section redirects divider-top">
                         <h4 class="gh-portal-setting-sectionheading">Redirects</h4>
                         <GhFormGroup @classNames="mt5">
                             <h4 class="gh-portal-setting-title">After free signup</h4>
@@ -304,6 +304,7 @@
                                     {{!-- @input={{action "setSignupButtonText"}} --}}
                                 />
                             </div>
+                            <p>URLs to redirect members after signing up. Leave them empty to redirect to homepage.</p>
                         </GhFormGroup>
                         {{/if}}
                     </div>

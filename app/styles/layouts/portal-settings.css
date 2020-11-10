@@ -71,8 +71,8 @@
 
 .gh-portal-settings-form {
     min-width: 292px;
-    margin: 4px -80px 0 0 !important;
-    padding: 0 100px 0 20px;
+    margin: 0 -80px 0 0 !important;
+    padding: 4px 100px 0 20px;
     max-height: calc(100vh - 60px - 66px);
     overflow-y: scroll;
     overflow-x: hidden;
@@ -105,6 +105,10 @@
 .gh-portal-setting-section {
     margin: 12px -24px;
     padding: 0 28px;
+}
+
+.gh-portal-setting-section p {
+    line-height: 1.5em;
 }
 
 .gh-portal-setting-section.divider-top {
@@ -522,4 +526,8 @@
     border: 1px solid var(--whitegrey);
     border-radius: 4px;
     color: var(--midgrey);
+}
+
+.gh-portal-setting-section.redirects p {
+    margin-top: 16px;
 }
