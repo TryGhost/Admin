@@ -66,5 +66,10 @@ export default Model.extend(ValidationEngine, {
     stripeConnectSecretKey: attr('string'),
     stripeConnectLivemode: attr('boolean'),
     stripeConnectDisplayName: attr('string'),
-    stripeConnectAccountId: attr('string')
+    stripeConnectAccountId: attr('string'),
+    /**
+    * Newsletter settings
+    */
+    newsletterShowHeader: attr('boolean'),
+    newsletterBodyFontCategory: attr('string')
 });
