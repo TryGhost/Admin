@@ -1,6 +1,9 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import {inject as service} from '@ember/service';
+import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
+    settings: service(),
 
     showHeader: true,
     showSansSerif: false,
@@ -13,19 +16,32 @@ export default ModalComponent.extend({
 
     actions: {
         toggleShowHeader(showHeader) {
-            this.set('showHeader', showHeader);
+            this.settings.set('newsletterShowHeader', showHeader);
         },
 
         setTypography(typography) {
             if (typography === 'serif') {
-                this.set('showSansSerif', false);
+                this.settings.set('newsletterBodyFontCategory', 'serif');
             } else {
-                this.set('showSansSerif', true);
+                this.settings.set('newsletterBodyFontCategory', 'sans_serif');
             }
         },
 
         toggleBadge(showBadge) {
             this.set('showBadge', showBadge);
+        },
+
+        confirm() {
+            return this.saveTask.perform();
+        },
+
+        leaveSettings() {
+            this.closeModal();
         }
-    }
+    },
+
+    saveTask: task(function* () {
+        yield this.settings.save();
+        this.closeModal();
+    }).drop()
 });
