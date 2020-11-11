@@ -799,6 +799,7 @@ p.gh-members-import-errordetail:first-of-type {
     border: 1px solid var(--whitegrey);
     padding: 0 6px 6px 6px;
     height: 80px;
+    overflow-y: scroll;
 }
 
 .gh-members-emailsettings-footer {

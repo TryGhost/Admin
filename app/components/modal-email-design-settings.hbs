@@ -52,15 +52,12 @@
                         <GhFormGroup @classNames="vertical">
                             <h4 class="modal-fullsettings-title">Footer content</h4>
                             <KoenigBasicHtmlInput
-                                @html={{this.footerText}}
+                                @html={{this.newsletterFooterHtml}}
                                 @placeholder={{if this.isFocused "" this.placeholder}}
                                 @class="miw-100 form-text gh-members-emailsettings-footer-input"
                                 @name="caption"
                                 @onChange={{action "update"}}
-                                @onFocus={{action (mut this.isFocused) true}}
-                                @onBlur={{action (mut this.isFocused) false}}
                                 @onNewline={{action "handleEnter"}}
-                                @didCreateEditor={{action "registerEditor"}}
                             />
                             <p>Extra content to show at the bottom of all emails</p>
                         </GhFormGroup>
@@ -142,7 +139,7 @@
                     </div>
                     <div class="gh-members-emailpreview-footer">
                         <div class="gh-members-emailpreview-footercontent">
-                            {{this.footerText}}
+                            {{this.newsletterFooterHtml}}
                         </div>
                         <div class="gh-members-emailpreview-footersite">
                             <span>Ghost Site &copy; – </span> <a href="javascript:">Unsubscribe</a>
