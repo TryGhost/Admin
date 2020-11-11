@@ -8,8 +8,10 @@ export default ModalComponent.extend({
     showHeader: true,
     showSansSerif: false,
     showBadge: true,
-    footerText: '',
-
+    footerText: 'Some initial text',
+    isFocused: false,
+    placeholder: 'Footer...',
+    update() {},
     init() {
         this._super(...arguments);
     },
@@ -37,7 +39,13 @@ export default ModalComponent.extend({
 
         leaveSettings() {
             this.closeModal();
-        }
+        },
+
+        update(newHtml) {
+            this.set('footerText', newHtml);
+        },
+        handleEnter() {},
+        registerEditor() {}
     },
 
     saveTask: task(function* () {

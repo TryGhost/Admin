@@ -589,7 +589,7 @@ p.gh-members-import-errorcontext {
         /* Shadow covers */
         linear-gradient(var(--white) 30%, rgba(255,255,255,0)),
         linear-gradient(rgba(255,255,255,0), var(--white) 70%) 0 100%,
-        
+
         /* Shadows */
         /* radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.12), rgba(0,0,0,0)) -64px 0,
         radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.12), rgba(0,0,0,0)) -64px 100%; */
@@ -598,7 +598,7 @@ p.gh-members-import-errorcontext {
 	background-repeat: no-repeat;
 	background-color: var(--white);
 	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-	
+
 	/* Opera doesn't support this in the shorthand */
     background-attachment: local, local, scroll, scroll;
     margin-top: 4px;
@@ -795,6 +795,12 @@ p.gh-members-import-errordetail:first-of-type {
 
 /* Email newsletter design settings
 /* -------------------------------------------------------- */
+.gh-members-emailsettings-footer-input {
+    border: 1px solid var(--whitegrey);
+    padding: 0 6px 6px 6px;
+    height: 80px;
+}
+
 .gh-members-emailsettings-footer {
     border-top: 1px solid var(--whitegrey);
     padding-top: 20px;
@@ -830,7 +836,7 @@ p.gh-members-import-errordetail:first-of-type {
     border-radius: 12px;
     padding: 32px;
     margin: 32px auto;
-    box-shadow: 
+    box-shadow:
         0 0 0 1px rgba(0,0,0,0.02),
         0 2.8px 2.2px rgba(0, 0, 0, 0.02),
         0 6.7px 5.3px rgba(0, 0, 0, 0.028),
