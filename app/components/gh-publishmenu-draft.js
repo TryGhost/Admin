@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import moment from 'moment';
 import {computed} from '@ember/object';
+import {formatNumber} from 'ghost-admin/helpers/format-number';
 import {isEmpty} from '@ember/utils';
 import {or} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
@@ -32,16 +33,16 @@ export default Component.extend({
         return (this.get('session.user.isOwnerOrAdmin') && this.paidMemberCount === 0);
     }),
 
-    freeMemberCountLabel: computed('freeMemberCount', function() {
+    freeMemberCountLabel: computed('freeMemberCount', function () {
         if (this.get('freeMemberCount') !== undefined) {
-            return `(${this.get('freeMemberCount')})`;
+            return `(${formatNumber(this.get('freeMemberCount'))})`;
         }
         return '';
     }),
 
-    paidMemberCountLabel: computed('freeMemberCount', function() {
+    paidMemberCountLabel: computed('freeMemberCount', function () {
         if (this.get('freeMemberCount') !== undefined) {
-            return `(${this.get('paidMemberCount')})`;
+            return `(${formatNumber(this.get('paidMemberCount'))})`;
         }
         return '';
     }),
