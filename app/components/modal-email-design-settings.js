@@ -5,6 +5,7 @@ import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
     settings: service(),
+    koenigUi: service(),
 
     showHeader: true,
     showSansSerif: false,
@@ -48,8 +49,25 @@ export default ModalComponent.extend({
         update(newHtml) {
             this.settings.set('newsletterFooterHtml', newHtml);
         },
-        handleEnter() {},
-        registerEditor() {}
+
+        handleEnter(...args) {
+            console.log('enter');
+            console.log(...args);
+        },
+
+        registerEditor(editor) {
+            this.editor = editor;
+            window.editor = editor;
+            console.log(editor);
+        }
+    },
+
+    focusIn() {
+        this.koenigUi.captionGainedFocus(this);
+    },
+
+    focusOut() {
+        this.koenigUi.captionLostFocus(this);
     },
 
     saveTask: task(function* () {

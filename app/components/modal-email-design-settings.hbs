@@ -58,6 +58,7 @@
                                 @name="caption"
                                 @onChange={{action "update"}}
                                 @onNewline={{action "handleEnter"}}
+                                @didCreateEditor={{action "registerEditor"}}
                             />
                             <p>Extra content to show at the bottom of all emails</p>
                         </GhFormGroup>
