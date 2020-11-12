@@ -28,7 +28,7 @@ export default BaseValidator.create({
     targetUrl(model) {
         if (isBlank(model.targetUrl)) {
             model.errors.add('targetUrl', 'Please enter a target URL');
-        } else if (!validator.isURL(model.targetUrl || '', {require_protocol: false})) {
+        } else if (!validator.isURL(model.targetUrl || '', {require_protocol: false, require_tld: false})) {
             model.errors.add('targetUrl', 'Please enter a valid URL');
         } else if (!validator.isLength(model.targetUrl, 0, 2000)) {
             model.errors.add('targetUrl', 'Target URL is too long, max 2000 chars');
