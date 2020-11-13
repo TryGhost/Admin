@@ -48,6 +48,17 @@
                             <p>Font style for the email body contents</p>
                         </GhFormGroup>
                     </div>
+                    <div class="modal-fullsettings-section">
+                        <GhFormGroup @classNames="vertical">
+                            <h4 class="modal-fullsettings-title">Footer content</h4>
+                            <GhTextarea
+                                @name="footer"
+                                @value={{this.newsletterFooterHtml}}
+                                @input={{action "setNewsletterFooter"}}
+                            />
+                            <p>Extra content to show at the bottom of all emails</p>
+                        </GhFormGroup>
+                    </div>
                 </fieldset>
             </div>
             <div class="modal-fullsettings-section gh-members-emailsettings-footer">

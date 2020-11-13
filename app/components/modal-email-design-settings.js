@@ -1,4 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
@@ -9,7 +10,11 @@ export default ModalComponent.extend({
     showHeader: true,
     showSansSerif: false,
     showBadge: true,
-    footerText: '',
+    isFocused: false,
+    placeholder: 'Footer...',
+    newsletterFooterHtml: computed('settings.newsletterFooterHtml', function () {
+        return this.settings.get('newsletterFooterHtml') || '';
+    }),
 
     init() {
         this._super(...arguments);
@@ -38,6 +43,10 @@ export default ModalComponent.extend({
 
         leaveSettings() {
             this.closeModal();
+        },
+
+        setNewsletterFooter(event) {
+            this.settings.set('newsletterFooterHtml', event.target.value);
         }
     },
 
