@@ -87,6 +87,62 @@
 
 .fullscreen-modal-email-preview .gh-pe-desktop-container {
     height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--whitegrey-l1);
+    padding: 30px 30px 45px;
+}
+
+.gh-pe-desktop-container .gh-pe-emailclient-mockup {
+    flex-grow: 1;
+    overflow: hidden;
+    max-width: 640px;
+    width: 100%;
+    padding: 0;
+    background: var(--white);
+    box-shadow: 
+        0 0 0 1px rgba(0,0,0,0.02),
+        0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.028),
+        0 12.5px 10px rgba(0, 0, 0, 0.035),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.05),
+        0 100px 80px rgba(0, 0, 0, 0.07);
+    ;
+    border-radius: 12px;
+}
+
+.gh-pe-desktop-container iframe {
+    border: none;
+    width: 100%;
+    height: calc(100% - 72px);
+}
+
+.gh-pe-emailclient-sender {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 72px;
+    border-bottom: 1px solid var(--whitegrey);
+    margin: 0;
+    padding: 0 20px;
+}
+
+.gh-pe-emailclient-sender p {
+    padding: 0;
+    margin: 0;
+    color: var(--midlightgrey);
+    line-height: 1.8em;
+}
+
+.gh-pe-emailclient-sender span {
+    color: var(--darkgrey);
+}
+
+.gh-pe-emailclient-sender span.strong {
+    font-weight: 600;
 }
 
 .gh-pe-mobile-bezel {
