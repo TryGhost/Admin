@@ -34,6 +34,11 @@ export default class ModalEmailDesignSettings extends ModalComponent {
     }
 
     @action
+    stopPropagation(event) {
+        event.stopPropagation();
+    }
+
+    @action
     setShowBadge(event) {
         this.showBadge = event.target.checked;
     }

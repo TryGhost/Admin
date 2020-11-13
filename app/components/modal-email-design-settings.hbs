@@ -55,6 +55,10 @@
                                 @name="footer"
                                 @value={{readonly this.footerHtml}}
                                 @input={{this.setFooterHtml}}
+                                {{!-- The modal listens for key events to close, this stops the textarea from triggering them--}}
+                                {{on "keydown" this.stopPropagation}}
+                                {{on "keypress" this.stopPropagation}}
+                                {{on "keyup" this.stopPropagation}}
                             />
                             <p>Extra content to show at the bottom of all emails</p>
                         </GhFormGroup>
