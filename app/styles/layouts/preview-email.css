@@ -79,7 +79,7 @@
 }
 
 .fullscreen-modal-email-preview .gh-pe-desktop-container {
-    height: calc(100vh - 130px);
+    height: calc(100vh - 135px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,7 +109,7 @@
 .gh-pe-desktop-container iframe {
     border: none;
     width: 100%;
-    height: calc(100% - 72px);
+    height: calc(100% - 67px);
 }
 
 .gh-pe-emailclient-sender {
@@ -139,7 +139,7 @@
 }
 
 .fullscreen-modal-email-preview .gh-pe-mobile-container {
-    height: calc(100vh - 130px);
+    height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
     align-items: center;
