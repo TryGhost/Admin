@@ -287,9 +287,9 @@
                             <h4 class="gh-portal-setting-title">After free signup</h4>
                             <div class="flex items-center mt2">
                                 <GhTextInput
-                                    {{!-- @value={{readonly this.settings.portalButtonSignupText}} --}}
+                                    @value={{readonly this.settings.membersFreeSignupRedirect}}
                                     @type="text"
-                                    {{!-- @input={{action "setSignupButtonText"}} --}}
+                                    @input={{action "setFreeSignupRedirect"}}
                                 />
                             </div>
                         </GhFormGroup>
@@ -299,9 +299,9 @@
 
                             <div class="flex items-center mt2">
                                 <GhTextInput
-                                    {{!-- @value={{readonly this.settings.portalButtonSignupText}} --}}
+                                    @value={{readonly this.settings.membersPaidSignupRedirect}}
                                     @type="text"
-                                    {{!-- @input={{action "setSignupButtonText"}} --}}
+                                    @input={{action "setPaidSignupRedirect"}}
                                 />
                             </div>
                             <p>URLs to redirect members after signing up. Leave them empty to redirect to homepage.</p>
