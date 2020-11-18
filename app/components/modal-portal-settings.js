@@ -202,6 +202,13 @@ export default ModalComponent.extend({
             }
         },
 
+        accentColorKeydown(event) {
+            if (event.keyCode === 13) { // Enter
+                this.send('validateAccentColor');
+                event.stopPropagation();
+            }
+        },
+
         updateAccentColor(color) {
             this._validateAccentColor(color);
         },
