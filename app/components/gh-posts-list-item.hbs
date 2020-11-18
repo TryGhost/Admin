@@ -17,21 +17,37 @@
                     in <span class="midgrey-l2 fw5">{{@post.primaryTag.name}}</span>
                 {{/if}}
 
-                {{#if (eq @post.email.status "submitted")}}
-                    • Sent to <span class="midgrey-l2 fw5">{{gh-pluralize @post.email.emailCount "member"}}</span>
-                {{/if}}
+                 • {{gh-format-post-time @post.updatedAtUTC draft=true}}
 
-                {{#if @post.isScheduled}}
-                    – <span class="gh-schedule-time">Will be published {{this.scheduledText}}</span>
-                {{/if}}
             </span>
         </p>
+    </LinkTo>
+
+    <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-recipients" @title="Edit this post">
+        <div class="flex fw4">
+            
+            {{#if @post.isScheduled}}
+                <span class="gh-schedule-plan">Paid</span>
+            {{/if}}
+
+            {{#if (eq @post.email.status "submitted")}}
+                Paid (<span class="fw5">{{@post.email.emailCount}}</span>)
+            {{/if}}
+        </div>
+    </LinkTo>
+
+    <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
+        <div class="flex fw4">
+            {{#if (eq @post.email.status "submitted")}}
+                <span class="flex-basis-1-3 darkgrey fw6">57%&nbsp;</span><span class="flex-basis-2-3 fw4">opens</span>
+            {{/if}}
+        </div>
     </LinkTo>
 
     <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-status" @title="Edit this post">
         <div class="flex items-center">
             {{#if @post.isScheduled}}
-            <span class="gh-content-status-draft gh-badge nowrap">
+            <span class="gh-content-status-draft gh-badge nowrap" title="Scheduled" data-tooltip="{{this.scheduledText}}">
                 Scheduled
             </span>
             {{/if}}
@@ -47,30 +63,6 @@
                 Published
             </span>
             {{/if}}
-
-            {{#if this.session.user.isOwnerOrAdmin}}
-                {{#if (or @post.email (and @post.isScheduled this.sendEmailWhenPublished))}}
-                    {{#if (eq @post.email.status "failed")}}
-                        <span data-tooltip="Failed to send post by email" class="gh-content-status-emailed error">
-                            {{svg-jar "send-email" class="stroke-red"}}
-                        </span>
-                    {{else}}
-                        {{#if @post.isScheduled}}
-                            <span title="To be send by email" data-tooltip="To be sent by email" class="gh-content-status-emailed scheduled">
-                                {{svg-jar "send-email" class="stroke-green-d2"}}
-                            </span>
-                        {{else}}
-                            <span title="Sent by email" data-tooltip="Sent by email" class="gh-content-status-emailed">
-                                {{svg-jar "send-email" class="stroke-midgrey"}}
-                            </span>
-                        {{/if}}
-                    {{/if}}
-                {{/if}}
-            {{/if}}
         </div>
-    </LinkTo>
-
-    <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-updated" @title="Edit this post">
-        <span class="nowrap">{{gh-format-post-time @post.updatedAtUTC draft=true}}</span>
     </LinkTo>
 </li>

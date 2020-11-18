@@ -19,10 +19,6 @@ export default class GhPostsListItemComponent extends Component {
         let {post} = this.args;
         let text = [];
 
-        if (post.emailRecipientFilter && post.emailRecipientFilter !== 'none') {
-            text.push(`and sent to ${post.emailRecipientFilter} members`);
-        }
-
         let formattedTime = formatPostTime(
             post.publishedAtUTC,
             {timezone: this.settings.get('timezone'), scheduled: true}
