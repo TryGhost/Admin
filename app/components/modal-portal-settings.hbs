@@ -114,6 +114,7 @@
                                             @placeholder="abcdef"
                                             @autocorrect="off"
                                             @maxlength="6"
+                                            @keyDown={{action "accentColorKeydown"}}
                                             @focus-out={{action "validateAccentColor"}}
                                             @value={{accentColor}}
                                             data-test-input="accentColor"
@@ -244,6 +245,7 @@
                                     @value={{readonly this.settings.portalButtonSignupText}}
                                     @type="text"
                                     @input={{action "setSignupButtonText"}}
+                                    @stopEnterKeyDownPropagation={{true}}
                                 />
                             </div>
                         </GhFormGroup>
