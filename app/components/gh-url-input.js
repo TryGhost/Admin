@@ -18,28 +18,19 @@ export default class GhUrlInput extends Component {
         this.setResult = args.setResult;
     }
 
-    @tracked
-    invalid = false;
-
     @action
     setValue(event) {
         this.value = event.target.value;
-        const path = this.getPath();
-        if (path === null) {
-            this.invalid = true;
-        } else {
-            this.invalid = false;
-            this.setResult(path);
+        if (this.result !== null) {
+            this.setResult(this.result);
         }
     }
 
-    getPath() {
-        const url = new URL(removeLeadingSlash(this.value), this.baseUrl);
-
-        if (!url.href.startsWith(this.baseUrl)) {
+    get result() {
+        try {
+            return new URL(removeLeadingSlash(this.value), this.baseUrl);
+        } catch (err) {
             return null;
         }
-
-        return '/' + url.href.replace(this.baseUrl, '');
     }
 }

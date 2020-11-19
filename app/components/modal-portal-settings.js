@@ -176,12 +176,12 @@ export default ModalComponent.extend({
             this.settings.set('portalName', showSignupName);
         },
 
-        setPaidSignupRedirect(value) {
-            this.settings.set('membersPaidSignupRedirect', value);
+        setPaidSignupRedirect(url) {
+            this._validateSignupRedirect(url, 'membersPaidSignupRedirect');
         },
 
-        setFreeSignupRedirect(value) {
-            this.settings.set('membersFreeSignupRedirect', value);
+        setFreeSignupRedirect(url) {
+            this._validateSignupRedirect(url, 'membersFreeSignupRedirect');
         },
 
         confirm() {
@@ -283,6 +283,21 @@ export default ModalComponent.extend({
             allowedPlans.push(plan);
             this.settings.set('portalPlans', [...allowedPlans]);
         }
+    },
+
+    _validateSignupRedirect(url, type) {
+        let errMessage = `Ha, don't be silly, use a different URL`;
+        this.get('settings.errors').remove(type);
+        this.get('settings.hasValidated').removeObject(type);
+
+        if (url.href.startsWith(this.siteUrl)) {
+            const path = url.href.replace(this.siteUrl, '');
+            this.settings.set(type, path);
+            return;
+        }
+
+        this.get('settings.errors').add(type, errMessage);
+        this.get('settings.hasValidated').pushObject(type);
     },
 
     _validateAccentColor(color) {

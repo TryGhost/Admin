@@ -283,7 +283,12 @@
                     </div>
                     <div class="gh-portal-setting-section redirects divider-top">
                         <h4 class="gh-portal-setting-sectionheading">Redirects</h4>
-                        <GhFormGroup @classNames="mt5">
+                        <GhFormGroup
+                            @errors={{settings.errors}}
+                            @hasValidated={{settings.hasValidated}}
+                            @property="membersFreeSignupRedirect"
+                            @classNames="mt5"
+                        >
                             <h4 class="gh-portal-setting-title">After free signup</h4>
                             <div class="flex items-center mt2">
                                 <GhUrlInput
@@ -292,9 +297,18 @@
                                     @setResult={{action "setFreeSignupRedirect"}}
                                 />
                             </div>
+                            <GhErrorMessage
+                                @errors={{settings.errors}}
+                                @property="membersFreeSignupRedirect"
+                            />
                         </GhFormGroup>
                         {{#if (and this.isStripeConfigured (or this.isMonthlyChecked this.isYearlyChecked))}}
-                        <GhFormGroup @classNames="space-l pb5">
+                        <GhFormGroup
+                            @errors={{settings.errors}}
+                            @hasValidated={{settings.hasValidated}}
+                            @property="membersPaidSignupRedirect"
+                            @classNames="space-l pb5"
+                        >
                             <h4 class="gh-portal-setting-title">After paid signup</h4>
 
                             <div class="flex items-center mt2">
@@ -304,6 +318,10 @@
                                     @setResult={{action "setPaidSignupRedirect"}}
                                 />
                             </div>
+                            <GhErrorMessage
+                                @errors={{settings.errors}}
+                                @property="membersPaidSignupRedirect"
+                            />
                             <p>URLs to redirect members after signing up. Leave them empty to redirect to homepage.</p>
                         </GhFormGroup>
                         {{/if}}
