@@ -286,10 +286,10 @@
                         <GhFormGroup @classNames="mt5">
                             <h4 class="gh-portal-setting-title">After free signup</h4>
                             <div class="flex items-center mt2">
-                                <GhTextInput
-                                    @value={{readonly this.freeSignupRedirect}}
-                                    @type="text"
-                                    @input={{action "setFreeSignupRedirect"}}
+                                <GhUrlInput
+                                    @value={{readonly this.settings.membersFreeSignupRedirect}}
+                                    @baseUrl={{readonly this.siteUrl}}
+                                    @setResult={{action "setFreeSignupRedirect"}}
                                 />
                             </div>
                         </GhFormGroup>
@@ -298,10 +298,10 @@
                             <h4 class="gh-portal-setting-title">After paid signup</h4>
 
                             <div class="flex items-center mt2">
-                                <GhTextInput
-                                    @value={{readonly this.paidSignupRedirect}}
-                                    @type="text"
-                                    @input={{action "setPaidSignupRedirect"}}
+                                <GhUrlInput
+                                    @value={{readonly this.settings.membersPaidSignupRedirect}}
+                                    @baseUrl={{readonly this.siteUrl}}
+                                    @setResult={{action "setPaidSignupRedirect"}}
                                 />
                             </div>
                             <p>URLs to redirect members after signing up. Leave them empty to redirect to homepage.</p>

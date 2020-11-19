@@ -133,16 +133,6 @@ export default ModalComponent.extend({
         });
     }),
 
-    freeSignupRedirect: computed('settings.membersFreeSignupRedirect', function () {
-        const url = new URL(this.settings.get('membersFreeSignupRedirect'), this.siteUrl);
-        return url.href;
-    }),
-
-    paidSignupRedirect: computed('settings.memberspaidSignupRedirect', function () {
-        const url = new URL(this.settings.get('membersPaidSignupRedirect'), this.siteUrl);
-        return url.href;
-    }),
-
     init() {
         this._super(...arguments);
         this.set('hidePreviewFrame', true);
@@ -186,18 +176,12 @@ export default ModalComponent.extend({
             this.settings.set('portalName', showSignupName);
         },
 
-        setPaidSignupRedirect(event) {
-            const value = event.target.value;
-            const baseUrl = new URL(value, this.siteUrl);
-            const fullUrl = new URL(baseUrl.pathname, this.siteUrl);
-            this.settings.set('membersPaidSignupRedirect', fullUrl.pathname);
+        setPaidSignupRedirect(value) {
+            this.settings.set('membersPaidSignupRedirect', value);
         },
 
-        setFreeSignupRedirect(event) {
-            const value = event.target.value;
-            const baseUrl = new URL(value, this.siteUrl);
-            const fullUrl = new URL(baseUrl.pathname, this.siteUrl);
-            this.settings.set('membersFreeSignupRedirect', fullUrl.pathname);
+        setFreeSignupRedirect(value) {
+            this.settings.set('membersFreeSignupRedirect', value);
         },
 
         confirm() {
