@@ -388,6 +388,21 @@
             </div>
         {{/liquid-if}}
 
+        <div class="gh-setting">
+            <div class="gh-setting-content">
+                <h4 class="gh-setting-title">Allow email open-tracking</h4>
+                <p class="gh-setting-desc pa0 ma0 mb1">If enabled, email opens will be tracked and show up in your post list</p>
+            </div>
+            <div class="gh-setting-action">
+                <div class="for-switch">
+                    <label class="switch" for="members-allow-self-signup" {{action "toggleSelfSignup" bubbles="false"}}>
+                        <input type="checkbox" checked={{this.allowSelfSignup}} class="gh-input" onclick={{action "toggleSelfSignup"}} data-test-checkbox="members-allow-self-signup">
+                        <span class="input-toggle-component mt1"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         {{#unless this.mailgunIsConfigured}}
             <div class="gh-setting-last">
                 <div class="gh-setting-content">
