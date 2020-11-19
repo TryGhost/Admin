@@ -177,11 +177,15 @@ export default ModalComponent.extend({
         },
 
         setPaidSignupRedirect(event) {
-            this.settings.set('membersPaidSignupRedirect', event.target.value);
+            const value = event.target.value;
+            const url = new URL(value, 'https://base.com');
+            this.settings.set('membersPaidSignupRedirect', url.pathname);
         },
 
         setFreeSignupRedirect(event) {
-            this.settings.set('membersFreeSignupRedirect', event.target.value);
+            const value = event.target.value;
+            const url = new URL(value, 'https://base.com');
+            this.settings.set('membersFreeSignupRedirect', url.pathname);
         },
 
         confirm() {
