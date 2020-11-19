@@ -287,7 +287,7 @@
                             <h4 class="gh-portal-setting-title">After free signup</h4>
                             <div class="flex items-center mt2">
                                 <GhTextInput
-                                    @value={{readonly this.settings.membersFreeSignupRedirect}}
+                                    @value={{readonly this.freeSignupRedirect}}
                                     @type="text"
                                     @input={{action "setFreeSignupRedirect"}}
                                 />
@@ -299,7 +299,7 @@
 
                             <div class="flex items-center mt2">
                                 <GhTextInput
-                                    @value={{readonly this.settings.membersPaidSignupRedirect}}
+                                    @value={{readonly this.paidSignupRedirect}}
                                     @type="text"
                                     @input={{action "setPaidSignupRedirect"}}
                                 />
