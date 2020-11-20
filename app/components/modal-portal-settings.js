@@ -43,6 +43,8 @@ export default ModalComponent.extend({
     customIcon: null,
     showLinksPage: false,
     showLeaveSettingsModal: false,
+    freeSignupRedirect: undefined,
+    paidSignupRedirect: undefined,
     confirm() {},
 
     allowSelfSignup: alias('settings.membersAllowFreeSignup'),
@@ -179,11 +181,11 @@ export default ModalComponent.extend({
         },
 
         setPaidSignupRedirect(url) {
-            // noop
+            this.set('paidSignupRedirect', url);
         },
 
         setFreeSignupRedirect(url) {
-            // noop
+            this.set('freeSignupRedirect', url);
         },
 
         confirm() {
@@ -275,12 +277,12 @@ export default ModalComponent.extend({
             this.closeModal();
         },
 
-        validateFreeSignupRedirect(url) {
-            return this._validateSignupRedirect(url, 'membersFreeSignupRedirect');
+        validateFreeSignupRedirect() {
+            return this._validateSignupRedirect(this.get('freeSignupRedirect'), 'membersFreeSignupRedirect');
         },
 
-        validatePaidSignupRedirect(url) {
-            return this._validateSignupRedirect(url, 'membersPaidSignupRedirect');
+        validatePaidSignupRedirect() {
+            return this._validateSignupRedirect(this.get('paidSignupRedirect'), 'membersPaidSignupRedirect');
         }
     },
 
@@ -300,10 +302,15 @@ export default ModalComponent.extend({
         this.get('settings.errors').remove(type);
         this.get('settings.hasValidated').removeObject(type);
 
-        if (!url) {
+        if (url === null) {
             this.get('settings.errors').add(type, errMessage);
             this.get('settings.hasValidated').pushObject(type);
             return false;
+        }
+
+        if (url === undefined) {
+            // Not initialised
+            return;
         }
 
         if (url.href.startsWith(this.siteUrl)) {
@@ -361,6 +368,11 @@ export default ModalComponent.extend({
     }),
 
     saveTask: task(function* () {
+        this.send('validateFreeSignupRedirect');
+        this.send('validatePaidSignupRedirect');
+        if (this.get('settings.errors').length !== 0) {
+            return;
+        }
         yield this.settings.save();
         this.closeModal();
     }).drop()
