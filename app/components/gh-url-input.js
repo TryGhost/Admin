@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
-import {tracked} from '@glimmer/tracking';
 
 function ensureEndsWith(string, endsWith) {
     return string.endsWith(endsWith) ? string : string + endsWith;
