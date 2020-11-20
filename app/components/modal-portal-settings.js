@@ -286,7 +286,7 @@ export default ModalComponent.extend({
     },
 
     _validateSignupRedirect(url, type) {
-        let errMessage = `Ha, don't be silly, use a different URL`;
+        let errMessage = `Only URLs under your Ghost domain are allowed`;
         this.get('settings.errors').remove(type);
         this.get('settings.hasValidated').removeObject(type);
 
