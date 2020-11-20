@@ -21,9 +21,7 @@ export default class GhUrlInput extends Component {
     @action
     setValue(event) {
         this.value = event.target.value;
-        if (this.result !== null) {
-            this.setResult(this.result);
-        }
+        this.setResult(this.result);
     }
 
     @action
