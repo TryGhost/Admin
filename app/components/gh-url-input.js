@@ -28,14 +28,12 @@ export default class GhUrlInput extends Component {
 
     @action
     validateUrlInput() {
-        if (this.result !== null) {
-            this.validateUrl(this.result);
-        }
+        this.validateUrl(this.result);
     }
 
     get result() {
         try {
-            return this.value;
+            return new URL(removeLeadingSlash(this.value), this.baseUrl);
         } catch (err) {
             return null;
         }
