@@ -279,9 +279,12 @@ export default ModalComponent.extend({
             this.closeModal();
         },
 
-        validateUrlInput(type) {
-            const value = type === 'membersFreeSignupRedirect' ? this.get('_signupRedirectFree') : this.get('_signupRedirectPaid');
-            this._validateSignupRedirect(value, type);
+        validateFreeSignupRedirect(url) {
+            return this._validateSignupRedirect(url, 'membersFreeSignupRedirect');
+        },
+
+        validatePaidSignupRedirect(url) {
+            return this._validateSignupRedirect(url, 'membersPaidSignupRedirect');
         }
     },
 

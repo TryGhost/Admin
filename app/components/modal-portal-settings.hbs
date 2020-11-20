@@ -265,7 +265,7 @@
                                     @value={{readonly this.settings.membersFreeSignupRedirect}}
                                     @baseUrl={{readonly this.siteUrl}}
                                     @setResult={{action "setFreeSignupRedirect"}}
-                                    @validateUrl={{action "validateUrlInput" "membersFreeSignupRedirect" this._signupRedirectFree}}
+                                    @validateUrl={{action "validateFreeSignupRedirect"}}
                                 />
                             </div>
                             <GhErrorMessage
@@ -287,7 +287,7 @@
                                     @value={{readonly this.settings.membersPaidSignupRedirect}}
                                     @baseUrl={{readonly this.siteUrl}}
                                     @setResult={{action "setPaidSignupRedirect"}}
-                                    @validateUrl={{action "validateUrlInput" "membersPaidSignupRedirect" this._signupRedirectPaid}}
+                                    @validateUrl={{action "validatePaidSignupRedirect"}}
                                 />
                             </div>
                             <GhErrorMessage
