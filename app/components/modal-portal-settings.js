@@ -43,6 +43,8 @@ export default ModalComponent.extend({
     customIcon: null,
     showLinksPage: false,
     showLeaveSettingsModal: false,
+    _signupRedirectFree: '',
+    _signupRedirectPaid: '',
     confirm() {},
 
     allowSelfSignup: alias('settings.membersAllowFreeSignup'),
@@ -148,11 +150,15 @@ export default ModalComponent.extend({
         if (portalButtonIcon && !defaultIconKeys.includes(portalButtonIcon)) {
             this.set('customIcon', this.settings.get('portalButtonIcon'));
         }
+
         this.siteUrl = this.config.get('blogUrl');
+        this.set('_signupRedirectFree', (new URL(this.settings.get('membersFreeSignupRedirect'), this.siteUrl)).href);
+        this.set('_signupRedirectPaid', (new URL(this.settings.get('membersPaidSignupRedirect'), this.siteUrl)).href);
     },
 
     didInsertElement() {
         this._super(...arguments);
+        this.get('settings.errors').clear();
         run.later(this, function () {
             this.set('hidePreviewFrame', false);
         }, 1200);
@@ -177,11 +183,11 @@ export default ModalComponent.extend({
         },
 
         setPaidSignupRedirect(url) {
-            this._validateSignupRedirect(url, 'membersPaidSignupRedirect');
+            this.set('_signupRedirectPaid', url);
         },
 
         setFreeSignupRedirect(url) {
-            this._validateSignupRedirect(url, 'membersFreeSignupRedirect');
+            this.set('_signupRedirectFree', url);
         },
 
         confirm() {
@@ -271,6 +277,11 @@ export default ModalComponent.extend({
 
         leaveSettings() {
             this.closeModal();
+        },
+
+        validateUrlInput(type) {
+            const value = type === 'membersFreeSignupRedirect' ? this.get('_signupRedirectFree') : this.get('_signupRedirectPaid');
+            this._validateSignupRedirect(value, type);
         }
     },
 
@@ -286,18 +297,18 @@ export default ModalComponent.extend({
     },
 
     _validateSignupRedirect(url, type) {
-        let errMessage = `Only URLs under your Ghost domain are allowed`;
+        let errMessage = `Please enter a valid URL`;
         this.get('settings.errors').remove(type);
         this.get('settings.hasValidated').removeObject(type);
 
-        if (url.href.startsWith(this.siteUrl)) {
-            const path = url.href.replace(this.siteUrl, '');
-            this.settings.set(type, path);
-            return;
+        try {
+            const savedUrl = new URL(url);
+            this.settings.set(type, savedUrl);
+        } catch (_) {
+            this.get('settings.errors').add(type, errMessage);
+            this.get('settings.hasValidated').pushObject(type);
+            return false;
         }
-
-        this.get('settings.errors').add(type, errMessage);
-        this.get('settings.hasValidated').pushObject(type);
     },
 
     _validateAccentColor(color) {
