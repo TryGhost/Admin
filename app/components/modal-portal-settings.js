@@ -43,8 +43,6 @@ export default ModalComponent.extend({
     customIcon: null,
     showLinksPage: false,
     showLeaveSettingsModal: false,
-    _signupRedirectFree: '',
-    _signupRedirectPaid: '',
     confirm() {},
 
     allowSelfSignup: alias('settings.membersAllowFreeSignup'),
@@ -152,8 +150,6 @@ export default ModalComponent.extend({
         }
 
         this.siteUrl = this.config.get('blogUrl');
-        this.set('_signupRedirectFree', (new URL(this.settings.get('membersFreeSignupRedirect'), this.siteUrl)).href);
-        this.set('_signupRedirectPaid', (new URL(this.settings.get('membersPaidSignupRedirect'), this.siteUrl)).href);
     },
 
     didInsertElement() {
@@ -183,11 +179,11 @@ export default ModalComponent.extend({
         },
 
         setPaidSignupRedirect(url) {
-            this.set('_signupRedirectPaid', url);
+            // noop
         },
 
         setFreeSignupRedirect(url) {
-            this.set('_signupRedirectFree', url);
+            // noop
         },
 
         confirm() {
