@@ -301,13 +301,17 @@ export default ModalComponent.extend({
         this.get('settings.errors').remove(type);
         this.get('settings.hasValidated').removeObject(type);
 
-        try {
-            const savedUrl = new URL(url);
-            this.settings.set(type, savedUrl);
-        } catch (_) {
+        if (!url) {
             this.get('settings.errors').add(type, errMessage);
             this.get('settings.hasValidated').pushObject(type);
             return false;
+        }
+
+        if (url.href.startsWith(this.siteUrl)) {
+            const path = url.href.replace(this.siteUrl, '');
+            this.settings.set(type, path);
+        } else {
+            this.settings.set(type, url.href);
         }
     },
 
