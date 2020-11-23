@@ -395,8 +395,8 @@
             </div>
             <div class="gh-setting-action">
                 <div class="for-switch">
-                    <label class="switch" for="members-allow-self-signup" {{action "toggleSelfSignup" bubbles="false"}}>
-                        <input type="checkbox" checked={{this.allowSelfSignup}} class="gh-input" onclick={{action "toggleSelfSignup"}} data-test-checkbox="members-allow-self-signup">
+                    <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens")}}>
+                        <input type="checkbox" checked={{this.emailTrackOpens}} class="gh-input" {{on "click" (action "toggleEmailTrackOpens")}} name="email-track-opens" data-test-checkbox="email-track-opens">
                         <span class="input-toggle-component mt1"></span>
                     </label>
                 </div>
