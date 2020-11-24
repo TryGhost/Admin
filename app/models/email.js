@@ -13,10 +13,10 @@ export default Model.extend({
     uuid: attr('string'),
     recipientFilter: attr('string'),
 
-    emailCount: attr('number'),
-    deliveredCount: attr('number'),
-    openedCount: attr('number'),
-    failedCount: attr('number'),
+    emailCount: attr('number', {defaultValue: 0}),
+    deliveredCount: attr('number', {defaultValue: 0}),
+    openedCount: attr('number', {defaultValue: 0}),
+    failedCount: attr('number', {defaultValue: 0}),
 
     trackOpens: attr('boolean'),
 
@@ -32,6 +32,11 @@ export default Model.extend({
 
     openRate: computed('deliveredCount', 'openedCount', function () {
         let {deliveredCount, openedCount} = this;
+
+        if (deliveredCount === 0) {
+            return 0;
+        }
+
         return openedCount / deliveredCount * 100;
     }),
 

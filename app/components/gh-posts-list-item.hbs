@@ -31,7 +31,7 @@
                 {{/if}}
 
                 {{#if (eq @post.email.status "submitted")}}
-                    {{capitalize @post.email.recipientFilter}} (<span class="fw5">{{@post.email.emailCount}}</span>)
+                    {{capitalize @post.email.recipientFilter}} (<span class="fw5" data-tooltip="(delivered / total)">{{or @post.email.deliveredCount "-"}} / {{@post.email.emailCount}}</span>)
                 {{/if}}
             {{/if}}
         </div>
