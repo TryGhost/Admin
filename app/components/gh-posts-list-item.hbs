@@ -25,21 +25,22 @@
 
     <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-recipients" @title="Edit this post">
         <div class="flex fw4">
-            
-            {{#if @post.isScheduled}}
-                <span class="gh-schedule-plan">Paid</span>
-            {{/if}}
+            {{#if (or @post.email @post.willEmail)}}
+                {{#if @post.isScheduled}}
+                    <span class="gh-schedule-plan">{{capitalize @post.emailRecipientFilter}}</span>
+                {{/if}}
 
-            {{#if (eq @post.email.status "submitted")}}
-                Paid (<span class="fw5">{{@post.email.emailCount}}</span>)
+                {{#if (eq @post.email.status "submitted")}}
+                    {{capitalize @post.email.recipientFilter}} (<span class="fw5">{{@post.email.emailCount}}</span>)
+                {{/if}}
             {{/if}}
         </div>
     </LinkTo>
 
     <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
         <div class="flex fw4">
-            {{#if (eq @post.email.status "submitted")}}
-                <span class="flex-basis-1-3 darkgrey fw6">57%&nbsp;</span><span class="flex-basis-2-3 fw4">opens</span>
+            {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
+                <span class="flex-basis-1-3 darkgrey fw6">{{@post.email.openRate}}%&nbsp;</span><span class="flex-basis-2-3 fw4">opens</span>
             {{/if}}
         </div>
     </LinkTo>
