@@ -164,10 +164,6 @@
     width: 140px;
 }
 
-.gh-posts-lastupdate-header {
-    width: 160px;
-}
-
 .gh-post-list-title {
     padding-left: 10px;
 }
@@ -398,6 +394,10 @@
     .gh-post-headers,
     .gh-post-list-actions {
         display: none;
+    }
+
+    .gh-content-email-stats {
+        flex-direction: row;
     }
 
     .post-header {

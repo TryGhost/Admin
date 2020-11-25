@@ -32,7 +32,10 @@
                     {{/if}}
 
                     {{#if (eq @post.email.status "submitted")}}
-                        {{capitalize @post.email.recipientFilter}} (<span class="fw5" data-tooltip="(delivered / total)">{{or @post.email.deliveredCount "-"}} / {{@post.email.emailCount}}</span>)
+                        <span class="flex flex-column fw4 gh-content-email-stats" data-tooltip="{{or @post.email.deliveredCount "-"}} delivered">
+                            <h3>{{@post.email.emailCount}}&nbsp;</h3>
+                            <span class="midgrey-l2">{{capitalize @post.email.recipientFilter}} members</span>
+                        </span>
                     {{/if}}
                 {{/if}}
             </div>
@@ -41,11 +44,12 @@
 
     {{#if (eq @post.displayName "post")}}
         <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
-            <div class="flex fw4">
-                {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
-                    <span class="flex-basis-1-3 darkgrey fw6">{{@post.email.openRate}}%&nbsp;</span><span class="flex-basis-2-3 fw4">opens</span>
-                {{/if}}
-            </div>
+            {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
+                <div class="flex flex-column fw4 gh-content-email-stats">
+                    <h3>{{@post.email.openRate}}%&nbsp;</h3>
+                    <span class="midgrey-l2">opens</span>
+                </div>
+            {{/if}}
         </LinkTo>
     {{/if}}
 
