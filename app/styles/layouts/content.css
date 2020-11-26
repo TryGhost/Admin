@@ -160,8 +160,13 @@
     padding-left: 10px;
 }
 
-.gh-posts-status-header {
+.gh-posts-sends-header,
+.gh-posts-opens-header {
     width: 120px;
+}
+
+.gh-posts-status-header {
+    width: 140px;
 }
 
 .gh-post-list-title {
