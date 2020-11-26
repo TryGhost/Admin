@@ -31,14 +31,10 @@
         <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-recipients" @title="Edit this post">
             <div class="flex fw4">
                 {{#if (or @post.email @post.willEmail)}}
-                    {{#if @post.isScheduled}}
-                        <span class="gh-schedule-plan">{{capitalize @post.emailRecipientFilter}}</span>
-                    {{/if}}
-
                     {{#if (eq @post.email.status "submitted")}}
-                        <span class="flex flex-column fw4 gh-content-email-stats" data-tooltip="{{or @post.email.deliveredCount "-"}} delivered">
-                            <h3>{{@post.email.emailCount}}&nbsp;</h3>
-                            <span class="midgrey-l2">{{capitalize @post.email.recipientFilter}} members</span>
+                        <span class="flex fw4" data-tooltip="{{capitalize @post.email.recipientFilter}} members">
+                            <h3 class="gh-content-email-stats">{{@post.email.emailCount}}</h3>
+                            <span class="midgrey-l2 gh-content-email-stats-mobile">{{gh-pluralize @post.email.emailCount "send"}}</span>
                         </span>
                     {{/if}}
                 {{/if}}
@@ -49,15 +45,15 @@
     {{#if (eq @post.displayName "post")}}
         <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
             {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
-                <div class="flex flex-column fw4 gh-content-email-stats">
-                    <h3>
+                <div class="flex fw4">
+                    <h3 class="gh-content-email-stats">
                         {{#if this.isHovered}}
                             {{@post.email.openedCount}}
                         {{else}}
                             {{@post.email.openRate}}%&nbsp;
                         {{/if}}
                     </h3>
-                    <span class="midgrey-l2">opens</span>
+                    <span class="midgrey-l2 gh-content-email-stats-mobile">{{@post.email.openRate}}% opens</span>
                 </div>
             {{/if}}
         </LinkTo>
@@ -66,7 +62,7 @@
     <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-status" @title="Edit this post">
         <div class="flex items-center">
             {{#if @post.isScheduled}}
-            <span class="gh-content-status-draft gh-badge nowrap" title="Scheduled" data-tooltip="{{this.scheduledText}}">
+            <span class="gh-content-status-draft gh-badge nowrap" title="Scheduled" data-tooltip="{{this.scheduledText}} to {{capitalize @post.emailRecipientFilter}} members">
                 Scheduled
             </span>
             {{/if}}

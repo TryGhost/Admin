@@ -217,6 +217,10 @@
     margin-right: 3px;
 }
 
+.gh-content-email-stats-mobile {
+    display: none;
+}
+
 .gh-content-status-draft,
 .gh-content-status-published,
 .gh-content-status-scheduled,
@@ -397,7 +401,11 @@
     }
 
     .gh-content-email-stats {
-        flex-direction: row;
+        display: none;
+    }
+
+    .gh-content-email-stats-mobile {
+        display: inherit;
     }
 
     .post-header {
