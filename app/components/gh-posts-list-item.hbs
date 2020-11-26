@@ -1,4 +1,8 @@
-<li class="gh-list-row gh-posts-list-item" ...attributes>
+<li class="gh-list-row gh-posts-list-item"
+    {{on "mouseover" this.mouseOver}}
+    {{on "mouseleave" this.mouseLeave}}
+    ...attributes
+>
     <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-featured" @title="Edit this post">
         {{#if @post.isFeatured}}
             <span data-tooltip="Featured" class="dib pl1 pr1 nr1 nl1">{{svg-jar "star-filled" class="fill-blue w3 h3"}}</span>
@@ -46,7 +50,13 @@
         <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
             {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
                 <div class="flex flex-column fw4 gh-content-email-stats">
-                    <h3>{{@post.email.openRate}}%&nbsp;</h3>
+                    <h3>
+                        {{#if this.isHovered}}
+                            {{@post.email.openedCount}}
+                        {{else}}
+                            {{@post.email.openRate}}%&nbsp;
+                        {{/if}}
+                    </h3>
                     <span class="midgrey-l2">opens</span>
                 </div>
             {{/if}}
