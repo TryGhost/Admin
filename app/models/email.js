@@ -30,14 +30,14 @@ export default Model.extend({
     isSuccess: equal('status', 'submitted'),
     isFailure: equal('status', 'failed'),
 
-    openRate: computed('deliveredCount', 'openedCount', function () {
-        let {deliveredCount, openedCount} = this;
+    openRate: computed('emailCount', 'openedCount', function () {
+        let {emailCount, openedCount} = this;
 
-        if (deliveredCount === 0) {
+        if (emailCount === 0) {
             return 0;
         }
 
-        return openedCount / deliveredCount * 100;
+        return openedCount / emailCount * 100;
     }),
 
     retry() {
