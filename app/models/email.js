@@ -37,7 +37,7 @@ export default Model.extend({
             return 0;
         }
 
-        return openedCount / emailCount * 100;
+        return Math.round(openedCount / emailCount * 100);
     }),
 
     retry() {
