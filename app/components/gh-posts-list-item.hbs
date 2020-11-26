@@ -32,9 +32,9 @@
             <div class="flex fw4">
                 {{#if (or @post.email @post.willEmail)}}
                     {{#if (eq @post.email.status "submitted")}}
-                        <span class="flex fw4" data-tooltip="{{capitalize @post.email.recipientFilter}} members">
-                            <h3 class="gh-content-email-stats">{{@post.email.emailCount}}</h3>
-                            <span class="midgrey-l2 gh-content-email-stats-mobile">{{gh-pluralize @post.email.emailCount "send"}}</span>
+                        <span class="flex" data-tooltip="{{capitalize @post.email.recipientFilter}} members">
+                            <span class="f7 darkgrey fw6 gh-content-email-stats">{{@post.email.emailCount}}</span>
+                            <span class="midgrey-l2 fw4 gh-content-email-stats-mobile">{{gh-pluralize @post.email.emailCount "send"}}</span>
                         </span>
                     {{/if}}
                 {{/if}}
@@ -45,15 +45,15 @@
     {{#if (eq @post.displayName "post")}}
         <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-opens" @title="Edit this post">
             {{#if (and @post.email.trackOpens (eq @post.email.status "submitted"))}}
-                <div class="flex fw4">
-                    <h3 class="gh-content-email-stats">
+                <div class="flex">
+                    <span class="f7 darkgrey fw6 gh-content-email-stats">
                         {{#if this.isHovered}}
                             {{@post.email.openedCount}}
                         {{else}}
                             {{@post.email.openRate}}%&nbsp;
                         {{/if}}
-                    </h3>
-                    <span class="midgrey-l2 gh-content-email-stats-mobile">{{@post.email.openRate}}% opens</span>
+                    </span>
+                    <span class="midgrey-l2 fw4 gh-content-email-stats-mobile">{{@post.email.openRate}}% opens</span>
                 </div>
             {{/if}}
         </LinkTo>
