@@ -106,14 +106,14 @@ export default class GhMembersImportTable extends Component {
 
     @action
     next() {
-        if (this.hasNextRecord()) {
+        if (this.hasNextRecord) {
             this.dataPreviewIndex += 1;
         }
     }
 
     @action
     prev() {
-        if (this.hasPrevRecord()) {
+        if (this.hasPrevRecord) {
             this.dataPreviewIndex -= 1;
         }
     }
