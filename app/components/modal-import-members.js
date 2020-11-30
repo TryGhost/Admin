@@ -120,17 +120,35 @@ export default ModalComponent.extend({
     },
 
     _uploadSuccess(importResponse) {
-        if (importResponse.meta.stats.invalid && importResponse.meta.stats.invalid.errors) {
-            importResponse.meta.stats.invalid.errors.forEach((error) => {
-                if (error.message === 'Value in [members.email] cannot be blank.') {
-                    error.message = 'Missing email address';
-                } else if (error.message === 'Validation (isEmail) failed for email') {
-                    error.message = 'Invalid email address';
-                }
-            });
-        }
+        let importedCount = importResponse.meta.stats.imported;
+        let errorCount = importResponse.meta.stats.invalid.length;
 
-        this.set('importResponse', importResponse.meta.stats);
+        let errors = importResponse.meta.stats.invalid.map(({error}) => {
+            if (error.message === 'Value in [members.email] cannot be blank.') {
+                error.message = 'Missing email address';
+            } else if (error.message === 'Validation (isEmail) failed for email') {
+                error.message = 'Invalid email address';
+            }
+
+            return error;
+        });
+
+        let errorObject = errors.reduce((obj, error) => {
+            if (!obj[error.message]) {
+                obj[error.message] = {
+                    ...error,
+                    count: 0
+                };
+            }
+            obj[error.message].count += 1;
+            return obj;
+        }, {});
+
+        this.set('importResponse', {
+            importedCount,
+            errorCount,
+            errors: Object.values(errorObject)
+        });
 
         // insert auto-created import label into store immediately if present
         // ready for filtering the members list
