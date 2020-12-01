@@ -61,17 +61,24 @@
                 </div>
             </div>
         </div>
+        {{#if this.importResponse.importedCount}}
+            <div class="mt6">
+                <div class="flex items-start">
+                    <div class="flex-grow w-100">
+                        <p class="ma0 pa0">{{format-number this.importResponse.importedCount}} {{gh-pluralize this.importResponse.importedCount "member" without-count=true}} were added with the following labels:</p>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
         {{#if this.importResponse.errorCount}}
             <div class="mt6 gh-members-upload-errorcontainer error">
                 <div class="flex items-start">
                     {{svg-jar "warning" class="w5 h5 fill-red nudge-top--3 mr3"}}
                     <div class="flex-grow w-100">
-                        <p class="ma0 pa0">{{format-number this.importResponse.errorCount}} {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} were skipped due to the following errors:</p>
-                        <ul class="ma0 pa0 mt4 list bt b--whitegrey">
-                        {{#each this.importResponse.errors as |error|}}
-                            <li class="gh-members-import-errormessage">{{error.message}} <span class="fw4">({{format-number error.count}})</span></li>
-                        {{/each}}
-                        </ul>
+                        <p class="ma0 pa0">{{format-number this.importResponse.errorCount}} {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} were skipped</p>
+                        <p>
+                        <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download validated file</a>
+                        </p>
                     </div>
                 </div>
             </div>

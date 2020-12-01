@@ -1,4 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import Papa from 'papaparse';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {
     AcceptedResponse,
@@ -123,31 +124,14 @@ export default ModalComponent.extend({
         let importedCount = importResponse.meta.stats.imported;
         let errorCount = importResponse.meta.stats.invalid.length;
 
-        let errors = importResponse.meta.stats.invalid.map(({error}) => {
-            if (error.message === 'Value in [members.email] cannot be blank.') {
-                error.message = 'Missing email address';
-            } else if (error.message === 'Validation (isEmail) failed for email') {
-                error.message = 'Invalid email address';
-            }
-
-            return error;
-        });
-
-        let errorObject = errors.reduce((obj, error) => {
-            if (!obj[error.message]) {
-                obj[error.message] = {
-                    ...error,
-                    count: 0
-                };
-            }
-            obj[error.message].count += 1;
-            return obj;
-        }, {});
+        let errorCsv = Papa.unparse(importResponse.meta.stats.invalid);
+        let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
+        let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
 
         this.set('importResponse', {
             importedCount,
             errorCount,
-            errors: Object.values(errorObject)
+            errorCsvUrl
         });
 
         // insert auto-created import label into store immediately if present
