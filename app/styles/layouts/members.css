@@ -861,9 +861,15 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-members-emailsettings-footer-input {
     border: 1px solid var(--whitegrey);
-    padding: 0 6px 6px 6px;
-    height: 80px;
+    padding: 0 12px 6px 12px;
+    height: 120px;
     border-radius: 4px;
+}
+
+.gh-members-emailsettings-footer-input p {
+    color: var(--darkgrey);
+    font-size: 1.4rem !important;
+    line-height: 1.5em !important;
 }
 
 .gh-members-emailsettings-footer {
