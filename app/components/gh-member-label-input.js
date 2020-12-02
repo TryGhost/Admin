@@ -30,8 +30,7 @@ export default class GhMemberLabelInput extends Component {
         return this.availableLabels.map(label => label.name.toLowerCase());
     }
 
-    @action
-    cleanupUnusedLabels() {
+    willDestroy() {
         this._availableLabels.forEach((label) => {
             if (label.get('isNew')) {
                 this.store.deleteRecord(label);
