@@ -1,29 +1,39 @@
-<div class="gh-member-import-wrapper {{unless (eq this.state 'PROCESSING') "wide"}}">
-    <header class="modal-header" data-test-modal="import-members">
-        {{#if (eq this.state 'INIT')}}
+<div class="gh-member-import-wrapper {{if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING')) "wide"}}">
+    {{#if (eq this.state 'INIT')}}
+        <header class="modal-header" data-test-modal="import-members">
             <h1>Import members</h1>
-        {{/if}}
+        </header>
+    {{/if}}
 
-        {{#if (eq this.state 'MAPPING')}}
+    {{#if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING'))}}
+        <header class="modal-header" data-test-modal="import-members">
             <h1>Import members</h1>
-        {{/if}}
+        </header>
+    {{/if}}
 
-        {{#if (eq this.state 'UPLOADING')}}
-            <h1>Importing members</h1>
-        {{/if}}
-
-        {{#if (eq this.state 'PROCESSING')}}
+    {{#if (eq this.state 'PROCESSING')}}
+        <header class="modal-header icon-center" data-test-modal="import-members">
+            <GhLoadingSpinner />
             <h1>Import in progress</h1>
-        {{/if}}
+        </header>
+    {{/if}}
 
-        {{#if (eq this.state 'COMPLETE')}}
+    {{#if (eq this.state 'COMPLETE')}}
+        <header class="modal-header icon-center" data-test-modal="import-members">
+            {{#if this.importResponse.errorCount}}
+                {{svg-jar "members-outline" class="gh-member-import-icon-members"}}
+            {{else}}
+                {{svg-jar "confetti" class="gh-member-import-icon-confetti"}}
+            {{/if}}
             <h1>Import complete</h1>
-        {{/if}}
+        </header>
+    {{/if}}
 
-        {{#if (eq this.state 'ERROR')}}
+    {{#if (eq this.state 'ERROR')}}
+        <header class="modal-header" data-test-modal="import-members">
             <h1>Import error</h1>
-        {{/if}}
-    </header>
+        </header>
+    {{/if}}
 
     <a class="close" href="" role="button" title="Close" {{action "closeModal"}}>
         {{svg-jar "close"}}
@@ -35,61 +45,48 @@
             <ModalImportMembers::CsvFileSelect @setFile={{action "setFile"}} />
         {{/if}}
 
-        {{#if (eq this.state 'MAPPING')}}
-            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} />
-        {{/if}}
-
-        {{#if (eq this.state 'UPLOADING')}}
-            <div class="bg-whitegrey-l2 ba b--whitegrey br3 gh-image-uploader gh-members-import-spinner">
-                <GhLoadingSpinner />
-            </div>
+        {{#if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING'))}}
+            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} @showErrors={{this.showMappingErrors}} @disabled={{if (eq this.state 'UPLOADING') true false}} />
         {{/if}}
 
         {{#if (eq this.state 'PROCESSING')}}
-        <div class="flex justify-between">
-            <p class="gh-member-import-bginfo">
-                We’re importing your members now, you can close this dialog now. We will send you an email when the import is complete.
-            </p>
-            <div class="gh-member-import-bgicon">
-                {{svg-jar "members-outline" class="midlightgrey"}}
+        <div class="gh-member-import-resultcontainer">
+            <div class="gh-member-import-result-summary">
+                <p>Your import is being processed, and you’ll receive a confirmation email as soon as it’s complete. Usually this only takes a few minutes, but larger imports may take longer.</p>
             </div>
         </div>
         {{/if}}
 
         {{#if (eq this.state 'COMPLETE')}}
-            <div class="ba b--whitegrey br3 middarkgrey bg-whitegrey-l2">
-                <div class="gh-member-import-result-summary bb b--whitegrey">
-                    <h2>{{format-number this.importResponse.importedCount}}</h2>
-                    <div class="flex items-center justify-between w-100">
-                        <p>{{gh-pluralize this.importResponse.importedCount "Member" without-count=true}} added or updated</p>
-                        <button class="gh-btn gh-btn-text regular blue" {{action "closeModal"}}><span>View members</span></button>
-                    </div>
-                </div>
+            <div class="gh-member-import-resultcontainer">
+                {{#unless (eq this.importResponse.importedCount 0)}}
                 <div class="gh-member-import-result-summary">
-                    <h2>{{format-number this.importResponse.errorCount}}</h2>
-                    <div class="flex items-center justify-between w-100">
-                        <p>{{gh-pluralize this.importResponse.errorCount "Error" without-count=true}}</p>
-                        {{#if this.importResponse.errorCount}}
-                            <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download errors</a>
-                        {{/if}}
-                    </div>
-                    {{#if this.importResponse.errorCount}}
-                        <div class="w-100 mt4">
-                            {{#each this.importResponse.errorList as |error|}}
-                                <p>{{error.message}} ({{error.count}}) </p>
-                            {{/each}}
-                        </div>
-                    {{/if}}
+                    <p>A total of <strong>{{format-number this.importResponse.importedCount}}</strong> {{gh-pluralize this.importResponse.importedCount 'person' without-count=true}} were successfully added or updated in your list of members, and now have access to your site.</p>
                 </div>
+                {{/unless}}
+                {{#if this.importResponse.errorCount}}
+                    {{#unless (eq this.importResponse.importedCount 0)}}<hr>{{/unless}}
+                    <div class="gh-member-import-result-summary">
+                        <p>{{if (eq this.importResponse.importedCount 0) "No members were added. "}}<strong>{{format-number this.importResponse.errorCount}}</strong> {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} {{if (eq this.importResponse.errorCount 1) "was" "were"}} skipped due to the following errors:</p>
+                    </div>
+                    <div class="gh-member-import-errorlist">
+                        {{#each this.importResponse.errorList as |error|}}
+                            <p>{{error.message}} ({{error.count}}) </p>
+                        {{/each}}
+                    </div>
+                {{/if}}
             </div>
         {{/if}}
 
         {{#if (eq this.state 'ERROR')}}
-            <p>{{this.errorMessage}}</p>
+            <div class="failed flex items-start gh-members-upload-errorcontainer error">
+                <div class="mr2">{{svg-jar "warning" class="nudge-top--2 w4 h4 fill-red"}}</div>
+                <p class="ma0 pa0">{{this.errorMessage}}</p>
+            </div>
         {{/if}}
     </div>
 
-    <div class="modal-footer modal-footer-spread {{if (eq this.state 'PROCESSING') "gh-member-import-bgfooter"}}">
+    <div class="modal-footer modal-footer-spread">
         {{#if (eq this.state 'INIT')}}
             <button {{action "closeModal"}} class="gh-btn" data-test-button="close-import-members">
                 <span>Close</span>
@@ -107,29 +104,48 @@
             <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
                 <span>Start over</span>
             </button>
-            {{!-- {{#unless this.importDisabled}} --}}
-                <button class="gh-btn gh-btn-green" {{action "upload"}}>
-                    {{#if this.mappingResult.membersCount}}
-                        <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
-                    {{else}}
-                        <span>Import members</span>
-                    {{/if}}
-                </button>
-            {{!-- {{/unless}} --}}
+            <button class="gh-btn gh-btn-green" {{action "upload"}}>
+                {{#if this.mappingResult.membersCount}}
+                    <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
+                {{else}}
+                    <span>Import members</span>
+                {{/if}}
+            </button>
+        {{/if}}
+
+        {{#if (eq this.state 'UPLOADING')}}
+            <button {{action "reset"}} class="gh-btn disabled" disabled="disabled" data-test-button="restart-import-members">
+                <span>Start over</span>
+            </button>
+            <button class="gh-btn gh-btn-green gh-btn-icon disabled" disabled="disabled" {{action "upload"}}>
+                <span>{{svg-jar "spinner" class="gh-icon-spinner"}} {{this.runningText}}Uploading</span>
+            </button>
         {{/if}}
 
         {{#if (eq this.state 'COMPLETE')}}
+            {{#if this.importResponse.errorCount}}
+            <a href="{{this.importResponse.errorCsvUrl}}" download="{{this.importResponse.errorCsvName}}" class="gh-btn" data-test-button="restart-import-members">
+                    <span>Download error file</span>
+                </a>
+                <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">
+                    <span>View members</span>
+                </button>
+            {{else}}
+                <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
+                    <span>Upload another file</span>
+                </button>
+                <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">
+                    <span>View members</span>
+                </button>
+            {{/if}}
+        {{/if}}
+
+        {{#if (eq this.state 'PROCESSING')}}
             <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
                 <span>Upload another file</span>
             </button>
             <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">
-                <span>Done</span>
-            </button>
-        {{/if}}
-
-        {{#if (eq this.state 'PROCESSING')}}
-            <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">
-                <span>OK</span>
+                <span>Got it</span>
             </button>
         {{/if}}
 

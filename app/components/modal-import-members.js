@@ -1,13 +1,13 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import Papa from 'papaparse';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import moment from 'moment';
+import unparse from '@tryghost/members-csv/lib/unparse';
 import {
     AcceptedResponse,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-// eslint-disable-next-line ghost/ember/no-computed-properties-in-native-classes
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
@@ -26,16 +26,13 @@ export default ModalComponent.extend({
     paramName: 'membersfile',
     importResponse: null,
     errorMessage: null,
+    showMappingErrors: false,
 
     // Allowed actions
     confirm: () => {},
 
     uploadUrl: computed(function () {
         return `${ghostPaths().apiRoot}/members/upload/`;
-    }),
-
-    importDisabled: computed('mappingResult', function () {
-        return !this.file || !this.mappingResult || !!this.mappingResult.error || !this.mappingResult.membersCount;
     }),
 
     formData: computed('file', function () {
@@ -50,11 +47,9 @@ export default ModalComponent.extend({
         }
 
         if (this.mappingResult.mapping) {
-            for (const key in this.mappingResult.mapping.toJSON()) {
-                if (this.mappingResult.mapping.get(key)) {
-                    // reversing mapping direction to match the structure accepted in the API
-                    formData.append(`mapping[${this.mappingResult.mapping.get(key)}]`, key);
-                }
+            let mapping = this.mappingResult.mapping.toJSON();
+            for (let [key, val] of Object.entries(mapping)) {
+                formData.append(`mapping[${key}]`, val);
             }
         }
 
@@ -74,10 +69,14 @@ export default ModalComponent.extend({
         upload() {
             if (this.file && !this.mappingResult.error) {
                 this.generateRequest();
+                this.set('showMappingErrors', false);
+            } else {
+                this.set('showMappingErrors', true);
             }
         },
 
         reset() {
+            this.set('showMappingErrors', false);
             this.set('errorMessage', null);
             this.set('file', null);
             this.set('mapping', null);
@@ -125,25 +124,39 @@ export default ModalComponent.extend({
         const errorList = {};
         erroredMembers.forEach((d) => {
             d.error.split(',').forEach((errorStr) => {
-                if (errorList[errorStr]) {
-                    errorList[errorStr].count = errorList[errorStr].count + 1;
+                let errorMssg = errorStr;
+                if (errorStr === 'Value in [members.email] cannot be blank.') {
+                    errorMssg = 'Missing email address';
+                } else if (errorStr === 'Value in [members.note] exceeds maximum length of 2000 characters.') {
+                    errorMssg = '"Note" exceeds maximum length of 2000 characters';
+                } else if (errorStr === 'Value in [members.subscribed] must be one of true, false, 0 or 1.') {
+                    errorMssg = 'Value in "Subscribed to emails" must be "true" or "false"';
+                } else if (errorStr === 'Validation (isEmail) failed for email') {
+                    errorMssg = 'Invalid email address';
+                } else if (errorStr.startsWith('No such customer:')) {
+                    errorMssg = 'Could not find Stripe customer';
+                }
+                if (errorList[errorMssg]) {
+                    errorList[errorMssg].count = errorList[errorMssg].count + 1;
                 } else {
-                    errorList[errorStr] = {
-                        message: errorStr,
+                    errorList[errorMssg] = {
+                        message: errorMssg,
                         count: 1
                     };
                 }
             });
         });
 
-        let errorCsv = Papa.unparse(erroredMembers);
+        let errorCsv = unparse(importResponse.meta.stats.invalid);
         let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
         let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
+        let errorCsvName = importResponse.meta.import_label ? `${importResponse.meta.import_label.name} - Errors.csv` : `Import ${moment().format('YYYY-MM-DD HH:mm')} - Errors.csv`;
 
         this.set('importResponse', {
             importedCount,
             errorCount,
             errorCsvUrl,
+            errorCsvName,
             errorList: Object.values(errorList)
         });
 

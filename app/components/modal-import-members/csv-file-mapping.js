@@ -46,10 +46,6 @@ export default class CsvFileMapping extends Component {
             this.error = null;
         }
 
-        if (this.error) {
-            this.setMappingResult(this.error);
-            return;
-        }
         this.mapping = mapping;
         this.setMappingResult();
     }
@@ -60,14 +56,12 @@ export default class CsvFileMapping extends Component {
         this.setMappingResult();
     }
 
-    setMappingResult(error) {
-        if (error) {
-            this.args.setMappingResult({error: this.error});
-        }
+    setMappingResult() {
         this.args.setMappingResult({
             mapping: this.mapping,
             labels: this.labels,
-            membersCount: this.fileData?.length
+            membersCount: this.fileData?.length,
+            error: this.error
         });
     }
 }
