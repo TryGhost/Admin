@@ -11,9 +11,7 @@ export default class CsvFileMapping extends Component {
     @tracked
     fileData = null;
 
-    labels = {
-        labels: []
-    }
+    mappingResult = {};
 
     constructor(...args) {
         super(...args);
@@ -49,12 +47,26 @@ export default class CsvFileMapping extends Component {
         }
 
         if (this.error) {
-            this.args.setMappingResult({error: this.error});
+            this.setMappingResult(this.error);
             return;
         }
+        this.mapping = mapping;
+        this.setMappingResult();
+    }
+
+    @action
+    updateLabels(labels) {
+        this.labels = labels;
+        this.setMappingResult();
+    }
+
+    setMappingResult(error) {
+        if (error) {
+            this.args.setMappingResult({error: this.error});
+        }
         this.args.setMappingResult({
-            mapping,
-            labels: this.labels.labels,
+            mapping: this.mapping,
+            labels: this.labels,
             membersCount: this.fileData?.length
         });
     }
