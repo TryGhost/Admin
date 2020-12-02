@@ -1,13 +1,12 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import Papa from 'papaparse';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import unparse from '@tryghost/members-csv/lib/unparse';
 import {
     AcceptedResponse,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-// eslint-disable-next-line ghost/ember/no-computed-properties-in-native-classes
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/string';
 import {isBlank} from '@ember/utils';
@@ -136,7 +135,7 @@ export default ModalComponent.extend({
             });
         });
 
-        let errorCsv = Papa.unparse(erroredMembers);
+        let errorCsv = unparse(importResponse.meta.stats.invalid);
         let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
         let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
 

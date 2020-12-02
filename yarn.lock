@@ -1510,6 +1510,13 @@
   dependencies:
     "@tryghost/kg-clean-basic-html" "^1.0.10"
 
+"@tryghost/members-csv@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@tryghost/members-csv/-/members-csv-0.3.3.tgz#cb29ad3d9c8f6efa3d8d9bce5934abdc6e21367b"
+  integrity sha512-ZOvAWpC8cNoIxC/phcytdb7V3JN/eCnUe6JfVQlgwe0rwtrlD8yN+ysqTmv7eBLjvh1B9K2tToKbMg5ARas8tw==
+  dependencies:
+    papaparse "5.3.0"
+
 "@tryghost/mobiledoc-kit@0.12.5-ghost.1":
   version "0.12.5-ghost.1"
   resolved "https://registry.yarnpkg.com/@tryghost/mobiledoc-kit/-/mobiledoc-kit-0.12.5-ghost.1.tgz#f79b0f9a9b93eb100fd3dc1c02b343d5d334f4e0"
