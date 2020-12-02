@@ -510,7 +510,22 @@ textarea.gh-member-details-textarea {
 /* ---------------------------------------------------------- */
 
 .fullscreen-modal-import-members {
-    max-width: 640px;
+    max-width: unset !important;
+}
+
+.gh-member-import-wrapper {
+    width: 480px;
+}
+
+.gh-member-import-wrapper.wide {
+    width: 620px;
+}
+
+@media (max-width: 600px) {
+    .gh-member-import-wrapper,
+    .gh-member-import-wrapper.wide {
+        width: calc(100vw - 128px);
+    }
 }
 
 .gh-members-import-uploader {
@@ -805,6 +820,94 @@ p.gh-members-import-errordetail:first-of-type {
     align-items: center;
     justify-content: center;
     color: var(--midgrey);
+}
+
+.gh-member-import-bginfo {
+    margin-right: 40px;
+    color: var(--middarkgrey);
+}
+
+.gh-member-import-bgicon {
+    padding-right: 10px;
+}
+
+.gh-member-import-bgicon svg {
+    width: 80px;
+    height: 80px;
+}
+
+.gh-member-import-bgicon svg .members-outline_svg__g1,
+.gh-member-import-bgicon svg .members-outline_svg__g2,
+.gh-member-import-bgicon svg .members-outline_svg__g3 {
+    opacity: 0;
+}
+
+.gh-member-import-bgicon svg .members-outline_svg__g1 {
+    animation: fadeInBgImportIcon1 ease-in-out 4.0s infinite;
+}
+
+.gh-member-import-bgicon svg .members-outline_svg__g2 {
+    animation: fadeInBgImportIcon2 ease-in-out 4.0s infinite 0.5s;
+}
+
+.gh-member-import-bgicon svg .members-outline_svg__g3 {
+    animation: fadeInBgImportIcon3 ease-in-out 4.0s infinite 1.0s;
+}
+
+@keyframes fadeInBgImportIcon1 {
+    0% {
+        opacity:0;
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+    25% {
+        opacity:1;
+        transform: scale(1.0);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInBgImportIcon2 {
+    0% {
+        opacity:0;
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+    25% {
+        opacity:1;
+        transform: scale(1.0);
+    }
+    87.4999% {
+        opacity: 1;
+    }
+    87.5% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInBgImportIcon3 {
+    0% {
+        opacity:0;
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+    25% {
+        opacity:1;
+        transform: scale(1.0);
+    }
+    74.9999% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 0;
+    }
+}
+
+.gh-member-import-bgicon svg path,
+.gh-member-import-bgicon svg circle {
+    stroke-width: 0.7px;
 }
 
 /* Fixing Firefox's select padding */
