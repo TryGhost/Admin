@@ -124,11 +124,19 @@ export default ModalComponent.extend({
         const errorList = {};
         erroredMembers.forEach((d) => {
             d.error.split(',').forEach((errorStr) => {
-                if (errorList[errorStr]) {
-                    errorList[errorStr].count = errorList[errorStr].count + 1;
+                let errorMssg = errorStr;
+                if (errorStr === 'Value in [members.email] cannot be blank.') {
+                    errorMssg = 'Missing email address';
+                } else if (errorStr === 'Validation (isEmail) failed for email') {
+                    errorMssg = 'Invalid email address';
+                } else if (errorStr.startsWith('No such customer:')) {
+                    errorMssg = 'Could not find Stripe customer';
+                }
+                if (errorList[errorMssg]) {
+                    errorList[errorMssg].count = errorList[errorMssg].count + 1;
                 } else {
-                    errorList[errorStr] = {
-                        message: errorStr,
+                    errorList[errorMssg] = {
+                        message: errorMssg,
                         count: 1
                     };
                 }
