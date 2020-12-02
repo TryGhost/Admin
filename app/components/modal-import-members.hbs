@@ -73,6 +73,13 @@
                             <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download errors</a>
                         {{/if}}
                     </div>
+                    {{#if this.importResponse.errorCount}}
+                        <div class="w-100 mt4">
+                            {{#each this.importResponse.errorList as |error|}}
+                                <p>{{error.message}} ({{error.count}}) </p>
+                            {{/each}}
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         {{/if}}
