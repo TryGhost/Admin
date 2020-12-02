@@ -39,23 +39,21 @@ export default ModalComponent.extend({
     }),
 
     formData: computed('file', function () {
-        let paramName = this.paramName;
-        let file = this.file;
         let formData = new FormData();
 
-        formData.append(paramName, file);
+        formData.append(this.paramName, this.file);
 
-        if (this.mappingResult.labels.length) {
+        if (this.mappingResult.labels) {
             this.mappingResult.labels.forEach((label) => {
                 formData.append('labels', label.name);
             });
         }
 
-        if (this.mapping) {
-            for (const key in this.mapping.toJSON()) {
-                if (this.mapping.get(key)) {
+        if (this.mappingResult.mapping) {
+            for (const key in this.mappingResult.mapping.toJSON()) {
+                if (this.mappingResult.mapping.get(key)) {
                     // reversing mapping direction to match the structure accepted in the API
-                    formData.append(`mapping[${this.mapping.get(key)}]`, key);
+                    formData.append(`mapping[${this.mappingResult.mapping.get(key)}]`, key);
                 }
             }
         }
