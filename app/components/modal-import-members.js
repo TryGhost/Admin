@@ -39,23 +39,21 @@ export default ModalComponent.extend({
     }),
 
     formData: computed('file', function () {
-        let paramName = this.paramName;
-        let file = this.file;
         let formData = new FormData();
 
-        formData.append(paramName, file);
+        formData.append(this.paramName, this.file);
 
-        if (this.mappingResult.labels.length) {
+        if (this.mappingResult.labels) {
             this.mappingResult.labels.forEach((label) => {
                 formData.append('labels', label.name);
             });
         }
 
-        if (this.mapping) {
-            for (const key in this.mapping.toJSON()) {
-                if (this.mapping.get(key)) {
+        if (this.mappingResult.mapping) {
+            for (const key in this.mappingResult.mapping.toJSON()) {
+                if (this.mappingResult.mapping.get(key)) {
                     // reversing mapping direction to match the structure accepted in the API
-                    formData.append(`mapping[${this.mapping.get(key)}]`, key);
+                    formData.append(`mapping[${this.mappingResult.mapping.get(key)}]`, key);
                 }
             }
         }
@@ -122,16 +120,31 @@ export default ModalComponent.extend({
 
     _uploadSuccess(importResponse) {
         let importedCount = importResponse.meta.stats.imported;
-        let errorCount = importResponse.meta.stats.invalid.length;
+        const erroredMembers = importResponse.meta.stats.invalid;
+        let errorCount = erroredMembers.length;
+        const errorList = {};
+        erroredMembers.forEach((d) => {
+            d.error.split(',').forEach((errorStr) => {
+                if (errorList[errorStr]) {
+                    errorList[errorStr].count = errorList[errorStr].count + 1;
+                } else {
+                    errorList[errorStr] = {
+                        message: errorStr,
+                        count: 1
+                    };
+                }
+            });
+        });
 
-        let errorCsv = Papa.unparse(importResponse.meta.stats.invalid);
+        let errorCsv = Papa.unparse(erroredMembers);
         let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
         let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
 
         this.set('importResponse', {
             importedCount,
             errorCount,
-            errorCsvUrl
+            errorCsvUrl,
+            errorList: Object.values(errorList)
         });
 
         // insert auto-created import label into store immediately if present

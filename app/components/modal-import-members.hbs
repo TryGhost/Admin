@@ -70,9 +70,16 @@
                     <div class="flex items-center justify-between w-100">
                         <p>{{gh-pluralize this.importResponse.errorCount "Error" without-count=true}}</p>
                         {{#if this.importResponse.errorCount}}
-                            <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download validated file</a>
+                            <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download errors</a>
                         {{/if}}
                     </div>
+                    {{#if this.importResponse.errorCount}}
+                        <div class="w-100 mt4">
+                            {{#each this.importResponse.errorList as |error|}}
+                                <p>{{error.message}} ({{error.count}}) </p>
+                            {{/each}}
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         {{/if}}
@@ -82,7 +89,7 @@
         {{/if}}
     </div>
 
-    <div class="modal-footer {{unless (eq this.state 'PROCESSING') "modal-footer-spread"}}">
+    <div class="modal-footer modal-footer-spread {{if (eq this.state 'PROCESSING') "gh-member-import-bgfooter"}}">
         {{#if (eq this.state 'INIT')}}
             <button {{action "closeModal"}} class="gh-btn" data-test-button="close-import-members">
                 <span>Close</span>
