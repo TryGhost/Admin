@@ -70,7 +70,7 @@
                     <div class="flex items-center justify-between w-100">
                         <p>{{gh-pluralize this.importResponse.errorCount "Error" without-count=true}}</p>
                         {{#if this.importResponse.errorCount}}
-                            <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download validated file</a>
+                            <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download errors</a>
                         {{/if}}
                     </div>
                 </div>
