@@ -42,7 +42,7 @@ export default class CsvFileMapping extends Component {
             });
         } else if (!mapping.getKeyByValue('email')) {
             this.error = new MemberImportError({
-                message: '"Email" field has to be mapped to continue.'
+                message: 'Please map "Email" to one of the fields in the CSV.'
             });
         } else {
             this.error = null;

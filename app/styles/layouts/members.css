@@ -794,9 +794,9 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-member-import-result-summary p {
-    margin: -2px 0 0;
+    margin: 0;
     padding: 0;
-    color: var(--midlightgrey);
+    color: var(--midgrey);
 }
 
 .gh-member-import-nodata span {

@@ -50,39 +50,23 @@
 
     {{#if (eq this.state 'COMPLETE')}}
         <div class="ba b--whitegrey br3 middarkgrey bg-whitegrey-l2">
-            <div class="flex items-start">
-                <div class="w-50 gh-member-import-result-summary">
-                    <h2>{{format-number this.importResponse.importedCount}}</h2>
-                    <p>{{gh-pluralize this.importResponse.importedCount "Member" without-count=true}} added</p>
+            <div class="gh-member-import-result-summary bb b--whitegrey">
+                <h2>{{format-number this.importResponse.importedCount}}</h2>
+                <div class="flex items-center justify-between w-100">
+                    <p>{{gh-pluralize this.importResponse.importedCount "Member" without-count=true}} added or updated</p>
+                    <button class="gh-btn gh-btn-text regular blue" {{action "closeModal"}}><span>View members</span></button>
                 </div>
-                <div class="bl b--whitegrey w-50 gh-member-import-result-summary">
-                    <h2>{{format-number this.importResponse.errorCount}}</h2>
+            </div>
+            <div class="gh-member-import-result-summary">
+                <h2>{{format-number this.importResponse.errorCount}}</h2>
+                <div class="flex items-center justify-between w-100">
                     <p>{{gh-pluralize this.importResponse.errorCount "Error" without-count=true}}</p>
+                    {{#if this.importResponse.errorCount}}
+                        <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download validated file</a>
+                    {{/if}}
                 </div>
             </div>
         </div>
-        {{#if this.importResponse.importedCount}}
-            <div class="mt6">
-                <div class="flex items-start">
-                    <div class="flex-grow w-100">
-                        <p class="ma0 pa0">{{format-number this.importResponse.importedCount}} {{gh-pluralize this.importResponse.importedCount "member" without-count=true}} were added with the following labels:</p>
-                    </div>
-                </div>
-            </div>
-        {{/if}}
-        {{#if this.importResponse.errorCount}}
-            <div class="mt6 gh-members-upload-errorcontainer error">
-                <div class="flex items-start">
-                    {{svg-jar "warning" class="w5 h5 fill-red nudge-top--3 mr3"}}
-                    <div class="flex-grow w-100">
-                        <p class="ma0 pa0">{{format-number this.importResponse.errorCount}} {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} were skipped</p>
-                        <p>
-                        <a href="{{this.importResponse.errorCsvUrl}}" download="validated-import.csv">Download validated file</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        {{/if}}
     {{/if}}
 
     {{#if (eq this.state 'ERROR')}}
@@ -90,7 +74,7 @@
     {{/if}}
 </div>
 
-<div class="modal-footer {{unless this.importResponse "modal-footer-spread"}}">
+<div class="modal-footer modal-footer-spread">
     {{#if (eq this.state 'INIT')}}
         <button {{action "closeModal"}} class="gh-btn" data-test-button="close-import-members">
             <span>Close</span>
@@ -120,6 +104,9 @@
     {{/if}}
 
     {{#if (eq this.state 'COMPLETE')}}
+        <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
+            <span>Upload another file</span>
+        </button>
         <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">
             <span>Done</span>
         </button>
