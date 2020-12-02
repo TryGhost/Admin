@@ -108,11 +108,15 @@
         <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
             <span>Start over</span>
         </button>
-        {{#unless this.importDisabled}}
+        {{!-- {{#unless this.importDisabled}} --}}
             <button class="gh-btn gh-btn-green" {{action "upload"}}>
-                <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
+                {{#if this.mappingResult.membersCount}}
+                    <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
+                {{else}}
+                    <span>Import members</span>
+                {{/if}}
             </button>
-        {{/unless}}
+        {{!-- {{/unless}} --}}
     {{/if}}
 
     {{#if (eq this.state 'COMPLETE')}}

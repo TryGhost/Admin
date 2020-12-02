@@ -1,28 +1,29 @@
-{{#if this.error}}
+{{!-- {{#if this.error}}
 <div class="failed flex items-start gh-members-upload-errorcontainer error">
     <div class="mr3">
         {{svg-jar "warning" class="nudge-top--2 w5 h5 fill-red"}}
     </div>
     <div class="ma0">
-        <p class="ma0 pa0 flex-grow w-100">The import contains errors!</p>
-        <ul class="ma0 pa0 mt4 list bt b--whitegrey">
-            <li class="gh-members-import-errormessage">
-                <span>{{{error.message}}}</span>
-            </li>
-        </ul>
+        <p class="ma0 pa0 flex-grow w-100">{{this.error.message}}</p>
     </div>
 </div>
-{{/if}}
+{{/if}} --}}
 
 {{#if this.fileData}}
-    <GhFormGroup>
-        <div class="gh-members-import-scrollarea">
-            <GhMembersImportTable
-                @data={{this.fileData}}
-                @setMapping={{this.setMapping}}/>
+    <GhFormGroup class="gh-members-import-mapping">
+        <div class="gh-members-import-mappingwrapper">
+            <div class="gh-members-import-scrollarea">
+                <GhMembersImportTable
+                    @data={{this.fileData}}
+                    @setMapping={{this.setMapping}}/>
+            </div>
         </div>
+        {{#if this.error}}
+            <p class="pt2 error">{{this.error.message}}</p>
+        {{/if}}
+        <p class="pt2">If an email address in your CSV matches an existing member, they will be updated with the mapped values.</p>
 
-        <div class="mt4">
+        <div class="mt6">
             <label for="label-input"><span class="fw6 f8 dib mb1">Label these members</span></label>
             <GhMemberLabelInput @member={{this.labels}} @triggerId="label-input" />
         </div>
