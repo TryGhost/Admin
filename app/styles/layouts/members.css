@@ -823,12 +823,21 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-member-import-bginfo {
-    margin-right: 40px;
+    margin-right: 32px;
     color: var(--middarkgrey);
+    flex-basis: 310px;
 }
 
 .gh-member-import-bgicon {
-    padding-right: 10px;
+    padding: 30px;
+    background: var(--whitegrey-l2);
+    border: 1px solid var(--whitegrey);
+    border-radius: 999px;
+    height: 146px;
+    width: 146px;
+    flex-basis: 146px;
+    margin-top: -32px;
+    margin-bottom: -32px;
 }
 
 .gh-member-import-bgicon svg {
@@ -903,6 +912,10 @@ p.gh-members-import-errordetail:first-of-type {
     75% {
         opacity: 0;
     }
+}
+
+.gh-member-import-bgfooter {
+    margin-top: 4px;
 }
 
 .gh-member-import-bgicon svg path,
