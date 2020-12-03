@@ -36,7 +36,7 @@
         {{/if}}
 
         {{#if (eq this.state 'MAPPING')}}
-            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} />
+            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} @showErrors={{this.showMappingErrors}} />
         {{/if}}
 
         {{#if (eq this.state 'UPLOADING')}}
@@ -107,15 +107,13 @@
             <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
                 <span>Start over</span>
             </button>
-            {{!-- {{#unless this.importDisabled}} --}}
-                <button class="gh-btn gh-btn-green" {{action "upload"}}>
-                    {{#if this.mappingResult.membersCount}}
-                        <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
-                    {{else}}
-                        <span>Import members</span>
-                    {{/if}}
-                </button>
-            {{!-- {{/unless}} --}}
+            <button class="gh-btn gh-btn-green" {{action "upload"}}>
+                {{#if this.mappingResult.membersCount}}
+                    <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
+                {{else}}
+                    <span>Import members</span>
+                {{/if}}
+            </button>
         {{/if}}
 
         {{#if (eq this.state 'COMPLETE')}}

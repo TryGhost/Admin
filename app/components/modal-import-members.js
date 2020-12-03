@@ -25,16 +25,13 @@ export default ModalComponent.extend({
     paramName: 'membersfile',
     importResponse: null,
     errorMessage: null,
+    showMappingErrors: false,
 
     // Allowed actions
     confirm: () => {},
 
     uploadUrl: computed(function () {
         return `${ghostPaths().apiRoot}/members/upload/`;
-    }),
-
-    importDisabled: computed('mappingResult', function () {
-        return !this.file || !this.mappingResult || !!this.mappingResult.error || !this.mappingResult.membersCount;
     }),
 
     formData: computed('file', function () {
@@ -73,6 +70,9 @@ export default ModalComponent.extend({
         upload() {
             if (this.file && !this.mappingResult.error) {
                 this.generateRequest();
+                this.showMappingErrors = false;
+            } else {
+                this.showMappingErrors = true;
             }
         },
 

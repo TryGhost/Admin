@@ -11,11 +11,15 @@ export default class CsvFileMapping extends Component {
     @tracked
     fileData = null;
 
+    @tracked
+    showErrors = false;
+
     mappingResult = {};
 
     constructor(...args) {
         super(...args);
         this.parseFileAndGenerateMapping(this.args.file);
+        this.showErrors = this.args.showErrors;
     }
 
     parseFileAndGenerateMapping(file) {
@@ -61,13 +65,11 @@ export default class CsvFileMapping extends Component {
     }
 
     setMappingResult(error) {
-        if (error) {
-            this.args.setMappingResult({error: this.error});
-        }
         this.args.setMappingResult({
             mapping: this.mapping,
             labels: this.labels,
-            membersCount: this.fileData?.length
+            membersCount: this.fileData?.length,
+            error: (error || null)
         });
     }
 }
