@@ -809,9 +809,21 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-member-import-result-summary p {
+    color: var(--darkgrey);
     margin: 0;
     padding: 0;
-    color: var(--middarkgrey);
+}
+
+.gh-member-import-errorlist {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.gh-member-import-errorlist p {
+    font-size: 13px;
+    color: var(--midlightgrey-d2);
+    margin: 0;
+    padding: 0;
 }
 
 .gh-member-import-nodata span {
