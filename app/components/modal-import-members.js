@@ -77,6 +77,7 @@ export default ModalComponent.extend({
         },
 
         reset() {
+            this.set('showMappingErrors', false);
             this.set('errorMessage', null);
             this.set('file', null);
             this.set('mapping', null);
