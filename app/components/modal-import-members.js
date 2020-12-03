@@ -46,11 +46,9 @@ export default ModalComponent.extend({
         }
 
         if (this.mappingResult.mapping) {
-            for (const key in this.mappingResult.mapping.toJSON()) {
-                if (this.mappingResult.mapping.get(key)) {
-                    // reversing mapping direction to match the structure accepted in the API
-                    formData.append(`mapping[${this.mappingResult.mapping.get(key)}]`, key);
-                }
+            let mapping = this.mappingResult.mapping.toJSON();
+            for (let [key, val] of Object.entries(mapping)) {
+                formData.append(`mapping[${key}]`, val);
             }
         }
 
