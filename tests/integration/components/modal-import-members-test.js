@@ -201,7 +201,7 @@ describe('Integration: Component: modal-import-members-test', function () {
     });
 
     it('validates extension by default', async function () {
-        stubSuccessfulUpload(server);
+        stubFailedUpload(server, 415);
 
         await render(hbs`{{modal-import-members}}`);
 

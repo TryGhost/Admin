@@ -85,7 +85,10 @@
         {{/if}}
 
         {{#if (eq this.state 'ERROR')}}
-            <p>{{this.errorMessage}}</p>
+            <div class="failed flex items-start gh-members-upload-errorcontainer error">
+                <div class="mr2">{{svg-jar "warning" class="nudge-top--2 w4 h4 fill-red"}}</div>
+                <p class="ma0 pa0">{{this.errorMessage}}</p>
+            </div>
         {{/if}}
     </div>
 
