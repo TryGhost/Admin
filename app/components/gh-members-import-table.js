@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
+import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
@@ -57,7 +58,7 @@ export default class GhMembersImportTable extends Component {
         const mapping = this.memberImportValidator.check(this.args.data);
         this.data = this.args.data;
         this.mapping = new MembersFieldMapping(mapping);
-        this.args.setMapping(this.mapping);
+        run.schedule('afterRender', () => this.args.setMapping(this.mapping));
     }
 
     get currentlyDisplayedData() {
