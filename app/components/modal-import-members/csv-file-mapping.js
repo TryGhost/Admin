@@ -11,15 +11,11 @@ export default class CsvFileMapping extends Component {
     @tracked
     fileData = null;
 
-    @tracked
-    showErrors = false;
-
     mappingResult = {};
 
     constructor(...args) {
         super(...args);
         this.parseFileAndGenerateMapping(this.args.file);
-        this.showErrors = this.args.showErrors;
     }
 
     parseFileAndGenerateMapping(file) {

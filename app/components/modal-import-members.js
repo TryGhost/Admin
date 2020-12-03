@@ -70,9 +70,9 @@ export default ModalComponent.extend({
         upload() {
             if (this.file && !this.mappingResult.error) {
                 this.generateRequest();
-                this.showMappingErrors = false;
+                this.set('showMappingErrors', false);
             } else {
-                this.showMappingErrors = true;
+                this.set('showMappingErrors', true);
             }
         },
 
