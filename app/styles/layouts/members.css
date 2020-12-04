@@ -514,7 +514,7 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-member-import-wrapper {
-    width: 480px;
+    width: 420px;
 }
 
 .gh-member-import-wrapper.wide {
@@ -797,8 +797,12 @@ p.gh-members-import-errordetail:first-of-type {
     overflow-wrap: break-word;
 }
 
+.gh-member-import-resultcontainer {
+    margin-bottom: 28px;
+}
+
 .gh-member-import-result-summary {
-    padding: 20px;
+    flex-basis: 50%;
 }
 
 .gh-member-import-result-summary h2 {
@@ -812,18 +816,39 @@ p.gh-members-import-errordetail:first-of-type {
     color: var(--darkgrey);
     margin: 0;
     padding: 0;
+    line-height: 1.5em;
+    margin-bottom: 12px;
+}
+
+.gh-member-import-result-summary p strong {
+    font-size: 1.5rem;
 }
 
 .gh-member-import-errorlist {
     width: 100%;
-    margin-top: 12px;
+    margin: 8px 0 28px;
+}
+
+.gh-member-import-errorlist h4 {
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--whitegrey);
+    padding-bottom: 8px;
+    margin-top: 0px;
+    color: var(--midgrey);
 }
 
 .gh-member-import-errorlist p {
     font-size: 13px;
+    font-weight: 400;
     color: var(--midlightgrey-d2);
-    margin: 0;
     padding: 0;
+    margin-bottom: 6px;
+}
+
+.gh-member-import-resultcontainer hr {
+    margin: 24px -32px;
+    border-color: var(--whitegrey);
 }
 
 .gh-member-import-nodata span {
@@ -834,105 +859,24 @@ p.gh-members-import-errordetail:first-of-type {
     color: var(--midgrey);
 }
 
-.gh-member-import-bginfo {
-    margin-right: 32px;
-    color: var(--middarkgrey);
-    flex-basis: 310px;
+.gh-member-import-icon-members {
+    color: var(--green);
 }
 
-.gh-member-import-bgicon {
-    padding: 30px;
-    background: var(--whitegrey-l2);
-    border: 1px solid var(--whitegrey);
-    border-radius: 999px;
-    height: 146px;
-    width: 146px;
-    flex-basis: 146px;
-    margin-top: -32px;
-    margin-bottom: -32px;
+.gh-member-import-icon-members path,
+.gh-member-import-icon-members circle {
+    stroke-width: 0.85px;
 }
 
-.gh-member-import-bgicon svg {
-    width: 80px;
-    height: 80px;
+.gh-member-import-icon-confetti {
+    color: var(--purple);
+    margin-left: 12px;
 }
 
-.gh-member-import-bgicon svg .members-outline_svg__g1,
-.gh-member-import-bgicon svg .members-outline_svg__g2,
-.gh-member-import-bgicon svg .members-outline_svg__g3 {
-    opacity: 0;
-}
-
-.gh-member-import-bgicon svg .members-outline_svg__g1 {
-    animation: fadeInBgImportIcon1 ease-in-out 2.0s infinite;
-}
-
-.gh-member-import-bgicon svg .members-outline_svg__g2 {
-    animation: fadeInBgImportIcon2 ease-in-out 2.0s infinite 0.25s;
-}
-
-.gh-member-import-bgicon svg .members-outline_svg__g3 {
-    animation: fadeInBgImportIcon3 ease-in-out 2.0s infinite 0.5s;
-}
-
-@keyframes fadeInBgImportIcon1 {
-    0% {
-        opacity:0;
-        transform: scale(0.9);
-        transform-origin: center;
-    }
-    25% {
-        opacity:1;
-        transform: scale(1.0);
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInBgImportIcon2 {
-    0% {
-        opacity:0;
-        transform: scale(0.9);
-        transform-origin: center;
-    }
-    25% {
-        opacity:1;
-        transform: scale(1.0);
-    }
-    87.4999% {
-        opacity: 1;
-    }
-    87.5% {
-        opacity: 0;
-    }
-}
-
-@keyframes fadeInBgImportIcon3 {
-    0% {
-        opacity:0;
-        transform: scale(0.9);
-        transform-origin: center;
-    }
-    25% {
-        opacity:1;
-        transform: scale(1.0);
-    }
-    74.9999% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 0;
-    }
-}
-
-.gh-member-import-bgfooter {
-    margin-top: 4px;
-}
-
-.gh-member-import-bgicon svg path,
-.gh-member-import-bgicon svg circle {
-    stroke-width: 0.7px;
+.gh-member-import-icon-confetti path,
+.gh-member-import-icon-confetti circle,
+.gh-member-import-icon-confetti ellipse {
+    stroke-width: 0.85px;
 }
 
 /* Fixing Firefox's select padding */
