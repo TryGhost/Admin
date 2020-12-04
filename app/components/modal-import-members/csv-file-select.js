@@ -33,7 +33,6 @@ export default class CsvFileSelect extends Component {
         this.args.setFile(file);
     }
 
-    /*
     @action
     dragOver(event) {
         if (!event.dataTransfer) {
@@ -64,10 +63,9 @@ export default class CsvFileSelect extends Component {
         event.preventDefault();
         this.dragClass = null;
         if (event.dataTransfer.files) {
-            this.handleFileSelected(event.dataTransfer.files);
+            this.fileSelected(event.dataTransfer.files);
         }
     }
-    */
 
     _validateFileType(file) {
         let [, extension] = (/(?:\.([^.]+))?$/).exec(file.name);
