@@ -864,15 +864,15 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-member-import-bgicon svg .members-outline_svg__g1 {
-    animation: fadeInBgImportIcon1 ease-in-out 4.0s infinite;
+    animation: fadeInBgImportIcon1 ease-in-out 2.0s infinite;
 }
 
 .gh-member-import-bgicon svg .members-outline_svg__g2 {
-    animation: fadeInBgImportIcon2 ease-in-out 4.0s infinite 0.5s;
+    animation: fadeInBgImportIcon2 ease-in-out 2.0s infinite 0.25s;
 }
 
 .gh-member-import-bgicon svg .members-outline_svg__g3 {
-    animation: fadeInBgImportIcon3 ease-in-out 4.0s infinite 1.0s;
+    animation: fadeInBgImportIcon3 ease-in-out 2.0s infinite 0.5s;
 }
 
 @keyframes fadeInBgImportIcon1 {
