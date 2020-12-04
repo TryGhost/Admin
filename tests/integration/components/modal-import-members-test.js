@@ -205,7 +205,11 @@ describe('Integration: Component: modal-import-members-test', function () {
 
         await render(hbs`{{modal-import-members}}`);
 
-        await fileUpload('input[type="file"]', ['membersfile'], {name: 'test.txt'});
+        await fileUpload('input[type="file"]', ['name,email\r\nmembername,memberemail@example.com'], {name: 'test.csv'});
+
+        // Wait for async CSV parsing to finish
+        await waitFor('table', {timeout: 50});
+        await click('.gh-btn-green');
 
         expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
         expect(find('.failed').textContent).to.match(/The file type you uploaded is not supported/);
