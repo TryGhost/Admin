@@ -178,28 +178,6 @@ describe('Integration: Component: modal-import-members-test', function () {
         expect(showAPIError.called).to.be.false;
     });
 
-    it('handles drag over/leave', async function () {
-        await render(hbs`{{modal-import-members}}`);
-
-        run(() => {
-            // eslint-disable-next-line new-cap
-            let dragover = $.Event('dragover', {
-                dataTransfer: {
-                    files: []
-                }
-            });
-            $(find('.gh-image-uploader')).trigger(dragover);
-        });
-
-        await settled();
-
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.true;
-
-        await triggerEvent('.gh-image-uploader', 'dragleave');
-
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.false;
-    });
-
     it('validates extension by default', async function () {
         stubFailedUpload(server, 415);
 
