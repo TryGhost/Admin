@@ -1,13 +1,11 @@
-import $ from 'jquery';
 import Pretender from 'pretender';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import {click, find, findAll, render, settled, triggerEvent, waitFor} from '@ember/test-helpers';
+import {click, find, findAll, render, waitFor} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {fileUpload} from '../../helpers/file-upload';
-import {run} from '@ember/runloop';
 import {setupRenderingTest} from 'ember-mocha';
 
 const notificationsStub = Service.extend({
