@@ -126,6 +126,8 @@ export default ModalComponent.extend({
                 let errorMssg = errorStr;
                 if (errorStr === 'Value in [members.email] cannot be blank.') {
                     errorMssg = 'Missing email address';
+                } else if (errorStr === 'Value in [members.note] exceeds maximum length of 2000 characters.') {
+                    errorMssg = '"Note" exceeds maximum length of 2000 characters';
                 } else if (errorStr === 'Validation (isEmail) failed for email') {
                     errorMssg = 'Invalid email address';
                 } else if (errorStr.startsWith('No such customer:')) {
