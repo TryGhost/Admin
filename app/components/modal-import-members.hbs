@@ -71,13 +71,15 @@
 
         {{#if (eq this.state 'COMPLETE')}}
             <div class="gh-member-import-resultcontainer">
+                {{#unless (eq this.importResponse.importedCount 0)}}
                 <div class="gh-member-import-result-summary">
                     <p>A total of <strong>{{format-number this.importResponse.importedCount}}</strong> {{gh-pluralize this.importResponse.importedCount 'person' without-count=true}} were successfully added or updated in your list of members, and now have access to your site.</p>
                 </div>
+                {{/unless}}
                 {{#if this.importResponse.errorCount}}
-                    <hr>
+                    {{#unless (eq this.importResponse.importedCount 0)}}<hr>{{/unless}}
                     <div class="gh-member-import-result-summary">
-                        <p><strong>{{format-number this.importResponse.errorCount}}</strong> {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} were skipped due to the following errors:</p>
+                        <p>{{if (eq this.importResponse.importedCount 0) "No members were added. "}}<strong>{{format-number this.importResponse.errorCount}}</strong> {{gh-pluralize this.importResponse.errorCount "member" without-count=true}} {{if (eq this.importResponse.errorCount 1) "was" "were"}} skipped due to the following errors:</p>
                     </div>
                     <div class="gh-member-import-errorlist">
                         {{#each this.importResponse.errorList as |error|}}
