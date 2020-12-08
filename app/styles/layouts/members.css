@@ -543,6 +543,7 @@ textarea.gh-member-details-textarea {
     min-height: 182px;
     justify-content: center;
     align-items: center;
+    margin-bottom: -20px;
 }
 
 .gh-members-import-spinner .gh-loading-content {

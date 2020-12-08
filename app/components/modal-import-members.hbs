@@ -11,12 +11,6 @@
         </header>
     {{/if}}
 
-    {{#if (eq this.state 'UPLOADING')}}
-        <header class="modal-header" data-test-modal="import-members">
-            <h1>Importing members</h1>
-        </header>
-    {{/if}}
-
     {{#if (eq this.state 'PROCESSING')}}
         <header class="modal-header icon-center" data-test-modal="import-members">
             <GhLoadingSpinner />
@@ -56,7 +50,7 @@
         {{/if}}
 
         {{#if (eq this.state 'UPLOADING')}}
-            <div class="gh-image-uploader gh-members-import-spinner">
+            <div class="gh-members-import-spinner">
                 <GhLoadingSpinner />
             </div>
         {{/if}}
