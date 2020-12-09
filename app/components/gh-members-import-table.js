@@ -64,7 +64,7 @@ export default class GhMembersImportTable extends Component {
     get currentlyDisplayedData() {
         let rows = [];
 
-        if (this.data && this.mapping) {
+        if (this.data && this.data.length && this.mapping) {
             let currentRecord = this.data[this.dataPreviewIndex];
 
             for (const [key, value] of Object.entries(currentRecord)) {

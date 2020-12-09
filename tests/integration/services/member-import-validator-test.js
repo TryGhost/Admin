@@ -144,7 +144,6 @@ describe('Integration: Service: member-import-validator', function () {
             }]);
 
             expect(result.email).to.equal('correo_electronico');
-            expect(result.stripe_customer_id).to.equal('stripe_id');
         });
 
         it('correctly detects variation of "name" mapping', async function () {

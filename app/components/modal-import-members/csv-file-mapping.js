@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import MemberImportError from 'ghost-admin/errors/member-import-error';
 import papaparse from 'papaparse';
 import {action} from '@ember/object';
+import {isNone} from '@ember/utils';
 import {tracked} from '@glimmer/tracking';
 
 export default class CsvFileMapping extends Component {
@@ -30,6 +31,10 @@ export default class CsvFileMapping extends Component {
                 }
             }
         });
+    }
+
+    get hasFileData() {
+        return !isNone(this.fileData);
     }
 
     @action
