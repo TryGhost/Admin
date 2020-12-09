@@ -1,11 +1,11 @@
-<div class="gh-member-import-wrapper {{if (eq this.state 'MAPPING') "wide"}}">
+<div class="gh-member-import-wrapper {{if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING')) "wide"}}">
     {{#if (eq this.state 'INIT')}}
         <header class="modal-header" data-test-modal="import-members">
             <h1>Import members</h1>
         </header>
     {{/if}}
 
-    {{#if (eq this.state 'MAPPING')}}
+    {{#if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING'))}}
         <header class="modal-header" data-test-modal="import-members">
             <h1>Import members</h1>
         </header>
@@ -45,14 +45,8 @@
             <ModalImportMembers::CsvFileSelect @setFile={{action "setFile"}} />
         {{/if}}
 
-        {{#if (eq this.state 'MAPPING')}}
-            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} @showErrors={{this.showMappingErrors}} />
-        {{/if}}
-
-        {{#if (eq this.state 'UPLOADING')}}
-            <div class="gh-members-import-spinner">
-                <GhLoadingSpinner />
-            </div>
+        {{#if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING'))}}
+            <ModalImportMembers::CsvFileMapping @file={{this.file}} @setMappingResult={{action "setMappingResult"}} @showErrors={{this.showMappingErrors}} @disabled={{if (eq this.state 'UPLOADING') true false}} />
         {{/if}}
 
         {{#if (eq this.state 'PROCESSING')}}
@@ -116,6 +110,15 @@
                 {{else}}
                     <span>Import members</span>
                 {{/if}}
+            </button>
+        {{/if}}
+
+        {{#if (eq this.state 'UPLOADING')}}
+            <button {{action "reset"}} class="gh-btn disabled" disabled="disabled" data-test-button="restart-import-members">
+                <span>Start over</span>
+            </button>
+            <button class="gh-btn gh-btn-green gh-btn-icon disabled" disabled="disabled" {{action "upload"}}>
+                <span>{{svg-jar "spinner" class="gh-icon-spinner"}} {{this.runningText}}Uploading</span>
             </button>
         {{/if}}
 

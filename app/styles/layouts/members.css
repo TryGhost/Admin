@@ -521,6 +521,23 @@ textarea.gh-member-details-textarea {
     width: 580px;
 }
 
+.gh-member-import-wrapper .gh-btn.disabled,
+.gh-member-import-wrapper .gh-btn.disabled:hover {
+    cursor: auto !important;
+    opacity: 0.6 !important;
+}
+
+.gh-member-import-wrapper .gh-btn.disabled span,
+.gh-member-import-wrapper .gh-btn.disabled span:hover {
+    cursor: auto !important;
+    pointer-events: none;
+}
+
+.gh-member-import-wrapper .gh-token-input .ember-power-select-trigger[aria-disabled=true],
+.gh-member-import-wrapper .gh-token-input .ember-power-select-trigger-multiple-input:disabled {
+    background: var(--whitegrey-l2);
+}
+
 @media (max-width: 600px) {
     .gh-member-import-wrapper,
     .gh-member-import-wrapper.wide {
