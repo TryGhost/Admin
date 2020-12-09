@@ -129,6 +129,8 @@ export default ModalComponent.extend({
                     errorMssg = 'Missing email address';
                 } else if (errorStr === 'Value in [members.note] exceeds maximum length of 2000 characters.') {
                     errorMssg = '"Note" exceeds maximum length of 2000 characters';
+                } else if (errorStr === 'Value in [members.subscribed] must be one of true, false, 0 or 1.') {
+                    errorMssg = 'Value in "Subscribed to emails" must be "true" or "false"';
                 } else if (errorStr === 'Validation (isEmail) failed for email') {
                     errorMssg = 'Invalid email address';
                 } else if (errorStr.startsWith('No such customer:')) {
