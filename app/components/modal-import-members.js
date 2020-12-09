@@ -122,20 +122,30 @@ export default ModalComponent.extend({
         const erroredMembers = importResponse.meta.stats.invalid;
         let errorCount = erroredMembers.length;
         const errorList = {};
-        erroredMembers.forEach((d) => {
-            d.error.split(',').forEach((errorStr) => {
-                let errorMssg = errorStr;
-                if (errorStr === 'Value in [members.email] cannot be blank.') {
-                    errorMssg = 'Missing email address';
-                } else if (errorStr === 'Value in [members.note] exceeds maximum length of 2000 characters.') {
-                    errorMssg = '"Note" exceeds maximum length of 2000 characters';
-                } else if (errorStr === 'Value in [members.subscribed] must be one of true, false, 0 or 1.') {
-                    errorMssg = 'Value in "Subscribed to emails" must be "true" or "false"';
-                } else if (errorStr === 'Validation (isEmail) failed for email') {
-                    errorMssg = 'Invalid email address';
-                } else if (errorStr.startsWith('No such customer:')) {
-                    errorMssg = 'Could not find Stripe customer';
-                }
+
+        const errorsWithFormattedMessages = erroredMembers.map((row) => {
+            const formattedError = row.error
+                .replace(
+                    'Value in [members.email] cannot be blank.',
+                    'Missing email address'
+                )
+                .replace(
+                    'Value in [members.note] exceeds maximum length of 2000 characters.',
+                    '"Note" exceeds maximum length of 2000 characters'
+                )
+                .replace(
+                    'Value in [members.subscribed] must be one of true, false, 0 or 1.',
+                    'Value in "Subscribed to emails" must be "true" or "false"'
+                )
+                .replace(
+                    'Validation (isEmail) failed for email',
+                    'Invalid email address'
+                )
+                .replace(
+                    /No such customer:[^,]*/,
+                    'Could not find Stripe customer'
+                );
+            formattedError.split(',').forEach((errorMssg) => {
                 if (errorList[errorMssg]) {
                     errorList[errorMssg].count = errorList[errorMssg].count + 1;
                 } else {
@@ -145,9 +155,13 @@ export default ModalComponent.extend({
                     };
                 }
             });
+            return {
+                ...row,
+                error: formattedError
+            };
         });
 
-        let errorCsv = unparse(importResponse.meta.stats.invalid);
+        let errorCsv = unparse(errorsWithFormattedMessages);
         let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
         let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
         let errorCsvName = importResponse.meta.import_label ? `${importResponse.meta.import_label.name} - Errors.csv` : `Import ${moment().format('YYYY-MM-DD HH:mm')} - Errors.csv`;
