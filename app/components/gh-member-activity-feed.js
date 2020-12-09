@@ -51,15 +51,6 @@ export default class MemberActivityFeedComponent extends Component {
         const activities = [];
 
         (this.args.emailRecipients || []).forEach((emailRecipient) => {
-            if (emailRecipient.processedAtUTC) {
-                activities.push(new MemberActivity({
-                    event: 'sent',
-                    email: emailRecipient.email,
-                    timestamp: emailRecipient.processedAtUTC,
-                    action: this.openEmailPreview.bind(this, emailRecipient.email)
-                }));
-            }
-
             if (emailRecipient.openedAtUTC) {
                 activities.push(new MemberActivity({
                     event: 'opened',
@@ -67,9 +58,7 @@ export default class MemberActivityFeedComponent extends Component {
                     timestamp: emailRecipient.openedAtUTC,
                     action: this.openEmailPreview.bind(this, emailRecipient.email)
                 }));
-            }
-
-            if (emailRecipient.failedAtUTC) {
+            } else if (emailRecipient.failedAtUTC) {
                 activities.push(new MemberActivity({
                     event: 'failed',
                     email: emailRecipient.email,
@@ -80,6 +69,13 @@ export default class MemberActivityFeedComponent extends Component {
                 activities.push(new MemberActivity({
                     event: 'unsubscribed',
                     timestamp: emailRecipient.failedAtUTC.add(1, 'second')
+                }));
+            } else if (emailRecipient.processedAtUTC) {
+                activities.push(new MemberActivity({
+                    event: 'sent',
+                    email: emailRecipient.email,
+                    timestamp: emailRecipient.processedAtUTC,
+                    action: this.openEmailPreview.bind(this, emailRecipient.email)
                 }));
             }
         });
