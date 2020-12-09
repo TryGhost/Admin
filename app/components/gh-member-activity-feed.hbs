@@ -2,12 +2,12 @@
     <div class="pt5 pb5">
 
         {{#each this.firstActivities as |activity|}}
-            <MemberActivityFeedItem @activity={{activity}} />
+            <GhMemberActivityFeedItem @activity={{activity}} />
         {{/each}}
 
         {{#liquid-if this.isShowingAll}}
             {{#each this.remainingActivities as |activity|}}
-                <MemberActivityFeedItem @activity={{activity}} />
+                <GhMemberActivityFeedItem @activity={{activity}} />
             {{/each}}
         {{/liquid-if}}
 
