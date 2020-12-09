@@ -124,7 +124,7 @@
 
         {{#if (eq this.state 'COMPLETE')}}
             {{#if this.importResponse.errorCount}}
-                <a href="{{this.importResponse.errorCsvUrl}}" class="gh-btn" data-test-button="restart-import-members">
+            <a href="{{this.importResponse.errorCsvUrl}}" download="{{this.importResponse.errorCsvName}}" class="gh-btn" data-test-button="restart-import-members">
                     <span>Download error file</span>
                 </a>
                 <button {{action "closeModal"}} class="gh-btn gh-btn-blue" data-test-button="close-import-members">

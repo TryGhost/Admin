@@ -1,6 +1,7 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import unparse from '@tryghost/members-csv/lib/unparse';
+import moment from 'moment';
 import {
     AcceptedResponse,
     isRequestEntityTooLargeError,
@@ -147,11 +148,13 @@ export default ModalComponent.extend({
         let errorCsv = unparse(importResponse.meta.stats.invalid);
         let errorCsvBlob = new Blob([errorCsv], {type: 'text/csv'});
         let errorCsvUrl = URL.createObjectURL(errorCsvBlob);
+        let errorCsvName = importResponse.meta.import_label ? `${importResponse.meta.import_label.name} - Errors.csv` : `Import ${moment().format('YYYY-MM-DD HH:mm')} - Errors.csv`;
 
         this.set('importResponse', {
             importedCount,
             errorCount,
             errorCsvUrl,
+            errorCsvName,
             errorList: Object.values(errorList)
         });
 
