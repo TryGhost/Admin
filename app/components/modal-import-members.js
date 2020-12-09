@@ -1,7 +1,7 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import unparse from '@tryghost/members-csv/lib/unparse';
 import moment from 'moment';
+import unparse from '@tryghost/members-csv/lib/unparse';
 import {
     AcceptedResponse,
     isRequestEntityTooLargeError,
