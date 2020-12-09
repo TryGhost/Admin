@@ -96,48 +96,12 @@
             </div>
         </div>
 
-        <div class="flex justify-between mt8 mr6">
-            <h4 class="midlightgrey f-small fw5 ttu">Email activity</h4>
-        </div>
-        <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column justify-between items-stretch mr6">
-            <div class="pt5 pb5">
-
-                <div class="gh-member-feed-row">
-                    <span class="gh-member-feed-activity midgrey" data-tooltip="Received email">{{svg-jar "send-email"}}</span>
-                    <a href="#" class="gh-member-feed-title">Tips for planning a successful business conference</a>
-                    <span class="gh-member-feed-date">7 Dec 2020</span>
-                </div>
-                <div class="gh-member-feed-row">
-                    <span class="gh-member-feed-activity green-d2" data-tooltip="Opened email">{{svg-jar "eye"}}</span>
-                    <a href="#" class="gh-member-feed-title">AI product management: Research, requirements and scope</a>
-                    <span class="gh-member-feed-date">29 Nov 2020</span>
-                </div>
-                <div class="gh-member-feed-row">
-                    <span class="gh-member-feed-activity green-d2" data-tooltip="Opened email">{{svg-jar "eye"}}</span>
-                    <a href="#" class="gh-member-feed-title">Take crazy marketing ideas seriously while brainstorming</a>
-                    <span class="gh-member-feed-date">12 Nov 2020</span>
-                </div>
-                <div class="gh-member-feed-row">
-                    <span class="gh-member-feed-activity midgrey" data-tooltip="Received email">{{svg-jar "send-email"}}</span>
-                    <a href="#" class="gh-member-feed-title">Effective ways to ensure your remote team feels like part of HQ</a>
-                    <span class="gh-member-feed-date">23 Sep 2020</span>
-                </div>
-                <div class="gh-member-feed-row">
-                    <span class="gh-member-feed-activity green-d2" data-tooltip="Opened email">{{svg-jar "eye"}}</span>
-                    <a href="#" class="gh-member-feed-title">We added these books to our office library this week</a>
-                    <span class="gh-member-feed-date">17 Sep 2020</span>
-                </div>
-
-                <GhTaskButton
-                    @buttonText="View all activity"
-                    @successText=""
-                    @task={{this.continueSubscription}}
-                    @taskArgs={{subscription.id}}
-                    @class="mt4 mb1 ml5 gh-btn gh-btn-icon gh-member-btn-expandfeed"
-                    data-test-button="view-all-activity"
-                />
+        {{#if this.member.emailRecipients}}
+            <div class="flex justify-between mt8 mr6">
+                <h4 class="midlightgrey f-small fw5 ttu">Email activity</h4>
             </div>
-        </div>
+            <MemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
+        {{/if}}
 
     </div>
 
