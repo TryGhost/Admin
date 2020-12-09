@@ -79,15 +79,12 @@ export default Service.extend({
             'name',
             'note',
             'subscribed_to_emails',
-            'stripe_customer_id',
-            'complimentary_plan',
             'labels',
             'created_at'
         ];
 
         const autoDetectedTypes = [
-            'email',
-            'stripe_customer_id'
+            'email'
         ];
 
         let mapping = {};
@@ -102,11 +99,6 @@ export default Service.extend({
             for (const [key, value] of Object.entries(entry)) {
                 if (!mapping.email && validator.isEmail(value)) {
                     mapping.email = key;
-                    continue;
-                }
-
-                if (!mapping.stripe_customer_id && value && value.startsWith && value.startsWith('cus_')) {
-                    mapping.stripe_customer_id = key;
                     continue;
                 }
 
