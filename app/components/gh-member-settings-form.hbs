@@ -26,8 +26,8 @@
                         {{#unless this.member.isNew}}
                         <p class="f7 pa0 ma0 midgrey {{if this.member.name "nudge-bottom--2"}}">
                             {{#if this.member.geolocation}}
-                                {{#if (eq this.member.geolocation.country_code "US")}}
-                                    {{or this.member.geolocation.region "Unknown"}}, US
+                                {{#if (and (eq this.member.geolocation.country_code "US") @member.geolocation.region)}}
+                                    {{this.member.geolocation.region}}, US
                                 {{else}}
                                     {{or this.member.geolocation.country "Unknown location"}}
                                 {{/if}}
