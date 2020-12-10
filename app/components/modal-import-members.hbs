@@ -86,9 +86,11 @@
                         </div>
                     {{/unless}}
                     <div class="gh-member-import-errorlist">
+                        <ul>
                         {{#each this.importResponse.errorList as |error|}}
-                            <p>{{error.message}} ({{error.count}}) </p>
+                            <li>{{error.message}} ({{error.count}}) </li>
                         {{/each}}
+                        </ul>
                     </div>
                 {{/if}}
             </div>
