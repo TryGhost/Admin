@@ -23,6 +23,7 @@ export default ModalComponent.extend({
 
     file: null,
     mappingResult: null,
+    mappingFileData: null,
     paramName: 'membersfile',
     importResponse: null,
     errorMessage: null,
@@ -64,6 +65,10 @@ export default ModalComponent.extend({
 
         setMappingResult(mappingResult) {
             this.set('mappingResult', mappingResult);
+        },
+
+        setMappingFileData(mappingFileData) {
+            this.set('mappingFileData', mappingFileData);
         },
 
         upload() {
