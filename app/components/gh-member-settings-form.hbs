@@ -197,6 +197,28 @@
                                                     </td>
                                                 </tr>
                                             </table>
+
+                                            {{#if (eq subscription.status "active")}}
+                                                {{#if subscription.cancelAtPeriodEnd}}
+                                                    <GhTaskButton
+                                                        @buttonText="Continue subscription"
+                                                        @successText=""
+                                                        @task={{this.continueSubscription}}
+                                                        @taskArgs={{subscription.id}}
+                                                        @class="gh-btn gh-btn-icon gh-member-btn-cancelsub"
+                                                        data-test-button="continue-subscription"
+                                                    />
+                                                {{else}}
+                                                    <GhTaskButton
+                                                        @buttonText="Cancel subscription"
+                                                        @successText=""
+                                                        @task={{this.cancelSubscription}}
+                                                        @taskArgs={{subscription.id}}
+                                                        @class="mt1 mb6 gh-btn gh-btn-icon gh-member-btn-cancelsub"
+                                                        data-test-button="cancel-subscription"
+                                                    />
+                                                {{/if}}
+                                            {{/if}}
                                         {{else}}
                                             <table class="gh-member-stripe-table">
                                                 <tr>
@@ -239,29 +261,6 @@
                                                 </tr>
                                             </table>
                                         {{/if}}
-
-                                        {{#if (eq subscription.status "active")}}
-                                            {{#if subscription.cancelAtPeriodEnd}}
-                                                <GhTaskButton
-                                                    @buttonText="Continue subscription"
-                                                    @successText=""
-                                                    @task={{this.continueSubscription}}
-                                                    @taskArgs={{subscription.id}}
-                                                    @class="gh-btn gh-btn-icon gh-member-btn-cancelsub"
-                                                    data-test-button="continue-subscription"
-                                                />
-                                            {{else}}
-                                                <GhTaskButton
-                                                    @buttonText="Cancel subscription"
-                                                    @successText=""
-                                                    @task={{this.cancelSubscription}}
-                                                    @taskArgs={{subscription.id}}
-                                                    @class="mt1 mb6 gh-btn gh-btn-icon gh-member-btn-cancelsub"
-                                                    data-test-button="cancel-subscription"
-                                                />
-                                            {{/if}}
-                                        {{/if}}
-
                                     </div>
                                 </div>
                             </section>
