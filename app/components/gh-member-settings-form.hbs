@@ -96,12 +96,10 @@
             </div>
         </div>
 
-        {{#if this.member.emailRecipients}}
-            <div class="flex justify-between mt8 mr6">
-                <h4 class="midlightgrey f-small fw5 ttu">Email activity</h4>
-            </div>
-            <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
-        {{/if}}
+        <div class="flex justify-between mt8 mr6">
+            <h4 class="midlightgrey f-small fw5 ttu">Email activity</h4>
+        </div>
+        <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
 
     </div>
 
