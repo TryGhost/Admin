@@ -499,12 +499,50 @@ textarea.gh-member-details-textarea {
     color: color-mod(var(--blue) l(-7%) saturation(-10%));
 }
 
+@media (max-width: 1320px) {
+    .gh-member-settings {
+        flex-direction: column;
+    }
+}
+
 .gh-member-settings-primary {
     flex-basis: 800px;
 }
 
 .gh-member-settings-secondary {
     flex-basis: 348px;
+}
+
+@media (max-width: 1320px) and (min-width: 740px) {
+    .gh-member-settings-secondary {
+        flex-direction: row;
+    }
+
+    .gh-member-label-stripe {
+        display: none;
+    }
+
+    .gh-member-stripe {
+        margin-top: 3.2rem;
+        margin-left: 2rem;
+    }
+}
+
+@media (max-width: 1320px) {
+    .gh-member-settings-primary,
+    .gh-member-settings-secondary {
+        flex-basis: initial;
+        width: 100%;
+    }
+
+    .gh-member-details,
+    .gh-member-feed {
+        margin-right: 0;
+    }
+    
+    .gh-member-internal-info {
+        margin-top: 3.2rem;
+    }
 }
 
 .gh-member-cancelstripe-checkbox {

@@ -1,6 +1,6 @@
-<div class="flex items-start mt2">
+<div class="flex items-start mt2 gh-member-settings">
     <div class="flex-auto flex flex-column gh-member-settings-primary">
-        <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column justify-between items-stretch mr6">
+        <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column justify-between items-stretch mr6 gh-member-details">
             <div>
                 <div class="flex items-center pa5 pb3">
                     {{#if (or this.member.name this.member.email)}}
@@ -104,7 +104,7 @@
     </div>
 
     <div class="flex flex-column flex-auto gh-member-settings-secondary">
-        <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column items-stretch">
+        <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column items-stretch gh-member-internal-info">
             <div class="pa5">
                 <GhFormGroup>
                     <label for="label-input">Labels</label>
@@ -122,16 +122,16 @@
         </div>
 
         {{#if this.canShowStripeInfo}}
-            <h4 class="midlightgrey f-small fw5 ttu mt8">Stripe info</h4>
+            <h4 class="midlightgrey f-small fw5 ttu mt8 gh-member-label-stripe">Stripe info</h4>
 
             {{#if this.isLoading}}
-                <div class="pa20 br4 shadow-1 bg-grouped-table mt2">
+                <div class="pa20 br4 shadow-1 bg-grouped-table mt2 gh-member-stripe">
                     <div class="flex justify-center flex-auto">
                         <div class="gh-loading-spinner"> </div>
                     </div>
                 </div>
             {{else}}
-                <div class="br4 shadow-1 bg-grouped-table mt2">
+                <div class="br4 shadow-1 bg-grouped-table mt2 gh-member-stripe">
                     {{#if this.subscriptions}}
                         <div class="gh-member-header-stripeinfo">
                             <div class="flex items-center justify-between gh-btn-group w-100 ma5 mb0">
