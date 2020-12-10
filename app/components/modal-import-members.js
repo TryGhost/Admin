@@ -132,23 +132,23 @@ export default ModalComponent.extend({
             const formattedError = row.error
                 .replace(
                     'Value in [members.email] cannot be blank.',
-                    'Missing email address'
+                    'Missing email address.'
                 )
                 .replace(
                     'Value in [members.note] exceeds maximum length of 2000 characters.',
-                    '"Note" exceeds maximum length of 2000 characters'
+                    'Note is too long.'
                 )
                 .replace(
                     'Value in [members.subscribed] must be one of true, false, 0 or 1.',
-                    'Value in "Subscribed to emails" must be "true" or "false"'
+                    'Value of "Subscribed to emails" must be "true" or "false"'
                 )
                 .replace(
                     'Validation (isEmail) failed for email',
-                    'Invalid email address'
+                    'Invalid email address.'
                 )
                 .replace(
                     /No such customer:[^,]*/,
-                    'Could not find Stripe customer'
+                    'Could not find Stripe customer.'
                 );
             formattedError.split(',').forEach((errorMssg) => {
                 if (errorList[errorMssg]) {
