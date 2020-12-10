@@ -19,6 +19,7 @@ export default Controller.extend(ValidationEngine, {
     submitting: false,
     loggingIn: false,
     authProperties: null,
+    providers: null,
 
     flowErrors: '',
     passwordResetEmailSent: false,
@@ -79,6 +80,14 @@ export default Controller.extend(ValidationEngine, {
 
             return false;
         }
+    }).drop(),
+
+    fetchProvidersTask: task(function* () {
+        let url = this.get('ghostPaths.url').join(this.get('ghostPaths.adminRoot'), 'sso', 'providers');
+
+        let response = yield this.ajax.request(url);
+
+        this.set('providers', response);
     }).drop(),
 
     validateAndAuthenticate: task(function* () {

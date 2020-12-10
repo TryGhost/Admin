@@ -19,6 +19,19 @@
                     </div>
                 </div>
             {{else}}
+
+            <div class="gh-sso" {{did-insert (perform this.fetchProvidersTask)}}>
+                {{#if (not this.providers)}}
+                    no providers
+                {{else}}
+                    {{#each this.providers as |provider|}}
+                        <a href="{{provider.endpoint}}" class="gh-btn gh-btn-icon gh-btn-sso gh-btn-sso-{{provider.id}}">
+                            <span>Sign in using {{provider.name}}</span>
+                        </a>
+                    {{/each}}
+                {{/if}}
+            </div>
+
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
                     <span class="gh-input-icon gh-icon-mail">
@@ -73,7 +86,7 @@
                     @type="submit"
                     @tabindex="3" />
             </form>
-
+            
             <p class="main-error">{{if this.flowErrors this.flowErrors}}&nbsp;</p>
             {{/if}}
         </section>
