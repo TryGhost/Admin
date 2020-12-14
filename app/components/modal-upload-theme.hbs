@@ -116,7 +116,7 @@
 
 <div class="modal-footer">
     <div class="flex items-center justify-between {{if (or this.displayOverwriteWarning this.canActivateTheme this.validationErrors this.fatalValidationErrors) "flex-auto"}}">
-        <button {{action "closeModal"}} disabled={{this.closeDisabled}} class="gh-btn" data-test-close-button>
+        <button {{action "closeModal"}} disabled={{this.closeDisabled}} class="gh-btn" data-test-close-button autofocus>
             <span>{{#if this.theme}}Close{{else}}Cancel{{/if}}</span>
         </button>
         <div class="flex items-center">

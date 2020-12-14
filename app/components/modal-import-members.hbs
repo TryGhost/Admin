@@ -106,7 +106,7 @@
 
     <div class="modal-footer modal-footer-spread">
         {{#if (eq this.state 'INIT')}}
-            <button {{action "closeModal"}} class="gh-btn" data-test-button="close-import-members">
+            <button {{action "closeModal"}} class="gh-btn" data-test-button="close-import-members" autofocus>
                 <span>Close</span>
             </button>
             <a
@@ -181,7 +181,6 @@
                 <span>Got it</span>
             </button>
         {{/if}}
-
         {{#if (eq this.state 'ERROR')}}
             <button {{action "reset"}} class="gh-btn" data-test-button="restart-import-members">
                 <span>Try again</span>

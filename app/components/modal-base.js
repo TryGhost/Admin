@@ -38,10 +38,6 @@ export default Component.extend({
 
         this._previousKeymasterScope = key.getScope();
 
-        key('enter', 'modal', () => {
-            this.send('confirm');
-        });
-
         key('escape', 'modal', () => {
             this.send('closeModal');
         });
@@ -50,7 +46,6 @@ export default Component.extend({
     },
 
     _removeShortcuts() {
-        key.unbind('enter', 'modal');
         key.unbind('escape', 'modal');
         key.setScope(this._previousKeymasterScope);
     }

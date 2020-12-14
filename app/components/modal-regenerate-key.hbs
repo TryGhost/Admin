@@ -18,5 +18,5 @@
 
 <div class="modal-footer">
     <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    <GhTaskButton @buttonText="Regenerate {{capitalize this.apiKey.type}} API Key" @successText="Regenerated" @task={{this.regenerateKey}} @class="gh-btn gh-btn-icon gh-btn-red" />
+    <GhTaskButton @buttonText="Regenerate {{capitalize this.apiKey.type}} API Key" @successText="Regenerated" @task={{this.regenerateKey}} @class="gh-btn gh-btn-icon gh-btn-red" autofocus />
 </div>
