@@ -1,4 +1,4 @@
-<div class="mt2 pb2 gh-member-settings">
+<div class="mt2 pb2 gh-member-settings" ...attributes>
     <div class="flex-auto br4 shadow-1 bg-grouped-table mt2 flex flex-column justify-between items-stretch gh-member-details">
         <div>
             <div class="flex items-center pa5 pb3">
@@ -63,7 +63,7 @@
                 <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="name" @classNames="max-width pl5 pr5">
                     <label for="member-name">Name</label>
                     <GhTextInput @id="member-name" @name="name" @value={{this.scratchMember.name}} @tabindex="1"
-                        @focus-out={{action "setProperty" "name" this.scratchMember.name}} />
+                        @focus-out={{action "setProperty" "name" this.scratchMember.name}} data-test-input="member-name" />
                     <GhErrorMessage @errors={{member.errors}} @property="name" />
                 </GhFormGroup>
 
@@ -71,7 +71,7 @@
                     <label for="member-email">Email</label>
                     <GhTextInput @value={{this.scratchMember.email}} @id="member-email" @name="email" @tabindex="2"
                         @autocapitalize="off" @autocorrect="off" @autocomplete="off"
-                        @focus-out={{action "setProperty" "email" this.scratchMember.email}} />
+                        @focus-out={{action "setProperty" "email" this.scratchMember.email}} data-test-input="member-email"/>
                     <GhErrorMessage @errors={{this.member.errors}} @property="email" />
                 </GhFormGroup>
         </div>
@@ -86,7 +86,7 @@
                     <div class="for-switch">
                         <label class="switch" for="subscribed-checkbox">
                             <Input @checked={{this.member.subscribed}} @type="checkbox" @id="subscribed-checkbox"
-                                @name="subscribed" />
+                                @name="subscribed" data-test-checkbox="member-subscribed" />
                             <span class="input-toggle-component"></span>
                         </label>
                     </div>
@@ -99,12 +99,12 @@
         <div class="pa5">
             <GhFormGroup @classNames="gh-member-labels">
                 <label for="label-input">Labels</label>
-                <GhMemberLabelInput @onChange={{action "setLabels"}} @labels={{this.member.labels}} @triggerId="label-input" />
+                <GhMemberLabelInput @onChange={{action "setLabels"}} @labels={{this.member.labels}} @triggerId="label-input" data-test-input="" />
             </GhFormGroup>
             <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="note" @classNames="mb0 gh-member-note">
                 <label for="member-note">Note <span class="midgrey-l2 fw4">(not visible to member)</span></label>
                 <GhTextarea @id="member-note" @name="note" @class="gh-member-details-textarea" @tabindex="3"
-                    @value={{this.scratchMember.note}} @focus-out={{action "setProperty" "note" this.scratchMember.note}} />
+                    @value={{this.scratchMember.note}} @focus-out={{action "setProperty" "note" this.scratchMember.note}} data-test-input="member-note" />
                 <GhErrorMessage @errors={{this.member.errors}} @property="note" />
                 <p> Maximum: <b>500</b> characters. You’ve used
                     {{gh-count-down-characters this.scratchMember.note 500}}</p>
