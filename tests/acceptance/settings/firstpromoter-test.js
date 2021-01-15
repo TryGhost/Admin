@@ -67,18 +67,18 @@ describe('Acceptance: Settings - Integrations - FirstPromoter', function () {
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/firstpromoter');
 
             // FirstPromoter is enabled by default
-            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.true;
+            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.false;
 
             await click('[data-test-firstpromoter-checkbox]');
 
-            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.false;
+            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.true;
 
             await click('[data-test-save-button]');
 
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
 
-            expect(params.settings.findBy('key', 'firstpromoter').value).to.equal(false);
+            expect(params.settings.findBy('key', 'firstpromoter').value).to.equal(true);
 
             // CMD-S shortcut works
             await click('[data-test-firstpromoter-checkbox]');
@@ -93,8 +93,8 @@ describe('Acceptance: Settings - Integrations - FirstPromoter', function () {
             let [newRequest] = this.server.pretender.handledRequests.slice(-1);
             params = JSON.parse(newRequest.requestBody);
 
-            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.true;
-            expect(params.settings.findBy('key', 'firstpromoter').value).to.equal(true);
+            expect(find('[data-test-firstpromoter-checkbox]').checked, 'FirstPromoter checkbox').to.be.false;
+            expect(params.settings.findBy('key', 'firstpromoter').value).to.equal(false);
         });
 
         it('warns when leaving without saving', async function () {
