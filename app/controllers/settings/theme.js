@@ -1,4 +1,5 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
+import $ from 'jquery';
 import Controller from '@ember/controller';
 import {computed} from '@ember/object';
 import {isEmpty} from '@ember/utils';
