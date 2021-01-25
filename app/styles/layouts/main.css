@@ -98,7 +98,7 @@
 .gh-nav {
     position: relative;
     z-index: 800;
-    flex: 0 0 268px;
+    flex: 0 0 300px;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -295,7 +295,7 @@
 
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
-    padding: 10px 20px;
+    padding: 10px 27px;
     color:  color-mod(var(--darkgrey));
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -309,7 +309,7 @@
 .gh-nav-list a {
     display: flex;
     align-items: center;
-    padding: 6px 32px;
+    padding: 6px 23px;
     color: color-mod(var(--middarkgrey) l(-10%));
     transition: none;
     margin: 2px 5px;
