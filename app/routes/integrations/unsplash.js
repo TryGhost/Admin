@@ -1,5 +1,5 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from '../../../mixins/current-user-settings';
+import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
 import UnsplashObject from 'ghost-admin/models/unsplash-integration';
 import {inject as service} from '@ember/service';
 
