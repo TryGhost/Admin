@@ -47,7 +47,6 @@ Router.map(function () {
     this.route('tag', {path: '/tags/:tag_slug'});
 
     this.route('settings');
-
     this.route('settings.general', {path: '/settings/general'});
     this.route('settings.labs', {path: '/settings/labs'});
     this.route('settings.members', {path: '/settings/members'});
@@ -58,6 +57,8 @@ Router.map(function () {
     this.route('settings.theme', {path: '/settings/theme'}, function () {
         this.route('uploadtheme');
     });
+    this.route('settings.navigation', {path: '/settings/navigation'});
+
     this.route('settings.integrations', {path: '/settings/integrations'}, function () {
         this.route('new');
     });

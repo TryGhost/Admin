@@ -1,7 +1,6 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';
-import NavigationItem from 'ghost-admin/models/navigation-item';
 import RSVP from 'rsvp';
 import {
     IMAGE_EXTENSIONS,
@@ -27,13 +26,9 @@ export default Controller.extend({
     iconMimeTypes: 'image/png,image/x-icon',
 
     dirtyAttributes: false,
-    newNavItem: null,
-    newSecondaryNavItem: null,
     
     init() {
         this._super(...arguments);
-        this.set('newNavItem', NavigationItem.create({isNew: true}));
-        this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
         this.iconExtensions = ICON_EXTENSIONS;
     },
 
@@ -49,61 +44,9 @@ export default Controller.extend({
         return color;
     }),
 
-    blogUrl: computed('config.blogUrl', function () {
-        let url = this.get('config.blogUrl');
-
-        return url.slice(-1) !== '/' ? `${url}/` : url;
-    }),
-
     actions: {
         save() {
             this.save.perform();
-        },
-
-        addNavItem(item) {
-            // If the url sent through is blank (user never edited the url)
-            if (item.get('url') === '') {
-                item.set('url', '/');
-            }
-
-            return item.validate().then(() => {
-                this.addNewNavItem(item);
-            });
-        },
-
-        deleteNavItem(item) {
-            if (!item) {
-                return;
-            }
-
-            let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
-
-            navItems.removeObject(item);
-            this.set('dirtyAttributes', true);
-        },
-
-        updateLabel(label, navItem) {
-            if (!navItem) {
-                return;
-            }
-
-            if (navItem.get('label') !== label) {
-                navItem.set('label', label);
-                this.set('dirtyAttributes', true);
-            }
-        },
-
-        updateUrl(url, navItem) {
-            if (!navItem) {
-                return;
-            }
-
-            if (navItem.get('url') !== url) {
-                navItem.set('url', url);
-                this.set('dirtyAttributes', true);
-            }
-
-            return url;
         },
 
         toggleLeaveSettingsModal(transition) {
@@ -146,10 +89,7 @@ export default Controller.extend({
             return transition.retry();
         },
 
-        reset() {
-            this.set('newNavItem', NavigationItem.create({isNew: true}));
-            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
-        },
+        reset() {},
 
         removeImage(image) {
             // setting `null` here will error as the server treats it as "null"
@@ -193,27 +133,8 @@ export default Controller.extend({
     },
 
     save: task(function* () {
-        let navItems = this.get('settings.navigation');
-        let secondaryNavItems = this.get('settings.secondaryNavigation');
-
         let notifications = this.notifications;
         let validationPromises = [];
-
-        if (!this.newNavItem.get('isBlank')) {
-            validationPromises.pushObject(this.send('addNavItem', this.newNavItem));
-        }
-
-        if (!this.newSecondaryNavItem.get('isBlank')) {
-            validationPromises.pushObject(this.send('addNavItem', this.newSecondaryNavItem));
-        }
-
-        navItems.map((item) => {
-            validationPromises.pushObject(item.validate());
-        });
-
-        secondaryNavItems.map((item) => {
-            validationPromises.pushObject(item.validate());
-        });
 
         try {
             yield RSVP.all(validationPromises);
@@ -265,22 +186,6 @@ export default Controller.extend({
             this.get('settings.errors').add('accentColor', errMessage);
             this.get('settings.hasValidated').pushObject('accentColor');
             return;
-        }
-    },
-
-    addNewNavItem(item) {
-        let navItems = item.isSecondary ? this.get('settings.secondaryNavigation') : this.get('settings.navigation');
-
-        item.set('isNew', false);
-        navItems.pushObject(item);
-        this.set('dirtyAttributes', true);
-
-        if (item.isSecondary) {
-            this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
-            $('.gh-blognav-container:last .gh-blognav-line:last input:first').focus();
-        } else {
-            this.set('newNavItem', NavigationItem.create({isNew: true}));
-            $('.gh-blognav-container:first .gh-blognav-line:last input:first').focus();
         }
     }
 });

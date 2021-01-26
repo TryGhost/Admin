@@ -52,7 +52,7 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Settings - Branding'
+            titleToken: 'Settings - Navigation'
         };
     }
 });
