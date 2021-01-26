@@ -15,16 +15,16 @@
     <ul class="gh-nav-list">
         <li class="gh-nav-list-h">Website</li>
         <li class="relative">
-            <LinkTo @route="settings.general" @alt="General" @title="General" data-test-nav="settings">{{svg-jar "page"}}General</LinkTo>
+            <LinkTo @route="settings.general" @alt="General" @title="General" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.theme" @alt="Theme" @title="Theme" data-test-nav="theme">{{svg-jar "paintbrush"}}Theme</LinkTo>
+            <LinkTo @route="settings.theme" @alt="Theme" @title="Theme" data-test-nav="theme">{{svg-jar "page"}}Theme</LinkTo>
         </li>
         <li class="relative">
             <LinkTo @route="settings.design" @alt="Branding" @title="Branding" data-test-nav="design">{{svg-jar "paintbrush"}}Branding</LinkTo>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.navigation" @alt="Navigation" @title="Navigation" data-test-nav="navigation">{{svg-jar "house"}}Navigation</LinkTo>
+            <LinkTo @route="settings.navigation" @alt="Navigation" @title="Navigation" data-test-nav="navigation">{{svg-jar "compass-2"}}Navigation</LinkTo>
         </li>
     </ul>
 
@@ -34,13 +34,13 @@
             <LinkTo @route="settings.members-payments" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
         </li> --}}
         <li class="relative">
-            <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "members"}}Portal</button>
+            <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "portal-logo"}}Portal</button>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.members-email" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "members"}}Email newsletter</LinkTo>
+            <LinkTo @route="settings.members-email" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "email"}}Email newsletter</LinkTo>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.members-payments" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "members"}}Payments</LinkTo>
+            <LinkTo @route="settings.members-payments" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "piggy-bank"}}Payments</LinkTo>
         </li>
     </ul>
 
