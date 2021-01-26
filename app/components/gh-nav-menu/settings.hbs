@@ -34,6 +34,9 @@
             <LinkTo @route="settings.members-payments" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
         </li> --}}
         <li class="relative">
+            <div class="gh-secondary-action icon-only arrow">
+                <span>{{svg-jar "arrow-right"}}</span>
+            </div>
             <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "portal-logo"}}Portal</button>
         </li>
         <li class="relative">

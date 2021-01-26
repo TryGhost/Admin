@@ -85,13 +85,13 @@
         {{#if (gh-user-can-admin this.session.user)}}
             <ul class="gh-nav-list gh-nav-settings">
                 <li class="relative">
+                    <LinkTo @route="integrations" @alt="Integrations" @title="Integrations" data-test-nav="dashboard">{{svg-jar "modules"}}Integrations</LinkTo>
+                </li>
+                <li class="relative">
                     <button class="gh-secondary-action" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
                         <span>{{svg-jar "nightshift"}}</span>
                     </button>
                     <LinkTo @route="settings.general" @current-when={{this.isSettingsRoute}} data-test-nav="settings">{{svg-jar "settings"}}Settings</LinkTo>
-                </li>
-                <li class="relative">
-                    <LinkTo @route="integrations" @alt="Integrations" @title="Integrations" data-test-nav="dashboard">{{svg-jar "modules"}}Integrations</LinkTo>
                 </li>
             </ul>
         {{/if}}

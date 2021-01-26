@@ -421,7 +421,7 @@
     fill: var(--middarkgrey);
 }
 
-.gh-nav-list .gh-secondary-action:hover span {
+.gh-nav-list .gh-secondary-action:not(.icon-only):hover span {
     background: var(--active-menu-bg-color);
 }
 
@@ -433,6 +433,17 @@
 
 .gh-nav-list .gh-secondary-action:hover span svg path {
     fill: var(--darkgrey);
+}
+
+.gh-nav-list .gh-secondary-action.icon-only,
+.gh-nav-list .gh-secondary-action.icon-only span {
+    pointer-events: none;
+    transition: none;
+}
+
+.gh-nav-list .gh-secondary-action.icon-only.arrow svg {
+    width: 16px;
+    height: 16px;
 }
 
 .gh-nav-list .gh-nav-new-post span svg {
