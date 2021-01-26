@@ -4,7 +4,7 @@
             <h2 class="gh-canvas-title" data-test-screen-title>
                 <LinkTo @route="settings">Settings</LinkTo>
                 <span>{{svg-jar "arrow-right"}}</span>
-                <LinkTo @route="settings.integrations" data-test-link="integrations-back">Integrations</LinkTo>
+                <LinkTo @route="integrations" data-test-link="integrations-back">Integrations</LinkTo>
                 <span>{{svg-jar "arrow-right"}}</span>
                 {{this.integration.name}}
             </h2>
@@ -192,7 +192,7 @@
                         <td class="pa2 pl3" data-test-text="last-triggered">{{or webhook.lastTriggeredAtUTC "Not triggered"}}</td>
                         <td class="w1 pa2 pl3 nowrap">
                             <div class="child flex items-center">
-                                <LinkTo @route="settings.integration.webhooks.edit" @models={{array this.integration webhook}} data-test-link="edit-webhook">
+                                <LinkTo @route="integration.webhooks.edit" @models={{array this.integration webhook}} data-test-link="edit-webhook">
                                     {{svg-jar "pen" class="w6 h6 fill-midgrey pa1 mr1"}}
                                 </LinkTo>
                                 <button {{action "confirmWebhookDeletion" webhook}} data-test-button="delete-webhook">
@@ -208,7 +208,7 @@
                             <p class="ma0 pa0 tc midgrey lh-title mt2">
                                 No webhooks configured
                             </p>
-                            <LinkTo @route="settings.integration.webhooks.new" @model={{this.integration}} @classNames="flex items-center" data-test-link="add-webhook">
+                            <LinkTo @route="integration.webhooks.new" @model={{this.integration}} @classNames="flex items-center" data-test-link="add-webhook">
                             <div class="flex items-center pa2 pt1">
                                 {{svg-jar "add" class="w3 h3 fill-blue-d1"}}
                                 <span class="ml1 blue">Add webhook</span>
@@ -223,7 +223,7 @@
             <tfoot class="bt b--lightgrey">
                 <tr class="new-webhook-cell">
                     <td colspan="5">
-                        <LinkTo @route="settings.integration.webhooks.new" @model={{this.integration}} @classNames="flex items-center" data-test-link="add-webhook">
+                        <LinkTo @route="integration.webhooks.new" @model={{this.integration}} @classNames="flex items-center" data-test-link="add-webhook">
                         <div class="pa3 f7">
                             {{svg-jar "add" class="w3 h3 fill-blue-d1"}}
                             <span class="ml1 blue">Add webhook</span>

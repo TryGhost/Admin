@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
     model() {
-        let integration = this.modelFor('settings.integration');
+        let integration = this.modelFor('integration');
         return this.store.createRecord('webhook', {integration});
     },
 

@@ -2,18 +2,16 @@ import Controller from '@ember/controller';
 import {alias} from '@ember/object/computed';
 
 export default Controller.extend({
-    webhook: alias('model'),
+    integration: alias('model'),
 
     actions: {
         save() {
-            return this.webhook.save();
+            return this.integration.save();
         },
 
         cancel() {
             // 'new' route's dectivate hook takes care of rollback
-            return this.webhook.get('integration').then((integration) => {
-                this.transitionToRoute('settings.integration', integration);
-            });
+            this.transitionToRoute('integrations');
         }
     }
 });

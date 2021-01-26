@@ -27,7 +27,7 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
         // out the one we want. Allows navigation back to integrations screen
         // without a loading state
         return this
-            .controllerFor('settings.integrations')
+            .controllerFor('integrations')
             .integrationModelHook('slug', 'zapier', this, transition);
     },
 

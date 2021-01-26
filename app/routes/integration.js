@@ -28,7 +28,7 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
         // out the one we want. Allows navigation back to integrations screen
         // without a loading state
         return this
-            .controllerFor('settings.integrations')
+            .controllerFor('integrations')
             .integrationModelHook('id', params.integration_id, this, transition);
     },
 
@@ -52,8 +52,8 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
             // route - we want to allow editing webhooks without showing the
             // "unsaved changes" confirmation modal
             let isExternalRoute =
-                // allow sub-routes of settings.integration
-                !(transition.targetName || '').match(/^settings\.integration\./)
+                // allow sub-routes of integration
+                !(transition.targetName || '').match(/^integration\./)
                 // do not allow changes in integration
                 // .to will be the index, so use .to.parent to get the route with the params
                 || transition.to.parent.params.integration_id !== controller.integration.id;

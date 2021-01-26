@@ -58,20 +58,20 @@ Router.map(function () {
         this.route('uploadtheme');
     });
     this.route('settings.navigation', {path: '/settings/navigation'});
+    this.route('settings.labs', {path: '/settings/labs'});
 
-    this.route('settings.integrations', {path: '/settings/integrations'}, function () {
+    this.route('integrations', function () {
         this.route('new');
     });
-    this.route('settings.integration', {path: '/settings/integrations/:integration_id'}, function () {
+    this.route('integration', {path: '/integrations/:integration_id'}, function () {
         this.route('webhooks.new', {path: 'webhooks/new'});
         this.route('webhooks.edit', {path: 'webhooks/:webhook_id'});
     });
-    this.route('settings.integrations.slack', {path: '/settings/integrations/slack'});
-    this.route('settings.integrations.amp', {path: '/settings/integrations/amp'});
-    this.route('settings.integrations.firstpromoter', {path: '/settings/integrations/firstpromoter'});
-    this.route('settings.integrations.unsplash', {path: '/settings/integrations/unsplash'});
-    this.route('settings.integrations.zapier', {path: '/settings/integrations/zapier'});
-    this.route('settings.labs', {path: '/settings/labs'});
+    this.route('integrations.slack', {path: '/integrations/slack'});
+    this.route('integrations.amp', {path: '/integrations/amp'});
+    this.route('integrations.firstpromoter', {path: '/integrations/firstpromoter'});
+    this.route('integrations.unsplash', {path: '/integrations/unsplash'});
+    this.route('integrations.zapier', {path: '/integrations/zapier'});
 
     this.route('members', function () {
         this.route('import');
