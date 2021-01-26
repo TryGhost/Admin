@@ -48,8 +48,8 @@ Router.map(function () {
 
     this.route('settings');
     this.route('settings.general', {path: '/settings/general'});
-    this.route('settings.labs', {path: '/settings/labs'});
-    this.route('settings.members', {path: '/settings/members'});
+    this.route('settings.members-email', {path: '/settings/members-email'});
+    this.route('settings.members-payments', {path: '/settings/members-payments'});
     this.route('settings.code-injection', {path: '/settings/code-injection'});
     this.route('settings.design', {path: '/settings/design'}, function () {
         this.route('uploadtheme');
@@ -71,6 +71,7 @@ Router.map(function () {
     this.route('settings.integrations.firstpromoter', {path: '/settings/integrations/firstpromoter'});
     this.route('settings.integrations.unsplash', {path: '/settings/integrations/unsplash'});
     this.route('settings.integrations.zapier', {path: '/settings/integrations/zapier'});
+    this.route('settings.labs', {path: '/settings/labs'});
 
     this.route('members', function () {
         this.route('import');

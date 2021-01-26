@@ -4,9 +4,6 @@ import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3'};
-const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3'};
-
 export const CURRENCIES = [
     {
         label: 'USD - US Dollar', value: 'usd', symbol: '$'
@@ -28,17 +25,6 @@ export const CURRENCIES = [
     }
 ];
 
-const REPLY_ADDRESSES = [
-    {
-        label: 'Newsletter email address',
-        value: 'newsletter'
-    },
-    {
-        label: 'Support email address',
-        value: 'support'
-    }
-];
-
 export default Component.extend({
     feature: service(),
     config: service(),
@@ -48,11 +34,6 @@ export default Component.extend({
     settings: service(),
 
     currencies: null,
-    replyAddresses: null,
-    showFromAddressConfirmation: false,
-    showSupportAddressConfirmation: false,
-    showPortalSettings: false,
-    showEmailDesignSettings: false,
     stripePlanInvalidAmount: false,
     _scratchStripeYearlyAmount: null,
     _scratchStripeMonthlyAmount: null,
@@ -65,11 +46,8 @@ export default Component.extend({
 
     stripeDirect: reads('config.stripeDirect'),
 
-    mailgunIsConfigured: reads('config.mailgunIsConfigured'),
-
     allowSelfSignup: reads('settings.membersAllowFreeSignup'),
-    emailTrackOpens: reads('settings.emailTrackOpens'),
-
+    
     /** OLD **/
     stripeDirectPublicKey: reads('settings.stripePublishableKey'),
     stripeDirectSecretKey: reads('settings.stripeSecretKey'),
@@ -80,44 +58,14 @@ export default Component.extend({
 
     portalSettingsBorderColor: reads('settings.accentColor'),
 
-    selectedReplyAddress: computed('settings.membersReplyAddress', function () {
-        return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));
-    }),
-
     selectedCurrency: computed('stripePlans.monthly.currency', function () {
         return CURRENCIES.findBy('value', this.get('stripePlans.monthly.currency'));
-    }),
-
-    disableUpdateFromAddressButton: computed('fromAddress', function () {
-        const savedFromAddress = this.get('settings.membersFromAddress') || '';
-        if (!savedFromAddress.includes('@') && this.blogDomain) {
-            return !this.fromAddress || (this.fromAddress === `${savedFromAddress}@${this.blogDomain}`);
-        }
-        return !this.fromAddress || (this.fromAddress === savedFromAddress);
-    }),
-
-    disableUpdateSupportAddressButton: computed('supportAddress', function () {
-        const savedSupportAddress = this.get('settings.membersSupportAddress') || '';
-        if (!savedSupportAddress.includes('@') && this.blogDomain) {
-            return !this.supportAddress || (this.supportAddress === `${savedSupportAddress}@${this.blogDomain}`);
-        }
-        return !this.supportAddress || (this.supportAddress === savedSupportAddress);
     }),
 
     blogDomain: computed('config.blogDomain', function () {
         let blogDomain = this.config.blogDomain || '';
         const domainExp = blogDomain.replace('https://', '').replace('http://', '').match(new RegExp('^([^/:?#]+)(?:[/:?#]|$)', 'i'));
         return (domainExp && domainExp[1]) || '';
-    }),
-
-    mailgunRegion: computed('settings.mailgunBaseUrl', function () {
-        if (!this.settings.get('mailgunBaseUrl')) {
-            return US;
-        }
-
-        return [US, EU].find((region) => {
-            return region.baseUrl === this.settings.get('mailgunBaseUrl');
-        });
     }),
 
     stripePlans: computed('settings.stripePlans', function () {
@@ -137,26 +85,13 @@ export default Component.extend({
         };
     }),
 
-    mailgunSettings: computed('settings.{mailgunBaseUrl,mailgunApiKey,mailgunDomain}', function () {
-        return {
-            apiKey: this.get('settings.mailgunApiKey') || '',
-            domain: this.get('settings.mailgunDomain') || '',
-            baseUrl: this.get('settings.mailgunBaseUrl') || ''
-        };
-    }),
-
     init() {
         this._super(...arguments);
-        this.set('mailgunRegions', [US, EU]);
         this.set('currencies', CURRENCIES);
-        this.set('replyAddresses', REPLY_ADDRESSES);
+        this.set('membersStripeOpen', true);
     },
 
     actions: {
-        toggleFromAddressConfirmation() {
-            this.toggleProperty('showFromAddressConfirmation');
-        },
-
         closePortalSettings() {
             const changedAttributes = this.settings.changedAttributes();
             if (changedAttributes && Object.keys(changedAttributes).length > 0) {
@@ -166,45 +101,8 @@ export default Component.extend({
             }
         },
 
-        closeEmailDesignSettings() {
-            this.set('showEmailDesignSettings', false);
-        },
-
         setDefaultContentVisibility(value) {
             this.setDefaultContentVisibility(value);
-        },
-
-        setMailgunDomain(event) {
-            this.set('settings.mailgunDomain', event.target.value);
-            if (!this.get('settings.mailgunBaseUrl')) {
-                this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
-            }
-        },
-
-        setMailgunApiKey(event) {
-            this.set('settings.mailgunApiKey', event.target.value);
-            if (!this.get('settings.mailgunBaseUrl')) {
-                this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
-            }
-        },
-
-        setMailgunRegion(region) {
-            this.set('settings.mailgunBaseUrl', region.baseUrl);
-        },
-
-        setFromAddress(fromAddress) {
-            this.setEmailAddress('fromAddress', fromAddress);
-        },
-
-        setSupportAddress(supportAddress) {
-            this.setEmailAddress('supportAddress', supportAddress);
-        },
-
-        toggleEmailTrackOpens(event) {
-            if (event) {
-                event.preventDefault();
-            }
-            this.set('settings.emailTrackOpens', !this.get('emailTrackOpens'));
         },
 
         toggleSelfSignup() {
@@ -290,12 +188,6 @@ export default Component.extend({
             this.set('settings.stripePlans', updatedPlans);
         },
 
-        setReplyAddress(event) {
-            const newReplyAddress = event.value;
-
-            this.set('settings.membersReplyAddress', newReplyAddress);
-        },
-
         setStripeConnectIntegrationToken(event) {
             this.set('settings.stripeProductName', this.get('settings.title'));
             this.setStripeConnectIntegrationTokenSetting(event.target.value);
@@ -369,40 +261,6 @@ export default Component.extend({
             }
         } else {
             this.set('stripeConnectError', 'Please enter a secure key');
-        }
-    }).drop(),
-
-    updateFromAddress: task(function* () {
-        let url = this.get('ghostPaths.url').api('/settings/members/email');
-        try {
-            const response = yield this.ajax.post(url, {
-                data: {
-                    email: this.fromAddress,
-                    type: 'fromAddressUpdate'
-                }
-            });
-            this.toggleProperty('showFromAddressConfirmation');
-            return response;
-        } catch (e) {
-            // Failed to send email, retry
-            return false;
-        }
-    }).drop(),
-
-    updateSupportAddress: task(function* () {
-        let url = this.get('ghostPaths.url').api('/settings/members/email');
-        try {
-            const response = yield this.ajax.post(url, {
-                data: {
-                    email: this.supportAddress,
-                    type: 'supportAddressUpdate'
-                }
-            });
-            this.toggleProperty('showSupportAddressConfirmation');
-            return response;
-        } catch (e) {
-            // Failed to send email, retry
-            return false;
         }
     }).drop(),
 

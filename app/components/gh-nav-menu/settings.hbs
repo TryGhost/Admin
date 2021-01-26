@@ -30,14 +30,17 @@
 
     <ul class="gh-nav-list">
         <li class="gh-nav-list-h">Members</li>
+        {{!-- <li class="relative">
+            <LinkTo @route="settings.members-payments" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
+        </li> --}}
         <li class="relative">
-            <LinkTo @route="settings.members" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
+            <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "members"}}Portal</button>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.members" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "members"}}Email newsletter</LinkTo>
+            <LinkTo @route="settings.members-email" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "members"}}Email newsletter</LinkTo>
         </li>
         <li class="relative">
-            <LinkTo @route="settings.members" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "members"}}Payments</LinkTo>
+            <LinkTo @route="settings.members-payments" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "members"}}Payments</LinkTo>
         </li>
     </ul>
 
@@ -52,3 +55,18 @@
     </ul>
 </div>
 </section>
+
+{{#if this.showPortalSettings}}
+    <GhFullscreenModal @modal="portal-settings"
+        @model={{hash
+            openStripeSettings=(action "openStripeSettings")
+        }}
+        @close={{action "closePortalSettings"}}
+        @modifier="full-overlay portal-settings" />
+{{/if}}
+{{#if this.showLeaveSettingsModal}}
+    <GhFullscreenModal @modal="leave-settings"
+        @confirm={{action "leavePortalSettings"}}
+        @close={{action "closeLeaveSettingsModal"}}
+        @modifier="action wide" />
+{{/if}}

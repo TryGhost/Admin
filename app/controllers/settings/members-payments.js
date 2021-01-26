@@ -13,9 +13,6 @@ export default Controller.extend({
     session: service(),
     settings: service(),
 
-    queryParams: ['fromAddressUpdate', 'supportAddressUpdate'],
-    fromAddressUpdate: null,
-    supportAddressUpdate: null,
     importErrors: null,
     importSuccessful: false,
     showDeleteAllModal: false,
@@ -34,14 +31,6 @@ export default Controller.extend({
         this._super(...arguments);
     },
 
-    fromAddress: computed(function () {
-        return this.parseEmailAddress(this.settings.get('membersFromAddress'));
-    }),
-
-    supportAddress: computed(function () {
-        return this.parseEmailAddress(this.settings.get('membersSupportAddress'));
-    }),
-
     blogDomain: computed('config.blogDomain', function () {
         let blogDomain = this.config.blogDomain || '';
         const domainExp = blogDomain.replace('https://', '').replace('http://', '').match(new RegExp('^([^/:?#]+)(?:[/:?#]|$)', 'i'));
@@ -55,33 +44,16 @@ export default Controller.extend({
 
         setStripeConnectIntegrationTokenSetting(stripeConnectIntegrationToken) {
             this.set('settings.stripeConnectIntegrationToken', stripeConnectIntegrationToken);
-        },
-
-        setEmailAddress(type, emailAddress) {
-            this.set(type, emailAddress);
         }
-    },
-
-    parseEmailAddress(address) {
-        const emailAddress = address || 'noreply';
-        // Adds default domain as site domain
-        if (emailAddress.indexOf('@') < 0 && this.blogDomain) {
-            return `${emailAddress}@${this.blogDomain}`;
-        }
-        return emailAddress;
     },
 
     saveSettings: task(function* () {
         const response = yield this.settings.save();
         // Reset from address value on save
-        this.set('fromAddress', this.parseEmailAddress(this.settings.get('membersFromAddress')));
-        this.set('supportAddress', this.parseEmailAddress(this.settings.get('membersSupportAddress')));
         return response;
     }).drop(),
 
     reset() {
-        this.set('fromAddressUpdate', null);
-        this.set('supportAddressUpdate', null);
         // stripeConnectIntegrationToken is not a persisted value so we don't want
         // to keep it around across transitions
         this.settings.set('stripeConnectIntegrationToken', undefined);
