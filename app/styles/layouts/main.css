@@ -464,15 +464,6 @@
     padding: 0;
 }
 
-.gh-nav-bottom {
-    margin: 0 5px;
-}
-
-.gh-nav-bottom .ember-basic-dropdown-trigger:hover {
-    background: var(--menu-hover-bg-color);
-    border-radius: 5px;
-}
-
 .gh-nav-pro .gh-btn-green {
     margin: 7px 10px 7px 20px !important;
     width: calc(100% - 40px) !important;
@@ -551,6 +542,42 @@
 .gh-nav-view-list .svg-pink .circle {
     border-color: var(--pink);
     background: var(--pink);
+}
+
+/* Bottom nav
+/* ---------------------------------------------------------- */
+
+.gh-nav-bottom {
+    margin: 0 5px;
+}
+
+.gh-nav-bottom .ember-basic-dropdown-trigger:hover {
+    background: var(--menu-hover-bg-color);
+    border-radius: 999px;
+}
+
+.gh-nav-bottom-tabicon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    padding: 10px;
+    border-radius: 999px;
+    width: 40px;
+    height: 40px;
+    line-height: 1;
+}
+
+.gh-nav-bottom-tabicon:hover {
+    background: var(--menu-hover-bg-color);
+}
+
+.gh-nav-bottom-tabicon svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--midgrey);
+    line-height: 1;
+    transition: none;
 }
 
 /* Mobile Nav Menu (Slides out)
