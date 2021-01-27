@@ -162,7 +162,22 @@
 
         <section class="gh-branding-settings-right">
             <div class="gh-branding-settings-previewcontainer">
-                <GhSiteIframe class="gh-branding-settings-preview" @guid={{this.previewGuid}}></GhSiteIframe>
+                <div class="gh-branding-settings-browser">
+                    <div class="tabs">
+                        <ul><li></li><li></li><li></li></ul>
+                        <div>
+                            {{#if this.settings.icon}}
+                                <span class="favicon"><img src="{{this.settings.icon}}" alt="icon"></span>
+                            {{else}}
+                                <span class="favicon default">{{svg-jar "icon"}}</span>
+                            {{/if}}
+                            <span class="site-title">{{this.config.blogTitle}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-branding-settings-iframecontainer">
+                    <GhSiteIframe class="gh-branding-settings-preview" @guid={{this.previewGuid}}></GhSiteIframe>
+                </div>
             </div>
         </section>
     </div>
