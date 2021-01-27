@@ -11,3 +11,7 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+.gh-stack-item .gh-setting-content {
+    margin-right: 24px;
+}

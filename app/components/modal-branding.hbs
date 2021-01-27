@@ -1,7 +1,15 @@
 <div class="modal-body gh-ps-modal-body">
+    <div class="gh-branding-settings-header">
+        <h4>Branding</h4>
+        <div class="gh-branding-settings-actions">
+            <button class="gh-btn ml3" {{action "closeModal"}}>
+                <span>Cancel</span>
+            </button>
+            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon ml3" @buttonText="Save and close" data-test-save-button={{true}} />
+        </div>
+    </div>
     <div class="gh-branding-settings">
         <section class="gh-branding-settings-options">
-            <h4>Branding</h4>
             <div class="gh-stack">
                 <div class="gh-stack-item gh-setting-first" data-test-setting="icon">
                     <GhUploader
@@ -150,12 +158,6 @@
         </section>
 
         <section class="gh-branding-settings-right">
-            <div class="gh-branding-settings-actions">
-                <button class="gh-btn ml3" {{action "closeModal"}}>
-                    <span>Cancel</span>
-                </button>
-                <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon ml3" @buttonText="Save and close" data-test-save-button={{true}} />
-            </div>
             <div class="gh-branding-settings-previewcontainer">
                 <GhSiteIframe class="gh-branding-settings-preview" @guid={{this.previewGuid}}></GhSiteIframe>
             </div>

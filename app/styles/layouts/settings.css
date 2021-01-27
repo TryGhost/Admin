@@ -1065,13 +1065,75 @@ p.theme-validation-details {
 
 .fullscreen-modal-branding-modal .modal-body {
     margin: 0;
-    padding: 40px;
+    padding: 20px 24px;
 }
 
 .gh-branding-settings {
     display: flex;
     align-items: stretch;
     height: 100%;
+}
+
+.gh-branding-settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--whitegrey);
+    margin: -20px -24px;
+    padding: 20px 24px;
+}
+
+.gh-branding-settings-header h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+.gh-branding-settings-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.gh-branding-settings-options {
+    flex-basis: 25%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-right: 1px solid var(--whitegrey);
+    min-width: 320px;
+    max-width: 400px;
+    margin: 20px 0 -20px;
+    padding: 24px 24px 24px 0;
+}
+
+.gh-branding-settings-right {
+    flex-grow: 1;
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-left: 20px;
+}
+
+.gh-branding-settings-previewcontainer {
+    flex-grow: 1;
+    position: relative;
+    margin: 68px 48px 48px;
+    border-radius: 8px;
+}
+
+.gh-branding-settings-preview {
+    border-radius: 6px !important;
+    box-shadow: 
+        0 0 0 1px rgba(0,0,0,0.02),
+        0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.028),
+        0 12.5px 10px rgba(0, 0, 0, 0.035),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.05),
+        0 100px 80px rgba(0, 0, 0, 0.07);
+    ;
 }
 
 .gh-branding-settings .input-color input {
@@ -1124,53 +1186,4 @@ p.theme-validation-details {
     margin: 0;
     width: 50px;
     height: 50px;
-}
-
-.gh-branding-settings-options {
-    flex-basis: 25%;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin: -40px 0;
-    padding: 0 40px 0 0;
-    border-right: 1px solid var(--whitegrey);
-    min-width: 320px;
-    max-width: 400px;
-}
-
-.gh-branding-settings-options h4 {
-    margin: 49px 0 30px;
-}
-
-.gh-branding-settings-right {
-    flex-grow: 1;
-    flex-basis: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-left: 40px;
-}
-
-.gh-branding-settings-previewcontainer {
-    flex-grow: 1;
-    position: relative;
-}
-
-.gh-branding-settings-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 24px;
-}
-
-.gh-branding-settings-preview {
-    border-radius: 6px;
-    box-shadow: 
-        0 0 0 1px rgba(0,0,0,0.02),
-        0 2.8px 2.2px rgba(0, 0, 0, 0.02),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.028),
-        0 12.5px 10px rgba(0, 0, 0, 0.035),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.042),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.05),
-        0 100px 80px rgba(0, 0, 0, 0.07);
-    ;
 }
