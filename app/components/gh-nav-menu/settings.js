@@ -5,6 +5,7 @@ export default Component.extend({
     settings: service(),
 
     showPortalSettings: false,
+    showBrandingModal: false,
     showLeaveSettingsModal: false,
 
     tagName: '',
@@ -13,6 +14,7 @@ export default Component.extend({
         openStripeSettings() {
             this.set('membersStripeOpen', true);
         },
+        
         closePortalSettings() {
             const changedAttributes = this.settings.changedAttributes();
             if (changedAttributes && Object.keys(changedAttributes).length > 0) {
@@ -21,6 +23,7 @@ export default Component.extend({
                 this.set('showPortalSettings', false);
             }
         },
+
         closeLeaveSettingsModal() {
             this.set('showLeaveSettingsModal', false);
         },
@@ -29,6 +32,10 @@ export default Component.extend({
             this.settings.rollbackAttributes();
             this.set('showPortalSettings', false);
             this.set('showLeaveSettingsModal', false);
+        },
+
+        closeBrandingModal() {
+            this.set('showBrandingModal', false);
         }
     }
 });
