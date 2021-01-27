@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
-import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {and, equal, match, or} from '@ember/object/computed';
 import {computed} from '@ember/object';
@@ -28,7 +27,6 @@ export default Component.extend(ShortcutsMixin, {
     shortcuts: null,
 
     isIntegrationRoute: match('router.currentRouteName', /^settings\.integration/),
-    isSettingsRoute: match('router.currentRouteName', /^settings/),
 
     // HACK: {{link-to}} should be doing this automatically but there appears to
     // be a bug in Ember that's preventing it from working immediately after login
@@ -36,7 +34,6 @@ export default Component.extend(ShortcutsMixin, {
 
     showTagsNavigation: or('session.user.isOwnerOrAdmin', 'session.user.isEditor'),
     showMenuExtension: and('config.clientExtensions.menu', 'session.user.isOwner'),
-    showDropdownExtension: and('config.clientExtensions.dropdown', 'session.user.isOwner'),
     showScriptExtension: and('config.clientExtensions.script', 'session.user.isOwner'),
     showBilling: computed.reads('config.billingUrl'),
 
@@ -82,17 +79,6 @@ export default Component.extend(ShortcutsMixin, {
         toggleBillingModal() {
             this.billing.openBillingWindow(this.router.currentURL);
         }
-    },
-
-    // equivalent to "left: auto; right: -20px"
-    userDropdownPosition(trigger, dropdown) {
-        let {horizontalPosition, verticalPosition, style} = calculatePosition(...arguments);
-        let {width: dropdownWidth} = dropdown.firstElementChild.getBoundingClientRect();
-
-        style.right += (dropdownWidth - 20);
-        style['z-index'] = 1100;
-
-        return {horizontalPosition, verticalPosition, style};
     },
 
     _setIconStyle() {

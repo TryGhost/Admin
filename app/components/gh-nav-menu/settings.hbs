@@ -6,57 +6,59 @@
 </header>
 
 <section class="gh-nav-body">
-<div class="gh-nav-top">
-    <ul class="gh-nav-list gh-nav-settings-main">
-        <li class="relative">
-            <LinkTo @route="dashboard" @alt="Back to Dashboard" @title="Back to Dashboard" data-test-nav="dashboard">{{svg-jar "arrow-left"}}Back to Dashboard</LinkTo>
-        </li>
-    </ul>
-    <ul class="gh-nav-list">
-        <li class="gh-nav-list-h">Website</li>
-        <li class="relative">
-            <LinkTo @route="settings.general" @alt="General" @title="General" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.theme" @alt="Theme" @title="Theme" data-test-nav="theme">{{svg-jar "page"}}Theme</LinkTo>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.design" @alt="Branding" @title="Branding" data-test-nav="design">{{svg-jar "paintbrush"}}Branding</LinkTo>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.navigation" @alt="Navigation" @title="Navigation" data-test-nav="navigation">{{svg-jar "compass-2"}}Navigation</LinkTo>
-        </li>
-    </ul>
+    <div class="gh-nav-top">
+        <ul class="gh-nav-list gh-nav-settings-main">
+            <li class="relative">
+                <LinkTo @route="dashboard" @alt="Back to Dashboard" @title="Back to Dashboard" data-test-nav="dashboard">{{svg-jar "arrow-left" class="force-fill"}}Back to Dashboard</LinkTo>
+            </li>
+        </ul>
+        <ul class="gh-nav-list">
+            <li class="gh-nav-list-h">Website</li>
+            <li class="relative">
+                <LinkTo @route="settings.general" @alt="General" @title="General" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.theme" @alt="Theme" @title="Theme" data-test-nav="theme">{{svg-jar "page"}}Theme</LinkTo>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.design" @alt="Branding" @title="Branding" data-test-nav="design">{{svg-jar "paintbrush"}}Branding</LinkTo>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.navigation" @alt="Navigation" @title="Navigation" data-test-nav="navigation">{{svg-jar "compass-2"}}Navigation</LinkTo>
+            </li>
+        </ul>
 
-    <ul class="gh-nav-list">
-        <li class="gh-nav-list-h">Members</li>
-        {{!-- <li class="relative">
-            <LinkTo @route="settings.members-payments" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
-        </li> --}}
-        <li class="relative">
-            <div class="gh-secondary-action icon-only arrow">
-                <span>{{svg-jar "arrow-right"}}</span>
-            </div>
-            <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "portal-logo"}}Portal</button>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.members-email" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "email"}}Email newsletter</LinkTo>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.members-payments" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "piggy-bank"}}Payments</LinkTo>
-        </li>
-    </ul>
+        <ul class="gh-nav-list">
+            <li class="gh-nav-list-h">Members</li>
+            {{!-- <li class="relative">
+                <LinkTo @route="settings.members-payments" @alt="Portal" @title="Portal" data-test-nav="members-settings">{{svg-jar "members"}}Portal</LinkTo>
+            </li> --}}
+            <li class="relative">
+                <div class="gh-secondary-action icon-only arrow">
+                    <span>{{svg-jar "arrow-right"}}</span>
+                </div>
+                <button type="button" class="main-menu-item" {{action (toggle "showPortalSettings" this)}} data-test-toggle-membersFrom>{{svg-jar "portal-logo"}}Portal</button>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.members-email" @alt="Email" @title="Email" data-test-nav="members-settings">{{svg-jar "email"}}Email newsletter</LinkTo>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.members-payments" @alt="Payments" @title="Payments" data-test-nav="members-settings">{{svg-jar "piggy-bank"}}Payments</LinkTo>
+            </li>
+        </ul>
 
-    <ul class="gh-nav-list">
-        <li class="gh-nav-list-h">Extensions</li>
-        <li class="relative">
-            <LinkTo @route="settings.code-injection" @alt="Code injection" @title="Code injection" data-test-nav="code-injection">{{svg-jar "brackets"}}Code injection</LinkTo>
-        </li>
-        <li class="relative">
-            <LinkTo @route="settings.labs" @alt="Labs" @title="Labs" data-test-nav="labs">{{svg-jar "labs"}}Labs</LinkTo>
-        </li>
-    </ul>
-</div>
+        <ul class="gh-nav-list">
+            <li class="gh-nav-list-h">Extensions</li>
+            <li class="relative">
+                <LinkTo @route="settings.code-injection" @alt="Code injection" @title="Code injection" data-test-nav="code-injection">{{svg-jar "brackets"}}Code injection</LinkTo>
+            </li>
+            <li class="relative">
+                <LinkTo @route="settings.labs" @alt="Labs" @title="Labs" data-test-nav="labs">{{svg-jar "labs"}}Labs</LinkTo>
+            </li>
+        </ul>
+    </div>
+
+    <GhNavMenu::Footer />
 </section>
 
 {{#if this.showPortalSettings}}

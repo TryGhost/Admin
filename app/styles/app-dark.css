@@ -481,8 +481,12 @@ input:focus,
 .gh-nav-list .gh-secondary-action:hover span,
 .gh-nav-bottom .ember-basic-dropdown-trigger:hover,
 .gh-nav-list .active,
-.gh-nav-btn-search:hover {
-    background: color-mod(var(--dark-main-bg-color) l(+5%) s(-5%))
+.gh-nav-btn-search:hover,
+.gh-nav-list button.main-menu-item:hover,
+.gh-nav-bottom .ember-basic-dropdown-trigger:hover,
+.gh-nav-bottom-tabicon:hover,
+.gh-nav-bottom-tabicon.active {
+    background: color-mod(var(--dark-main-bg-color) l(+5%) s(-5%));
 }
 
 .gh-nav-list .gh-nav-nightshift span svg path {

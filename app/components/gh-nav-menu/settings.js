@@ -6,6 +6,8 @@ export default Component.extend({
 
     showPortalSettings: false,
     showLeaveSettingsModal: false,
+
+    tagName: '',
     
     actions: {
         openStripeSettings() {
