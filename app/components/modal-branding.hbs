@@ -2,10 +2,7 @@
     <div class="gh-branding-settings-header">
         <h4>Branding</h4>
         <div class="gh-branding-settings-actions">
-            <button class="gh-btn ml3" {{action "closeModal"}}>
-                <span>Cancel</span>
-            </button>
-            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-blue gh-btn-icon ml3" @buttonText="Save and close" data-test-save-button={{true}} />
+            <a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
         </div>
     </div>
     <div class="gh-branding-settings">
@@ -29,13 +26,15 @@
                         {{#if uploader.isUploading}}
                             {{uploader.progressBar}}
                         {{else if this.settings.icon}}
-                            <img class="blog-icon" src="{{this.settings.icon}}" onclick={{action "triggerFileDialog"}} alt="icon" data-test-icon-img>
-                            <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "icon"}} data-test-delete-image="icon">
-                                <span>delete</span>
-                            </button>
+                            <div class="gh-branding-image-container transparent-bg">
+                                <img class="blog-icon" src="{{this.settings.icon}}" alt="icon" data-test-icon-img>
+                                <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "icon"}} data-test-delete-image="icon">
+                                    {{svg-jar "trash" class="w4 h4 fill-white"}}
+                                </button>
+                            </div>
                         {{else}}
-                            <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
-                                <span>Upload Image</span>
+                            <button type="button" class="gh-btn self-center" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon">
+                                <span>Upload icon</span>
                             </button>
                         {{/if}}
                         <div style="display:none">
@@ -61,13 +60,15 @@
                             {{#if uploader.isUploading}}
                                 {{uploader.progressBar}}
                             {{else if this.settings.logo}}
-                                <img class="blog-logo" src="{{this.settings.logo}}" onclick={{action "triggerFileDialog"}} alt="logo" data-test-logo-img>
-                                <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "logo"}} data-test-delete-image="logo">
-                                    <span>delete</span>
-                                </button>
+                                <div class="gh-branding-image-container largeimg transparent-bg">
+                                    <img class="blog-logo" src="{{this.settings.logo}}" alt="logo" data-test-logo-img>
+                                    <button type="button" class="gh-setting-action-smallimg-delete" {{action "removeImage" "logo"}} data-test-delete-image="logo">
+                                        {{svg-jar "trash" class="w4 h4 fill-white"}}
+                                    </button>
+                                </div>
                             {{else}}
-                                <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="logo">
-                                    <span>Upload Image</span>
+                                <button type="button" class="gh-btn self-start" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="logo">
+                                    <span>Upload logo</span>
                                 </button>
                             {{/if}}
                             <div style="display:none">
@@ -90,17 +91,19 @@
                             <div class="gh-setting-error" data-test-error="coverImage">{{or error.context error.message}}</div>
                         {{/each}}
 
-                        <div class="gh-uploadbutton-container flex flex-column mt3">
+                        <div class="gh-uploadbutton-container flex flex-column mt3 items-stretch">
                             {{#if uploader.isUploading}}
                                 {{uploader.progressBar}}
                             {{else if this.settings.coverImage}}
-                                <img class="blog-cover" src="{{this.settings.coverImage}}" onclick={{action "triggerFileDialog"}} alt="cover photo" data-test-cover-img>
-                                <button type="button" class="gh-setting-action-largeimg-delete" {{action "removeImage" "coverImage"}} data-test-delete-image="coverImage">
-                                    <span>Delete</span>
-                                </button>
+                                <div class="gh-branding-image-container largeimg">
+                                    <img class="blog-cover" src="{{this.settings.coverImage}}" alt="cover photo" data-test-cover-img>
+                                    <button type="button" class="gh-setting-action-largeimg-delete" {{action "removeImage" "coverImage"}} data-test-delete-image="coverImage">
+                                        {{svg-jar "trash" class="w4 h4 fill-white"}}
+                                    </button>
+                                </div>
                             {{else}}
-                                <button type="button" class="gh-btn" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="coverImage">
-                                    <span>Upload Image</span>
+                                <button type="button" class="gh-btn self-start" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="coverImage">
+                                    <span>Upload cover</span>
                                 </button>
                             {{/if}}
                             <div style="display:none">
@@ -131,7 +134,7 @@
                                     @placeholder="abcdef"
                                     @autocorrect="off"
                                     @maxlength="6"
-                                    @focus-out={{action "validateAccentColor"}}
+                                    @focus-out={{action "updateAccentColor"}}
                                     @value={{accentColor}}
                                     data-test-input="accentColor"
                                 />
@@ -142,7 +145,7 @@
                                 >
                                     <input
                                         type="color" name="accent-color" class="color-picker" value="{{this.colorPickerValue}}"
-                                        oninput={{action "updateAccentColor" value="target.value"}}
+                                        oninput={{action "setAccentColor" value="target.value"}}
                                     >
                                 </div>
                             </div>

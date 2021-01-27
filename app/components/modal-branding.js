@@ -27,6 +27,8 @@ export default ModalComponent.extend({
 
     dirtyAttributes: false,
 
+    previewGuid: (new Date()).valueOf(),
+
     colorPickerValue: computed('settings.accentColor', function () {
         return this.get('settings.accentColor') || '#ffffff';
     }),
@@ -42,6 +44,7 @@ export default ModalComponent.extend({
     init() {
         this._super(...arguments);
         this.iconExtensions = ICON_EXTENSIONS;
+        this.refreshPreview();
     },
 
     actions: {
@@ -91,9 +94,11 @@ export default ModalComponent.extend({
 
         reset() {},
 
-        removeImage(image) {
+        async removeImage(image) {
             // setting `null` here will error as the server treats it as "null"
             this.settings.set(image, '');
+            await this.save.perform();
+            this.refreshPreview();
         },
 
         /**
@@ -117,14 +122,23 @@ export default ModalComponent.extend({
          * @param  {UploadResult[]} results - Array of UploadResult objects
          * @return {string} The URL that was set on `this.settings.property`
          */
-        imageUploaded(property, results) {
+        async imageUploaded(property, results) {
             if (results[0]) {
-                return this.settings.set(property, results[0].url);
+                let result = this.settings.set(property, results[0].url);
+                await this.save.perform();
+                this.refreshPreview();
+                return result;
             }
         },
 
-        updateAccentColor(color) {
+        setAccentColor(color) {
             this._validateAccentColor(color);
+        },
+
+        async updateAccentColor() {
+            await this._validateAccentColor(this.get('accentColor'));
+            await this.save.perform();
+            this.refreshPreview();
         },
 
         validateAccentColor() {
@@ -147,6 +161,10 @@ export default ModalComponent.extend({
             }
         }
     }),
+
+    refreshPreview() {
+        this.set('previewGuid',(new Date()).valueOf());
+    },
 
     _validateAccentColor(color) {
         let newColor = color;
