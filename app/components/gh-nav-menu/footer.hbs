@@ -76,8 +76,8 @@
             </GhBasicDropdown>
         </div>
         <div class="mr3 flex items-center">
-            <LinkTo class="gh-nav-bottom-tabicon" @route="settings" @current-when={{this.isSettingsRoute}} data-test-nav="settings">{{svg-jar "settings"}}</LinkTo>
-            <button class="gh-nav-bottom-tabicon" title="Toggle Night shift" {{action (toggle "nightShift" this.feature)}}>
+            <LinkTo class="gh-nav-bottom-tabicon" @route="settings" @current-when={{this.isSettingsRoute}} data-test-nav="settings" data-tooltip="Settings">{{svg-jar "settings"}}</LinkTo>
+            <button class="gh-nav-bottom-tabicon" {{action (toggle "nightShift" this.feature)}} data-tooltip="Toggle Night shift">
                 <span>{{svg-jar "nightshift" class="nudge-top--1"}}</span>
             </button>
         </div>

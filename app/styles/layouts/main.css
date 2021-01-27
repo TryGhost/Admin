@@ -589,6 +589,10 @@
     transition: none;
 }
 
+.gh-nav-bottom-tabicon:last-child[data-tooltip]:before {
+    left: -12px;
+}
+
 /* Mobile Nav Menu (Slides out)
 /* ---------------------------------------------------------- */
 
