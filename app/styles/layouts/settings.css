@@ -59,49 +59,55 @@
 .gh-settings-main-grid .gh-setting-group {
     display: flex;
     color: var(--darkgrey);
-    border-bottom: 1px solid var(--whitegrey);
-    border-right: 1px solid var(--whitegrey);
     padding: 20px;
     min-height: 85px;
+    text-align: left;
 }
 
-.gh-settings-main-grid a.gh-setting-group:hover {
-    background: var(--whitegrey-l2);
+.gh-settings-main-grid .gh-setting-group span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background: color-mod(var(--main-bg-color) s(+8%));
+    width: 40px;
+    height: 40px;
+    min-width: 40px;;
+    border-radius: 5px;
 }
 
-.gh-settings-main-grid .gh-setting-group:nth-child(3n) {
-    border-right: none;
+.gh-settings-main-grid .gh-setting-group span.color-1 {
+    background: var(--yellow);
 }
 
-.gh-settings-main-grid .gh-setting-group:nth-last-child(-n+3) {
-    border-bottom: none;
+.gh-settings-main-grid .gh-setting-group span.color-2 {
+    background: var(--green);
 }
 
-.gh-settings-main-grid .gh-setting-group:first-child {
-    border-top-left-radius: .5rem;
+.gh-settings-main-grid .gh-setting-group span.color-3 {
+    background: var(--blue);
 }
 
-.gh-settings-main-grid .gh-setting-group:nth-child(3) {
-    border-top-right-radius: .5rem;
+.gh-settings-main-grid .gh-setting-group span.color-4 {
+    background: var(--purple);
 }
 
-.gh-settings-main-grid .gh-setting-group:nth-last-child(3) {
-    border-bottom-left-radius: .5rem;
-}
-
-.gh-settings-main-grid .gh-setting-group:last-child {
-    border-bottom-right-radius: .5rem;
+.gh-settings-main-grid .gh-setting-group:hover span {
+    background: color-mod(var(--main-bg-color) l(-3%) s(+8%));
 }
 
 .gh-settings-main-grid .gh-setting-group svg {
-    margin-top: 4px;
-    flex-basis: 48px;
-    max-width: 32px;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
 }
 
-.gh-settings-main-grid .gh-setting-group svg path {
+.gh-settings-main-grid .gh-setting-group svg path,
+.gh-settings-main-grid .gh-setting-group svg circle {
+    fill: var(--midlightgrey);
+}
+
+.gh-settings-main-grid .gh-setting-group:hover svg path,
+.gh-settings-main-grid .gh-setting-group:hover svg circle {
     fill: var(--midgrey);
 }
 
@@ -121,6 +127,20 @@
     padding: 0;
     line-height: 1.5em;
 }
+
+@media (max-width: 1100px) {
+    .gh-settings-main-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    .gh-settings-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Setting headers */
 
 .gh-setting-header {
     margin: 4vw 0 5px 1px;
