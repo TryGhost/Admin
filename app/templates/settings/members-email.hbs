@@ -20,14 +20,12 @@
 
         {{#if this.session.user.isOwner}}
         <div class="gh-setting-liquid-section">
-            {{#liquid-if this.feature.labs.members}}
             <GhMembersEmailSetting
                 @settings={{this.settings}}
                 @fromAddress={{this.fromAddress}}
                 @supportAddress={{this.supportAddress}}
                 @setEmailAddress={{action "setEmailAddress"}}
             />
-            {{/liquid-if}}
         </div>
         {{/if}}
 
