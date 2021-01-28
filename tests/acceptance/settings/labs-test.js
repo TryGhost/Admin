@@ -316,8 +316,6 @@ describe('Acceptance: Settings - Labs', function () {
         it('sets the mailgunBaseUrl to the default', async function () {
             await visit('/settings/members');
 
-            await click('[data-test-toggle="enable-members"]');
-
             await click('[data-test-toggle-membersemail]');
 
             await fillIn('[data-test-mailgun-api-key-input]', 'i_am_an_api_key');
