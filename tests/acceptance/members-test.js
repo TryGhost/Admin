@@ -43,7 +43,7 @@ describe('Acceptance: Members', function () {
         });
 
         it('shows sidebar link which navigates to members list', async function () {
-            await visit('/settings/members');
+            await visit('/settings/members-payments');
             await click('#labs-members');
             await visit('/');
 
