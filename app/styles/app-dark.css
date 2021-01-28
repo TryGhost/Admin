@@ -504,7 +504,8 @@ input:focus,
 .gh-contentfilter-menu-trigger--active,
 .gh-contentfilter-menu-trigger:focus,
 .tags-container,
-.content-list ol {
+.content-list ol,
+.gh-settings-main-grid {
     background: #212A2E;
 }
 
@@ -514,7 +515,7 @@ input:focus,
 .gh-list-row:not(.header):not(.loading):hover .gh-list-cell,
 .gh-list-row:not(.header):not(.loading):hover .gh-list-data,
 .settings-tag .tag-edit-button.active,
-.gh-settings-main-grid {
+.gh-portal-site-frame-cover {
     background: color-mod(var(--dark-main-bg-color) l(-2%));
 }
 
