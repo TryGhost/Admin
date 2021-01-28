@@ -485,7 +485,8 @@ input:focus,
 .gh-nav-list button.main-menu-item:hover,
 .gh-nav-bottom .ember-basic-dropdown-trigger:hover,
 .gh-nav-bottom-tabicon:hover,
-.gh-nav-bottom-tabicon.active {
+.gh-nav-bottom-tabicon.active,
+.gh-nav-list .gh-secondary-action:not(.icon-only):hover span {
     background: color-mod(var(--dark-main-bg-color) l(+5%) s(-5%));
 }
 
@@ -511,7 +512,8 @@ input:focus,
 .ember-power-select-group .ember-power-select-option[aria-current=true],
 .gh-list-row:not(.header):not(.loading):hover .gh-list-cell,
 .gh-list-row:not(.header):not(.loading):hover .gh-list-data,
-.settings-tag .tag-edit-button.active {
+.settings-tag .tag-edit-button.active,
+.gh-settings-main-grid {
     background: color-mod(var(--dark-main-bg-color) l(-2%));
 }
 
@@ -521,6 +523,14 @@ input:focus,
 
 .tag-settings .gh-image-uploader {
     background-color: transparent;
+}
+
+.gh-settings-main-grid .gh-setting-group span {
+    background: color-mod(var(--dark-main-bg-color) l(+2%));
+}
+
+.gh-settings-main-grid .gh-setting-group:hover span {
+    background: color-mod(var(--dark-main-bg-color) l(+4%));
 }
 
 
