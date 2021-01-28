@@ -7,9 +7,10 @@ import {
     IMAGE_MIME_TYPES
 } from 'ghost-admin/components/gh-image-uploader';
 import {computed} from '@ember/object';
-import {run} from '@ember/runloop';
+import {htmlSafe} from '@ember/string';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
+import {timeout} from 'ember-concurrency';
 
 const ICON_EXTENSIONS = ['ico', 'png'];
 
@@ -29,7 +30,7 @@ export default ModalComponent.extend({
 
     previewGuid: (new Date()).valueOf(),
 
-    colorPickerValue: computed('settings.accentColor', function () {
+    accentColorPickerValue: computed('settings.accentColor', function () {
         return this.get('settings.accentColor') || '#ffffff';
     }),
 
@@ -39,6 +40,10 @@ export default ModalComponent.extend({
             return color.slice(1);
         }
         return color;
+    }),
+
+    accentColorBgStyle: computed(function () {
+        return htmlSafe(`background-color: ${this.accentColorPickerValue}`);
     }),
 
     init() {
@@ -131,20 +136,15 @@ export default ModalComponent.extend({
             }
         },
 
-        setAccentColor(color) {
-            this._validateAccentColor(color);
-        },
-
-        async updateAccentColor() {
-            await this._validateAccentColor(this.get('accentColor'));
-            await this.save.perform();
-            this.refreshPreview();
-        },
-
-        validateAccentColor() {
-            this._validateAccentColor(this.get('accentColor'));
+        updateAccentColor(event) {
+            this._updateAccentColor(event);
         }
     },
+
+    debounceUpdateAccentColor: task(function* (event) {
+        yield timeout(500);
+        this._updateAccentColor(event);
+    }).restartable(),
 
     save: task(function* () {
         let notifications = this.notifications;
@@ -162,25 +162,23 @@ export default ModalComponent.extend({
         }
     }),
 
-    refreshPreview() {
-        this.set('previewGuid',(new Date()).valueOf());
-    },
-
-    _validateAccentColor(color) {
-        let newColor = color;
+    async _updateAccentColor(event) {
+        let newColor = event.target.value;
         let oldColor = this.get('settings.accentColor');
-        let errMessage = '';
 
         // reset errors and validation
         this.get('settings.errors').remove('accentColor');
         this.get('settings.hasValidated').removeObject('accentColor');
 
         if (newColor === '') {
-            // Clear out the accent color
-            run.schedule('afterRender', this, function () {
-                this.settings.set('accentColor', '');
-                this.set('accentColor', '');
-            });
+            if (newColor === oldColor) {
+                return;
+            }
+
+            // clear out the accent color
+            this.settings.set('accentColor', '');
+            await this.save.perform();
+            this.refreshPreview();
             return;
         }
 
@@ -194,16 +192,21 @@ export default ModalComponent.extend({
         }
 
         if (newColor.match(/#[0-9A-Fa-f]{6}$/)) {
-            this.set('settings.accentColor', '');
-            run.schedule('afterRender', this, function () {
-                this.set('settings.accentColor', newColor);
-                this.set('accentColor', newColor.slice(1));
-            });
+            if (newColor === oldColor) {
+                return;
+            }
+
+            this.set('settings.accentColor', newColor);
+            await this.save.perform();
+            this.refreshPreview();
         } else {
-            errMessage = 'The color should be in valid hex format';
-            this.get('settings.errors').add('accentColor', errMessage);
+            this.get('settings.errors').add('accentColor', 'The colour should be in valid hex format');
             this.get('settings.hasValidated').pushObject('accentColor');
             return;
         }
+    },
+
+    refreshPreview() {
+        this.set('previewGuid',(new Date()).valueOf());
     }
 });
