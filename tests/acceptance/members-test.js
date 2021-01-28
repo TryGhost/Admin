@@ -42,21 +42,6 @@ describe('Acceptance: Members', function () {
             return await authenticateSession();
         });
 
-        it('shows sidebar link which navigates to members list', async function () {
-            await visit('/settings/members-payments');
-            await click('#labs-members');
-            await visit('/');
-
-            expect(find('[data-test-nav="members"]'), 'sidebar link')
-                .to.exist;
-
-            await click('[data-test-nav="members"]');
-
-            expect(currentURL()).to.equal('/members');
-            expect(currentRouteName()).to.equal('members.index');
-            expect(find('[data-test-screen-title]')).to.have.text('Members');
-        });
-
         it('it renders, can be navigated, can edit member', async function () {
             let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
             this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').valueOf()});
