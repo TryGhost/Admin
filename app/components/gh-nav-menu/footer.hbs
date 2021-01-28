@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between mt3 mb6 pa2">
         <div>
             <GhBasicDropdown @horizontalPosition="left" @verticalPosition="above" @calculatePosition={{this.userDropdownPosition}} as |dropdown|>
-                <dropdown.Trigger class="outline-0 pointer pa2 pl3">
+                <dropdown.Trigger class="outline-0 pointer pa1 pr3 ml2">
                     <div class="flex-auto flex items-center">
                         <div class="gh-user-avatar relative" style={{background-image-style this.session.user.profileImageUrl}}>
                             {{#if this.whatsNew.hasNew}}<span class="absolute dib bg-blue ba b--white br-100 gh-whats-new-badge-account"></span>{{/if}}
@@ -77,9 +77,14 @@
         </div>
         <div class="mr3 flex items-center">
             <LinkTo class="gh-nav-bottom-tabicon" @route="settings" @current-when={{this.isSettingsRoute}} data-test-nav="settings" data-tooltip="Settings">{{svg-jar "settings"}}</LinkTo>
-            <button class="gh-nav-bottom-tabicon" {{action (toggle "nightShift" this.feature)}} data-tooltip="Toggle Night shift">
-                <span>{{svg-jar "nightshift" class="nudge-top--1"}}</span>
-            </button>
+
+            <div class="nightshift-toggle-container" data-tooltip="Toggle Night shift">
+                <div class="nightshift-toggle {{if this.feature.nightShift "on"}}" {{action (toggle "nightShift" this.feature)}}>
+                    <div class="sun">{{svg-jar "sun"}}</div>
+                    <div class="moon">{{svg-jar "moon"}}</div>
+                    <div class="thumb"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

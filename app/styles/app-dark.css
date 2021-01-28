@@ -535,6 +535,17 @@ input:focus,
     background: color-mod(var(--dark-main-bg-color) l(+4%));
 }
 
+.nightshift-toggle {
+    background: #2d3d42;
+}
+
+.nightshift-toggle .thumb {
+    background: var(--midlightgrey-d2);
+}
+
+.nightshift-toggle .moon svg {
+    color: var(--midlightgrey-d2);
+}
 
 /* Koenig styles */
 .kg-link-input {
