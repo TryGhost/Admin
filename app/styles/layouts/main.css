@@ -1,8 +1,8 @@
 :root {
     /* Main menu variables */
-    --mainmenu-color-hover-bg: var(--whitegrey);
+    --mainmenu-color-hover-bg: var(--whitegrey-l1);
     --mainmenu-color-active: var(--black);
-    --mainmenu-color-active-bg: var(--black);
+    --mainmenu-color-active-bg: var(--whitegrey-l1);
     --mainmenu-width: 340px;
     --mainmenu-padding: var(--main-area-padding);
 }
@@ -103,7 +103,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
-    background: linear-gradient(315deg,var(--whitegrey-l2),var(--white));
+    /* background: linear-gradient(315deg,var(--whitegrey-l2),var(--white)); */
     transform: translateX(0);
     border-right: 1px solid var(--main-area-divider-color);
 }
@@ -112,8 +112,9 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    height: calc(var(--main-vertical-panel-height) - 1px);
+    height: var(--main-vertical-panel-height);
     padding: var(--mainmenu-padding);
+    border-bottom: 1px solid var(--main-area-divider-color);
 }
 
 .gh-nav-menu-dropdown .dropdown-menu {
@@ -325,7 +326,7 @@
     color: color-mod(var(--middarkgrey) l(-10%));
     transition: none;
     font-weight: 400;
-    padding: 9px var(--mainmenu-padding) 9px calc(var(--mainmenu-padding) + 7px);
+    padding: 8px var(--mainmenu-padding) 8px calc(var(--mainmenu-padding) + 7px);
     font-size: 1.5rem;
     margin: 0;
     border-radius: 0;
@@ -339,22 +340,23 @@
 .gh-nav-list .active {
     position: relative;
     color: var(--mainmenu-color-active);
-    /* background: var(--mainmenu-color-active-bg); */
+    background: var(--mainmenu-color-active-bg);
     font-weight: 700;
-    /* border: 2px solid var(--yellow); */
-    /* padding: 8px calc(var(--mainmenu-padding) - 2px) 8px calc(var(--mainmenu-padding) + 5px); */
+    /* border: 1px solid var(--black);
+    padding: 7px calc(var(--mainmenu-padding) - 2px) 7px calc(var(--mainmenu-padding) + 5px); */
 }
 
-.gh-nav-list .active::after {
+/* .gh-nav-list .active::after {
     content: "";
     position: absolute;
-    width: 8px;
+    width: 36px;
+    height: 36px;
     top: 0;
     bottom: 0;
-    left: 0;
-    border-radius: 0px;
+    left: 30px;
+    border-radius: 999px;
     background: var(--lime);
-}
+} */
 
 .gh-nav-list a:not(.active):hover,
 .gh-nav-list button.main-menu-item:hover {
@@ -384,7 +386,7 @@
 }
 
 .gh-nav-list .active svg {
-    fill: var(--mainmenu-color-active);
+    fill: #8FD200;
 }
 
 .gh-nav-list a svg g,
@@ -397,7 +399,7 @@
 }
 
 .gh-nav-list .active svg g {
-    stroke: var(--mainmenu-color-active);
+    stroke: #8FD200;
 }
 
 .gh-nav-button-expand {
@@ -499,11 +501,7 @@
 }
 
 .gh-nav-main {
-    margin: 22px 0;
-}
-
-.gh-nav-main:first-child {
-    margin-top: 0;
+    margin: 24px 0;
 }
 
 .gh-nav-labs {
@@ -542,7 +540,7 @@
     border: 3px solid var(--midgrey);
     width: 8px;
     height: 8px;
-    margin: 0 8px 0 -21px;
+    margin: 0 8px 0 -30px;
 }
 
 .gh-nav-view-list .svg-midgrey .circle {
@@ -626,7 +624,7 @@
 }
 
 .gh-nav-bottom-tabicon.active {
-    background: var(--lime);
+    background: var(--mainmenu-color-active-bg);
 }
 
 .gh-nav-bottom-tabicon.active svg {
@@ -900,36 +898,31 @@
     flex-grow: 1;
     padding: 0 0 48px;
     margin: 0 auto;
-    max-width: var(--main-content-maxwidth);
 }
 
 .gh-canvas-header {
-    position: relative;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin: 0;
-    height: var(--main-vertical-panel-height);
     position: sticky;
     top: 0;
     background: var(--main-bg-color);
     z-index: 700;
     border-bottom: 1px solid var(--main-area-divider-color);
-    padding: 0 var(--main-content-sidepadding);
-    /* border-color: color-mod(color-mod(var(--main-bg-color) l(-4%)) a(0%)); */
-    /* transition-duration: 300ms;
-    transition-property: border-color; */
 }
 
-.gh-canvas-header:before {
-    position: absolute;
-    content: "";
-    background: var(--main-area-divider-color);
-    height: 1px;
-    top: calc(var(--main-vertical-panel-height) - 1px);
-    left: calc(-1 * ((100vw - var(--mainmenu-width) - var(--main-content-maxwidth)) / 2) - var(--main-area-padding));
-    right: calc(-1 * ((100vw - var(--mainmenu-width) - var(--main-content-maxwidth)) / 2) - var(--main-area-padding));
+.gh-canvas-header-content {
+    height: calc(var(--main-vertical-panel-height) - 1px);
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gh-main-width {
+    width: 100%;
+    max-width: var(--main-content-maxwidth);
+    margin: 0 auto;
+    padding: 0 var(--main-content-sidepadding);
 }
 
 .gh-main-white .gh-canvas-header {
@@ -1050,7 +1043,8 @@
 .view-content {
     position: relative;
     flex-grow: 1;
-    padding: var(--main-content-sidepadding);
+    padding-top: var(--main-area-padding);
+    padding-bottom: var(--main-area-padding);
 }
 
 .view-content {

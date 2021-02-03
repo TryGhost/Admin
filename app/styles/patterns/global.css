@@ -12,10 +12,10 @@
     --lime: #B5FF18;
 
     /* Secondary colours */
-    --blue: #3eb0ef;
-    --green: #a4d037;
-    --purple: #ad26b4;
-    --yellow: #fecd35;
+    --blue: #218AF3;
+    --green: #38D550;
+    --purple: #F71D81;
+    --yellow: #FFC701;
     --red: #f05230;
     --pink: #fa3a57;
 
@@ -133,8 +133,9 @@
     --main-area-padding: 32px;
     --list-divider-color: color-mod(var(--black) a(5%));
     --main-vertical-panel-height: 96px;
-    --main-content-maxwidth: 1400px;
+    --main-content-maxwidth: 1320px;
     --main-content-sidepadding: 40px;
+    --main-content-sidedistance: calc((100vw - var(--mainmenu-width) - var(--main-content-maxwidth)) / 2) - var(--main-area-padding);
     
     /* Special colours */
     --transparent:transparent;
