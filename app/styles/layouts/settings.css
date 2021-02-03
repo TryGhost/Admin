@@ -26,7 +26,7 @@
 }
 
 .gh-nav-settings-close a:hover {
-    background: var(--active-menu-bg-color);
+    background: var(--mainmenu-color-active-bg);
 }
 
 .gh-nav-settings-close a svg {
