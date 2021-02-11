@@ -1,6 +1,7 @@
 import ModalBase from 'ghost-admin/components/modal-base';
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
+import {isThemeValidationError} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -14,6 +15,7 @@ export default class ModalInstallThemeComponent extends ModalBase {
 
     @tracked model;
     @tracked theme;
+    @tracked validationWarnings = [];
     @tracked validationErrors = [];
     @tracked fatalValidationErrors = [];
 
@@ -37,6 +39,10 @@ export default class ModalInstallThemeComponent extends ModalBase {
         return !!this.theme;
     }
 
+    get hasWarningsOrErrors() {
+        return this.validationWarnings.length > 0 || this.validationErrors.length > 0;
+    }
+
     get shouldShowInstall() {
         return !this.installSuccess && !this.willOverwriteDefault;
     }
@@ -54,6 +60,12 @@ export default class ModalInstallThemeComponent extends ModalBase {
         this.closeModal();
     }
 
+    @action
+    reset() {
+        this.theme = null;
+        this.resetErrors();
+    }
+
     actions = {
         confirm() {
             // noop - needed to override ModalBase.actions.confirm
@@ -67,17 +79,46 @@ export default class ModalInstallThemeComponent extends ModalBase {
 
     @task({drop: true})
     *installTask() {
-        // TODO: update API to use PUT/POST
-        const url = this.ghostPaths.url.api('themes/install') + `?source=github&ref=${this.model.ref}`;
-        const result = yield this.ajax.request(url);
+        try {
+            // TODO: update API to use PUT/POST
+            const url = this.ghostPaths.url.api('themes/install') + `?source=github&ref=${this.model.ref}`;
+            const result = yield this.ajax.request(url);
 
-        if (result.themes) {
-            // show theme in list immediately
-            this.store.pushPayload(result);
+            if (result.themes) {
+                // show theme in list immediately
+                this.store.pushPayload(result);
 
-            this.theme = this.store.peekRecord('theme', result.themes[0].name);
+                this.theme = this.store.peekRecord('theme', result.themes[0].name);
 
-            return true;
+                this.validationWarnings = this.theme.warnings || [];
+                this.validationErrors = this.theme.errors || [];
+                this.fatalValidationErrors = [];
+
+                return true;
+            }
+        } catch (error) {
+            if (isThemeValidationError(error)) {
+                this.resetErrors();
+
+                let errors = error.payload.errors[0].details.errors;
+                let fatalErrors = [];
+                let normalErrors = [];
+
+                // to have a proper grouping of fatal errors and none fatal, we need to check
+                // our errors for the fatal property
+                if (errors && errors.length > 0) {
+                    for (let i = 0; i < errors.length; i += 1) {
+                        if (errors[i].fatal) {
+                            fatalErrors.push(errors[i]);
+                        } else {
+                            normalErrors.push(errors[i]);
+                        }
+                    }
+                }
+
+                this.fatalValidationErrors = fatalErrors;
+                this.validationErrors = normalErrors;
+            }
         }
     }
 
@@ -85,5 +126,11 @@ export default class ModalInstallThemeComponent extends ModalBase {
     *activateTask() {
         yield this.theme.activate();
         this.closeModal();
+    }
+
+    resetErrors() {
+        this.validationWarnings = [];
+        this.validationErrors = [];
+        this.fatalValidationErrors = [];
     }
 }
