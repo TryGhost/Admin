@@ -18,9 +18,9 @@
 
     <div class="modal-body">
         {{#if this.installSuccess}}
-            <p>{{this.themeName}} has been installed and activated.</p>
+            <p>{{this.themeName}} has been installed.</p>
         {{else if this.installFailure}}
-            <p></p>
+            <p>{{this.themeName}} failed to install.</p>
         {{else if this.willOverwriteDefault}}
             <p>
                 Sorry, the default Casper theme cannot be overwritten.<br>
@@ -28,32 +28,48 @@
             </p>
         {{else}}
             <p>
-                Are you sure you want to install and activate <strong>{{this.themeName}}</strong> from
+                Are you sure you want to install <strong>{{this.themeName}}</strong> from
                 <a href="https://github.com/{{this.model.ref}}" target="_blank" rel="noopener noreferrer">https://github.com/{{this.model.ref}}</a>?
             </p>
             {{#if this.willOverwrite}}
-                <p>This will overwrite your existing version of {{this.themeName}}. Any custom changes will be lost.</p>
+                <p>
+                    This will overwrite your existing version of {{this.themeName}}{{if this.willOverwrite.active " which is your active theme"}}.
+                    Any custom changes will be lost.
+                </p>
             {{/if}}
         {{/if}}
     </div>
 
     <div class="modal-footer">
-        <div class="flex items-center justify-between {{unless (or this.installSuccess this.willOverwriteDefault) "flex-auto"}}">
+        <div class="flex items-center justify-between {{if this.hasActionButton "flex-auto"}}">
             <button type="button" class="gh-btn" {{on "click" this.close}} data-test-button="cancel">
                 <span>{{#if this.installSuccess}}Close{{else}}Cancel{{/if}}</span>
             </button>
 
-            {{#if (and (not this.installSuccess) (not this.willOverwriteDefault))}}
+            {{#if this.hasActionButton}}
                 <div class="flex items-center">
-                    <GhTaskButton
-                        @task={{this.install}}
-                        @type="button"
-                        @class="gh-btn gh-btn-icon gh-btn-green"
-                        @buttonText="Install"
-                        @runningText="Installing"
-                        @successText="Installed"
-                        data-test-button="install"
-                    />
+                    {{#if this.shouldShowInstall}}
+                        <GhTaskButton
+                            @task={{this.installTask}}
+                            @type="button"
+                            @class="gh-btn gh-btn-icon gh-btn-green"
+                            @buttonText={{if this.willOverwrite "Overwrite" "Install"}}
+                            @runningText="Installing"
+                            @successText="Installed"
+                            data-test-button="install"
+                        />
+                    {{/if}}
+
+                    {{#if this.shouldShowActivate}}
+                        <GhTaskButton
+                            @task={{this.activateTask}}
+                            @type="button"
+                            @class="gh-btn gh-btn-icon gh-btn-green"
+                            @buttonText="Activate"
+                            @runningText="Activating"
+                            data-test-button="activate"
+                        />
+                    {{/if}}
                 </div>
             {{/if}}
         </div>
