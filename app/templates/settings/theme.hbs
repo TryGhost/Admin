@@ -19,8 +19,13 @@
         <div class="gh-theme-directory-container">
             <div class="theme-directory">
                 <a class="td-item" href="https://github.com/TryGhost/Massively" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot">
+                    <div class="td-item-screenshot relative">
                         <img style="object-fit:contain;" src="assets/img/themes/massively.jpg" alt="Massively Theme" />
+                        {{!-- TODO: styling --}}
+                        <div class="absolute absolute--fill flex flex-column items-center justify-center hover-bg-black-40">
+                            <LinkTo class="gh-btn mb4" @route="settings.theme.install" @query={{hash source="github" ref="TryGhost/Massively"}}><span>Install</span></LinkTo>
+                            <a href="https://massively.ghost.io" class="gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
+                        </div>
                     </div>
                     <div class="td-item-desc">
                         <div>Massively <span>— Free</span></div>

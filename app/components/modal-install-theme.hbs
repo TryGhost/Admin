@@ -1,0 +1,61 @@
+<div class="theme-validation-container">
+    <header class="modal-header" data-test-modal="install-theme">
+        <h1>
+            {{#if this.installSuccess}}
+                {{#if this.hasWarningsOrErrors}}
+                    Install successful with {{#if this.validationErrors}}errors{{else}}warnings{{/if}}
+                {{else}}
+                    Install successful!
+                {{/if}}
+            {{else if this.installFailure}}
+                Invalid theme
+            {{else}}
+                Install theme
+            {{/if}}
+        </h1>
+    </header>
+    <button type="button" class="close" title="Close" {{on "click" this.close}}>{{svg-jar "close"}}<span class="hidden">Close</span></button>
+
+    <div class="modal-body">
+        {{#if this.installSuccess}}
+            <p></p>
+        {{else if this.installFailure}}
+            <p></p>
+        {{else if this.willOverwriteDefault}}
+            <p>
+                Sorry, the default Casper theme cannot be overwritten.<br>
+                If you wish to make changes please download the theme and upload a renamed zip file.
+            </p>
+        {{else}}
+            <p>
+                Are you sure you want to install and activate <strong>{{this.themeName}}</strong> from
+                <a href="https://github.com/{{this.model.ref}}" target="_blank" rel="noopener noreferrer">https://github.com/{{this.model.ref}}</a>?
+            </p>
+            {{#if this.willOverwrite}}
+                <p>This will overwrite your existing version of {{this.themeName}}. Any custom changes will be lost.</p>
+            {{/if}}
+        {{/if}}
+    </div>
+
+    <div class="modal-footer">
+        <div class="flex items-center justify-between {{unless (or this.installSuccess this.willOverwriteDefault) "flex-auto"}}">
+            <button type="button" class="gh-btn" {{on "click" this.close}} data-test-button="cancel">
+                <span>{{#if this.installSuccess}}Close{{else}}Cancel{{/if}}</span>
+            </button>
+
+            {{#unless (or this.installSucccess this.willOverwriteDefault)}}
+                <div class="flex items-center">
+                    <GhTaskButton
+                        @task={{this.install}}
+                        @type="button"
+                        @class="gh-btn gh-btn-icon gh-btn-green"
+                        @buttonText="Install"
+                        @runningText="Installing"
+                        @successText="Installed"
+                        data-test-button="install"
+                    />
+                </div>
+            {{/unless}}
+        </div>
+    </div>
+</div>
