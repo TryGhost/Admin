@@ -18,7 +18,7 @@
 
     <div class="modal-body">
         {{#if this.installSuccess}}
-            <p></p>
+            <p>{{this.themeName}} has been installed and activated.</p>
         {{else if this.installFailure}}
             <p></p>
         {{else if this.willOverwriteDefault}}
@@ -43,7 +43,7 @@
                 <span>{{#if this.installSuccess}}Close{{else}}Cancel{{/if}}</span>
             </button>
 
-            {{#unless (or this.installSucccess this.willOverwriteDefault)}}
+            {{#if (and (not this.installSuccess) (not this.willOverwriteDefault))}}
                 <div class="flex items-center">
                     <GhTaskButton
                         @task={{this.install}}
@@ -55,7 +55,7 @@
                         data-test-button="install"
                     />
                 </div>
-            {{/unless}}
+            {{/if}}
         </div>
     </div>
 </div>

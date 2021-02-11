@@ -10,8 +10,10 @@ import {tracked} from '@glimmer/tracking';
 export default class ModalInstallThemeComponent extends ModalBase {
     @service ajax;
     @service ghostPaths;
+    @service store;
 
     @tracked model;
+    @tracked theme;
     @tracked validationErrors = [];
     @tracked fatalValidationErrors = [];
 
@@ -29,6 +31,10 @@ export default class ModalInstallThemeComponent extends ModalBase {
 
     get willOverwrite() {
         return !!this.model.themes.findBy('name', this.themeName.toLowerCase());
+    }
+
+    get installSuccess() {
+        return !!this.theme;
     }
 
     @action
@@ -53,6 +59,30 @@ export default class ModalInstallThemeComponent extends ModalBase {
         const url = this.ghostPaths.url.api('themes/install') + `?source=github&ref=${this.model.ref}`;
         const result = yield this.ajax.request(url);
 
-        console.log(result);
+        if (result.themes) {
+            const [theme] = result.themes;
+
+            this.theme = theme;
+
+            // show theme in list immediately
+            this.store.pushPayload(result);
+
+            // deactivate any other active themes
+            // (this happens on the server but we only get the active theme back so we need to do this manually)
+            if (theme.active) {
+                const activeThemes = this.store.peekAll('theme').filterBy('active', true);
+                activeThemes.forEach((themeModel) => {
+                    if (themeModel.name !== theme.name) {
+                        // store.push is necessary to avoid dirty records that cause
+                        // problems when we get new data back in subsequent requests
+                        this.store.push({data: {
+                            id: themeModel.id,
+                            type: 'theme',
+                            attributes: {active: false}
+                        }});
+                    }
+                });
+            }
+        }
     }
 }
