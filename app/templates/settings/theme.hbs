@@ -81,11 +81,11 @@
                 @deleteTheme={{action "deleteTheme"}} />
 
             <div class="flex justify-between mt6">
-                <LinkTo @route="settings.theme.uploadtheme" class="gh-btn gh-btn-green" data-test-upload-theme-button={{true}}>
+                <LinkTo id="upload-theme" @route="settings.theme.uploadtheme" class="gh-btn gh-btn-green" data-test-button="uploadtheme">
                     <span>Upload a theme</span>
                 </LinkTo>
 
-                <a href="https://ghost.org/docs/themes/" target=_"blank" rel="noopener noreferrer" class="gh-btn gh-btn-outline" data-test-upload-theme-button={{true}}>
+                <a href="https://ghost.org/docs/themes/" target=_"blank" rel="noopener noreferrer" class="gh-btn gh-btn-outline">
                     <span>Theme developer docs</span>
                 </a>
             </div>
@@ -133,7 +133,7 @@
 {{outlet}}
 
 <GhTourItem @throbberId="upload-a-theme"
-    @target=".gh-themes-uploadbtn"
+    @target="#upload-theme"
     @throbberAttachment="top middle"
     @popoverTriangleClass="bottom"
 />
