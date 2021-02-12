@@ -89,9 +89,8 @@ export default class ModalInstallThemeComponent extends ModalBase {
     @task({drop: true})
     *installTask() {
         try {
-            // TODO: update API to use PUT/POST
             const url = this.ghostPaths.url.api('themes/install') + `?source=github&ref=${this.model.ref}`;
-            const result = yield this.ajax.request(url);
+            const result = yield this.ajax.post(url);
 
             this.installError = '';
 
