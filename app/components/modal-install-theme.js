@@ -109,7 +109,6 @@ export default class ModalInstallThemeComponent extends ModalBase {
             }
         } catch (error) {
             if (isThemeValidationError(error)) {
-                console.log('isThemeValidationError');
                 this.resetErrors();
 
                 let errors = error.payload.errors[0].details.errors;
