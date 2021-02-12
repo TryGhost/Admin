@@ -15,6 +15,7 @@ export default class ModalInstallThemeComponent extends ModalBase {
 
     @tracked model;
     @tracked theme;
+    @tracked installError = '';
     @tracked validationWarnings = [];
     @tracked validationErrors = [];
     @tracked fatalValidationErrors = [];
@@ -31,7 +32,7 @@ export default class ModalInstallThemeComponent extends ModalBase {
         return this.themeName.toLowerCase() === 'casper';
     }
 
-    get willOverwrite() {
+    get willOverwriteExisting() {
         return this.model.themes.findBy('name', this.themeName.toLowerCase());
     }
 
@@ -39,12 +40,20 @@ export default class ModalInstallThemeComponent extends ModalBase {
         return !!this.theme;
     }
 
+    get installFailure() {
+        return !this.installSuccess && (this.validationErrors.length || this.fatalValidationErrors.length);
+    }
+
+    get isReady() {
+        return !this.installSuccess && !this.installError && !this.installFailure;
+    }
+
     get hasWarningsOrErrors() {
         return this.validationWarnings.length > 0 || this.validationErrors.length > 0;
     }
 
     get shouldShowInstall() {
-        return !this.installSuccess && !this.willOverwriteDefault;
+        return !this.installSuccess && !this.installFailure && !this.willOverwriteDefault;
     }
 
     get shouldShowActivate() {
@@ -84,6 +93,8 @@ export default class ModalInstallThemeComponent extends ModalBase {
             const url = this.ghostPaths.url.api('themes/install') + `?source=github&ref=${this.model.ref}`;
             const result = yield this.ajax.request(url);
 
+            this.installError = '';
+
             if (result.themes) {
                 // show theme in list immediately
                 this.store.pushPayload(result);
@@ -98,6 +109,7 @@ export default class ModalInstallThemeComponent extends ModalBase {
             }
         } catch (error) {
             if (isThemeValidationError(error)) {
+                console.log('isThemeValidationError');
                 this.resetErrors();
 
                 let errors = error.payload.errors[0].details.errors;
@@ -118,7 +130,17 @@ export default class ModalInstallThemeComponent extends ModalBase {
 
                 this.fatalValidationErrors = fatalErrors;
                 this.validationErrors = normalErrors;
+
+                return false;
             }
+
+            if (error.payload?.errors) {
+                this.installError = error.payload.errors[0].message;
+                return false;
+            }
+
+            this.installError = error.message;
+            throw error;
         }
     }
 
@@ -129,6 +151,7 @@ export default class ModalInstallThemeComponent extends ModalBase {
     }
 
     resetErrors() {
+        this.installError = '';
         this.validationWarnings = [];
         this.validationErrors = [];
         this.fatalValidationErrors = [];
