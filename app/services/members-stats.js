@@ -10,6 +10,7 @@ export default class MembersStatsService extends Service {
     @tracked days = '30';
     @tracked stats = null;
     @tracked events = null;
+    @tracked countStats = null;
 
     fetch() {
         let daysChanged = this._lastFetchedDays !== this.days;
@@ -42,8 +43,36 @@ export default class MembersStatsService extends Service {
         return this._fetchTimelineTask.perform();
     }
 
+    fetchCounts() {
+        let daysChanged = this._lastFetchedDays !== this.days;
+        let staleData = this._lastFetched && this._lastFetched - new Date() > 1 * 60 * 1000;
+
+        // return an already in-progress promise unless params have changed
+        if (this._fetchCountsTask.isRunning && !this._forceRefresh && !daysChanged) {
+            return this._fetchCountsTask.last;
+        }
+
+        // return existing stats unless data is > 1 min old
+        if (this.countStats && !this._forceRefresh && !daysChanged && !staleData) {
+            return Promise.resolve(this.stats);
+        }
+
+        return this._fetchCountsTask.perform();
+    }
+
     invalidate() {
         this._forceRefresh = true;
+    }
+
+    @task
+    *_fetchCountsTask() {
+        this._lastFetched = new Date();
+        this._forceRefresh = false;
+
+        let statsUrl = this.ghostPaths.url.api('members/stats/count');
+        let stats = yield this.ajax.request(statsUrl);
+        this.countStats = stats;
+        return stats;
     }
 
     @task

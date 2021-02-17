@@ -18,6 +18,8 @@ export default Component.extend({
     stats: null,
     chartData: null,
     chartOptions: null,
+    showSummary: true,
+    chartType: '',
 
     startDateLabel: computed('membersStats.stats', function () {
         if (!this.membersStats?.stats?.total_on_date) {
@@ -74,8 +76,15 @@ export default Component.extend({
 
     fetchStatsTask: task(function* () {
         this.set('stats', null);
+        let stats;
+        if (this.chartType === 'counts') {
+            stats = yield this.membersStats.fetchCounts();
+            console.log('Stats', stats);
 
-        let stats = yield this.membersStats.fetch();
+            stats = yield this.membersStats.fetch();
+        } else {
+            stats = yield this.membersStats.fetch();
+        }
 
         if (stats) {
             this.set('stats', stats);
@@ -94,6 +103,12 @@ export default Component.extend({
     // Internal ----------------------------------------------------------------
 
     setChartData({dateLabels, dateValues}) {
+        dateValues = dateValues.map((d) => {
+            return (d + 10);
+        });
+        const dateValues2 = dateValues.map((d) => {
+            return (d - Math.floor(Math.random() * Math.floor(4)));
+        });
         this.set('chartData', {
             labels: dateLabels,
             datasets: [{
@@ -105,6 +120,16 @@ export default Component.extend({
                 pointRadius: 0,
                 pointHitRadius: 10,
                 borderColor: '#45C32E',
+                borderJoinStyle: 'miter'
+            }, {
+                label: 'Paid members',
+                cubicInterpolationMode: 'monotone',
+                data: dateValues2,
+                fill: false,
+                backgroundColor: '#45C32E',
+                pointRadius: 0,
+                pointHitRadius: 10,
+                borderColor: 'red',
                 borderJoinStyle: 'miter'
             }]
         });
@@ -145,7 +170,7 @@ export default Component.extend({
                 titleMarginBottom: 4,
                 callbacks: {
                     label: function (tooltipItems, data) {
-                        return data.datasets[0].label + `: ` + data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        return data.datasets[tooltipItems.datasetIndex].label + `: ` + data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                     },
                     title: function (tooltipItems) {
                         return moment(tooltipItems[0].xLabel).format(DATE_FORMAT);

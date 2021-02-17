@@ -43,22 +43,24 @@
     </div>
 
     {{!-- Summary --}}
-    <div class="gh-content-box vertical gh-members-chart-summary">
-        <section>
-            <h3 class="gh-heading-xs">Total Members</h3>
-            <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.total)}}</div>
-        </section>
-        <section>
-            {{#if (eq this.selectedRange.days "all-time")}}
-                <h3 class="gh-heading-xs">All time signups</h3>
-            {{else}}
-                <h3 class="gh-heading-xs">Signed up in the last {{this.selectedRange.days}} days</h3>
-            {{/if}}
-            <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.total_in_range)}}</div>
-        </section>
-        <section>
-            <h3 class="gh-heading-xs">Signed up today</h3>
-            <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.new_today)}}</div>
-        </section>
-    </div>
+    {{#if this.showSummary}}
+        <div class="gh-content-box vertical gh-members-chart-summary">
+            <section>
+                <h3 class="gh-heading-xs">Total Members</h3>
+                <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.total)}}</div>
+            </section>
+            <section>
+                {{#if (eq this.selectedRange.days "all-time")}}
+                    <h3 class="gh-heading-xs">All time signups</h3>
+                {{else}}
+                    <h3 class="gh-heading-xs">Signed up in the last {{this.selectedRange.days}} days</h3>
+                {{/if}}
+                <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.total_in_range)}}</div>
+            </section>
+            <section>
+                <h3 class="gh-heading-xs">Signed up today</h3>
+                <div class="gh-data-summary">{{if (not this.stats) "-" (format-number this.stats.new_today)}}</div>
+            </section>
+        </div>
+    {{/if}}
 </div>
