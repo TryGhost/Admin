@@ -1,0 +1,14 @@
+<div class="gh-event-timeline">
+    <ol>
+    {{#each this.parsedEvents as |event|}}
+        <li class="event">
+            <p>
+                <span class="event-subject">{{event.subject}}</span>
+                <span class="event-action">{{event.action}}</span>
+                <span class="event-object">{{event.object}}</span> /
+                <span class="event-timestamp">{{event.timestamp}}</span>
+            </p>
+        </li>
+    {{/each}}
+    </ol>
+</div>
