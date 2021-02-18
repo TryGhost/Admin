@@ -19,7 +19,9 @@ export default Component.extend({
     chartData: null,
     chartOptions: null,
     showSummary: true,
+    showRange: true,
     chartType: '',
+    chartHeading: 'Total Members',
 
     startDateLabel: computed('membersStats.stats', function () {
         if (!this.membersStats?.stats?.total_on_date) {
@@ -77,42 +79,73 @@ export default Component.extend({
     fetchStatsTask: task(function* () {
         this.set('stats', null);
         let stats;
-        if (this.chartType === 'counts') {
+        if (this.chartType === 'mrr') {
+            stats = yield this.membersStats.fetchMRR();
+            this.setMRRChartData(stats);
+        } else if (this.chartType === 'counts') {
             stats = yield this.membersStats.fetchCounts();
-            console.log('Stats', stats);
-
-            stats = yield this.membersStats.fetch();
+            this.setCountsChartData(stats);
         } else {
             stats = yield this.membersStats.fetch();
+            this.setOriginalChartData(stats);
         }
+    }),
 
+    setMRRChartData(stats) {
+        const statsForCurrency = stats[0];
+        if (stats) {
+            this.set('stats', statsForCurrency);
+
+            this.setChartOptions({
+                rangeInDays: 30
+            });
+            this.set('chartHeading', 'Total MRR');
+            this.setChartData({
+                label: 'Total MRR',
+                dateLabels: statsForCurrency.data.map(d => d.date),
+                dateValues: statsForCurrency.data.map(d => d.value)
+            });
+        }
+    },
+
+    setCountsChartData(stats) {
         if (stats) {
             this.set('stats', stats);
 
             this.setChartOptions({
-                rangeInDays: Object.keys(stats.total_on_date).length
+                rangeInDays: 30
+            });
+            this.set('chartHeading', 'Total Members');
+            this.setChartData({
+                label: 'Total Members',
+                dateLabels: stats.data.map(d => d.date),
+                dateValues: stats.data.map(d => d.value)
+            });
+        }
+    },
+
+    setOriginalChartData(stats) {
+        if (stats) {
+            this.set('stats', stats);
+
+            this.setChartOptions({
+                rangeInDays: Object.keys(stats.data).length
             });
 
             this.setChartData({
-                dateLabels: Object.keys(stats.total_on_date),
-                dateValues: Object.values(stats.total_on_date)
+                dateLabels: Object.keys(stats.data),
+                dateValues: Object.values(stats.data)
             });
         }
-    }),
+    },
 
     // Internal ----------------------------------------------------------------
 
-    setChartData({dateLabels, dateValues}) {
-        dateValues = dateValues.map((d) => {
-            return (d + 10);
-        });
-        const dateValues2 = dateValues.map((d) => {
-            return (d - Math.floor(Math.random() * Math.floor(4)));
-        });
+    setChartData({dateLabels, dateValues, label = 'Total Members'}) {
         this.set('chartData', {
             labels: dateLabels,
             datasets: [{
-                label: 'Total members',
+                label: label,
                 cubicInterpolationMode: 'monotone',
                 data: dateValues,
                 fill: false,
@@ -120,16 +153,6 @@ export default Component.extend({
                 pointRadius: 0,
                 pointHitRadius: 10,
                 borderColor: '#45C32E',
-                borderJoinStyle: 'miter'
-            }, {
-                label: 'Paid members',
-                cubicInterpolationMode: 'monotone',
-                data: dateValues2,
-                fill: false,
-                backgroundColor: '#45C32E',
-                pointRadius: 0,
-                pointHitRadius: 10,
-                borderColor: 'red',
                 borderJoinStyle: 'miter'
             }]
         });

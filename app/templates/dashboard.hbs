@@ -14,8 +14,8 @@
                         <div class="data">$359</div>
                         <div class="growth positive">+1.8%</div>
                     </div>
-                    <div class="gh-dashboard-chart nodata">
-                        No data
+                    <div class="gh-dashboard-chart">
+                        <GhMembersChart @nightShift={{feature "nightShift"}} @showSummary={{false}} @showRange={{false}} @chartType="mrr" style="width:100%" />
                     </div>
                 </div>
             </div>
@@ -28,8 +28,8 @@
                             <div class="growth positive">+1.8%</div>
                         </div>
                     </div>
-                    <div class="gh-dashboard-chart small nodata">
-                        No data
+                    <div class="gh-dashboard-chart small">
+                        <GhMembersChart @nightShift={{feature "nightShift"}} @showSummary={{false}} @showRange={{false}} @chartType="counts" style="width:100%" />
                     </div>
                 </div>
             </div>

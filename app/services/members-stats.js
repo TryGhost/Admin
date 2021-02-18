@@ -11,6 +11,7 @@ export default class MembersStatsService extends Service {
     @tracked stats = null;
     @tracked events = null;
     @tracked countStats = null;
+    @tracked mrrStats = null;
 
     fetch() {
         let daysChanged = this._lastFetchedDays !== this.days;
@@ -60,6 +61,23 @@ export default class MembersStatsService extends Service {
         return this._fetchCountsTask.perform();
     }
 
+    fetchMRR() {
+        let daysChanged = this._lastFetchedDays !== this.days;
+        let staleData = this._lastFetched && this._lastFetched - new Date() > 1 * 60 * 1000;
+
+        // return an already in-progress promise unless params have changed
+        if (this._fetchMRRTask.isRunning && !this._forceRefresh && !daysChanged) {
+            return this._fetchMRRTask.last;
+        }
+
+        // return existing stats unless data is > 1 min old
+        if (this.mrrStats && !this._forceRefresh && !daysChanged && !staleData) {
+            return Promise.resolve(this.stats);
+        }
+
+        return this._fetchMRRTask.perform();
+    }
+
     invalidate() {
         this._forceRefresh = true;
     }
@@ -72,6 +90,17 @@ export default class MembersStatsService extends Service {
         let statsUrl = this.ghostPaths.url.api('members/stats/count');
         let stats = yield this.ajax.request(statsUrl);
         this.countStats = stats;
+        return stats;
+    }
+
+    @task
+    *_fetchMRRTask() {
+        this._lastFetched = new Date();
+        this._forceRefresh = false;
+
+        let statsUrl = this.ghostPaths.url.api('members/stats/mrr');
+        let stats = yield this.ajax.request(statsUrl);
+        this.mrrStats = stats;
         return stats;
     }
 
