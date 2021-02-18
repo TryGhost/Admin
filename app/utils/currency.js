@@ -11,8 +11,18 @@ export function getSymbol(currency) {
     case 'inr':
         return '₹';
     }
+    return null;
 }
 
 export function getNonDecimal(amount, currency) {
-    return amount / 100;
+    switch (currency) {
+    case 'usd':
+    case 'aud':
+    case 'cad':
+    case 'eur':
+    case 'gbp':
+    case 'inr':
+        return amount / 100;
+    }
+    return null;
 }
