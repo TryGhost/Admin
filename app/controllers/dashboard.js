@@ -36,7 +36,7 @@ export default class DashboardController extends Controller {
     };
 
     get showTopMembers() {
-        return this.feature.get('emailAnalytics');
+        return this.feature.get('emailAnalytics') && this.settings.get('emailTrackOpens');
     }
 
     constructor(...args) {
