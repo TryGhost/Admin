@@ -1,15 +1,38 @@
 import Component from '@glimmer/component';
+import {
+    IMAGE_EXTENSIONS,
+    IMAGE_MIME_TYPES
+} from 'ghost-admin/components/gh-image-uploader';
+import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
-
+import {tracked} from '@glimmer/tracking';
 export default class ModalPostPreviewSocialComponent extends Component {
     @service config;
     @service settings;
     @service ghostPaths;
 
+    @tracked editingFacebookTitle = false;
+    @tracked editingFacebookDescription = false;
+    @tracked editingTwitterTitle = false;
+    @tracked editingTwitterDescription = false;
+    @tracked editingMetaTitle = false;
+    @tracked editingMetaDescription = false;
+
+    imageExtensions = IMAGE_EXTENSIONS;
+    imageMimeTypes = IMAGE_MIME_TYPES;
+
     get _fallbackDescription() {
         return this.args.post.customExcerpt ||
             this.serpDescription ||
             this.settings.get('description');
+    }
+
+    @action
+    triggerFileDialog(name) {
+        const input = document.querySelector(`#${name}FileInput input`);
+        if (input) {
+            input.click();
+        }
     }
 
     // SERP
@@ -45,6 +68,32 @@ export default class ModalPostPreviewSocialComponent extends Component {
         return this.args.post.metaDescription || this.args.post.excerpt;
     }
 
+    @action
+    editMetaTitle() {
+        this.editingMetaTitle = true;
+    }
+
+    @action
+    setMetaTitle(event) {
+        const title = event.target.value;
+        this.args.post.metaTitle = title;
+        this.args.post.save();
+        this.editingMetaTitle = false;
+    }
+
+    @action
+    editMetaDescription() {
+        this.editingMetaDescription = true;
+    }
+
+    @action
+    setMetaDescription(event) {
+        const description = event.target.value;
+        this.args.post.metaDescription = description;
+        this.args.post.save();
+        this.editingMetaDescription = false;
+    }
+
     // Facebook
 
     get facebookTitle() {
@@ -59,6 +108,44 @@ export default class ModalPostPreviewSocialComponent extends Component {
         return this.args.post.ogImage || this.args.post.featureImage || this.settings.get('ogImage') || this.settings.get('coverImage');
     }
 
+    @action
+    editFacebookTitle() {
+        this.editingFacebookTitle = true;
+    }
+
+    @action
+    setFacebookTitle(event) {
+        const title = event.target.value;
+        this.args.post.ogTitle = title;
+        this.args.post.save();
+        this.editingFacebookTitle = false;
+    }
+
+    @action
+    editFacebookDescription() {
+        this.editingFacebookDescription = true;
+    }
+
+    @action
+    setFacebookDescription() {
+        const description = event.target.value;
+        this.args.post.ogDescription = description;
+        this.args.post.save();
+        this.editingFacebookDescription = false;
+    }
+
+    @action
+    setFacebookImage([image]) {
+        this.args.post.ogImage = image.url;
+        this.args.post.save();
+    }
+
+    @action
+    clearFacebookImage() {
+        this.args.post.ogImage = null;
+        this.args.post.save();
+    }
+
     // Twitter
 
     get twitterTitle() {
@@ -71,5 +158,43 @@ export default class ModalPostPreviewSocialComponent extends Component {
 
     get twitterImage() {
         return this.args.post.twitterImage || this.args.post.featureImage || this.settings.get('twitterImage') || this.settings.get('coverImage');
+    }
+
+    @action
+    editTwitterTitle() {
+        this.editingTwitterTitle = true;
+    }
+
+    @action
+    setTwitterTitle(event) {
+        const title = event.target.value;
+        this.args.post.twitterTitle = title;
+        this.args.post.save();
+        this.editingTwitterTitle = false;
+    }
+
+    @action
+    editTwitterDescription() {
+        this.editingTwitterDescription = true;
+    }
+
+    @action
+    setTwitterDescription() {
+        const description = event.target.value;
+        this.args.post.twitterDescription = description;
+        this.args.post.save();
+        this.editingTwitterDescription = false;
+    }
+
+    @action
+    setTwitterImage([image]) {
+        this.args.post.twitterImage = image.url;
+        this.args.post.save();
+    }
+
+    @action
+    clearTwitterImage() {
+        this.args.post.twitterImage = null;
+        this.args.post.save();
     }
 }
