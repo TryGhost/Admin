@@ -84,7 +84,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setMetaTitle(event) {
         const title = event.target.value;
-        this.args.post.metaTitle = title;
+        this.args.post.metaTitle = title.trim();
         this.args.post.save();
         this.editingMetaTitle = false;
     }
@@ -97,7 +97,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setMetaDescription(event) {
         const description = event.target.value;
-        this.args.post.metaDescription = description;
+        this.args.post.metaDescription = description.trim();
         this.args.post.save();
         this.editingMetaDescription = false;
     }
@@ -131,7 +131,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setFacebookTitle(event) {
         const title = event.target.value;
-        this.args.post.ogTitle = title;
+        this.args.post.ogTitle = title.trim();
         this.args.post.save();
         this.editingFacebookTitle = false;
     }
@@ -144,7 +144,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setFacebookDescription() {
         const description = event.target.value;
-        this.args.post.ogDescription = description;
+        this.args.post.ogDescription = description.trim();
         this.args.post.save();
         this.editingFacebookDescription = false;
     }
@@ -183,7 +183,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setTwitterTitle(event) {
         const title = event.target.value;
-        this.args.post.twitterTitle = title;
+        this.args.post.twitterTitle = title.trim();
         this.args.post.save();
         this.editingTwitterTitle = false;
     }
@@ -196,7 +196,7 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     setTwitterDescription() {
         const description = event.target.value;
-        this.args.post.twitterDescription = description;
+        this.args.post.twitterDescription = description.trim();
         this.args.post.save();
         this.editingTwitterDescription = false;
     }
