@@ -138,8 +138,8 @@ export default Component.extend({
             }
 
             this.set('settings.stripePlans', updatedPlans);
-            this._scratchStripeYearlyAmount = null;
-            this._scratchStripeMonthlyAmount = null;
+            this.set('_scratchStripeYearlyAmount', null);
+            this.set('_scratchStripeMonthlyAmount', null);
             this.validateStripePlans();
         },
 
