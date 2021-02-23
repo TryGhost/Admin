@@ -1,29 +1,9 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
+import {currencies} from 'ghost-admin/utils/currency';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
-
-export const CURRENCIES = [
-    {
-        label: 'USD - US Dollar', value: 'usd', symbol: '$'
-    },
-    {
-        label: 'AUD - Australian Dollar', value: 'aud', symbol: '$'
-    },
-    {
-        label: 'CAD - Canadian Dollar', value: 'cad', symbol: '$'
-    },
-    {
-        label: 'EUR - Euro', value: 'eur', symbol: '€'
-    },
-    {
-        label: 'GBP - British Pound', value: 'gbp', symbol: '£'
-    },
-    {
-        label: 'INR - Indian Rupee', value: 'inr', symbol: '₹'
-    }
-];
 
 export default Component.extend({
     feature: service(),
@@ -59,7 +39,7 @@ export default Component.extend({
     portalSettingsBorderColor: reads('settings.accentColor'),
 
     selectedCurrency: computed('stripePlans.monthly.currency', function () {
-        return CURRENCIES.findBy('value', this.get('stripePlans.monthly.currency'));
+        return this.get('currencies').findBy('value', this.get('stripePlans.monthly.currency'));
     }),
 
     blogDomain: computed('config.blogDomain', function () {
@@ -87,7 +67,13 @@ export default Component.extend({
 
     init() {
         this._super(...arguments);
-        this.set('currencies', CURRENCIES);
+        this.set('currencies', currencies.map((currency) => {
+            return {
+                value: currency.isoCode.toLowerCase(),
+                label: `${currency.isoCode} - ${currency.name}`,
+                isoCode: currency.isoCode
+            };
+        }));
         if (this.get('stripeConnectAccountId')) {
             this.set('membersStripeOpen', false);
         } else {
