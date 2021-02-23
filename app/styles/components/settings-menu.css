@@ -20,6 +20,10 @@
     box-shadow: none;
 }
 
+.settings-menu-container--wide {
+    width: 500px;
+}
+
 .settings-menu-expanded .settings-menu-container {
     transform: translate3d(0, 0px, 0px);
     box-shadow:
@@ -291,7 +295,7 @@
 /* Background
 /* ---------------------------------------------------------- */
 @keyframes coverFadeIn {
-    0% { 
+    0% {
         opacity: 0;
     }
     100% {

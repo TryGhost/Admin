@@ -1,4 +1,4 @@
-<div class="settings-menu-container">
+<div class="settings-menu-container {{if this.wideSubview "settings-menu-container--wide"}}">
     <div id="entry-controls">
         <div class="{{if this.isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane">
             <div class="settings-menu-header">
@@ -108,21 +108,21 @@
                 {{/unless}}
 
                 <ul class="nav-list nav-list-block">
-                    <li class="nav-list-item" {{action "showSubview" "meta-data"}} data-test-button="meta-data">
+                    <li class="nav-list-item" {{action "showSubview" "meta-data" "wide"}} data-test-button="meta-data">
                         <button type="button">
                             <b>Meta data</b>
                             <span>Extra content for search engines</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
-                    <li class="nav-list-item" {{action "showSubview" "twitter-data"}} data-test-button="twitter-data">
+                    <li class="nav-list-item" {{action "showSubview" "twitter-data" "wide"}} data-test-button="twitter-data">
                         <button type="button">
                             <b>Twitter card</b>
                             <span>Customise structured data for Twitter</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
-                    <li class="nav-list-item" {{action "showSubview" "facebook-data"}} data-test-button="facebook-data">
+                    <li class="nav-list-item" {{action "showSubview" "facebook-data" "wide"}} data-test-button="facebook-data">
                         <button type="button">
                             <b>Facebook card</b>
                             <span>Customise Open Graph data</span>
