@@ -28,6 +28,14 @@ export default class ModalPostPreviewSocialComponent extends Component {
     }
 
     @action
+    blurElement(event) {
+        if (!event.shiftKey) {
+            event.preventDefault();
+            event.target.blur();
+        }
+    }
+
+    @action
     triggerFileDialog(name) {
         const input = document.querySelector(`#${name}FileInput input`);
         if (input) {
@@ -111,6 +119,13 @@ export default class ModalPostPreviewSocialComponent extends Component {
     @action
     editFacebookTitle() {
         this.editingFacebookTitle = true;
+    }
+
+    @action
+    cancelEdit(property, event) {
+        event.preventDefault();
+        event.target.value = this.args.post[property];
+        event.target.blur();
     }
 
     @action
