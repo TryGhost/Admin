@@ -30,6 +30,10 @@
                         @onComplete={{this.setFacebookImage}}
                         as |uploader|
                     >
+                        {{#each uploader.errors as |error|}}
+                            <div class="error pa2"><span class="response">{{or error.context error.message}}</span></div>
+                        {{/each}}
+
                         {{#if (or this.facebookImage uploader.isUploading)}}
                             <div class="gh-social-og-preview-image relative" style={{background-image-style this.facebookImage}}>
                                 {{#if (and this.facebookHovered @post.ogImage)}}
@@ -127,6 +131,10 @@
                                 @onComplete={{this.setTwitterImage}}
                                 as |uploader|
                             >
+                                {{#each uploader.errors as |error|}}
+                                    <div class="error pa2"><span class="response">{{or error.context error.message}}</span></div>
+                                {{/each}}
+
                                 {{#if (or this.twitterImage uploader.isUploading)}}
                                     <div class="gh-social-twitter-preview-image relative" style={{background-image-style this.twitterImage}}>
                                         {{#if (and this.twitterHovered @post.twitterImage)}}
