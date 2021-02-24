@@ -1067,6 +1067,12 @@ p.theme-validation-details {
     font-size: 1.3rem;
 }
 
+.theme-validation-screenshot img {
+    margin-bottom: 2rem;
+    border: 1px solid var(--main-color-area-divider);
+    border-radius: 3px;
+}
+
 
 /* Publication identity
 /* ---------------------------------------------------------- */

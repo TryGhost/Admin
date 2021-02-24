@@ -19,7 +19,7 @@
     <div class="modal-body">
         {{#if this.isReady}}
             <p>
-                You are about to install <strong>{{this.themeName}}</strong>
+                You're about to install <strong>{{this.themeName}}</strong> from the theme directory.
             </p>
             {{#if this.willOverwriteExisting}}
                 <p>
@@ -27,6 +27,11 @@
                     Any custom changes will be lost.
                 </p>
             {{/if}}
+
+            <div class="theme-validation-screenshot relative">
+                <img style="object-fit:contain;" src="assets/img/themes/alto-cut.jpg" alt="Edition Theme" />
+            </div>
+
         {{/if}}
 
         {{#if this.willOverwriteDefault}}
