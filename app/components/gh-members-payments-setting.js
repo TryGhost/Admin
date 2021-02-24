@@ -191,7 +191,7 @@ export default Component.extend({
             const yearlyAmount = parseInt(this._scratchStripeYearlyAmount);
             const monthlyAmount = parseInt(this._scratchStripeMonthlyAmount);
             if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
-                const minimum = Intl.NumberFormat('en-US', {
+                const minimum = Intl.NumberFormat(this.settings.get('lang'), {
                     currency: selectedCurrency.isoCode,
                     style: 'currency'
                 }).format(1);
