@@ -18,71 +18,26 @@
         <div class="gh-setting-header gh-first-header">Ghost theme directory</div>
         <div class="gh-theme-directory-container">
             <div class="theme-directory">
-                <a class="td-item" href="https://github.com/TryGhost/Edition" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot relative">
-                        <img style="object-fit:contain;" src="assets/img/themes/edition.jpg" alt="Edition Theme" />
-                        <div class="td-item-overlay">
-                            <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref="TryGhost/Edition"}}><span>Install</span></LinkTo>
-                            <a href="https://edition.ghost.io" class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
+                {{#each this.marketplaceThemes as |theme|}}
+                    <a class="td-item" href={{theme.url}} target="_blank" rel="noopener noreferrer">
+                        <div class="td-item-screenshot relative">
+                            <img style="object-fit:contain;" src={{theme.image}} alt="{{theme.name}} Theme" />
+                            <div class="td-item-overlay">
+                                <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref=theme.ref}}><span>Install</span></LinkTo>
+                                <a href={{theme.previewUrl}} class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="td-item-desc">
-                        <div>Edition</div>
-                        <span>• Newsletter</span>
-                    </div>
-                </a>
-                <a class="td-item" href="https://github.com/TryGhost/Alto" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot relative">
-                        <img style="object-fit:contain;" src="assets/img/themes/alto.jpg" alt="Alto Theme" />
-                        <div class="td-item-overlay">
-                            <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref="TryGhost/Alto"}}><span>Install</span></LinkTo>
-                            <a href="https://alto.ghost.io" class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
+                        <div class="td-item-desc">
+                            <div>{{theme.name}}</div>
+                            <span>• {{theme.category}}</span>
                         </div>
-                    </div>
-                    <div class="td-item-desc">
-                        <div>Alto</div>
-                        <span>• Blog</span>
-                    </div>
-                </a>
-                <a class="td-item" href="https://github.com/TryGhost/London" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot relative">
-                        <img style="object-fit:contain;" src="assets/img/themes/london.jpg" alt="London Theme" />
-                        <div class="td-item-overlay">
-                            <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref="TryGhost/London"}}><span>Install</span></LinkTo>
-                            <a href="https://london.ghost.io" class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
-                        </div>
-                    </div>
-                    <div class="td-item-desc">
-                        <div>London</div>
-                        <span>• Photography</span>
-                    </div>
-                </a>
-                <a class="td-item" href="https://github.com/TryGhost/Ease" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot relative">
-                        <img style="object-fit:contain;" src="assets/img/themes/ease.jpg" alt="Ease Theme" />
-                        <div class="td-item-overlay">
-                            <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref="TryGhost/Ease"}}><span>Install</span></LinkTo>
-                            <a href="https://ease.ghost.io" class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
-                        </div>
-                    </div>
-                    <div class="td-item-desc">
-                        <div>Ease</div>
-                        <span>• Documentation</span>
-                    </div>
-                </a>
+                    </a>
+                {{/each}}
                 <a class="td-item" href="https://ghost.org/marketplace/" target="_blank" rel="noopener noreferrer">
                     <div class="td-item-empty">
                         {{svg-jar "circle-ellipsis" class="w5"}}
                         <h4 class="fw6 f6 pt3 pb1">More themes</h4>
                         <div class="midgrey f7">Explore more free and premium themes on our Marketplace</div>
-                    </div>
-                </a>
-                <a class="td-item" href="https://themeforest.net/item/sente-magazine-ghost-blog-theme/21019644" target="_blank" rel="noopener noreferrer">
-                    <div class="td-item-screenshot">
-                        <img style="object-fit:contain;" src="assets/img/themes/sente.jpg" alt="Sente Theme" />
-                    </div>
-                    <div class="td-item-desc">
-                        <div>Sente <span>— Premium</span></div>
                     </div>
                 </a>
             </div>

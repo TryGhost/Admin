@@ -28,10 +28,11 @@
                 </p>
             {{/if}}
 
-            <div class="theme-validation-screenshot relative">
-                <img style="object-fit:contain;" src="assets/img/themes/alto-cut.jpg" alt="Edition Theme" />
-            </div>
-
+            {{#if this.marketplaceTheme.shortImage}}
+                <div class="theme-validation-screenshot relative">
+                    <img style="object-fit:contain;" src={{this.marketplaceTheme.shortImage}} alt="Edition Theme" />
+                </div>
+            {{/if}}
         {{/if}}
 
         {{#if this.willOverwriteDefault}}
