@@ -440,7 +440,8 @@
     line-height: 1;
 }
 
-.gh-dashboard-top-member .name {
+.gh-dashboard-top-member .name,
+.gh-dashboard-top-member .email {
     font-size: 1.4rem;
     font-weight: 500;
     color: var(--black);
