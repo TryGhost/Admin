@@ -228,7 +228,7 @@ export default Controller.extend({
         return true;
     }).drop(),
 	
-	headersUploadResult: task(function* (success) {
+    headersUploadResult: task(function* (success) {
         this.set('headersSuccess', success);
         this.set('headersFailure', !success);
 
