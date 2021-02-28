@@ -227,6 +227,17 @@ export default Controller.extend({
         this.set('routesFailure', null);
         return true;
     }).drop(),
+	
+    headersUploadResult: task(function* (success) {
+        this.set('headersSuccess', success);
+        this.set('headersFailure', !success);
+
+        yield timeout(config.environment === 'test' ? 100 : 5000);
+
+        this.set('headersSuccess', null);
+        this.set('headersFailure', null);
+        return true;
+    }).drop(),
 
     reset() {
         this.set('importErrors', null);
