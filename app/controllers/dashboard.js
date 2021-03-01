@@ -217,6 +217,7 @@ export default class DashboardController extends Controller {
                     limit: 10
                 });
             }
+            return result;
         }).then((result) => {
             this.topMembersData = result;
             this.topMembersLoading = false;
