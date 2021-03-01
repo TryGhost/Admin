@@ -3,12 +3,21 @@ import {inject as service} from '@ember/service';
 
 export default Route.extend({
     billing: service(),
+    session: service(),
 
     queryParams: {
         action: {refreshModel: true}
     },
 
     beforeModel(transition) {
+        this._super(...arguments);
+
+        // Ensure that we redirect to signin if billing route is
+        // requested without a valid session
+        if (!this.get('session.isAuthenticated')) {
+            return this.transitionTo('signin');
+        }
+
         this.billing.set('previousTransition', transition);
     },
 
