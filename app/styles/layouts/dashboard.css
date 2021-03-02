@@ -452,6 +452,13 @@
     margin-left: 12px;
     color: var(--midgrey);
     font-size: 1.3rem;
+    text-align: right;
+    line-height: 1.35em;
+}
+
+.gh-dashboard-top-member .open-rate span {
+    color: var(--midlightgrey);
+    font-size: 1.2rem;
 }
 
 .gh-dashboard-top-members-footer {
