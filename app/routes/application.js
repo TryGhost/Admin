@@ -42,15 +42,12 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     shortcuts,
 
     routeAfterAuthentication: 'home',
-    updateUrl: '',
 
     init() {
         this._super(...arguments);
         this.router.on('routeDidChange', () => {
             this.notifications.displayDelayed();
         });
-
-        this.updateUrl = this.config.get('updateUrl');
     },
 
     beforeModel() {
