@@ -1,7 +1,7 @@
 <GhApp @showSettingsMenu={{this.ui.showSettingsMenu}}>
     <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
 
-    {{#if this.updateUrl}}
+    {{#if (and (gh-user-can-admin this.session.user) this.updateUrl)}}
     <aside class="gh-update-banner">
         <div class="gh-alert-content">
             Your site is ready for a major update!

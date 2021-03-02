@@ -96,7 +96,7 @@
             </ul>
         {{/if}}
 
-        {{#if (and  (or (gh-user-can-admin this.session.user) this.showBilling this.domainUrl))}}
+        {{#if (and (gh-user-can-admin this.session.user) (or this.showBilling this.domainUrl))}}
         <ul class="gh-nav-list gh-nav-settings">
             <li class="gh-nav-list-h">Ghost Pro</li>
             {{#if this.showBilling}}
@@ -106,7 +106,7 @@
                 </a>
             </li>
             {{/if}}
-            
+
             {{#if this.domainUrl}}
             <li class="relative">
                 <a href="{{this.domainUrl}}" target="_blank" rel="noreferrer">
