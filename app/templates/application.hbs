@@ -1,6 +1,15 @@
 <GhApp @showSettingsMenu={{this.ui.showSettingsMenu}}>
     <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
 
+    {{#if this.updateUrl}}
+    <aside class="gh-update-banner">
+        <div class="gh-alert-content">
+            Your site is ready for a major update!
+        </div>
+        <a href="{{this.updateUrl}}" target="_blank" rel="noreferrer">Update to Ghost 4.0!</a>
+    </aside>
+    {{/if}}
+
     <GhAlerts />
 
     <div class="gh-viewport {{if this.ui.showSettingsMenu 'settings-menu-expanded'}} {{if this.ui.showMobileMenu 'mobile-menu-expanded'}}">

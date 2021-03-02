@@ -949,3 +949,26 @@
         padding: 0 4vw 4vw;
     }
 }
+
+.gh-update-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #15171A;
+    color: rgba(255, 255, 255, 0.95);
+    padding: 14px;
+}
+
+.gh-update-banner a {
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-decoration: underline;
+    color: #fff;
+    transition: all ease-in-out 0.35;
+    margin-left: 12px;
+}
+
+.gh-update-banner a:hover {
+    opacity: 0.9;
+}

@@ -27,7 +27,9 @@ export default Component.extend(ShortcutsMixin, {
 
     showSearchModal: false,
     shortcuts: null,
-
+    
+    domainUrl: '',
+    
     isIntegrationRoute: match('router.currentRouteName', /^settings\.integration/),
     isSettingsRoute: match('router.currentRouteName', /^settings/),
 
@@ -48,6 +50,7 @@ export default Component.extend(ShortcutsMixin, {
 
         shortcuts[`${ctrlOrCmd}+k`] = {action: 'toggleSearchModal'};
         this.shortcuts = shortcuts;
+        this.domainUrl = this.config.get('domainUrl');
     },
 
     // the menu has a rendering issue (#8307) when the the world is reloaded

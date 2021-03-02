@@ -93,17 +93,34 @@
                     </button>
                     <LinkTo @route="settings.labs" data-test-nav="labs">{{svg-jar "labs"}}Labs</LinkTo>
                 </li>
-                {{#if this.showBilling}}
-                    <li class="relative">
-                        <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
-                            {{svg-jar "credit-card"}} View billing
-                        </a>
-                    </li>
-                    <li class="relative gh-nav-pro">
-                        <GhBillingUpdateButton />
-                    </li>
-                {{/if}}
             </ul>
+        {{/if}}
+
+        {{#if (and  (or (gh-user-can-admin this.session.user) this.showBilling this.domainUrl))}}
+        <ul class="gh-nav-list gh-nav-settings">
+            <li class="gh-nav-list-h">Ghost Pro</li>
+            {{#if this.showBilling}}
+            <li class="relative">
+                <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
+                    {{svg-jar "credit-card"}} Billing
+                </a>
+            </li>
+            {{/if}}
+            
+            {{#if this.domainUrl}}
+            <li class="relative">
+                <a href="{{this.domainUrl}}" target="_blank" rel="noreferrer">
+                    {{svg-jar "network"}} Domain
+                </a>
+            </li>
+            {{/if}}
+
+            {{#if this.showBilling}}
+            <li class="relative gh-nav-pro">
+                <GhBillingUpdateButton />
+            </li>
+            {{/if}}
+        </ul>
         {{/if}}
 
         {{#if this.showMenuExtension}}
