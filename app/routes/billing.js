@@ -3,6 +3,7 @@ import {inject as service} from '@ember/service';
 
 export default Route.extend({
     billing: service(),
+    ui: service(),
 
     queryParams: {
         action: {refreshModel: true}
@@ -18,6 +19,14 @@ export default Route.extend({
         }
 
         this.billing.setBillingWindowOpen(true);
+    },
+
+    activate() {
+        this.ui.set('showTour', false);
+    },
+
+    deactivate() {
+        this.ui.set('showTour', true);
     },
 
     actions: {
