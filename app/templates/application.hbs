@@ -6,7 +6,7 @@
         <div class="gh-alert-content">
             Your site is ready for a major update!
         </div>
-        <a href="{{this.updateUrl}}" target="_blank" rel="noreferrer">Update to Ghost 4.0!</a>
+        <a href={{this.updateUrl}} target="_blank" {{on "click" this.openUpdateTab}}>Update to Ghost 4.0!</a>
     </aside>
     {{/if}}
 
