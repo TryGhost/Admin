@@ -5,9 +5,9 @@
         {{#if (and (gh-user-can-admin this.session.user) this.updateUrl)}}
             <aside class="gh-update-banner">
                 <div class="gh-alert-content">
-                    Your site is ready for a major update!
+                    A new major version of Ghost is available!
                 </div>
-                <a href={{this.updateUrl}} target="_blank" {{on "click" this.openUpdateTab}}>Update to Ghost 4.0!</a>
+                <a href={{this.updateUrl}} target="_blank" {{on "click" this.openUpdateTab}}>Click here to update to Ghost 4.0</a>
             </aside>
         {{/if}}
     {{/if}}
