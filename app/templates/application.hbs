@@ -1,13 +1,15 @@
 <GhApp @showSettingsMenu={{this.ui.showSettingsMenu}}>
     <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
 
-    {{#if (and (gh-user-can-admin this.session.user) this.updateUrl)}}
-    <aside class="gh-update-banner">
-        <div class="gh-alert-content">
-            Your site is ready for a major update!
-        </div>
-        <a href={{this.updateUrl}} target="_blank" {{on "click" this.openUpdateTab}}>Update to Ghost 4.0!</a>
-    </aside>
+    {{#if this.session.isAuthenticated}}
+        {{#if (and (gh-user-can-admin this.session.user) this.updateUrl)}}
+            <aside class="gh-update-banner">
+                <div class="gh-alert-content">
+                    Your site is ready for a major update!
+                </div>
+                <a href={{this.updateUrl}} target="_blank" {{on "click" this.openUpdateTab}}>Update to Ghost 4.0!</a>
+            </aside>
+        {{/if}}
     {{/if}}
 
     <GhAlerts />
