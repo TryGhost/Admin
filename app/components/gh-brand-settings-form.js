@@ -56,6 +56,7 @@ export default class GhBrandSettingsFormComponent extends Component {
     }
 
     willDestroy() {
+        this.settings.errors.remove('accentColor');
         this.settings.rollbackAttributes();
     }
 
