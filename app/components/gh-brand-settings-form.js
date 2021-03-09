@@ -93,7 +93,7 @@ export default class GhBrandSettingsFormComponent extends Component {
             }
 
             // Don't allow empty accent color
-            this.settings.errors.add('accentColor', 'Accent color cannot be empty');
+            this.settings.errors.add('accentColor', 'Please select an accent color');
             this.settings.hasValidated.pushObject('accentColor');
             return;
         }
@@ -115,7 +115,7 @@ export default class GhBrandSettingsFormComponent extends Component {
             this.settings.set('accentColor', newColor);
             this.updatePreviewTask.perform();
         } else {
-            this.settings.errors.add('accentColor', 'The colour should be in valid hex format');
+            this.settings.errors.add('accentColor', 'Please enter a color in hex format');
             this.settings.hasValidated.pushObject('accentColor');
         }
     }
