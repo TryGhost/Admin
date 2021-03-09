@@ -8,6 +8,7 @@ export default class GhLaunchWizardCustomiseDesignComponent extends Component {
 
     willDestroy() {
         this.settings.rollbackAttributes();
+        this.settings.errors.remove('accentColor');
     }
 
     @task
