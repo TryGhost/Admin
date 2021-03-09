@@ -13,6 +13,9 @@ export default class GhLaunchWizardCustomiseDesignComponent extends Component {
     @task
     *saveAndContinueTask() {
         try {
+            if (this.settings.errors && this.settings.errors.length !== 0) {
+                return;
+            }
             yield this.settings.save();
             this.args.nextStep();
         } catch (error) {

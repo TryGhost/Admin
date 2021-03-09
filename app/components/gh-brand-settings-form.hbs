@@ -18,7 +18,7 @@
                 <div class="input-color">
                     <input
                         type="text"
-                        placeholder="abcdef"
+                        placeholder="15171A"
                         name="accent-color"
                         autocorrect="off"
                         maxlength="6"
@@ -43,6 +43,9 @@
                     </div>
                 </div>
             </GhFormGroup>
+            <div class="w-100 flex flex-column flex-row-ns">
+                <GhErrorMessage @errors={{settings.errors}} @property="accentColor" class="w-100 red"/>
+            </div>
         </div>
     </div>
 

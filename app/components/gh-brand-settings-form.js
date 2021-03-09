@@ -92,9 +92,9 @@ export default class GhBrandSettingsFormComponent extends Component {
                 return;
             }
 
-            // clear out the accent color
-            this.settings.set('accentColor', '');
-            this.updatePreviewTask.perform();
+            // Don't allow empty accent color
+            this.settings.errors.add('accentColor', 'Accent color cannot be empty');
+            this.settings.hasValidated.pushObject('accentColor');
             return;
         }
 
