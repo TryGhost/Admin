@@ -35,7 +35,8 @@ export default Controller.extend({
                 && !router.currentRouteName.match(/(signin|signup|setup|reset)/);
     }),
 
-    openUpdateTab: action(function () {
+    openUpdateTab: action(function (event) {
+        event.preventDefault();
         const updateWindow = window.open('', '_blank');
 
         updateWindow.document.write('Loading...');
