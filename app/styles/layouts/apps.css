@@ -501,3 +501,15 @@
     width: 32px;
     height: 32px;
 }
+
+.gh-apps-orb.rot-1 {
+    transform: rotate(90deg);
+}
+
+.gh-apps-orb.rot-2 {
+    transform: rotate(180deg);
+}
+
+.gh-apps-orb.rot-3 {
+    transform: rotate(270deg);
+}
