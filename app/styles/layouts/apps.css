@@ -496,3 +496,8 @@
 .app-custom-api-table .data-label {
     width: 160px;
 }
+
+.gh-apps-orb {
+    width: 32px;
+    height: 32px;
+}
