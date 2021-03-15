@@ -3,6 +3,7 @@ import {inject as service} from '@ember/service';
 
 export default AuthenticatedRoute.extend({
     billing: service(),
+    session: service(),
     ui: service(),
 
     queryParams: {
@@ -11,7 +12,14 @@ export default AuthenticatedRoute.extend({
 
     beforeModel(transition) {
         this._super(...arguments);
-        this.billing.set('previousTransition', transition);
+
+        return this.session.user.then((user) => {
+            if (!user.isOwner) {
+                return this.transitionTo('home');
+            }
+
+            this.billing.set('previousTransition', transition);
+        });
     },
 
     model(params) {
