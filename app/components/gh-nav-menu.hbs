@@ -96,7 +96,7 @@
             </ul>
         {{/if}}
 
-        {{#if (and (gh-user-can-admin this.session.user) (or this.showBilling this.domainUrl))}}
+        {{#if (and this.session.user.isOwner (or this.showBilling this.domainUrl))}}
         <ul class="gh-nav-list gh-nav-settings">
             <li class="gh-nav-list-h">Ghost Pro</li>
             {{#if this.showBilling}}
