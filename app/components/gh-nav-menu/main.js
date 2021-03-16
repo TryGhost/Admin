@@ -116,7 +116,7 @@ export default Component.extend(ShortcutsMixin, {
             return;
         }
 
-        let iconUrl = 'assets/img/logos/orb-black-1.png';
+        let iconUrl = 'https://static.ghost.org/v4.0.0/images/ghost-squircle.png';
 
         this.set('iconStyle', htmlSafe(`background-image: url(${iconUrl})`));
         this.set('iconClass', 'gh-nav-logo-default');

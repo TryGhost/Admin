@@ -446,7 +446,7 @@ input:focus,
 }
 
 .gh-logo,
-.gh-apps-orb,
+.apps-card-app-orb,
 .gh-nav-logo-default,
 .gh-unsplash-logo {
     filter: invert(100%) brightness(150%);
