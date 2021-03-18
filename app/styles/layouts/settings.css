@@ -247,7 +247,7 @@
 
 .gh-setting-content-extended .gh-image-uploader {
     margin: 0;
-    border: 1px solid var(--lightgrey);
+    border: 1px solid var(--whitegrey-d2);
 }
 
 .gh-setting-liquid-section .liquid-container,
@@ -324,6 +324,11 @@
     text-decoration: underline;
 }
 
+.gh-setting-action-smallimg-delete svg path,
+.gh-setting-action-largeimg-delete svg path {
+    fill: #fff;
+}
+
 .gh-setting-action .gh-progress-container {
     width: 113px;
     height: 100%;
@@ -360,6 +365,35 @@
 /* Theme Directory
 /* ---------------------------------------------------------- */
 
+.gh-td-marketplace {
+    display: inline-block;
+    outline: none;
+    color: var(--green-d1);
+    font-weight: 500;
+    text-decoration: none !important;
+    text-transform: none;
+}
+
+.gh-td-marketplace span {
+    display: block;
+    overflow: hidden;
+    font-size: 1.35rem;
+    letter-spacing: 0.2px;
+}
+
+.gh-td-marketplace span svg {
+    position: relative;
+    top: 1px;
+    width: .7em;
+    height: .7em;
+    margin-left: 4px;
+}
+
+.gh-td-marketplace span svg path {
+    stroke: var(--green-d1);
+    stroke-width: 4px;
+}
+
 .gh-theme-directory-container {
     padding: 25px 0 0;
 }
@@ -367,7 +401,7 @@
 .theme-directory {
     display: grid;
     justify-content: space-between;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
     max-width: 1320px;
     margin: 0 0 4vw;
@@ -447,34 +481,17 @@
 .td-item-overlay:hover,
 .td-item-overlay:focus {
     background-color: var(--white-90);
+    transition: all .3s ease;
 }
 
 .td-item-action {
-    display: none;
-}
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;}
 
 .td-item-overlay:hover .td-item-action {
-    display: block;
-}
-
-.td-item-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 39px;
-    padding: 2rem;
-    background: var(--white);
-    border-radius: 3px;
-    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 9px 25px -10px rgba(0,0,0,0.2);
-    transition: all .8s ease;
-}
-
-.td-item-empty:hover {
-    box-shadow: 0 0 1px rgba(0,0,0,.02), 0 19px 35px -14px rgba(0,0,0,.2);
-    transition: all .3s ease;
+    visibility: visible;
+    opacity: 1;
 }
 
 @media (max-width: 1400px) {
@@ -564,9 +581,10 @@
     width: 100%;
     margin-bottom: 2.4rem;
     padding: 20px 30px 16px;
-    border: 1px solid var(--whitegrey);
+    border: 1px solid var(--whitegrey-d1);
     font-family: Arial, sans-serif;
     background: #fff;
+    border-radius: 3px;
 }
 
 .gh-seo-container svg {
@@ -602,8 +620,9 @@
 .gh-twitter-container {
     width: 591px;
     margin-bottom: 2.4rem;
-    border: 1px solid #ebeef0;
+    border: 1px solid var(--whitegrey-d1);
     background: #fff;
+    border-radius: 3px;
 }
 
 @media (max-width: 1080px) {
@@ -640,7 +659,7 @@
 .gh-og-container {
     width: 476px;
     margin-bottom: 2.4rem;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--whitegrey-d1);
     background: #fff;
     border-radius: 3px;
 }
@@ -937,7 +956,7 @@
 /*Errors */
 .theme-validation-container {
     max-height: calc(100vh - 12vw - 110px);
-    overflow-y: scroll;
+    overflow-y: auto;
     margin: -32px -32px 0;
     padding: 32px 32px 0;
 }
@@ -1154,7 +1173,7 @@ p.theme-validation-details {
 
 .fullscreen-modal-branding-modal .modal-content {
     position: relative;
-    overflow: scroll;
+    overflow: auto;
     height: 100%;
     padding: 0;
 }
@@ -1206,7 +1225,7 @@ p.theme-validation-details {
     max-width: 400px;
     margin: 20px 0 -20px;
     padding: 24px 24px 24px 0;
-    overflow: scroll;
+    overflow-y: auto;
     height: calc(100vh - 136px);
 }
 
@@ -1266,6 +1285,14 @@ p.theme-validation-details {
     margin: 32px 68px 68px;
 }
 
+.gh-branding-settings-previewcontainer .site-frame,
+.gh-launch-wizard-preview {
+    width: 133.33333%;
+    height: 133.33333%;
+    transform: scale(0.75);
+    transform-origin: 0 0;
+}
+
 .gh-branding-settings .input-color input {
     position: relative;
     height: 30px;
@@ -1287,7 +1314,7 @@ p.theme-validation-details {
     top: 0;
     left: 29px;
     bottom: 0;
-    background: color-mod(var(--lightgrey) l(-5%) s(-10%));
+    background: var(--input-border-color);
 }
 
 .gh-branding-settings .input-color input:focus + .color-picker-horizontal-divider {
@@ -1316,4 +1343,14 @@ p.theme-validation-details {
     margin: 0;
     width: 50px;
     height: 50px;
+}
+
+.gh-branding-settings .gh-accent-color .gh-setting-action {
+    align-self: flex-start;
+    margin-top: 22px;
+}
+
+.gh-branding-settings .gh-accent-color .response {
+    margin: -8px 0 0;
+    font-size: 1.3rem;
 }

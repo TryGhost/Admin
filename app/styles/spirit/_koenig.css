@@ -448,10 +448,9 @@
 /* Links
 /* -------------------------------------------------------------------- */
 
-.koenig-editor__editor a {
+.koenig-editor__editor a:not([class]) {
     color: var(--darkgrey-d2);
-    text-decoration: none;
-    box-shadow: 0 1px 0 var(--white), 0 2px 0 var(--blue);
+    text-decoration: underline;
 }
 
 
@@ -680,12 +679,12 @@
 }
 
 .kg-card-hover:hover {
-    box-shadow: 0 0 0 1px var(--blue);
+    box-shadow: 0 0 0 1px var(--green);
 }
 
 .kg-card-selected,
 .kg-card-selected:hover {
-    box-shadow: 0 0 0 2px var(--blue);
+    box-shadow: 0 0 0 2px var(--green);
 }
 
 /* Force a 16:10 aspect ratio */
@@ -756,7 +755,7 @@
 }
 
 .kg-input-bar:before {
-    border-top: 9px solid var(--blue);
+    border-top: 9px solid var(--green);
     border-right: 9px solid transparent;
     border-left: 9px solid transparent;
 }
@@ -1048,6 +1047,7 @@
     text-transform: uppercase;
     font-size: 1.2rem;
     font-weight: 600;
+    white-space: pre;
 }
 
 .kg-paywall-separator::before,

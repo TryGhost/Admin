@@ -7,7 +7,7 @@
     z-index: 1000;
     height: 100vh;
     background: var(--white);
-    overflow: auto;
+    overflow: hidden;
 }
 
 .gh-launch-wizard-step-indicator {
@@ -101,4 +101,8 @@
     font-size: 1.3rem;
     resize: none;
     background: var(--whitegrey-l2);
+}
+
+.gh-setting-desc.skip-step {
+    margin: 12px 0;
 }

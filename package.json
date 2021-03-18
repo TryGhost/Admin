@@ -1,6 +1,6 @@
 {
   "name": "ghost-admin",
-  "version": "4.0.0-alpha.3",
+  "version": "4.1.0",
   "description": "Ember.js admin client for Ghost",
   "author": "Ghost Foundation",
   "homepage": "http://ghost.org",
@@ -114,7 +114,6 @@
     "grunt-shell": "3.0.1",
     "keymaster": "https://github.com/madrobby/keymaster.git",
     "liquid-fire": "0.31.0",
-    "liquid-tether": "2.0.7",
     "liquid-wormhole": "2.1.5",
     "loader.js": "4.7.0",
     "markdown-it": "12.0.4",

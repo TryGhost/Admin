@@ -26,16 +26,31 @@
                     <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="accentColor" class="gh-tag-settings-colorcontainer">
                         <label for="accent-color">Color</label>
                         <div class="input-color">
-                            <GhTextInput
-                                @name="accent-color"
-                                @placeholder="abcdef"
-                                @autocorrect="off"
-                                @maxlength="6"
-                                @focus-out={{action "validateAccentColor"}}
-                                @value={{accentColor}}
+                            <input
+                                type="text"
+                                placeholder="abcdef"
+                                name="accent-color"
+                                autocorrect="off"
+                                maxlength="6"
+                                value={{this.accentColor}}
+                                class="gh-input"
+                                {{on "input" (perform this.debounceUpdateAccentColor)}}
+                                {{on "blur" this.updateAccentColor}}
                                 data-test-input="accentColor"
                             />
-                            <div class="color-box" style={{this.accentColorBackgroundStyle}}></div>
+                            <div class="color-picker-horizontal-divider"></div>
+                            <div
+                                class="color-box-container"
+                                style={{this.accentColorBgStyle}}
+                            >
+                                <input
+                                    type="color"
+                                    name="accent-color"
+                                    class="color-picker"
+                                    value="{{this.accentColorPickerValue}}"
+                                    {{on "input" (perform this.debounceUpdateAccentColor)}}
+                                >
+                            </div>
                         </div>
                     </GhFormGroup>
                 </div>
@@ -288,7 +303,7 @@
                                 @focus-out={{action "setProperty" "ogTitle" this.scratchTag.ogTitle}}
                             />
                             <GhErrorMessage @errors={{this.tag.errors}} @property="ogTitle" />
-                            <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.ogTitle 70}}</p>
+                            <p>Recommended: <b>100</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.ogTitle 100}}</p>
                         </GhFormGroup>
 
                         <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="ogDescription">
@@ -324,12 +339,15 @@
                                 {{#if this.facebookImage}}
                                     <div class="gh-social-og-preview-image" style={{background-image-style this.facebookImage}}></div>
                                 {{/if}}
-                                <div class="gh-social-og-preview-content">
-                                    <div class="gh-social-og-preview-meta">
-                                        {{this.config.blogDomain}}
+                                <div class="gh-social-og-preview-bookmark">
+                                    {{!-- Ensures description is hidden if title exceeds one line --}}
+                                    <div class="gh-social-og-preview-content">
+                                        <div class="gh-social-og-preview-meta">
+                                            {{this.config.blogDomain}}
+                                        </div>
+                                        <div class="gh-social-og-preview-title">{{truncate this.facebookTitle}}</div>
+                                        <div class="gh-social-og-preview-desc">{{truncate this.facebookDescription}}</div>
                                     </div>
-                                    <div class="gh-social-og-preview-title">{{truncate this.facebookTitle 88}}</div>
-                                    <div class="gh-social-og-preview-desc">{{truncate this.facebookDescription}}</div>
                                 </div>
                             </div>
                             <div class="gh-social-og-reactions">

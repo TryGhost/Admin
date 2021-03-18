@@ -12,7 +12,7 @@
             {{outlet}}
 
             {{#if this.showBilling}}
-                <GhBillingModal />
+                <GhBillingModal @billingWindowOpen={{this.billing.billingWindowOpen}} />
             {{/if}}
 
         </main>
@@ -32,6 +32,17 @@
             @close={{this.customViews.toggleFormModal}}
             @modifier="action narrow"
         />
+    {{/if}}
+
+    {{#if this.settings.accentColor}}
+        <style>
+            .koenig-editor__editor a:not([class]) {
+                color: {{this.adjustedAccentColor}};
+            }
+            .koenig-editor__editor blockquote {
+                border-left: 0.25rem solid {{this.adjustedAccentColor}};
+            }
+        </style>
     {{/if}}
 </GhApp>
 

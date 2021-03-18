@@ -137,6 +137,7 @@
     background: var(--lightgrey);
     text-transform: uppercase;
     color: var(--middarkgrey);
+    margin-left: 1.2rem;
 }
 
 .gh-badge.locked {
@@ -165,6 +166,7 @@
 .invite-new-user .form-group:nth-of-type(1) {
     float: left;
     width: 60%;
+    padding-right: 10px;
 }
 
 @media (max-width: 500px) {
@@ -176,8 +178,7 @@
 
 .invite-new-user .form-group:nth-of-type(2) {
     float: left;
-    margin-left: 10px;
-    width: 35%;
+    width: 40%;
 }
 
 @media (max-width: 500px) {
@@ -193,7 +194,7 @@
     width: 100%;
 }
 
-.invite-new-user .gh-btn-green {
+.invite-new-user .gh-btn-black {
     margin: 0;
     width: 100%;
 }

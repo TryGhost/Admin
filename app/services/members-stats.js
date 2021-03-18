@@ -4,6 +4,8 @@ import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
 
+const ONE_MINUTE = 1 * 60 * 1000;
+
 export default class MembersStatsService extends Service {
     @service ajax;
     @service ghostPaths;
@@ -18,7 +20,7 @@ export default class MembersStatsService extends Service {
 
     fetch() {
         let daysChanged = this._lastFetchedDays !== this.days;
-        let staleData = this._lastFetched && this._lastFetched - new Date() > 1 * 60 * 1000;
+        let staleData = this._lastFetched && (new Date() - this._lastFetched) > ONE_MINUTE;
 
         // return an already in-progress promise unless params have changed
         if (this._fetchTask.isRunning && !this._forceRefresh && !daysChanged) {
@@ -34,7 +36,7 @@ export default class MembersStatsService extends Service {
     }
 
     fetchTimeline(options = {}) {
-        let staleData = this._lastFetchedTimeline && this._lastFetchedTimeline - new Date() > 1 * 60 * 1000;
+        let staleData = this._lastFetchedTimeline && (new Date() - this._lastFetchedTimeline) > ONE_MINUTE;
         let differentLimit = this._lastFetchedTimelineLimit && this._lastFetchedTimelineLimit !== options.limit;
 
         if (this._fetchTimelineTask.isRunning) {
@@ -49,7 +51,7 @@ export default class MembersStatsService extends Service {
     }
 
     fetchCounts() {
-        let staleData = this._lastFetchedCounts && this._lastFetchedCounts - new Date() > 1 * 60 * 1000;
+        let staleData = this._lastFetchedCounts && (new Date() - this._lastFetchedCounts) > ONE_MINUTE;
 
         // return an already in-progress promise unless params have changed
         if (this._fetchCountsTask.isRunning) {
@@ -65,7 +67,7 @@ export default class MembersStatsService extends Service {
     }
 
     fetchNewsletterStats() {
-        let staleData = this._lastFetchedNewsletterStats && this._lastFetchedNewsletterStats - new Date() > 1 * 60 * 1000;
+        let staleData = this._lastFetchedNewsletterStats && (new Date() - this._lastFetchedNewsletterStats) > ONE_MINUTE;
 
         // return an already in-progress promise unless params have changed
         if (this._fetchNewsletterStatsTask.isRunning) {
@@ -74,18 +76,24 @@ export default class MembersStatsService extends Service {
 
         // return existing stats unless data is > 1 min old
         if (this.newsletterStats && !this._forceRefresh && !staleData) {
-            return Promise.resolve(this.countStats);
+            return Promise.resolve(this.newsletterStats);
         }
 
         return this._fetchNewsletterStatsTask.perform();
     }
 
-    fillDates(data) {
+    fillDates(data = []) {
         let currentRangeDate = moment().subtract(30, 'days');
 
         let endDate = moment().add(1, 'hour');
         const output = {};
-        let lastVal = 0;
+
+        const firstDateInRangeIndex = data.findIndex((val) => {
+            return moment(val.date).isAfter(currentRangeDate);
+        });
+        const initialDateInRangeVal = firstDateInRangeIndex > 0 ? data[firstDateInRangeIndex - 1] : null;
+        let lastVal = initialDateInRangeVal ? initialDateInRangeVal.value : 0;
+
         while (currentRangeDate.isBefore(endDate)) {
             let dateStr = currentRangeDate.format('YYYY-MM-DD');
             const dataOnDate = data.find(d => d.date === dateStr);
@@ -96,16 +104,20 @@ export default class MembersStatsService extends Service {
         return output;
     }
 
-    fillCountDates(data) {
+    fillCountDates(data = {}) {
         let currentRangeDate = moment().subtract(30, 'days');
 
         let endDate = moment().add(1, 'hour');
         const output = {};
+        const firstDateInRangeIndex = data.findIndex((val) => {
+            return moment(val.date).isAfter(currentRangeDate);
+        });
+        const initialDateInRangeVal = firstDateInRangeIndex > 0 ? data[firstDateInRangeIndex - 1] : null;
         let lastVal = {
-            paid: 0,
-            free: 0,
-            comped: 0,
-            total: 0
+            paid: initialDateInRangeVal ? initialDateInRangeVal.paid : 0,
+            free: initialDateInRangeVal ? initialDateInRangeVal.free : 0,
+            comped: initialDateInRangeVal ? initialDateInRangeVal.comped : 0,
+            total: initialDateInRangeVal ? (initialDateInRangeVal.paid + initialDateInRangeVal.free + initialDateInRangeVal.comped) : 0
         };
         while (currentRangeDate.isBefore(endDate)) {
             let dateStr = currentRangeDate.format('YYYY-MM-DD');
@@ -123,7 +135,7 @@ export default class MembersStatsService extends Service {
     }
 
     fetchMRR() {
-        let staleData = this._lastFetchedMRR && this._lastFetchedMRR - new Date() > 1 * 60 * 1000;
+        let staleData = this._lastFetchedMRR && (new Date() - this._lastFetchedMRR) > ONE_MINUTE;
 
         // return an already in-progress promise unless params have changed
         if (this._fetchMRRTask.isRunning) {

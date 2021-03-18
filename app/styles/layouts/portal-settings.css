@@ -5,7 +5,7 @@
 
 .fullscreen-modal-portal-settings .modal-content {
     position: relative;
-    overflow: scroll;
+    overflow: auto;
     height: 100%;
     padding: 0;
 }
@@ -134,7 +134,7 @@
     top: 0;
     left: 29px;
     bottom: 0;
-    background: color-mod(var(--lightgrey) l(-5%) s(-10%));
+    background: var(--input-border-color);
 }
 
 .gh-portal-settings .input-color input:focus + .color-picker-horizontal-divider {
@@ -243,7 +243,7 @@
 .gh-portal-button-icon {
     display: inline-block;
     cursor: pointer;
-    width: 40px;
+    width: 38px;
     height: 40px;
     padding: 10px;
     background-repeat: no-repeat;
@@ -282,7 +282,7 @@
 .gh-portal-button-uploadicon:hover,
 .gh-portal-button-uploadicon:focus {
     height: 44px;
-    width: 46px;
+    width: 44px;
     border: none;
     box-shadow: none;
     background: transparent;
@@ -381,7 +381,7 @@
 .gh-portal-settings-previewheader {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     height: 66px;
     padding: 0 24px;
@@ -403,7 +403,7 @@
 
 .gh-portal-preview-wrapper {
     overflow: hidden;
-    max-height: calc(100vh - 60px - 66px - 20px);
+    max-height: calc(100vh - 60px - 66px);
     height: 100%;
     background: #EDF0F2;
 }
@@ -478,10 +478,10 @@
 
 .gh-portal-links-table tr.header .gh-portal-links-cell {
     font-size: 1.3rem;
-    font-weight: 400;
+    font-weight: 500;
     cursor: pointer;
     text-transform: none;
-    color: var(--blue);
+    color: var(--green);
 }
 
 .gh-portal-links-table tr td:last-of-type {
@@ -538,7 +538,7 @@
 
 .gh-portal-links-group-divider {
     margin: 8px -32px;
-    border-top-color: var(--lightgrey);
+    border-top-color: var(--whitegrey);
 }
 
 .gh-portal-links-group-divider.first {
@@ -579,5 +579,5 @@
 }
 
 .gh-portal-setting-section.redirects p {
-    margin-top: 16px;
+    margin-top: 4px;
 }

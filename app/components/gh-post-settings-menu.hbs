@@ -1,4 +1,4 @@
-<div class="settings-menu-container">
+<div class="settings-menu-container {{if (and this.isViewingSubview (not (eq this.subview "email-settings"))) "settings-menu-container-wide"}}">
     <div id="entry-controls">
         <div class="{{if this.isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane">
             <div class="settings-menu-header">
@@ -175,7 +175,7 @@
             </div>{{! .settings-menu-content }}
         </div>{{! .post-settings-menu }}
 
-        <div class="{{if this.isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane">
+        <div class="{{if this.isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane {{unless (eq this.subview "email-settings") "settings-menu-pane-wide"}}">
             <div class="active">
                 {{#if this.isViewingSubview}}
                     {{#if (eq this.subview "meta-data")}}
@@ -193,6 +193,7 @@
                                         @class="post-setting-meta-title"
                                         @id="meta-title"
                                         @name="post-setting-meta-title"
+                                        @placeholder={{this.seoTitle}}
                                         @value={{readonly this.metaTitleScratch}}
                                         @input={{action (mut this.metaTitleScratch) value="target.value"}}
                                         @focus-out={{action "setMetaTitle" this.metaTitleScratch}}
@@ -208,6 +209,7 @@
                                         @class="post-setting-meta-description"
                                         @id="meta-description"
                                         @name="post-setting-meta-description"
+                                        @placeholder={{truncate this.seoDescription 150}}
                                         @value={{readonly this.metaDescriptionScratch}}
                                         @input={{action (mut this.metaDescriptionScratch) value="target.value"}}
                                         @focus-out={{action "setMetaDescription" this.metaDescriptionScratch}}
@@ -238,7 +240,7 @@
                                                 {{svg-jar "google"}}
                                                 <div class="gh-seo-search-bar">{{svg-jar "google-search"}}</div>
                                             </div>
-                                            <div class="gh-seo-preview-link">{{this.seoURL}}</div>
+                                            <div class="gh-seo-preview-link">{{this.config.blogDomain}} › {{#if this.ghostPaths.subdir}}{{this.ghostPaths.subdir}} › {{/if}}{{@post.slug}}</div>
                                             <div class="gh-seo-preview-title">{{this.seoTitle}}</div>
                                             <div class="gh-seo-preview-desc">{{this.seoDescription}}</div>
                                         </div>
@@ -286,7 +288,7 @@
                                         @class="post-setting-twitter-description"
                                         @id="twitter-description"
                                         @name="post-setting-twitter-description"
-                                        @placeholder={{truncate this.twitterDescription 155}}
+                                        @placeholder={{truncate this.twitterDescription 150}}
                                         @stopEnterKeyDownPropagation="true"
                                         @value={{readonly this.twitterDescriptionScratch}}
                                         @input={{action (mut this.twitterDescriptionScratch) value="target.value"}}
@@ -361,7 +363,7 @@
                                     <GhTextarea
                                         @class="post-setting-og-description"
                                         @id="og-description" @name="post-setting-og-description"
-                                        @placeholder={{truncate this.facebookDescription 160}}
+                                        @placeholder={{truncate this.facebookDescription 150}}
                                         @value={{readonly this.ogDescriptionScratch}}
                                         @input={{action (mut this.ogDescriptionScratch) value="target.value"}}
                                         @focus-out={{action "setOgDescription" this.ogDescriptionScratch}}
@@ -376,12 +378,15 @@
                                         {{#if this.facebookImage}}
                                             <div class="gh-social-og-preview-image" style={{background-image-style this.facebookImage}}></div>
                                         {{/if}}
-                                        <div class="gh-social-og-preview-content">
-                                            <div class="gh-social-og-preview-meta">
-                                                {{this.config.blogDomain}}
+                                        <div class="gh-social-og-preview-bookmark">
+                                            {{!-- Ensures description is hidden if title exceeds one line --}}
+                                            <div class="gh-social-og-preview-content">
+                                                <div class="gh-social-og-preview-meta">
+                                                    {{this.config.blogDomain}}
+                                                </div>
+                                                <div class="gh-social-og-preview-title">{{truncate this.facebookTitle}}</div>
+                                                <div class="gh-social-og-preview-desc">{{truncate this.facebookDescription}}</div>
                                             </div>
-                                            <div class="gh-social-og-preview-title">{{truncate this.facebookTitle 88}}</div>
-                                            <div class="gh-social-og-preview-desc">{{truncate this.facebookDescription}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -432,19 +437,3 @@
         </div>
     </div>
 </div>
-
-{{!--
-    _showThrobbers is on a timer so that throbbers don't get positioned until
-    the slide-in animation has finished and it gets toggled when the meta
-    pane is shown
---}}
-{{#if this._showThrobbers}}
-    {{#unless this.session.user.isAuthorOrContributor}}
-        <GhTourItem @throbberId="featured-post"
-            @target="label[for='featured'] p"
-            @throbberAttachment="middle middle"
-            @throbberOffset="0px -20px"
-            @popoverTriangleClass="bottom-right"
-        />
-    {{/unless}}
-{{/if}}

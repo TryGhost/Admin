@@ -335,7 +335,6 @@
 
 /* Navigation
 /* ---------------------------------------------------------- */
-
 .gh-nav-list {
     margin: 32px 0 0;
     padding: 0;
@@ -498,8 +497,8 @@
 
 .gh-nav-list .gh-secondary-action span svg {
     margin-right: 0;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     fill: color-mod(var(--middarkgrey) l(-10%));
 }
 
@@ -527,6 +526,10 @@
     height: 16px;
 }
 
+.gh-nav-list .gh-nav-new-post {
+    opacity: 1;
+}
+
 .gh-nav-list .gh-nav-new-post span svg {
     width: 18px;
     height: 18px;
@@ -534,6 +537,23 @@
 
 .gh-nav-list .gh-nav-new-post span svg path {
     stroke: var(--darkgrey);
+    stroke-width: 1.5px;
+}
+
+.gh-nav-list .gh-nav-member-count {
+    position: absolute;
+    z-index: 999;
+    padding: 2px 7px;
+    margin: 0;
+    right: 30px;
+    top: 5px;
+    background: var(--mainmenu-color-hover-bg);
+    color: var(--middarkgrey);
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 1.3rem;
+    min-width: 23px;
+    text-align: center;
 }
 
 .gh-nav-main {
@@ -546,8 +566,8 @@
 }
 
 .gh-nav-pro .gh-btn-green {
-    margin: 7px 10px 7px 20px !important;
-    width: calc(100% - 40px) !important;
+    margin: 12px 0 9px 38px!important;
+    width: calc(100% - 72px)!important;
 }
 
 .gh-nav-view-list {
@@ -559,6 +579,7 @@
 }
 
 .gh-nav-view-list a {
+    position: relative;
     padding-left: calc(var(--mainmenu-padding) + 42px);
 }
 
@@ -571,12 +592,14 @@
 }
 
 .gh-nav-view-list .circle {
+    position: absolute;
     display: block;
     border-radius: 999px;
     border: 3px solid var(--midgrey);
     width: 8px;
     height: 8px;
-    margin: 0 8px 0 -30px;
+    margin: 0;
+    right: 36px;
 }
 
 .gh-nav-view-list .svg-midgrey .circle {
@@ -1290,11 +1313,12 @@
 /* What's new badges
 /* ---------------------------------------------------- */
 .gh-whats-new-badge-account {
-    top: -4px;
+    top: -3px;
     right: -4px;
-    border: 2px solid #fff;
-    width: 14px;
-    height: 14px;
+    border: 1px solid #fff;
+    width: 12px;
+    height: 12px;
+    background-color: var(--green);
 }
 
 
@@ -1495,7 +1519,6 @@
         right: 0;
         flex-direction: column;
         align-items: flex-end;
-        overflow: hidden;
         width: 100%;
         max-height: 100px;
     }
@@ -1504,10 +1527,8 @@
         position: relative;
         order: 2;
         margin: 0;
-        padding: 24px 0 40px;
+        padding: 6px 0 0;
         max-width: calc(100vw - 390px);
-        overflow-x: scroll;
-        overflow-y: hidden;
         justify-content: space-between;
     }
 

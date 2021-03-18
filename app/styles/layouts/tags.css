@@ -138,7 +138,7 @@ textarea.gh-tag-details-textarea {
 .gh-tag-image-uploader .gh-image-uploader {
     margin: 4px 0 0;
     background: transparent;
-    border: 1px dashed var(--lightgrey);
+    border: 1px solid var(--whitegrey-d2);
     min-height: 147px;
 }
 
@@ -176,6 +176,58 @@ label.gh-tag-setting-codeheader {
     max-width: 620px;
     width: 100%;
 }
+
+.gh-tag-settings-colorcontainer .input-color input {
+    position: relative;
+    width: 112px;
+    padding: 3px 4px 3px 54px;
+    font-size: 1.3rem;
+}
+
+.gh-tag-settings-colorcontainer .input-color::after {
+    left: 44px;
+}
+
+.gh-tag-settings-colorcontainer .color-picker-horizontal-divider {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 1px;
+    top: 0;
+    left: 37px;
+    bottom: 0;
+    background: var(--input-border-color);
+}
+
+.gh-tag-settings-colorcontainer .input-color input:focus + .color-picker-horizontal-divider {
+    top: 2px;
+    bottom: 2px;
+}
+
+.gh-tag-settings-colorcontainer .color-box-container {
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    overflow: hidden;
+    top: 2px;
+    left: 2px;
+    margin: 1px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.gh-tag-settings-colorcontainer .color-box-container .color-picker {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+}
+
 
 .gh-tag-settings-colorcontainer {
     flex-basis: 112px;

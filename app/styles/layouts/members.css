@@ -56,6 +56,12 @@
     table-layout: fixed;
 }
 
+@media (max-width: 1100px) {
+    .members-list {
+        border-bottom: none    
+    }
+}
+
 .members-list .gh-list-row.header {
     z-index: 1;
 }
@@ -293,6 +299,10 @@ p.gh-members-list-email {
     margin-top: var(--main-layout-section-vpadding);
 }
 
+.gh-members-list-subscribed-moment::first-letter {
+    text-transform: uppercase;
+}
+
 @media  (min-width: 1200px) and (max-width: 1370px) {
     .members-header .view-actions input.gh-members-list-searchfield {
         max-width: 130px;
@@ -339,7 +349,7 @@ p.gh-members-list-email {
         display: flex;
         position: relative;
         flex-wrap: wrap;
-        border-bottom: 1px solid var(--lightgrey);
+        border-bottom: 1px solid var(--list-color-divider);
         margin: 0;
     }
 
@@ -371,6 +381,23 @@ p.gh-members-list-email {
         padding: 0 0 16px 4px;
         margin-top: -16px;
         font-size: 1.2rem;
+    }
+
+    .gh-members-list-subscribed-at div {
+        display: inline;
+        margin-right: 1px;
+    }
+
+    .gh-members-list-subscribed-moment::first-letter {
+        text-transform: none;
+    }
+
+    .gh-members-list-subscribed-moment::before {
+        content: "(";
+    }
+
+    .gh-members-list-subscribed-moment::after {
+        content: ")";
     }
 
     .gh-members-list-chevron {
@@ -444,6 +471,10 @@ p.gh-members-list-email {
         min-height: 120px;
     }
 
+    .gh-canvas-header.break.tablet .gh-canvas-header-content {
+        height: 160px;
+    }
+
     .members-header .gh-canvas-title {
         position: absolute;
         top: 29px;
@@ -451,7 +482,7 @@ p.gh-members-list-email {
     }
 
     .members-header .view-actions {
-        margin-top: 62px;
+        margin-top: 30px;
         width: 100%;
     }
 
@@ -735,6 +766,10 @@ textarea.gh-member-details-textarea {
     font-size: 1.3rem;
     text-align: right;
     white-space: nowrap;
+}
+
+.gh-member-feed-row:hover .gh-member-feed-date {
+    color: var(--darkgrey);
 }
 
 .gh-member-btn-expandfeed span {
@@ -1208,6 +1243,11 @@ p.gh-members-import-errordetail:first-of-type {
     padding: 0 12px 6px 12px;
     height: 120px;
     border-radius: 4px;
+}
+
+.gh-members-emailsettings-footer-input p {
+    height: 108px;
+    overflow-y: scroll;
 }
 
 .gh-members-emailsettings-footer-input p {
