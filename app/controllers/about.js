@@ -8,6 +8,11 @@ export default Controller.extend({
     upgradeStatus: service(),
     whatsNew: service(),
 
+    init() {
+        this._super(...arguments);
+        this.whatsNew.updateLastSeen.perform();
+    },
+
     copyrightYear: computed(function () {
         let date = new Date();
         return date.getFullYear();
