@@ -10,6 +10,7 @@
 .gh-about-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
+    grid-gap: 32px;
 }
 
 .gh-about-box {
@@ -119,7 +120,6 @@
     color: var(--darkgrey);
     font-size: 1.5rem;
     margin-top: 24px;
-    margin-right: 32px;
 }
 
 @media (max-width: 890px) {
@@ -362,4 +362,25 @@
     box-shadow:
         0 -0.3px 1px rgba(0, 0, 0, 0.03),
         0 -4px 7px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 1120px) {
+    .gh-about-container {
+        grid-template-columns: unset;
+        grid-template-rows: auto;
+    }
+
+    .gh-env-details {
+        grid-row: 1/2;
+    }
+}
+
+@media (max-width: 1000px) {
+    .gh-about-header-actions a {
+        display: none;
+    }
+
+    .gh-wn-entry iframe {
+        max-width: 100%;
+    }
 }

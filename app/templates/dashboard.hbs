@@ -304,7 +304,7 @@
             {{/if}}
 
             {{#unless (or  whatsNewEntriesLoading whatsNewEntriesError)}}
-            <div class="gh-dashboard-box whats-new">
+            <div class="gh-dashboard-box whats-new {{if this.whatsNew.hasNew "has-new"}}">
                 <div class="gh-dashboard-header-container">
                     <h4 class="gh-dashboard-header">What's new?</h4>
                     {{svg-jar "gift"}}
@@ -321,7 +321,7 @@
                     {{/each}}
                 </div>
                 <div class="footer">
-                    <LinkTo @route="about" class="green">See all updates</LinkTo>
+                    <LinkTo @route="about" class="green">See more &rarr;</LinkTo>
                 </div>
             </div>
             {{/unless}}
