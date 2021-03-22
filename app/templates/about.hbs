@@ -2,20 +2,37 @@
     <GhCanvasHeader class="gh-canvas-header">
         {{svg-jar "ghost-logo-orb" class="gh-logo" alt="Ghost"}}
         <div>
-            <a class="gh-btn gh-btn-outline" href="https://ghost.org/docs/" target="_blank"><span>User Documentation</span></a>
-            <a class="gh-btn gh-btn-outline" href="https://forum.ghost.org/" target="_blank"><span>Get Help With Ghost</span></a>
+            <a class="gh-btn gh-btn-outline" href="https://ghost.org/docs/" target="_blank"><span>User documentation</span></a>
+            <a class="gh-btn gh-btn-outline" href="https://forum.ghost.org/" target="_blank"><span>Get help with Ghost</span></a>
             <a class="gh-btn gh-btn-black" href="https://ghost.org/docs/contributing/" target="_blank"><span>Get involved</span></a>
         </div>
     </GhCanvasHeader>
     <section class="view-container">
-        <div class="flex">
+        <div class="gh-about-container">
             <section class="gh-whats-new gh-about-box">
                 <h2>{{svg-jar "gift"}} What's new?</h2>
-
+                {{#each this.whatsNew.entries as |entry|}}
+                    <div class="gh-wn-entry">
+                        <h4>{{moment-format entry.published_at "DD MMMM YYYY"}}</h4>
+                        <h1>{{entry.title}}</h1>
+                        {{#if entry.feature_image}}
+                            <img class="mb5" src={{entry.feature_image}}>
+                        {{/if}}
+                        <div class="gh-wn-content">
+                        {{#if entry.custom_excerpt}}
+                            <p>{{entry.custom_excerpt}}</p>
+                            <a href={{entry.url}} class="dib fw6 mb6" target="_blank" rel="noopener noreferrer">Read the full post →</a>
+                        {{else}}
+                            {{{entry.html}}}
+                        {{/if}}
+                        </div>
+                    </div>
+                {{/each}}
+                <a class="green" href="https://ghost.org/changelog" target="_blank" rel="noopener noreferrer">See all updates &rarr;</a>
             </section>
 
             <section class="gh-env-details gh-about-box grey">
-                <h2><strong>Version</strong> {{this.config.version}}</h2>
+                <h2>Version {{this.config.version}}</h2>
                 {{#if this.upgradeStatus.message}}
                     <section class="gh-upgrade-notification">
                         <p>
@@ -24,20 +41,17 @@
                     </section>
                 {{/if}}
                 <ul class="gh-env-list">
-                    <li><strong>Environment</strong> {{this.config.environment}}</li>
-                    <li class="gh-env-list-database-type"><strong>Database</strong> {{this.config.database}}</li>
-                    <li><strong>Mail</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}Native{{/if}}</li>
+                    <li><strong>Environment:</strong> {{this.config.environment}}</li>
+                    <li class="gh-env-list-database-type"><strong>Database:</strong> {{this.config.database}}</li>
+                    <li><strong>Mail:</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}Native{{/if}}</li>
                     {{#if (enable-developer-experiments)}}
-                    <li><strong>Developer experiments</strong> Enabled</li>
+                    <li><strong>Developer experiments:</strong> Enabled</li>
                     {{/if}}
                 </ul>
+                <footer class="gh-copyright-info">
+                    Copyright &copy; 2013 &ndash; {{this.copyrightYear}} Ghost Foundation, released under the <a href="https://github.com/TryGhost/Ghost/blob/master/LICENSE" target="_blank">MIT license</a>. <a href="https://ghost.org/" target="_blank">Ghost</a> is a registered trademark of <a href="https://ghost.org/trademark/" target="_blank">Ghost Foundation Ltd</a>.
+                </footer>
             </section>
         </div>
-
-        <footer class="gh-copyright-info">
-            Copyright &copy; 2013 &ndash; {{this.copyrightYear}} Ghost Foundation, released under the <a href="https://github.com/TryGhost/Ghost/blob/master/LICENSE" target="_blank">MIT license</a>.
-            <br>
-            <a href="https://ghost.org/" target="_blank">Ghost</a> is a registered trademark of <a href="https://ghost.org/trademark/" target="_blank">Ghost Foundation Ltd</a>.
-        </footer>
     </section>
 </section>
