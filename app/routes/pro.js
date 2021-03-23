@@ -1,9 +1,9 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import {inject as service} from '@ember/service';
 
+// TODO: rename billing route and service to /pro
 export default AuthenticatedRoute.extend({
     billing: service(),
-    session: service(),
     ui: service(),
 
     queryParams: {
@@ -49,7 +49,7 @@ export default AuthenticatedRoute.extend({
                         ? transition.intent.url
                         : '');
 
-                if (destinationUrl?.includes('/billing')) {
+                if (destinationUrl?.includes('/pro')) {
                     isBillingTransition = true;
                 }
             }
@@ -60,7 +60,7 @@ export default AuthenticatedRoute.extend({
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Billing'
+            titleToken: 'Ghost(Pro)'
         };
     }
 });

@@ -24,8 +24,8 @@ Router.map(function () {
     this.route('about');
     this.route('site');
 
-    this.route('billing', function () {
-        this.route('billing-sub', {path: '/*sub'});
+    this.route('pro', function () {
+        this.route('pro-sub', {path: '/*sub'});
     });
 
     this.route('posts');
