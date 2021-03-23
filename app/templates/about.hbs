@@ -12,7 +12,7 @@
             <section class="gh-whats-new gh-about-box">
                 <h2>{{svg-jar "gift"}} What's new?</h2>
                 {{#each this.whatsNew.entries as |entry|}}
-                    <div class="gh-wn-entry">
+                    <div class="gh-wn-entry" {{did-insert (perform this.whatsNew.updateLastSeen)}}>
                         <h4>{{moment-format entry.published_at "DD MMMM YYYY"}}</h4>
                         <h1>{{entry.title}}</h1>
                         {{#if entry.feature_image}}
