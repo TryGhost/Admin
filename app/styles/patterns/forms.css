@@ -237,8 +237,10 @@ textarea {
     top: 0;
     right: 0;
     bottom: 0;
-    opacity: 0;
-	/*display: none;*/
+}
+
+.for-checkbox input {
+	opacity: 0;
 }
 
 .for-radio .input-toggle-component,
