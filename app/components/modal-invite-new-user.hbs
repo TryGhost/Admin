@@ -29,23 +29,43 @@
             <GhErrorMessage @errors={{this.errors}} @property="email" />
         </GhFormGroup>
 
+        <div class="gh-roles-container">
+            <div class="gh-radio {{if (eq this.role "Contributor") "active"}}">
+                <div class="gh-radio-button"></div>
+                <div class="gh-radio-content">
+                    <div class="gh-radio-label">Contributors</div>
+                    <div class="gh-radio-desc">Contributors can create and edit their own draft posts, but they are unable to edit drafts of others or publish posts.</div>
+                </div>
+                <div data-tooltip="Contributor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+            </div>
 
-        <GhFormGroup @class="for-select" @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="role">
-            <label for="new-user-role">Role</label>
-            <span class="gh-select">
-                <OneWaySelect
-                    @id="new-user-role"
-                    @name="role"
-                    @options={{readonly this.roles}}
-                    @optionValuePath="id"
-                    @optionLabelPath="name"
-                    @value={{this.role}}
-                    @update={{action "setRole"}}
-                />
-                {{svg-jar "arrow-down-small"}}
-            </span>
-            <GhErrorMessage @errors={{this.errors}} @property="role" />
-        </GhFormGroup>
+            <div class="gh-radio {{if (eq this.role "Author") "active"}}">
+                <div class="gh-radio-button"></div>
+                <div class="gh-radio-content">
+                    <div class="gh-radio-label">Authors</div>
+                    <div class="gh-radio-desc">Authors can write, edit  and publish their own posts. Authors are trusted users.</div>
+                </div>
+                <div data-tooltip="Author capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+            </div>
+
+            <div class="gh-radio {{if (eq this.role "Editor") "active"}}">
+                <div class="gh-radio-button"></div>
+                <div class="gh-radio-content">
+                    <div class="gh-radio-label">Editors</div>
+                    <div class="gh-radio-desc">Editors can do everything that an Author can do, but they can also edit and publish the posts of others - as well as their own. </div>
+                </div>
+                <div data-tooltip="Editor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+            </div>
+
+            <div class="gh-radio {{if (eq this.role "Administrator") "active"}}">
+                <div class="gh-radio-button"></div>
+                <div class="gh-radio-content">
+                    <div class="gh-radio-label">Administrators</div>
+                    <div class="gh-radio-desc">Administrators can do everything that Authors and Editors can do, but they can also edit all site settings and data, not just content. They also have full access to invite, manage or remove any other user of the site.</div>
+                </div>
+                <div data-tooltip="Administrator capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+            </div>
+        </div>
     </fieldset>
 </div>
 
