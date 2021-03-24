@@ -170,7 +170,15 @@
 .invite-new-user .gh-roles-container {
     display: flex;
     flex-direction: column;
-    margin: 4rem 0 1rem;
+    margin: 2rem 0 0;
+}
+
+.invite-new-user p {
+    margin: 4px 0 20px;
+    color: var(--midgrey);
+    font-size: 1.3rem;
+    line-height: 1.2em;
+    font-weight: 400;
 }
 
 .invite-new-user .gh-radio {
@@ -181,6 +189,10 @@
 .invite-new-user .gh-radio:first-child {
     padding-top: 20px;
     border-top: 1px solid var(--list-color-divider);
+}
+
+.invite-new-user .gh-radio:last-child {
+    margin: 0;
 }
 
 .invite-new-user .gh-radio svg {
@@ -202,7 +214,7 @@
 
 .invite-new-user .gh-radio-desc {
     color: var(--midgrey);
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1.2em;
     font-weight: 400;
 }

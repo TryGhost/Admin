@@ -1,5 +1,6 @@
 <header class="modal-header">
-    <h1>Invite a new user</h1>
+    <h1>Invite a new staff user</h1>
+    <p>Send an invitation for a new person to create a staff account on your site, and select a role that matches what you’d like them to be able to do.</p>
 </header>
 {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
 <a class="close" href role="button" title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
@@ -14,7 +15,7 @@
                 @class="email"
                 @id="new-user-email"
                 @type="email"
-                @placeholder="Email address"
+                @placeholder="youremail@example.com"
                 @name="email"
                 @shouldFocus={{true}}
                 @autocapitalize="off"
@@ -33,8 +34,8 @@
             <div class="gh-radio {{if (eq this.role "Contributor") "active"}}">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
-                    <div class="gh-radio-label">Contributors</div>
-                    <div class="gh-radio-desc">Contributors can create and edit their own draft posts, but they are unable to edit drafts of others or publish posts.</div>
+                    <div class="gh-radio-label">Contributor</div>
+                    <div class="gh-radio-desc">Can create and edit their own posts, but cannot publish. An Editor needs to approve and publish for them.</div>
                 </div>
                 <div data-tooltip="Contributor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
             </div>
@@ -42,8 +43,8 @@
             <div class="gh-radio {{if (eq this.role "Author") "active"}}">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
-                    <div class="gh-radio-label">Authors</div>
-                    <div class="gh-radio-desc">Authors can write, edit  and publish their own posts. Authors are trusted users.</div>
+                    <div class="gh-radio-label">Author</div>
+                    <div class="gh-radio-desc">A trusted user who can create, edit and publish their own posts, but can’t modify others.</div>
                 </div>
                 <div data-tooltip="Author capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
             </div>
@@ -51,8 +52,8 @@
             <div class="gh-radio {{if (eq this.role "Editor") "active"}}">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
-                    <div class="gh-radio-label">Editors</div>
-                    <div class="gh-radio-desc">Editors can do everything that an Author can do, but they can also edit and publish the posts of others - as well as their own. </div>
+                    <div class="gh-radio-label">Editor</div>
+                    <div class="gh-radio-desc">Can invite and manage other Authors and Contributors, as well as edit and publish any posts on the site.</div>
                 </div>
                 <div data-tooltip="Editor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
             </div>
@@ -60,8 +61,8 @@
             <div class="gh-radio {{if (eq this.role "Administrator") "active"}}">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
-                    <div class="gh-radio-label">Administrators</div>
-                    <div class="gh-radio-desc">Administrators can do everything that Authors and Editors can do, but they can also edit all site settings and data, not just content. They also have full access to invite, manage or remove any other user of the site.</div>
+                    <div class="gh-radio-label">Administrator</div>
+                    <div class="gh-radio-desc">Trusted staff user who should be able to manage all content and users, as well as site settings and options.</div>
                 </div>
                 <div data-tooltip="Administrator capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
             </div>
@@ -70,7 +71,7 @@
 </div>
 
 <div class="modal-footer">
-    <GhTaskButton @buttonText="Send invitation now"
+    <GhTaskButton @buttonText="Send invitation now &rarr;"
         @successText="Sent"
         @task={{this.sendInvitation}}
         @class="gh-btn gh-btn-black gh-btn-icon"
