@@ -1,4 +1,4 @@
-<section class="gh-canvas js-settings-content">
+<section class="gh-canvas js-settings-content" {{scroll-top}}>
     <GhCanvasHeader class="gh-canvas-header">
         {{svg-jar "ghost-logo-orb" class="gh-logo" alt="Ghost"}}
         <div class="gh-about-header-actions">
@@ -12,7 +12,7 @@
             <section class="gh-whats-new gh-about-box" {{did-insert (perform this.whatsNew.updateLastSeen)}}>
                 <h2>{{svg-jar "gift"}} What's new?</h2>
                 {{#each this.whatsNew.entries as |entry|}}
-                    <div class="gh-wn-entry">
+                    <div class="gh-wn-entry" {{scroll-to shouldScroll=(eq entry.slug this.entry)}}>
                         <h4>{{moment-format entry.published_at "DD MMMM YYYY"}}</h4>
                         <h1>{{entry.title}}</h1>
                         {{#if entry.feature_image}}
