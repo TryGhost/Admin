@@ -37,7 +37,39 @@
                     <div class="gh-radio-label">Contributor</div>
                     <div class="gh-radio-desc">Can create and edit their own posts, but cannot publish. An Editor needs to approve and publish for them.</div>
                 </div>
-                <div data-tooltip="Contributor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+                <div>
+                    {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
+                    <div>
+                        {{svg-jar "info"}}
+                        <EmberPopover @side="left">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Access settings</td>
+                                        <td>❌</td>
+                                    </tr>
+                                    <tr>
+                                        <td>View/edit profile</td>
+                                        <td>✅</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Create drafts</td>
+                                        <td>✅</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publish posts</td>
+                                        <td>❌</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Edit published posts</td>
+                                        <td>❌</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </EmberPopover>
+                    </div>
+                </div>
             </div>
 
             <div class="gh-radio {{if (eq this.role.name "Author") "active"}}" {{on "click" (fn this.setRole "Author")}}>
