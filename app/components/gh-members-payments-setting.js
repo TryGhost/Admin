@@ -24,8 +24,6 @@ export default Component.extend({
     // passed in actions
     setStripeConnectIntegrationTokenSetting() {},
 
-    defaultContentVisibility: reads('settings.defaultContentVisibility'),
-
     stripeDirect: reads('config.stripeDirect'),
 
     allowSelfSignup: reads('settings.membersAllowFreeSignup'),
@@ -113,14 +111,6 @@ export default Component.extend({
             } else {
                 this.set('showPortalSettings', false);
             }
-        },
-
-        setDefaultContentVisibility(value) {
-            this.setDefaultContentVisibility(value);
-        },
-
-        toggleSelfSignup() {
-            this.set('settings.membersAllowFreeSignup', !this.get('allowSelfSignup'));
         },
 
         setStripeDirectPublicKey(event) {

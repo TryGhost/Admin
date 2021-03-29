@@ -30,6 +30,11 @@ export default class MembersAccessController extends Controller {
         this.leaveSettingsTransition = null;
     }
 
+    @action
+    setDefaultContentVisibility(value) {
+        this.set('settings.defaultContentVisibility', value);
+    }
+
     @task({drop: true})
     *saveSettingsTask() {
         return yield this.settings.save();
