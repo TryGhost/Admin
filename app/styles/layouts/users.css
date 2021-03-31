@@ -219,8 +219,25 @@
     font-weight: 400;
 }
 
-.invite-new-user .tooltip-left {
-    height: 16px;
+.invite-new-user .popover {
+    width: 97%;
+    border: 1px solid var(--whitegrey-d1);
+    color: var(--darkgrey);
+    box-shadow: var(--shadow-3);
+}
+
+.invite-new-user .popover-arrow {
+    display: none;
+}
+
+.invite-new-user .popover table {
+    margin: .6em 0;
+}
+
+.invite-new-user .popover td.left {
+    padding-right: 16px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .invite-new-user .gh-btn-black {

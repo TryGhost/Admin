@@ -41,31 +41,18 @@
                     {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
                     <div>
                         {{svg-jar "info"}}
-                        <EmberPopover @side="left">
+                        <EmberPopover @tooltipClass="popover" @arrowClass="popover-arrow" @side="left">
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td>Access settings</td>
-                                        <td>❌</td>
+                                        <td class="left">Settings</td>
+                                        <td>View and edit own profile</td>
                                     </tr>
                                     <tr>
-                                        <td>View/edit profile</td>
-                                        <td>✅</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Create drafts</td>
-                                        <td>✅</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Publish posts</td>
-                                        <td>❌</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Edit published posts</td>
-                                        <td>❌</td>
+                                        <td class="left">Posts</td>
+                                        <td>Create and edit own draft posts</td>
                                     </tr>
                                 </tbody>
-
                             </table>
                         </EmberPopover>
                     </div>
@@ -78,7 +65,34 @@
                     <div class="gh-radio-label">Author</div>
                     <div class="gh-radio-desc">A trusted user who can create, edit and publish their own posts, but can’t modify others.</div>
                 </div>
-                <div data-tooltip="Author capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+                <div>
+                    {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
+                    <div>
+                        {{svg-jar "info"}}
+                        <EmberPopover @tooltipClass="popover" @arrowClass="popover-arrow" @side="left">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="left">Settings</td>
+                                        <td>View and edit own profile</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Users</td>
+                                        <td>Browse users</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Posts</td>
+                                        <td>View, edit and publish own posts, generate slugs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Tags</td>
+                                        <td>Add tags</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </EmberPopover>
+                    </div>
+                </div>
             </div>
 
             <div class="gh-radio {{if (eq this.role.name "Editor") "active"}}" {{on "click" (fn this.setRole "Editor")}}>
@@ -87,7 +101,34 @@
                     <div class="gh-radio-label">Editor</div>
                     <div class="gh-radio-desc">Can invite and manage other Authors and Contributors, as well as edit and publish any posts on the site.</div>
                 </div>
-                <div data-tooltip="Editor capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+                <div>
+                    {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
+                    <div>
+                        {{svg-jar "info"}}
+                        <EmberPopover @tooltipClass="popover" @arrowClass="popover-arrow" @side="left">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="left">Settings</td>
+                                        <td>View and edit own profile</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Users</td>
+                                        <td>Browse users, manage authors and contributors (invite, revoke, delete)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Posts</td>
+                                        <td>Create, publish, edit and delete all posts, generate slugs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Tags</td>
+                                        <td>Edit, add and delete tags</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </EmberPopover>
+                    </div>
+                </div>
             </div>
 
             <div class="gh-radio {{if (eq this.role.name "Administrator") "active"}}" {{on "click" (fn this.setRole "Administrator")}}>
@@ -96,7 +137,42 @@
                     <div class="gh-radio-label">Administrator</div>
                     <div class="gh-radio-desc">Trusted staff user who should be able to manage all content and users, as well as site settings and options.</div>
                 </div>
-                <div data-tooltip="Administrator capabilities" class="tooltip-left">{{svg-jar "info"}}</div>
+                <div>
+                    {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
+                    <div>
+                        {{svg-jar "info"}}
+                        <EmberPopover @tooltipClass="popover" @arrowClass="popover-arrow" @side="left">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="left">Settings</td>
+                                        <td>Access all except Stripe settings</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Users</td>
+                                        <td>Manage all users (invite, revoke, delete)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Posts</td>
+                                        <td>Create, publish, edit and delete all posts, generate slugs</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Tags</td>
+                                        <td>Edit, add and delete tags</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Database</td>
+                                        <td>Import, export and delete all content</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left">Email</td>
+                                        <td>Send newsletters and test emails</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </EmberPopover>
+                    </div>
+                </div>
             </div>
         </div>
     </fieldset>
