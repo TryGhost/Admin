@@ -56,7 +56,7 @@
                     <p>Customize members modal signup flow</p>
                 </div>
             </button>
-            {{#if this.session.user.isOwner}}
+            {{#if this.session.user.isOwnerOrAdmin}}
             <LinkTo class="gh-setting-group" @route="settings.members-email" data-test-nav="members-email">
                 <span class="color-4">{{svg-jar "email-stroke"}}</span>
                 <div>
