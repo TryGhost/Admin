@@ -18,7 +18,7 @@
 
     <section class="view-container settings-debug">
 
-        {{#if this.session.user.isOwner}}
+        {{#if this.session.user.isOwnerOrAdmin}}
         <div class="gh-setting-liquid-section">
             <GhMembersEmailSetting
                 @settings={{this.settings}}
