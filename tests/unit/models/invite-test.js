@@ -19,10 +19,16 @@ describe('Unit: Model: invite', function () {
             server.shutdown();
         });
 
-        it('resend hits correct endpoint', function () {
+        it('resend hits correct endpoints', function () {
             let store = this.owner.lookup('service:store');
-            let model = store.createRecord('invite');
+            let model = store.createRecord('invite', {
+                id: 42
+            });
             let role;
+
+            server.delete(`${ghostPaths().apiRoot}/invites/42`, function () {
+                return [204, {}, '{}'];
+            });
 
             server.post(`${ghostPaths().apiRoot}/invites/`, function () {
                 return [200, {}, '{}'];
@@ -38,7 +44,7 @@ describe('Unit: Model: invite', function () {
             expect(
                 server.handledRequests.length,
                 'number of requests'
-            ).to.equal(1);
+            ).to.equal(2);
 
             let [lastRequest] = server.handledRequests;
             let requestBody = JSON.parse(lastRequest.requestBody);
