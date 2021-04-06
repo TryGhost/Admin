@@ -47,8 +47,7 @@ describe('Unit: Model: invite', function () {
                 server.handledRequests.length,
                 'number of requests'
             ).to.equal(2);
-
-            let [lastRequest] = server.handledRequests;
+            let [, lastRequest] = server.handledRequests;
             let requestBody = JSON.parse(lastRequest.requestBody);
             let [invite] = requestBody.invites;
 
