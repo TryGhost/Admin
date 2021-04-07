@@ -1,4 +1,4 @@
-<header class="modal-header">
+<header class="modal-header" data-test-modal="invite-staff-user">
     <h1>Invite a new staff user</h1>
     <p>Send an invitation for a new person to create a staff account on your site, and select a role that matches what you’d like them to be able to do.</p>
 </header>
@@ -31,7 +31,7 @@
         </GhFormGroup>
 
         <div class="gh-roles-container">
-            <div class="gh-radio {{if (eq this.role.name "Contributor") "active"}}" {{on "click" (fn this.setRole "Contributor")}}>
+            <div class="gh-radio {{if (eq this.role.name "Contributor") "active"}}" {{on "click" (fn this.setRole "Contributor")}} data-test-option="Contributor">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
                     <div class="gh-radio-label">Contributor</div>
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="gh-radio {{if (eq this.role.name "Author") "active"}}" {{on "click" (fn this.setRole "Author")}}>
+            <div class="gh-radio {{if (eq this.role.name "Author") "active"}}" {{on "click" (fn this.setRole "Author")}} data-test-option="Author">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
                     <div class="gh-radio-label">Author</div>
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="gh-radio {{if (eq this.role.name "Editor") "active"}}" {{on "click" (fn this.setRole "Editor")}}>
+            <div class="gh-radio {{if (eq this.role.name "Editor") "active"}}" {{on "click" (fn this.setRole "Editor")}} data-test-option="Editor">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
                     <div class="gh-radio-label">Editor</div>
@@ -131,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="gh-radio {{if (eq this.role.name "Administrator") "active"}}" {{on "click" (fn this.setRole "Administrator")}}>
+            <div class="gh-radio {{if (eq this.role.name "Administrator") "active"}}" {{on "click" (fn this.setRole "Administrator")}} data-test-option="Administrator">
                 <div class="gh-radio-button"></div>
                 <div class="gh-radio-content">
                     <div class="gh-radio-label">Administrator</div>
