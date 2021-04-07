@@ -208,7 +208,7 @@ describe('Acceptance: Staff', function () {
             expect(
                 find('.fullscreen-modal h1').textContent.trim(),
                 'correct modal is displayed'
-            ).to.equal('Invite a new user');
+            ).to.equal('Invite a new staff user');
 
             // number of roles is correct
             expect(
