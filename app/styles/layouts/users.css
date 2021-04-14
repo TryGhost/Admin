@@ -152,49 +152,96 @@
     max-width: 600px;
 }
 
-.invite-new-user .form-group {
+.gh-roles-container .form-group {
     margin-bottom: 0;
     padding: 0;
 }
 
-.invite-new-user .form-group label {
+.gh-roles-container .form-group label {
     position: static;
     display: block;
     text-align: left;
 }
 
-.invite-new-user .form-group:nth-of-type(1) {
-    float: left;
-    width: 60%;
-    padding-right: 10px;
-}
-
-@media (max-width: 500px) {
-    .invite-new-user .form-group:nth-of-type(1) {
-        float: none;
-        width: 100%;
-    }
-}
-
-.invite-new-user .form-group:nth-of-type(2) {
-    float: left;
-    width: 40%;
-}
-
-@media (max-width: 500px) {
-    .invite-new-user .form-group:nth-of-type(2) {
-        float: none;
-        margin-top: 10px;
-        margin-left: 0;
-        width: 100%;
-    }
-}
-
-.invite-new-user .form-group input {
+.gh-roles-container .form-group input {
     width: 100%;
 }
 
-.invite-new-user .gh-btn-black {
+.invite-new-user .gh-roles-container {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0 0;
+}
+
+.invite-new-user p {
+    margin: 4px 0 20px;
+    color: var(--midgrey);
+    font-size: 1.3rem;
+    line-height: 1.2em;
+    font-weight: 400;
+}
+
+.gh-roles-container .gh-radio {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--list-color-divider);
+}
+
+.gh-roles-container .gh-radio:first-child {
+    padding-top: 20px;
+    border-top: 1px solid var(--list-color-divider);
+}
+
+.gh-roles-container .gh-radio:last-child {
+    margin: 0;
+}
+
+.gh-roles-container .gh-radio svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--midgrey);
+    margin-left: 2px;
+}
+
+.gh-roles-container .gh-radio-content {
+    margin-right: 2.4rem;
+}
+
+.gh-roles-container .gh-radio-label {
+    padding-bottom: 4px;
+    line-height: 1.1em;
+    font-weight: 600;
+}
+
+.gh-roles-container .gh-radio-desc {
+    color: var(--midgrey);
+    font-size: 1.3rem;
+    line-height: 1.2em;
+    font-weight: 400;
+}
+
+.gh-roles-container .popover {
+    width: 97%;
+    border: 1px solid var(--whitegrey-d1);
+    color: var(--darkgrey);
+    box-shadow: var(--shadow-3);
+}
+
+.gh-roles-container .popover-arrow {
+    display: none;
+}
+
+.gh-roles-container .popover table {
+    margin: .6em 0;
+}
+
+.gh-roles-container .popover td.left {
+    padding-right: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.gh-roles-container .gh-btn-black,
+.gh-roles-container .gh-btn-green {
     margin: 0;
     width: 100%;
 }
