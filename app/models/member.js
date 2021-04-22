@@ -18,6 +18,8 @@ export default Model.extend(ValidationEngine, {
     emailOpenedCount: attr('number', {defaultValue: 0}),
     emailOpenRate: attr('number'),
 
+    products: hasMany('memberProduct', {embedded: 'always', async: false}),
+
     labels: hasMany('label', {embedded: 'always', async: false}),
     emailRecipients: hasMany('emailRecipient', {embedded: 'always', async: false}),
 
