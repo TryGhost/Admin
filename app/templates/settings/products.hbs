@@ -17,7 +17,7 @@
                     <div class="gh-list-header gh-list-cellwidth-70"></div>
                     <div class="gh-list-header gh-list-cellwidth-30"></div>
                 </li>
-                {{#each this.model as |product|}}
+                {{#each this.products as |product|}}
                 <li class="gh-list-row">
                     <LinkTo @route="settings.product" @model={{product}} class="gh-list-data gh-list-cellwidth-70 gh-product-list-title">
                         <h3 class="gh-product-list-name">

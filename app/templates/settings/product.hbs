@@ -5,7 +5,7 @@
             <span>{{svg-jar "arrow-right"}}</span>
             <LinkTo @route="settings.products">Products</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            Product name
+            {{product.name}}
         </h2>
         <section class="view-actions">
             <span class="dropdown">
@@ -45,8 +45,8 @@
                 </GhFormGroup> --}}
                 <div class="gh-product-details-fields">
                     <GhFormGroup @property="name" @classNames="max-width">
-                        <label for="member-name">Product name</label>
-                        <GhTextInput data-test-input="member-name" />
+                        <label for="product-name">Product name</label>
+                        <GhTextInput data-test-input="product-name" @id="product-name" @value={{product.name}}/>
                         <GhErrorMessage @property="name" />
                     </GhFormGroup>
 
@@ -76,12 +76,12 @@
         <div class="gh-main-section-block p0">
             <ol class="gh-price-list gh-list">
                 <li class="gh-list-row header">
-                    <div class="gh-list-header">Prices(3)</div>
+                    <div class="gh-list-header">Prices({{this.noOfPrices}})</div>
                     <div class="gh-list-header">Price</div>
                     <div class="gh-list-header">Subscriptions</div>
                     <div class="gh-list-header"></div>
                 </li>
-                {{#each this.model.stripePrices as |price|}}
+                {{#each this.stripePrices as |price|}}
                 <li class="gh-list-row {{if price.active "" "gh-price-list-archived"}}">
                     <div class="gh-list-data gh-price-list-title">
                         <h3 class="gh-price-list-name">
@@ -93,8 +93,7 @@
                     </div>
 
                     <div class="gh-list-data gh-price-list-price">
-                        {{price.amount}} / {{price.interval}}
-                        <span>$5 USD / month</span>
+                        <span>{{currency-symbol price.currency}}{{price.amount}} / {{price.interval}}</span>
                     </div>
 
                     <div class="gh-list-data gh-price-list-subscriptions">
@@ -103,9 +102,13 @@
 
                     <div class="gh-list-data gh-price-list-actions">
                         <div class="gh-price-list-actionlist">
-                            <LinkTo @route="settings.product">Edit</LinkTo>
+                            <button class="gh-btn gh-btn-link archive" {{action "openEditPrice" price}}>
+                                <span>Edit</span>
+                            </button>
                             {{#if price.active}}
-                                <button class="gh-btn gh-btn-link archive"><span>Archive</span></button>
+                                <button class="gh-btn gh-btn-link archive">
+                                    <span>Archive</span>
+                                </button>
                             {{else}}
                                 <button class="gh-btn gh-btn-link"><span>Activate</span></button>
                             {{/if}}
@@ -115,14 +118,18 @@
                 {{/each}}
             </ol>
 
-            <button type="button" class="gh-btn gh-btn-green" {{action (toggle "showPriceModal" this)}}>
+            <button type="button" class="gh-btn gh-btn-green" {{action "openNewPrice"}}>
                 <span>New price</span>
             </button>
         </div>
     </div>
 
     {{#if this.showPriceModal}}
-        <GhFullscreenModal @modal="product-price"
+        <GhFullscreenModal
+            @modal="product-price"
+            @model={{hash
+                price=this.priceModel
+            }}
             @close={{this.closePriceModal}}
             @modifier="action wide body-scrolling product-price" />
     {{/if}}

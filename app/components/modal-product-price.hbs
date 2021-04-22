@@ -13,7 +13,7 @@
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="name">
                 <label for="name" class="fw6">Name</label>
                 <GhTextInput
-                    @value=''
+                    @value={{this.price.nickname}}
                     @name="name"
                     @id="name"
                     @class="gh-input" />
@@ -31,18 +31,18 @@
             <div class="gh-product-priceform-period">
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="billing-period">
                     <label for="billing-period" class="fw6">Billing period</label>
-                    <GhProductsPriceBillingperiod @triggerId="period-input" />
+                    <GhProductsPriceBillingperiod @triggerId="period-input" @value={{this.price.interval}} />
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="price">
                     <label for="price" class="fw6">Price</label>
                     <div class="flex items-center justify-center gh-input-group gh-labs-price-label">
                         <GhTextInput
-                            @value=''
+                            @value={{this.price.amount}}
                             @type="number"
                             {{!-- @input={{action (mut this._scratchStripeMonthlyAmount) value="target.value"}} --}}
                             {{!-- @focus-out={{action "validateStripePlans"}} --}}
                         />
-                        <span class="gh-input-append"><span class="ttu">USD</span>/month</span>
+                        <span class="gh-input-append"><span class="ttu">USD</span>/{{or this.price.interval 'month'}}</span>
                     </div>
                     <GhErrorMessage @errors={{this.price.errors}} @property="price" />
                 </GhFormGroup>
