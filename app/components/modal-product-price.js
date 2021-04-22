@@ -8,8 +8,19 @@ import {tracked} from '@glimmer/tracking';
 export default class ModalProductPrice extends ModalBase {
     @tracked model;
 
+    get title() {
+        if (this.isExistingPrice) {
+            return `Price - ${this.price.nickname || 'No Name'}`;
+        }
+        return 'New Price';
+    }
+
     get price() {
         return this.model.price || {};
+    }
+
+    get isExistingPrice() {
+        return !!this.model.price;
     }
 
     // TODO: rename to confirm() when modals have full Glimmer support

@@ -1,5 +1,5 @@
 <header class="modal-header" data-test-modal="webhook-form">
-    <h1 data-test-text="title">New price</h1>
+    <h1 data-test-text="title">{{this.title}}</h1>
 </header>
 <button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
     {{svg-jar "close"}}
@@ -31,7 +31,7 @@
             <div class="gh-product-priceform-period">
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="billing-period">
                     <label for="billing-period" class="fw6">Billing period</label>
-                    <GhProductsPriceBillingperiod @triggerId="period-input" @value={{this.price.interval}} />
+                    <GhProductsPriceBillingperiod @triggerId="period-input" @value={{this.price.interval}} @disabled={{this.isExistingPrice}} />
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="price">
                     <label for="price" class="fw6">Price</label>
@@ -39,6 +39,7 @@
                         <GhTextInput
                             @value={{this.price.amount}}
                             @type="number"
+                            @disabled={{this.isExistingPrice}}
                             {{!-- @input={{action (mut this._scratchStripeMonthlyAmount) value="target.value"}} --}}
                             {{!-- @focus-out={{action "validateStripePlans"}} --}}
                         />

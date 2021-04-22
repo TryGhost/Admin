@@ -15,6 +15,10 @@ export default class GhPostsListItemComponent extends Component {
         const {value} = this.args;
         return value;
     }
+    get disabled() {
+        const {disabled} = this.args;
+        return disabled || false;
+    }
     constructor() {
         super(...arguments);
         this.availablePeriods = PERIODS;
