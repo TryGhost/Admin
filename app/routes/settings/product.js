@@ -1,4 +1,5 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 
 export default class ProductRoute extends AuthenticatedRoute {
@@ -10,6 +11,20 @@ export default class ProductRoute extends AuthenticatedRoute {
         } else {
             return this.store.createRecord('product');
         }
+    }
+
+    beforeModel() {
+        super.beforeModel(...arguments);
+        return this.session.user.then((user) => {
+            if (!user.isOwnerOrAdmin) {
+                return this.transitionTo('home');
+            }
+        });
+    }
+
+    @action
+    save() {
+        this.controller.save();
     }
 
     actions = {

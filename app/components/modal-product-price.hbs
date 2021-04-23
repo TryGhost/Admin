@@ -13,7 +13,8 @@
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="name">
                 <label for="name" class="fw6">Name</label>
                 <GhTextInput
-                    @value={{this.price.nickname}}
+                    @value={{readonly this.price.nickname}}
+                    @input={{action (mut this.price.nickname) value="target.value"}}
                     @name="name"
                     @id="name"
                     @class="gh-input" />
@@ -101,7 +102,7 @@
     </button>
     <GhTaskButton @buttonText="Save price"
         @successText={{this.successText}}
-        {{!-- @task={{this.saveWebhook}} --}}
+        @task={{this.savePrice}}
         @class="gh-btn gh-btn-black gh-btn-icon"
-        data-test-button="save-webhook" />
+        data-test-button="save-price" />
 </div>

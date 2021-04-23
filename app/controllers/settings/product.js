@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import {action} from '@ember/object';
+import EmberObject, {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -63,12 +63,24 @@ export default class ProductController extends Controller {
     }
 
     @action
+    savePrice(price) {
+        const stripePrices = this.product.stripePrices.map((d) => {
+            if (d.id === price.id) {
+                return EmberObject.create(price);
+            }
+            return d;
+        });
+        this.product.set('stripePrices', stripePrices);
+        this.saveTask.perform();
+    }
+
+    @action
     closePriceModal() {
         this.showPriceModal = false;
     }
 
     @task({drop: true})
     *saveTask() {
-        return yield this.settings.save();
+        return yield this.product.save();
     }
 }
