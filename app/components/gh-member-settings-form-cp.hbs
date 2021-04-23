@@ -250,15 +250,17 @@
             <div class="gh-main-section-content bordered">
                 <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
             </div>
-            
+
         </div>
     </section>
 
 </div>
 
 {{#if this.showMemberProductModal}}
-    <GhFullscreenModal @modal="member-product"
+<GhFullscreenModal @modifier="action wide member-product">
+    <ModalMemberProduct
         @model={{this.member}}
-        @close={{this.closeMemberProductModal}}
-        @modifier="action wide member-product" />
+        @confirm={{this.addProduct}}
+        @closeModal={{this.closeMemberProductModal}} />
+</GhFullscreenModal>
 {{/if}}
