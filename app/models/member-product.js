@@ -1,10 +1,6 @@
-import Model, {attr} from '@ember-data/model';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import EmberObject from '@ember/object';
 
-export default Model.extend(ValidationEngine, {
-    validationType: 'member-products',
-
-    name: attr('string'),
-    slug: attr('string'),
-    subscriptions: attr('member-subscription')
+export default EmberObject.extend({
+    name: 'Name of the product',
+    slug: 'Slug for the product'
 });

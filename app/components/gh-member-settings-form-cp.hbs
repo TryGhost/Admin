@@ -157,69 +157,46 @@
                         <div class="gh-list-header"></div>
                         <div class="gh-list-header"></div>
                     </li>
-                    <li class="gh-list-row">
-                        <div class="gh-list-data gh-cp-memberproduct-title">
-                            <h3 class="gh-memberproduct-name">
-                                Product 1 <span class="gh-badge active">Active</span>
-                            </h3>
-                            <div class="gh-memberproduct-description gh-cp-memberproduct-showmore">
-                                <input type="checkbox" id="show-more-1" role="button">
-                                <label for="show-more-1">
-                                    {{svg-jar "arrow-right"}} 
-                                    <span class="gh-cp-memberproduct-pricelabel">Monthly</span>
-                                    &ndash;
-                                    <span class="gh-cp-memberproduct-price">$4/month</span>
-                                    &ndash;
-                                    <span class="gh-cp-memberproduct-renewal">Renews 9 May 2021</span>
-                                </label>
+                    {{#each this.products as |product|}}
+                        <li class="gh-list-row">
+                            <div class="gh-list-data gh-cp-memberproduct-title">
+                                <h3 class="gh-memberproduct-name">
+                                    {{product.name}}<span class="gh-badge active">Active</span>
+                                </h3>
+                                {{#each product.subscriptions as |sub|}}
+                                    <div class="gh-memberproduct-description gh-cp-memberproduct-showmore">
+                                        <input type="checkbox" id="show-more-{{sub.id}}" role="button">
+                                        <label for="show-more-{{sub.id}}">
+                                            {{svg-jar "arrow-right"}}
+                                            <span class="gh-cp-memberproduct-pricelabel">{{sub.price.nickname}}</span>
+                                            &ndash;
+                                            <span class="gh-cp-memberproduct-price">{{sub.price.currencySymbol}}{{sub.price.nonDecimalAmount}}/{{sub.price.interval}}</span>
+                                            &ndash;
+                                            {{#if sub.cancel_at_period_end}}
+                                                <span class="gh-cp-memberproduct-renewal">Cancels {{sub.validUntil}}</span>
+                                                <button class="gh-btn gh-btn-link">
+                                                    <span>Continue subscription</span>
+                                                </button>
+                                            {{else}}
+                                                <span class="gh-cp-memberproduct-renewal">Renews {{sub.validUntil}}</span>
+                                                <button class="gh-btn gh-btn-link" {{action "cancelSubscription" sub.id}}>
+                                                    <span>Cancel subscription</span>
+                                                </button>
+                                            {{/if}}
 
-                                <div class="details">
-                                    <span>Created on 9 April 2021</span>
-                                    <a href="https://dashboard.stripe.com/" target="_blank" rel="noopener">
-                                        View on Stripe
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                                        </label>
 
-                        <div class="gh-list-data gh-memberproduct-actions">
-                            <div class="gh-memberproduct-actionlist">
-                                <LinkTo @route="members">Edit</LinkTo>
-                                <button class="gh-btn gh-btn-link archive"><span>Cancel subscription</span></button>
+                                        <div class="details">
+                                            <span>Created on {{sub.startDate}}</span>
+                                            <a href="https://dashboard.stripe.com/subscriptions/{{sub.id}}" target="_blank" rel="noopener">
+                                                View on Stripe
+                                            </a>
+                                        </div>
+                                    </div>
+                                {{/each}}
                             </div>
-                        </div>
-                    </li>
-                    <li class="gh-list-row gh-memberproduct-archived">
-                        <div class="gh-list-data gh-cp-memberproduct-title">
-                            <h3 class="gh-memberproduct-name">
-                                Product 2 <span class="gh-badge archived">Cancelled</span>
-                            </h3>
-                            <div class="gh-memberproduct-description gh-cp-memberproduct-showmore">
-                                <input type="checkbox" id="show-more-2" role="button">
-                                <label for="show-more-2">
-                                    {{svg-jar "arrow-right"}} 
-                                    <span class="gh-cp-memberproduct-pricelabel">Monthly</span>
-                                    &ndash;
-                                    <span class="gh-cp-memberproduct-price">$4/month</span>
-                                    &ndash;
-                                    <span class="gh-cp-memberproduct-renewal">Renews 9 May 2021</span>
-                                </label>
-
-                                <div class="details">
-                                    <span>Created on 9 April 2021</span>
-                                    <a href="https://dashboard.stripe.com/" target="_blank" rel="noopener">
-                                        View on Stripe
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="gh-list-data gh-memberproduct-actions">
-                            <div class="gh-memberproduct-actionlist">
-                                <button class="gh-btn gh-btn-link"><span>Activate</span></button>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    {{/each}}
                     <tr class="gh-list-row gh-memberproduct-add-product">
                         <td colspan="2" class="gh-list-data">
                             <button type="button" class="gh-btn gh-btn-text green gh-btn-icon" {{action (toggle "showMemberProductModal" this)}}>
