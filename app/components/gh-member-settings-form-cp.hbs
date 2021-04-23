@@ -98,7 +98,7 @@
             </div>
 
             {{#if this.canShowStripeInfo}}
-                {{#if this.subscriptions}}
+                {{#if this.customer}}
                     <h4 class="gh-main-section-header small bn">Stripe info</h4>
                     <div class="gh-main-section-content grey">
                         <section class="gh-member-stripe-info flex flex-column flex-row-ns items-start justify-between">
@@ -108,8 +108,8 @@
                                         <tr class="gh-member-stripe-row">
                                             <td class="gh-member-stripe-label">Name:</td>
                                             <td class="gh-member-stripe-data">
-                                                {{#if customer.name}}
-                                                    {{customer.name}}
+                                                {{#if this.customer.name}}
+                                                    {{this.customer.name}}
                                                 {{else}}
                                                     <span class="midgrey-l2">No name</span>
                                                 {{/if}}
@@ -118,8 +118,8 @@
                                         <tr class="gh-member-stripe-row">
                                             <td class="gh-member-stripe-label">Email:</td>
                                             <td class="gh-member-stripe-data gh-member-stripe-email">
-                                                {{#if customer.email}}
-                                                    {{customer.email}}
+                                                {{#if this.customer.email}}
+                                                    {{this.customer.email}}
                                                 {{else}}
                                                     <span class="midgrey-l2">No email</span>
                                                 {{/if}}
