@@ -62,7 +62,6 @@ export default class extends Component {
         let firstSubscription = this.member.get('subscriptions').firstObject;
         let customer = firstSubscription?.customer;
 
-
         if (customer) {
             return {
                 ...customer,
