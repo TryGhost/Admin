@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import {inject as service} from '@ember/service';
 import {action} from '@ember/object';
+import {inject as service} from '@ember/service';
 
 const PERIODS = [
     {label: 'Monthly', period: 'month'},
@@ -12,7 +12,7 @@ export default class GhProductsPriceBillingPeriodComponent extends Component {
     @service session;
     @service settings;
 
-    constructor(owner, args) {
+    constructor() {
         super(...arguments);
         this.availablePeriods = PERIODS;
     }
@@ -23,7 +23,7 @@ export default class GhProductsPriceBillingPeriodComponent extends Component {
     }
     get disabled() {
         const {disabled} = this.args;
-        return false;
+        return disabled || false;
     }
 
     @action
