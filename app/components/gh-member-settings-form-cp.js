@@ -31,7 +31,8 @@ export default class extends Component {
 
     get products() {
         let products = this.member.get('products') || [];
-        let subscriptions = this.member.get('subscriptions').map((sub) => {
+        let subscriptions = this.member.get('subscriptions') || [];
+        let subscriptionData = subscriptions.map((sub) => {
             return {
                 ...sub,
                 startDate: sub.start_date ? moment(sub.start_date).format('D MMM YYYY') : '-',
@@ -45,7 +46,7 @@ export default class extends Component {
         });
 
         for (let product of products) {
-            let productSubscriptions = subscriptions.filter((subscription) => {
+            let productSubscriptions = subscriptionData.filter((subscription) => {
                 if (subscription.status === 'canceled') {
                     return false;
                 }
