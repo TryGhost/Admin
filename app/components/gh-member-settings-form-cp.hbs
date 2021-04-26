@@ -174,7 +174,7 @@
                                             &ndash;
                                             {{#if sub.cancel_at_period_end}}
                                                 <span class="gh-cp-memberproduct-renewal">Cancels {{sub.validUntil}}</span>
-                                                <button class="gh-btn gh-btn-link">
+                                                <button class="gh-btn gh-btn-link" {{action "continueSubscription" sub.id}}>
                                                     <span>Continue subscription</span>
                                                 </button>
                                             {{else}}
