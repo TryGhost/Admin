@@ -115,6 +115,12 @@
                                                 {{/if}}
                                             </td>
                                         </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="flex items-start w-50">
+                                <div class="flex-auto">
+                                    <table class="gh-member-stripe-table gh-cp-table">
                                         <tr class="gh-member-stripe-row">
                                             <td class="gh-member-stripe-label">Email:</td>
                                             <td class="gh-member-stripe-data gh-member-stripe-email">
@@ -123,18 +129,6 @@
                                                 {{else}}
                                                     <span class="midgrey-l2">No email</span>
                                                 {{/if}}
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="flex items-start w-50">
-                                <div class="flex-auto">
-                                    <table class="gh-member-stripe-table gh-cp-table">
-                                        <tr class="gh-member-stripe-row">
-                                            <td class="gh-member-stripe-label">Card:</td>
-                                            <td class="gh-member-stripe-data">
-                                                **** **** **** 4242
                                             </td>
                                         </tr>
                                     </table>
@@ -155,13 +149,12 @@
                 <ol class="gh-memberproduct-list gh-list">
                     <li class="gh-list-row header empty">
                         <div class="gh-list-header"></div>
-                        <div class="gh-list-header"></div>
                     </li>
                     {{#each this.products as |product|}}
                         <li class="gh-list-row">
                             <div class="gh-list-data gh-cp-memberproduct-title">
                                 <h3 class="gh-memberproduct-name">
-                                    {{product.name}}<span class="gh-badge active">Active</span>
+                                    {{product.name}}
                                 </h3>
                                 {{#each product.subscriptions as |sub|}}
                                     <div class="gh-memberproduct-description gh-cp-memberproduct-showmore">
@@ -174,23 +167,29 @@
                                             &ndash;
                                             {{#if sub.cancel_at_period_end}}
                                                 <span class="gh-cp-memberproduct-renewal">Cancels {{sub.validUntil}}</span>
-                                                <button class="gh-btn gh-btn-link" {{action "continueSubscription" sub.id}}>
-                                                    <span>Continue subscription</span>
-                                                </button>
+                                                <span class="gh-badge archived">Cancelled</span>
                                             {{else}}
                                                 <span class="gh-cp-memberproduct-renewal">Renews {{sub.validUntil}}</span>
-                                                <button class="gh-btn gh-btn-link" {{action "cancelSubscription" sub.id}}>
-                                                    <span>Cancel subscription</span>
-                                                </button>
+                                                <span class="gh-badge active">Active</span>
                                             {{/if}}
-
                                         </label>
 
                                         <div class="details">
                                             <span>Created on {{sub.startDate}}</span>
-                                            <a href="https://dashboard.stripe.com/subscriptions/{{sub.id}}" target="_blank" rel="noopener">
-                                                View on Stripe
-                                            </a>
+                                            <div class="actions">
+                                                <a href="https://dashboard.stripe.com/subscriptions/{{sub.id}}" target="_blank" rel="noopener">
+                                                    View on Stripe
+                                                </a>
+                                                {{#if sub.cancel_at_period_end}}
+                                                    <button class="gh-btn gh-btn-link gh-btn-text green">
+                                                        <span>Continue subscription</span>
+                                                    </button>
+                                                {{else}}
+                                                    <button class="gh-btn gh-btn-link gh-btn-text red" {{action "cancelSubscription" sub.id}}>
+                                                        <span>Cancel subscription</span>
+                                                    </button>
+                                                {{/if}}
+                                            </div>
                                         </div>
                                     </div>
                                 {{/each}}
