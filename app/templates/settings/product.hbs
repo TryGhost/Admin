@@ -102,11 +102,11 @@
 
                     <div class="gh-list-data gh-price-list-actions">
                         <div class="gh-price-list-actionlist">
-                            <button class="gh-btn gh-btn-link archive" {{action "openEditPrice" price}}>
+                            <button class="gh-btn gh-btn-link" {{action "openEditPrice" price}}>
                                 <span>Edit</span>
                             </button>
                             {{#if price.active}}
-                                <button class="gh-btn gh-btn-link archive">
+                                <button class="gh-btn gh-btn-link archived">
                                     <span>Archive</span>
                                 </button>
                             {{else}}
