@@ -159,9 +159,11 @@
                     <li class="gh-list-row">
                         <div class="gh-list-data gh-cp-memberproduct-noproduct">
                             <div class="mb2">This member doesn't have any products.</div>
+                            {{#unless this.member.isNew}}
                             <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action (toggle "showMemberProductModal" this)}}>
                                 <span>{{svg-jar "add"}} Add product</span>
                             </button>
+                            {{/unless}}
                         </div>
                     </li>
                     {{/unless}}
