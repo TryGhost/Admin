@@ -157,12 +157,11 @@
             @modifier="action wide body-scrolling product-ssprice" />
     {{/if}}
 
-    {{#if this.showLeaveSettingsModal}}
+    {{#if this.showUnsavedChangesModal}}
         <GhFullscreenModal
             @modal="leave-settings"
-            @confirm={{this.confirmLeave}}
-            @close={{this.cancelLeave}}
-            @modifier="action wide"
-        />
+            @confirm={{this.leaveScreen}}
+            @close={{this.toggleUnsavedChangesModal}}
+            @modifier="action wide" />
     {{/if}}
 </section>

@@ -29,12 +29,35 @@ export default class ProductController extends Controller {
         return (this.product.stripePrices || []).length;
     }
 
-    leaveRoute(transition) {
-        if (this.settings.get('hasDirtyAttributes')) {
-            transition.abort();
-            this.leaveSettingsTransition = transition;
-            this.showLeaveSettingsModal = true;
+    @action
+    toggleUnsavedChangesModal(transition) {
+        let leaveTransition = this.leaveScreenTransition;
+
+        if (!transition && this.showUnsavedChangesModal) {
+            this.leaveScreenTransition = null;
+            this.showUnsavedChangesModal = false;
+            return;
         }
+
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.leaveScreenTransition = transition;
+
+            // if a save is running, wait for it to finish then transition
+            if (this.saveTask.isRunning) {
+                return this.saveTask.last.then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.showUnsavedChangesModal = true;
+        }
+    }
+
+    @action
+    leaveScreen() {
+        this.product.rollbackAttributes();
+        return this.leaveScreenTransition.retry();
     }
 
     @action
@@ -60,6 +83,11 @@ export default class ProductController extends Controller {
     cancelLeave() {
         this.showLeaveSettingsModal = false;
         this.leaveSettingsTransition = null;
+    }
+
+    @action
+    save() {
+        return this.saveTask.perform();
     }
 
     @action
