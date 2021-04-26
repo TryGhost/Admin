@@ -1,6 +1,7 @@
 import ModalBase from 'ghost-admin/components/modal-base';
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
+import {currencies} from 'ghost-admin/utils/currency';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
 
@@ -8,13 +9,41 @@ import {tracked} from '@glimmer/tracking';
 @classic
 export default class ModalProductPrice extends ModalBase {
     @tracked model;
-    @tracked scratchNickname;
+    @tracked price;
+    @tracked currencyVal;
+    @tracked periodVal;
 
     init() {
         super.init(...arguments);
         this.price = {
             ...(this.model.price || {})
         };
+        this.topCurrencies = currencies.slice(0, 5).map((currency) => {
+            return {
+                value: currency.isoCode.toLowerCase(),
+                label: `${currency.isoCode} - ${currency.name}`,
+                isoCode: currency.isoCode
+            };
+        });
+        this.currencies = currencies.slice(5, currencies.length).map((currency) => {
+            return {
+                value: currency.isoCode.toLowerCase(),
+                label: `${currency.isoCode} - ${currency.name}`,
+                isoCode: currency.isoCode
+            };
+        });
+        this.allCurrencies = [
+            {
+                groupName: '—',
+                options: this.get('topCurrencies')
+            },
+            {
+                groupName: '—',
+                options: this.get('currencies')
+            }  
+        ];
+        this.currencyVal = this.price.currency || 'usd';
+        this.periodVal = this.price.interval || 'month';
     }
 
     get title() {
@@ -26,6 +55,14 @@ export default class ModalProductPrice extends ModalBase {
 
     get isExistingPrice() {
         return !!this.model.price;
+    }
+
+    get currency() {
+        return this.price.currency || 'usd';
+    }
+
+    get selectedCurrencyObj() {
+        return this.currencies.findBy('value', this.price.currency) || this.topCurrencies.findBy('value', this.price.currency);
     }
 
     // TODO: rename to confirm() when modals have full Glimmer support
@@ -68,11 +105,16 @@ export default class ModalProductPrice extends ModalBase {
         },
         updatePeriod(oldPeriod, newPeriod) {
             this.price.interval = newPeriod;
+            this.periodVal = newPeriod;
         },
         setAmount(amount) {
             this.price.amount = !isNaN(amount) ? parseInt(amount) : 0;
         },
 
+        setCurrency(currency) {
+            this.price.currency = currency.value;
+            this.currencyVal = currency.value;
+        },
         // needed because ModalBase uses .send() for keyboard events
         closeModal() {
             this.close();
