@@ -150,6 +150,16 @@
                     <li class="gh-list-row header empty">
                         <div class="gh-list-header"></div>
                     </li>
+                    {{#unless this.products}}
+                    <li class="gh-list-row">
+                        <div class="gh-list-data gh-cp-memberproduct-noproduct">
+                            <div class="mb2">This member doesn't have any products.</div>
+                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action (toggle "showMemberProductModal" this)}}>
+                                <span>{{svg-jar "add"}} Add product</span>
+                            </button>
+                        </div>
+                    </li>
+                    {{/unless}}
                     {{#each this.products as |product|}}
                         <li class="gh-list-row">
                             <div class="gh-list-data gh-cp-memberproduct-title">
@@ -196,13 +206,15 @@
                             </div>
                         </li>
                     {{/each}}
+                    {{#if this.products}}
                     <tr class="gh-list-row gh-memberproduct-add-product">
                         <td colspan="2" class="gh-list-data">
-                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon" {{action (toggle "showMemberProductModal" this)}}>
+                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action (toggle "showMemberProductModal" this)}}>
                                 <span>{{svg-jar "add"}} Add product</span>
                             </button>
                         </td>
                     </tr>
+                    {{/if}}
                 </ol>
             </div>
         </div>

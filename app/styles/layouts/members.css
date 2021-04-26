@@ -1676,7 +1676,7 @@ p.gh-members-import-errordetail:first-of-type {
     padding: 12px 0;
 }
 
-.gh-memberproduct-add-product .gh-btn svg path {
+.gh-btn-addproduct svg path {
     fill: var(--green);
 }
 
@@ -1699,4 +1699,13 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-member-product-memberdetails p {
     margin: 0;
+}
+
+.gh-cp-memberproduct-noproduct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--midgrey);
+    padding: 48px 0;
 }
