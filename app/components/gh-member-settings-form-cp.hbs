@@ -181,7 +181,7 @@
                                                     View on Stripe
                                                 </a>
                                                 {{#if sub.cancel_at_period_end}}
-                                                    <button class="gh-btn gh-btn-link gh-btn-text green">
+                                                    <button class="gh-btn gh-btn-link gh-btn-text green" {{action "continueSubscription" sub.id}}>
                                                         <span>Continue subscription</span>
                                                     </button>
                                                 {{else}}
