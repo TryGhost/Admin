@@ -190,6 +190,7 @@
                                                 <a href="https://dashboard.stripe.com/subscriptions/{{sub.id}}" target="_blank" rel="noopener">
                                                     View on Stripe
                                                 </a>
+                                                <span class="ml1 mr1 dib">&ndash;</span>
                                                 {{#if sub.cancel_at_period_end}}
                                                     <button class="gh-btn gh-btn-link gh-btn-text green" {{action "continueSubscription" sub.id}}>
                                                         <span>Continue subscription</span>

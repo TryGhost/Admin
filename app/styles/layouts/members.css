@@ -1552,7 +1552,7 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-cp-table .gh-member-stripe-label {
-    width: 150px;
+    width: 40px;
     color: var(--middarkgrey);
 }
 
@@ -1646,10 +1646,6 @@ p.gh-members-import-errordetail:first-of-type {
 .gh-cp-memberproduct-showmore .details .actions {
     display: flex;
     margin-top: 3px;
-}
-
-.gh-cp-memberproduct-showmore .details .actions button {
-    margin-left: 16px;
 }
 
 .gh-cp-memberproduct-showmore .details .actions button span {
