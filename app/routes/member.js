@@ -26,7 +26,7 @@ export default class MembersRoute extends AuthenticatedRoute {
     }
 
     model(params) {
-        this._requiresBackgroundRefresh = true;
+        this._requiresBackgroundRefresh = false;
 
         if (params.member_id) {
             return this.store.queryRecord('member', {id: params.member_id, include: 'email_recipients,products'});
