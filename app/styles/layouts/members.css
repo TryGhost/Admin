@@ -627,6 +627,8 @@ textarea.gh-member-details-textarea {
 
 .gh-new-member-avatar {
     background: var(--midlightgrey-l1);
+    width: 81px;
+    height: 81px;
 }
 
 .gh-member-cancels-on-label {
