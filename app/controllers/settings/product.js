@@ -10,6 +10,7 @@ export default class ProductController extends Controller {
     @tracked showLeaveSettingsModal = false;
     @tracked showPriceModal = false;
     @tracked priceModel = null;
+    @tracked showUnsavedChangesModal = false;
 
     get product() {
         return this.model;
