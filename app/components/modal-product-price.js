@@ -48,6 +48,12 @@ export default class ModalProductPrice extends ModalBase {
                 ...this.price,
                 amount: (this.price.amount || 0) * 100
             };
+            if (!priceObj.id) {
+                priceObj.active = 1;
+                priceObj.currency = priceObj.currency || 'usd';
+                priceObj.interval = priceObj.interval || 'month';
+                priceObj.type = 'recurring';
+            }
             yield this.confirm(priceObj);
         } catch (error) {
             this.notifications.showAPIError(error, {key: 'price.save.failed'});
@@ -59,6 +65,12 @@ export default class ModalProductPrice extends ModalBase {
     actions = {
         confirm() {
             this.confirmAction(...arguments);
+        },
+        updatePeriod(oldPeriod, newPeriod) {
+            this.price.interval = newPeriod;
+        },
+        setAmount(amount) {
+            this.price.amount = !isNaN(amount) ? parseInt(amount) : 0;
         },
 
         // needed because ModalBase uses .send() for keyboard events

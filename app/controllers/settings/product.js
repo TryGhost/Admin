@@ -98,6 +98,9 @@ export default class ProductController extends Controller {
             }
             return d;
         });
+        if (!price.id) {
+            stripePrices.push(EmberObject.create(price));
+        }
         this.product.set('stripePrices', stripePrices);
         this.saveTask.perform();
     }

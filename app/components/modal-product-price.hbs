@@ -32,7 +32,11 @@
             <div class="gh-product-priceform-period">
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="billing-period">
                     <label for="billing-period" class="fw6">Billing period</label>
-                    <GhProductsPriceBillingperiod @triggerId="period-input" @value={{this.price.interval}} @disabled={{this.isExistingPrice}} />
+                    <GhProductsPriceBillingperiod 
+                        @updatePeriod={{action "updatePeriod"}}
+                        @triggerId="period-input" 
+                        @value={{this.price.interval}} @disabled={{this.isExistingPrice}} 
+                    />
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="price">
                     <label for="price" class="fw6">Price</label>
@@ -41,6 +45,7 @@
                             @value={{this.price.amount}}
                             @type="number"
                             @disabled={{this.isExistingPrice}}
+                            @input={{action "setAmount" value="target.value"}}
                             {{!-- @input={{action (mut this._scratchStripeMonthlyAmount) value="target.value"}} --}}
                             {{!-- @focus-out={{action "validateStripePlans"}} --}}
                         />
