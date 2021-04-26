@@ -38,6 +38,7 @@
                         options=(readonly this.allCurrencies)
                         optionValuePath="value"
                         optionLabelPath="label"
+                        disabled=this.isExistingPrice
                         update=(action "setCurrency")
                     }}
                     {{svg-jar "arrow-down-small"}}
