@@ -16,6 +16,20 @@
                     @remove={{action "clearCoverImage"}}
                 />
                 <form>
+
+                <div class="form-group">
+                    <label for="feature-image-alt">Image Alt Text</label>
+                    <GhTextInput
+                        @class="post-setting-feature-image-alt"
+                        @id="feature-image-alt"
+                        @name="post-setting-feature-image-alt"
+                        @value={{readonly this.featureImageAltScratch}}
+                        @input={{action (mut this.featureImageAltScratch) value="target.value"}}
+                        @focus-out={{action "setFeatureImageAlt" this.featureImageAltScratch}}
+                        @stopEnterKeyDownPropagation={{true}}
+                        data-test-field="feature-image-alt" />           
+                </div>
+
                 <div class="form-group">
                     <label for="url">{{capitalize this.post.displayName}} URL</label>
                     {{!-- new posts don't have a preview link --}}

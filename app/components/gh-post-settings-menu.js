@@ -26,6 +26,7 @@ export default Component.extend(SettingsMenuMixin, {
     customExcerptScratch: alias('post.customExcerptScratch'),
     codeinjectionFootScratch: alias('post.codeinjectionFootScratch'),
     codeinjectionHeadScratch: alias('post.codeinjectionHeadScratch'),
+    featureImageAltScratch: alias('post.featureImageAltScratch'),
     metaDescriptionScratch: alias('post.metaDescriptionScratch'),
     metaTitleScratch: alias('post.metaTitleScratch'),
     ogDescriptionScratch: alias('post.ogDescriptionScratch'),
@@ -190,6 +191,29 @@ export default Component.extend(SettingsMenuMixin, {
             post.set('codeinjectionFoot', code);
 
             return post.validate({property: 'codeinjectionFoot'}).then(() => this.savePost.perform());
+        },
+
+        setFeatureImageAlt(featureImageAlt) {
+            // Grab the post and current stored feature image alt text
+            let post = this.post;
+            let currentFeatureImageAlt = post.get('featureImageAlt');
+
+            // If the alt text entered matches the stored alt text, do nothing
+            if (currentFeatureImageAlt === featureImageAlt) {
+                return;
+            }
+
+            // If the alt text entered is different, set it as the new alt text
+            post.set('featureImageAlt', featureImageAlt);
+
+            // Make sure the alt text is valid and if so, save it into the post
+            return post.validate({property: 'featureImageAlt'}).then(() => {
+                if (post.get('isNew')) {
+                    return;
+                }
+
+                return this.savePost.perform();
+            });
         },
 
         setMetaTitle(metaTitle) {
