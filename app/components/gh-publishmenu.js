@@ -54,8 +54,8 @@ export default Component.extend({
 
     hasEmailPermission: or('session.user.isOwner', 'session.user.isAdmin', 'session.user.isEditor'),
 
-    canSendEmail: computed('hasEmailPermission', 'post.{isPost,email}', 'settings.{defaultEmailRecipients,membersSignupAccess,mailgunIsConfigured}', 'config.mailgunIsConfigured', function () {
-        let isDisabled = this.settings.get('defaultEmailRecipients') === 'disabled' || this.settings.get('membersSignupAccess') === 'none';
+    canSendEmail: computed('hasEmailPermission', 'post.{isPost,email}', 'settings.{editorDefaultEmailRecipients,membersSignupAccess,mailgunIsConfigured}', 'config.mailgunIsConfigured', function () {
+        let isDisabled = this.settings.get('editorDefaultEmailRecipients') === 'disabled' || this.settings.get('membersSignupAccess') === 'none';
         let mailgunIsConfigured = this.settings.get('mailgunIsConfigured') || this.config.get('mailgunIsConfigured');
         let isPost = this.post.isPost;
         let hasSentEmail = !!this.post.email;
@@ -154,8 +154,8 @@ export default Component.extend({
         return buttonText;
     }),
 
-    defaultEmailRecipients: computed('settings.{defaultEmailRecipients,defaultEmailRecipientsSegment}', 'post.visibility', function () {
-        const defaultEmailRecipients = this.settings.get('defaultEmailRecipients');
+    defaultEmailRecipients: computed('settings.{editorDefaultEmailRecipients,editorDefaultEmailRecipientsFilter}', 'post.visibility', function () {
+        const defaultEmailRecipients = this.settings.get('editorDefaultEmailRecipients');
 
         if (defaultEmailRecipients === 'disabled' || defaultEmailRecipients === 'none') {
             return 'none';
@@ -171,7 +171,7 @@ export default Component.extend({
             }
         }
 
-        return MEMBERS_SEGMENT_MAP.findBy('segment', this.settings.get('defaultEmailRecipientsSegment')).name;
+        return MEMBERS_SEGMENT_MAP.findBy('segment', this.settings.get('editorDefaultEmailRecipientsFilter')).name;
     }),
 
     didReceiveAttrs() {

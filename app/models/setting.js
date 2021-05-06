@@ -54,8 +54,6 @@ export default Model.extend(ValidationEngine, {
      */
     membersSignupAccess: attr('string'),
     defaultContentVisibility: attr('string'),
-    defaultEmailRecipients: attr('string'),
-    defaultEmailRecipientsSegment: attr('string'),
     membersFromAddress: attr('string'),
     membersSupportAddress: attr('string'),
     membersReplyAddress: attr('string'),
@@ -83,6 +81,11 @@ export default Model.extend(ValidationEngine, {
      */
     oauthClientId: attr('string'),
     oauthClientSecret: attr('string'),
+    /**
+     * Editor settings
+     */
+    editorDefaultEmailRecipients: attr('string'),
+    editorDefaultEmailRecipientsFilter: attr('members-segment-string'),
 
     mailgunIsConfigured: and('mailgunApiKey', 'mailgunDomain', 'mailgunBaseUrl')
 });
