@@ -8,37 +8,56 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
 
     @tracked segmentSelected = false;
 
+    get isDisabled() {
+        return this.settings.get('membersSignupAccess') === 'none';
+    }
+
+    get isDisabledSelected() {
+        return this.isDisabled ||
+            this.settings.get('defaultEmailRecipients') === 'disabled';
+    }
+
+    get isVisibilitySelected() {
+        return !this.isDisabled &&
+            this.settings.get('defaultEmailRecipients') === 'visibility';
+    }
+
     get isNobodySelected() {
-        return !this.segmentSelected &&
+        return !this.isDisabled &&
+            !this.segmentSelected &&
             this.settings.get('defaultEmailRecipients') === 'segment' &&
             this.settings.get('defaultEmailRecipientsSegment') === null;
     }
 
     get isAllSelected() {
-        return !this.segmentSelected &&
+        return !this.isDisabled &&
+            !this.segmentSelected &&
             this.settings.get('defaultEmailRecipients') === 'segment' &&
             this.settings.get('defaultEmailRecipientsSegment') === 'status:free,status:-free';
     }
 
     get isFreeSelected() {
-        return !this.segmentSelected &&
+        return !this.isDisabled &&
+            !this.segmentSelected &&
             this.settings.get('defaultEmailRecipients') === 'segment' &&
             this.settings.get('defaultEmailRecipientsSegment') === 'status:free';
     }
 
     get isPaidSelected() {
-        return !this.segmentSelected &&
+        return !this.isDisabled &&
+            !this.segmentSelected &&
             this.settings.get('defaultEmailRecipients') === 'segment' &&
             this.settings.get('defaultEmailRecipientsSegment') === 'status:-free';
     }
 
     get isSegmentSelected() {
-        return this.segmentSelected ||
-            (this.settings.get('defaultEmailRecipients') === 'segment' &&
+        const isCustomSegment = this.settings.get('defaultEmailRecipients') === 'segment' &&
             !this.isNobodySelected &&
             !this.isAllSelected &&
             !this.isFreeSelected &&
-            !this.isPaidSelected);
+            !this.isPaidSelected;
+
+        return !this.isDisabled && (this.segmentSelected || isCustomSegment);
     }
 
     @action

@@ -9,9 +9,9 @@
     <div class="gh-expandable-content">
         {{#liquid-if @expanded}}
         <div class="flex flex-column w-50">
-            <div class="{{if (eq this.settings.membersSignupAccess "none") "disabled-overlay"}}">
+            <div class="{{if this.isDisabled "disabled-overlay"}}">
                 <div
-                    class="gh-radio {{if (eq this.settings.defaultEmailRecipients "disabled") "active"}}"
+                    class="gh-radio {{if this.isDisabledSelected "active"}}"
                     {{on "click" (fn this.setDefaultEmailRecipients "disabled")}}
                 >
                     <div class="gh-radio-button"></div>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div
-                    class="gh-radio {{if (eq this.settings.defaultEmailRecipients "visibility") "active"}}"
+                    class="gh-radio {{if this.isVisibilitySelected "active"}}"
                     {{on "click" (fn this.setDefaultEmailRecipients "visibility")}}
                 >
                     <div class="gh-radio-button"></div>
