@@ -50,12 +50,10 @@ export default class GhMembersSegmentSelect extends Component {
         const options = yield [{
             name: 'Free members',
             segment: 'status:free',
-            count: 0, // TODO: fetch count
             class: 'segment-status'
         }, {
             name: 'Paid members',
             segment: 'status:-free', // paid & comped
-            count: 0, // TODO: fetch count
             class: 'segment-status'
         }];
 
