@@ -1,17 +1,17 @@
 import moment from 'moment';
-import { Response } from 'ember-cli-mirage';
-import { paginateModelCollection } from '../utils';
+import {Response} from 'ember-cli-mirage';
+import {paginateModelCollection} from '../utils';
 
 export default function mockPosts(server) {
-    server.post('/products', function ({ products }) {
+    server.post('/products', function ({products}) {
         let attrs = this.normalizedRequestAttrs();
 
         return products.create(attrs);
     });
 
     // TODO: handle authors filter
-    server.get('/products/', function ({ products }, { queryParams }) {
-        let { page, limit } = queryParams;
+    server.get('/products/', function ({products}, {queryParams}) {
+        let {page, limit} = queryParams;
 
         page = +page || 1;
         limit = +limit || 15;
@@ -24,8 +24,8 @@ export default function mockPosts(server) {
         return paginateModelCollection('products', collection, page, limit);
     });
 
-    server.get('/products/:id/', function ({ products }, { params }) {
-        let { id } = params;
+    server.get('/products/:id/', function ({products}, {params}) {
+        let {id} = params;
         let product = products.find(id);
 
         return product || new Response(404, {}, {
@@ -36,7 +36,7 @@ export default function mockPosts(server) {
         });
     });
 
-    server.put('/products/:id/', function ({ products }, { params }) {
+    server.put('/products/:id/', function ({products}, {params}) {
         let attrs = this.normalizedRequestAttrs();
         let product = products.find(params.id);
 
