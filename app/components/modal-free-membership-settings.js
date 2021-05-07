@@ -52,7 +52,7 @@ export default class ModalFreeMembershipSettings extends ModalBase {
             }
             yield this.settings.save();
             this.send('closeModal');
-        } catch (e) {
+        } catch (error) {
             this.notifications.showAPIError(error, {key: 'settings.save'});
         } finally {
             this.send('closeModal');
