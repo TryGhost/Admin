@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
 import {currencies} from 'ghost-admin/utils/currency';
+import envConfig from 'ghost-admin/config/environment';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -258,5 +259,11 @@ export default Component.extend({
 
     get testStripeConnectAuthUrl() {
         return this.ghostPaths.url.api('members/stripe_connect') + '?mode=test';
+    },
+
+    get isConnectAllowed() {
+        const siteUrl = this.config.get('blogUrl');
+
+        return !(envConfig.environment !== 'development' && !/^https:/.test(siteUrl));
     }
 });

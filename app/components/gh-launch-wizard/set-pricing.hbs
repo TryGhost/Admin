@@ -1,5 +1,8 @@
 <div class="gh-launch-wizard-settings-container">
-    {{#if this.isHidden}}
+    {{#if this.isConnectDisallowed}}
+        <h4 class="gh-setting-title">SSL Warning</h4>
+        <p>Your site is running without SSL. You can only use Ghost subscriptions with SSL.</p>
+    {{else if this.isHidden}}
         <h4 class="gh-setting-title">Subscriptions already set</h4>
         <p>You can change product subscription pricing and Portal look and feel in Settings.</p>
     {{else}}
