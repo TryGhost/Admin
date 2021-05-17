@@ -1,7 +1,7 @@
 import Component from '@ember/component';
+import envConfig from 'ghost-admin/config/environment';
 import {computed} from '@ember/object';
 import {currencies} from 'ghost-admin/utils/currency';
-import envConfig from 'ghost-admin/config/environment';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
