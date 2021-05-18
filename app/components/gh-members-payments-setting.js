@@ -259,11 +259,5 @@ export default Component.extend({
 
     get testStripeConnectAuthUrl() {
         return this.ghostPaths.url.api('members/stripe_connect') + '?mode=test';
-    },
-
-    get isConnectAllowed() {
-        const siteUrl = this.config.get('blogUrl');
-
-        return !(envConfig.environment !== 'development' && !/^https:/.test(siteUrl));
     }
 });
