@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import envConfig from 'ghost-admin/config/environment';
 import {computed} from '@ember/object';
 import {currencies} from 'ghost-admin/utils/currency';
 import {reads} from '@ember/object/computed';
