@@ -90,6 +90,11 @@
     border-radius: 3px;
 }
 
+.gh-launch-wizard-settings-container .gh-setting-nossl-container svg {
+    width: 48px;
+    height: 48px;
+}
+
 
 /* Connect Stripe settings */
 .gh-launch-wizard-stripe-info {
