@@ -1746,3 +1746,26 @@ p.theme-validation-details {
         width: 100%;
     }
 }
+.gh-setting-nossl-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    text-align: center;
+}
+
+.gh-setting-nossl-container svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.gh-setting-nossl-container svg path,
+.gh-setting-nossl-container svg rect,
+.gh-setting-nossl-container svg circle {
+    stroke-width: 1.2px;
+}
+
+.gh-setting-nossl-container p {
+    margin: 8px 0 0;
+}

@@ -85,6 +85,11 @@
     line-height: 0;
 }
 
+.gh-launch-wizard-settings-container .gh-setting-nossl-container {
+    border: 1px solid var(--whitegrey);
+    border-radius: 3px;
+}
+
 
 /* Connect Stripe settings */
 .gh-launch-wizard-stripe-info {
