@@ -715,6 +715,36 @@ textarea.gh-member-details-textarea {
     background: var(--red);
 }
 
+.gh-members-no-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 32px 0;
+}
+
+.gh-members-no-stats svg {
+    width: 76px;
+    margin-bottom: 8px;
+}
+
+.gh-members-no-stats svg path,
+.gh-members-no-stats svg rect {
+    stroke-width: 0.8px;
+}
+
+.gh-members-no-stats h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--middarkgrey);
+}
+
+.gh-members-no-stats p {
+    font-size: 1.3rem;
+    margin: 4px 20px 0;
+    color: var(--midgrey);
+}
+
 .gh-member-feed {
     margin: -12px 0 -8px;
 }
