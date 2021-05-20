@@ -715,7 +715,7 @@ textarea.gh-member-details-textarea {
     background: var(--red);
 }
 
-.gh-members-no-stats {
+.gh-members-no-data {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -723,26 +723,35 @@ textarea.gh-member-details-textarea {
     margin: 32px 0;
 }
 
-.gh-members-no-stats svg {
+.gh-members-no-data svg {
     width: 76px;
+    height: auto;
     margin-bottom: 8px;
 }
 
-.gh-members-no-stats svg path,
-.gh-members-no-stats svg rect {
+.gh-members-no-data svg path,
+.gh-members-no-data svg rect {
     stroke-width: 0.8px;
 }
 
-.gh-members-no-stats h4 {
+.gh-members-no-data h4 {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--middarkgrey);
 }
 
-.gh-members-no-stats p {
+.gh-members-no-data p {
     font-size: 1.3rem;
     margin: 4px 20px 0;
     color: var(--midgrey);
+}
+
+.gh-members-no-list h4 {
+    margin-top: 8px;
+}
+
+.gh-members-no-list svg path {
+    stroke-width: 1px;
 }
 
 .gh-member-feed {
