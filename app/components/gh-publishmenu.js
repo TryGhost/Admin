@@ -201,7 +201,6 @@ export default Component.extend({
         },
 
         setSendEmailWhenPublished(sendEmailWhenPublished) {
-            console.log({setSendEmailWhenPublished: sendEmailWhenPublished});
             this.set('sendEmailWhenPublished', sendEmailWhenPublished);
         },
 
