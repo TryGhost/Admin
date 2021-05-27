@@ -249,6 +249,11 @@ export default class MembersAccessController extends Controller {
 
         if (!this.portalMessageListener) {
             this.portalMessageListener = (event) => {
+                // don't resize membership portal preview when events fire in customize portal modal
+                if (this.showPortalSettings) {
+                    return;
+                }
+
                 const resizeEvents = ['portal-ready', 'portal-preview-updated'];
                 if (resizeEvents.includes(event.data.type) && event.data.payload?.height) {
                     this.portalPreviewIframe.parentNode.style.height = `${event.data.payload.height}px`;
