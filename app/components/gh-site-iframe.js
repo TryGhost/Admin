@@ -66,7 +66,7 @@ export default class GhSiteIframeComponent extends Component {
                 const originURL = new URL(event.origin);
 
                 if (originURL.origin === srcURL.origin) {
-                    if (event.data === this.args.invisibleUntilLoaded) {
+                    if (event.data === this.args.invisibleUntilLoaded || event.data.type === this.args.invisibleUntilLoaded) {
                         this.makeVisible.perform();
                     }
                 }
