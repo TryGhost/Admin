@@ -62,6 +62,10 @@ export default class GhSiteIframeComponent extends Component {
     attachMessageListener() {
         if (typeof this.args.invisibleUntilLoaded === 'string') {
             this.messageListener = (event) => {
+                if (this.isDestroying || this.isDestroyed) {
+                    return;
+                }
+
                 const srcURL = new URL(this.srcUrl);
                 const originURL = new URL(event.origin);
 
