@@ -245,11 +245,13 @@ export default class MembersAccessController extends Controller {
 
     @action
     portalPreviewInserted(iframe) {
+        this.portalPreviewIframe = iframe;
+
         if (!this.portalMessageListener) {
             this.portalMessageListener = (event) => {
                 const resizeEvents = ['portal-ready', 'portal-preview-updated'];
                 if (resizeEvents.includes(event.data.type) && event.data.payload?.height) {
-                    iframe.parentNode.style.height = `${event.data.payload.height}px`;
+                    this.portalPreviewIframe.parentNode.style.height = `${event.data.payload.height}px`;
                 }
             };
 
@@ -259,6 +261,8 @@ export default class MembersAccessController extends Controller {
 
     @action
     portalPreviewDestroyed() {
+        this.portalPreviewIframe = null;
+
         if (this.portalMessageListener) {
             window.removeEventListener('message', this.portalMessageListener);
         }
