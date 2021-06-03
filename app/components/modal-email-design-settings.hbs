@@ -29,13 +29,14 @@
                     <div class="modal-fullsettings-section first">
                         <GhFormGroup>
                             <h4 class="modal-fullsettings-title">Show publication icon</h4>
-                            <div class="for-switch small">
+                            <div class="for-switch small {{if (not this.settings.icon) "disabled"}}">
                                 <label class="switch" for="show-header">
                                     <input
                                         type="checkbox"
-                                        checked={{this.showHeaderIcon}}
+                                        checked={{and this.showHeaderIcon this.settings.icon}}
                                         id="show-header"
                                         name="show-header"
+                                        disabled={{not this.settings.icon}}
                                         {{on "click" (fn this.toggleSetting "showHeaderIcon")}}
                                     >
                                     <span class="input-toggle-component"></span>

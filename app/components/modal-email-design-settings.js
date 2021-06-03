@@ -25,7 +25,7 @@ export default class ModalEmailDesignSettings extends ModalComponent {
     currentDate = moment().format('D MMM YYYY');
 
     get showHeader() {
-        return this.showHeaderIcon || this.showHeaderTitle;
+        return (this.showHeaderIcon && this.settings.get('icon')) || this.showHeaderTitle;
     }
 
     get featureImageUrl() {
