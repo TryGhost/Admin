@@ -1,17 +1,21 @@
 <header class="gh-publishmenu-heading">Ready to publish your {{this.post.displayName}}?</header>
 <section class="gh-publishmenu-content">
-    <div class="gh-publishmenu-section">
+    <div role="radiogroup" aria-labelledby="note-publish-rg" class="gh-publishmenu-section">
         <div class="gh-publishmenu-radio {{if (eq this.saveType "publish") "active"}}" {{action "setSaveType" "publish" on="click"}}>
-            <div class="gh-publishmenu-radio-button" data-test-publishmenu-published-option></div>
+            <div class="gh-publishmenu-radio-button" data-test-publishmenu-published-option></div>            
             <div class="gh-publishmenu-radio-content">
-                <div class="gh-publishmenu-radio-label">Set it live now</div>
+                <div role="radio" tabindex="0" aria-checked={{if (eq this.saveType "publish") "true" "false"}} aria-labelledby="set-it-live-now" class="gh-publishmenu-radio-label">
+                    Set it live now
+                </div>
                 <div class="gh-publishmenu-radio-desc">Publish this {{this.post.displayName}} immediately</div>
             </div>
         </div>
         <div class="gh-publishmenu-radio {{if (eq this.saveType "schedule") "active"}}" {{action "setSaveType" "schedule" on="click"}}>
             <div class="gh-publishmenu-radio-button" data-test-publishmenu-scheduled-option></div>
             <div class="gh-publishmenu-radio-content">
-                <div class="gh-publishmenu-radio-label">Schedule it for later</div>
+                <div role="radio" tabindex="-1" aria-checked={{if (eq this.saveType "schedule") "true" "false"}} aria-labelledby="scheduled-for-later" class="gh-publishmenu-radio-label">
+                    Schedule it for later
+                </div>
                 <GhDateTimePicker
                     @date={{this.post.publishedAtBlogDate}}
                     @time={{this.post.publishedAtBlogTime}}
