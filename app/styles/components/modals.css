@@ -227,7 +227,7 @@
 }
 
 
-/* Full screen setting modal with preview. Used in e.g. Portal 
+/* Full screen setting modal with preview. Used in e.g. Portal
 /* settings, Email design settings etc.
 /* ---------------------------------------------------------- */
 .modal-fullsettings {
@@ -240,6 +240,7 @@
     display: flex;
     padding: 0;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 .modal-fullsettings-body .form-group.space-l {
@@ -265,6 +266,7 @@
     flex-direction: column;
     padding: 0px 24px 20px;
     width: 362px;
+    overflow-y: auto;
 }
 
 .modal-fullsettings-sidebar.with-footer {
@@ -274,10 +276,12 @@
 .modal-fullsettings-topbar {
     height: 66px;
     padding: 0 24px;
+    border-bottom: 1px solid var(--whitegrey);
 }
 
 .modal-fullsettings-heading {
     display: flex;
+    height: 66px;
     align-items: center;
     font-size: 1.9rem;
     font-weight: 600;
@@ -317,7 +321,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    margin-bottom: 0;
+    margin-bottom: 16px;
 }
 
 .modal-fullsettings-section .form-group > p {
@@ -376,13 +380,13 @@
 .modal-fullsettings-preview-container {
     overflow: hidden;
     background: var(--whitegrey-l1);
-    height: calc(100vh - 126px);
+    height: 100vh;
     overflow-y: scroll;
 }
 
 .modal-fullsettings-preview-hidescrollbar {
     overflow: hidden;
-    height: calc(100vh - 126px);
+    height: 100vh;
     background: var(--whitegrey-l1);
     border: 1px solid var(--whitegrey);
     border-radius: 5px;
