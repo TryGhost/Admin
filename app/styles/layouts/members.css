@@ -1215,9 +1215,13 @@ p.gh-members-import-errordetail:first-of-type {
     display: block;
     font-size: 3.2rem;
     margin-right: 10px;
-    font-weight: 600;
+    font-weight: 400;
     width: 44px;
     text-align: center;
+}
+
+.gh-email-design-typography .gh-radio-label .sample.title {
+    font-weight: 600;
 }
 
 .gh-email-design-typography .gh-radio-label .description h4 {
@@ -1253,7 +1257,7 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-members-emailsettings-footer-input p {
     height: 108px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .gh-members-emailsettings-footer-input p {
@@ -1263,8 +1267,7 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-members-emailsettings-footer {
-    padding-top: 20px;
-    margin-bottom: 4px;
+    margin: 0px -24px 4px;
 }
 
 .gh-members-emailsettings-footer .form-group {
