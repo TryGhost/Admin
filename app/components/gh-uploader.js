@@ -122,11 +122,11 @@ export default Component.extend({
 
         triggerFileDialog() {
             if (!this.fileInput) {
+                // eslint-disable-next-line
                 console.error('When using uploader.triggerFileDialog you must call uploader.registerFileInput first');
                 return;
             }
 
-            console.log(this.fileInput);
             this.fileInput.click();
         },
 
