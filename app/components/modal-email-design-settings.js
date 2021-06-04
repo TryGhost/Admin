@@ -45,18 +45,15 @@ export default class ModalEmailDesignSettings extends ModalComponent {
     }
 
     @action
-    setBodyFontCategory(value) {
-        this.bodyFontCategory = value;
+    changeSetting(setting, value) {
+        this[setting] = value;
     }
 
     @action
-    setTitleFontCategory(value) {
-        this.titleFontCategory = value;
-    }
-
-    @action
-    setFooterContent(value) {
-        this.footerContent = value;
+    imageUploaded(setting, images) {
+        if (images[0]) {
+            this[setting] = images[0].url;
+        }
     }
 
     @action

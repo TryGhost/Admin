@@ -1409,6 +1409,9 @@ p.gh-members-import-errordetail:first-of-type {
     align-items: center;
     padding: 50px 0 40px;
 }
+.gh-members-emailpreview-title-left {
+    align-items: flex-start;
+}
 
 .gh-members-emailpreview-title h2 {
     font-size: 4.2rem;
