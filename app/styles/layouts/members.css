@@ -1180,7 +1180,7 @@ p.gh-members-import-errordetail:first-of-type {
 
 /* Email newsletter design settings
 /* -------------------------------------------------------- */
-.gh-email-design-alignment {
+.labs-newsletter-settings .gh-email-design-alignment {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1193,25 +1193,34 @@ p.gh-members-import-errordetail:first-of-type {
     justify-content: space-between;
     margin: 0;
     padding: 0;
+    margin-bottom: 12px;
+}
+.labs-newsletter-settings .gh-email-design-typography .gh-radio {
     margin-bottom: 2px;
 }
 
 .gh-email-design-typography .gh-radio-content {
     border: 1px solid var(--whitegrey);
+    border-radius: 3px; /* labs-newsletter-settings - delete line when removing flag */
     margin: 0 -32px 0 0;
 }
+/* labs-newsletter-settings - delete all when removing flag */
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-content {
+    border-radius: inherit;
+}
+/* end delete all */
 
-.gh-email-design-typography .gh-radio-content.serif {
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-content.serif {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
 
-.gh-email-design-typography .gh-radio-content.sans-serif {
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-content.sans-serif {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
-.gh-email-design-typography .active {
+.labs-newsletter-settings .gh-email-design-typography .active {
     margin: 0 2px 2px;
 }
 
@@ -1220,7 +1229,7 @@ p.gh-members-import-errordetail:first-of-type {
     box-shadow: 0px 0px 0px 2px var(--green);
 }
 
-.gh-email-design-typography .active .gh-radio-label {
+.labs-newsletter-settings .gh-email-design-typography .active .gh-radio-label {
     margin: 0 -2px;
 }
 
@@ -1239,12 +1248,15 @@ p.gh-members-import-errordetail:first-of-type {
     display: block;
     font-size: 3.2rem;
     margin-right: 10px;
-    font-weight: 400;
+    font-weight: 600;
     width: 44px;
     text-align: center;
 }
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-label .sample {
+    font-weight: 400;
+}
 
-.gh-email-design-typography .gh-radio-label .sample.title {
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-label .sample.title {
     font-weight: 600;
 }
 
@@ -1255,7 +1267,8 @@ p.gh-members-import-errordetail:first-of-type {
     line-height: 1.4em;
 }
 
-.gh-email-design-typography .gh-radio-content.serif .description h4 {
+.gh-email-design-typography .gh-radio-label.serif .description h4,
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-content.serif .description h4 {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.3rem;
 }
@@ -1266,7 +1279,8 @@ p.gh-members-import-errordetail:first-of-type {
     padding: 0;
 }
 
-.gh-email-design-typography .gh-radio-content.serif .description p {
+.gh-email-design-typography .gh-radio-label.serif .description p,
+.labs-newsletter-settings .gh-email-design-typography .gh-radio-content.serif .description p {
     font-size: 1.25rem !important;
     margin: 0;
     padding: 0;
@@ -1291,6 +1305,11 @@ p.gh-members-import-errordetail:first-of-type {
 }
 
 .gh-members-emailsettings-footer {
+    padding-top: 20px;
+    margin-bottom: 4px;
+}
+.labs-newsletter-settings .gh-members-emailsettings-footer {
+    padding: inherit;
     margin: 0px -24px 4px;
 }
 
@@ -1433,7 +1452,7 @@ p.gh-members-import-errordetail:first-of-type {
     align-items: center;
     padding: 50px 0 40px;
 }
-.gh-members-emailpreview-title-left {
+.labs-newsletter-settings .gh-members-emailpreview-title-left {
     align-items: flex-start;
 }
 
@@ -1468,7 +1487,7 @@ p.gh-members-import-errordetail:first-of-type {
     color: #15212A;
 }
 
-.gh-members-emailpreview-featureimage {
+.labs-newsletter-settings .gh-members-emailpreview-featureimage {
     width: 100%;
     max-width: 600px;
     height: 300px;

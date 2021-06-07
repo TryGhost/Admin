@@ -1,59 +1,53 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import moment from 'moment';
 import {action} from '@ember/object';
-import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
 
 export default class ModalEmailDesignSettings extends ModalComponent {
-    @service config;
-    @service ghostPaths;
-    @service session;
-    @service settings;
+    @service()
+    settings;
 
-    @tracked headerImage = this.settings.get('newsletterHeaderImage');
-    @tracked showHeaderIcon = this.settings.get('newsletterShowHeaderIcon');
-    @tracked showHeaderTitle = this.settings.get('newsletterShowHeaderTitle');
-    @tracked titleFontCategory = this.settings.get('newsletterTitleFontCategory');
-    @tracked titleAlignment = this.settings.get('newsletterTitleAlignment');
-    @tracked showFeatureImage = this.settings.get('newsletterShowFeatureImage');
-    @tracked bodyFontCategory = this.settings.get('newsletterBodyFontCategory');
-    @tracked footerContent = this.settings.get('newsletterFooterContent');
-    @tracked showBadge = this.settings.get('newsletterShowBadge');
+    @service()
+    session;
 
+    @service()
+    config;
+
+    @tracked
+    showHeader = this.settings.get('newsletterShowHeader');
+
+    @tracked
+    bodyFontCategory = this.settings.get('newsletterBodyFontCategory');
+
+    @tracked
+    showBadge = this.settings.get('newsletterShowBadge');
+
+    @tracked
+    footerContent = this.settings.get('newsletterFooterContent');
+
+    @tracked
     currentDate = moment().format('D MMM YYYY');
 
-    get showHeader() {
-        return (this.showHeaderIcon && this.settings.get('icon')) || this.showHeaderTitle;
-    }
-
-    get featureImageUrl() {
-        // keep path separate so asset rewriting correctly picks it up
-        let imagePath = '/img/user-cover.png';
-        let fullPath = this.ghostPaths.assetRoot.replace(/\/$/, '') + imagePath;
-        return fullPath;
-    }
-
-    get featureImageStyle() {
-        return htmlSafe(`background-image: url(${this.featureImageUrl})`);
+    @action
+    setShowHeader(event) {
+        this.showHeader = event.target.checked;
     }
 
     @action
-    toggleSetting(setting, event) {
-        this[setting] = event.target.checked;
+    setBodyFontCategory(value) {
+        this.bodyFontCategory = value;
     }
 
     @action
-    changeSetting(setting, value) {
-        this[setting] = value;
+    setShowBadge(event) {
+        this.showBadge = event.target.checked;
     }
 
     @action
-    imageUploaded(setting, images) {
-        if (images[0]) {
-            this[setting] = images[0].url;
-        }
+    setFooterContent(value) {
+        this.footerContent = value;
     }
 
     @action
@@ -73,16 +67,18 @@ export default class ModalEmailDesignSettings extends ModalComponent {
 
     @task({drop: true})
     *saveSettings() {
-        this.settings.set('newsletterHeaderImage', this.headerImage);
-        this.settings.set('newsletterShowHeaderIcon', this.showHeaderIcon);
-        this.settings.set('newsletterShowHeaderTitle', this.showHeaderTitle);
-        this.settings.set('newsletterTitleFontCategory', this.titleFontCategory);
-        this.settings.set('newsletterTitleAlignment', this.titleAlignment);
-        this.settings.set('newsletterShowFeatureImage', this.showFeatureImage);
-        this.settings.set('newsletterBodyFontCategory', this.bodyFontCategory);
-        this.settings.set('newsletterFooterContent', this.footerContent);
-        this.settings.set('newsletterShowBadge', this.showBadge);
-
+        if (this.showHeader !== null) {
+            this.settings.set('newsletterShowHeader', this.showHeader);
+        }
+        if (this.bodyFontCategory !== null) {
+            this.settings.set('newsletterBodyFontCategory', this.bodyFontCategory);
+        }
+        if (this.showBadge !== null) {
+            this.settings.set('newsletterShowBadge', this.showBadge);
+        }
+        if (this.footerContent !== null) {
+            this.settings.set('newsletterFooterContent', this.footerContent);
+        }
         yield this.settings.save();
         this.closeModal();
     }

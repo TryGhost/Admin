@@ -76,6 +76,7 @@ export default Model.extend(ValidationEngine, {
     /**
     * Newsletter settings
     */
+    newsletterShowHeader: attr('boolean'),
     newsletterHeaderImage: attr('string'),
     newsletterShowHeaderIcon: attr('boolean'),
     newsletterShowHeaderTitle: attr('boolean'),
