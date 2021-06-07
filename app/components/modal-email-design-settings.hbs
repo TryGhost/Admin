@@ -27,30 +27,34 @@
             <div>
                 <fieldset class="modal-fullsettings-form">
                     <div class="modal-fullsettings-section first">
-                        <GhUploader
-                            @extensions={{uploader.imageExtensions}}
-                            @paramsHash={{hash purpose="image"}}
-                            @onComplete={{fn this.imageUploaded "headerImage"}}
-                            as |uploader|
-                        >
-                            <div class="flex">
-                                <div>
-                                     {{#if uploader.isUploading}}
+                        <GhFormGroup @classNames="vertical">
+                            <h4 class="modal-fullsettings-title">Header image</h4>
+
+                            <GhUploader
+                                @extensions={{uploader.imageExtensions}}
+                                @paramsHash={{hash purpose="image"}}
+                                @onComplete={{fn this.imageUploaded "headerImage"}}
+                                as |uploader|
+                            >
+                                <div class="modal-fullsettings-uploader">
+                                    {{#if uploader.isUploading}}
                                         <div class="gh-portal-button-icon">
                                             <div class="gh-loading-spinner"></div>
                                         </div>
                                     {{else if this.headerImage}}
-                                        <img
-                                            class="gh-portal-button-icon gh-portal-button-custom"
-                                            src={{this.headerImage}}
-                                            alt="header image"
-                                            data-test-img="header"
-                                        >
-                                        <button type="button" class="gh-btn gh-btn-hover-red gh-portal-button-deleteicon" {{on "click" (fn this.changeSetting "headerImage" null)}}>
-                                            <span> {{svg-jar "trash" class="w5 h5"}} </span>
-                                        </button>
+                                        <div class="gh-header-img-container">
+                                            <img
+                                                class="gh-header-img-thumbnail"
+                                                src={{this.headerImage}}
+                                                alt="header image"
+                                                data-test-img="header"
+                                            >
+                                            <button type="button" class="gh-btn gh-header-img-deleteicon" {{on "click" (fn this.changeSetting "headerImage" null)}}>
+                                                <span> {{svg-jar "trash" class="w5 h5"}} </span>
+                                            </button>
+                                        </div>
                                     {{else}}
-                                        <button type="button" class="gh-btn gh-portal-button-uploadicon" {{on "click" uploader.triggerFileDialog}} data-test-image-upload-btn="header-image">
+                                        <button type="button" class="gh-btn gh-header-img-uploadicon" data-tooltip="Upload image" {{on "click" uploader.triggerFileDialog}} data-test-image-upload-btn="header-image">
                                             <span>{{svg-jar "upload-fill" class="w5 h5"}}</span>
                                         </button>
                                         <div style="display:none">
@@ -62,13 +66,13 @@
                                                 data-test-file-input="icon" />
                                         </div>
                                     {{/if}}
+                                    <div>
+                                        <h4>An optional branded image</h4>
+                                        <p>For best result use 1200x600 PNG image</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4>An optional branded image</h4>
-                                    <p>For best result use 1200x600 PNG image</p>
-                                </div>
-                            </div>
-                        </GhUploader>
+                            </GhUploader>
+                        </GhFormGroup>
 
                         <GhFormGroup>
                             <h4 class="modal-fullsettings-title">Show publication icon</h4>
@@ -119,19 +123,19 @@
                             </div>
                         </GhFormGroup>
                         <GhFormGroup @classNames="vertical">
-                            <h4 class="modal-fullsettings-title flex justify-between">
+                            <h4 class="modal-fullsettings-title gh-email-design-alignment">
                                 <span>Post title style</span>
-                                <div class="gh-btn-group">
-                                    <button type="button" class="gh-btn gh-btn-icon {{if (eq this.titleAlignment "left") "gh-btn-group-selected"}}" {{on "click" (fn this.changeSetting "titleAlignment" "left")}}><span>{{svg-jar "cheeseburger"}}</span></button>
-                                    <button type="button" class="gh-btn gh-btn-icon {{if (eq this.titleAlignment "center") "gh-btn-group-selected"}}" {{on "click" (fn this.changeSetting "titleAlignment" "center")}}><span>{{svg-jar "cheeseburger"}}</span></button>
+                                <div class="gh-btn-group icons">
+                                    <button type="button" class="gh-btn gh-btn-icon {{if (eq this.titleAlignment "left") "gh-btn-group-selected"}}" {{on "click" (fn this.changeSetting "titleAlignment" "left")}}><span>{{svg-jar "align-left"}}</span></button>
+                                    <button type="button" class="gh-btn gh-btn-icon {{if (eq this.titleAlignment "center") "gh-btn-group-selected"}}" {{on "click" (fn this.changeSetting "titleAlignment" "center")}}><span>{{svg-jar "align-center"}}</span></button>
                                 </div>
                             </h4>
                             <div class="modal-fullsettings-radiogroup gh-email-design-typography">
                                 <div class="gh-radio {{if (eq this.titleFontCategory "serif") "active"}}"
                                     {{on "click" (fn this.changeSetting "titleFontCategory" "serif")}}
                                 >
-                                    <div class="gh-radio-content">
-                                        <div class="gh-radio-label serif">
+                                    <div class="gh-radio-content serif">
+                                        <div class="gh-radio-label">
                                             <span class="sample title">Aa</span>
                                             <div class="description">
                                                 <h4>Elegant serif</h4>
@@ -144,8 +148,8 @@
                                 <div class="gh-radio {{if (eq this.titleFontCategory "sans_serif") "active"}}"
                                     {{on "click" (fn this.changeSetting "titleFontCategory" "sans_serif")}}
                                 >
-                                    <div class="gh-radio-content">
-                                        <div class="gh-radio-label sans-serif">
+                                    <div class="gh-radio-content sans-serif">
+                                        <div class="gh-radio-label">
                                             <span class="sample title">Aa</span>
                                             <div class="description">
                                                 <h4>Clean sans-serif</h4>
@@ -166,8 +170,8 @@
                                 <div class="gh-radio {{if (eq this.bodyFontCategory "serif") "active"}}"
                                     {{on "click" (fn this.changeSetting "bodyFontCategory" "serif")}}
                                 >
-                                    <div class="gh-radio-content">
-                                        <div class="gh-radio-label serif">
+                                    <div class="gh-radio-content serif">
+                                        <div class="gh-radio-label">
                                             <span class="sample">Aa</span>
                                             <div class="description">
                                                 <h4>Elegant serif</h4>
@@ -180,8 +184,8 @@
                                 <div class="gh-radio {{if (eq this.bodyFontCategory "sans_serif") "active"}}"
                                     {{on "click" (fn this.changeSetting "bodyFontCategory" "sans_serif")}}
                                 >
-                                    <div class="gh-radio-content">
-                                        <div class="gh-radio-label sans-serif">
+                                    <div class="gh-radio-content sans-serif">
+                                        <div class="gh-radio-label">
                                             <span class="sample">Aa</span>
                                             <div class="description">
                                                 <h4>Clean sans-serif</h4>

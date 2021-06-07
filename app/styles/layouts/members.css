@@ -1180,24 +1180,48 @@ p.gh-members-import-errordetail:first-of-type {
 
 /* Email newsletter design settings
 /* -------------------------------------------------------- */
+.gh-email-design-alignment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: -4px 0 0 0;
+}
+
 .gh-email-design-typography .gh-radio {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0;
     padding: 0;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
 }
 
 .gh-email-design-typography .gh-radio-content {
     border: 1px solid var(--whitegrey);
-    border-radius: 3px;
     margin: 0 -32px 0 0;
+}
+
+.gh-email-design-typography .gh-radio-content.serif {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.gh-email-design-typography .gh-radio-content.sans-serif {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.gh-email-design-typography .active {
+    margin: 0 2px 2px;
 }
 
 .gh-email-design-typography .active .gh-radio-content {
     border: 1px solid transparent;
     box-shadow: 0px 0px 0px 2px var(--green);
+}
+
+.gh-email-design-typography .active .gh-radio-label {
+    margin: 0 -2px;
 }
 
 .gh-email-design-typography .gh-radio-button {
@@ -1231,7 +1255,7 @@ p.gh-members-import-errordetail:first-of-type {
     line-height: 1.4em;
 }
 
-.gh-email-design-typography .gh-radio-label.serif .description h4 {
+.gh-email-design-typography .gh-radio-content.serif .description h4 {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.3rem;
 }
@@ -1242,7 +1266,7 @@ p.gh-members-import-errordetail:first-of-type {
     padding: 0;
 }
 
-.gh-email-design-typography .gh-radio-label.serif .description p {
+.gh-email-design-typography .gh-radio-content.serif .description p {
     font-size: 1.25rem !important;
     margin: 0;
     padding: 0;

@@ -369,6 +369,99 @@
     margin: 0 12px 0 0;
 }
 
+.modal-fullsettings-uploader {
+    display: flex;
+    align-items: center;
+    margin: 18px 0 0;
+    padding: 3px;
+    border: 1px solid var(--whitegrey);
+    border-radius: 3px;
+}
+
+.gh-header-img-uploadicon,
+.gh-header-img-uploadicon:hover,
+.gh-header-img-uploadicon:focus {
+    width: 56px;
+    height: 44px;
+    margin-right: 11px;
+    border: 1px dashed var(--lightgrey);
+    background: transparent;
+    box-shadow: none;
+}
+
+.gh-header-img-uploadicon span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gh-header-img-uploadicon span svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--darkgrey);
+}
+
+.gh-header-img-uploadicon:hover span svg {
+    fill: var(--darkgrey);
+}
+
+.gh-header-img-container {
+    height: 44px;
+}
+
+.gh-header-img-thumbnail {
+    display: inline-block;
+    width: 56px;
+    height: 44px;
+    margin: 0 11px 0 0;
+    border: 1px solid var(--whitegrey);
+    cursor: pointer;
+    background-position: center;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.gh-header-img-thumbnail svg path {
+    stroke: var(--midlightgrey-d1);
+}
+
+.gh-header-img-deleteicon {
+    position: absolute;
+    left: 4px;
+    width: 56px;
+    height: 44px;
+    background: var(--black) !important;
+    opacity: 0;
+}
+
+.gh-header-img-deleteicon:hover {
+    opacity: 1;
+}
+
+.gh-header-img-deleteicon span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gh-header-img-deleteicon span svg {
+    width: 18px;
+    height: 18px;
+}
+
+.modal-fullsettings-uploader h4 {
+    margin: 0 !important;
+    padding: 0;
+    font-size: 1.3rem;
+    line-height: 1.4em;
+}
+
+.modal-fullsettings-uploader p {
+    margin: 0 !important;
+    padding: 0;
+    font-size: 1.2rem !important;
+}
+
 .modal-fullsettings-main {
     display: flex;
     flex-direction: column;
