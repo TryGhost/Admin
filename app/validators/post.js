@@ -11,6 +11,7 @@ export default BaseValidator.create({
         'canonicalUrl',
         'codeinjectionHead',
         'codeinjectionFoot',
+        'featureImageAlt',
         'metaTitle',
         'metaDescription',
         'ogtitle',
@@ -76,6 +77,13 @@ export default BaseValidator.create({
     codeinjectionHead(model) {
         if (!validator.isLength(model.codeinjectionHead || '', 0, 65535)) {
             model.errors.add('codeinjectionHead', 'Header code cannot be longer than 65535 characters.');
+            this.invalidate();
+        }
+    },
+
+    featureImageAlt(model) {
+        if (!validator.isLength(model.featureImageAlt || '', 0, 300)) {
+            model.errors.add('featureImageAlt', 'Alt text for feature image cannot be longer than 300 characters.');
             this.invalidate();
         }
     },
