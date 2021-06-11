@@ -24,15 +24,18 @@ export default class ModalMemberProduct extends ModalComponent {
     @tracked
     products = []
 
+    @tracked
+    selectedProduct = null;
+
     constructor(...args) {
         super(...args);
         this.fetchProducts();
     }
 
     async fetchProducts() {
-        this.products = await this.store.query('product', {include: 'stripe_prices'});
+        this.products = await this.store.query('product', {include: 'monthly_price,yearly_price'});
         this.product = this.products.firstObject;
-        this.price = this.prices ? this.prices[0] : null;
+        // this.price = this.prices ? this.prices[0] : null;
     }
 
     get member() {
@@ -43,45 +46,45 @@ export default class ModalMemberProduct extends ModalComponent {
         return !this.price || this.price.amount !== 0;
     }
 
-    get prices() {
-        if (!this.products || !this.products.length) {
-            return [];
-        }
-        if (this.product) {
-            let subscriptions = this.member.get('subscriptions') || [];
-            let activeCurrency;
-            if (subscriptions.length > 0) {
-                activeCurrency = subscriptions[0].price?.currency;
-            }
+    // get prices() {
+    //     if (!this.products || !this.products.length) {
+    //         return [];
+    //     }
+    //     if (this.product) {
+    //         let subscriptions = this.member.get('subscriptions') || [];
+    //         let activeCurrency;
+    //         if (subscriptions.length > 0) {
+    //             activeCurrency = subscriptions[0].price?.currency;
+    //         }
 
-            const product = this.products.find((_product) => {
-                return _product.id === this.product.id;
-            });
-            return product.stripePrices.sort((a, b) => {
-                return a.amount - b.amount;
-            }).filter((price) => {
-                return price.active;
-            }).filter((price) => {
-                if (activeCurrency) {
-                    return price.currency?.toLowerCase() === activeCurrency.toLowerCase();
-                }
-                return true;
-            }).sort((a, b) => {
-                return a.currency.localeCompare(b.currency, undefined, {ignorePunctuation: true});
-            }).map((price) => {
-                return {
-                    ...price,
-                    label: `${price.nickname} (${getSymbol(price.currency)}${getNonDecimal(price.amount)}/${price.interval})`
-                };
-            });
-        } else {
-            return [];
-        }
-    }
+    //         const product = this.products.find((_product) => {
+    //             return _product.id === this.product.id;
+    //         });
+    //         return product.stripePrices.sort((a, b) => {
+    //             return a.amount - b.amount;
+    //         }).filter((price) => {
+    //             return price.active;
+    //         }).filter((price) => {
+    //             if (activeCurrency) {
+    //                 return price.currency?.toLowerCase() === activeCurrency.toLowerCase();
+    //             }
+    //             return true;
+    //         }).sort((a, b) => {
+    //             return a.currency.localeCompare(b.currency, undefined, {ignorePunctuation: true});
+    //         }).map((price) => {
+    //             return {
+    //                 ...price,
+    //                 label: `${price.nickname} (${getSymbol(price.currency)}${getNonDecimal(price.amount)}/${price.interval})`
+    //             };
+    //         });
+    //     } else {
+    //         return [];
+    //     }
+    // }
 
     @action
-    setProduct(product) {
-        this.product = product;
+    setProduct(productId) {
+        this.selectedProduct = productId;
     }
 
     @action
@@ -92,12 +95,18 @@ export default class ModalMemberProduct extends ModalComponent {
     @task({
         drop: true
     })
-    *addPriceTask() {
-        let url = this.ghostPaths.url.api('members', this.member.get('id'), 'subscriptions');
+    *addProduct() {
+        let url = this.ghostPaths.url.api(`members/${this.member.get('id')}`);
 
-        let response = yield this.ajax.post(url, {
+        let response = yield this.ajax.put(url, {
             data: {
-                stripe_price_id: this.price.stripe_price_id
+                members: [{
+                    id: this.member.id,
+                    email: this.member.email,
+                    products: [{
+                        id: this.selectedProduct
+                    }]
+                }]
             }
         });
 

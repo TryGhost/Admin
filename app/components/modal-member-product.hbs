@@ -1,72 +1,47 @@
 <header class="modal-header" data-test-modal="delete-user">
     <h1>Add subscription</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal" }}>{{svg-jar
+    "close"}}<span class="hidden">Close</span></a>
 
 <form>
-<div class="modal-body">
-    <p class="gh-member-addcomp-subhed">Select a product for <strong>{{or this.member.name this.member.email}}</strong>'s complimentary subscription.</p>
-    <div class="form-rich-radio">
-        <div class="gh-radio active">
-            <div class="gh-radio-content">
-                <div class="gh-radio-label">
-                    <div class="description">
-                        <h4>Bronze</h4>
-                        <p>Only the hottest marketing news</p>
+    <div class="modal-body">
+        <p class="gh-member-addcomp-subhed">Select a product for <strong>{{or
+                this.member.name this.member.email}}</strong>'s complimentary
+            subscription.</p>
+        <div class="form-rich-radio">
+            {{#each this.products as |product|}}
+                <div class="gh-radio {{if (eq this.selectedProduct product.id) "active"}}" {{on "click" (fn this.setProduct product.id)}}>
+                    <div class="gh-radio-content">
+                        <div class="gh-radio-label">
+                            <div class="description">
+                                <h4>{{product.name}}</h4>
+                                <p>{{product.description}}</p>
+                            </div>
+                        </div>
                     </div>
+                    <div class="gh-radio-button"></div>
                 </div>
-            </div>
-            <div class="gh-radio-button"></div>
-        </div>
-        <div class="gh-radio">
-            <div class="gh-radio-content">
-                <div class="gh-radio-label">
-                    <div class="description">
-                        <h4>Silver</h4>
-                        <p>Extra weekly newsletter</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gh-radio-button"></div>
-        </div>
-        <div class="gh-radio">
-            <div class="gh-radio-content">
-                <div class="gh-radio-label">
-                    <div class="description">
-                        <h4>Gold</h4>
-                        <p>All-in-one supporter pack!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gh-radio-button"></div>
+            {{/each}}
         </div>
     </div>
-</div>
 </form>
 
 <div class="modal-footer">
     <button
         class="gh-btn"
-        {{action "closeModal"}}
-        {{!-- disable mouseDown so it does not trigger focus-out validations --}}
-        {{action (optional this.noop) on="mouseDown"}}
-        data-test-button="cancel-webhook"
-    >
+        {{action "closeModal" }}
+        {{!-- disable mouseDown so it does not trigger focus-out validations
+        --}}
+        {{action (optional this.noop) on="mouseDown" }}
+        data-test-button="cancel-webhook">
         <span>Cancel</span>
     </button>
-    <button
-        class="gh-btn gh-btn-green"
-        {{action "closeModal"}}
-        {{!-- disable mouseDown so it does not trigger focus-out validations --}}
-        {{action (optional this.noop) on="mouseDown"}}
-    >
-        <span>Add subscription</span>
-    </button>
 
-    {{!-- <GhTaskButton @buttonText="Add subscription"
-        @successText={{this.successText}}
-        @task={{this.addPriceTask}}
-        @disabled={{this.cannotAddPrice}}
+
+    <GhTaskButton @buttonText="Add subscription"
+        @successText={{"Added"}}
+        @task={{this.addProduct}}
         @class="gh-btn gh-btn-green gh-btn-icon gh-btn-add-memberproduct"
-        data-test-button="save-webhook" /> --}}
-</div>
+        data-test-button="save-comp-product" />
+    </div>
