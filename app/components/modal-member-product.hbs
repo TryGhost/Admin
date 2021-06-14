@@ -9,6 +9,11 @@
         <p class="gh-member-addcomp-subhed">Select a product for <strong>{{or
                 this.member.name this.member.email}}</strong>'s complimentary
             subscription.</p>
+        {{#if this.activeSubscriptions.length}}
+            <div>
+                Warning: This will cancel your existing subscriptions and add complimentary subscription for chosen product
+            </div>
+        {{/if}}
         <div class="form-rich-radio">
             {{#each this.products as |product|}}
                 <div class="gh-radio {{if (eq this.selectedProduct product.id) "active"}}" {{on "click" (fn this.setProduct product.id)}}>
@@ -44,4 +49,4 @@
         @task={{this.addProduct}}
         @class="gh-btn gh-btn-green gh-btn-icon gh-btn-add-memberproduct"
         data-test-button="save-comp-product" />
-    </div>
+</div>
