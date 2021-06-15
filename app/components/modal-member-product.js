@@ -33,6 +33,9 @@ export default class ModalMemberProduct extends ModalComponent {
     *fetchProducts() {
         this.products = yield this.store.query('product', {include: 'monthly_price,yearly_price'});
         this.loadingProducts = false;
+        if (this.products.length > 0) {
+            this.selectedProduct = this.products.firstObject.id;
+        }
     }
 
     get activeSubscriptions() {
