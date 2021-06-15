@@ -65,6 +65,16 @@ export default class ModalMemberProduct extends ModalComponent {
     })
     *addProduct() {
         let url = this.ghostPaths.url.api(`members/${this.member.get('id')}`);
+        // Cancel existing active subscriptions for member
+        for (let i = 0; i < this.activeSubscriptions.length; i++) {
+            const subscription = this.activeSubscriptions[i];
+            const cancelUrl = this.ghostPaths.url.api(`members/${this.member.get('id')}/subscriptions/${subscription.id}`);
+            yield this.ajax.put(cancelUrl, {
+                data: {
+                    status: 'canceled'
+                }
+            });
+        }
         let response = yield this.ajax.put(url, {
             data: {
                 members: [{
