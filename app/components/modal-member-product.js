@@ -26,13 +26,13 @@ export default class ModalMemberProduct extends ModalComponent {
     @tracked
     selectedProduct = null;
 
-    constructor(...args) {
-        super(...args);
-        this.fetchProducts();
-    }
+    @tracked
+    loadingProducts = false;
 
-    async fetchProducts() {
-        this.products = await this.store.query('product', {include: 'monthly_price,yearly_price'});
+    @task({drop: true})
+    *fetchProducts() {
+        this.products = yield this.store.query('product', {include: 'monthly_price,yearly_price'});
+        this.loadingProducts = false;
     }
 
     get activeSubscriptions() {
@@ -48,6 +48,12 @@ export default class ModalMemberProduct extends ModalComponent {
 
     get cannotAddPrice() {
         return !this.price || this.price.amount !== 0;
+    }
+
+    @action
+    setup() {
+        this.loadingProducts = true;
+        this.fetchProducts.perform();
     }
 
     @action
