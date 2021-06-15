@@ -10,9 +10,9 @@
                 this.member.name this.member.email}}</strong>'s complimentary
             subscription.</p>
         {{#if this.activeSubscriptions.length}}
-            <div>
-                Warning: This will cancel your existing subscriptions and add complimentary subscription for chosen product
-            </div>
+            <p class="gh-member-addcomp-warning">
+                Adding a complimentary subscription cancels all existing subscriptions of this member.
+            </p>
         {{/if}}
         {{#if this.loadingProducts}}
             <div class="flex justify-center flex-auto">
@@ -28,6 +28,7 @@
                                     <h4>{{product.name}}</h4>
                                     <p>{{product.description}}</p>
                                 </div>
+                                {{svg-jar "check" class="check"}}
                             </div>
                         </div>
                         <div class="gh-radio-button"></div>
