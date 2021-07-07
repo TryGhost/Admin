@@ -31,6 +31,12 @@
                 <a class="green" href="https://ghost.org/changelog" target="_blank" rel="noopener noreferrer">See all updates &rarr;</a>
             </section>
 
+            <div class="gh-about-content-actions">
+                <a class="gh-btn gh-btn-outline" href="https://ghost.org/docs/" target="_blank"><span>User documentation</span></a>
+                <a class="gh-btn gh-btn-outline" href="https://forum.ghost.org/" target="_blank"><span>Get help with Ghost</span></a>
+                <a class="gh-btn gh-btn-black" href="https://ghost.org/docs/contributing/" target="_blank"><span>Get involved</span></a>
+            </div>
+
             <section class="gh-env-details gh-about-box grey">
                 <h2>Version {{this.config.version}}</h2>
                 {{#if this.upgradeStatus.message}}
@@ -41,7 +47,7 @@
                     </section>
                 {{/if}}
                 <ul class="gh-env-list">
-                    <li><strong>Environment:</strong> {{this.config.environment}}</li>
+                    <li><strong>Environment:</strong> <span class="ttc">{{this.config.environment}}</span></li>
                     <li class="gh-env-list-database-type"><strong>Database:</strong> {{this.config.database}}</li>
                     <li><strong>Mail:</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}Native{{/if}}</li>
                     {{#if (enable-developer-experiments)}}

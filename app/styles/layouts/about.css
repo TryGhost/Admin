@@ -10,7 +10,7 @@
 .gh-about-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-gap: 32px;
+    grid-gap: 80px;
 }
 
 .gh-about-box {
@@ -22,6 +22,7 @@
     flex-direction: column;
     height: max-content;
     border-radius: 3px;
+    min-width: 300px;
 }
 
 .gh-about-box.grey {
@@ -79,7 +80,6 @@
 @media (max-width: 670px) {
     .gh-env-details {
         flex-direction: column;
-        align-items: flex-start;
     }
     .gh-env-help {
         margin: 1em 0;
@@ -90,6 +90,9 @@
     }
 }
 
+.gh-about-content-actions {
+    display: none;
+}
 
 
 
@@ -122,13 +125,7 @@
     flex-grow: 2;
     color: var(--darkgrey);
     font-size: 1.5rem;
-    margin-top: 21px;
-}
-
-@media (max-width: 890px) {
-    .gh-whats-new {
-        max-width: 460px;
-    }
+    margin-top: 20px;
 }
 
 .gh-whats-new h2 {
@@ -223,7 +220,7 @@
 
 .gh-wn-entry p,
 .gh-wn-entry li {
-    line-height: 1.8;
+    line-height: 1.6em;
 }
 
 .gh-wn-entry li {
@@ -237,6 +234,7 @@
 
 .gh-wn-entry figure {
     margin-bottom: 24px;
+    overflow: hidden;
 }
 
 .gh-wn-entry img {
@@ -371,23 +369,60 @@
         0 -4px 7px rgba(0, 0, 0, 0.06);
 }
 
+@media (max-width: 1380px) {
+    .gh-wn-content {
+        max-width: 36vw;
+    }
+}
+
 @media (max-width: 1120px) {
+    .gh-wn-content {
+        max-width: 680px;
+    }
+
+    .gh-about-box {
+        position: relative;
+        top: unset;
+        right: unset;
+    }
+
     .gh-about-container {
         grid-template-columns: unset;
         grid-template-rows: auto;
+        grid-gap: 32px;
     }
 
     .gh-env-details {
         grid-row: 1/2;
     }
-}
 
-@media (max-width: 1000px) {
+    .gh-about-content-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 20px;
+        grid-row: 2/3;
+        margin-top: -12px;
+    }
+
+    .gh-whats-new {
+        grid-row: 3/4;
+    }
+
+
     .gh-about-header-actions a {
         display: none;
     }
 
     .gh-wn-entry iframe {
         max-width: 100%;
+    }
+}
+
+@media (max-width: 540px) {
+    .gh-about-content-actions {
+        grid-template-columns: unset;
+        grid-template-rows: auto;
+        grid-gap: 12px;
+        margin-top: -20px;
     }
 }
