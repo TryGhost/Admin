@@ -322,7 +322,7 @@
                         <span class="lightgrey">{{svg-jar "no-data-line-chart"}}</span>
                         <h4>Nothing to see here... yet</h4>
                         <p>
-                            Once you've set 5 newsletters we can calculate the levels of engagement of your members. So keep sending awesome newsletters.
+                            Once you've set 5 newsletters we can calculate the levels of engagement of your members.
                         </p>
                     </div>
                 {{else}}
@@ -341,11 +341,7 @@
                 {{/if}}
             </div>
 
-            <h4 class="gh-main-section-header small bn">Member activity</h4>
-            <div class="gh-main-section-content bordered">
-                <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
-            </div>
-
+            <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
         </div>
     </section>
 
