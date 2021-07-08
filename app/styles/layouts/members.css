@@ -730,7 +730,8 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-members-no-data svg path,
-.gh-members-no-data svg rect {
+.gh-members-no-data svg rect,
+.gh-members-no-data svg circle {
     stroke-width: 0.8px;
 }
 
@@ -751,6 +752,17 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-members-no-list svg path {
+    stroke-width: 1px;
+}
+
+.gh-members-no-subs svg {
+    width: 64px;
+    margin-left: 18px;
+}
+
+.gh-members-no-subs svg path,
+.gh-members-no-subs svg rect,
+.gh-members-no-subs svg circle {
     stroke-width: 1px;
 }
 

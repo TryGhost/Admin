@@ -108,7 +108,13 @@
             <div class="gh-main-section-content bordered">
                 <div class="gh-cp-memberproduct-noproduct">
                     {{#unless this.isCreatingComplimentary}}
-                    <div class="mb2">This member doesn't have subscriptions.</div>
+                    <div class="gh-members-no-data gh-members-no-subs">
+                        <span class="lightgrey nt10">{{svg-jar "no-data-subscription"}}</span>
+                        <h4>No subscriptions</h4>
+                        <p>
+                            This member doesn't have subscriptions.
+                        </p>
+                    </div>
                     {{/unless}}
 
                     {{#unless this.member.isNew}}
