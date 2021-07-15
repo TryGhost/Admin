@@ -743,6 +743,7 @@ textarea.gh-member-details-textarea {
 
 .gh-members-no-data p {
     font-size: 1.3rem;
+    line-height: 1.5em;
     margin: 4px 20px 0;
     color: var(--midgrey);
 }
