@@ -4,9 +4,7 @@
             <GhBasicDropdown @horizontalPosition="left" @verticalPosition="above" @calculatePosition={{this.userDropdownPosition}} as |dropdown|>
                 <dropdown.Trigger class="outline-0 pointer">
                     <div class="flex-auto flex items-center">
-                        <div class="gh-user-avatar relative" style={{background-image-style this.session.user.profileImageUrl}}>
-                            {{#if this.whatsNew.hasNew}}<span class="absolute dib ba b--white br-100 gh-whats-new-badge-account"></span>{{/if}}
-                        </div>
+                        <div class="gh-user-avatar relative" style={{background-image-style this.session.user.profileImageUrl}}></div>
                         {{svg-jar "arrow-down" class="w3 mr1 fill-darkgrey"}}
                     </div>
                 </dropdown.Trigger>
@@ -24,24 +22,16 @@
                         </li>
                         <li class="divider" role="separator"></li>
                         <li role="presentation">
-                            <LinkTo @route="about" @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="about">
+                            <LinkTo @route="about" @query={{hash entry=null}} @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="about">
                                 About Ghost
                             </LinkTo>
                         </li>
-                        <li role="presentation">
-                            <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
-                                What's new?
-                                {{#if this.whatsNew.hasNew}}
-                                    <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-green br-100"></span></div>
-                                {{/if}}
-                            </button>
-                        </li>
-                        <li class="divider" role="separator"></li>
                         <li role="presentation">
                             <LinkTo @route="staff.user" @model={{this.session.user.slug}} @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="user-profile">
                                 Your profile
                             </LinkTo>
                         </li>
+                        <li class="divider" role="separator"></li>
                         <li role="presentation">
                             <a class="dropdown-item" role="menuitem" tabindex="-1" href="https://ghost.org/docs/" target="_blank">
                                 Support center
