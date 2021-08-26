@@ -246,6 +246,13 @@
     transform: rotate(45deg);
 }
 
+.ember-basic-dropdown-trigger:active,
+.ember-basic-dropdown-trigger:focus {
+    outline: 0;
+    border-color: color-mod(var(--green)) !important;
+    box-shadow: inset 0 0 0 1px var(--green);
+}
+
 .ember-basic-dropdown-trigger[aria-expanded="true"] .ember-power-select-status-icon {
     transform: rotate(45deg);
 }
