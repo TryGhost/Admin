@@ -126,9 +126,10 @@
 .gh-whats-new-heading {
     display: flex;
     align-items: center;
-    font-size: 1.65rem;
-    line-height: 1.4em;
-    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.3em;
+    font-weight: 700;
+    margin: 0;
 }
 
 .gh-whats-new-heading svg {
