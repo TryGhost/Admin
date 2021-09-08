@@ -1,10 +1,16 @@
 /* About /ghost/settings/about/
 /* ---------------------------------------------------------- */
 
-.gh-logo {
+.gh-about-logo svg {
     position: relative;
     width: 120px;
     height: auto;
+}
+
+.gh-about-logo {
+    border-bottom: 1px solid var(--lightgrey-l2);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .gh-about-container {
@@ -28,17 +34,6 @@
 .gh-about-box.grey {
     border: none;
     background: var(--main-color-content-greybg);
-}
-
-.gh-about-box svg {
-    width: 20px;
-    height: 20px;
-    margin-top: -2px;
-    margin-right: 12px;
-}
-
-.gh-about-box svg path {
-    fill: var(--pink);
 }
 
 .gh-env-details {
@@ -125,17 +120,26 @@
     flex-grow: 2;
     color: var(--darkgrey);
     font-size: 1.5rem;
-    margin-top: 20px;
+    margin-top: -24px;
 }
 
-.gh-whats-new h2 {
+.gh-whats-new-heading {
     display: flex;
     align-items: center;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--whitegrey);
     font-size: 1.65rem;
     line-height: 1.4em;
     font-weight: 600;
+}
+
+.gh-whats-new-heading svg {
+    width: 20px;
+    height: 20px;
+    margin-top: -2px;
+    margin-right: 12px;
+}
+
+.gh-whats-new-heading svg path {
+    fill: var(--pink);
 }
 
 .gh-wn-header {

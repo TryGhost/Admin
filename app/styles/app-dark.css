@@ -55,7 +55,7 @@
 @import "layouts/settings.css";
 @import "layouts/users.css";
 @import "layouts/user.css";
-@import "layouts/about.css";
+@import "layouts/whatsnew.css";
 @import "layouts/tags.css";
 @import "layouts/members.css";
 @import "layouts/error.css";
@@ -468,7 +468,7 @@ input:focus,
     border-color: #fff;
 }
 
-.gh-logo,
+.gh-about-logo svg,
 .apps-card-app-orb,
 .gh-nav-logo-default,
 .gh-unsplash-logo {

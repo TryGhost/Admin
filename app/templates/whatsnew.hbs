@@ -1,6 +1,6 @@
 <section class="gh-canvas js-settings-content" {{scroll-top}}>
     <GhCanvasHeader class="gh-canvas-header">
-        {{svg-jar "ghost-logo-orb" class="gh-logo" alt="Ghost"}}
+        <h2 class="gh-whats-new-heading">{{svg-jar "gift"}} What's new?</h2>
         <div class="gh-about-header-actions">
             <a class="gh-btn gh-btn-outline" href="https://ghost.org/docs/" target="_blank"><span>User documentation</span></a>
             <a class="gh-btn gh-btn-outline" href="https://forum.ghost.org/" target="_blank"><span>Get help with Ghost</span></a>
@@ -10,7 +10,6 @@
     <section class="view-container">
         <div class="gh-about-container">
             <section class="gh-whats-new gh-about-box" {{did-insert (perform this.whatsNew.updateLastSeen)}}>
-                <h2>{{svg-jar "gift"}} What's new?</h2>
                 {{#each this.whatsNew.entries as |entry|}}
                     <div class="gh-wn-entry" {{scroll-to shouldScroll=(eq entry.slug this.entry)}}>
                         <h4>{{moment-format entry.published_at "DD MMMM YYYY"}}</h4>
@@ -38,7 +37,9 @@
             </div>
 
             <section class="gh-env-details gh-about-box grey">
-                <h2>Version {{this.config.version}}</h2>
+                <div class="gh-about-logo">
+                    {{svg-jar "ghost-logo-orb" alt="Ghost"}}
+                </div>
                 {{#if this.upgradeStatus.message}}
                     <section class="gh-upgrade-notification">
                         <p>
@@ -47,6 +48,7 @@
                     </section>
                 {{/if}}
                 <ul class="gh-env-list">
+                    <li><strong>Version:</strong> {{this.config.version}}</li>
                     <li><strong>Environment:</strong> <span class="ttc">{{this.config.environment}}</span></li>
                     <li class="gh-env-list-database-type"><strong>Database:</strong> {{this.config.database}}</li>
                     <li><strong>Mail:</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}Native{{/if}}</li>

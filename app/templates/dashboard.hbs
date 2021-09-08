@@ -311,7 +311,7 @@
                 </div>
                 <div class="content">
                     {{#each this.whatsNewEntries as |entry|}}
-                        <LinkTo @route="about" @query={{hash entry=entry.slug}}>
+                        <LinkTo @route="whatsnew" @query={{hash entry=entry.slug}}>
                             <h2>{{entry.title}}</h2>
                             <span class="wn-date">{{moment-format entry.published_at "D MMM YYYY"}}</span>
                             {{#if entry.custom_excerpt}}
@@ -321,7 +321,7 @@
                     {{/each}}
                 </div>
                 <div class="footer">
-                    <LinkTo @route="about" @query={{hash entry=null}} class="green">See more &rarr;</LinkTo>
+                    <LinkTo @route="whatsnew" @query={{hash entry=null}} class="green">See more &rarr;</LinkTo>
                 </div>
             </div>
             {{/unless}}
