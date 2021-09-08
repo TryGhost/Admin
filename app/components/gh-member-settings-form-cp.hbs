@@ -337,9 +337,9 @@
                     <div class="gh-heading-xs">Emails opened</div>
                     <div class="gh-data-summary gh-cp-data-summary">{{@member.emailOpenedCount}}</div>
                     <div class="gh-heading-xs">Avg. open rate</div>
-                    <div class="gh-data-summary gh-cp-data-summary">
+                    <div class="gh-data-summary gh-cp-data-summary {{if (is-empty @member.emailOpenRate) "gh-data-unavailable-label"}}">
                         {{#if (is-empty @member.emailOpenRate)}}
-                            <span data-tooltip="Insufficient data available">–</span>
+                            Will be available once this member received at least 5 emails.
                         {{else}}
                             {{@member.emailOpenRate}}%
                         {{/if}}
