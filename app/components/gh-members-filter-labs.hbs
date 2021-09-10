@@ -1,6 +1,6 @@
 <GhBasicDropdown @verticalPosition="below" @horizontalPosition="right" @onClose={{this.onDropdownClose}} as |dd|>
 
-    <dd.Trigger 
+    <dd.Trigger
         class="gh-btn gh-btn-icon gh-btn-action-icon"
         data-test-button="members-actions"
     >
@@ -52,7 +52,7 @@
                                 type="button"
                                 class="gh-btn gh-btn-text gh-btn-link gh-btn-icon gh-delete-filter"
                                 title="Delete filter"
-                                {{action "deleteFilter" filter.id}}
+                                {{on "click" (fn this.deleteFilter filter.id)}}
                             >
                                 {{svg-jar "close"}} <span class="hidden">Delete filter</span>
                             </button>
