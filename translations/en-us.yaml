@@ -1,2 +1,1 @@
 price_banner: The {product} costs {price, number, ::currency/USD}
-teste: 012

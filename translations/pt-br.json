@@ -1,6 +1,672 @@
+
 {
-    "Manual":
-    {
+    "common": {
+        "mail": {
+            "title": "Ghost em {domain}"
+        },
+        "seeLinkForInstructions": "Consulte {link} para obter instruções.",
+        "time": {
+            "seconds": "segundos"
+        },
+        "api": {
+            "authentication": {
+                "sampleBlogDescription": "Pensamentos, histórias e ideias.",
+                "mail": {
+                    "resetPassword": "Redefinir senha",
+                    "resetPasswordRequired": "Redefinir senha",
+                    "checkEmailForInstructions": "Verifique seu e-mail para obter mais instruções.",
+                    "passwordChanged": "Senha alterada com sucesso.",
+                    "invitationAccepted": "Convite aceito.",
+                    "yourNewGhostBlog": "Seu novo site Site"
+                }
+            },
+            "mail": {
+                "testGhostEmail": "Teste Ghost Email"
+            },
+            "users": {
+                "mail": {
+                    "invitedByName": "{invitedByName} convidou você para participar de {blogName}"
+                }
+            },
+            "actions": {
+                "images": {
+                    "upload": "Enviar Imagem"
+                }
+            }
+        }
+    },
+    "errors": {
+        "middleware": {
+            "api": {
+                "versionMismatch": "A solicitação do cliente para {clientVersion} não corresponde à versão do servidor {serverVersion}."
+            },
+            "auth": {
+                "clientCredentialsNotProvided": "As credenciais do cliente não foram fornecidas",
+                "clientCredentialsNotValid": "As credenciais do cliente não eram válidas",
+                "forInformationRead": "Para obter informações sobre como corrigir isso, leia {url}.",
+                "unknownOrigin": "Não foi possível determinar a origem da solicitação. Certifique-se de que um cabeçalho de origem ou referenciador esteja presente.",
+                "mismatchedOrigin": "Solicitação feita de origem incorreta. Esperado '{expected}' recebido '{actual}'.",
+                "missingUserIDForSession": "Não é possível criar sessão sem ID de usuário.",
+                "accessDenied": "Acesso negado.",
+                "pleaseSignIn": "Por favor, inscreva-se",
+                "authorizationFailed": "Falha na autorização",
+                "missingContentMemberOrIntegration": "Incapaz de determinar o membro autenticado ou integração. Verifique a chave de API de conteúdo fornecida e certifique-se de que os cookies estejam sendo transmitidos se a autenticação do membro estiver falhando.",
+                "missingAdminUserOrIntegration": "Incapaz de determinar o usuário autenticado ou integração. Verifique se os cookies estão sendo transmitidos se estiver usando a autenticação de sessão.",
+                "adminApiKeyMissing": "Declaração de cabeçalho infantil ausente no token da API Admin.",
+                "unknownAdminApiKey": "Chave de API de administrador desconhecida",
+                "unknownContentApiKey": "Chave de API de conteúdo desconhecida",
+                "adminApiKidMissing": "API de administrador infantil ausente.",
+                "invalidApiKeyType": "Tipo de chave API inválido",
+                "invalidRequest": "pedido inválido",
+                "invalidToken": "Token inválido",
+                "invalidTokenWithMessage": "Token inválido: {message}",
+                "incorrectAuthHeaderFormat": "O formato do cabeçalho de autorização é \"Autorização: Ghost [token]\""
+            },
+            "privateblogging": {
+                "wrongPassword": "Senha incorreta"
+            },
+            "spamprevention": {
+                "tooManyAttempts": "Muitas tentativas.",
+                "noUsername": "Sem nome de usuário.",
+                "noPassword": "Nenhuma senha digitada",
+                "tooManySigninAttempts": {
+                    "error": "Apenas {rateSigninAttempts} tentativas por endereço IP a cada {rateSigninPeriod} segundos.",
+                    "context": "Muitas tentativas de login."
+                },
+                "tryAgainLater": " Por favor, tente novamente mais tarde",
+                "waitOneHour": " Aguarde 1 hora.",
+                "noEmail": "Sem email.",
+                "forgottenPasswordEmail": {
+                    "error": "Apenas {rfa} tentativas de senha esquecida por e-mail a cada {rfp} segundos.",
+                    "context": "A tentativa de redefinição de senha esquecida falhou"
+                },
+                "forgottenPasswordIp": {
+                    "error": "Apenas {rfa} tentativas por endereço IP a cada {rfp} segundos.",
+                    "context": "A tentativa de redefinição de senha esquecida falhou"
+                }
+            },
+            "themehandler": {
+                "missingTheme": "O tema atualmente ativo \"{theme}\" está desaparecido.",
+                "invalidTheme": "O tema atualmente ativo \"{theme}\" é inválido.",
+                "themeHasErrors": "O tema atualmente ativo \"{theme}\" tem erros, mas ainda funcionará",
+                "activateFailed": "Não foi possível ativar o tema \"{theme}\"."
+            },
+            "redirects": {
+                "register": "Não foi possível registrar redirecionamentos personalizados."
+            }
+        },
+        "utils": {
+            "parsepackagejson": {
+                "couldNotReadPackage": "Não foi possível ler o arquivo package.json",
+                "nameOrVersionMissing": "\"name\" ou \"version\" está faltando no arquivo package.json do tema.",
+                "willBeRequired": "Isso será necessário no futuro. Por favor, veja {url}",
+                "themeFileIsMalformed": "O arquivo de tema package.json está malformado"
+            },
+            "blogIcon": {
+                "error": "Não foi possível buscar as dimensões do ícone."
+            },
+            "images": {
+                "invalidDimensions": "Não foi possível buscar as dimensões da imagem."
+            },
+            "redirectsWrongFormat": "Formato de arquivo de redirecionamento incorreto."
+        },
+        "config": {
+            "couldNotLocateConfigFile": {
+                "error": "Não foi possível localizar um arquivo de configuração",
+                "help": "Verifique sua implantação para config.js ou config.example.js."
+            },
+            "couldNotOpenForReading": {
+                "error": "Não foi possível abrir {file} para leitura.",
+                "help": "Verifique sua implantação para config.js ou config.example.js."
+            },
+            "couldNotOpenForWriting": {
+                "error": "Não foi possível abrir {file} para gravação.",
+                "help": "Verifique sua implantação para config.js ou config.example.js."
+            },
+            "invalidUrlInConfig": {
+                "error": "url de site inválido",
+                "description": "O url do seu site em config.js é inválido.",
+                "help": "Certifique-se de que este é um url válido antes de reiniciar"
+            },
+            "urlCannotContainGhostSubdir": {
+                "error": "ghost subdiretório não permitido",
+                "description": "O url do seu site em config.js não pode conter um subdiretório chamado ghost.",
+                "help": "Renomeie o subdiretório antes de reiniciar"
+            },
+            "urlCannotContainPrivateSubdir": {
+                "error": "subdiretório privado não permitido",
+                "description": "O url do seu site em config.js não pode conter um subdiretório denominado privado.",
+                "help": "Renomeie o subdiretório antes de reiniciar"
+            },
+            "dbConfigInvalid": {
+                "error": "configuração de banco de dados inválida",
+                "description": "A configuração do seu banco de dados em config.js é inválida.",
+                "help": "Certifique-se de que esta é uma configuração de banco de dados Bookshelf válida"
+            },
+            "deprecatedProperty": {
+                "error": "A propriedade de configuração [{property}] foi descontinuada.",
+                "explanation": "Isso será removido em uma versão futura, atualize seu arquivo config.js.",
+                "help": "Verifique {url} para obter o exemplo mais atualizado."
+            },
+            "invalidServerValues": {
+                "error": "configuração de servidor inválida",
+                "description": "Os valores do seu servidor (socket, or host and port) em config.js são inválidos.",
+                "help": "Forneça-os antes de reiniciar."
+            }
+        },
+        "general": {
+            "maintenance": "O site está em manutenção, aguarde um momento e tente novamente.",
+            "maintenanceUrlService": "O site está inicializando, aguarde um momento e tente novamente.",
+            "requiredOnFuture": "Isso será necessário no futuro. Por favor, veja {link}",
+            "internalError": "Algo deu errado.",
+            "jsonParse": "Não foi possível analisar JSON: {context}."
+        },
+        "mail": {
+            "incompleteMessageData": {
+                "error": "Dados de mensagem incompletos."
+            },
+            "failedSendingEmail": {
+                "error": "Falha ao enviar e-mail."
+            },
+            "noMailServerAtAddress": {
+                "error": " Nenhum servidor de e-mail encontrado em {domain}."
+            },
+            "reason": " Razão: {razão}."
+        },
+        "models": {
+            "general": {
+                "sql": "Não foi possível entender o pedido."
+            },
+            "invite": {
+                "notEnoughPermission": "Você não tem permissão para realizar esta ação"
+            },
+            "post": {
+                "postNotFound": "Postagem não encontrada.",
+                "untitled": "(Sem título)",
+                "valueCannotBeBlank": "O valor em {chave} não pode ficar em branco.",
+                "isAlreadyPublished": "Sua postagem já foi publicada, por favor recarregue sua página.",
+                "expectedPublishedAtInFuture": "A data deve ser pelo menos minutos no futuro.",
+                "noUserFound": "Nenhum usuário encontrado",
+                "notEnoughPermission": "Você não tem permissão para realizar esta ação",
+                "tagUpdates": {
+                    "error": "Incapaz de salvar tags.",
+                    "help": "Sua postagem foi salva, mas suas tags não foram atualizadas."
+                }
+            },
+            "role": {
+                "roleNotFound": "Função não encontrada",
+                "notEnoughPermission": "Você não tem permissão para realizar esta ação"
+            },
+            "settings": {
+                "valueCannotBeBlank": "O valor em [settings.key] não pode ficar em branco.",
+                "unableToFindSetting": "Não foi possível encontrar a configuração para atualizar: {key}",
+                "unableToFindDefaultSetting": "Não foi possível encontrar a configuração padrão: {key}"
+            },
+            "user": {
+                "missingContext": "falta de contexto",
+                "onlyOneRolePerUserSupported": "Apenas uma função por usuário é suportada no momento.",
+                "methodDoesNotSupportOwnerRole": "Este método não suporta a atribuição da função de proprietário",
+                "passwordDoesNotComplyLength": "Sua senha deve ter pelo menos {minLength} caracteres.",
+                "passwordDoesNotComplySecurity": "Desculpe, você não pode usar uma senha insegura.",
+                "notEnoughPermission": "Você não tem permissão para realizar esta ação",
+                "noUserWithEnteredEmailAddr": "Não há nenhum usuário com esse endereço de e-mail.",
+                "userIsInactive": "O usuário com esse endereço de e-mail está inativo.",
+                "userUpdateError": {
+                    "emailIsAlreadyInUse": "o e-mail já está sendo usado",
+                    "context": "Erro gerado pela atualização do usuário durante o login",
+                    "help": "Visite e salve seu perfil após o login para verificar se há problemas."
+                },
+                "incorrectPassword": "Sua senha está incorreta.",
+                "accountSuspended": "Sua conta foi suspensa.",
+                "newPasswordsDoNotMatch": "Suas novas senhas não coincidem",
+                "passwordRequiredForOperation": "A senha é necessária para esta operação",
+                "expiredToken": "Expirado token",
+                "tokenLocked": "Token trancada",
+                "invalidToken": "Token inválido",
+                "userNotFound": "Usuário não encontrado",
+                "ownerNotFound": "Proprietário não encontrado",
+                "onlyOwnerCanTransferOwnerRole": "Apenas os proprietários podem transferir a função de proprietário.",
+                "onlyAdmCanBeAssignedOwnerRole": "Apenas administradores podem ser atribuídos à função de proprietário.",
+                "onlyActiveAdmCanBeAssignedOwnerRole": "Apenas administradores ativos podem ser atribuídos à função de proprietário."
+            },
+            "api_key": {
+                "apiKeyNotFound": "Chave API não encontrada"
+            },
+            "email": {
+                "emailNotFound": "Email não encontrado.",
+                "retryNotAllowed": "Apenas e-mails com falha podem ser repetidos"
+            },
+            "member": {
+                "memberAlreadyExists": {
+                    "message": "Membro já existe",
+                    "context": "Tentando {action} membro com endereço de e-mail existente."
+                }
+            },
+            "member_stripe_customer": {
+                "customerAlreadyExists": {
+                    "message": "O cliente Stripe já existe",
+                    "context": "Tentativa de adicionar cliente Stripe com ID de cliente Stripe existente"
+                }
+            },
+            "stripe_customer_subscription": {
+                "subscriptionAlreadyExists": {
+                    "message": "A assinatura do cliente Stripe já existe",
+                    "context": "Tentativa de adicionar assinatura de cliente Stripe com cliente Stripe existente"
+                }
+            },
+            "base": {
+                "index": {
+                    "missingContext": "falta de contexto"
+                },
+                "token": {
+                    "noUserFound": "Nenhum usuário encontrado",
+                    "tokenNotFound": "Token não encontrado"
+                },
+                "invalidDate": "O formato de data para  `{key}` é inválido."
+            },
+            "plugins": {
+                "filter": {
+                    "errorParsing": "Erro ao analisar o filtro",
+                    "forInformationRead": "Para obter mais informações sobre como usar o filtro, consulte {url}"
+                }
+            }
+        },
+        "permissions": {
+            "applyStatusRules": {
+                "error": "Você não tem permissão para recuperar {docName} com esse status"
+            },
+            "noPermissionToAction": "Você não tem permissão para realizar esta ação"
+        },
+        "api": {
+            "common": {
+                "notImplemented": "O servidor não oferece suporte à funcionalidade necessária para atender à solicitação."
+            },
+            "authentication": {
+                "setupUnableToRun": "Dados de fixação ausentes no banco de dados. Redefina o banco de dados e tente novamente.",
+                "setupMustBeCompleted": "A configuração deve ser concluída antes de fazer essa solicitação.",
+                "noEmailProvided": "Nenhum email fornecido.",
+                "noTokenProvided": "Nenhum token fornecido.",
+                "noPasswordProvided": "Nenhuma senha fornecida.",
+                "noNameProvided": "Nenhum nome fornecido.",
+                "invalidEmailReceived": "O servidor não recebeu um e-mail válido",
+                "setupAlreadyCompleted": "A configuração já foi concluída.",
+                "unableToSendWelcomeEmail": "Incapaz de enviar o e-mail de boas-vindas, seu site continuará funcionando.",
+                "checkEmailConfigInstructions": "Consulte {url} para obter instruções sobre como configurar o e-mail.",
+                "notTheBlogOwner": "Você não é o proprietário do site."
+            },
+            "passwordReset": {
+                "expired": {
+                    "message": "Não é possível redefinir a senha.",
+                    "context": "O link de redefinição de senha expirou.",
+                    "help": "Solicite uma nova redefinição de senha por meio do formulário de login."
+                },
+                "invalidToken": {
+                    "message": "Não é possível redefinir a senha.",
+                    "context": "O link de redefinição de senha já foi usado.",
+                    "help": "Solicite uma nova redefinição de senha por meio do formulário de login."
+                },
+                "corruptedToken": {
+                    "message": "Não é possível redefinir a senha.",
+                    "context": "Link de redefinição de senha inválido.",
+                    "help": "Verifique se o link de redefinição de senha foi totalmente copiado ou solicite uma nova redefinição de senha por meio do formulário de login."
+                }
+            },
+            "configuration": {
+                "invalidKey": "Chave inválida"
+            },
+            "db": {
+                "missingFile": "Selecione um arquivo de banco de dados para importar.",
+                "invalidFile": "Arquivo não suportado. Tente qualquer um dos seguintes formatos: {extensions}",
+                "noPermissionToExportData": "Você não tem permissão para exportar dados (sem direitos).",
+                "noPermissionToImportData": "Você não tem permissão para importar dados (sem direitos)."
+            },
+            "mail": {
+                "noPermissionToSendEmail": "Você não tem permissão para enviar e-mail.",
+                "cannotFindCurrentUser": "Não foi possível encontrar o usuário atual"
+            },
+            "notifications": {
+                "noPermissionToBrowseNotif": "Você não tem permissão para navegar pelas notificações.",
+                "noPermissionToAddNotif": "Você não tem permissão para adicionar notificações.",
+                "noPermissionToDestroyNotif": "Você não tem permissão para destruir notificações.",
+                "noPermissionToDismissNotif": "Você não tem permissão para dispensar esta notificação.",
+                "notificationDoesNotExist": "Notificação não existe."
+            },
+            "posts": {
+                "postNotFound": "Postagem não encontrada.",
+                "invalidVisibilityFilter": "Filtro inválido na propriedade de visibilidade"
+            },
+            "authors": {
+                "notFound": "Autor não encontrado."
+            },
+            "pages": {
+                "pageNotFound": "Página não encontrada.",
+                "invalidVisibilityFilter": "Filtro inválido na propriedade de visibilidade"
+            },
+            "job": {
+                "notFound": "Trabalho não encontrado.",
+                "publishInThePast": "Use o flag force para Criar uma publicação no passado."
+            },
+            "redirects": {
+                "missingFile": "Selecione um arquivo JSON.",
+                "invalidFile": "Selecione um arquivo JSON válido para importar.",
+                "yamlParse": "A entrada YAML não pode ser uma string simples. Verifique o formato do seu arquivo YAML."
+            },
+            "resource": {
+                "resourceNotFound": "{resource} não encontrado."
+            },
+            "routes": {
+                "missingFile": "Selecione um arquivo YAML.",
+                "invalidFile": "Selecione um arquivo YAML válido para importar."
+            },
+            "settings": {
+                "problemFindingSetting": "Configuração de localização de problemas: {key}",
+                "accessCoreSettingFromExtReq": "Tentativa de acessar a configuração principal a partir de um pedido externo",
+                "invalidEmailReceived": "Por favor envie um email válido",
+                "activeThemeSetViaAPI": {
+                    "error": "Tentativa de alterar o active_theme por meio da API de configurações",
+                    "help": "Em vez disso, ative o tema por meio dos endpoints da API de temas"
+                },
+                "invalidJsonInLabs": "Erro: JSON inválido em settings.labs",
+                "labsColumnCouldNotBeParsed": "A coluna com a chave \"labs\" não pôde ser analisada como JSON",
+                "tryUpdatingLabs": "Tente atualizar uma configuração na página de laboratórios ou editar manualmente seu banco de dados",
+                "noPermissionToEditSettings": "Você não tem permissão para editar as configurações.",
+                "noPermissionToReadSettings": "Você não tem permissão para ler as configurações."
+            },
+            "slugs": {
+                "couldNotGenerateSlug": "Não foi possível gerar o apelido",
+                "unknownSlugType": "Tipo de apelido desconhecido '{type}'."
+            },
+            "members": {
+                "memberNotFound": "Membro não encontrado.",
+                "stripeNotConnected": {
+                    "message": "Falta a conexão do Stripe.",
+                    "context": "Tentativa de importar membros com dados Stripe quando não há uma conta Stripe conectada.",
+                    "help": "Você precisa se conectar ao Stripe para importar clientes do Stripe. "
+                },
+                "stripeCustomerNotFound": {
+                    "context": "Cliente Stripe ausente.",
+                    "help": "Verifique se você está conectado à conta Stripe correta."
+                },
+                "duplicateStripeCustomerIds": {
+                    "message": "ID de faixa duplicado",
+                    "context": "Tentativa de importar membros com ids de cliente Stripe duplicados.",
+                    "help": "Remova IDs de cliente duplicados do Stripe do CSV e execute novamente a importação."
+                }
+            },
+            "products": {
+                "productNotFound": "Produto não encontrado."
+            },
+            "tags": {
+                "tagNotFound": "Tag não encontrada."
+            },
+            "labels": {
+                "labelNotFound": "Etiqueta não encontrada.",
+                "labelAlreadyExists": "Etiqueta já existe"
+            },
+            "themes": {
+                "noPermissionToBrowseThemes": "Você não tem permissão para navegar nos temas.",
+                "noPermissionToEditThemes": "Você não tem permissão para editar temas.",
+                "themeDoesNotExist": "O tema não existe.",
+                "invalidTheme": "O tema não é compatível ou contém erros.",
+                "invalidThemeName": "Selecione um tema válido.",
+                "missingFile": "Selecione um tema.",
+                "invalidFile": "Selecione um arquivo zip válido.",
+                "overrideCasper": "Por favor, renomeie seu zip, não é permitido sobrescrever o tema Casper padrão.",
+                "destroyCasper": "Excluir o tema Casper padrão não é permitido",
+                "destroyActive": "Excluir o tema ativo não é permitido.",
+                "repoDoesNotExist": "O tema GitHub fornecido não existe ou está inacessível"
+            },
+            "images": {
+                "missingFile": "Selecione uma imagem.",
+                "invalidFile": "Selecione uma imagem válida.",
+                "isNotSquare": "Selecione um arquivo de imagem válido com dimensões quadradas."
+            },
+            "icons": {
+                "missingFile": "Selecione um ícone.",
+                "invalidFile": "O ícone deve ser um arquivo quadrado .ico ou .png entre 60px – 1,000px, debaixo 100kb.",
+                "couldNotGetSize": "Não foi possível obter as dimensões do ícone"
+            },
+            "users": {
+                "userNotFound": "Usuário não encontrado.",
+                "cannotChangeOwnRole": "Você não pode mudar sua própria função.",
+                "cannotChangeStatus": "Você não pode mudar seu próprio status.",
+                "cannotChangeOwnersRole": "Não é possível alterar a função do proprietário",
+                "noPermissionToEditUser": "Você não tem permissão para editar este usuário",
+                "noPermissionToAddUser": "Você não tem permissão para adicionar este usuário",
+                "noEmailProvided": "Nenhum email fornecido.",
+                "userAlreadyRegistered": "O usuário já está cadastrado.",
+                "noPermissionToDestroyUser": "Você não tem permissão para destruir este usuário.",
+                "noPermissionToChangeUsersPwd": "Você não tem permissão para alterar a senha deste usuário"
+            },
+            "utils": {
+                "noPermissionToCall": "Você não tem permissão para {method} {docName}",
+                "noRootKeyProvided": "Nenhuma chave raiz ('{docName}') fornecida.",
+                "invalidStructure": "Nenhuma estrutura de objeto válida fornecida para: {key}",
+                "invalidIdProvided": "ID inválido fornecido."
+            },
+            "invites": {
+                "inviteEmailAlreadyExist": {
+                    "message": "Não foi possível criar uma conta, o e-mail já está em uso.",
+                    "context": "Tentando criar uma conta com endereço de e-mail existente.",
+                    "help": "Use um endereço de e-mail diferente para registrar sua conta."
+                },
+                "inviteNotFound": "Convite não encontrado.",
+                "inviteExpired": "O convite expirou.",
+                "emailIsRequired": "O e-mail é obrigatório.",
+                "roleIsRequired": "O papel é obrigatório",
+                "roleNotFound": "Função não encontrada",
+                "errorSendingEmail": {
+                    "error": "Erro ao enviar e-mail: {mensagem}",
+                    "help": "Verifique suas configurações de e-mail e reenvie o convite."
+                },
+                "notAllowedToInviteOwner": "Não é permitido convidar um usuário proprietário.",
+                "notAllowedToInvite": "Não tem permissão para convidar esta função."
+            },
+            "webhooks": {
+                "noPermissionToEdit": {
+                    "message": "Você não tem permissão para {method} este webhook.",
+                    "context": "Você só pode {method} webhooks que pertençam à integração autenticada. Verifique a chave de API Admin fornecida."
+                },
+                "noIntegrationIdProvided": {
+                    "context": "Você só pode criar webhooks com 'integration_id' ao usar a autenticação de sessão."
+                },
+                "nonExistingIntegrationIdProvided": {
+                    "context": "O valor 'integration_id' não corresponde a nenhuma integração existente.",
+                    "help": "Forneca o 'integration_id' de uma integração existente."
+                },
+                "webhookAlreadyExists": "O URL de destino já foi usado para este evento."
+            },
+            "oembed": {
+                "noUrlProvided": "Nenhum url fornecido.",
+                "insufficientMetadata": "O URL contém metadados insuficientes.",
+                "unknownProvider": "Nenhum provedor encontrado para o URL fornecido."
+            },
+            "userMessages": {
+                "BookshelfRelationsError": "Erro de banco de dados, não é possível {action}.",
+                "InternalServerError": "Erro interno do servidor, não é possível {action}.",
+                "IncorrectUsageError": "Erro de uso incorreto, não é possível {action}.",
+                "NotFoundError": "Erro de recurso não encontrado, não é possível ",
+                "BadRequestError": "Erro de pedido não compreendido, não é possível {action}.",
+                "UnauthorizedError": "Erro de autorização, não é possível {action}.",
+                "NoPermissionError": "Erro de permissão, não é possível {action}.",
+                "ValidationError": "Erro de validação, não é possível {action}.",
+                "UnsupportedMediaTypeError": "Erro de mídia não compatível, não é possível {action}.",
+                "TooManyRequestsError": "Muitos pedidos de erro, não é possível {action}.",
+                "MaintenanceError": "Servidor desligado para manutenção, não é possível {action}.",
+                "MethodNotAllowedError": "Método não permitido, não é possível {action}.",
+                "RequestEntityTooLargeError": "Pedido muito grande, não é possível {action}.",
+                "TokenRevocationError": "O token não está disponível, não é possível {action}.",
+                "VersionMismatchError": "Erro de incompatibilidade de versão, não é possível {action}.",
+                "DataExportError": "Erro ao exportar o conteúdo.",
+                "DataImportError": "Entrada duplicada, não é possível salvar  {action}.",
+                "DatabaseVersionError": "Erro de compatibilidade de versão do banco de dados, não é possível {action}.",
+                "EmailError": "Erro ao enviar e-mail!",
+                "ThemeValidationError": "Erro de validação do tema, não é possível {action}.",
+                "HostLimitError": "Erro de limite de host, não é possível {action}.",
+                "DisabledFeatureError": "Erro de validação do tema, o helper {helperName} não está disponível. Não é possível {action}.",
+                "UpdateCollisionError": "Falha ao salvar! Alguém está editando esta postagem."
+            }
+        },
+        "data": {
+            "export": {
+                "errorExportingData": "Erro ao exportar dados"
+            },
+            "import": {
+                "dataImporter": {
+                    "unableToFindOwner": "Incapaz de encontrar um dono"
+                },
+                "index": {
+                    "duplicateEntryFound": "Entrada duplicada encontrada. Vários valores de '{value}' encontrados para {offendingProperty}."
+                },
+                "utils": {
+                    "dataLinkedToUnknownUser": "Tentando importar dados vinculados a ID de usuário desconhecido {userToMap}"
+                }
+            },
+            "importer": {
+                "index": {
+                    "couldNotCleanUpFile": {
+                        "error": "A importação não pôde limpar o arquivo ",
+                        "context": "Seu site continuará funcionando conforme o esperado"
+                    },
+                    "unsupportedRoonExport": "Seu arquivo zip parece um formato antigo de exportação do Roon, reexporte seu blog do Roon e tente novamente.",
+                    "noContentToImport": "O Zip não incluiu nenhum conteúdo para importar.",
+                    "invalidZipStructure": "Estrutura de arquivo zip inválida.",
+                    "invalidZipFileBaseDirectory": "Arquivo zip inválido: falha na leitura do diretório base",
+                    "zipContainsMultipleDataFormats": "O arquivo zip contém vários formatos de dados. Divida e importe separadamente."
+                },
+                "handlers": {
+                    "json": {
+                        "apiDbImportContent": "API DB importar conteúdo",
+                        "checkImportJsonIsValid": "verifique se o arquivo de importação é um JSON válido.",
+                        "failedToParseImportJson": "Falha ao analisar o arquivo JSON de importação."
+                    }
+                }
+            }
+        },
+        "services": {
+            "settings": {
+                "yaml": {
+                    "error": "Não foi possível analisar  {file}: {context}.",
+                    "help": "Verifique se há erros de digitação em seu arquivo {file} e corrija os problemas identificados.",
+                    "validate": "A seguinte definição \"{at}\" é inválida: {reason}"
+                },
+                "loader": "Erro ao tentar carregar a configuração YAML para {setting} de '{path}'.",
+                "ensureSettings": "Erro ao tentar acessar os arquivos de configurações em {path}."
+            },
+            "mega": {
+                "requestFailed": {
+                    "error": "O serviço de e-mail não conseguiu enviar um lote de e-mail."
+                }
+            }
+        },
+        "errors": {
+            "noMessageSupplied": "nenhuma mensagem fornecida",
+            "error": "\nERRO:",
+            "warning": "\nAviso:",
+            "anErrorOccurred": "Um erro ocorreu",
+            "unknownErrorOccurred": "Ocorreu um erro desconhecido.",
+            "unknownError": "Erro desconhecido",
+            "unknownApiError": "Erro de API desconhecido",
+            "databaseIsReadOnly": "Seu banco de dados está em modo somente leitura. Os visitantes podem ler seu site, mas você não pode fazer login ou adicionar postagens.",
+            "checkDatabase": "Verifique seu arquivo de banco de dados e certifique-se de que o proprietário e as permissões do arquivo estejam corretos.",
+            "notEnoughPermission": "Você não tem permissão para realizar esta ação",
+            "errorWhilstRenderingError": "Erro ao renderizar a página de erro",
+            "errorTemplateHasError": "O modelo de erro contém um erro",
+            "oopsErrorTemplateHasError": "Ops, parece que há um erro no modelo de erro.",
+            "encounteredError": "Encontrou o erro: ",
+            "whilstTryingToRender": "enquanto tenta renderizar uma página de erro para o erro: ",
+            "renderingErrorPage": "Página de erro de renderização",
+            "caughtProcessingError": "O Ghost detectou um erro de processamento na camada de middleware.",
+            "imageNotFound": "Imagem não encontrada",
+            "imageNotFoundWithRef": "Imagem não encontrada: {img}",
+            "cannotReadImage": "Não foi possível ler a imagem: {img}",
+            "pageNotFound": "Página não encontrada",
+            "resourceNotFound": "Recurso não encontrado"
+        }
+    },
+    "warnings": {
+        "index": {
+            "usingDirectMethodToSendEmail": "O Ghost está tentando usar um método direto para enviar e-mail. \nRecomenda-se que você configure explicitamente um serviço de e-mail.",
+            "unableToSendEmail": "No momento, o Ghost não consegue enviar e-mail."
+        },
+        "helpers": {
+            "foreach": {
+                "iteratorNeeded": "Precisa passar um iterador para #foreach"
+            },
+            "get": {
+                "invalidResource": "Recurso inválido fornecido para obter ajudante"
+            },
+            "has": {
+                "invalidAttribute": "Inválido ou nenhum atributo dado ao ajudante"
+            },
+            "index": {
+                "missingHelper": "Auxiliar ausente: '{arg}'"
+            },
+            "is": {
+                "invalidAttribute": "Inválido ou nenhum atributo dado ao ajudante"
+            },
+            "navigation": {
+                "invalidData": "os dados de navegação não são um objeto ou uma função",
+                "valuesMustBeDefined": "Todos os valores devem ser definidos para rótulo, url e atual",
+                "valuesMustBeString": "Valor inválido, o URL e o rótulo devem ser strings"
+            },
+            "page_url": {
+                "isDeprecated": "Aviso: pageUrl está obsoleto, use page_url em seu lugar \nO auxiliar pageUrl foi substituído por page_url no Ghost 0.4.2 e será totalmente removido no Ghost 0.6 \n No arquivo pagination.hbs do seu tema, pageUrl deve ser renomeado para page_url"
+            },
+            "pagination": {
+                "valuesMustBeDefined": "Todos os valores devem ser definidos para página, páginas, limite e total",
+                "nextPrevValuesMustBeNumeric": "Valor inválido, Próximo / Anterior deve ser um número",
+                "valuesMustBeNumeric": "Valor inválido, página de verificação, páginas, limite e total são números"
+            },
+            "plural": {
+                "valuesMustBeDefined": "Todos os valores devem ser definidos para vazio, singular e plural"
+            },
+            "price": {
+                "attrMustBeNumeric": "O valor do atributo deve ser um número"
+            },
+            "template": {
+                "templateNotFound": "Modelo {nome} não encontrado."
+            }
+        }
+    },
+    "notices": {
+        "index": {
+            "welcomeToGhost": "Bem-vindo ao Ghost."
+        },
+        "mail": {
+            "messageSent": "Mensagem enviada. Verifique a caixa de entrada e a pasta de spam!"
+        },
+        "api": {
+            "users": {
+                "pwdChangedSuccessfully": "Senha alterada com sucesso."
+            }
+        },
+        "data": {
+            "fixtures": {
+                "jQueryRemoved": "O jQuery foi removido do Ghost core e agora está sendo carregado do CDN da jQuery Foundation."
+            },
+            "utils": {
+                "index": {
+                    "noSupportForDatabase": "Sem suporte para cliente de banco de dados {cliente}"
+                }
+            },
+            "validation": {
+                "index": {
+                    "valueCannotBeBlank": "O valor em [{tableName}. {ColumnKey}] não pode ficar em branco.",
+                    "valueMustBeBoolean": "O valor em [{tableName}. {ColumnKey}] deve ser verdadeiro, falso, 0 ou 1.",
+                    "valueExceedsMaxLength": "O valor em [{tableName}. {ColumnKey}] excede o comprimento máximo de {maxlength} caracteres.",
+                    "valueIsNotInteger": "O valor em [{tableName}. {ColumnKey}] não é um número inteiro.",
+                    "themeCannotBeActivated": "{themeName} não pode ser ativado porque não está instalado no momento.",
+                    "validationFailed": "A validação ({validationName}) falhou para {key}",
+                    "schemaValidationFailed": "A validação falhou para '{key}'.",
+                    "validationFailedTypes": {
+                        "isLength": "O valor em [{tableName}. {Key}] excede o comprimento máximo de {max} caracteres."
+                    }
+                }
+            }
+        }
+    },
+    "Manual": {
         "Posts": {
             "TITLE": "TITULO",
             "SENDS": "ENVIADO",
@@ -8,7 +674,739 @@
             "STATUS": "STATUS",
             "Posts": "Postagens",
             "New_post": "Nova postagem",
-            "All_posts": "Todas postagens"
+            "All_posts": "Todas postagens",
+            "Draft_posts": "Esboço de postagem",
+            "Published_posts": "Postagens publicadas",
+            "Scheduled_posts": "Postagens agendadas",
+            "Featured_posts": "Postagens em destaque",
+            "All_access": "Acesso total",
+            "Public": "Publico",
+            "Members-only": "Apenas membros",
+            "Paid_members-only": "Apenas membros pagantes",
+            "All_authors": "Todos autores",
+            "All_tags": "Todas tags",
+            "Getting_Started": "Começando",
+            "Sort_by:": "Ordenado por:",
+            "Newest": "Mais novo",
+            "Oldest": "Mais antigo",
+            "Recently_updated": "Upload recente",
+            "Open_rate": "Aberto recente",
+            "No_posts_match_the_current_filter": "Nenhuma postagem corresponde ao filtro atual",
+            "Show_all_posts": "Mostrar todas as postagens",
+            "New": "Novo",
+            "Add_feature_image": "Adicione uma imagem",
+            "Post_title": "Titulo da postagem",
+            "Begin_writing_you_post...": "Comece a escrever sua postagem ...",
+            "Search_free_high-resolution_photos": "Pesquar fotos de alta resolução gratuitas",
+            "Insert_image": "Inserir imagem",
+            "A_feature_image_is_publicly_visible_to_anyone": "Uma imagem de destaque é publicamente visível para qualquer pessoa",
+            "Delete_image": "Deletar imagem",
+            "Draft": "Esboço",
+            "Type_caption_for_image_(optional)": "Digite a legenda da imagem (opcional)",
+            "Type_all_text_for_image_(optional)": "Digite todo o texto da imagem (opcional)",
+            "Image": "Imagem",
+            "Upload,_or_embed_with_/image_[url]": "Faça upload ou incorpore com /image[url]",
+            "Markdown": "Marcador",
+            "Insert_a_Markdown_editor_card": "Inserir marcador no card",
+            "HTML": "HTML",
+            "Insert_a_raw_HTML_card": "inserir linha HTML no card",
+            "Gallery": "Galeria",
+            "Create_an_image_gallery": "Criar uma galeria de imagens",
+            "Divider": "Divisor",
+            "Insert_a_dividing_line": "Inserir Divisor de linhas",
+            "Bookmark": "Marcado de Paginas",
+            "Embed_a_link_as_a_visual_bookmark": "Incorpore um link como um visual favorito",
+            "Email_content": "Conteudo de email",
+            "Only_visible_when_delivered_by_email": "Visível apenas quando entregue por e-mail",
+            "Public_preview": "Visualização publica",
+            "Attract_signups_with_a_public_intro": "Atraia inscrições com uma introdução pública",
+            "EMBED": "EMBUTIR",
+            "/unsplash_[search-term_or_url]": "/unsplash [termo de busca ou url]",
+            "/spotify_[track_or_playlist_url]": "/spotify [faixa ou url da playlist]",
+            "/soundcloud_[track_or_playlist_url]": "/soundcloud [faixa ou url da playlist]",
+            "Preview": "Pré-visualizar",
+            "Publish": "Publicar",
+            "Ready_to_publish_this_post?": "Pronto para publicar esta postagem?",
+            "Set_it_live_now": "Publicar agora",
+            "Publish_this_post_immediately": "Publique esta postagem imediatamente",
+            "Schedule_it_for_later": "Agendar publicação",
+            "Set_automatic_future_publish_date": "Definir data de publicação futura automática",
+            "Cancel": "Cancelar",
+            "Shedule": "Agendar",
+            "Post_settings": "Configurações da postagem",
+            "Post_URL": "URL da postagem",
+            "Publish_date": "Data de publicação",
+            "Tags": "Marcações",
+            "Post_access": "Acesso as postagens",
+            "Excerpt": "Exceto",
+            "Authors": "Autores",
+            "Meta_data": "Meta dados",
+            "Meta_title": "Meta titulo",
+            "Recommended:_60_characters._You’ve_used": "Recomendado: 60 caracteres. Você usou",
+            "Meta_description": "Meta descrição",
+            "Recommended:_145_characters._You’ve_used": "Recomendado: 145 caracteres. Você usou",
+            "Canonical_URL": "URL do site",
+            "Search_Engine_Result_Preview": "Visualização do resultado do mecanismo de pesquisa",
+            "words": "palavras",
+            "Extra_content_for_search_engines": "Conteúdo extra para motores de busca",
+            "Twitter_card": "Twitter card",
+            "Customize_structured_data_for_Twitter": "Customize a estrutura de dados do card do Twitter",
+            "Add_Twitter_image": "Adicione uma imagem",
+            "Twitter_title": "Twitter titulo",
+            "Twitter_decription": "Twitter decrição",
+            "Thoughts,_stories_and_ideas.": "Pensamentos, histórias e ideias.",
+            "Twitter_preview": "Twitter pré-visuazação",
+            "Facebook_card": "Facebook card",
+            "Customize_Open_Graph_data": "Personalize os dados do Open Graph",
+            "Add_Facebook_image": "Adicione uma imagem",
+            "Facebook_title": "Facebook titulo",
+            "Facebook_decription": "Facebook decrição",
+            "Facebook_preview": "Facebook pré-visuazação",
+            "Email_newsletter": "Noticias no Email",
+            "You_need_to_configure_Mailgun_in_Settings_→_Email_newsletter_to_enable_email_newsletters.": "Você precisa configurar o Mailgun em Configurações → Boletim informativo por email para habilitar os boletins informativos por email.",
+            "Subject": "Subjeito",
+            "Test_email": "Teste do email",
+            "Preview_in_browser": "Pré-visualize no navegador",
+            "Code_injection": "Injeção de codigo",
+            "Add_styles/scripts_to_the_header_&_footer": "Adicione styles/scripts  ao header e ao footer",
+            "Feature_this_post": "Destacar postagem",
+            "Delete_post": "Deletar postagem",
+            "Are_you_sure_you_want_to_delete_this_post?": "Tem certeza de que deseja excluir esta postagem?",
+            "You're_about_to_delete": "Você está prestes a excluir",
+            "._This_is_permanent!_We_warned_you,_k?": ".Isso é permanente! Nós avisamos você, ok?",
+            "Are_you_sure_you_want_to_leave_this_post?": "Tem certeza que deseja sair desse post?",
+            "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't_saved_all_of_your_content.": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
+            "Save_before_you_go!": "Salve antes de ir!",
+            "Stay": "Ficar",
+            "Leave": "Sair"
+        },
+        "Pages": {
+            "New_page": "Nova pagina",
+            "TITLE": "TITULO",
+            "STATUS": "STATUS",
+            "All_pages": "Todas as paginas",
+            "Draft_pages": "Esboço de paginas",
+            "Published_pages": "Paginas publicadas",
+            "Scheduled_pages": "Paginas agendadas",
+            "Featured_pages": "Paginas em destaque",
+            "All_access": "Acesso total",
+            "Members-only": "Apenas membros",
+            "Paid_members-only": "Apenas membros pagantes",
+            "All_authors": "Todos autores",
+            "All_tags": "Todas tags",
+            "Getting_Started": "Começando",
+            "Sort_by:": "Ordenado por:",
+            "Newest": "Mais novo",
+            "Oldest": "Mais antigo",
+            "Recently_updated": "Upload recente",
+            "No_pages_match_the_current_filter": "Nenhuma pagina corresponde ao filtro atual",
+            "Show_all_pages": "Mostrar todas as paginas",
+            "New": "Novo",
+            "Add_feature_image": "Adicione uma imagem",
+            "Page_title": "Titulo da pagina",
+            "Begin_writing_you_page...": "Comece a escrever sua pagina ...",
+            "Search_free_high-resolution_photos": "Pesquar fotos de alta resolução gratuitas",
+            "Insert_image": "Inserir imagem",
+            "A_feature_image_is_publicly_visible_to_anyone": "Uma imagem de destaque é publicamente visível para qualquer pessoa",
+            "Delete_image": "Deletar imagem",
+            "Draft": "Esboço",
+            "Type_caption_for_image_(optional)": "Digite a legenda da imagem (opcional)",
+            "Type_all_text_for_image_(optional)": "Digite todo o texto da imagem (opcional)",
+            "Image": "Imagem",
+            "Upload,_or_embed_with_/image_[url]": "Faça upload ou incorpore com /image[url]",
+            "Markdown": "Marcador",
+            "Insert_a_Markdown_editor_card": "Inserir marcador no card",
+            "HTML": "HTML",
+            "Insert_a_raw_HTML_card": "inserir linha HTML no card",
+            "Gallery": "Galeria",
+            "Create_an_image_gallery": "Criar uma galeria de imagens",
+            "Divider": "Divisor",
+            "Insert_a_dividing_line": "Inserir Divisor de linhas",
+            "Bookmark": "Marcado de Paginas",
+            "Embed_a_link_as_a_visual_bookmark": "Incorpore um link como um visual favorito",
+            "Email_content": "Conteudo de email",
+            "Only_visible_when_delivered_by_email": "Visível apenas quando entregue por e-mail",
+            "Public_preview": "Visualização publica",
+            "Attract_signups_with_a_public_intro": "Atraia inscrições com uma introdução pública",
+            "EMBED": "EMBUTIR",
+            "/unsplash_[search-term_or_url]": "/unsplash [termo de busca ou url]",
+            "/spotify_[track_or_playlist_url]": "/spotify [faixa ou url da playlist]",
+            "/soundcloud_[track_or_playlist_url]": "/soundcloud [faixa ou url da playlist]",
+            "Preview": "Pré-visualizar",
+            "Publish": "Publicar",
+            "Ready_to_publish_this_post?": "Pronto para publicar esta postagem?",
+            "Set_it_live_now": "Publicar agora",
+            "Publish_this_post_immediately": "Publique esta postagem imediatamente",
+            "Schedule_it_for_later": "Agendar publicação",
+            "Set_automatic_future_publish_date": "Definir data de publicação futura automática",
+            "Cancel": "Cancelar",
+            "Shedule": "Agendar",
+            "Page_settings": "Configurações da pagina",
+            "Page_URL": "URL da pagina",
+            "Publish_date": "Data de publicação",
+            "Tags": "Marcações",
+            "Post_access": "Acesso as postagens",
+            "Public": "Publico",
+            "Excerpt": "Exceto",
+            "Authors": "Autores",
+            "Meta_data": "Meta dados",
+            "Meta_title": "Meta titulo",
+            "Recommended:_60_characters._You’ve used": "Recomendado: 60 caracteres. Você usou",
+            "Meta_description": "Meta descrição",
+            "Recommended:_145_characters._You’ve_used": "Recomendado: 145 caracteres. Você usou",
+            "Canonical_URL": "URL do site",
+            "Search_Engine_Result_Preview": "Visualização do resultado do mecanismo de pesquisa",
+            "words": "paravras",
+            "Extra_content_for_search_engines": "Conteúdo extra para motores de busca",
+            "Twitter_card": "Twitter card",
+            "Customize_structured_data_for_Twitter": "Customize a estrutura de dados do card do Twitter",
+            "Add_Twitter_image": "Adicione uma imagem",
+            "Twitter_title": "Twitter titulo",
+            "Twitter_decription": "Twitter descrição",
+            "Thoughts,_stories_and_ideas.": "Pensamentos, histórias e ideias.",
+            "Twitter_preview": "Twitter pré-visuazação",
+            "Facebook_card": "Facebook card",
+            "Customize_Open_Graph_data": "Personalize os dados do Open Graph",
+            "Add_Facebook_image": "Adicione uma imagem",
+            "Facebook_title": "Facebook titulo",
+            "Facebook_decription": "Facebook decrição",
+            "Facebook_preview": "Facebook pré-visuazação",
+            "Email_newsletter": "Noticias no Email",
+            "You_need_to_configure_Mailgun_in_Settings_→_Email_newsletter_to_enable_email_newsletters.": "Você precisa configurar o Mailgun em Configurações → Boletim informativo por email para habilitar os boletins informativos por email.",
+            "Subject": "Sujeito",
+            "Test_email": "Teste do email",
+            "Preview_in_browser": "Pré-visualize no navegador",
+            "Code_injection": "Injeção de codigo",
+            "Add_styles/scripts_to_the_header_&_footer": "Adicione styles/scripts  ao header e ao footer",
+            "Feature_this_page": "Destacar pagina",
+            "Delete_page": "Deletar pagina",
+            "Are_you_sure_you_want_to_delete_this_page?": "Tem certeza de que deseja excluir esta pagina?",
+            "You're_about_to_delete": "Você esta prestes a excluir",
+            "._This_is_permanent!_We_warned_you,_k?": ". Isso é permanente! Nós avisamos você, ok?",
+            "Are_you_sure_you_want_to_leave_this_page?": "Are you sure you want to leave this page?",
+            "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't saved all of your content.": "Hey there! It looks like you're in the middle of writing something and you haven't saved all of your content.",
+            "Save_before_you_go!": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
+            "Stay": "Ficar",
+            "Leave": "Sair"
+        },
+        "Tags": {
+            "Public_tags": "Marcações publicas",
+            "Internal_tags": "Marcações Internas",
+            "New_tag": "Nova marcação",
+            "TAG": "MARCAÇÃO",
+            "SLUG": "APELIDO",
+            "NO._OF_POSTS": "Quantidade de postagens vinculadas",
+            "BASIC_SETTINGS": "Configurações basicas",
+            "Name": "Nome",
+            "Color": "Cor",
+            "Tag_image": "Imagem da marcação",
+            "Start_with_#_to_create_internal_tags_Learn_more": "Comece com # para criar tags internas Saiba mais",
+            "Upload_tag_image": "Fazer upload da imagem",
+            "Description": "Descrição",
+            "Maximum:_500_characters._You’ve_used ": "Máximo: 500 caracteres. Você usou",
+            "Expand": "Expandir",
+            "Meta_data": "Meta dados",
+            "Extra_content_for_search_engines.": "Conteúdo extra para motores de busca.",
+            "Meta_title": "Meta titulo",
+            "Recommended:_70 characters._You’ve_used": "Recomendado: 70 caracteres. Você usou",
+            "Meta_description": "Meta descrição",
+            "Recommended:_156_characters._You’ve_used": "Recomendado: 156 caracteres. Você usou",
+            "Canonical_URL": "URL do site",
+            "Search_Engine_Result_Preview": "Visualização do resultado do mecanismo de pesquisa",
+            "Twitter_card": "Twitter card",
+            "Customize_structured_data_for_Twitter": "Customize a estrutura de dados do card do Twitter",
+            "Add_Twitter_image": "Adicione uma imagem",
+            "Twitter_title": "Twitter titulo",
+            "Twitter_decription": "Twitter descrição",
+            "Thoughts,_stories_and_ideas.": "Pensamentos, histórias e ideias.",
+            "Twitter_preview": "Twitter pré-visualização",
+            "Facebook_card": "Facebook card",
+            "Customize_Open_Graph_data": "Personalize os dados do Open Graph",
+            "Add_Facebook_image": "Adicione uma imagem",
+            "Facebook_title": "Facebook titulo",
+            "Facebook_decription": "Facebook descrição",
+            "Facebook_preview": "Facebook pré-visualização",
+            "Email_newsletter": "Noticias no Email",
+            "You_need_to_configure_Mailgun_in_Settings_→_Email_newsletter_to_enable_email_newsletters.": "Você precisa configurar o Mailgun em Configurações → Boletim informativo por email para habilitar os boletins informativos por email.",
+            "Subject": "Sujeito",
+            "Test_email": "Teste do email",
+            "Preview_in_browser": "Pré-visualize no navegador",
+            "Code_injection": "Injeção de codigo",
+            "Add_styles/scripts_to_the_header_&_footer": "Adicione styles/scripts  ao header e ao footer",
+            "Delete_tag": "Deletar marcação",
+            "Are_you_sure_you_want_to_leave_this_page?": "Tem certeza que deseja sair desta página?",
+            "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't_saved_all_of_your_content.": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
+            "Save_before_you_go!": "Salve antes de ir!",
+            "Stay": "Ficar",
+            "Leave": "Sair",
+            "Are_you_sure_you_want_to_delete_this_tag?": "Tem certeza de que deseja excluir está marcação?",
+            "You're_about_to_delete": "Você está prestes a excluir",
+            ". This_is_permanent!_We_warned_you,_k?": ". Isso é permanente! Nós avisamos você, ok?",
+            "Delete": "Deletar",
+            "Cancel": "Cancelar"
+        },
+        "Members": {
+            "Import_members": "Importar membros",
+            "Export_selected_members": "Exportar membros selecionados",
+            "New_member": "Novo membro",
+            "Select_or_drop_a_CSV_file": "Selecione ou solte um arquivo CSV",
+            "Download_sample_CSV_file": "Baixar um arquivo CSV de exemplo",
+            "Close ": "Fechar ",
+            "Label_these_members": "Rotule esses membros",
+            "Start_over": "Recomeçar",
+            "Name": "Nome",
+            "Email": "Email",
+            "Labels": "Rotulos",
+            "Note_(not_visible_to_member)": "Notas(não é visivel aos membros)",
+            "Maximum:_500_characters._You’ve_used": "Máximo: 500 caracteres. Você usou",
+            "Subscribed_to_newsletter": "Inscrito no boletim informativo",
+            "If_disabled,_member_will_not_receive_newsletter_emails": "Se desativado, o membro não receberá e-mails com boletins informativos",
+            "EMAILS_RECEIVED": "Emails recebidos",
+            "EMAILS_OPENED": "Emais abertos",
+            "AVG._OPEN_RATE": "Media de abertura",
+            "MEMBER_ACTIVITY": "Membros ativos",
+            "SUBSCRIPTIONS": "Subinscrição",
+            "This_member_doesn't_have_subscriptions.": "Esse membro não tem subinscrições",
+            "No_member_activity.": "Nenhuma atividade do membro.",
+            "Save": "Salvar",
+            "Impersonate": "Personificar",
+            "This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support.": "Este é um link de autenticação para fazer login em (site) como (e-mail), você pode enviá-lo se precisarem ou usá-lo para fazer login em sua conta de suporte ao cliente.",
+            "This_link_is_only_valid_for_the_next_24_hours": "Link valido por 24 horas",
+            "Delete_member": "Deletar membro",
+            "Delete_member_account": "Deletar conta do membro",
+            "Permanently_delete_(email)_from_Ghost.": "Exclua permanentemente (e-mail) do Ghost.",
+            "No_members_yet": "Ainda sem membros",
+            "Manually_add_a_member": "Adicionar membro manualmente",
+            "Import_members_from_CSV": "Importar membros do CSV",
+            "All_labels": "Todos os rotulos",
+            "Add_Label": "Adicionar rotulo",
+            "New_label": "Novo rotulo",
+            "Label_name": "Nome do rotulo",
+            "Please_enter_a_name": "Por favor digite o nome",
+            "All_members": "Todos os membros",
+            "Free_members": "Membros gratuitos",
+            "Paid_members": "Membros pagantes",
+            "Sort_by:": "Ordenar por:",
+            "Newest": "O mais novo",
+            "Open_rate": "Aberto recente",
+            "Search_member": "Adicione-se como um membro para testar",
+            "Add_yourself_as_a_member_to_test": "Adicionar um membro manualmente"
+        },
+        "Integrations": {
+            "BUILT-IN_INTEGRATIONS": "INTEGRAÇÕES INTEGRADAS",
+            "CUSTOM_INTEGRATIONS": "INTEGRAÇÕES PERSONALIZADAS",
+            "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Crie suas próprias integrações customizada do Ghost com chaves de API e webhooks dedicados",
+            "Add_custom_integration": "Adicionar integração customizada",
+            "New_custom_integration": "Nova integração customizada",
+            "Integration name...": "Nome da integração...",
+            "Create": "Criar",
+            "Cancel": "Cancelar",
+            "CONFIGURATION": "Configuração",
+            "Icon": "Icone",
+            "Upload": "Upload",
+            "Name": "Nome",
+            "Description": "Descrição",
+            "Content_API_key": "Chave de API do conteudo",
+            "Admin_API_key": "Chave de API do Administrador",
+            "API_URL": "API URL",
+            "WEBHOOKS": "WEBHOOKS",
+            "NAME": "NOME",
+            "EVENT": "EVENTO",
+            "URL": "URL",
+            "LAST_TRIGGERED": "Ultimo gatilho",
+            "No_webhooks_configured": "Nenhum webhook configurado",
+            "Add_webhook": "Adicionar webhook",
+            "New_webhook": "Novo webhook",
+            "Webhook_name...": "Nome do webhook...",
+            "Event": "Evento",
+            "Select_na_event": "Selecione o evento",
+            "Target_URL": "URL alvo",
+            "Secret": "Secreto",
+            "Webhook_target_URL...": "Webhook alvo URL...",
+            "Webhook_secret...": "Webhook secreto...",
+            "Please_enter_a_target_URL": "Insira um URL de destino",
+            "Please_select_an_event": "Selecione um evento",
+            "Please_enter_a_name": "Insira o nome",
+            "Global": "Global",
+            "Site_changed_(rebuild)": "Site alterado (reconstruir)",
+            "Posts": "Postagens",
+            "Post_created": "Postagens criadas",
+            "Post_deleted": "Postagens deletadas",
+            "Post_updated": "Postagens atualizadas",
+            "Post_published": "Postagens publicadas",
+            "Published_post_updated": "Postagens publicadas e atualizadas",
+            "Post_unpublished": "Postagens não publicadas",
+            "Tag_added_to_post": "Tag adicionada à postagem",
+            "Tag_removed_from_post": "Tag removida da postagem",
+            "Pages": "Paginas",
+            "Page_created": "Paginas criadas",
+            "Page_deleted": "Paginas deletadas",
+            "Page_updated": "Paginas atualizadas",
+            "Page_published": "Postagens publicadas",
+            "Published_page_updated": "Postagens publicadas e atualizadas",
+            "Page_unpublished": "Postagens não publicadas",
+            "Tag_added_to_page": "Marcações adicionada à pagina",
+            "Tag_removed_from_page": "Marcações removidas da pagina",
+            "Tags": "Marcações",
+            "Tag_created": "Marcações criadas",
+            "Tag_updated": "Marcações atualizadas",
+            "Tag_deleted": "Marcações deletadas",
+            "Members": "Membros",
+            "Member_added": "Membros adicionados",
+            "Member_updated": "Membros atualizados",
+            "Member_deleted": "Membros deletados"
+        },
+        "Login": {
+            "Sign_in_to": "Acesse",
+            "Email_address": "Endereção de email",
+            "jamie@exemple.com": "exemplo@exemplo.com",
+            "Password": "Senha",
+            "Forgot?": "Esqueceu?",
+            "We_need_your_email_address_to_reset_your_password!": "Precisamos do seu endereço de e-mail para redefinir sua senha!",
+            "Failed_to_send_email.": "Falha ao enviar e-mail.",
+            "Sign_in": "Acessar"
+        },
+        "ProfilePitcure": {
+            "About_Ghost": "Sobre o Ghost",
+            "Version": "Versão",
+            "Environment ": "Ambiente",
+            "Database": "Banco de dados",
+            "Mail": "Mail",
+            "Developer_experiments": "Versão experimental",
+            "User_Documentation": "Ver documentação",
+            "Get_Help_With_Ghost": "Obtenha ajuda com o Ghost",
+            "Update_available!_Ghost_4.15.0_has_been_released,_click_here_to_upgrade.": "Atualização disponível! Ghost 4.15.0 foi lançado, clique aqui para atualizar.",
+            "The_People_Who_Made_it_Possible": "As pessoas que tornaram isso possível",
+            "Ghost_is_built_by_an_incredible_group_of_contributors_from_all_over_the_world._Here_are_just_a_few_of_the_people_who_helped_create_the_version_you’re_using_right_now.": "O Ghost é construído por um grupo incrível de colaboradores de todo o mundo. Aqui estão apenas algumas das pessoas que ajudaram a criar a versão que você está usando agora.",
+            "Find_out_how_you_can_get_involved": "Descubra como você pode participar",
+            "Copyright_©_2013–2021_Ghost_Foundation,_released_under_the_MIT_license.": "Direitos autorais © 2013-2021 Ghost Foundation, lançado sob a licença do MIT.",
+            "Ghost_is_a_registered_trademark_of_Ghost_Foundation_Ltd.": "Ghost é uma marca registrada da Ghost Foundation Ltd.",
+            "What's_new?": "O que há de novo?",
+            "See_all_past_updates": "Veja todas as atualizações anteriores",
+            "Your_profile": "Seu perfil",
+            "Change_Cover": "Mudar a capa",
+            "Upload_na_image": "Enviar imagem",
+            "Cancel": "Cancelar",
+            "Save": "Salvar",
+            "EDIT_PITCURE": "Editar Foto",
+            "Full_Name": "Nome completo",
+            "Use_your_real_name_so_people_can_recognize_you ": "Use seu nome verdadeiro para que as pessoas possam reconhecê-lo",
+            "Slug": "Apelido",
+            "Email": "Email",
+            "Used_for_notifications": "Usado para notificações",
+            "Location": "Localização",
+            "Where_in_the_world_do_you_live?": "Qual pais do mundo voçê vive?",
+            "Website": "Website",
+            "Have_a_website_or_blog_other_than_this_one?_Link_it!": "Tem um site ou blog diferente deste? Ligue-o!",
+            "Facebook_Profile": "Perfil do Facebook",
+            "https://www.facebook.com/username": "https://www.facebook.com/nomeDoUsuario",
+            "URL_of_your_personal_Facebook_Profile": "URL do seu perfil pessoal do Facebook",
+            "Twitter_Profile": "Perfil do Twitter",
+            "https://twitter.com/username": "https://twitter.com/nomeDoUsuario",
+            "URL_of_your_personal_Twitter_profile": "URL do seu perfil pessoal do Facebook",
+            "Bio": "Biografia",
+            "Write_about_you,_in_200_characters_or_less._200": "Escreva sobre você, em 200 caracteres ou menos.",
+            "Old_Password": "Senha antiga",
+            "New_Password": "Senha nova",
+            "Verify_Password": "Verificar senha",
+            "Change_Password": "Mudar senha",
+            "Staff_Access_Token": "Token de acesso pessoal",
+            "Give_apps_personal_access_without_sharing_your_email/password.": "Dê aos aplicativos acesso pessoal sem compartilhar seu e-mail / senha.",
+            "Copy": "Copiar",
+            "Regenerate": "Regenerar",
+            "Support_center": "Suporte",
+            "How_to_use_Ghost": "Como usar o Ghost",
+            "Sign_out": "Sair"
+        },
+        "Staff": {
+            "Staff_users": "Colaboradores",
+            "ACTIVE_USERS": "Usuarios Ativos",
+            "Invite_people": "Convidar pessoas",
+            "Invite_a_new_staff_user": "Convide uma nova pessoa para a equipe",
+            "Send_an_invitation_for_a_new_person_to_create_a_staff_account_on_your_site,_and_select_a_role_that_matches_what_you’d_like_them_to_be_able_to_do.": "Envie um convite para uma nova pessoa criar a conta de equipe em seu site, e selecione uma função que corresponda ao cargo dela.",
+            "Email_address": "Endereço de email",
+            "youremail@exemple.com": "exemplo@exemplo.com",
+            "Close": "Fechar",
+            "Contributor": "Colaborador",
+            "Author": "Autor",
+            "Editor": "Editor",
+            "Administrator": "Administrador",
+            "Can_create_and_edit_their_own_posts,_but_cannot_publish._An_Editor_needs_to_approve_and_publish_for_them": "Podem criar e editar suas próprias postagens, mas não podem publicar. Um editor precisa aprovar e publicar para eles.",
+            "A_trusted_user_who_can_create,_edit_and_publish_their_own_posts,_but_can’t_modify_others.": "Um usuário que pode criar, editar e publicar suas próprias postagens, mas não pode modificar outras.",
+            "Can_invite_and_manage_other_Authors_and_Contributors,_as_well_as_edit_and_publish_any_posts_on_the_site.": "Pode convidar e gerenciar outros autores e colaboradores, bem como editar e publicar quaisquer postagens no site.",
+            "Trusted_staff_user_who_should_be_able_to_manage_all_content_and_users,_as_well_as_site_settings_and_options.": "Usuário da equipe que deve ser capaz de gerenciar todo o conteúdo e usuários, bem como configurações e opções do site.",
+            "Settings": "Configurações",
+            "Users": "Usuarios",
+            "Posts": "Postagens",
+            "Tags": "Marcações",
+            "Database": "Banco de dados",
+            "Email": "Email",
+            "View_and_edit_own_profile": "Ver e editar o próprio perfil",
+            "Create_and_edit_own_draft_posts": "Criar e editar os próprios rascunhos de postagens",
+            "Browse_users": "Procurar usuários",
+            "View,_edit_and_publish_own_posts,_generate_slugs": "Visualizar, editar e publicar postagens, gerar apelidos",
+            "Add_tags": "adicionar marcações",
+            "Browse_users,_manage_authors_and_contributors_(invite,_revoke,_delete)": "Procurar usuários, gerenciar autores e colaboradores (convidar, revogar, excluir)",
+            "Create,_publish,_edit_and_delete_all_posts,_generate_slugs": "Criar, publicar, editar e excluir todos os posts, gerar apelidos",
+            "Edit,_add_and_delete_tags": "Editar, adicionar e deletar marcações",
+            "Access_all_except_Stripe_settings": "Acesse tudo, exceto as configurações do 'Stripe'",
+            "Manage_all_users_(invite,_revoke,_delete)": "Gerenciar todos os usuários (convidar, revogar, excluir)",
+            "Import,_export_and_delete_all_content": "Importar, exportar e excluir todo o conteúdo",
+            "Send_newsletters_and_test_emails": "Envie boletins informativos e teste de e-mails",
+            "Send_invitation_now": "Enviar convite agora",
+            "Reset_all_passwords": "Resetar todas as senhas",
+            "You're_about_to_end_all_active_staff_user_sessions_and_trigger_a_password_reset_for_everyone_(including_yourself)._Are_you_sure?": "Você está prestes a encerrar todas as sessões de usuário da equipe ativa e acionar uma redefinição de senha para todos (incluindo você). Tem certeza?",
+            "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Sim, encerre as sessões e redefina as senhas de todos os usuários.",
+            "Upon_submission,_you_will_be_logged_out._Please_check_your_email_to_reset_your_password.": "Após o envio, você será desconectado. Por favor, verifique seu e-mail para redefinir sua senha.",
+            "Reset_Passwords": "Resetar senhas",
+            "Cancel": "Cancelar"
+        },
+        "Search": {
+            "Search_site...": "Pesquise no site..",
+            "Open_with_Ctrl/⌘_+_K": "Abra com Ctrl/⌘ + K",
+            "Loading": "Carregando",
+            "No_results_found": "Nenhum resultado encontrado"
+        },
+        "Dashboard": {
+            "30_DAYS": "30 DIAS",
+            "$": "R$",
+            "TOTAL_MEMBERS": "TOTAL DE MEMBROS",
+            "PAID_MEMBERS": "MEMBROS PAGOS",
+            "EMAIL_OPEN_RATE": "TAXA DE ABERTURA DE E-MAIL",
+            "Customize_your_site_design": "Personalize o design do seu site",
+            "Stand_out_from_the_crowd._Ghost_lets_you_customize_everything_so_you_can_create_a_publication_that_doesn’t_just_look_the_same_as_what_everyone_else_has.": "Destaque-se da multidão. O Ghost permite que você personalize tudo para que possa criar uma publicação que não tenha apenas a mesma aparência de todos os outros.",
+            "Brand": "Configurações",
+            "Theme": "Tema",
+            "ACTIVITY_FEED": "PAINEL DE ATIVIDADES",
+            "No_member_activity_available.": "Nenhuma atividade de membro disponível.",
+            "Looking_for_help_with_Ghost_features?": "Procurando ajuda com os recursos do Ghost?",
+            "Our_product_knowledgebase_is_packed_full_of_guides,_tutorials,_answers_to_frequently_asked_questions,_tips_for_dealing_with_common_errors,_and_much_more.": "Nossa base de conhecimento de produtos está repleta de guias, tutoriais, respostas a perguntas frequentes, dicas para lidar com erros comuns e muito mais.",
+            "Visit_the_help_center": "Visite a central de ajuda",
+            "WHAT'S_NEW?": "O QUE HÁ DE NOVO?",
+            "Free_newsletter_themes": "Temas de boletins informativos gratuitos",
+            "Invite-only_communities": "Comunidades apenas para convidados",
+            "Segmented_email_newsletters": "Boletins informativos por e-mail segmentados",
+            "See_all_updates": "Veja todas as atualizações",
+            "6_types_of_newsletters_you_can_start_today": "6 tipos de boletins informativos que você pode começar hoje",
+            "Choosing_one_of_these_6_newsletter_types_for_your_publication_will_help_you_create_better_content_at_a_faster_pace_with_less_work.": "A escolha de um desses 6 tipos de boletim informativo para sua publicação o ajudará a criar um conteúdo melhor em um ritmo mais rápido e com menos trabalho.",
+            "Get_some_inspiration": "Inspire-se",
+            "5_MIN_READ": "5 MINUTOS DE LEITURA",
+            "We're_hiring!_Join_the_team_that_makes_Ghost.": "Estamos contratando! Junte-se à equipe que faz o Ghost.",
+            "The_creator_economy_is_growing_faster_than_ever,_and_so_are_we!Join_a_team_that's_determined_to_make_decentralised,_open_technology_the_heart_and_soul_of_new_media": "A economia do criador está crescendo mais rápido do que nunca, e nós também! 📈 Junte-se a uma equipe que está determinada a fazer da tecnologia aberta e descentralizada o coração e a alma das novas mídias 🌺",
+            "See_open_roles": "Veja as vagas abertas",
+            "How_to_grow_your_audience,_starting_from_0": "Como aumentar seu público a partir de 0",
+            "Starting_from_zero_is_hard._Thankfully,_successful_creators_have_given_us_clues_on_how_to_grow_an_audience_by_using_something_called_a_content_funnel.": "Começar do zero é difícil. Felizmente, criadores de conteúdo bem-sucedidos nos deram dicas sobre como aumentar o público usando algo chamado funil de conteúdo.",
+            "Here's_how_it_works": "É assim que funciona",
+            "Join_the_Ghost_creator_community.": "Junte-se à comunidade de criadores do Ghost.",
+            "Meet_other_people_building_both_free_&_paid_publications_with_Ghost._Talk_strategy,_get_advice,_or_just_hang_out.": "Conheça outras pessoas que estão criando publicações gratuitas e pagas com o Ghost. Converse sobre estratégias, peça conselhos ou simplesmente divirta-se.",
+            "Share_the_journey": "Compartilhe sua jornada",
+            "community.ghost.org": "community.ghost.org"
+        },
+        "Settings": {
+            "WEBSITE": "SITE",
+            "General": "Geral",
+            "Branding": "Branding",
+            "Theme": "Tema",
+            "Navegation": "Navegação",
+            "MEMBERS": "MEMBROS",
+            "Membership": "Filiação",
+            "Email_newsletter": "Noticias por email",
+            "ADVANCED": "Avançado",
+            "Code_injection": "Injeção de codigo",
+            "Labs": "Laboratório",
+            "Basic_publication_details_and_site_metadata": "Detalhes básicos da publicação e metadados do site",
+            "Upload_site_logo_and_set_accent_color": "Faça upload do logotipo do site e defina a cor de destaque",
+            "Install_and_update_themes": "Instale e atualize os temas",
+            "Set_up_primary_and_secondary_menus": "Configure a navegação nos menus",
+            "Access,_subscription,_and_pricing_options": "Opções de acesso, assinatura e preço",
+            "Customize_emails_and_set_email_addresses": "Customize e defina emails",
+            "Add_code_to_your_publication": "Adicione codigo as suas publicações",
+            "Testing_ground_for_new_features": "Campo de testes para novos recursos",
+            "Ghost_allows_you_to_inject_code_into_the_top_and_bottom_of_your_theme_files_without_editing_them._This_allows_for_quick_modifications_to_insert_useful_things_like_tracking_codes_and_meta_tags.": "O Ghost permite que você injete código na parte superior e inferior de seus arquivos de tema sem editá-los. Isso permite modificações rápidas para inserir itens úteis, como códigos de rastreamento e metatags.",
+            "Code_here_will_be_injected_into_the_{ghost_head}_tag_on_every_page_of_the_site": "O código aqui será injetado na tag {ghost_head} em todas as páginas do site",
+            "Code_here_will_be_injected_into_the_{ghost_foot}_tag_on_every_page_of_the_site": "O código aqui será injetado na tag {ghost_foot} em todas as páginas do site",
+            "Save": "Salve",
+            "Saved": "Salvou",
+            "This_is_a_testing_ground_for_new_or_experimental_features._They_may_change,_break_or_inexplicably_disappear_at_any_time.": "Este é um campo de testes para recursos novos ou experimentais. Eles podem mudar, quebrar ou desaparecer inexplicavelmente a qualquer momento.",
+            "MIGRATION_OPTIONS": "OPÇÃO DE MIGRAR",
+            "Import_content": "Importar conteudo",
+            "Import_posts_from_another_Ghost_installation": "Importar postagens de outra instalação do Ghost",
+            "Export_your_content": "Exportar conteudo",
+            "Download_all_of_your_posts_and_settings_in_a_single,_glorious_JSON_file": "Baixe todas as suas postagens e configurações em um único e glorioso arquivo JSON",
+            "Export": "Exportar",
+            "Import": "Importar",
+            "Delete_all_content": "Deletar todo conteudo",
+            "Permanently_delete_all_posts_and_tags_from_the_database,_a_hard_reset": "Exclua permanentemente todas as postagens e tags do banco de dados, uma reinicialização forçada",
+            "Delete": "Deletar",
+            "Would_you_really_like_to_delete_all_content_from_your_blog?": "Você realmente gostaria de excluir todo o conteúdo do seu blog?",
+            "This_is_permanent!_No_backups,_no_restores,_no_magic_undo_button._We_warned_you,_k?": "Isso é permanente! Sem backups, sem restaurações, sem botão mágico de desfazer. Nós avisamos você, ok?",
+            "Cancel": "Cancelar",
+            "BETA_FEATURES": "RECURSOS BETAS",
+            "Redirects": "Redirecionar",
+            "Configure_redirects_for_old_or_moved_content,_more_info_in_the_docs": "Configure redirecionamentos para conteúdo antigo ou movido, mais informações no documento",
+            "Upload_redirects_YAML/JSON": "Envio de redirecionamentos YAML / JSON",
+            "Download_current_redirects": "Baixar redirecionamentos atuais",
+            "Uploaded": "Enviado",
+            "Incorrect_redirects_file_format": "Formato de arquivo de redirecionamento incorreto",
+            "Routes": "Rotas",
+            "Configure_dynamic_routing_by_modifying_the_routes.yaml_file": "Configure o roteamento dinâmico modificando o arquivo routes.yaml",
+            "Upload_routes_YAML": "Carregar rotas YAML",
+            "Download_current_routes.yaml": "Faça download de routes.yaml atual",
+            "ALPHA_FEATURES": "RECURSOS ALPHA",
+            "Google_OAuth_for_staff_users": "Configure o Google Oauth",
+            "Allow_people_to_sign_into_Ghost_Admin_using_Google_SSO,_docs_here": "Permitir que as pessoas façam login no Ghost Admin usando o SSO do Google, documentação aqui",
+            "Configure_Google_Oauth": "Configure o Google Oauth",
+            "Google_OAuth_Client_ID": "Google OAuth Cliente ID",
+            "Google_OAuth_Client_Secret": "Google OAuth Cliente Secreto",
+            "Match_helper": "Ajudante de partida",
+            "Experimental_{{match}}_helper_for_themes": "Auxiliar experimental {match} para temas",
+            "Tiers": "Camadas",
+            "Allow_custom_tiers_on_site": "Configure as camadas do site",
+            "Email-only_CTA_card": "Cartão de CTA somente por e-mail",
+            "Add_card_for_a_CTA_that_is_selectively_shown_in_emails_to_free/paid_members": "Adicione um cartão para um CTA que é mostrado seletivamente em e-mails para membros gratuitos / pagos",
+            "Show_saved_state_in_editor": "Mostrar estado salvo no editor",
+            "Post_status_in_editor_shows_Saved_when_a_post_has_no_unsaved_changes": "O status da postagem no editor mostra '- Salvo' quando uma postagem não contém alterações não salvas",
+            "Feature_image_drag_&_drop": "Recurso de arrastar e soltar imagem",
+            "Allow_dropping_image_files_on_feature_image_to_upload": "Permitir soltar arquivos de imagem em imagem de recurso para fazer upload",
+            "Members_Filtering": "Filtragem de membros",
+            "Allow_using_filtering_features_on_Members": "Permitir o uso de recursos de filtragem em membros",
+            "Check_Email": "Verificação de email",
+            "Allow_email_verification": "Permitir verificação de email",
+            "Email-only_posts": "Postagem somente por email",
+            "Enable_posts_visible_only_in_email": "Ativar postagens visíveis apenas no e-mail",
+            "Dashboard_2.0": "Painel de controle 2.0",
+            "More_graphs._Better_graphs._Fewer_useless_graphs.": "Mais gráficos. Melhores gráficos. Menos gráficos inúteis.",
+            "Fund_your_work_with_subscription_revenue._Connect_your_Stripe_account_and_offer_premium_content_to_your_audience._Our_creators_are_already_making_over_$2_million_per_year,_while_Ghost_takes_0%_payment_fees.": "Financie seu trabalho com a receita de assinaturas. Conecte sua conta Stripe e ofereça conteúdo premium para seu público. Nossos criadores já estão ganhando mais de $ 2 milhões por ano, enquanto o Ghost cobra taxas de pagamento de 0%.",
+            "Portal_Settings": "Configurações do portal",
+            "Customize_members_modal_signup_flow": "Personalize o fluxo de inscrição modal de membros",
+            "Customize_Portal": "Customize o portal ->",
+            "Subscription_access": "Acesso de assinatura",
+            "Who_should_be_able_to_subscribe_to_your_site?": "Quem deve ser capaz de se inscrever em seu site?",
+            "Anyone_can_sign_up": "Qualquer pessoa pode se inscrever",
+            "All_visitors_will_be_able_to_subscribe_and_sign_in": "Todos os visitantes poderão se inscrever e fazer login",
+            "Only_people_I_invite": "Apenas pessoas que eu convido",
+            "People_can_sign_in_from_your_site_but_won't_be_able_to_sign_up": "As pessoas podem fazer login em seu site, mas não conseguirão se inscrever",
+            "No_one_will_be_able_to_subscribe_or_sign_in": "Ninguém poderá se inscrever ou fazer login",
+            "Default_post_access": "Acesso de postagem padrão",
+            "When_a_new_post_is_created,_who_should_have_access?": "Quando uma nova postagem é criada, quem deve ter acesso?",
+            "Public": "Publico",
+            "All_site_visitors_to_your_site,_no_login_required": "Todos os visitantes do seu site, sem necessidade de login",
+            "Members_only": "Apenas membros",
+            "All_logged-in_members": "Todos os membros logados",
+            "Paid-members_only": "Apenas membros pagantes",
+            "Only_logged-in_members_with_an_active_Stripe_subscription": "Apenas membros logados com uma assinatura ativa do Stripe",
+            "MEMBERSHIP_TIERS": "NÍVEIS DE SÓCIOS",
+            "Stripe_not_connected": "Stripe não conectado",
+            "Free": "Gratis",
+            "Free_member_sign_up_settings": "Configurações de inscrição de membro grátis",
+            "Close": "Fechar",
+            "Welcome_page": "Bem vindo a pagina",
+            "Redirect_to_this_URL_after_signup_for_a_free_membership": "Redirecionar para este URL após a inscrição para uma assinatura gratuita",
+            "Premium": "Pago",
+            "Set_prices_and_paid_member_sign_up_settings": "Definir preços e configurações de inscrição de membros pagos",
+            "Connect_with_Stripe": "Conecte-se com Stripe",
+            "Generate_secure_key": "Gerar chave segura",
+            "Use_test_mode": "Usar modo de teste",
+            "Using_test_mode": "Usando modo de teste",
+            "Paste_your_secure_key_here": "Cole sua chave segura aqui",
+            "Stripe_is_our_exclusive_direct_payments_partner.": "Stripe é nosso parceiro exclusivo para pagamentos diretos.",
+            "Ghost_collects_no_fees_on_any_payments!_If_you_don’t_have_a_Stripe_account_yet,_you_can_sign_up_here.": "O Ghost não cobra taxas em nenhum pagamento! Se você ainda não tem uma conta do Stripe, inscreva-se aqui.",
+            "Getting_paid": "Sendo pago",
+            "Save_Stripe_settings": "Salvar configurações do Stripe",
+            "Email_design": "Design do email",
+            "Customize_the_look_and_feel_of_email_newsletters": "Customize a aparência dos boletins informativos por e-mail",
+            "Customize": "Customize",
+            "Default_newsletter_recipients": "Destinatários do boletim informativo padrão",
+            "Who_do_you_usually_want_to_send_emails_to?": "Para quem você geralmente deseja enviar e-mails?",
+            "Send_emails_to": "Enviar e-mails para",
+            "Select_a_tier": "Selecione um nível",
+            "members": "Membros",
+            "Match_post_access_level": "Corresponder ao nível de acesso da postagem",
+            "Nobody": "Ninguém",
+            "Disabled": "Desabilitado",
+            "Email_addresses": "Endereço de email",
+            "Contact_information_used_for_newsletters_and_member_login_emails": "Informações de contato usadas para boletins informativos e emails de login de membros",
+            "Support_email_address": "Suporte do endereço de email",
+            "How_members_can_reach_you_for_help_with_their_account_(public)": "Como os membros podem entrar em contato com você para obter ajuda com suas contas (público)",
+            "Newsletter_email_address": "Endereço de email do boletim informativo",
+            "The_address_your_newsletter_posts_are_sent_from": "O endereço de onde as postagens do seu boletim informativo são enviadas",
+            "Update_support_address": "Atualizar endereço de suporte",
+            "Update_newsletter_address": "Atualize o endereço do boletim informativo",
+            "Newsletter_replies_go_to": "As respostas ao boletim informativo vão para",
+            "Enable_newsletter_open-rate_analytics": "Habilitar análises de taxa aberta de boletins informativos",
+            "Where_you_receive_responses_to_newsletters": "Onde você recebe respostas aos boletins informativos",
+            "Track_how_many_members_are_reading_your_emails": "Acompanhe quantos membros estão lendo seus e-mails",
+            "The_Mailgun_API_is_used_for_bulk_email_newsletter_delivery._Why_is_this_required?": "A API Mailgun é usada para entrega de boletins informativos por e-mail em massa. Por que isso é necessário?",
+            "Mailgun_region": "Mailgun região",
+            "Mailgun_domain": "Mailgun dominio",
+            "Find_your_Mailgun_region_and_domain_here_»": "Encontre sua região e domínio Mailgun aqui »",
+            "Mailgun_Private_API_key": "Chave privada da API Mailgun",
+            "Find_your_Mailgun_API_keys_here_»": "Encontre suas chaves de API do Mailgun aqui »",
+            "GHOST_THEME_DIRECTORY": "DIRETORIO DE TEMAS DO GHOST",
+            "View_more": "Ver mais",
+            "INSTALLED_THEMES": "INSTALAR TEMAS",
+            "Upload_a_theme": "Atualizar temas",
+            "Download": "Baixar",
+            "Active": "Ativar",
+            "Theme_developer_docs": "Documentação dos temas",
+            "PRIMARY_NAVIGATION": "NAVEGAÇÃO PRIMARIA",
+            "SECONDARY_NAVIGATION": "NAVEGAÇÃO SECUNDARIA",
+            "You_must_specify_a_label": "Você deve especificar um rótulo",
+            "Accent_color": "Cor de destaque",
+            "Primary_color_used_in_your_publication_theme": "Cor primária usada no tema de sua publicação",
+            "A_square,_social_icon_used_in_the_UI_of_your_publication,_at_least_60x60px": "Um ícone social quadrado usado na IU da sua publicação, com pelo menos 60x60px",
+            "Publication_icon": "Ícone de publicação",
+            "Upload_icon": "Ícone de upload",
+            "Publication_logo": "Logotipo da publicação",
+            "The_primary_logo_for_your_brand_displayed_across_your_theme,_should_be_transparent_and_at_least_600px_x_72px": "O logotipo principal de sua marca, exibido em seu tema, deve ser transparente e ter pelo menos 600px x 72px",
+            "Publication_cover": "Capa de publicação",
+            "An_optional_large_background_image_for_your_site": "Uma imagem de plano de fundo opcional grande para seu site",
+            "Upload_cover": "Carregar capa",
+            "Save_and_close": "Salvar e fechar",
+            "PUBLICATION_INFO": "INFORMAÇÕES DA PUBLICAÇÃO",
+            "Title_&_description": "Titulo e descrição",
+            "The_details_used_to_identify_your_publication_around_the_web": "Os detalhes usados ​​para identificar sua publicação na web",
+            "The_name_of_your_site": "O nome do seu site",
+            "Used_in_your_theme,_meta_data_and_search_results": "Usado em seu tema, metadados e resultados de pesquisa",
+            "Site_timezone": "Fuso horário do site",
+            "Set_the_time_and_date_of_your_publication,_used_for_all_published_posts": "Defina a hora e a data de sua publicação, usadas para todas as postagens publicadas",
+            "The_local_time_here_is_currently": "A hora local aqui é atualmente",
+            "Publication_Language": "Linguagem de publicação",
+            "Set_the_language/locale_which_is_used_on_your_site": "Defina o idioma / localidade que é usado em seu site",
+            "Default:_English_(en);_you_can_add_translation_files_to_your_theme_for_any_language": "Padrão: Inglês (en); você pode adicionar arquivos de tradução ao seu tema para qualquer idioma",
+            "SITE_META_SETTINGS": "CONFIGURAÇÕES DE META DO SITE",
+            "Meta_data": "Meta dados",
+            "Extra_content_for_search_engines": "Conteúdo extra para motores de busca",
+            "Expand": "Expandir",
+            "Meta_title": "Titulo Meta",
+            "Recommended:_70_characters._You’ve_used ": "Recomendado: 70 caracteres. Você usou",
+            "Meta_description": "Meta descrição",
+            "Recommended:_156_characters._You’ve_used ": "Recomendado: 156 caracteres. Você usou",
+            "Thoughts,_stories_and_ideas.": "Pensamentos, histórias e ideias.",
+            "Search_engine_result_preview": "Visualização do resultado do mecanismo de pesquisa",
+            "Twitter_card": "Cartão do Twitter",
+            "Customize_structured_data_of_your_site_for_Twitter": "Personalize os dados estruturados do seu site para o Twitter",
+            "Twitter_image": "Twitter imagem",
+            "Add_Twitter_image": "Adicionar imagem do Twitter",
+            "Twitter_title": "Twitter titilo",
+            "Twitter_description": "Twitter descrição",
+            "Twitter_preview": "Twitter pré-visualização",
+            "Facebook_card": "Cartão de Facebook",
+            "Customize_structured_data_of_your_site": "Personalize os dados estruturados do seu site",
+            "Facebook_image": "Facebook imagem",
+            "Add_Facebook_image": "Adicionar imagem do Facebook",
+            "Facebook_title": "Facebook titulo",
+            "Facebook_description": "Facebook descrição",
+            "Facebook_preview": "Facebook pré-visualização",
+            "SOCIAL_ACCOUNTS": "CONTAS SOCIAIS",
+            "Link_your_social_accounts_for_full_structured_data_and_rich_card_support": "Vincule suas contas sociais para dados totalmente estruturados e suporte para rich card",
+            "URL_of_your_publication's_Facebook_Page": "URL da página da sua publicação no Facebook",
+            "URL_of_your_publication's_Twitter_profile": "URL do perfil do Twitter da sua publicação",
+            "ADVANCED_SETTINGS": "CONFIGURAÇÕES AVANÇADAS",
+            "Make_this_site_private": "Tornar este site privado",
+            "Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled.": "Ative a proteção com uma senha compartilhada simples. Todos os recursos sociais e de otimização de mecanismo de pesquisa serão desativados.",
+            "A_private_RSS_feed_is_available_at": "Um feed RSS privado está disponível em",
+            "Set_the_password_for_this_site": "Defina a senha para este site"
         }
     }
 }
