@@ -6,6 +6,7 @@
     </GhCanvasHeader>
 
     <div class="view-container gh-dashboard">
+        <h1>{{t "Manual.Posts.TITLE"}}</h1>
 
         {{#if (and this.session.user.isOwnerOnly (not this.feature.launchComplete))}}
             <section class="gh-dashboard-area lw-banner">

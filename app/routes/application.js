@@ -36,6 +36,7 @@ export default Route.extend(ShortcutsRoute, {
     settings: service(),
     ui: service(),
     whatsNew: service(),
+    intl: service(),
 
     shortcuts,
 
@@ -173,6 +174,8 @@ export default Route.extend(ShortcutsRoute, {
 
             await this.session.postAuthPreparation();
         }
+
+        await this.get('intl').setLocale([this.settings.get('lang')]);
     }
 
 });
