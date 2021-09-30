@@ -1,0 +1,14 @@
+{
+    "Manual":
+    {
+        "Posts": {
+            "TITLE": "TITULO",
+            "SENDS": "ENVIADO",
+            "OPENS": "ABERTO",
+            "STATUS": "STATUS",
+            "Posts": "Postagens",
+            "New_post": "Nova postagem",
+            "All_posts": "Todas postagens"
+        }
+    }
+}
