@@ -48,12 +48,12 @@
                 <div class="no-posts">
                     {{#if this.showingAll}}
                         {{svg-jar "posts-placeholder" class="gh-posts-placeholder"}}
-                        <h3>You haven't written any posts yet!</h3>
+                        <h3>{{t "Manual.Posts.You_havent_written_any_posts_yet"}}</h3>
                         <LinkTo @route="editor.new" @model="post" class="gh-btn gh-btn-green gh-btn-lg">
-                            <span>{{t "Manual.Posts."}}Write a new post</span>
+                            <span>{{t "Manual.Posts.Write_a_new_post"}}</span>
                         </LinkTo>
                     {{else}}
-                        <h3>No posts match the current filter</h3>
+                        <h3>{{t "Manual.Posts.No_posts_match_the_current_filter"}}</h3>
                         <LinkTo @route="posts" @query={{hash type=null author=null tag=null}} class="gh-btn gh-btn-lg">
                             <span>{{t "Manual.Posts.Show_all_posts"}}</span>
                         </LinkTo>
