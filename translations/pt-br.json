@@ -1009,6 +1009,7 @@
         },
         "Integrations": {
             "Integrations": "Integrações",
+            "More": "Mais",
             "BUILT-IN_INTEGRATIONS": "INTEGRAÇÕES INTEGRADAS",
             "CUSTOM_INTEGRATIONS": "INTEGRAÇÕES PERSONALIZADAS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Crie suas próprias integrações customizada do Ghost com chaves de API e webhooks dedicados",
@@ -1070,7 +1071,17 @@
             "Members": "Membros",
             "Member_added": "Membros adicionados",
             "Member_updated": "Membros atualizados",
-            "Member_deleted": "Membros deletados"
+            "Member_deleted": "Membros deletados",
+            "Automation_for_your_favorite_apps": "Automação para seus aplicativos favoritos",
+            "Configure": "Configurar",
+            "A_messaging_app_for_teams": "Um aplicativo de mensagens para equipes",
+            "Beautiful_free_photos": "Lindas fotos, gratuitas",
+            "Launch_your_member_referral_program": "Lance seu programa de indicação de membros",
+            "Copied": "Copiado",
+            "Copy": "Cópiar",
+            "Content_API_Key_was_successfully_regenerated": "A chave da Content API foi regenerada com sucesso",
+            "Admin_API_key_was_successfully_regenerated": "Chave de API do Administrador foi regenerada com sucesso",
+            "Delete_integration": "Excluir integração"
         },
         "Login": {
             "Create_Account": "Criar conta",
@@ -1186,7 +1197,9 @@
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Sim, encerre as sessões e redefina as senhas de todos os usuários.",
             "Upon_submission,_you_will_be_logged_out._Please_check_your_email_to_reset_your_password.": "Após o envio, você será desconectado. Por favor, verifique seu e-mail para redefinir sua senha.",
             "Reset_Passwords": "Resetar senhas",
-            "Cancel": "Cancelar"
+            "Cancel": "Cancelar",
+            "Stack_Trace": "Rastreamento de pilha",
+            "at": "em"
         },
         "Search": {
             "Search_site...": "Pesquise no site..",
@@ -1250,7 +1263,17 @@
             "There_was_an_error_loading_paid_members": "Ocorreu um erro ao carregar membros pagos",
             "There_was_an_error_loading_total_members": "Ocorreu um erro ao carregar o total de membros",
             "There_was_an_error_loading_MRR": "Ocorreu um erro ao carregar MRR",
-            "30_days": "30 dias"
+            "30_days": "30 dias",
+            "There_was_an_error_loading_free_members": "Ocorreu um erro ao carregar os membros gratuitos",
+            "Free_members": "Membros grátis",
+            "Latest_newsletters": "Boletins informativos recentes",
+            "Title": "Titulo",
+            "Sends": "Enviado",
+            "Open": "Abrir",
+            "No_newsletters_sent": "Sem boletins enviados",
+            "See_all_posts": "Veja todas as postagens",
+            "Add_yourself_or_import_members_from_CSV": "Adicione-se ou importe membros do CSV",
+            "Choosing_one_of_these_newsletter_types_for_your_publication_will_help_you_create_better_content_at_a_faster_pace_with_less_work": "A escolha de um desses tipos de boletim informativo para sua publicação o ajudará a criar um conteúdo melhor em um ritmo mais rápido e com menos trabalho."
         },
         "Settings": {
             "Back": "Voltar",
@@ -1461,6 +1484,34 @@
         },
         "View_site":{
             "View_site": "Ver site"
+        },
+
+        "Designsandbox":{
+            "Components": "Componentes",
+
+            "Buttons":{
+                "Buttons": "Botoẽs",
+                "Primary_button": "Botão primário",
+                "Regular_button": "Botão regular",
+                "Blue_button": "Botão azul",
+                "Green_button": "Botão verde",
+                "Red_button": "Botão vermelho",
+                "Outline_button": "Botão de contorno",
+                "Large_button": "Botão grande"
+            },
+            "Lists": "Listas",
+            "Column_n": "Coluna {number}",
+            "Data": "Informação",
+            "Sections": "Seções",
+            "Single_column": "Coluna única",
+            "Section_heading": "Título da seção",
+            "Block_number": "Bloco {number}",
+            "Contents": "Conteúdo",
+            "Setting_area": "Área de configuração",
+            "Title": "Título",
+            "Description": "Descrição",
+            "ACTION": "AÇÃO",
+            "CONTENT_OPTIONAL_HIDDEN_FOR_EXPANDABLE": "CONTEÚDO - OPCIONAL / OCULTO PARA EXPANSÃO"
         }
     }
 }

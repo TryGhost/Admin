@@ -1009,6 +1009,7 @@
         },
         "Integrations": {
             "Integrations": "Integrations",
+            "More": "More",
             "BUILT-IN_INTEGRATIONS": "BUILT-IN INTEGRATIONS",
             "CUSTOM_INTEGRATIONS": "CUSTOM INTEGRATIONS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Create your own custom Ghost integrations with dedicated API keys & webhooks",
@@ -1070,7 +1071,17 @@
             "Members": "Members",
             "Member_added": "Member added",
             "Member_updated": "Member updated",
-            "Member_deleted": "Member deleted"
+            "Member_deleted": "Member deleted",
+            "Automation_for_your_favorite_apps": "Automation for your favorite apps",
+            "Configure": "Configure",
+            "A_messaging_app_for_teams": "A messaging app for teams",
+            "Beautiful_free_photos": "Beautiful, free photos",
+            "Launch_your_member_referral_program": "Launch your member referral program",
+            "Copied": "Copied",
+            "Copy": "Copy",
+            "Content_API_Key_was_successfully_regenerated": "Content API Key was successfully regenerated",
+            "Admin_API_key_was_successfully_regenerated": "Admin API key was successfully regenerated",
+            "Delete_integration": "Delete integration"
         },
         "Login": {
             "Create_Account": "Create Account",
@@ -1186,7 +1197,9 @@
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Yes, end sessions and reset passwords for all users.",
             "Upon_submission,_you_will_be_logged_out._Please_check_your_email_to_reset_your_password.": "Upon submission, you will be logged out. Please check your email to reset your password.",
             "Reset_Passwords": "Reset Passwords",
-            "Cancel": "Cancel"
+            "Cancel": "Cancel",
+            "Stack_Trace": "Stack Trace",
+            "at": "at"
         },
         "Search": {
             "Search_site...": "Search site...",
@@ -1250,7 +1263,17 @@
             "There_was_an_error_loading_paid_members": "There was an error loading paid members",
             "There_was_an_error_loading_total_members": "There was an error loading total members",
             "There_was_an_error_loading_MRR": "There was an error loading MRR",
-            "30_days": "30 days"
+            "30_days": "30 days",
+            "There_was_an_error_loading_free_members": "There was an error loading free members",
+            "Free_members": "Free members",
+            "Latest_newsletters": "Latest newsletters",
+            "Title": "Title",
+            "Sends": "Sends",
+            "Open": "Open",
+            "No_newsletters_sent": "No newsletters sent.",
+            "See_all_posts": "See all posts",
+            "Add_yourself_or_import_members_from_CSV": "Add yourself or import members from CSV",
+            "Choosing_one_of_these_newsletter_types_for_your_publication_will_help_you_create_better_content_at_a_faster_pace_with_less_work": "Choosing one of these newsletter types for your publication will help you create better content at a faster pace with less work."
         },
         "Settings": {
             "Back": "Back",
@@ -1462,6 +1485,34 @@
 
         "View_site":{
             "View_site": "View site"
+        },
+
+        "Designsandbox":{
+            "Components": "Components",
+
+            "Buttons":{
+                "Buttons": "Buttons",
+                "Primary_button": "Primary button",
+                "Regular_button": "Regular button",
+                "Blue_button": "Blue button",
+                "Green_button": "Green button",
+                "Red_button": "Red button",
+                "Outline_button": "Outline button",
+                "Large_button": "Large button"
+            },
+            "Lists": "Lists",
+            "Column_n": "Column {number}",
+            "Data": "Data",
+            "Sections": "Sections",
+            "Single_column": "Single column",
+            "Section_heading": "Section heading",
+            "Block_number": "Block {number}",
+            "Contents": "Contents",
+            "Setting_area": "Setting area",
+            "Title": "Title",
+            "Description": "Description",
+            "ACTION": "ACTION",
+            "CONTENT_OPTIONAL_HIDDEN_FOR_EXPANDABLE": "CONTENT - OPTIONAL / HIDDEN FOR EXPANDABLE"
         }
     }
 }
