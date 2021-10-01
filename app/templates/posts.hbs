@@ -30,12 +30,12 @@
         <ol class="posts-list gh-list {{unless this.postsInfinityModel "no-posts"}}">
             {{#if this.postsInfinityModel}}
                 <li class="gh-list-row header">
-                    <div class="gh-list-header gh-posts-title-header">Title</div>
+                    <div class="gh-list-header gh-posts-title-header">{{t "Manual.Posts.Title"}}</div>
                     {{#if this.feature.emailAnalytics}}
-                        <div class="gh-list-header gh-posts-sends-header">Sends</div>
-                        <div class="gh-list-header gh-posts-opens-header">Opens</div>
+                        <div class="gh-list-header gh-posts-sends-header">{{t "Manual.Posts.Sends"}}</div>
+                        <div class="gh-list-header gh-posts-opens-header">{{t "Manual.Posts.Opens"}}</div>
                     {{/if}}
-                    <div class="gh-list-header gh-posts-status-header">Status</div>
+                    <div class="gh-list-header gh-posts-status-header">{{t "Manual.Posts.Status"}}</div>
                 </li>
             {{/if}}
 
@@ -50,12 +50,12 @@
                         {{svg-jar "posts-placeholder" class="gh-posts-placeholder"}}
                         <h3>You haven't written any posts yet!</h3>
                         <LinkTo @route="editor.new" @model="post" class="gh-btn gh-btn-green gh-btn-lg">
-                            <span>Write a new post</span>
+                            <span>{{t "Manual.Posts."}}Write a new post</span>
                         </LinkTo>
                     {{else}}
                         <h3>No posts match the current filter</h3>
                         <LinkTo @route="posts" @query={{hash type=null author=null tag=null}} class="gh-btn gh-btn-lg">
-                            <span>Show all posts</span>
+                            <span>{{t "Manual.Posts.Show_all_posts"}}</span>
                         </LinkTo>
                     {{/if}}
                 </div>
