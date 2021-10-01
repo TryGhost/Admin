@@ -887,9 +887,10 @@
             "Are_you_sure_you_want_to_delete_this_page?": "Tem certeza de que deseja excluir esta pagina?",
             "You're_about_to_delete": "Você esta prestes a excluir",
             "._This_is_permanent!_We_warned_you,_k?": ". Isso é permanente! Nós avisamos você, ok?",
-            "Are_you_sure_you_want_to_leave_this_page?": "Are you sure you want to leave this page?",
-            "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't saved all of your content.": "Hey there! It looks like you're in the middle of writing something and you haven't saved all of your content.",
-            "Save_before_you_go!": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
+            "Are_you_sure_you_want_to_leave_this_page?": "Tem certeza que deseja sair desta página?",
+            "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't saved all of your content.": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
+            "Hey_there!_It_looks_like_you_didn't_save_the_changes_you_made.":"Ei! Parece que você não salvou as alterações feitas.",
+            "Save_before_you_go!": "Salve antes de ir!",
             "Stay": "Ficar",
             "Leave": "Sair"
         },
