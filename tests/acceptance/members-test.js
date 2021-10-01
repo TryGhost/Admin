@@ -58,10 +58,10 @@ describe('Acceptance: Members', function () {
             expect(document.title, 'page title').to.equal('Members - Test Blog');
 
             // it lists all members
-            expect(findAll('.members-list .gh-members-list-item').length, 'members list count')
+            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
                 .to.equal(2);
 
-            let member = find('.members-list .gh-members-list-item');
+            let member = find('[data-test-list="members-list-item"]');
             expect(member.querySelector('.gh-members-list-name').textContent, 'member list item title')
                 .to.equal(member1.name);
 
@@ -110,7 +110,7 @@ describe('Acceptance: Members', function () {
             expect(document.title, 'page title').to.equal('Members - Test Blog');
 
             // it lists all members
-            expect(findAll('.members-list .gh-members-list-item').length, 'members list count')
+            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
                 .to.equal(1);
 
             //  start new member
