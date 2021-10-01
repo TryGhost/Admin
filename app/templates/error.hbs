@@ -14,12 +14,12 @@
 
     {{#if this.stack}}
         <section class="error-stack">
-            <h3>Stack Trace</h3>
+            <h3>{{t "Manual.Staff.Stack_Trace"}}</h3>
             <p><strong>{{this.message}}</strong></p>
             <ul class="error-stack-list">
                 {{#each this.stack as |item|}}
                     <li>
-                        at
+                        {{t "Manual.Staff.at"}}
                         {{#if item.function}}<em class="error-stack-function">{{item.function}}</em>{{/if}}
                         <span class="error-stack-file">({{item.at}})</span>
                     </li>
