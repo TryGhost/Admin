@@ -26,9 +26,9 @@
                 <li class="no-posts-box">
                     <div class="no-posts">
                             {{svg-jar "tags-placeholder" class="gh-tags-placeholder"}}
-                            <h3>You haven't created any {{this.type}} tags yet!</h3>
+                            <h3>{{t "Manual.Tags.You_havent_created_any_type_tags_yet" type=this.type}}</h3>
                             <LinkTo @route="tag.new" class="gh-btn gh-btn-primary gh-btn-lg">
-                                <span>Create a new tag</span>
+                                <span>{{t "Manual.Tags.Create_a_new_tag"}}</span>
                             </LinkTo>
                     </div>
                 </li>
