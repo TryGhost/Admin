@@ -3,14 +3,14 @@
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
             <header>
-                <h1>Create your account</h1>
+                <h1>{{t "Manual.ProfilePitcure.Create_your_account"}}</h1>
             </header>
 
             <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate" onsubmit={{action "submit"}}>
                 <GhProfileImage @email={{this.signupDetails.email}} @setImage={{action "setImage"}} />
 
                 <GhFormGroup @errors={{this.signupDetails.errors}} @hasValidated={{this.signupDetails.hasValidated}} @property="name">
-                    <label for="name">Full name</label>
+                    <label for="name">{{t "Manual.ProfilePitcure.Full_Name"}}</label>
                     <span class="gh-input-icon gh-icon-user">
                         {{svg-jar "user-circle"}}
                         <GhTrimFocusInput
@@ -52,7 +52,7 @@
                 </GhFormGroup>
 
                 <GhFormGroup @errors={{this.signupDetails.errors}} @hasValidated={{this.signupDetails.hasValidated}} @property="password">
-                    <label for="password">Password</label>
+                    <label for="password">{{t "Manual.Login.Password"}}</label>
                     <span class="gh-input-icon gh-icon-lock">
                         {{svg-jar "lock"}}
                         <GhTextInput
