@@ -197,8 +197,9 @@ export default class MembersController extends Controller {
                 filters.push('status:free');
             }
         }
-
-        filters.push(filterParam);
+        if (filterParam) {
+            filters.push(filterParam);
+        }
 
         let searchQuery = searchParam ? {search: searchParam} : {};
 
