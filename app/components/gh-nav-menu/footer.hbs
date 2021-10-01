@@ -25,12 +25,12 @@
                         <li class="divider" role="separator"></li>
                         <li role="presentation">
                             <LinkTo @route="about" @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="about">
-                                About Ghost
+                                {{t "Manual.ProfilePitcure.About_Ghost"}}
                             </LinkTo>
                         </li>
                         <li role="presentation">
                             <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
-                                What's new?
+                                {{t "Manual.ProfilePitcure.What's_new?"}}
                                 {{#if this.whatsNew.hasNew}}
                                     <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-green br-100"></span></div>
                                 {{/if}}
@@ -39,12 +39,12 @@
                         <li class="divider" role="separator"></li>
                         <li role="presentation">
                             <LinkTo @route="staff.user" @model={{this.session.user.slug}} @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="user-profile">
-                                Your profile
+                                {{t "Manual.ProfilePitcure.Your_profile"}}
                             </LinkTo>
                         </li>
                         <li role="presentation">
                             <a class="dropdown-item" role="menuitem" tabindex="-1" href="https://ghost.org/docs/" target="_blank">
-                                Support center
+                                {{t "Manual.ProfilePitcure.Support_center"}}
                             </a>
                         </li>
                         {{!-- <li role="presentation">
@@ -57,7 +57,7 @@
                         </li> --}}
                         <li role="presentation">
                             <a class="dropdown-item" role="menuitem" tabindex="-1" href="https://ghost.org/help/topic/setting-up/" target="_blank">
-                                How to use Ghost
+                                {{t "Manual.ProfilePitcure.How_to_use_Ghost"}}
                             </a>
                         </li>
 
@@ -78,7 +78,7 @@
                         <li class="divider" role="separator"></li>
                         <li role="presentation">
                             <LinkTo @route="signout" @classNames="dropdown-item user-menu-signout" @role="menuitem" @tabindex="-1">
-                                Sign out
+                                {{t "Manual.ProfilePitcure.Sign_out"}}
                             </LinkTo>
                         </li>
                     </ul>

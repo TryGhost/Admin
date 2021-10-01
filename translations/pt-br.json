@@ -782,6 +782,7 @@
             "Write_a_new_post": "Escreva uma nova postagem"
         },
         "Pages": {
+            "Pages": "Paginas",
             "New_page": "Nova pagina",
             "Create_a_new_page": "Criar uma nova página",
             "You_havent_created_any_pages_yet": "Você ainda não criou nenhuma página!",
@@ -897,6 +898,7 @@
             "Internal_tags": "Marcações Internas",
             "New_tag": "Nova marcação",
             "TAG": "MARCAÇÃO",
+            "Tag": "Marcação",
             "SLUG": "APELIDO",
             "NO._OF_POSTS": "Quantidade de postagens vinculadas",
             "BASIC_SETTINGS": "Configurações basicas",
@@ -952,6 +954,7 @@
         },
         "Members": {
             "Search_members": "Pesquisar membros...",
+            "Members": "Membros",
             "Import_members": "Importar membros",
             "Actions": "Ações",
             "Export_selected_members": "Exportar membros selecionados ({selectedMembersLength})",
@@ -1005,6 +1008,7 @@
             "Delete_selected_members": "Deletar membros selecionados ({selectedMembersLength})"
         },
         "Integrations": {
+            "Integrations": "Integrações",
             "BUILT-IN_INTEGRATIONS": "INTEGRAÇÕES INTEGRADAS",
             "CUSTOM_INTEGRATIONS": "INTEGRAÇÕES PERSONALIZADAS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Crie suas próprias integrações customizada do Ghost com chaves de API e webhooks dedicados",
@@ -1141,6 +1145,7 @@
             "Sign_out": "Sair"
         },
         "Staff": {
+            "Staff": "Colaboradores",
             "Staff_users": "Colaboradores",
             "ACTIVE_USERS": "Usuarios Ativos",
             "Invite_people": "Convidar pessoas",
@@ -1190,6 +1195,7 @@
             "No_results_found": "Nenhum resultado encontrado"
         },
         "Dashboard": {
+            "Dashboard": "Painel de controle",
             "30_DAYS": "30 DIAS",
             "$": "R$",
             "TOTAL_MEMBERS": "TOTAL DE MEMBROS",
@@ -1200,6 +1206,8 @@
             "Brand": "Configurações",
             "Theme": "Tema",
             "ACTIVITY_FEED": "PAINEL DE ATIVIDADES",
+            "Loading...": "Carregando...",
+            "There_was_an_error_loading_events": "Ocorreu um erro ao carregar eventos",
             "No_member_activity_available.": "Nenhuma atividade de membro disponível.",
             "Looking_for_help_with_Ghost_features?": "Procurando ajuda com os recursos do Ghost?",
             "Our_product_knowledgebase_is_packed_full_of_guides,_tutorials,_answers_to_frequently_asked_questions,_tips_for_dealing_with_common_errors,_and_much_more.": "Nossa base de conhecimento de produtos está repleta de guias, tutoriais, respostas a perguntas frequentes, dicas para lidar com erros comuns e muito mais.",
@@ -1219,10 +1227,30 @@
             "How_to_grow_your_audience,_starting_from_0": "Como aumentar seu público a partir de 0",
             "Starting_from_zero_is_hard._Thankfully,_successful_creators_have_given_us_clues_on_how_to_grow_an_audience_by_using_something_called_a_content_funnel.": "Começar do zero é difícil. Felizmente, criadores de conteúdo bem-sucedidos nos deram dicas sobre como aumentar o público usando algo chamado funil de conteúdo.",
             "Here's_how_it_works": "É assim que funciona",
+            "9_MIN_READ": "9 MINUTOS DE LEITURA",
             "Join_the_Ghost_creator_community.": "Junte-se à comunidade de criadores do Ghost.",
             "Meet_other_people_building_both_free_&_paid_publications_with_Ghost._Talk_strategy,_get_advice,_or_just_hang_out.": "Conheça outras pessoas que estão criando publicações gratuitas e pagas com o Ghost. Converse sobre estratégias, peça conselhos ou simplesmente divirta-se.",
             "Share_the_journey": "Compartilhe sua jornada",
-            "community.ghost.org": "community.ghost.org"
+            "community.ghost.org": "community.ghost.org",
+            "Select_your_publication_style":"Selecione seu estilo de publicação",
+            "Customize_your_brand_and_connect_to_Stripe_to_get_your_membership_site_ready_to_be_shown_to_the_world.":"Personalize sua marca e conecte-se ao Stripe para deixar seu site de assinaturas pronto para ser mostrado ao mundo.",
+            "Start_setup_guide":"Guia de configuração inicial",
+            "Dismiss": "Liberar",
+            "Start_creating_content":"Comece a criar conteúdo",
+            "Create_your_first_member":"Crie o seu primeiro membro",
+            "Publish_a_post":"Publicar uma postagem",
+            "Add_yourself_of_import_members_from_CSV":"Adicione-se aos membros importados de CSV",
+            "Get_familiar_with_the_Ghost_editor_and_start_creating":"Familiarize-se com o editor Ghost e comece a criar",
+            "Open_rate": "Taxa livre",
+            "Member_since": "Membro desde",
+            "Top_members": "Membros principais",
+            "See_all_members": "Ver todos os membros",
+            "There_was_an_error_loading_member_events.": "Ocorreu um erro ao carregar eventos de membros",
+            "There_was_an_error_loading_newsletter_open_rates": "Ocorreu um erro ao carregar as taxas de abertura do boletim informativo",
+            "There_was_an_error_loading_paid_members": "Ocorreu um erro ao carregar membros pagos",
+            "There_was_an_error_loading_total_members": "Ocorreu um erro ao carregar o total de membros",
+            "There_was_an_error_loading_MRR": "Ocorreu um erro ao carregar MRR",
+            "30_days": "30 dias"
         },
         "Settings": {
             "Back": "Voltar",
@@ -1430,6 +1458,9 @@
             "Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled.": "Ative a proteção com uma senha compartilhada simples. Todos os recursos sociais e de otimização de mecanismo de pesquisa serão desativados.",
             "A_private_RSS_feed_is_available_at": "Um feed RSS privado está disponível em",
             "Set_the_password_for_this_site": "Defina a senha para este site"
+        },
+        "View_site":{
+            "View_site": "Ver site"
         }
     }
 }

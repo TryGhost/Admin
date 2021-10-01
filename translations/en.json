@@ -782,6 +782,7 @@
             "Write_a_new_post": "Write a new post"
         },
         "Pages": {
+            "Pages": "Pages",
             "New_page": "New page",
             "Create_a_new_page": "Create a new page",
             "You_havent_created_any_pages_yet": "You haven't created any pages yet!",
@@ -897,6 +898,7 @@
             "Internal_tags": "Internal tags",
             "New_tag": "New tag",
             "TAG": "TAG",
+            "Tag": "Tag",
             "SLUG": "SLUG",
             "NO._OF_POSTS": "No. of posts",
             "BASIC_SETTINGS": "BASIC SETTINGS",
@@ -952,6 +954,7 @@
         },
         "Members": {
             "Search members": "Search members...",
+            "Members": "Members",
             "Import_members": "Import members",
             "Actions": "Actions",
             "Export_selected_members": "Export selected members ({selectedMembersLength})",
@@ -1005,6 +1008,7 @@
             "Delete_selected_members": "Delete selected members ({selectedMembersLength})"
         },
         "Integrations": {
+            "Integrations": "Integrations",
             "BUILT-IN_INTEGRATIONS": "BUILT-IN INTEGRATIONS",
             "CUSTOM_INTEGRATIONS": "CUSTOM INTEGRATIONS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Create your own custom Ghost integrations with dedicated API keys & webhooks",
@@ -1141,6 +1145,7 @@
             "Sign_out": "Sign out"
         },
         "Staff": {
+            "Staff": "Staff",
             "Staff_users": "Staff users",
             "ACTIVE_USERS": "ACTIVE USERS",
             "Invite_people": "Invite people",
@@ -1190,6 +1195,7 @@
             "No_results_found": "No results found"
         },
         "Dashboard": {
+            "Dashboard": "Dashboard",
             "30_DAYS": "30 DAYS",
             "$": "$",
             "TOTAL_MEMBERS": "TOTAL MEMBERS",
@@ -1200,6 +1206,8 @@
             "Brand": "Brand",
             "Theme": "Theme",
             "ACTIVITY_FEED": "ACTIVITY FEED",
+            "Loading...": "Carregando...",
+            "There_was_an_error_loading_events": "There was an error loading events",
             "No_member_activity_available.": "No member activity available.",
             "Looking_for_help_with_Ghost_features?": "Looking for help with Ghost features?",
             "Our_product_knowledgebase_is_packed_full_of_guides,_tutorials,_answers_to_frequently_asked_questions,_tips_for_dealing_with_common_errors,_and_much_more.": "Our product knowledgebase is packed full of guides, tutorials, answers to frequently asked questions, tips for dealing with common errors, and much more.",
@@ -1221,8 +1229,28 @@
             "Here's_how_it_works": "Here's how it works",
             "Join_the_Ghost_creator_community.": "Join the Ghost creator community.",
             "Meet_other_people_building_both_free_&_paid_publications_with_Ghost._Talk_strategy,_get_advice,_or_just_hang_out.": "Meet other people building both free & paid publications with Ghost. Talk strategy, get advice, or just hang out.",
+            "9_MIN_READ": "9 MIN READ",
             "Share_the_journey": "Share the journey",
-            "community.ghost.org": "community.ghost.org"
+            "community.ghost.org": "community.ghost.org",
+            "Select_your_publication_style":"Select your publication style",
+            "Customize_your_brand_and_connect_to_Stripe_to_get_your_membership_site_ready_to_be_shown_to_the_world.":"Customize your brand and connect to Stripe to get your membership site ready to be shown to the world.",
+            "Start_setup_guide":"Start setup guide",
+            "Dismiss": "Dismiss",
+            "Start_creating_content":"Start creating content",
+            "Create_your_first_member":"Create your first member",
+            "Publish_a_post":"Publish a post",
+            "Add_yourself_of_import_members_from_CSV":"Add yourself of import members from CSV",
+            "Get_familiar_with_the_Ghost_editor_and_start_creating":"Get familiar with the Ghost editor and start creating",
+            "Open_rate": "Open rate",
+            "Member_since": "Member since",
+            "Top_members": "Top members",
+            "See_all_members": "See all members",
+            "There_was_an_error_loading_member_events.": "There was an error loading member events.",
+            "There_was_an_error_loading_newsletter_open_rates": "There was an error loading newsletter open rates",
+            "There_was_an_error_loading_paid_members": "There was an error loading paid members",
+            "There_was_an_error_loading_total_members": "There was an error loading total members",
+            "There_was_an_error_loading_MRR": "There was an error loading MRR",
+            "30_days": "30 days"
         },
         "Settings": {
             "Back": "Back",
@@ -1430,6 +1458,10 @@
             "Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled.": "Enable protection with a simple shared password. All search engine optimization and social features will be disabled.",
             "A_private_RSS_feed_is_available_at": "A private RSS feed is available at",
             "Set_the_password_for_this_site": "Set the password for this site"
+        },
+
+        "View_site":{
+            "View_site": "View site"
         }
     }
 }
