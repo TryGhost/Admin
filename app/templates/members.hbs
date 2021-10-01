@@ -21,7 +21,7 @@
                 <div class="relative gh-members-header-search">
                     {{svg-jar "search" class="gh-input-search-icon"}}
                     <GhTextInput
-                        placeholder="Search members..."
+                        placeholder={{t "Manual.Members.Search_members"}}
                         @value={{this.searchText}}
                         @input={{this.search}}
                         class="gh-members-list-searchfield {{if this.searchText "active"}}" />
@@ -46,7 +46,7 @@
                     >
                         <span>
                             {{svg-jar "settings"}}
-                            <span class="hidden">Actions</span>
+                            <span class="hidden">{{t "Manual.Members.Actions"}}</span>
                         </span>
                     </GhDropdownButton>
                     <GhDropdown
@@ -56,21 +56,21 @@
                     >
                         <li>
                             <LinkTo @route="members.import" class="mr2" data-test-link="import-csv">
-                                <span>Import members</span>
+                                <span>{{t "Manual.Members.Import_members"}}</span>
                             </LinkTo>
                         </li>
                         <li class="{{if this.members.length "" "disabled"}}">
                             {{#if this.members.length}}
                                 <button class="mr2" {{on "click" this.exportData}}>
                                     {{#if this.showingAll}}
-                                        <span>Export all members</span>
+                                        <span>{{t "Manual.Members.Export_all_members"}}</span>
                                     {{else}}
-                                    <span>Export selected members ({{this.members.length}})</span>
+                                    <span>{{t "Manual.Members.Export_selected_members" selectedMembersLength=this.members.length}}</span>
                                     {{/if}}
                                 </button>
                             {{else}}
                                 <button class="mr2" disabled="true">
-                                    <span>Export selected members (0)</span>
+                                    <span>{{t "Manual.Members.Export_selected_members" selectedMembersLength=0}}</span>
                                 </button>
                             {{/if}}
                         </li>
@@ -79,30 +79,30 @@
                             {{#if (feature "membersFiltering")}}
                                 <li>
                                     <button class="mr2" {{on "click" this.toggleAddMembersLabelModal}} data-test-button="add-label-selected">
-                                        <span>Add label for selected members ({{this.members.length}})</span>
+                                        <span>{{t "Manual.Members.Add_label_for_selected_members" selectedMembersLength=this.members.length}}</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="mr2" {{on "click" this.toggleRemoveMembersLabelModal}} data-test-button="remove-label-selected">
-                                        <span>Remove label from selected members ({{this.members.length}})</span>
+                                        <span>{{t "Manual.Members.Remove_label_from_selected_members" selectedMembersLength=this.members.length}}</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="mr2" {{on "click" this.toggleUnsubscribeMembersModal}} data-test-button="remove-label-selected">
-                                        <span>Unsubscribe selected members ({{this.members.length}})</span>
+                                        <span>{{t "Manual.Members.Unsubscribe_selected_members" selectedMembersLength=this.members.length}}</span>
                                     </button>
                                 </li>
                             {{/if}}
                             <li class="divider"></li>
                             <li>
                                 <button class="mr2" {{on "click" this.toggleDeleteMembersModal}} data-test-button="delete-selected">
-                                    <span class="red">Delete selected members ({{this.members.length}})</span>
+                                    <span class="red">{{t "Manual.Members.Delete_selected_members" selectedMembersLength=this.members.length}}</span>
                                 </button>
                             </li>
                         {{/if}}
                     </GhDropdown>
                 </span>
-                <LinkTo @route="member.new" class="gh-btn gh-btn-primary" data-test-new-member-button="true"><span>New member</span></LinkTo>
+                <LinkTo @route="member.new" class="gh-btn gh-btn-primary" data-test-new-member-button="true"><span>{{t "Manual.Members.New_member"}}</span></LinkTo>
             </div>
         </section>
     </GhCanvasHeader>
