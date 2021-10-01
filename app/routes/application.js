@@ -175,7 +175,7 @@ export default Route.extend(ShortcutsRoute, {
             await this.session.postAuthPreparation();
         }
 
-        await this.get('intl').setLocale([this.settings.get('lang')]);
+        await this.get('intl').setLocale([this.settings.get('lang') ? this.settings.get('lang') : 'en']);
     }
 
 });
