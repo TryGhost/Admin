@@ -198,9 +198,7 @@ export default class MembersController extends Controller {
             }
         }
 
-        if (filterParam && this.feature.get('membersFiltering')) {
-            filters.push(filterParam);
-        }
+        filters.push(filterParam);
 
         let searchQuery = searchParam ? {search: searchParam} : {};
 
