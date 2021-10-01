@@ -1,11 +1,11 @@
 <PowerSelect
     @search={{action "search"}}
     @onChange={{action "openSelected"}}
-    @placeholder="Search site..."
+    @placeholder={{t "Manual.Search.Search_site..."}}
     @searchEnabled={{false}}
     @triggerComponent="gh-search-input-trigger"
     @renderInPlace={{true}}
-    @loadingMessage="Loading"
+    @loadingMessage={{t "Manual.Search.Loading"}}
     as |name select|
 >
     {{highlighted-text name.title select.searchText}}
