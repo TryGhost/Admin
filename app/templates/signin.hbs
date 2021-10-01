@@ -22,7 +22,7 @@
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
                 <header>
                     <div class="gh-site-icon" style="{{this.siteIconStyle}}"></div>
-                    <h1>Sign in to {{this.config.blogTitle}}.</h1>
+                    <h1>{{t "Manual.Login.Sign_in_to" blogTitle=this.config.blogTitle}}.</h1>
                 </header>
                 {{#if this.config.oauth}}
                     <a
@@ -36,7 +36,7 @@
                     </div>
                 {{/if}}
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
-                    <label>Email address</label>
+                    <label>{{t "Manual.Login.Email_address"}}</label>
                     <span class="gh-input-icon gh-icon-mail">
                         <GhTrimFocusInput
                             @class="email"
@@ -54,7 +54,7 @@
                     </span>
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="password">
-                    <label>Password</label>
+                    <label>{{t "Manual.Login.Password"}}</label>
                     <span class="gh-input-icon gh-icon-lock forgotten-wrap">
                         <GhTextInput
                             @class="password"
@@ -76,7 +76,7 @@
                             @failureClass=""
                             as |task|
                         >
-                            <span>{{#if task.isRunning}}{{svg-jar "spinner" class="gh-spinner"}}{{else}}Forgot?{{/if}}</span>
+                            <span>{{#if task.isRunning}}{{svg-jar "spinner" class="gh-spinner"}}{{else}}{{t "Manual.Login.Forgot?"}}{{/if}}</span>
                         </GhTaskButton>
                     </span>
                 </GhFormGroup>
