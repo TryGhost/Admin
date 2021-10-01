@@ -1,4 +1,3 @@
-
 {
     "common": {
         "mail": {
@@ -778,10 +777,14 @@
             "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't_saved_all_of_your_content.": "Ei! Parece que você está escrevendo algo e não salvou todo o seu conteúdo.",
             "Save_before_you_go!": "Salve antes de ir!",
             "Stay": "Ficar",
-            "Leave": "Sair"
+            "Leave": "Sair",
+            "You_havent_written_any_posts_yet": "Você ainda não escreveu nenhuma postagem!",
+            "Write_a_new_post": "Escreva uma nova postagem"
         },
         "Pages": {
             "New_page": "Nova pagina",
+            "Create_a_new_page": "Criar uma nova página",
+            "You_havent_created_any_pages_yet": "Você ainda não criou nenhuma página!",
             "TITLE": "TITULO",
             "STATUS": "STATUS",
             "All_pages": "Todas as paginas",
@@ -943,11 +946,16 @@
             "You're_about_to_delete": "Você está prestes a excluir",
             ". This_is_permanent!_We_warned_you,_k?": ". Isso é permanente! Nós avisamos você, ok?",
             "Delete": "Deletar",
-            "Cancel": "Cancelar"
+            "Cancel": "Cancelar",
+            "You_havent_created_any_type_tags_yet": "Você não criou nenhuma {type} marcação ainda!",
+            "Create_a_new_tag": "Criar uma nova marcação"
         },
         "Members": {
+            "Search_members": "Pesquisar membros...",
             "Import_members": "Importar membros",
-            "Export_selected_members": "Exportar membros selecionados",
+            "Actions": "Ações",
+            "Export_selected_members": "Exportar membros selecionados ({selectedMembersLength})",
+            "Export_all_members": "Exportar todos os membros",
             "New_member": "Novo membro",
             "Select_or_drop_a_CSV_file": "Selecione ou solte um arquivo CSV",
             "Download_sample_CSV_file": "Baixar um arquivo CSV de exemplo",
@@ -956,7 +964,7 @@
             "Start_over": "Recomeçar",
             "Name": "Nome",
             "Email": "Email",
-            "Labels": "Rotulos",
+            "Labels": "Rótulos",
             "Note_(not_visible_to_member)": "Notas(não é visivel aos membros)",
             "Maximum:_500_characters._You’ve_used": "Máximo: 500 caracteres. Você usou",
             "Subscribed_to_newsletter": "Inscrito no boletim informativo",
@@ -978,10 +986,10 @@
             "No_members_yet": "Ainda sem membros",
             "Manually_add_a_member": "Adicionar membro manualmente",
             "Import_members_from_CSV": "Importar membros do CSV",
-            "All_labels": "Todos os rotulos",
-            "Add_Label": "Adicionar rotulo",
-            "New_label": "Novo rotulo",
-            "Label_name": "Nome do rotulo",
+            "All_labels": "Todos os rótulos",
+            "Add_Label": "Adicionar rótulo",
+            "New_label": "Novo rótulo",
+            "Label_name": "Nome do rótulo",
             "Please_enter_a_name": "Por favor digite o nome",
             "All_members": "Todos os membros",
             "Free_members": "Membros gratuitos",
@@ -990,7 +998,11 @@
             "Newest": "O mais novo",
             "Open_rate": "Aberto recente",
             "Search_member": "Adicione-se como um membro para testar",
-            "Add_yourself_as_a_member_to_test": "Adicionar um membro manualmente"
+            "Add_yourself_as_a_member_to_test": "Adicionar um membro manualmente",
+            "Add_label_for_selected_members": "Adicionar rótulo para membros selecionados ({selectedMembersLength})",
+            "Remove_label_from_selected_members": "Remover rótulo para membros selecionados ({selectedMembersLength})",
+            "Unsubscribe_selected_members": "Desinscrever selected members ({selectedMembersLength})",
+            "Delete_selected_members": "Deletar membros selecionados ({selectedMembersLength})"
         },
         "Integrations": {
             "BUILT-IN_INTEGRATIONS": "INTEGRAÇÕES INTEGRADAS",
@@ -1057,6 +1069,10 @@
             "Member_deleted": "Membros deletados"
         },
         "Login": {
+            "Create_Account": "Criar conta",
+            "Create": "Criar",
+            "At_least_10_characters": "Pelo menos 10 caracteres",
+            "For_security_you_need_to_create_a_new_password_An_email_has_been_sent_to_you_with_instructions": "Por segurança, você precisa criar uma nova senha. Um e-mail, com as instruções, foi enviado para você!",
             "Sign_in_to": "Acesse {blogTitle}",
             "Email_address": "Endereção de email",
             "jamie@exemple.com": "exemplo@exemplo.com",
@@ -1064,7 +1080,9 @@
             "Forgot?": "Esqueceu?",
             "We_need_your_email_address_to_reset_your_password!": "Precisamos do seu endereço de e-mail para redefinir sua senha!",
             "Failed_to_send_email.": "Falha ao enviar e-mail.",
-            "Sign_in": "Acessar"
+            "Sign_in": "Acessar",
+            "Sign_in_with_Google": "Faça login com Google",
+            "or": "ou"
         },
         "ProfilePitcure": {
             "About_Ghost": "Sobre o Ghost",
@@ -1207,7 +1225,8 @@
             "community.ghost.org": "community.ghost.org"
         },
         "Settings": {
-            "WEBSITE": "Site",
+            "Back": "Voltar",
+            "Website": "Site",
             "General": "Geral",
             "Branding": "Branding",
             "Theme": "Tema",

@@ -777,10 +777,14 @@
             "Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't_saved_all_of_your_content.": "Hey there! It looks like you're in the middle of writing something and you haven't saved all of your content.",
             "Save_before_you_go!": "Save before you go!",
             "Stay": "Stay",
-            "Leave": "Leave"
+            "Leave": "Leave",
+            "You_havent_written_any_posts_yet": "You haven't written any posts yet!",
+            "Write_a_new_post": "Write a new post"
         },
         "Pages": {
             "New_page": "New page",
+            "Create_a_new_page": "Create a new page",
+            "You_havent_created_any_pages_yet": "You haven't created any pages yet!",
             "TITLE": "TITLE",
             "STATUS": "STATUS",
             "All_pages": "All pages",
@@ -942,11 +946,16 @@
             "You're_about_to_delete": "You're about to delete ",
             ". This_is_permanent!_We_warned_you,_k?": ". This is permanent! We warned you, k?",
             "Delete": "Delete",
-            "Cancel": "Cancel"
+            "Cancel": "Cancel",
+            "You_havent_created_any_type_tags_yet": "You haven't created any {type} tags yet!",
+            "Create_a_new_tag": "Create a new tag"
         },
         "Members": {
+            "Search members": "Search members...",
             "Import_members": "Import members",
-            "Export_selected_members": "Export selected members",
+            "Actions": "Actions",
+            "Export_selected_members": "Export selected members ({selectedMembersLength})",
+            "Export_all_members": "Export all members",
             "New_member": "New member",
             "Select_or_drop_a_CSV_file": "Select or drop a CSV file",
             "Download_sample_CSV_file": "Download sample CSV file",
@@ -989,7 +998,11 @@
             "Newest": "Newest",
             "Open_rate": "Open rate",
             "Search_member": "Search member",
-            "Add_yourself_as_a_member_to_test": "Add yourself as a member to test"
+            "Add_yourself_as_a_member_to_test": "Add yourself as a member to test",
+            "Add_label_for_selected_members": "Add label for selected members ({selectedMembersLength})",
+            "Remove_label_from_selected_members": "Remove label from selected members ({selectedMembersLength})",
+            "Unsubscribe_selected_members": "Unsubscribe selected members ({selectedMembersLength})",
+            "Delete_selected_members": "Delete selected members ({selectedMembersLength})"
         },
         "Integrations": {
             "BUILT-IN_INTEGRATIONS": "BUILT-IN INTEGRATIONS",
@@ -1056,6 +1069,10 @@
             "Member_deleted": "Member deleted"
         },
         "Login": {
+            "Create_Account": "Create Account",
+            "Create": "Create",
+            "At_least_10_characters": "At least 10 characters",
+            "For_security_you_need_to_create_a_new_password_An_email_has_been_sent_to_you_with_instructions": "For security, you need to create a new password. An email has been sent to you with instructions!",
             "Sign_in_to": "Sign in to {blogTitle}",
             "Email_address": "Email address",
             "jamie@exemple.com": "jamie@exemple.com",
@@ -1063,7 +1080,9 @@
             "Forgot?": "Forgot?",
             "We_need_your_email_address_to_reset_your_password!": "We need your email address to reset your password! ",
             "Failed_to_send_email.": "Failed to send email.",
-            "Sign_in": "Sign in"
+            "Sign_in": "Sign in",
+            "Sign_in_with_Google": "Sign in with Google",
+            "or": "or"
         },
         "ProfilePitcure": {
             "About_Ghost": "About Ghost",
@@ -1206,6 +1225,7 @@
             "community.ghost.org": "community.ghost.org"
         },
         "Settings": {
+            "Back": "Back",
             "Website": "Website",
             "General": "General",
             "Branding": "Branding",
