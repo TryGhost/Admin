@@ -50,10 +50,18 @@ const CustomView = EmberObject.extend(ValidationEngine, {
         };
     }
 });
+let draft = 'Drafts';
+let scheduled = 'Scheduleds';
+let published = 'Publisheds';
+if (navigator.language === 'pt-BR'){
+    draft = 'Rascunhos';
+    scheduled = 'Agendados';
+    published = 'Publicados';
+}
 
 const DEFAULT_VIEWS = [{
     route: 'posts',
-    name: 'Drafts',
+    name: draft,
     color: 'midgrey',
     icon: 'pencil',
     filter: {
@@ -61,7 +69,7 @@ const DEFAULT_VIEWS = [{
     }
 }, {
     route: 'posts',
-    name: 'Scheduled',
+    name: scheduled,
     color: 'midgrey',
     icon: 'clockface',
     filter: {
@@ -69,7 +77,7 @@ const DEFAULT_VIEWS = [{
     }
 }, {
     route: 'posts',
-    name: 'Published',
+    name: published,
     color: 'midgray',
     icon: 'published-post',
     filter: {
