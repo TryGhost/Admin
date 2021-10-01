@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            Integrations
+            {{t "Manual.Integrations.Integrations"}}
         </h2>
     </GhCanvasHeader>
 
@@ -54,13 +54,13 @@
                     {{!-- <img class="w-100 h-100" style="object-fit:contain;padding:0 8px;" src="assets/img/more.png" alt="Three dots" /> --}}
                     {{svg-jar "circle-ellipsis" class="w5"}}
                 </div>
-                <div class="f8 mt1">More</div>
+                <div class="f8 mt1">{{t "Manual.Integrations.More"}}</div>
             </a>
         </div>
     </div>
 
     <section class="gh-main-section">
-        <h4 class="gh-main-section-header small">Built-in integrations</h4>
+        <h4 class="gh-main-section-header small">{{t "Manual.Integrations.BUILT-IN_INTEGRATIONS"}}</h4>
         <div class="apps-grid">
             {{#unless this.zapierDisabled}}
             <div class="apps-grid-cell" data-test-app="zapier">
@@ -70,12 +70,12 @@
                         <figure class="apps-card-app-icon" style="background-image:url(assets/img/zapier.svg);background-size:36px;"></figure>
                         <div class="apps-card-meta">
                             <h3 class="apps-card-app-title">Zapier</h3>
-                            <p class="apps-card-app-desc">Automation for your favorite apps</p>
+                            <p class="apps-card-app-desc">{{t "Manual.Integrations.Automation_for_your_favorite_apps"}}</p>
                         </div>
                     </div>
                     <div class="gh-card-right">
                         <div class="apps-configured">
-                            <span data-test-app-status>Configure</span>
+                            <span data-test-app-status>{{t "Manual.Integrations.Configure"}}</span>
                             {{svg-jar "arrow-right"}}
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <figure class="apps-card-app-icon" style="background-image:url(assets/img/slackicon.png); background-size: 36px;"></figure>
                         <div class="apps-card-meta">
                             <h3 class="apps-card-app-title">Slack</h3>
-                            <p class="apps-card-app-desc">A messaging app for teams</p>
+                            <p class="apps-card-app-desc">{{t "Manual.Integrations.A_messaging_app_for_teams"}}</p>
                         </div>
                     </div>
                     <div class="gh-card-right">
@@ -99,7 +99,7 @@
                             {{#if this.settings.slack.isActive}}
                                 <span class="gh-badge" data-test-app-status>Active</span>
                             {{else}}
-                                <span data-test-app-status>Configure</span>
+                                <span data-test-app-status>{{t "Manual.Integrations.Configure"}}</span>
                             {{/if}}
                             {{svg-jar "arrow-right"}}
                         </div>
@@ -123,7 +123,7 @@
                             {{#if this.settings.amp}}
                                 <span class="gh-badge" data-test-app-status>Active</span>
                             {{else}}
-                                <span data-test-app-status>Configure</span>
+                                <span data-test-app-status>{{t "Manual.Integrations.Configure"}}</span>
                             {{/if}}
                             {{svg-jar "arrow-right"}}
                         </div>
@@ -139,7 +139,7 @@
                         <figure class="apps-card-app-icon id-unsplash" style="background-image:url(assets/icons/unsplash.svg); background-size:30px;"></figure>
                         <div class="apps-card-meta">
                             <h3 class="apps-card-app-title">Unsplash</h3>
-                            <p class="apps-card-app-desc">Beautiful, free photos</p>
+                            <p class="apps-card-app-desc">{{t "Manual.Integrations.Beautiful_free_photos"}}</p>
                         </div>
                     </div>
                     <div class="gh-card-right">
@@ -147,7 +147,7 @@
                             {{#if this.settings.unsplash}}
                                 <span class="gh-badge" data-test-app-status>Active</span>
                             {{else}}
-                                <span data-test-app-status>Configure</span>
+                                <span data-test-app-status>{{t "Manual.Integrations.Configure"}}</span>
                             {{/if}}
                             {{svg-jar "arrow-right"}}
                         </div>
@@ -162,7 +162,7 @@
                         <figure class="apps-card-app-icon id-unsplash" style="background-image:url(assets/icons/firstpromoter.png); background-size:30px;"></figure>
                         <div class="apps-card-meta">
                             <h3 class="apps-card-app-title">FirstPromoter</h3>
-                            <p class="apps-card-app-desc">Launch your member referral program</p>
+                            <p class="apps-card-app-desc">{{t "Manual.Integrations.Launch_your_member_referral_program"}}</p>
                         </div>
                     </div>
                     <div class="gh-card-right">
@@ -170,7 +170,7 @@
                             {{#if this.settings.firstpromoter}}
                                 <span class="gh-badge" data-test-app-status>Active</span>
                             {{else}}
-                                <span data-test-app-status>Configure</span>
+                                <span data-test-app-status>{{t "Manual.Integrations.Configure"}}</span>
                             {{/if}}
                             {{svg-jar "arrow-right"}}
                         </div>
@@ -183,7 +183,7 @@
     </section>
 
     <section class="gh-main-section">
-        <h4 class="gh-main-section-header small">Custom integrations</h4>
+        <h4 class="gh-main-section-header small">{{t "Manual.Integrations."}}Custom integrations</h4>
         <div class="apps-grid">
             {{#each this.integrations as |integration|}}
                 <div class="apps-grid-cell" data-test-custom-integration>
@@ -206,7 +206,7 @@
                             </div>
                             <div class="gh-card-right">
                                 <div class="apps-configured">
-                                    <span>Configure</span>
+                                    <span>{{t "Manual.Integrations.Configure"}}</span>
                                     {{svg-jar "arrow-right"}}
                                 </div>
                             </div>
@@ -220,10 +220,10 @@
                     {{else}}
                         <div class="flex flex-column items-center pa5 pt15 pb15">
                             <p class="ma0 pa0 tc midgrey lh-title mt2 mb4">
-                                Create your own custom Ghost integrations with dedicated API keys & webhooks
+                                {{t "Manual.Integrations.Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks"}}
                             </p>
                             <LinkTo @route="integrations.new" class="gh-btn gh-btn-green gh-btn-icon" data-test-button="new-integration">
-                                <span>{{svg-jar "add" class="w3 h3"}} Add custom integration</span>
+                                <span>{{svg-jar "add" class="w3 h3"}} {{t "Manual.Integrations.Add_custom_integration"}}</span>
                             </LinkTo>
                         </div>
                     {{/if}}
@@ -235,7 +235,7 @@
         {{!-- <div class="apps-grid-cell new-integration-cell"> --}}
         <div class="mt5">
             <LinkTo @route="integrations.new" class="gh-btn gh-btn-green gh-btn-icon" data-test-button="new-integration">
-                <span>{{svg-jar "add" class="w3 h3"}} Add custom integration</span>
+                <span>{{svg-jar "add" class="w3 h3"}} {{t "Manual.Integrations.Add_custom_integration"}}</span>
             </LinkTo>
         </div>
         {{!-- </div> --}}
