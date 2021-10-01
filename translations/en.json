@@ -667,10 +667,10 @@
     },
     "Manual": {
         "Posts": {
-            "TITLE": "TITLE",
-            "SENDS": "SENDS",
-            "OPENS": "OPENS",
-            "STATUS": "STATUS",
+            "Title": "Title",
+            "Sends": "Sends",
+            "Opens": "Opens",
+            "Status": "Status",
             "Posts": "Posts",
             "New_post": "New post",
             "All_posts": "All posts",
@@ -1110,6 +1110,7 @@
             "Write_about_you,_in_200_characters_or_less._200": "Write about you, in 200 characters or less. 200",
             "Old_Password": "Old Password",
             "New_Password": "New Password",
+            "Confirm_new_password": "Confirm new password",
             "Verify_Password": "Verify Password",
             "Change_Password": "Change Password",
             "Staff_Access_Token": "Staff Access Token",

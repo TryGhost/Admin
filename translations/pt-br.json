@@ -668,10 +668,10 @@
     },
     "Manual": {
         "Posts": {
-            "TITLE": "TITULO",
-            "SENDS": "ENVIADO",
-            "OPENS": "ABERTO",
-            "STATUS": "STATUS",
+            "Title": "Titulo",
+            "Sends": "Enviado",
+            "Opens": "Aberto",
+            "Status": "Status",
             "Posts": "Postagens",
             "New_post": "Nova postagem",
             "All_posts": "Todas postagens",
@@ -1111,6 +1111,7 @@
             "Write_about_you,_in_200_characters_or_less._200": "Escreva sobre você, em 200 caracteres ou menos.",
             "Old_Password": "Senha antiga",
             "New_Password": "Senha nova",
+            "Confirm_new_password": "Confirme a nova senha",
             "Verify_Password": "Verificar senha",
             "Change_Password": "Mudar senha",
             "Staff_Access_Token": "Token de acesso pessoal",
