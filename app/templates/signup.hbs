@@ -31,7 +31,7 @@
                 </GhFormGroup>
 
                 <GhFormGroup @errors={{this.signupDetails.errors}} @hasValidated={{this.signupDetails.hasValidated}} @property="email">
-                    <label for="email">Email address</label>
+                    <label for="email">{{t "Manual.Login.Email_address"}}</label>
                     <span class="gh-input-icon gh-icon-mail">
                         {{svg-jar "email"}}
                         <GhTextInput
@@ -60,7 +60,7 @@
                             @type="password"
                             @id="password"
                             @name="password"
-                            @placeholder="At least 10 characters"
+                            @placeholder={{t "Manual.Login.At_least_10_characters"}}
                             @autocorrect="off"
                             @autocomplete="new-password"
                             @value={{readonly this.signupDetails.password}}
