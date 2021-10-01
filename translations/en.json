@@ -1253,6 +1253,7 @@
             "30_days": "30 days"
         },
         "Settings": {
+            "Settings":"Settings",
             "Back": "Back",
             "Website": "Website",
             "General": "General",
