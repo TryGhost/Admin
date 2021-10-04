@@ -1470,7 +1470,27 @@
             "A_private_RSS_feed_is_available_at": "A private RSS feed is available at",
             "Set_the_password_for_this_site": "Set the password for this site",
             "found_here":"found here",
-            "Paid_memberships_through":"Paid memberships through Ghost can only be run on sites secured by SSL (HTTPS vs. HTTP). More information on adding a free SSL Certificate to your Ghost site can be"
+            "Paid_memberships_through":"Paid memberships through Ghost can only be run on sites secured by SSL (HTTPS vs. HTTP). More information on adding a free SSL Certificate to your Ghost site can be",
+            "Stripe_Publishable_key": "Chave publicável de Stripe",
+            "Stripe_Secret_key": "Stripe Secret key",
+            "Find_your_Stripe_API_keys_here_»": "Find your Stripe API key shere »",
+            "How_you_get_paid": "How you get paid",
+            "sign_up_here": "sign up here",
+            "Ghost_collects_no_fees_on_any_payments!_If_you_don’t_have_a_Stripe_account_yet,_you_can": "Ghost collects no fees on any payments! If you don’t have a Stripe account yet, you can",
+            "You_are_connected_to_Stripe": "You are connected to Stripe",
+            "Connected_to": "Connected to",
+            "Test_mode": "Test mode",
+            "Cannot_disconnect_while_there_are_members_with_active_Stripe_subscriptions.": "Cannot disconnect while there are members with active Stripe subscriptions.",
+            "Disconect": "Disconect",
+            "Plan_currency": "Plan currency",
+            "Monthly_price": "Monthly price",
+            "Yearly_price": "Yearly price",
+            "Plans_available_at_signup": "Plans available at signup",
+            "Monthly":"Monthly",
+            "Yearly":"Yearly",
+            "Skip": "Skip",
+            "if_you_don't_want_to_offer_paid_subscriptions.":"if you don't want to offer paid subscriptions.",
+            "Already_connected_to_Stripe":"Already connected to Stripe"
         },
 
         "View_site":{

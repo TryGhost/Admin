@@ -4,7 +4,7 @@
             <div class="flex flex-column flex-row-l items-start justify-between">
                 <div class="w-100 w-50-l">
                     <div class="mb4">
-                        <label class="fw6 f8">Stripe Publishable key</label>
+                        <label class="fw6 f8">{{t "Manual.Settings.Stripe_Publishable_key"}}</label>
                         <GhTextInput
                             @type="password"
                             @value={{readonly this.stripeDirectPublicKey}}
@@ -13,7 +13,7 @@
                         />
                     </div>
                     <div class="nudge-top--3">
-                        <label class="fw6 f8 mt4">Stripe Secret key</label>
+                        <label class="fw6 f8 mt4">{{t "Manual.Settings.Stripe_Secret_key"}}</label>
                         <GhTextInput
                             @type="password"
                             @value={{readonly this.stripeDirectSecretKey}}
@@ -21,19 +21,19 @@
                             @class="mt1 password"
                         />
                         <a href="https://dashboard.stripe.com/account/apikeys" target="_blank" class="mt1 fw4 f8">
-                            Find your Stripe API keys here &raquo;
+                            {{t "Manual.Settings.Find_your_Stripe_API_keys_here_»"}}
                         </a>
                     </div>
                 </div>
                 <div class="ml0 ml5-l mt6">
                     <div class="gh-members-stripe-info">
                         <div class="gh-members-stripe-info-header">
-                            <h4>How you get paid</h4>
+                            <h4>{{t "Manual.Settings.How_you_get_paid"}}</h4>
                             {{svg-jar "stripe-verified-partner-badge" class="gh-members-stripe-badge"}}
                         </div>
                         <p class="f8 mt2 mb0">
-                            Stripe is our exclusive direct payments partner.<br />
-                            Ghost collects <strong>no fees</strong> on any payments! If you don’t have a Stripe account yet, you can <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">sign up here</a>.
+                            {{t "Manual.Settings.Stripe_is_our_exclusive_direct_payments_partner."}}<br />
+                           {{t "Manual.Settings.Ghost_collects_no_fees_on_any_payments!_If_you_don’t_have_a_Stripe_account_yet,_you_can"}} <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">{{t "Manual.Settings.sign_up_here"}}</a>.
                         </p>
                     </div>
                 </div>
@@ -55,29 +55,29 @@
         {{#if (and this.stripeConnectAccountId (not this.saveStripeSettings.isRunning))}}
             <div class="gh-stripe-connected-container">
                 {{svg-jar "check-circle-stroke" class="check-circle"}}
-                <h1>You are connected to Stripe</h1>
+                <h1>{{t "Manual.Settings.You_are_connected_to_Stripe"}}</h1>
                 <div class="gh-stripe-connected-info">
-                    <p>Connected to <a href="https://dashboard.stripe.com/{{this.stripeConnectAccountId}}" target="_blank">{{this.stripeConnectAccountName}}</a></p>
+                    <p>{{t "Manual.Settings.Connected_to"}}<a href="https://dashboard.stripe.com/{{this.stripeConnectAccountId}}" target="_blank">{{this.stripeConnectAccountName}}</a></p>
                     {{#unless this.stripeConnectLivemode}}
-                        <div class="gh-members-connect-testmodelabel">Test mode</div>
+                        <div class="gh-members-connect-testmodelabel">{{t "Manual.Settings.Test_mode"}}</div>
                     {{/unless}}
 
                     {{#if this.hasActiveStripeSubscriptions}}
                     <span class="gh-stripe-error-hasactivesub">
-                        Cannot disconnect while there are members with active Stripe subscriptions.
+                        {{t "Manual.Settings.Cannot_disconnect_while_there_are_members_with_active_Stripe_subscriptions."}}
                     </span>
                     {{/if}}
                 </div>
-                <button type="button" class="gh-btn gh-btn-stripe-disconnect" {{action "openDisconnectStripeModal"}}><span>Disconnect</span></button>
+                <button type="button" class="gh-btn gh-btn-stripe-disconnect" {{action "openDisconnectStripeModal"}}><span>{{t "Manual.Settings.Disconect"}}</span></button>
             </div>
         {{else}}
             <div class="flex flex-column flex-row-l items-start justify-between">
                 <div class="w-100 w-50-l">
-                    <label class="fw6 f8">Generate secure key</label>
+                    <label class="fw6 f8">{{t "Manual.Settings.Generate_secure_key"}}</label>
                     <div class="flex items-center mb4 justify-between gh-members-connectbutton-container mt2">
-                        <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect" target="_blank"><span>Connect with Stripe</span></a>
+                        <a href="{{if this.stripeConnectTestMode this.testStripeConnectAuthUrl this.liveStripeConnectAuthUrl}}" class="stripe-connect" target="_blank"><span>{{t "Manual.Settings.Connect_with_Stripe"}}</span></a>
                         <div class="ml2 flex items-center flex-nowrap">
-                            <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} test mode</span>
+                            <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} {{t "Manual.Settings.Test_mode"}}</span>
                             <div class="for-switch small">
                                 <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
                                     <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
@@ -89,7 +89,7 @@
                     <div class="nudge-top--3">
                         <GhTextarea
                             @class="gh-members-stripe-connect-token"
-                            @placeholder="Paste your secure key here"
+                            @placeholder={{t "Manual.Settings.Paste_your_secure_key_here"}}
                             @input={{action "setStripeConnectIntegrationToken"}}
                         />
                         {{#if this.stripeConnectError}}<p class="mb0 mt2 f8 red">{{this.stripeConnectError}}</p>{{/if}}
@@ -98,12 +98,12 @@
                 <div class="mt5 mt5-m mt8-l ml0 ml5-l">
                     <div class="gh-members-stripe-info">
                         <div class="gh-members-stripe-info-header">
-                            <h4>Getting paid</h4>
+                            <h4>{{t "Manual.Settings.Getting_paid"}}</h4>
                             {{svg-jar "stripe-verified-partner-badge" class="gh-members-stripe-badge"}}
                         </div>
                         <p class="f8 mt2 mb0">
-                            Stripe is our exclusive direct payments partner.<br />
-                            Ghost collects <strong>no fees</strong> on any payments! If you don’t have a Stripe account yet, you can <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">sign up here</a>.
+                             {{t "Manual.Settings.Stripe_is_our_exclusive_direct_payments_partner."}}<br />
+                           {{t "Manual.Settings.Ghost_collects_no_fees_on_any_payments!_If_you_don’t_have_a_Stripe_account_yet,_you_can"}} <a href="https://stripe.com" target="_blank"  rel="noopener" class="gh-members-stripe-link">{{t "Manual.Settings.sign_up_here"}}</a>.
                         </p>
                     </div>
                 </div>
