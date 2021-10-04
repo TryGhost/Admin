@@ -1,12 +1,12 @@
 <header>
-    <h1>Create your account</h1>
+    <h1>{{t "Manual.ProfilePitcure.Create_your_account"}}</h1>
 </header>
 
 <form id="setup" class="gh-flow-create">
     <GhProfileImage @email={{this.email}} @setImage={{action "setImage"}} />
 
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="blogTitle">
-        <label for="blog-title">Site title</label>
+        <label for="blog-title">{{t "Manual.Settings.Site_title"}}</label>
         <span class="gh-input-icon gh-icon-content">
             {{svg-jar "content"}}
             <GhTrimFocusInput
@@ -25,7 +25,7 @@
     </GhFormGroup>
 
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="name">
-        <label for="name">Full name</label>
+        <label for="name">{{t "Manual.ProfilePitcure.Full_Name"}}</label>
         <span class="gh-input-icon gh-icon-user">
             {{svg-jar "user-circle"}}
             <GhTextInput
@@ -44,7 +44,7 @@
     </GhFormGroup>
 
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="email">
-        <label for="email">Email address</label>
+        <label for="email">{{t "Manual.Settings.Email_addresses"}}</label>
         <span class="gh-input-icon gh-icon-mail">
             {{svg-jar "email"}}
             <GhTextInput
@@ -64,7 +64,7 @@
     </GhFormGroup>
 
     <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="password">
-        <label for="password">Password</label>
+        <label for="password">{{t "Manual.Login.Password"}}</label>
         <span class="gh-input-icon gh-icon-lock">
             {{svg-jar "lock"}}
             <GhTextInput
@@ -87,7 +87,7 @@
         {{#if task.isRunning}}
             <span>{{svg-jar "spinner" class="gh-icon-spinner gh-btn-icon-no-margin"}}</span>
         {{else}}
-            <span>Last step: Invite staff users &rarr;</span>
+            <span>{{t "Manual.Settings.Last_step:_Invite_staff_users"}} &rarr;</span>
         {{/if}}
     </GhTaskButton>
 </form>

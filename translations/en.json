@@ -1490,7 +1490,16 @@
             "Yearly":"Yearly",
             "Skip": "Skip",
             "if_you_don't_want_to_offer_paid_subscriptions.":"if you don't want to offer paid subscriptions.",
-            "Already_connected_to_Stripe":"Already connected to Stripe"
+            "Already_connected_to_Stripe":"Already connected to Stripe",
+
+            "Welcome_to_Ghost": "Welcome to Ghost!",
+            "All_over_the_world,_people_have_started_2,000,000+_incredible_sites_with_Ghost._Today,_we’re_starting_yours.": "All over the world, people have started 2,000,000+ incredible sites with Ghost. Today, we’re starting yours.",
+            "Invite_staff_users": "Invite staff users",
+            "Ghost_works_best_when_shared_with_others._Collaborate,_get_feedback_on_your_posts;_work_together_on_ideas":"Ghost works best when shared with others. Collaborate, get feedback on your posts; work together on ideas",
+            "Enter_one_email_address_per_line,_we’ll_handle_the_rest": "Enter one email address per line, we’ll handle the rest",
+            "I'll_do_this_later,_take_me_to_my_site":"I'll do this later, take me to my site!",
+            "Site_title": "Site title",
+            "Last_step:_Invite_staff_users": "Last step: Invite staff users"
         },
 
         "View_site":{
