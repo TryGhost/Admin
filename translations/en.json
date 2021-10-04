@@ -1010,6 +1010,7 @@
         },
         "Integrations": {
             "Integrations": "Integrations",
+            "More": "More",
             "BUILT-IN_INTEGRATIONS": "BUILT-IN INTEGRATIONS",
             "CUSTOM_INTEGRATIONS": "CUSTOM INTEGRATIONS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Create your own custom Ghost integrations with dedicated API keys & webhooks",
@@ -1071,7 +1072,48 @@
             "Members": "Members",
             "Member_added": "Member added",
             "Member_updated": "Member updated",
-            "Member_deleted": "Member deleted"
+            "Member_deleted": "Member deleted",
+            "Automation_for_your_favorite_apps": "Automation for your favorite apps",
+            "Configure": "Configure",
+            "A_messaging_app_for_teams": "A messaging app for teams",
+            "Beautiful_free_photos": "Beautiful, free photos",
+            "Launch_your_member_referral_program": "Launch your member referral program",
+            "Copied": "Copied",
+            "Copy": "Copy",
+            "Content_API_Key_was_successfully_regenerated": "Content API Key was successfully regenerated",
+            "Admin_API_key_was_successfully_regenerated": "Admin API key was successfully regenerated",
+            "Delete_integration": "Delete integration",
+            "Google_Analytics_Tracking_ID": "Google Analytics Tracking ID",
+            "Tracks_AMP_traffic_in_Google_Analytics_find_your_ID": "Tracks AMP traffic in Google Analytics, find your ID",
+            "here": "here",
+            "AMP_configuration": "AMP configuration",
+            "Enable": "Enable ",
+            "for_your_posts": "for your posts",
+            "Launch_your_own_member_referral_program": "Launch your own member referral program",
+            "FirstPromoter_configuration": "FirstPromoter configuration",
+            "for_tracking_referrals": "for tracking referrals",
+            "FirstPromoter_Account_ID": "FirstPromoter Account ID",
+            "Affiliate_and_referral_tracking_find_your_ID": "Affiliate and referral tracking, find your ID",
+            "Slack_configuration": "Slack configuration",
+            "Automatically_send_newly_published_posts_to_a_channel_in_Slack_or_any_Slack_compatible_service_like_Discord_or_Mattermost": "Automatically send newly published posts to a channel in Slack or any Slack-compatible service like Discord or Mattermost.",
+            "Set_up_a_new_incoming_webhook": "Set up a new incoming webhook ",
+            "and_grab_the_URL": " and grab the URL.",
+            "Username": "Username",
+            "The_username_to_display_messages_from": "The username to display messages from",
+            "Unsplash_configuration": "Unsplash configuration",
+            "image_integration_for_your_posts": "image integration for your posts",
+            "Admin_API_Key_was_successfully_regenerated": "Admin API Key was successfully regenerated",
+            "Explore_pre_built_templates_for_common_automation_tasks": "Explore pre-built templates for common automation tasks",
+            "Share_new_posts_to_Twitter": "Share new posts to Twitter",
+            "Use_this_Zap": "Use this Zap",
+            "Share_scheduled_posts_with_your_team_in_Slack": "Share scheduled posts with your team in Slack",
+            "Connect_Patreon_to_your_Ghost_membership_site": "Connect Patreon to your Ghost membership site",
+            "Protect_email_delivery_with_email_verification": "Protect email delivery with email verification",
+            "Add_members_for_successful_sales_in_PayPal": "Add members for successful sales in PayPal",
+            "Unsubscribe_members_who_cancel_a_subscription_in_PayPal": "Unsubscribe members who cancel a subscription in PayPal",
+            "Send_new_post_drafts_from_Google_Docs_to_Ghost": "Send new post drafts from Google Docs to Ghost",
+            "Sync_email_subscribers_in_Ghost_Mailchimp": "Sync email subscribers in Ghost + Mailchimp",
+            "See_more_Ghost_integrations_powered_by": "See more Ghost integrations powered by"
         },
         "Login": {
             "Create_Account": "Create Account",
@@ -1145,7 +1187,8 @@
             "Regenerate": "Regenerate",
             "Support_center": "Support center",
             "How_to_use_Ghost": "How to use Ghost",
-            "Sign_out": "Sign out"
+            "Sign_out": "Sign out",
+            "Update_available": "Update available!"
         },
         "Staff": {
             "Role": "Role",
@@ -1205,7 +1248,12 @@
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Yes, end sessions and reset passwords for all users.",
             "Upon_submission,_you_will_be_logged_out._Please_check_your_email_to_reset_your_password.": "Upon submission, you will be logged out. Please check your email to reset your password.",
             "Reset_Passwords": "Reset Passwords",
-            "Cancel": "Cancel"
+            "Cancel": "Cancel",
+            "Stack_Trace": "Stack Trace",
+            "at": "at",
+            "Skip_to_main_content": "Skip to main content",
+            "Native": "Native",
+            "Enabled": "Enabled"
         },
         "Search": {
             "Search_site...": "Search site...",
@@ -1225,7 +1273,7 @@
             "Brand": "Brand",
             "Theme": "Theme",
             "ACTIVITY_FEED": "ACTIVITY FEED",
-            "Loading...": "Carregando...",
+            "Loading...": "Loading...",
             "There_was_an_error_loading_events": "There was an error loading events",
             "No_member_activity_available.": "No member activity available.",
             "Looking_for_help_with_Ghost_features?": "Looking for help with Ghost features?",
@@ -1269,7 +1317,17 @@
             "There_was_an_error_loading_paid_members": "There was an error loading paid members",
             "There_was_an_error_loading_total_members": "There was an error loading total members",
             "There_was_an_error_loading_MRR": "There was an error loading MRR",
-            "30_days": "30 days"
+            "30_days": "30 days",
+            "There_was_an_error_loading_free_members": "There was an error loading free members",
+            "Free_members": "Free members",
+            "Latest_newsletters": "Latest newsletters",
+            "Title": "Title",
+            "Sends": "Sends",
+            "Open": "Open",
+            "No_newsletters_sent": "No newsletters sent.",
+            "See_all_posts": "See all posts",
+            "Add_yourself_or_import_members_from_CSV": "Add yourself or import members from CSV",
+            "Choosing_one_of_these_newsletter_types_for_your_publication_will_help_you_create_better_content_at_a_faster_pace_with_less_work": "Choosing one of these newsletter types for your publication will help you create better content at a faster pace with less work."
         },
         "Settings": {
             "Settings":"Settings",
@@ -1544,6 +1602,34 @@
 
         "View_site":{
             "View_site": "View site"
+        },
+
+        "Designsandbox":{
+            "Components": "Components",
+
+            "Buttons":{
+                "Buttons": "Buttons",
+                "Primary_button": "Primary button",
+                "Regular_button": "Regular button",
+                "Blue_button": "Blue button",
+                "Green_button": "Green button",
+                "Red_button": "Red button",
+                "Outline_button": "Outline button",
+                "Large_button": "Large button"
+            },
+            "Lists": "Lists",
+            "Column_n": "Column {number}",
+            "Data": "Data",
+            "Sections": "Sections",
+            "Single_column": "Single column",
+            "Section_heading": "Section heading",
+            "Block_number": "Block {number}",
+            "Contents": "Contents",
+            "Setting_area": "Setting area",
+            "Title": "Title",
+            "Description": "Description",
+            "ACTION": "ACTION",
+            "CONTENT_OPTIONAL_HIDDEN_FOR_EXPANDABLE": "CONTENT - OPTIONAL / HIDDEN FOR EXPANDABLE"
         }
     }
 }

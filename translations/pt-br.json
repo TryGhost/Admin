@@ -1010,6 +1010,7 @@
         },
         "Integrations": {
             "Integrations": "Integrações",
+            "More": "Mais",
             "BUILT-IN_INTEGRATIONS": "INTEGRAÇÕES INTEGRADAS",
             "CUSTOM_INTEGRATIONS": "INTEGRAÇÕES PERSONALIZADAS",
             "Create_your_own_custom_Ghost_integrations_with_dedicated_API_keys_&_webhooks": "Crie suas próprias integrações customizada do Ghost com chaves de API e webhooks dedicados",
@@ -1071,7 +1072,49 @@
             "Members": "Membros",
             "Member_added": "Membros adicionados",
             "Member_updated": "Membros atualizados",
-            "Member_deleted": "Membros deletados"
+            "Member_deleted": "Membros deletados",
+            "Automation_for_your_favorite_apps": "Automação para seus aplicativos favoritos",
+            "Configure": "Configurar",
+            "A_messaging_app_for_teams": "Um aplicativo de mensagens para equipes",
+            "Beautiful_free_photos": "Lindas fotos, gratuitas",
+            "Launch_your_member_referral_program": "Lance seu programa de indicação de membros",
+            "Copied": "Copiado",
+            "Copy": "Cópiar",
+            "Content_API_Key_was_successfully_regenerated": "A chave da Content API foi regenerada com sucesso",
+            "Admin_API_key_was_successfully_regenerated": "Chave de API do Administrador foi regenerada com sucesso",
+            "Delete_integration": "Excluir integração",
+            "Google_Analytics_Tracking_ID": "ID de rastreamento do Google Analytics",
+            "Tracks_AMP_traffic_in_Google_Analytics_find_your_ID": "Rastreia o tráfego de AMP no Google Analytics, encontre seu ID",
+            "here": "aqui",
+            "AMP_configuration": "Configureções do AMP",
+            "Enable": "Habilitar ",
+            "for_your_posts": "para suas postagens",
+            "Launch_your_own_member_referral_program": "Lance seu próprio programa de indicação de membros",
+            "FirstPromoter_configuration": "Configureções do FirstPromoter",
+            "for_tracking_referrals": "para rastrear referências",
+            "FirstPromoter_Account_ID": "ID da conta do FirstPromoter",
+            "Affiliate_and_referral_tracking_find_your_ID": "Rastreamento de afiliados e referências, encontre seu ID",
+            "Slack_configuration": "Configureções do Slack",
+            "Automatically_send_newly_published_posts_to_a_channel_in_Slack_or_any_Slack_compatible_service_like_Discord_or_Mattermost": "Envie automaticamente postagens recém-publicadas para um canal no Slack ou qualquer serviço compatível com o Slack, como Discord ou Mattermost.",
+            "Set_up_a_new_incoming_webhook": "Configure um novo webhook de entrada ",
+            "and_grab_the_URL": " e pegar a URL.",
+            "Username": "Nome do usuário",
+            "The_username_to_display_messages_from": "O nome de usuário do qual exibir mensagens",
+            "Unsplash_configuration": "Configuração Unsplash",
+            "image_integration_for_your_posts": " integração de imagens para seus posts",
+            "Admin_API_Key_was_successfully_regenerated": "A chave da API Admin foi regenerada com sucesso",
+            "Explore_pre_built_templates_for_common_automation_tasks": "Explore templates pré-construídos para tarefas de automação comuns",
+            "Share_new_posts_to_Twitter": "Compartilhe novas postagens no Twitter",
+            "Use_this_Zap": "Use este Zap",
+            "Share_scheduled_posts_with_your_team_in_Slack": "Compartilhe postagens programadas com sua equipe no Slack",
+            "Connect_Patreon_to_your_Ghost_membership_site": "Conecte o Patreon ao seu site de associação do Ghost",
+            "Protect_email_delivery_with_email_verification": "Proteja a entrega de e-mail com verificação de e-mail",
+            "Add_members_for_successful_sales_in_PayPal": "Adicione membros para vendas bem-sucedidas no PayPal",
+            "Unsubscribe_members_who_cancel_a_subscription_in_PayPal": "Cancelar a assinatura de membros que cancelaram uma assinatura no PayPal",
+            "Send_new_post_drafts_from_Google_Docs_to_Ghost": "Envie novos rascunhos de postagem do Google Docs para o Ghost",
+            "Survey_new_members_using_Typeform": "Pesquise novos membros usando o Typeform",
+            "Sync_email_subscribers_in_Ghost_Mailchimp": "Sincronizar assinantes de e-mail no Ghost + Mailchimp",
+            "See_more_Ghost_integrations_powered_by": "Veja mais integrações do Ghost com tecnologia de "
         },
         "Login": {
             "Create_Account": "Criar conta",
@@ -1145,7 +1188,8 @@
             "Regenerate": "Regenerar",
             "Support_center": "Suporte",
             "How_to_use_Ghost": "Como usar o Ghost",
-            "Sign_out": "Sair"
+            "Sign_out": "Sair",
+            "Update_available": "Atualização disponível"
         },
         "Staff": {
             "Role": "Função",
@@ -1205,7 +1249,12 @@
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Sim, encerre as sessões e redefina as senhas de todos os usuários.",
             "Upon_submission,_you_will_be_logged_out._Please_check_your_email_to_reset_your_password.": "Após o envio, você será desconectado. Por favor, verifique seu e-mail para redefinir sua senha.",
             "Reset_Passwords": "Resetar senhas",
-            "Cancel": "Cancelar"
+            "Cancel": "Cancelar",
+            "Stack_Trace": "Rastreamento de pilha",
+            "at": "em",
+            "Skip_to_main_content": "Ir para o conteúdo principal",
+            "Native": "Nativo",
+            "Enabled": "Habilitado"
         },
         "Search": {
             "Search_site...": "Pesquise no site..",
@@ -1269,7 +1318,17 @@
             "There_was_an_error_loading_paid_members": "Ocorreu um erro ao carregar membros pagos",
             "There_was_an_error_loading_total_members": "Ocorreu um erro ao carregar o total de membros",
             "There_was_an_error_loading_MRR": "Ocorreu um erro ao carregar MRR",
-            "30_days": "30 dias"
+            "30_days": "30 dias",
+            "There_was_an_error_loading_free_members": "Ocorreu um erro ao carregar os membros gratuitos",
+            "Free_members": "Membros grátis",
+            "Latest_newsletters": "Boletins informativos recentes",
+            "Title": "Titulo",
+            "Sends": "Enviado",
+            "Open": "Abrir",
+            "No_newsletters_sent": "Sem boletins enviados",
+            "See_all_posts": "Veja todas as postagens",
+            "Add_yourself_or_import_members_from_CSV": "Adicione-se ou importe membros do CSV",
+            "Choosing_one_of_these_newsletter_types_for_your_publication_will_help_you_create_better_content_at_a_faster_pace_with_less_work": "A escolha de um desses tipos de boletim informativo para sua publicação o ajudará a criar um conteúdo melhor em um ritmo mais rápido e com menos trabalho."
         },
         "Settings": {
             "Settings":"Configurações",
@@ -1547,6 +1606,34 @@
         },
         "View_site":{
             "View_site": "Ver site"
+        },
+
+        "Designsandbox":{
+            "Components": "Componentes",
+
+            "Buttons":{
+                "Buttons": "Botoẽs",
+                "Primary_button": "Botão primário",
+                "Regular_button": "Botão regular",
+                "Blue_button": "Botão azul",
+                "Green_button": "Botão verde",
+                "Red_button": "Botão vermelho",
+                "Outline_button": "Botão de contorno",
+                "Large_button": "Botão grande"
+            },
+            "Lists": "Listas",
+            "Column_n": "Coluna {number}",
+            "Data": "Informação",
+            "Sections": "Seções",
+            "Single_column": "Coluna única",
+            "Section_heading": "Título da seção",
+            "Block_number": "Bloco {number}",
+            "Contents": "Conteúdo",
+            "Setting_area": "Área de configuração",
+            "Title": "Título",
+            "Description": "Descrição",
+            "ACTION": "AÇÃO",
+            "CONTENT_OPTIONAL_HIDDEN_FOR_EXPANDABLE": "CONTEÚDO - OPCIONAL / OCULTO PARA EXPANSÃO"
         }
     }
 }
