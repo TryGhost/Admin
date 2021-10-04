@@ -1548,7 +1548,6 @@
             "Set_the_password_for_this_site": "Defina a senha para este site",
             "found_here":"encontrado aqui",
             "Paid_memberships_through":"As associações pagas por meio do Ghost só podem ser executadas em sites protegidos por SSL (HTTPS x HTTP). Mais informações sobre como adicionar um certificado SSL grátis ao seu site Ghost podem ser",
-
             "Stripe_Publishable_key": "Chave publicável de Stripe",
             "Stripe_Secret_key": "Chave secreta do Stripe",
             "Find_your_Stripe_API_keys_here_»": "Encontre suas chaves de API do Stripe aqui »",
@@ -1569,7 +1568,6 @@
             "Skip": "Pular",
             "if_you_don't_want_to_offer_paid_subscriptions.":"se você não quiser oferecer assinaturas pagas.",
             "Already_connected_to_Stripe":"Já conectado ao Stripe",
-
             "Welcome_to_Ghost": "Bem vindo ao Ghost!",
             "All_over_the_world,_people_have_started_2,000,000+_incredible_sites_with_Ghost._Today,_we’re_starting_yours.": "Em todo o mundo, as pessoas começaram mais de 2.000.000 de sites incríveis com o Ghost. Hoje, estamos começando o seu.",
             "Invite_staff_users": "Convide usuários da equipe",
@@ -1577,8 +1575,14 @@
             "Enter_one_email_address_per_line,_we’ll_handle_the_rest": "Insira um endereço de e-mail por linha, nós cuidaremos do resto!",
             "I'll_do_this_later,_take_me_to_my_site":"Farei isso mais tarde, leve-me ao meu site!",
             "Site_title": "Titulo do site",
-            "Last_step:_Invite_staff_users": "Última etapa: Convide os usuários da equipe"
-
+            "Last_step:_Invite_staff_users": "Última etapa: Convide os usuários da equipe",
+            "Default_English": "Padrão: Inglês",
+            "you_can_add_translation_files_to_your_theme_for": " você pode adicionar arquivos de tradução ao seu tema para ",
+            "any_language": " qualquer idioma",
+            "7_comments": "7 comentários",
+            "2_shares": "2 compartilhamentos",
+            "Recommended": "Recomendado: ",
+            "characters_You_ve_used": " caracteres. Você usou "
         },
         "View_site":{
             "View_site": "Ver site"
