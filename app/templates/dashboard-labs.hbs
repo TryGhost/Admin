@@ -35,7 +35,7 @@
                     </div>
                     <div class="gh-dashboard-chart-container">
                         {{#if this.mrrStatsLoading}}
-                            Loading...
+                             {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             {{#if this.mrrStatsError}}
                                 <p class="error">
@@ -59,7 +59,7 @@
                 <div class="gh-dashboard-box total-members">
                     <div class="gh-dashboard-chart-container">
                         {{#if this.memberCountStatsLoading}}
-                            Loading...
+                            {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             {{#if this.memberCountStatsError}}
                                 <p class="error">
@@ -84,7 +84,7 @@
                 <div class="gh-dashboard-box paid-members">
                     <div class="gh-dashboard-chart-container">
                         {{#if this.memberCountStatsLoading}}
-                            Loading...
+                             {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             {{#if this.memberCountStatsError}}
                                 <p class="error">
@@ -109,7 +109,7 @@
                 <div class="gh-dashboard-box newsletter-open-rate">
                     <div class="gh-dashboard-chart-container">
                         {{#if this.memberCountStatsLoading}}
-                            Loading...
+                            {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             {{#if this.memberCountStatsError}}
                                 <p class="error">
@@ -142,7 +142,7 @@
                     </div>
                     <div class="content">
                         {{#if this.loadLatestNewsletters.isRunning}}
-                            Loading...
+                            {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             <ol class="gh-list">
                                 <li class="gh-list-row header">
