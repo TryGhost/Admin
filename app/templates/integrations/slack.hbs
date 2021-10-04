@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="integrations" data-test-link="integrations-back">Integrations</LinkTo>
+            <LinkTo @route="integrations" data-test-link="integrations-back">{{t "Manual.Integrations.Integrations"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
             Slack
         </h2>
@@ -25,13 +25,13 @@
                 </div>
                 <div class="app-cell">
                     <h3>Slack</h3>
-                    <p>A messaging app for teams</p>
+                    <p>{{t "Manual.Integrations.A_messaging_app_for_teams"}}</p>
                 </div>
             </div>
         </section>
 
         <section class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">Slack configuration</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Integrations.Slack_configuration"}}</h4>
             <div class="gh-main-section-block">
                 <div class="gh-main-section-content grey">
                     <form class="app-config-form" id="slack-settings" novalidate="novalidate" {{action "save" on="submit"}}>
@@ -40,7 +40,7 @@
                             <div class="gh-setting-first">
                                 <div class="gh-setting-content gh-setting-content--no-action">
                                     <div class="gh-setting-title">Webhook URL</div>
-                                    <div class="gh-setting-desc">Automatically send newly published posts to a channel in Slack or any Slack-compatible service like Discord or Mattermost.</div>
+                                    <div class="gh-setting-desc">{{t "Manual.Integrations.Automatically_send_newly_published_posts_to_a_channel_in_Slack_or_any_Slack_compatible_service_like_Discord_or_Mattermost"}}</div>
                                     <div class="gh-setting-content-extended">
                                         <GhFormGroup @errors={{this.slackSettings.errors}} @hasValidated={{this.slackSettings.hasValidated}} @property="url">
                                             <GhTextInput
@@ -55,7 +55,7 @@
                                                 data-test-slack-url-input={{true}}
                                             />
                                             {{#unless this.slackSettings.errors.url}}
-                                                <p>Set up a new incoming webhook <a href="https://my.slack.com/apps/new/A0F7XDUAZ-incoming-webhooks" target="_blank">here</a>, and grab the URL.</p>
+                                                <p>{{t "Manual.Integrations.Set_up_a_new_incoming_webhook"}} <a href="https://my.slack.com/apps/new/A0F7XDUAZ-incoming-webhooks" target="_blank">{{t "Manual.Integrations.here"}}</a>, {{t "Manual.Integrations.and_grab_the_URL"}}</p>
                                             {{else}}
                                                 <GhErrorMessage @errors={{this.slackSettings.errors}} @property="url" data-test-error="slack-url" />
                                             {{/unless}}
@@ -65,8 +65,8 @@
                             </div>
                             <div class="gh-setting-last">
                                 <div class="gh-setting-content gh-setting-content--no-action">
-                                    <div class="gh-setting-title">Username</div>
-                                    <div class="gh-setting-desc">The username to display messages from</div>
+                                    <div class="gh-setting-title">{{t "Manual.Integrations.Username"}}</div>
+                                    <div class="gh-setting-desc">{{t "Manual.Integrations.The_username_to_display_messages_from"}}</div>
                                     <div class="gh-setting-content-extended">
                                         <GhFormGroup @errors={{this.slackSettings.errors}} @hasValidated={{this.slackSettings.hasValidated}} @property="username">
                                             <GhTextInput
