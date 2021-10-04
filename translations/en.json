@@ -1517,7 +1517,29 @@
             "Enter_one_email_address_per_line,_we’ll_handle_the_rest": "Enter one email address per line, we’ll handle the rest",
             "I'll_do_this_later,_take_me_to_my_site":"I'll do this later, take me to my site!",
             "Site_title": "Site title",
-            "Last_step:_Invite_staff_users": "Last step: Invite staff users"
+            "Last_step:_Invite_staff_users": "Last step: Invite staff users",
+
+            "Import_successful_with_warnings":"Import successful with warnings",
+            "Import_failed":"Import failed",
+            "Upload_Failed":"Upload Failed",
+            "Configure_Google_OAuth":"Configure Google OAuth",
+
+            "Install":"Install",
+            "Preview":"Preview",
+            "Products":"Products",
+            "New_product":"New product",
+            "Product_details":"Product details",
+            "Product_name":"Product name",
+            "Redirect_to_this_URL_after_signup_for_this_product":"Redirect to this URL after signup for this product",
+            "There_are_no_prices_for_this_product":"There are no prices for this product",
+            "Add_price":"Add price",
+            "You_need_to": "You need to",
+            "connect_to_Stripe":"connect to Stripe",
+            "to_add_prices": "to add prices",
+            "Edit":"Edit",
+            "Archive":"Archive",
+            "Activate":"Activate",
+            "Archived":"Archived"
         },
 
         "View_site":{

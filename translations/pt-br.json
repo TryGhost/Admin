@@ -1518,7 +1518,31 @@
             "Enter_one_email_address_per_line,_we’ll_handle_the_rest": "Insira um endereço de e-mail por linha, nós cuidaremos do resto!",
             "I'll_do_this_later,_take_me_to_my_site":"Farei isso mais tarde, leve-me ao meu site!",
             "Site_title": "Titulo do site",
-            "Last_step:_Invite_staff_users": "Última etapa: Convide os usuários da equipe"
+            "Last_step:_Invite_staff_users": "Última etapa: Convide os usuários da equipe",
+
+            "Import_successful_with_warnings":"Importação bem-sucedida com avisos",
+            "Import_failed":"A importação falhou",
+            "Upload_Failed":"Falha no upload",
+            "Configure_Google_OAuth":"Configure o Google OAuth",
+
+            "Install":"instalar",
+            "Preview":"Pré-visualizar",
+            "Products":"Produtos",
+            "New_product":"Novo produto",
+            "Product_details":"Detalhes do produto",
+            "Product_name":"Nome do produto",
+            "Redirect_to_this_URL_after_signup_for_this_product":"Redirecionar para este URL após a inscrição para este produto",
+            "Prices":"Preços",
+            "Price":"Preço",
+            "There_are_no_prices_for_this_product":"Não há preços para este produto",
+            "Add_price":"Adicione preço",
+            "You_need_to": "Você precisa",
+            "connect_to_Stripe":"conectar ao Stripe",
+            "to_add_prices": "para adicionar preços",
+            "Edit":"Editar",
+            "Archive":"Arquivo",
+            "Activate":"Ativar",
+            "Archived":"Arquivado"
 
         },
         "View_site":{
