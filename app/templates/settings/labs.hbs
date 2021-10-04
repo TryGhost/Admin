@@ -34,9 +34,9 @@
                         <div class="gh-import-errors {{if this.importSuccessful "gh-import-errors-alert"}}" data-test-import-errors>
                             <div class="gh-import-errors-title">
                                 {{#if this.importSuccessful}}
-                                    Import successful with warnings
+                                    {{t "Manual.Settings.Import_successful_with_warnings"}}
                                 {{else}}
-                                    Import failed
+                                    {{t "Manual.Settings.Import_failed"}}
                                 {{/if}}
                             </div>
 
@@ -110,7 +110,7 @@
                                         {{#if this.redirectSuccess}}
                                             {{svg-jar "check-circle"}} {{t "Manual.Settings.Uploaded"}}
                                         {{else if this.redirectFailure}}
-                                            {{svg-jar "retry"}} Upload Failed
+                                            {{svg-jar "retry"}} {{t "Manual.Settings.Upload_Failed"}}
                                         {{else}}
                                             {{t "Manual.Settings.Upload_redirects_YAML/JSON"}}
                                         {{/if}}
@@ -159,7 +159,7 @@
                                         {{#if this.routesSuccess}}
                                             {{svg-jar "check-circle"}}  {{t "Manual.Settings.Uploaded"}}
                                         {{else if this.routesFailure}}
-                                            {{svg-jar "retry"}} Upload Failed
+                                            {{svg-jar "retry"}} {{t "Manual.Settings.Upload_Failed"}}
                                         {{else}}
                                             {{t "Manual.Settings.Upload_routes_YAML"}}
                                         {{/if}}
@@ -203,7 +203,7 @@
                     <div class="gh-expandable-content">
                         {{#if this.feature.oauthLogin}}
                             <div class="gh-setting-content-extended gh-labs-sso-settings pt2 pb4">
-                                <a href="https://console.developers.google.com/" target="_blank" rel="noopener" class="gh-btn gh-btn-white mb4"><span>{{svg-jar "google-favicon"}}Configure Google OAuth</span></a>
+                                <a href="https://console.developers.google.com/" target="_blank" rel="noopener" class="gh-btn gh-btn-white mb4"><span>{{svg-jar "google-favicon"}}{{t "Manual.Settings.Configure_Google_OAuth"}}</span></a>
                                 <GhFormGroup @class="no-margin pt2" @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="password">
                                     <div class="form-group">
                                         <label for="aouth-client-id">{{t "Manual.Settings.Google_OAuth_Client_ID"}}</label>

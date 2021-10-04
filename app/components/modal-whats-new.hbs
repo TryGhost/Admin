@@ -1,6 +1,6 @@
 <header class="modal-header gh-wn-header" data-test-modal="whats-new">
     <span>{{svg-jar "gift" class="w5 h5"}}</span>
-    <h2>What's new?</h2>
+    <h2>{{t "Manual.Components.What's_new"}}</h2>
 </header>
 
 <button class="close gh-wn-close" href title="Close" {{on "click" this.closeModal}}>
@@ -17,7 +17,7 @@
             {{/if}}
             {{#if entry.custom_excerpt}}
                 <p>{{entry.custom_excerpt}}</p>
-                <a href={{entry.url}} class="dib fw6 mb6" target="_blank" rel="noopener noreferrer">Read the full post →</a>
+                <a href={{entry.url}} class="dib fw6 mb6" target="_blank" rel="noopener noreferrer">{{t "Manual.Components.Read_the_full_post"}}</a>
             {{else}}
                 {{{entry.html}}}
             {{/if}}
@@ -26,6 +26,6 @@
 </div>
 <div class="modal-footer gh-wn-footer">
     <a href={{this.whatsNew.changelogUrl}} target="_blank" rel="noopener noreferrer">
-        See all past updates
+        {{t "Manual.Components.See_all_past_updates"}}
     </a>
 </div>
