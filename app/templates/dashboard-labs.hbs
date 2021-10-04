@@ -230,11 +230,11 @@
             <a class="gh-dashboard-container" href="https://careers.ghost.org?utm_source=dashboard" target="_blank" rel="noopener">
                 <div class="gh-dashboard-box grey gh-dashboard-careers">
                     <div class="summary">
-                        <h2>We're hiring! Join the team that makes Ghost.</h2>
-                        <p>The creator economy is growing faster than ever, and so are we! 📈 Join a team that's determined to make decentralised, open technology the heart and soul of new media 🌺</p>
+                        <h2>{{t "Manual.Dashboard.We're_hiring!_Join_the_team_that_makes_Ghost."}}</h2>
+                        <p>{{t "Manual.Dashboard.The_creator_economy_is_growing_faster_than_ever,_and_so_are_we!Join_a_team_that's_determined_to_make_decentralised,_open_technology_the_heart_and_soul_of_new_media"}}</p>
                     </div>
                     <div class="gh-dashboard-careers-cta">
-                        <span class="gh-btn gh-btn-primary"><span>See open roles &rarr;</span></span>
+                        <span class="gh-btn gh-btn-primary"><span>{{t "Manual.Dashboard.See_open_roles"}} &rarr;</span></span>
                     </div>
                 </div>
             </a>
@@ -243,21 +243,21 @@
                 <div class="gh-dashboard-box blogpost">
                     <div class="thumbnail" style="background-image: url(assets/img/dashboard/bp2.jpg);"></div>
                     <div class="content">
-                        <h2>How to grow your audience, starting from 0</h2>
-                        <p>Starting from zero is hard. Thankfully, successful creators have given us clues on how to grow an audience by using something called a content funnel.</p>
-                        <p class="green">Here's how it works &rarr;</p>
-                        <div class="read-time">9 MIN READ</div>
+                        <h2>{{t "Manual.Dashboard.How_to_grow_your_audience,_starting_from_0"}}</h2>
+                        <p>{{t "Manual.Dashboard.Starting_from_zero_is_hard._Thankfully,_successful_creators_have_given_us_clues_on_how_to_grow_an_audience_by_using_something_called_a_content_funnel."}}</p>
+                        <p class="green">{{t "Manual.Dashboard.Here's_how_it_works"}} &rarr;</p>
+                        <div class="read-time">{{t "Manual.Dashboard.9_MIN_READ"}}</div>
                     </div>
                 </div>
             </a>
 
             <div class="gh-dashboard-join-community" style="background-image: url(assets/img/dashboard/join-community.jpg)">
                 <div>
-                    <h2>Join the Ghost creator community.</h2>
-                    <p>Meet other people building both free &amp; paid publications with Ghost. Talk strategy, get advice, or just hang out.</p>
-                    <a class="gh-btn gh-btn-white gh-dashboard-btn" href="https://community.ghost.org" target="_blank" rel="noopener noreferrer"><span>Share the journey</span></a>
+                    <h2>{{t "Manual.Dashboard.Join_the_Ghost_creator_community."}}</h2>
+                    <p>{{t "Manual.Dashboard.Meet_other_people_building_both_free_&_paid_publications_with_Ghost._Talk_strategy,_get_advice,_or_just_hang_out."}}</p>
+                    <a class="gh-btn gh-btn-white gh-dashboard-btn" href="https://community.ghost.org" target="_blank" rel="noopener noreferrer"><span>{{t "Manual.Dashboard.Share_the_journey"}}</span></a>
                 </div>
-                <a class="footer-link" href="https://community.ghost.org" target="_blank" rel="noopener noreferrer">community.ghost.org</a>
+                <a class="footer-link" href="https://community.ghost.org" target="_blank" rel="noopener noreferrer">{{t "Manual.Dashboard.community.ghost.org"}}</a>
             </div>
         </section>
 
@@ -266,20 +266,20 @@
                 {{#if this.topMembersData}}
                     <div class="gh-dashboard-box grey top-members">
                         <div class="gh-dashboard-header-container">
-                            <h4 class="gh-dashboard-header">Top members</h4>
+                            <h4 class="gh-dashboard-header">{{t "Manual.Dashboard.Top_members"}}</h4>
                             {{#if this.topMembersDataHasOpenRates}}
-                            <h4 class="gh-dashboard-header secondary">Open rate</h4>
+                            <h4 class="gh-dashboard-header secondary">{{t "Manual.Dashboard.Open_rate"}}</h4>
                             {{else}}
-                            <h4 class="gh-dashboard-header secondary">Member since</h4>
+                            <h4 class="gh-dashboard-header secondary">{{t "Manual.Dashboard.Member_since"}}</h4>
                             {{/if}}
                         </div>
                         <div class="gh-dashboard-list">
                             {{#if this.topMembersLoading}}
-                                Loading...
+                               {{t "Manual.Dashboard.Loading..."}}
                             {{else}}
                                 {{#if this.topMembersError}}
                                     <p class="tc">
-                                        There was an error loading member events.
+                                        {{t "Manual.Dashboard.There_was_an_error_loading_events"}}
                                         <code class="hidden">{{this.events.error.message}}</code>
                                     </p>
                                 {{else}}
@@ -307,7 +307,7 @@
                                 {{/if}}
                             {{/if}}
                             <div class="gh-dashboard-top-members-footer">
-                                <LinkTo @route="members">See all members {{svg-jar "arrow-right"}}</LinkTo>
+                                <LinkTo @route="members">{{t "Manual.Dashboard.See_all_members"}} {{svg-jar "arrow-right"}}</LinkTo>
                             </div>
                         </div>
                     </div>
@@ -316,16 +316,16 @@
                 <div class="gh-dashboard-box">
                     <div class="gh-dashboard-chart-container">
                         {{#if this.newsletterOpenRatesLoading}}
-                            Loading...
+                            {{t "Manual.Dashboard.Loading..."}}
                         {{else}}
                             {{#if this.newsletterOpenRatesError}}
                                 <p class="error">
-                                    There was an error loading newsletter open rates
+                                    {{t "Manual.Dashboard.There_was_an_error_loading_newsletter_open_rates"}}
                                     <code>{{this.memberCountStatsData.message}}</code>
                                 </p>
                             {{else}}
                                 <div class="gh-dashboard-summary small">
-                                    <h4 class="gh-dashboard-header">Email open rate</h4>
+                                    <h4 class="gh-dashboard-header">{{t "Manual.Dashboard.EMAIL_OPEN_RATE"}}</h4>
 
                                     <div class="data-container">
                                         <div class="data">{{this.newsletterOpenRatesData.current}}%</div>
@@ -342,15 +342,14 @@
 
                 {{#unless (and this.session.user.isOwnerOnly (not this.feature.launchComplete))}}
                     <div class="gh-dashboard-box grey activity-feed">
-                        <h4 class="gh-dashboard-header">Activity feed</h4>
+                        <h4 class="gh-dashboard-header">{{t "Manual.Dashboard.ACTIVITY_FEED"}}</h4>
                         <div class="content">
                             {{#if this.eventsLoading}}
-                                Loading...
+                               {{t "Manual.Dashboard.Loading..."}}
                             {{else}}
                                 {{#if this.eventsError}}
                                     <p class="error">
-                                        There was an error loading events
-                                        <code>{{this.eventsError.message}}</code>
+                                        {{t "Manual.Dashboard.There_was_an_error_loading_events"}}                                        <code>{{this.eventsError.message}}</code>
                                     </p>
                                 {{else}}
                                     <GhEventTimeline @events={{this.eventsData}}/>
@@ -364,7 +363,7 @@
             {{#unless (or  whatsNewEntriesLoading whatsNewEntriesError)}}
             <div class="gh-dashboard-box whats-new">
                 <div class="gh-dashboard-header-container">
-                    <h4 class="gh-dashboard-header">What's new?</h4>
+                    <h4 class="gh-dashboard-header">{{t "Manual.Dashboard.WHAT'S_NEW?"}}</h4>
                     {{svg-jar "gift"}}
                 </div>
                 <div class="content">
@@ -379,7 +378,7 @@
                     {{/each}}
                 </div>
                 <div class="footer">
-                    <a class="green" href="https://ghost.org/changelog" target="_blank" rel="noopener noreferrer">See all updates</a>
+                    <a class="green" href="https://ghost.org/changelog" target="_blank" rel="noopener noreferrer">{{t "Manual.Dashboard.See_all_updates"}}</a>
                 </div>
             </div>
             {{/unless}}
