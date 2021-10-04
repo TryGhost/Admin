@@ -1,9 +1,9 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="settings">Settings</LinkTo>
+            <LinkTo @route="settings">{{t "Manual.Settings.Settings"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            General
+            {{t "Manual.Settings.General"}}
         </h2>
         <section class="view-actions">
             <GhTaskButton @buttonText="Save settings" @task={{this.save}} @class="gh-btn gh-btn-primary gh-btn-icon" data-test-button="save" />
@@ -19,15 +19,23 @@
 
 
     <div class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">Publication info</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.PUBLICATION_INFO"}}</h4>
         <section class="gh-expandable">
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Title &amp; description</h4>
-                        <p class="gh-expandable-description">The details used to identify your publication around the web</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Title_&_description"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.The_details_used_to_identify_your_publication_around_the_web"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info><span>{{if this.pubInfoOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "pubInfoOpen" this)}} data-test-toggle-pub-info>
+                        <span>
+                            {{#if this.pubInfoOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.pubInfoOpen}}
@@ -40,7 +48,7 @@
                                 data-test-title-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="title" />
-                            <p>The name of your site</p>
+                            <p>{{t "Manual.Settings.The_name_of_your_site"}}</p>
                         </GhFormGroup>
 
                         <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="description" @class="description-container">
@@ -51,7 +59,7 @@
                                 data-test-description-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="description"/>
-                            <p>Used in your theme, meta data and search results</p>
+                            <p>{{t "Manual.Settings.Used_in_your_theme,_meta_data_and_search_results"}}</p>
                         </GhFormGroup>
                     </div>
                     {{/liquid-if}}
@@ -61,10 +69,18 @@
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Site timezone</h4>
-                        <p class="gh-expandable-description">Set the time and date of your publication, used for all published posts</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Site_timezone"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Set_the_time_and_date_of_your_publication,_used_for_all_published_posts"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone><span>{{if this.timezoneOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "timezoneOpen" this)}} data-test-toggle-timezone>
+                         <span>
+                            {{#if this.timezoneOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.timezoneOpen}}
@@ -81,10 +97,18 @@
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Publication Language</h4>
-                        <p class="gh-expandable-description">Set the language/locale which is used on your site</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Publication_Language"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Set_the_language/locale_which_is_used_on_your_site"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "langOpen" this)}} data-test-toggle-lang><span>{{if this.langOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "langOpen" this)}} data-test-toggle-lang>
+                        <span>
+                            {{#if this.langOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.langOpen}}
@@ -97,7 +121,7 @@
                                 data-test-input="lang"
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="lang" />
-                            <p>Default: English (<strong>en</strong>); you can add translation files to your theme for <a href="https://ghost.org/docs/themes/helpers/translate/" target="_blank" rel="noopener">any language</a></p>
+                            <p>{{t "Manual.Settings.Default_English"}} (<strong>en</strong>); {{t "Manual.Settings.you_can_add_translation_files_to_your_theme_for"}} <a href="https://ghost.org/docs/themes/helpers/translate/" target="_blank" rel="noopener">{{t "Manual.Settings.any_language"}}</a></p>
                         </GhFormGroup>
                     </div>
                     {{/liquid-if}}
@@ -107,15 +131,23 @@
     </div>
 
     <div class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">Site meta settings</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.SITE_META_SETTINGS"}}</h4>
         <section class="gh-expandable">
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Meta data</h4>
-                        <p class="gh-expandable-description">Extra content for search engines</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Meta_data"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Extra_content_for_search_engines"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "metaDataOpen" this)}} data-test-toggle-meta><span>{{if this.metaDataOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "metaDataOpen" this)}} data-test-toggle-meta>
+                        <span>
+                            {{#if this.metaDataOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.metaDataOpen}}
@@ -123,7 +155,7 @@
                             <div class="gh-seo-settings">
                                 <div class="gh-seo-settings-left flex-basis-1-2-m flex-basis-2-3-l">
                                     <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="metaTitle">
-                                        <label for="metaTitle">Meta title</label>
+                                        <label for="metaTitle">{{t "Manual.Settings.Meta_title"}}</label>
                                         <GhTextInput
                                             @id="metaTitle"
                                             @type="text"
@@ -133,10 +165,10 @@
                                             data-test-input="metaTitle"
                                         />
                                         <GhErrorMessage @errors={{this.settings.errors}} @property="metaTitle" data-test-error="metaTitle" />
-                                        <p>Recommended: <b>70</b> characters. You’ve used <b>{{gh-count-down-characters this.settings.metaTitle 70}}</b></p>
+                                        <p>{{t "Manual.Settings.Recommended"}} <b>70</b> {{t "Manual.Settings.characters_You_ve_used"}}<b>{{gh-count-down-characters this.settings.metaTitle 70}}</b></p>
                                     </GhFormGroup>
                                     <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="metaDescription">
-                                        <label for="metaDescription">Meta description</label>
+                                        <label for="metaDescription">{{t "Manual.Settings.Meta_description"}}</label>
                                         <GhTextarea
                                             @id="metaDescription"
                                             @type="text"
@@ -146,11 +178,11 @@
                                             data-test-input="metaDescription"
                                         />
                                         <GhErrorMessage @errors={{this.settings.errors}} @property="metaDescription" data-test-error="metaDescription" />
-                                        <p>Recommended: <b>156</b> characters. You’ve used <b>{{gh-count-down-characters this.settings.metaDescription 156}}</b></p>
+                                        <p>{{t "Manual.Settings.Recommended"}} <b>156</b> {{t "Manual.Settings.characters_You_ve_used"}} <b>{{gh-count-down-characters this.settings.metaDescription 156}}</b></p>
                                     </GhFormGroup>
                                 </div>
                                 <div class="flex-basis-1-2-m flex-basis-1-3-l">
-                                    <label>Search engine result preview</label>
+                                    <label>{{t "Manual.Settings.Search_engine_result_preview"}}</label>
                                     <div class="gh-seo-container">
                                         <div class="gh-seo-preview">
                                             <div class="flex mb6">
@@ -174,28 +206,36 @@
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Twitter card</h4>
-                        <p class="gh-expandable-description">Customize structured data of your site for Twitter</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Twitter_card"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Customize_structured_data_of_your_site_for_Twitter"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "twitterCardOpen" this)}} data-test-toggle-twitter><span>{{if this.twitterCardOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "twitterCardOpen" this)}} data-test-toggle-twitter>
+                        <span>
+                            {{#if this.twitterCardOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.twitterCardOpen}}
                     <div class="gh-setting-content-extended">
                         <div class="gh-twitter-settings">
                             <div class="gh-twitter-settings-left flex-basis-1-2-m flex-basis-2-3-l">
-                                <label>Twitter image</label>
+                                <label>{{t "Manual.Settings.Twitter_image"}}</label>
                                 <GhFormGroup>
                                     <GhImageUploaderWithPreview
                                         @image={{this.settings.twitterImage}}
-                                        @text="Add Twitter image"
+                                        @text={{t "Manual.Settings.Add_Twitter_image"}}
                                         @allowUnsplash={{true}}
                                         @update={{action (mut this.settings.twitterImage)}}
                                         @remove={{action (mut this.settings.twitterImage) ""}}
                                     />
                                 </GhFormGroup>
                                 <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitterTitle">
-                                    <label for="twitterTitle">Twitter title</label>
+                                    <label for="twitterTitle">{{t "Manual.Settings.Twitter_title"}}</label>
                                     <GhTextInput
                                         @id="twitterTitle"
                                         @type="text"
@@ -207,7 +247,7 @@
                                     <GhErrorMessage @errors={{this.settings.errors}} @property="twitterTitle" data-test-error="twitterTitle" />
                                 </GhFormGroup>
                                 <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitterDescription">
-                                    <label for="twitterDescription">Twitter description</label>
+                                    <label for="twitterDescription">{{t "Manual.Settings.Twitter_description"}}</label>
                                     <GhTextarea
                                         @id="twitterDescription"
                                         @placeholder={{truncate this.settings.description 300}}
@@ -219,7 +259,7 @@
                                 </GhFormGroup>
                             </div>
                             <div class="flex-basis-1-2-m flex-basis-1-3-l">
-                                <label>Twitter preview</label>
+                                <label>{{t "Manual.Settings.Twitter_preview"}}</label>
                                 <div class="gh-twitter-container">
                                     <div class="flex ma4">
                                         <span>{{svg-jar "social-twitter" class="social-icon"}}</span>
@@ -262,28 +302,36 @@
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Facebook card</h4>
-                        <p class="gh-expandable-description">Customize structured data of your site</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Facebook_card"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Customize_structured_data_of_your_site"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "facebookCardOpen" this)}} data-test-toggle-facebook><span>{{if this.facebookCardOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "facebookCardOpen" this)}} data-test-toggle-facebook>
+                        <span>
+                            {{#if this.facebookCardOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.facebookCardOpen}}
                         <div class="gh-setting-content-extended">
                             <div class="gh-og-settings">
                                 <div class="gh-og-settings-left flex-basis-1-2-m flex-basis-2-3-l">
-                                    <label>Facebook image</label>
+                                    <label>{{t "Manual.Settings.Facebook_image"}}</label>
                                     <GhFormGroup>
                                         <GhImageUploaderWithPreview
                                             @image={{this.settings.ogImage}}
-                                            @text="Add Facebook image"
+                                            @text={{t "Manual.Settings.Add_Facebook_image"}}
                                             @allowUnsplash={{true}}
                                             @update={{action (mut this.settings.ogImage)}}
                                             @remove={{action (mut this.settings.ogImage) ""}}
                                         />
                                     </GhFormGroup>
                                     <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="ogTitle">
-                                        <label for="ogTitle">Facebook title</label>
+                                        <label for="ogTitle">{{t "Manual.Settings.Facebook_title"}}</label>
                                         <GhTextInput
                                             @id="ogTitle"
                                             @type="text"
@@ -295,7 +343,7 @@
                                         <GhErrorMessage @errors={{this.settings.errors}} @property="ogTitle" data-test-error="ogTitle" />
                                     </GhFormGroup>
                                     <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="ogDescription">
-                                        <label for="ogDescription">Facebook description</label>
+                                        <label for="ogDescription">{{t "Manual.Settings.Facebook_description"}}</label>
                                         <GhTextarea
                                             @id="ogDescription"
                                             @placeholder={{truncate this.settings.description 300}}
@@ -307,7 +355,7 @@
                                     </GhFormGroup>
                                 </div>
                                 <div class="flex-basis-1-2-m flex-basis-1-3-l">
-                                    <label>Facebook preview</label>
+                                    <label>{{t "Manual.Settings.Facebook_preview"}}</label>
                                     <div class="gh-og-container">
                                         <div class="flex ma3 mb2">
                                             <span>{{svg-jar "social-facebook" class="social-icon"}}</span>
@@ -337,8 +385,8 @@
                                         </div>
                                         <div class="gh-social-og-reactions">
                                             <span class="gh-social-og-likes">{{svg-jar "facebook-like" class="z-999"}}{{svg-jar "facebook-heart" class="nl1"}}182</span>
-                                            <span class="gh-social-og-comments">7 comments</span>
-                                            <span class="gh-social-og-comments ml2">2 shares</span>
+                                            <span class="gh-social-og-comments">{{t "Manual.Settings.7_comments"}}</span>
+                                            <span class="gh-social-og-comments ml2">{{t "Manual.Settings.2_shares"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -351,15 +399,23 @@
     </div>
 
     <div class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">Social accounts</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.SOCIAL_ACCOUNTS"}}</h4>
         <section class="gh-expandable">
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Social accounts</h4>
-                        <p class="gh-expandable-description">Link your social accounts for full structured data and rich card support</p>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.SOCIAL_ACCOUNTS"}}</h4>
+                        <p class="gh-expandable-description">{{t "Manual.Settings.Link_your_social_accounts_for_full_structured_data_and_rich_card_support"}}</p>
                     </div>
-                    <button type="button" class="gh-btn" {{action (toggle "socialOpen" this)}} data-test-toggle-social><span>{{if this.socialOpen "Close" "Expand"}}</span></button>
+                    <button type="button" class="gh-btn" {{action (toggle "socialOpen" this)}} data-test-toggle-social>
+                        <span>
+                            {{#if this.socialOpen}}
+                                {{t "Manual.Settings.Close"}}
+                            {{else}}
+                                {{t "Manual.Settings.Expand"}}
+                            {{/if}}
+                        </span>
+                    </button>
                 </div>
                 <div class="gh-expandable-content">
                     {{#liquid-if this.socialOpen}}
@@ -375,7 +431,7 @@
                                 data-test-facebook-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="facebook" data-test-facebook-error=true />
-                            <p>URL of your publication's Facebook Page</p>
+                            <p>{{t "Manual.Settings.URL_of_your_publication's_Facebook_Page"}}</p>
                         </GhFormGroup>
                         <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitter">
                             <GhTextInput
@@ -388,7 +444,7 @@
                                 data-test-twitter-input={{true}}
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="twitter" data-test-twitter-error=true />
-                            <p>URL of your publication's Twitter profile</p>
+                            <p>{{t "Manual.Settings.URL_of_your_publication's_Twitter_profile"}}</p>
                         </GhFormGroup>
                     </div>
                     {{/liquid-if}}
@@ -398,14 +454,14 @@
     </div>
 
     <div class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">Advanced settings</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.ADVANCED_SETTINGS"}}</h4>
         <section class="gh-expandable">
             <div class="gh-expandable-block">
                 <div class="gh-expandable-header">
                     <div>
-                        <h4 class="gh-expandable-title">Make this site private</h4>
+                        <h4 class="gh-expandable-title">{{t "Manual.Settings.Make_this_site_private"}}</h4>
                         <p class="gh-expandable-description">
-                            Enable protection with a simple shared password. All search engine optimization and social features will be disabled.
+                            {{t "Manual.Settings.Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled."}}
                         </p>
                     </div>
                     <div class="for-switch">
@@ -425,7 +481,7 @@
                     {{#if this.settings.isPrivate}}
                         <div class="gh-setting-content-extended pt4 pb4">
                             <span class="avoid-break-out">
-                                A private RSS feed is available at
+                                {{t "Manual.Settings.A_private_RSS_feed_is_available_at"}}
                                 <a href="{{this.privateRSSUrl}}" target="_blank" rel="noopener">{{this.privateRSSUrl}}</a>
                             </span>
                             <GhFormGroup @class="no-margin pt2" @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="password">
@@ -437,7 +493,7 @@
                                     data-test-password-input={{true}}
                                 />
                                 <GhErrorMessage @errors={{this.settings.errors}} @property="password" data-test-password-error=true />
-                                <p>Set the password for this site</p>
+                                <p>{{t "Manual.Settings.Set_the_password_for_this_site"}}</p>
                             </GhFormGroup>
                         </div>
                     {{/if}}
