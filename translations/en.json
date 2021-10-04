@@ -1255,6 +1255,7 @@
         },
         "Settings": {
             "Settings":"Settings",
+            "Your_site_is_not_secured": "Your site is not secured",
             "Back": "Back",
             "Website": "Website",
             "General": "General",
@@ -1379,6 +1380,8 @@
             "Match_post_access_level": "Match post access level",
             "Nobody": "Nobody",
             "Disabled": "Disabled",
+            "Portal_disabled": "Portal disabled",
+            "Change_your_Subscription_Access_setting_to_re-enable_Portal": "Change your Subscription Access setting to re-enable Portal",
             "Email_addresses": "Email addresses",
             "Contact_information_used_for_newsletters_and_member_login_emails": "Contact information used for newsletters and member login emails",
             "Support_email_address": "Support email address",
@@ -1465,7 +1468,9 @@
             "Make_this_site_private": "Make this site private",
             "Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled.": "Enable protection with a simple shared password. All search engine optimization and social features will be disabled.",
             "A_private_RSS_feed_is_available_at": "A private RSS feed is available at",
-            "Set_the_password_for_this_site": "Set the password for this site"
+            "Set_the_password_for_this_site": "Set the password for this site",
+            "found_here":"found here",
+            "Paid_memberships_through":"Paid memberships through Ghost can only be run on sites secured by SSL (HTTPS vs. HTTP). More information on adding a free SSL Certificate to your Ghost site can be"
         },
 
         "View_site":{

@@ -1255,6 +1255,7 @@
         },
         "Settings": {
             "Settings":"Configurações",
+            "Your_site_is_not_secured": "Seu site não é seguro",
             "Back": "Voltar",
             "Website": "Site",
             "General": "Geral",
@@ -1335,6 +1336,7 @@
             "Portal_Settings": "Configurações do portal",
             "Customize_members_modal_signup_flow": "Personalize o fluxo de inscrição modal de membros",
             "Customize_Portal": "Customize o portal ->",
+            "Portal_disabled": "Portal desabilitado",
             "Subscription_access": "Acesso de assinatura",
             "Who_should_be_able_to_subscribe_to_your_site?": "Quem deve ser capaz de se inscrever em seu site?",
             "Anyone_can_sign_up": "Qualquer pessoa pode se inscrever",
@@ -1358,6 +1360,7 @@
             "Welcome_page": "Bem vindo a pagina",
             "Redirect_to_this_URL_after_signup_for_a_free_membership": "Redirecionar para este URL após a inscrição para uma assinatura gratuita",
             "Premium": "Pago",
+            "Change_your_Subscription_Access_setting_to_re-enable_Portal": "Altere sua configuração de Acesso à assinatura para reativar o Portal",
             "Set_prices_and_paid_member_sign_up_settings": "Definir preços e configurações de inscrição de membros pagos",
             "Connect_with_Stripe": "Conecte-se com Stripe",
             "Generate_secure_key": "Gerar chave segura",
@@ -1465,7 +1468,9 @@
             "Make_this_site_private": "Tornar este site privado",
             "Enable_protection_with_a_simple_shared_password._All_search_engine_optimization_and_social_features_will_be_disabled.": "Ative a proteção com uma senha compartilhada simples. Todos os recursos sociais e de otimização de mecanismo de pesquisa serão desativados.",
             "A_private_RSS_feed_is_available_at": "Um feed RSS privado está disponível em",
-            "Set_the_password_for_this_site": "Defina a senha para este site"
+            "Set_the_password_for_this_site": "Defina a senha para este site",
+            "found_here":"encontrado aqui",
+            "Paid_memberships_through":"As associações pagas por meio do Ghost só podem ser executadas em sites protegidos por SSL (HTTPS x HTTP). Mais informações sobre como adicionar um certificado SSL grátis ao seu site Ghost podem ser"
         },
         "View_site":{
             "View_site": "Ver site"
