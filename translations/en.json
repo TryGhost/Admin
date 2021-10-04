@@ -1153,7 +1153,8 @@
             "Regenerate": "Regenerate",
             "Support_center": "Support center",
             "How_to_use_Ghost": "How to use Ghost",
-            "Sign_out": "Sign out"
+            "Sign_out": "Sign out",
+            "Update_available": "Update available!"
         },
         "Staff": {
             "Staff": "Staff",
@@ -1199,7 +1200,10 @@
             "Reset_Passwords": "Reset Passwords",
             "Cancel": "Cancel",
             "Stack_Trace": "Stack Trace",
-            "at": "at"
+            "at": "at",
+            "Skip_to_main_content": "Skip to main content",
+            "Native": "Native",
+            "Enabled": "Enabled"
         },
         "Search": {
             "Search_site...": "Search site...",
