@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="integrations" data-test-link="integrations-back">Integrations</LinkTo>
+            <LinkTo @route="integrations" data-test-link="integrations-back">{{t "Manual.Integrations.Integrations"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
             FirstPromoter
         </h2>
@@ -25,20 +25,20 @@
                 </div>
                 <div class="app-cell">
                     <h3>FirstPromoter</h3>
-                    <p>Launch your own member referral program</p>
+                    <p>{{t "Manual.Integrations.Launch_your_own_member_referral_program"}}</p>
                 </div>
             </div>
         </section>
 
         <div class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">FirstPromoter configuration</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Integrations.FirstPromoter_configuration"}}</h4>
         <section class="gh-main-section-block">
             <div class="gh-main-section-content grey">
                 <div>
                     <div class="gh-setting-first {{unless this.settings.firstpromoter "gh-setting-last"}}">
                         <div class="gh-setting-content">
-                            <div class="gh-setting-title">Enable FirstPromoter</div>
-                            <div class="gh-setting-desc mb0">Enable <a href="https://firstpromoter.com/?fpr=ghost&fp_sid=admin" target="_blank">FirstPromoter</a> for tracking referrals</div>
+                            <div class="gh-setting-title">{{t "Manual.Integrations.Enable"}} FirstPromoter</div>
+                            <div class="gh-setting-desc mb0">{{t "Manual.Integrations.Enable"}} <a href="https://firstpromoter.com/?fpr=ghost&fp_sid=admin" target="_blank">FirstPromoter</a> {{t "Manual.Integrations.for_tracking_referrals"}}</div>
                         </div>
                         <div class="gh-setting-action">
                             <div class="for-checkbox">
@@ -59,8 +59,8 @@
                     {{#liquid-if this.settings.firstpromoter class=""}}
                     <div class="gh-setting-last gh-setting-firstpromoter-liquid">
                         <div class="gh-setting-content gh-setting-content--no-action">
-                            <div class="gh-setting-title">FirstPromoter Account ID</div>
-                            <div class="gh-setting-desc"> Affiliate and referral tracking, find your ID <a href="https://ghost.org/help/firstpromoter-id/">here</a></div>
+                            <div class="gh-setting-title">{{t "Manual.Integrations.FirstPromoter_Account_ID"}}</div>
+                            <div class="gh-setting-desc">{{t "Manual.Integrations.Affiliate_and_referral_tracking_find_your_ID"}}<a href="https://ghost.org/help/firstpromoter-id/">{{t "Manual.Integrations.here"}}</a></div>
                             <div class="gh-setting-content-extended">
                                 <GhFormGroup @class="no-margin" @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="firstpromoterId">
                                     <GhTextInput
