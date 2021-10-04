@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="integrations" data-test-link="integrations-back">Integrations</LinkTo>
+            <LinkTo @route="integrations" data-test-link="integrations-back">{{t "Manual.Integrations.Integrations"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
             AMP
         </h2>
@@ -31,14 +31,14 @@
         </section>
 
         <div class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">AMP configuration</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Integrations.AMP_configuration"}}</h4>
             <section class="gh-main-section-block">
                 <div class="gh-main-section-content grey">
                     <div>
                         <div class="gh-setting-first {{unless this.settings.amp "gh-setting-last"}}">
                             <div class="gh-setting-content">
-                                <div class="gh-setting-title">Enable AMP</div>
-                                <div class="gh-setting-desc mb0">Enable <a href="https://ampproject.org" target="_blank">Google Accelerated Mobile Pages</a> for your posts</div>
+                                <div class="gh-setting-title">{{t "Manual.Integrations.Enable"}} AMP</div>
+                                <div class="gh-setting-desc mb0">{{t "Manual.Integrations.Enable"}} <a href="https://ampproject.org" target="_blank">Google Accelerated Mobile Pages</a> {{t "Manual.Integrations.for_your_posts"}}</div>
                             </div>
                             <div class="gh-setting-action">
                                 <div class="for-checkbox">
@@ -59,8 +59,8 @@
                         {{#liquid-if this.settings.amp class=""}}
                         <div class="gh-setting-last gh-setting-amp-liquid">
                             <div class="gh-setting-content gh-setting-content--no-action">
-                                <div class="gh-setting-title">Google Analytics Tracking ID</div>
-                                <div class="gh-setting-desc">Tracks AMP traffic in Google Analytics, find your ID <a href="https://ghost.org/help/how-to-find-your-google-analytics-tracking-id/">here</a></div>
+                                <div class="gh-setting-title">{{t "Manual.Integrations.Google_Analytics_Tracking_ID"}}</div>
+                                <div class="gh-setting-desc">{{t "Manual.Integrations.Tracks_AMP_traffic_in_Google_Analytics_find_your_ID"}}<a href="https://ghost.org/help/how-to-find-your-google-analytics-tracking-id/">{{t "Manual.Integrations.here"}}</a></div>
                                 <div class="gh-setting-content-extended">
                                     <GhFormGroup @class="no-margin" @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="ampGtagId">
                                         <GhTextInput
