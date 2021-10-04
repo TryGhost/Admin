@@ -1,9 +1,9 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="settings">Settings</LinkTo>
+            <LinkTo @route="settings">{{t "Manual.Settings.Settings"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            Theme
+            {{t "Manual.Dashboard.Theme"}}
         </h2>
     </GhCanvasHeader>
 
@@ -16,9 +16,9 @@
 
     <section class="view-container">
         <div class="gh-setting-header gh-first-header flex justify-between">
-            <span>Ghost theme directory</span>
+            <span>{{t "Manual.Settings.GHOST_THEME_DIRECTORY"}}</span>
             <a href="https://ghost.org/themes/" target="_blank" rel="noopener noreferrer" class="gh-td-marketplace">
-                <span>View more {{svg-jar "arrow-right-small"}}</span>
+                <span>{{t "Manual.Settings.View_more"}} {{svg-jar "arrow-right-small"}}</span>
             </a>
         </div>
         <div class="gh-theme-directory-container">
@@ -28,8 +28,8 @@
                         <div class="td-item-screenshot relative">
                             <img style="object-fit:contain;" src={{theme.image}} alt="{{theme.name}} Theme" />
                             <div class="td-item-overlay">
-                                <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref=theme.ref}}><span>Install</span></LinkTo>
-                                <a href={{theme.previewUrl}} class="td-item-action gh-btn" target="_blank" rel="noopener"><span>Preview</span></a>
+                                <LinkTo class="td-item-action gh-btn gh-btn-black mb4" @route="settings.theme.install" @query={{hash source="github" ref=theme.ref}}><span>{{t "Manual.Settings.Install"}}</span></LinkTo>
+                                <a href={{theme.previewUrl}} class="td-item-action gh-btn" target="_blank" rel="noopener"><span>{{t "Manual.Settings.Preview"}}</span></a>
                             </div>
                         </div>
                         <div class="td-item-desc">
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="gh-setting-header">Installed Themes</div>
+        <div class="gh-setting-header">{{t "Manual.Settings.INSTALLED_THEMES"}}</div>
         <div class="gh-themes-container">
 
             <GhThemeTable
@@ -52,11 +52,11 @@
 
             <div class="flex justify-between mt6">
                 <LinkTo id="upload-theme" @route="settings.theme.uploadtheme" class="gh-btn gh-btn-green" data-test-button="uploadtheme">
-                    <span>Upload a theme</span>
+                    <span>{{t "Manual.Settings.Upload_a_theme"}}</span>
                 </LinkTo>
 
                 <a href="https://ghost.org/docs/themes/" target=_"blank" rel="noopener noreferrer" class="gh-btn gh-btn-outline">
-                    <span>Theme developer docs</span>
+                    <span>{{t "Manual.Settings.Upload_a_theme"}}</span>
                 </a>
             </div>
 
