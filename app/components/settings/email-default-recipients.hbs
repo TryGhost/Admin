@@ -1,8 +1,8 @@
 <div class="gh-expandable-block">
     <h4 class="gh-expandable-header">
         <div>
-            <h4 class="gh-expandable-title">Default newsletter recipients</h4>
-            <p class="gh-expandable-description">Who do you usually want to send emails to?</p>
+            <h4 class="gh-expandable-title">{{t "Manual.Settings.Default_newsletter_recipients"}}</h4>
+            <p class="gh-expandable-description">{{t "Manual.Settings.Who_do_you_usually_want_to_send_emails_to?"}}</p>
         </div>
         <button type="button" class="gh-btn" {{on "click" @toggleExpansion}} data-test-toggle="post-access"><span>{{if @expanded "Close" "Expand"}}</span></button>
     </h4>
@@ -16,7 +16,7 @@
                 >
                     <div class="gh-radio-button"></div>
                     <div class="gh-radio-content">
-                        <div class="gh-radio-label">Send emails to</div>
+                        <div class="gh-radio-label">{{t "Manual.Settings.Send_emails_to"}}</div>
                         <div class="gh-radio-desc select-members">
                             <GhMembersSegmentSelect
                                 @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
@@ -32,7 +32,7 @@
                 >
                     <div class="gh-radio-button"></div>
                     <div class="gh-radio-content">
-                        <div class="gh-radio-label">Match post access level</div>
+                        <div class="gh-radio-label">{{t "Manual.Settings.Match_post_access_level"}}</div>
                     </div>
                 </div>
                 <div
@@ -41,7 +41,7 @@
                 >
                     <div class="gh-radio-button"></div>
                     <div class="gh-radio-content">
-                        <div class="gh-radio-label">Nobody</div>
+                        <div class="gh-radio-label">{{t "Manual.Settings.Nobody"}}</div>
                     </div>
                 </div>
                 <div
@@ -50,7 +50,7 @@
                 >
                     <div class="gh-radio-button"></div>
                     <div class="gh-radio-content">
-                        <div class="gh-radio-label">Disabled</div>
+                        <div class="gh-radio-label">{{t "Manual.Settings.Disabled"}}</div>
                     </div>
                 </div>
             </div>

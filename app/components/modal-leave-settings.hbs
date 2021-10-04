@@ -1,17 +1,17 @@
 <header class="modal-header" data-test-modal="unsaved-settings">
-    <h1>Are you sure you want to leave this page?</h1>
+    <h1>{{t "Manual.Pages.Are_you_sure_you_want_to_leave_this_page?"}}</h1>
 </header>
 <a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
 
 <div class="modal-body">
     <p>
-        Hey there! It looks like you didn't save the changes you made.
+        {{t "Manual.Pages.Hey_there!_It_looks_like_you_didn't_save_the_changes_you_made."}}
     </p>
 
-    <p>Save before you go!</p>
+    <p>{{t "Manual.Pages.Save_before_you_go!"}}</p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn" data-test-stay-button><span>Stay</span></button>
-    <button {{action "confirm"}} class="gh-btn gh-btn-red" data-test-leave-button><span>Leave</span></button>
+    <button {{action "closeModal"}} class="gh-btn" data-test-stay-button><span>{{t "Manual.Pages.Stay"}}</span></button>
+    <button {{action "confirm"}} class="gh-btn gh-btn-red" data-test-leave-button><span>{{t "Manual.Pages.Leave"}}</span></button>
 </div>

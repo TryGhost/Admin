@@ -4,10 +4,10 @@
         <div class="gh-expandable-block">
             <div class="gh-expandable-header">
                 <div>
-                    <h4 class="gh-expandable-title">Email design</h4>
-                    <p class="gh-expandable-description">Customize the look and feel of email newsletters</p>
+                    <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_design"}}</h4>
+                    <p class="gh-expandable-description">{{t "Manual.Settings.Customize_the_look_and_feel_of_email_newsletters"}}</p>
                 </div>
-                <button type="button" class="gh-btn gh-btn-green" {{on "click" @toggleEmailDesignSettings}} data-test-toggle-membersFrom><span> Customize </span></button>
+                <button type="button" class="gh-btn gh-btn-green" {{on "click" @toggleEmailDesignSettings}} data-test-toggle-membersFrom><span> {{t "Manual.Settings.Customize"}} </span></button>
             </div>
         </div>
     </section>
@@ -24,8 +24,8 @@
         <div class="gh-expandable-block">
             <div class="gh-expandable-header">
                 <div>
-                    <h4 class="gh-expandable-title">Email addresses</h4>
-                    <p class="gh-expandable-description">Contact information used for newsletters and member login emails</p>
+                    <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_addresses"}}</h4>
+                    <p class="gh-expandable-description">{{t "Manual.Settings.Contact_information_used_for_newsletters_and_member_login_emails"}}</p>
                 </div>
                 <button type="button" class="gh-btn" {{action (toggle "membersFromOpen" this)}} data-test-toggle-membersFrom><span>{{if this.membersFromOpen "Close" "Expand"}}</span></button>
             </div>
@@ -33,7 +33,7 @@
                 {{#liquid-if this.membersFromOpen}}
                     <div>
                         <GhFormGroup>
-                            <label class="fw6 f8">Support email address</label>
+                            <label class="fw6 f8">{{t "Manual.Settings.Support_email_address"}}</label>
                             <div class="flex items-center justify-center mt1">
                                 <GhTextInput
                                     @value={{readonly this.supportAddress}}
@@ -53,7 +53,7 @@
                         </GhFormGroup>
                         <div class="nt5 mb5">
                             <span class="mt1 fw4 f8 midgrey">
-                                How members can reach you for help with their account (public)
+                                {{t "Manual.Settings.How_members_can_reach_you_for_help_with_their_account_(public)"}}
                             </span>
                         </div>
                         {{#if this.showSupportAddressConfirmation}}
@@ -64,7 +64,7 @@
                     </div>
                     <div>
                         <GhFormGroup>
-                            <label class="fw6 f8">Newsletter email address</label>
+                            <label class="fw6 f8"> {{t "Manual.Settings.Newsletter_email_address"}}</label>
                             <div class="flex items-center justify-center mt1">
                                 <GhTextInput
                                     @value={{readonly this.fromAddress}}
@@ -84,7 +84,7 @@
                         </GhFormGroup>
                         <div class="nt5 mb5">
                             <span class="mt1 fw4 f8 midgrey">
-                                The address your newsletter posts are sent from
+                                {{t "Manual.Settings.The_address_your_newsletter_posts_are_sent_from"}}
                             </span>
                         </div>
                         {{#if this.showFromAddressConfirmation}}
@@ -95,7 +95,7 @@
                     </div>
                     <div class="mt8 mb8">
                         <GhFormGroup @class="for-select gh-labs-members-defaultemaildd">
-                            <label class="fw6 f8" for="reply-address">Newsletter replies go to</label>
+                            <label class="fw6 f8" for="reply-address">{{t "Manual.Settings.Newsletter_replies_go_to"}}</label>
                             <span class="gh-select mt1">
                                 {{one-way-select this.selectedReplyAddress
                                     id="reply-address"
@@ -110,7 +110,7 @@
                         </GhFormGroup>
                         <div class="nt5 mb5">
                             <span class="mt1 fw4 f8 midgrey">
-                                Where you receive responses to newsletters
+                                {{t "Manual.Settings.Where_you_receive_responses_to_newsletters"}}
                             </span>
                         </div>
                     </div>
@@ -121,8 +121,8 @@
         <div class="gh-expandable-block">
             <div class="gh-expandable-header">
                 <div>
-                    <h4 class="gh-expandable-title">Enable newsletter open-rate analytics</h4>
-                    <p class="gh-expandable-description">Track how many members are reading your emails</p>
+                    <h4 class="gh-expandable-title">{{t "Manual.Settings.Enable_newsletter_open-rate_analytics"}}</h4>
+                    <p class="gh-expandable-description">{{t "Manual.Settings.Track_how_many_members_are_reading_your_emails"}}</p>
                 </div>
                 <div class="for-switch">
                     <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens")}}>
@@ -137,8 +137,8 @@
         <div class="gh-expandable-block">
             <div class="gh-expandable-header">
                 <div>
-                    <h4 class="gh-expandable-title">Email newsletter settings</h4>
-                    <p class="gh-expandable-description">The <a href="https://www.mailgun.com/" target="_blank" rel="nofollow noopener">Mailgun API</a> is used for bulk email newsletter delivery. <a href="https://ghost.org/docs/faq/mailgun-newsletters/" target="_blank" rel="noopener">Why is this required?</a></p>
+                    <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_newsletter_settings"}}</h4>
+                    <p class="gh-expandable-description"><a href="https://www.mailgun.com/" target="_blank" rel="nofollow noopener">Mailgun API</a> {{t "Manual.Settings.is_used_for_bulk_email_newsletter_delivery"}} <a href="https://ghost.org/docs/faq/mailgun-newsletters/" target="_blank" rel="noopener">{{t "Manual.Settings.Why_is_this_required?"}}</a></p>
                 </div>
                 <button type="button" class="gh-btn" {{action (toggle "membersEmailOpen" this)}} data-test-toggle-membersemail>
                     <span>{{if this.membersEmailOpen "Close" "Expand"}}</span>
@@ -149,7 +149,7 @@
                 <div class="flex flex-column w-100 w-50-l flex">
                     <div class="flex items-center">
                         <GhFormGroup @class="gh-labs-mailgun-region">
-                            <label class="fw6 f8">Mailgun region</label>
+                            <label class="fw6 f8">{{t "Manual.Settings.Mailgun_region"}}</label>
                             <div class="mt1">
                                 <PowerSelect
                                     @options={{this.mailgunRegions}}
@@ -164,7 +164,7 @@
                             </div>
                         </GhFormGroup>
                         <GhFormGroup>
-                            <label class="fw6 f8">Mailgun domain</label>
+                            <label class="fw6 f8">{{t "Manual.Settings.Mailgun_domain"}}</label>
                             <GhTextInput
                                 @value={{readonly this.mailgunSettings.domain}}
                                 @input={{action "setMailgunDomain"}}
@@ -175,11 +175,11 @@
                     </div>
                     <div class="nt5 mb5">
                         <a href="https://app.mailgun.com/app/sending/domains" target="_blank" class="mt1 fw4 f8">
-                            Find your Mailgun region and domain here &raquo;
+                            {{t "Manual.Settings.Find_your_Mailgun_region_and_domain_here_»"}}
                         </a>
                     </div>
                     <GhFormGroup>
-                        <label class="fw6 f8">Mailgun Private API key</label>
+                        <label class="fw6 f8">{{t "Manual.Settings.Mailgun_Private_API_key"}}</label>
                         <GhTextInput
                             @type="password"
                             @value={{readonly this.mailgunSettings.apiKey}}
@@ -188,7 +188,7 @@
                             data-test-mailgun-api-key-input={{true}}
                         />
                         <a href="https://app.mailgun.com/app/account/security/api_keys" target="_blank" class="mt1 fw4 f8">
-                            Find your Mailgun API keys here &raquo;
+                            {{t "Manual.Settings.Find_your_Mailgun_API_keys_here_»"}}
                         </a>
                     </GhFormGroup>
                 </div>

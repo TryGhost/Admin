@@ -1,18 +1,17 @@
 <header class="modal-header">
-    <h1>Are you sure you want to leave this page?</h1>
+    <h1>{{t "Manual.Pages.Are_you_sure_you_want_to_leave_this_page"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Settings.Close"}}</span></a>
 
 <div class="modal-body">
     <p>
-        Hey there! It looks like you're in the middle of writing something and
-        you haven't saved all of your content.
+        {{t "Manual.Pages.Hey_there!_It_looks_like_you're_in_the_middle_of_writing_something_and_you_haven't_saved_all_of_your_content."}}
     </p>
 
-    <p>Save before you go!</p>
+    <p>{{t "Manual.Tags.Save_before_you_go!"}}</p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Stay</span></button>
-    <button {{action "confirm"}} class="gh-btn gh-btn-red"><span>Leave</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Tags.Stay!"}}</span></button>
+    <button {{action "confirm"}} class="gh-btn gh-btn-red"><span>{{t "Manual.Tags.Leave!"}}</span></button>
 </div>
