@@ -1,6 +1,6 @@
 
 <div class="gh-post-preview-social-container">
-    <p class="mb4">This is how your content will look when shared, you can click on any elements you’d like to edit.</p>
+    <p class="mb4">{{t "Manual.Others.This_is_how_your_content_will_look_when_shared_you_can_click_on_any_elements_youd_like_to_edit"}}</p>
     <div class="flex flex-column">
         <div class="flex gh-social-container-responsive">
             <div class="gh-social-og-container">
@@ -23,7 +23,7 @@
                 >
                     {{#if (and this.facebookHovered (not this.facebookImage))}}
                         {{!-- only shown on hover when there's no image or fallback --}}
-                        <button class="gh-social-og-preview-img-add" {{on "click" (fn this.triggerFileDialog "facebook")}}>+ Add image</button>
+                        <button class="gh-social-og-preview-img-add" {{on "click" (fn this.triggerFileDialog "facebook")}}>{{t "Manual.Others.plus_Add_image"}}</button>
                     {{/if}}
 
                     <GhUploader
@@ -42,14 +42,23 @@
                                         {{#if uploader.isUploading}}
                                             {{uploader.progressBar}}
                                         {{else}}
-                                            <button type="button" class="gh-btn gh-btn-white" {{on "click" (fn this.triggerFileDialog "facebook")}}><span>{{if @post.ogImage "Change" "Upload"}} image</span></button>
+                                            <button type="button" class="gh-btn gh-btn-white" {{on "click" (fn this.triggerFileDialog "facebook")}}>
+                                                <span>
+                                                    {{#if @post.ogImage}}
+                                                        {{t "Manual.Others.Change"}}
+                                                    {{else}}
+                                                        {{t "Manual.Others.Upload"}}
+                                                    {{/if}}
+                                                    {{t "Manual.Others.image"}}
+                                                </span>
+                                            </button>
                                         {{/if}}
                                     {{/if}}
 
                                     {{#if (and this.facebookHovered @post.ogImage)}}
                                         <button type="button" class="gh-btn gh-btn-black gh-btn-icon gh-social-preview-img-delete" title="Remove custom Facebook image" {{on "click" this.clearFacebookImage}}>
                                             <span>{{svg-jar "trash"}}</span>
-                                            <span class="hidden">Remove custom Facebook image</span>
+                                            <span class="hidden">{{t "Manual.Others.Remove_custom_Facebook_image"}}</span>
                                         </button>
                                     {{/if}}
                                 </div>
@@ -106,8 +115,8 @@
                 </div>
                 <div class="gh-social-og-reactions">
                     <span class="gh-social-og-likes">{{svg-jar "facebook-like" class="z-999"}}{{svg-jar "facebook-heart" class="nl1"}}182</span>
-                    <span class="gh-social-og-comments">7 comments</span>
-                    <span class="gh-social-og-comments ml2">2 shares</span>
+                    <span class="gh-social-og-comments">{{t "Manual.Settings.7_comments"}}</span>
+                    <span class="gh-social-og-comments ml2">{{t "Manual.Settings.2_shares"}}</span>
                 </div>
             </div>
 
@@ -127,7 +136,7 @@
                         >
                             {{#if (and this.twitterHovered (not this.twitterImage))}}
                                 {{!-- only shown on hover when there's no image or fallback --}}
-                                <button class="gh-social-twitter-preview-img-add" {{on "click" (fn this.triggerFileDialog "twitter")}}>+ Add image</button>
+                                <button class="gh-social-twitter-preview-img-add" {{on "click" (fn this.triggerFileDialog "twitter")}}>{{t "Manual.Others.plus_Add_image"}}</button>
                             {{/if}}
 
                             <GhUploader
@@ -146,14 +155,23 @@
                                                 {{#if uploader.isUploading}}
                                                     {{uploader.progressBar}}
                                                 {{else}}
-                                                    <button type="button" class="gh-btn gh-btn-white" {{on "click" (fn this.triggerFileDialog "twitter")}}><span>{{if @post.twitterImage "Change" "Upload"}} image</span></button>
+                                                    <button type="button" class="gh-btn gh-btn-white" {{on "click" (fn this.triggerFileDialog "twitter")}}>
+                                                        <span>
+                                                            {{#if @post.twitterImage}}
+                                                                {{t "Manual.Others.Change"}}
+                                                            {{else}}
+                                                                {{t "Manual.Others.Upload"}}
+                                                            {{/if}}
+                                                            {{t "Manual.Others.image"}}
+                                                        </span>
+                                                    </button>
                                                 {{/if}}
                                             {{/if}}
 
                                             {{#if (and this.twitterHovered @post.twitterImage)}}
                                                 <button type="button" class="gh-btn gh-btn-black gh-btn-icon gh-social-preview-img-delete" title="Remove custom Twitter image" {{on "click" this.clearTwitterImage}}>
                                                     <span>{{svg-jar "trash"}}</span>
-                                                    <span class="hidden">Remove custom Twitter image</span>
+                                                    <span class="hidden">{{t "Manual.Others.Remove_custom_Twitter_image"}}</span>
                                                 </button>
                                             {{/if}}
                                         </div>
