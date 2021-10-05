@@ -70,8 +70,12 @@
                                                 </span>
                                             {{else}}
                                                 <span class="description" data-test-invite-description>
-                                                    Invitation sent: {{component.createdAt}},
-                                                    {{if component.isExpired "expired" "expires"}} {{component.expiresAt}}
+                                                    {{t "Manual.Staff.Invitation_sent" createdAt=component.createdAt}}
+                                                    {{#if component.isExpired}}
+                                                        {{t "Manual.Staff.expired"}}
+                                                    {{else}}
+                                                        {{t "Manual.Staff.expires"}}
+                                                    {{/if}}
                                                 </span>
                                             {{/if}}
                                         </p>
