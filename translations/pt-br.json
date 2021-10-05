@@ -1729,7 +1729,19 @@
             "Share_preview_privately": "Compartilhe a visualização em particular",
             "Copied": "Copiado!",
             "copy": "copiar",
-            "Open_in_new_tab": "Abrir em uma nova guia "
+            "Open_in_new_tab": "Abrir em uma nova guia ",
+            "To": "Para: ",
+            "Send a test newsletter": "Envie um boletim informativo de teste",
+            "free_member": "membro grátis",
+            "paid_member": "membro pago",
+            "This_is_how_your_content_will_look_when_shared_you_can_click_on_any_elements_youd_like_to_edit": "É assim que seu conteúdo será exibido quando compartilhado, você pode clicar em qualquer elemento que deseja editar.",
+            "plus_Add_image": "+ Adicionar imagem",
+            "Change": "Alterar",
+            "Upload": "Carregar",
+            "Remove_custom_Facebook_image": "Remover imagem personalizada do Facebooks",
+            "Remove_custom_Twitter_image": "Remover imagem personalizada do Twitter",
+            "image": "imagem",
+            "Please_select_at_least_one_tier": "Por favor, selecione pelo menos um nível"
         }
     }
 }
