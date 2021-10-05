@@ -20,7 +20,7 @@
     </p>
     {{#if this.error.failures}}
         <div class="theme-validation-list">
-            <h6>Affected files:</h6>
+            <h6>{{t "Manual.Others.Affected_files"}}</h6>
             <ul>
                 {{#each this.error.failures as |failure|}}
                     <li><code>{{failure.ref}}</code>{{#if failure.message}}: {{failure.message}}{{/if}}</li>
