@@ -1506,7 +1506,7 @@
             "Where_you_receive_responses_to_newsletters": "Where you receive responses to newsletters",
             "Track_how_many_members_are_reading_your_emails": "Track how many members are reading your emails",
             "Email_newsletter_settings": "Email newsletter settings",
-            "is_used_for_bulk_email_newsletter_delivery": " é usada para entrega de boletins informativos por e-mail em massa.",
+            "is_used_for_bulk_email_newsletter_delivery": " is used for bulk email newsletter delivery",
             "Why_is_this_required?": "Por que isso é necessario?","The_Mailgun_API_is_used_for_bulk_email_newsletter_delivery._Why_is_this_required?": "The Mailgun API is used for bulk email newsletter delivery. Why is this required?",
             "Mailgun_region": "Mailgun region",
             "Mailgun_domain": "Mailgun domain",
