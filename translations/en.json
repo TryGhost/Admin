@@ -906,7 +906,8 @@
             "Name": "Name",
             "Color": "Color",
             "Tag_image": "Tag image",
-            "Start_with_#_to_create_internal_tags_Learn_more": "Start with # to create internal tags Learn more",
+            "Start_with_#_to_create_internal_tags": "Start with # to create internal tags",
+            "Learn_more": " Learn more",
             "Upload_tag_image": "Upload tag image",
             "Description": "Description",
             "Maximum:_500_characters._You’ve_used ": "Maximum: 500 characters. You’ve used ",
@@ -951,7 +952,12 @@
             "Delete": "Delete",
             "Cancel": "Cancel",
             "You_havent_created_any_type_tags_yet": "You haven't created any {type} tags yet!",
-            "Create_a_new_tag": "Create a new tag"
+            "Create_a_new_tag": "Create a new tag",
+            "Maximum": "Maximum: ",
+            "characters_You_ve_used": " characters. You’ve used ",
+            "Recommended": "Recommended: ",
+            "Tag_header": "Tag header",
+            "Tag_footer": "Tag footer"
         },
         "Members": {
             "Search members": "Search members...",
@@ -1158,7 +1164,7 @@
             "EDIT_PITCURE": "EDIT PITCURE",
             "Create_your_account": "Create your account",
             "Full_Name": "Full Name",
-            "Use_your_real_name_so_people_can_recognize_you ": "Use your real name so people can recognize you ",
+            "Use_your_real_name_so_people_can_recognize_you": "Use your real name so people can recognize you ",
             "Slug": "Slug",
             "Email": "Email",
             "Copied":"copiada",
@@ -1684,6 +1690,19 @@
             "Description": "Description",
             "ACTION": "ACTION",
             "CONTENT_OPTIONAL_HIDDEN_FOR_EXPANDABLE": "CONTENT - OPTIONAL / HIDDEN FOR EXPANDABLE"
+        },
+
+        "Others": {
+            "Affected_files": "Affected files:",
+            "Version": "Version {version}",
+            "Active": "Active",
+            "Activate": "Activate",
+            "Delete": "Delete",
+            "Download": "Download",
+            "No_themes_found": "No themes found",
+            "Please_upload_a_theme_to_continue": "Please upload a theme to continue",
+            "Your_timezone_has_been_automatically_set_to": "Your timezone has been automatically set to {timezone}.",
+            "The_local_time_here_is_currently": "The local time here is currently {localTime}."
         }
     }
 }
