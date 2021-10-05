@@ -4,7 +4,12 @@
             <h2 class="gh-canvas-title" data-test-screen-title>
                 <LinkTo @route="tags" data-test-link="tags-back">{{t "Manual.Tags.TAG"}}</LinkTo>
                 <span>{{svg-jar "arrow-right"}}</span>
-                {{if this.tag.isNew "New tag" this.tag.name}}
+
+                {{#if this.tag.isNew}}
+                    {{t "Manual.Tags.New_tag"}}
+                {{else}}
+                    {{this.tag.name}}
+                {{/if}}
             </h2>
             <section class="view-actions">
                 <GhTaskButton @task={{this.save}} @type="button" @class="gh-btn gh-btn-primary gh-btn-icon" @data-test-button="save" />
