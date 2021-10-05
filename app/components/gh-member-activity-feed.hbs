@@ -19,13 +19,13 @@
                         data-test-button="view-all-activity"
                         {{on "click" this.showAll}}
                     >
-                        <span>View all activity</span>
+                        <span>{{t "Manual.Members.View_all_activity"}}</span>
                     </button>
                 {{/if}}
             {{else}}
                 <div class="gh-no-data-list">
                     {{svg-jar "no-data-list"}}
-                    <span>No member activity.</span>
+                    <span>{{t "Manual.Members.No_member_activity."}}</span>
                 </div>
             {{/if}}
         </div>

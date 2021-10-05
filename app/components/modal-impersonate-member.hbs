@@ -1,9 +1,9 @@
 <header class="modal-header flex justify-center">
-    <h1 style="margin: 0;">Impersonate</h1>
+    <h1 style="margin: 0;">{{t "Manual.Members.Impersonate"}}</h1>
 </header>
 {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
 <a class="close" href role="button" title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
-    {{svg-jar "close"}}<span class="hidden">Close</span>
+    {{svg-jar "close"}}<span class="hidden">{{t "Manual.Members.Close"}}</span>
 </a>
 
 <div class="modal-body">
@@ -15,7 +15,7 @@
     </div>
 
     <p class="tc pl4 pr4">
-        This is an authentication link to sign into <strong>{{this.config.blogTitle}}</strong> as <strong>{{this.member.email}}</strong>, you can send it to them if they need it, or use it to sign into their account for customer support.
+        {{t "Manual.Members.This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support."}}
     </p>
 
     <fieldset>
@@ -46,5 +46,5 @@
 </div>
 
 <div>
-    <p class="tc pt4 mb2">This link is only valid for the next <strong>24 hours</strong></p>
+    <p class="tc pt4 mb2">{{t "Manual.Members.This_link_is_only_valid_for_the_next_24_hours"}}</p>
 </div>
