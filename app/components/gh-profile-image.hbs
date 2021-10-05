@@ -3,7 +3,7 @@
     {{#unless this.previewDataURL}}
         <div class="placeholder-img" style={{this.placeholderStyle}}></div>
         <div id="account-image" class="gravatar-img" style={{this.avatarStyle}}>
-            <span class="sr-only">User image</span>
+            <span class="sr-only">{{t "Manual.Components.User_image"}}</span>
         </div>
     {{/unless}}
 
@@ -13,7 +13,7 @@
 
     <span class="edit-account-image" onclick={{action "openFileDialog"}} role="button">
         {{svg-jar "photos"}}
-        <span class="sr-only">Upload an image</span>
+        <span class="sr-only">{{t "Manual.Components.Upload_an_image"}}</span>
     </span>
 
     <GhFileInput
