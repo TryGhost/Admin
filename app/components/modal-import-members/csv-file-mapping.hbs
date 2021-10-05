@@ -11,10 +11,10 @@
         {{#if (and this.error @showErrors)}}
             <p class="pt2 error">{{this.error.message}}</p>
         {{/if}}
-        <p class="pt2">If an email address in your CSV matches an existing member, they will be updated with the mapped values.</p>
+        <p class="pt2">{{t "Manual.Others.If_an_email_address_in_your_CSV_matches_an_existing_member_they_will_be_updated_with_the_mapped_values"}}</p>
 
         <div class="mt6">
-            <label for="label-input"><span class="fw6 f8 dib mb1">Label these members</span></label>
+            <label for="label-input"><span class="fw6 f8 dib mb1">{{t "Manual.Others.Label_these_members"}}</span></label>
             <GhMemberLabelInput @onChange={{this.updateLabels}} @disabled={{@disabled}} @triggerId="label-input" />
         </div>
     </GhFormGroup>
