@@ -1160,7 +1160,7 @@
             "EDIT_PITCURE": "Editar Foto",
             "Create_your_account": "Crie sua conta",
             "Full_Name": "Nome completo",
-            "Use_your_real_name_so_people_can_recognize_you ": "Use seu nome verdadeiro para que as pessoas possam reconhecê-lo",
+            "Use_your_real_name_so_people_can_recognize_you": "Use seu nome verdadeiro para que as pessoas possam reconhecê-lo",
             "Slug": "Apelido",
             "Email": "Email",
             "Used_for_notifications": "Usado para notificações",
@@ -1243,7 +1243,7 @@
             "Manage_all_users_(invite,_revoke,_delete)": "Gerenciar todos os usuários (convidar, revogar, excluir)",
             "Import,_export_and_delete_all_content": "Importar, exportar e excluir todo o conteúdo",
             "Send_newsletters_and_test_emails": "Envie boletins informativos e teste de e-mails",
-            "Send_invitation_now": "Enviar convite agora",
+            "Send_invitation_now": "Enviar convite agora ->",
             "Reset_all_passwords": "Resetar todas as senhas",
             "You're_about_to_end_all_active_staff_user_sessions_and_trigger_a_password_reset_for_everyone_(including_yourself)._Are_you_sure?": "Você está prestes a encerrar todas as sessões de usuário da equipe ativa e acionar uma redefinição de senha para todos (incluindo você). Tem certeza?",
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Sim, encerre as sessões e redefina as senhas de todos os usuários.",
@@ -1257,7 +1257,8 @@
             "Enabled": "Habilitado",
             "Invitation_sent": " Convite enviado: {createdAt}, ",
             "expired": "expirado",
-            "expires": "expira"
+            "expires": "expira",
+            "To_use_selected_user_role,_upgrade_to_a_different_plan.":"Para usar a função de usuário selecionada, atualize para um plano diferente."
         },
         "Search": {
             "Search_site...": "Pesquise no site..",
@@ -1656,7 +1657,12 @@
             "Save":"Salvar",
             "Upgrade_to_un-suspend_this_user":"Faça upgrade para cancelar a suspensão deste usuário",
             "To_give_this_user_access_to_Ghost,_upgrade_to_a_different_plan":"Para dar a esse usuário acesso ao Ghost, faça upgrade para um plano diferente.",
-            "Upgrade_my_plan":"Atualize meu plano"
+            "Upgrade_my_plan":"Atualize meu plano",
+            "Upload_an_image":"Faça upload de uma imagem",
+            "User_image":"Imagem do usuário",
+            "Photo_of":"Foto de",
+            "Last_seen:":"Visto pela última vez:",
+            "Suspended":"Suspenso"
         },
 
         "Designsandbox":{

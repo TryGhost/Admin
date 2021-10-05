@@ -8,8 +8,8 @@
     <div class="gh-radio {{if (eq @selected.name "Contributor") "active"}}" {{on "click" (fn this.setRole "Contributor")}} data-test-option="Contributor">
         <div class="gh-radio-button"></div>
         <div class="gh-radio-content">
-            <div class="gh-radio-label">Contributor</div>
-            <div class="gh-radio-desc">Can create and edit their own posts, but cannot publish. An Editor needs to approve and publish for them.</div>
+            <div class="gh-radio-label">{{t "Manual.Staff.Contributor"}}</div>
+            <div class="gh-radio-desc">{{t "Manual.Staff.Can_create_and_edit_their_own_posts,_but_cannot_publish._An_Editor_needs_to_approve_and_publish_for_them"}}</div>
         </div>
         <div>
             {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
@@ -19,12 +19,12 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="left">Settings</td>
-                                <td>View and edit own profile</td>
+                                <td class="left">{{t "Manual.Staff.Settings"}}</td>
+                                <td>{{t "Manual.Staff.View_and_edit_own_profile"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Posts</td>
-                                <td>Create and edit own draft posts</td>
+                                <td class="left">{{t "Manual.Staff.Posts"}}</td>
+                                <td>{{t "Manual.Staff.Create_and_edit_own_draft_posts"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -36,8 +36,8 @@
     <div class="gh-radio {{if (eq @selected.name "Author") "active"}}" {{on "click" (fn this.setRole "Author")}} data-test-option="Author">
         <div class="gh-radio-button"></div>
         <div class="gh-radio-content">
-            <div class="gh-radio-label">Author</div>
-            <div class="gh-radio-desc">A trusted user who can create, edit and publish their own posts, but can’t modify others.</div>
+            <div class="gh-radio-label">{{t "Manual.Staff.Author"}}</div>
+            <div class="gh-radio-desc">{{t "Manual.Staff.Trusted_staff_user_who_should_be_able_to_manage_all_content_and_users,_as_well_as_site_settings_and_options."}}</div>
         </div>
         <div>
             {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
@@ -47,20 +47,20 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="left">Settings</td>
-                                <td>View and edit own profile</td>
+                                <td class="left">{{t "Manual.Staff.Settings"}}</td>
+                                <td>{{t "Manual.Staff.View_and_edit_own_profile"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Users</td>
-                                <td>Browse users</td>
+                                <td class="left">{{t "Manual.Staff.Users"}}</td>
+                                <td>{{t "Manual.Staff.Browse_users"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Posts</td>
-                                <td>View, edit and publish own posts, generate slugs</td>
+                                <td class="left">{{t "Manual.Staff.Posts"}}</td>
+                                <td>{{t "Manual.Staff.View,_edit_and_publish_own_posts,_generate_slugs"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Tags</td>
-                                <td>Add tags</td>
+                                <td class="left">{{t "Manual.Staff.Tags"}}</td>
+                                <td>{{t "Manual.Staff.Add_tags"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -72,8 +72,8 @@
     <div class="gh-radio {{if (eq @selected.name "Editor") "active"}}" {{on "click" (fn this.setRole "Editor")}} data-test-option="Editor">
         <div class="gh-radio-button"></div>
         <div class="gh-radio-content">
-            <div class="gh-radio-label">Editor</div>
-            <div class="gh-radio-desc">Can invite and manage other Authors and Contributors, as well as edit and publish any posts on the site.</div>
+            <div class="gh-radio-label">{{t "Manual.Staff.Editor"}}</div>
+            <div class="gh-radio-desc">{{t "Manual.Staff.Can_invite_and_manage_other_Authors_and_Contributors,_as_well_as_edit_and_publish_any_posts_on_the_site."}}</div>
         </div>
         <div>
             {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
@@ -83,20 +83,20 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="left">Settings</td>
-                                <td>View and edit own profile</td>
+                                <td class="left">{{t "Manual.Staff.Settings"}}</td>
+                                <td>{{t "Manual.Staff.View_and_edit_own_profile"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Users</td>
-                                <td>Browse users, manage authors and contributors (invite, revoke, delete)</td>
+                                <td class="left">{{t "Manual.Staff.Users"}}</td>
+                                <td>{{t "Manual.Staff.Browse_users,_manage_authors_and_contributors_(invite,_revoke,_delete)"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Posts</td>
-                                <td>Create, publish, edit and delete all posts, generate slugs</td>
+                                <td class="left">{{t "Manual.Staff.Posts"}}</td>
+                                <td>{{t "Manual.Staff.Create,_publish,_edit_and_delete_all_posts,_generate_slugs"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Tags</td>
-                                <td>Edit, add and delete tags</td>
+                                <td class="left">{{t "Manual.Staff.Tags"}}</td>
+                                <td>{{t "Manual.Staff.Edit,_add_and_delete_tags"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,8 +108,8 @@
     <div class="gh-radio {{if (eq @selected.name "Administrator") "active"}}" {{on "click" (fn this.setRole "Administrator")}} data-test-option="Administrator">
         <div class="gh-radio-button"></div>
         <div class="gh-radio-content">
-            <div class="gh-radio-label">Administrator</div>
-            <div class="gh-radio-desc">Trusted staff user who should be able to manage all content and users, as well as site settings and options.</div>
+            <div class="gh-radio-label">{{t "Manual.Staff.Administrator"}}</div>
+            <div class="gh-radio-desc">{{t "Manual.Staff.Trusted_staff_user_who_should_be_able_to_manage_all_content_and_users,_as_well_as_site_settings_and_options."}}</div>
         </div>
         <div>
             {{!-- Inner container collapses height to the SVG so popover can align correctly --}}
@@ -119,28 +119,28 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="left">Settings</td>
-                                <td>Access all except Stripe settings</td>
+                                <td class="left">{{t "Manual.Staff.Settings"}}</td>
+                                <td>{{t "Manual.Staff.Access_all_except_Stripe_settings"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Users</td>
-                                <td>Manage all users (invite, revoke, delete)</td>
+                                <td class="left">{{t "Manual.Staff.Users"}}</td>
+                                <td>{{t "Manual.Staff.Manage_all_users_(invite,_revoke,_delete)"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Posts</td>
-                                <td>Create, publish, edit and delete all posts, generate slugs</td>
+                                <td class="left">{{t "Manual.Staff.Posts"}}</td>
+                                <td>{{t "Manual.Staff.Create,_publish,_edit_and_delete_all_posts,_generate_slugs"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Tags</td>
-                                <td>Edit, add and delete tags</td>
+                                <td class="left">{{t "Manual.Staff.Tags"}}</td>
+                                <td>{{t "Manual.Staff.Edit,_add_and_delete_tags"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Database</td>
-                                <td>Import, export and delete all content</td>
+                                <td class="left">{{t "Manual.Staff.Database"}}</td>
+                                <td>{{t "Manual.Staff.Import,_export_and_delete_all_content"}}</td>
                             </tr>
                             <tr>
-                                <td class="left">Email</td>
-                                <td>Send newsletters and test emails</td>
+                                <td class="left">{{t "Manual.Staff.Email"}}</td>
+                                <td>{{t "Manual.Staff.Send_newsletters_and_test_emails"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -151,7 +151,7 @@
 
 
     <div class="gh-content-box pa" hidden={{if this.limitErrorMessage false true}}>
-        {{html-safe this.limitErrorMessage}} To use selected user role, upgrade to a different plan.
+        {{html-safe this.limitErrorMessage}} {{t "Manual.Staff.To_use_selected_user_role,_upgrade_to_a_different_plan."}}
     </div>
     {{/if}}
 </div>

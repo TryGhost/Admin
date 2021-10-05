@@ -1158,7 +1158,7 @@
             "EDIT_PITCURE": "EDIT PITCURE",
             "Create_your_account": "Create your account",
             "Full_Name": "Full Name",
-            "Use_your_real_name_so_people_can_recognize_you ": "Use your real name so people can recognize you ",
+            "Use_your_real_name_so_people_can_recognize_you": "Use your real name so people can recognize you ",
             "Slug": "Slug",
             "Email": "Email",
             "Copied":"copiada",
@@ -1242,7 +1242,7 @@
             "Manage_all_users_(invite,_revoke,_delete)": "Manage all users (invite, revoke, delete)",
             "Import,_export_and_delete_all_content": "Import, export and delete all content",
             "Send_newsletters_and_test_emails": "Send newsletters and test emails",
-            "Send_invitation_now": "Send invitation now",
+            "Send_invitation_now": "Send invitation now ->",
             "Reset_all_passwords": "Reset all passwords",
             "You're_about_to_end_all_active_staff_user_sessions_and_trigger_a_password_reset_for_everyone_(including_yourself)._Are_you_sure?": "You're about to end all active staff user sessions and trigger a password reset for everyone (including yourself). Are you sure?",
             "Yes,_end_sessions_and_reset_passwords_for_all_users.": "Yes, end sessions and reset passwords for all users.",
@@ -1256,7 +1256,8 @@
             "Enabled": "Enabled",
             "Invitation_sent": "Invitation sent: {createdAt}, ",
             "expired": "expired",
-            "expires": "expires"
+            "expires": "expires",
+            "To_use_selected_user_role,_upgrade_to_a_different_plan.":"To use selected user role, upgrade to a different plan."
         },
         "Search": {
             "Search_site...": "Search site...",
@@ -1654,7 +1655,12 @@
             "Save":"Save",
             "Upgrade_to_un-suspend_this_user":"Upgrade to un-suspend this user",
             "To_give_this_user_access_to_Ghost,_upgrade_to_a_different_plan":"To give this user access to Ghost, upgrade to a different plan.",
-            "Upgrade_my_plan":"Upgrade my plan"
+            "Upgrade_my_plan":"Upgrade my plan",
+            "Upload_an_image":"Upload an image",
+            "User_image":"User image",
+            "Photo_of":"Photo of",
+            "Last_seen:":"Last seen",
+            "Suspended":"Suspended"
         },
 
 

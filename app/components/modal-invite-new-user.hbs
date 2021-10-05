@@ -1,16 +1,16 @@
 <header class="modal-header" data-test-modal="invite-staff-user">
-    <h1>Invite a new staff user</h1>
-    <p>Send an invitation for a new person to create a staff account on your site, and select a role that matches what you’d like them to be able to do.</p>
+    <h1>{{t "Manual.Staff.Invite_a_new_staff_user"}}</h1>
+    <p>{{t "Manual.Staff.Send_an_invitation_for_a_new_person_to_create_a_staff_account_on_your_site,_and_select_a_role_that_matches_what_you’d_like_them_to_be_able_to_do."}}</p>
 </header>
 {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
 <a class="close" href role="button" title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
-    {{svg-jar "close"}}<span class="hidden">Close</span>
+    {{svg-jar "close"}}<span class="hidden">{{t "Manual.Staff.Close"}}</span>
 </a>
 
 <div class="modal-body">
     <fieldset>
         <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="email">
-            <label for="new-user-email">Email address</label>
+            <label for="new-user-email">{{t "Manual.Staff.Email_address"}}</label>
             <GhTextInput
                 @class="email"
                 @id="new-user-email"
@@ -46,7 +46,7 @@
             @disableMouseDown="true"
             data-test-button="upgrade-my-plan" />
     {{else}}
-        <GhTaskButton @buttonText="Send invitation now &rarr;"
+        <GhTaskButton @buttonText={{t "Manual.Staff.Send_invitation_now"}}
             @successText="Sent"
             @task={{this.sendInvitation}}
             @class="gh-btn gh-btn-black gh-btn-icon"

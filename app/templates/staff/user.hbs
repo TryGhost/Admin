@@ -193,7 +193,7 @@
                             {{else}}
                                 <span>{{this.user.email}}</span>
                             {{/if}}
-                            <p>{{t "Manual.Staff.Used_for_notifications"}}</p>
+                            <p>{{t "Manual.ProfilePitcure.Used_for_notifications"}}</p>
                         </GhFormGroup>
 
                         {{#if this.rolesDropdownIsVisible}}
@@ -352,7 +352,7 @@
                             </GhFormGroup>
 
                             <div class="form-group">
-                                <GhTaskButton @buttonText="Change Password" @idleClass="gh-btn-red" @class="gh-btn gh-btn-icon button-change-password" @task={{this.user.saveNewPassword}} data-test-save-pw-button="true" />
+                                <GhTaskButton @buttonText={{t "Manual.ProfilePitcure.Change_Password"}} @idleClass="gh-btn-red" @class="gh-btn gh-btn-icon button-change-password" @task={{this.user.saveNewPassword}} data-test-save-pw-button="true" />
                             </div>
                         </fieldset>
                     </div>
@@ -374,7 +374,7 @@
                                             onclick="this.select()"
                                         />
                                     <div class="app-api-personal-token-buttons child">
-                                        <button type="button" {{action "confirmRegenerateTokenModal"}} class="app-button-regenerate" data-tooltip="Regenerate">
+                                        <button type="button" {{action "confirmRegenerateTokenModal"}} class="app-button-regenerate" data-tooltip={{t "Manual.ProfilePitcure.Regenerate"}}>
                                             {{svg-jar "reload" class="w4 h4 stroke-midgrey"}}
                                         </button>
                                         <button type="button" {{action (perform this.copyContentKey)}} class="app-button-copy">
