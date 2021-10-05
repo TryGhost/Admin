@@ -1,6 +1,6 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header break tablet post-header">
-        <GhCustomViewTitle @title="Posts" @query={{reset-query-params "posts"}} />
+        <GhCustomViewTitle @title={{t "Manual.Staff.Posts"}} @query={{reset-query-params "posts"}} />
 
         <section class="view-actions">
             <GhContentfilter
@@ -22,7 +22,7 @@
                 @onOrderChange={{action "changeOrder"}}
             />
 
-            <LinkTo @route="editor.new" @model="post" class="gh-btn gh-btn-primary view-actions-top-row" data-test-new-post-button={{true}}><span>New post</span></LinkTo>
+            <LinkTo @route="editor.new" @model="post" class="gh-btn gh-btn-primary view-actions-top-row" data-test-new-post-button={{true}}><span>{{t "Manual.Posts.New_post"}}</span></LinkTo>
         </section>
     </GhCanvasHeader>
 
