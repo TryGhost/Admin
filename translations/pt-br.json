@@ -763,7 +763,7 @@
             "Facebook_preview": "Facebook pré-visuazação",
             "Email_newsletter": "Noticias no Email",
             "You_need_to_configure_Mailgun_in_Settings_→_Email_newsletter_to_enable_email_newsletters.": "Você precisa configurar o Mailgun em Configurações → Boletim informativo por email para habilitar os boletins informativos por email.",
-            "Subject": "Subjeito",
+            "Subject": "Subjeito: ",
             "Test_email": "Teste do email",
             "Preview_in_browser": "Pré-visualize no navegador",
             "Code_injection": "Injeção de codigo",
@@ -1702,7 +1702,27 @@
             "No_themes_found": "Nenhum tema encontrado",
             "Please_upload_a_theme_to_continue": "Por favor, carregue um tema para continuar",
             "Your_timezone_has_been_automatically_set_to": "Seu fuso horário foi definido automaticamente para {timezone}.",
-            "The_local_time_here_is_currently": "A hora local aqui é, no momento, {localTime}."
+            "The_local_time_here_is_currently": "A hora local aqui é, no momento, {localTime}.",
+            "Post_was_sent_by_email_to": "A postagem foi enviada por e-mail para",
+            "Sent": "Enviado: ",
+            "View_sent_email": "Ver e-mail enviado",
+            "Post_failed_to_send_to": "Falha ao enviar postagem para",
+            "Email_failed_to_send_when_publishing_this_post_Please_verify_your_email_settings_if_the_error_persists": "Falha no envio do e-mail ao publicar esta postagem. Por favor, verifique suas configurações de email se o erro persistir.",
+            "Error": "Erro: ",
+            "Subject": "Assunto: ",
+            "Tried": "Tentou: ",
+            "View_email": "Ver e-mail",
+            "You_need_to_configure_Mailgun_in": "Você precisa configurar o Mailgun em ",
+            "Settings": " Configurações ",
+            "Email_newsletter": " Boletim informativo por e-mail ",
+            "to_enable_email_newsletters": " para habilitar boletins informativos por e-mail.",
+            "Subject2": "Assunto",
+            "If_an_email_address_in_your_CSV_matches_an_existing_member_they_will_be_updated_with_the_mapped_values": "Se um endereço de e-mail em seu CSV corresponder a um membro existente, ele será atualizado com os valores mapeados.",
+            "Label_these_members": "Rotule esses membros",
+            "Share_preview_privately": "Compartilhe a visualização em particular",
+            "Copied": "Copiado!",
+            "copy": "copiar",
+            "Open_in_new_tab": "Abrir em uma nova guia "
         }
     }
 }

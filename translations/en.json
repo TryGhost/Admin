@@ -763,7 +763,7 @@
             "Facebook_preview": "Facebook preview",
             "Email_newsletter": "Email newsletter",
             "You_need_to_configure_Mailgun_in_Settings_→_Email_newsletter_to_enable_email_newsletters.": "You need to configure Mailgun in Settings → Email newsletter to enable email newsletters.",
-            "Subject": "Subject",
+            "Subject": "Subject: ",
             "Test_email": "Test email",
             "Preview_in_browser": "Preview in browser",
             "Code_injection": "Code injection",
@@ -1702,7 +1702,27 @@
             "No_themes_found": "No themes found",
             "Please_upload_a_theme_to_continue": "Please upload a theme to continue",
             "Your_timezone_has_been_automatically_set_to": "Your timezone has been automatically set to {timezone}.",
-            "The_local_time_here_is_currently": "The local time here is currently {localTime}."
+            "The_local_time_here_is_currently": "The local time here is currently {localTime}.",
+            "Post_was_sent_by_email_to": "Post was sent by email to",
+            "Sent": "Sent: ",
+            "View_sent_email": "View sent email",
+            "Post_failed_to_send_to": "Post failed to send to",
+            "Email_failed_to_send_when_publishing_this_post_Please_verify_your_email_settings_if_the_error_persists": "Email failed to send when publishing this post. Please verify your email settings if the error persists.",
+            "Error": "Error: ",
+            "Subject": "Subject: ",
+            "Tried": "Tried: ",
+            "View_email": "View email",
+            "You_need_to_configure_Mailgun_in": "You need to configure Mailgun in ",
+            "Settings": " Settings ",
+            "Email_newsletter": " Email newsletter ",
+            "to_enable_email_newsletters": " to enable email newsletters.",
+            "Subject2": "Subject",
+            "If_an_email_address_in_your_CSV_matches_an_existing_member_they_will_be_updated_with_the_mapped_values": "If an email address in your CSV matches an existing member, they will be updated with the mapped values.",
+            "Label_these_members": "Label these members",
+            "Share_preview_privately": "Share preview privately",
+            "Copied": "Copied!",
+            "copy": "copy",
+            "Open_in_new_tab": "Open in new tab "
         }
     }
 }
