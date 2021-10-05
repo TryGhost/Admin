@@ -72,7 +72,11 @@
                 {{#if this.session.user.isOwnerOnly}}
                 <button type="button" class="gh-btn gh-btn-outline gh-btn-stripe-status {{if this.isConnectDisallowed "disabled"}} {{if this.settings.stripeConnectAccountId "connected" ""}}" {{on "click" this.openStripeConnect}}>
                     <span>
-                        {{if this.settings.stripeConnectAccountId "Connected to Stripe" "Stripe not connected"}}
+                        {{#if this.settings.stripeConnectAccountId}}
+                            {{t "Manual.Settings.Connected_to_Stripe"}}
+                        {{else}}
+                            {{t "Manual.Settings.Stripe_not_connected"}}
+                        {{/if}}
                     </span>
                 </button>
                 {{/if}}
@@ -84,7 +88,15 @@
                             <h4 class="gh-expandable-title">{{t "Manual.Settings.Free"}}</h4>
                             <p class="gh-expandable-description">{{t "Manual.Settings.Free_member_sign_up_settings"}}</p>
                         </div>
-                        <button type="button" class="gh-btn" {{on "click" (toggle "freeOpen" this)}} data-test-toggle-pub-info><span>{{if this.freeOpen "Close" "Expand"}}</span></button>
+                        <button type="button" class="gh-btn" {{on "click" (toggle "freeOpen" this)}} data-test-toggle-pub-info>
+                            <span>
+                                {{#if this.freeOpen}}
+                                    {{t "Manual.Settings.Close"}}
+                                {{else}}
+                                    {{t "Manual.Settings.Expand"}}
+                                {{/if}}
+                            </span>
+                        </button>
                     </div>
                     <div class="gh-expandable-content">
                         {{#liquid-if this.freeOpen}}
@@ -119,7 +131,15 @@
                         </div>
 
                         {{#if this.settings.stripeConnectAccountId}}
-                            <button type="button" class="gh-btn" {{on "click" (toggle "paidOpen" this)}} data-test-toggle-pub-info><span>{{if this.paidOpen "Close" "Expand"}}</span></button>
+                            <button type="button" class="gh-btn" {{on "click" (toggle "paidOpen" this)}} data-test-toggle-pub-info>
+                                <span>
+                                    {{#if this.paidOpen}}
+                                        {{t "Manual.Settings.Close"}}
+                                    {{else}}
+                                        {{t "Manual.Settings.Expand"}}
+                                    {{/if}}
+                                </span>
+                            </button>
                         {{else}}
                             <button type="button" class="stripe-connect {{if (or (not this.session.user.isOwnerOnly) this.isConnectDisallowed) "disabled"}}" {{on "click" this.openStripeConnect}}>
                                 <span>{{t "Manual.Settings.Connect_with_Stripe"}}</span>
