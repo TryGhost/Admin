@@ -1253,7 +1253,10 @@
             "at": "at",
             "Skip_to_main_content": "Skip to main content",
             "Native": "Native",
-            "Enabled": "Enabled"
+            "Enabled": "Enabled",
+            "Invitation_sent": "Invitation sent: {createdAt}, ",
+            "expired": "expired",
+            "expires": "expires"
         },
         "Search": {
             "Search_site...": "Search site...",
@@ -1601,7 +1604,8 @@
             "Edit":"Edit",
             "Archive":"Archive",
             "Activate":"Activate",
-            "Archived":"Archived"
+            "Archived":"Archived",
+            "Connected_to_Stripe": "Connected to Stripe"
         },
 
         "View_site":{
