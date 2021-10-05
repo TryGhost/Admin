@@ -1693,7 +1693,22 @@
             "User_image":"Imagem do usuário",
             "Photo_of":"Foto de",
             "Last_seen:":"Visto pela última vez:",
-            "Suspended":"Suspenso"
+            "Suspended":"Suspenso",
+
+
+            "Upgrade_to_enable_custom_themes":"Atualize para habilitar temas personalizados",
+            "Your_current_plan_only_supports_official_themes._You_can_install_them_from_the":"Seu plano atual oferece suporte apenas a temas oficiais. Você pode instalá-los a partir do",
+            "Ghost_theme_marketplace":"Mercado de Ghost",
+            "Upgrade":"Atualizar",
+            "Upgrade_to_enable_custom_integrations":"Atualize para permitir integrações personalizadas",
+            "Are_you_sure_you_want_to_un-suspend_this_user":"Tem certeza de que deseja cancelar a suspensão deste usuário?",
+            "WARNING:":"AVISO:",
+            "This_user_will_be_able_to_log_in_again_and_will_have_the_same_permissions_they_had_previously":"Este usuário poderá fazer login novamente e terá as mesmas permissões que tinha anteriormente.",
+            "Unsubscribe_selected_members":"Cancelar inscrição de membros selecionados?",
+            "You're_about_to_unsubscribe":"Você está prestes a cancelar a inscrição",
+            "Are_you_sure":"Tem certeza ?",
+            "successfully_deleted":"excluído com sucesso",
+            "failed_to_delete":"falhou em deletar"
         },
 
         "Designsandbox":{

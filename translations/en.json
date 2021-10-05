@@ -1691,7 +1691,21 @@
             "User_image":"User image",
             "Photo_of":"Photo of",
             "Last_seen:":"Last seen",
-            "Suspended":"Suspended"
+            "Suspended":"Suspended",
+
+            "Upgrade_to_enable_custom_themes":"Upgrade to enable custom themes",
+            "Your_current_plan_only_supports_official_themes._You_can_install_them_from_the":"Your current plan only supports official themes. You can install them from the",
+            "Ghost_theme_marketplace":"Ghost theme marketplace",
+            "Upgrade":"Upgrade",
+            "Upgrade_to_enable_custom_integrations":"Upgrade to enable custom integrations",
+            "Are_you_sure_you_want_to_un-suspend_this_user":"Are you sure you want to un-suspend this user?",
+            "WARNING:":"WARNING:",
+            "This_user_will_be_able_to_log_in_again_and_will_have_the_same_permissions_they_had_previously":"This user will be able to log in again and will have the same permissions they had previously.",
+            "Unsubscribe_selected_members":"Unsubscribe selected members?",
+            "You're_about_to_unsubscribe":"You're about to unsubscribe",
+            "Are_you_sure":"Are you sure ?",
+            "successfully_deleted":"successfully deleted",
+            "failed_to_delete":"failed to delete"
         },
 
 
