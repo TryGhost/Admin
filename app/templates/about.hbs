@@ -8,9 +8,9 @@
                 <li class="gh-env-list-version"><strong>{{t "Manual.ProfilePitcure.Version"}}</strong> {{this.config.version}}</li>
                 <li><strong>{{t "Manual.ProfilePitcure.Environment"}}</strong> {{this.config.environment}}</li>
                 <li class="gh-env-list-database-type"><strong>{{t "Manual.ProfilePitcure.Database"}}</strong> {{this.config.database}}</li>
-                <li><strong>{{t "Manual.ProfilePitcure.Mail"}}</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}{{t "Manual.ProfilePitcure.Native"}}{{/if}}</li>
+                <li><strong>{{t "Manual.ProfilePitcure.Mail"}}</strong> {{#if this.config.mail}}{{this.config.mail}}{{else}}{{t "Manual.Staff.Native"}}{{/if}}</li>
                 {{#if (enable-developer-experiments)}}
-                <li><strong>{{t "Manual.ProfilePitcure.Developer_experiments"}}</strong> {{t "Manual.ProfilePitcure.Enabled"}}</li>
+                <li><strong>{{t "Manual.ProfilePitcure.Developer_experiments"}}</strong> {{t "Manual.Staff.Enabled"}}</li>
                 {{/if}}
             </ul>
             <div class="gh-env-help">
