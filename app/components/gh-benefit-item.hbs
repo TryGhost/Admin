@@ -1,7 +1,7 @@
 {{#unless this.benefitItem.isNew}}
     <span class="gh-blognav-grab">
         {{svg-jar "grab"}}
-        <span class="sr-only">Reorder</span>
+        <span class="sr-only">{{t "Manual.Others.Reorder"}}</span>
     </span>
 {{/unless}}
 
@@ -28,10 +28,10 @@
 
 {{#if this.benefitItem.isNew}}
     <button type="button" class="gh-blognav-add" {{action "addItem" this.benefitItem}}>
-        {{svg-jar "add"}}<span class="sr-only">Add</span>
+        {{svg-jar "add"}}<span class="sr-only">{{t "Manual.Others.Add"}}</span>
     </button>
 {{else}}
     <button type="button" class="gh-blognav-delete" {{action "deleteItem" this.benefitItem}}>
-        {{svg-jar "trash"}}<span class="sr-only">Delete</span>
+        {{svg-jar "trash"}}<span class="sr-only">{{t "Manual.Others.Delete"}}</span>
     </button>
 {{/if}}
