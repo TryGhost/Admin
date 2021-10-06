@@ -10,7 +10,7 @@
     <div class="gh-main-section-block">
         <div class="gh-main-section-content grey gh-product-priceform-block">
             <GhFormGroup @errors={{this.errors}} @property="name">
-                <label for="name" class="fw6">Name</label>
+                <label for="name" class="fw6">{{t "Manual.Components.Name"}}</label>
                 <GhTextInput
                     @value={{readonly this.price.nickname}}
                     @input={{action (mut this.price.nickname) value="target.value"}}
@@ -20,7 +20,7 @@
                 <GhErrorMessage @errors={{this.errors}} @property="name" />
             </GhFormGroup>
             <GhFormGroup @errors={{this.errors}} @property="description">
-                <label for="description" class="fw6">Description</label>
+                <label for="description" class="fw6">{{t "Manual.Integrations.Description"}}</label>
                 <GhTextInput
                     @value={{readonly this.price.description}}
                     @input={{action (mut this.price.description) value="target.value"}}
@@ -31,7 +31,7 @@
             </GhFormGroup>
             <div class="gh-product-priceform-pricecurrency">
                 <GhFormGroup @errors={{this.errors}} @property="amount">
-                    <label for="amount" class="fw6">Price</label>
+                    <label for="amount" class="fw6">{{t "Manual.Components.Prices"}}</label>
                     <div class="flex items-center justify-center gh-labs-price-label">
                         <GhTextInput
                             @id="amount"
@@ -44,7 +44,7 @@
                     <GhErrorMessage @errors={{this.errors}} @property="amount" />
                 </GhFormGroup>
                 <GhFormGroup @class="for-select">
-                    <label class="fw6 f8"for="currency">Plan currency</label>
+                    <label class="fw6 f8"for="currency">{{t "Manual.Settings.Plan_currency"}}</label>
                     <span class="gh-select mt1">
                         {{one-way-select this.selectedCurrencyObj
                             id="currency"
@@ -60,7 +60,7 @@
                 </GhFormGroup>
             </div>
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="billing-period">
-                <label for="billing-period" class="fw6">Billing period</label>
+                <label for="billing-period" class="fw6">{{t "Manual.Components.Billing_period"}}</label>
                 <GhProductsPriceBillingperiod
                     @updatePeriod={{action "updatePeriod"}}
                     @triggerId="period-input"
@@ -81,7 +81,7 @@
         {{action (optional this.noop) on="mouseDown"}}
         data-test-button="cancel-webhook"
     >
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
     <GhTaskButton @buttonText="Save"
         @successText={{this.successText}}

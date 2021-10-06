@@ -1,16 +1,16 @@
 <header class="modal-header">
-    <h1>Transfer Ownership</h1>
+    <h1>{{t "Manual.Components.Transfer_Ownership"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body">
     <p>
-        Are you sure you want to transfer the ownership of this blog?
-        You will not be able to undo this action.
+        {{t "Manual.Components.Are_you_sure_you_want_to_transfer_the_ownership_of_this_blog"}}
+        {{t "Manual.Components.You_will_not_be_able_to_undo_this_action"}}
     </p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Components.Cancel"}}</span></button>
     <GhTaskButton @buttonText="Yep - I'm sure" @task={{this.transferOwnership}} @class="gh-btn gh-btn-red gh-btn-icon" />
 </div>

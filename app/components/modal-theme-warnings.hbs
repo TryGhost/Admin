@@ -4,17 +4,17 @@
             {{#unless this.canActivate}}
                 {{this.title}}
             {{else}}
-                {{this.title}} with {{#if this.errors}}errors{{else}}warnings{{/if}}
+                {{this.title}} {{t "Manual.Components.with"}} {{#if this.errors}}{{t "Manual.Components.errors"}}{{else}}{{t "Manual.Components.warnings"}}{{/if}}
             {{/unless}}
         </h1>
     </header>
-    <a class="close" href="#" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+    <a class="close" href="#" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
     <div class="modal-body">
         {{#if this.fatalErrors}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6 red">Fatal Errors</h2>
-                <p class="mb2 red">Must-fix to activate theme</p>
+                <h2 class="mb0 mt4 f5 fw6 red">{{t "Manual.Components.Fatal_Errors"}}</h2>
+                <p class="mb2 red">{{t "Manual.Components.Must-fix_to_activate_theme"}}</p>
             </div>
             <ul class="pa0" data-test-theme-fatal-errors>
             {{#each this.fatalErrors as |error|}}
@@ -27,8 +27,8 @@
 
         {{#if this.errors}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                <p class="mb2">Highly recommended to fix, functionality <span>could</span> be restricted</p>
+                <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.errors"}}</h2>
+                <p class="mb2">{{t "Manual.Components.Highly_recommended_to_fix,_functionality_could_be_restricted"}}</p>
             </div>
 
             <ul class="pa0" data-test-theme-errors>
@@ -42,7 +42,7 @@
 
         {{#if (and this.warnings (or this.fatalErrors this.errors))}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6">Warnings</h2>
+                <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.warnings"}}</h2>
             </div>
         {{/if}}
         {{#if this.warnings}}

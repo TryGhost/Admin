@@ -1,14 +1,14 @@
 <header class="modal-header">
-    <h1>Regenerate {{capitalize this.apiKey.type}} API Key</h1>
+    <h1>{{t "Manual.ProfilePitcure.Regenerate"}} {{capitalize this.apiKey.type}} {{t "Manual.Components.API_Key"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body">
     <p>
         {{#if (eq this.internalIntegration "zapier")}}
-            You will need to locate the Ghost App within your Zapier account and click on "Reconnect" to enter the new Admin API Key.
+            {{t "Manual.Components.You_will_need_to_locate_the_Ghost_App_within_your_Zapier_account_and_click_on_Reconnect_to_enter_the_new_Admin_API_Key"}}
         {{else}}
-            You can regenerate <strong>{{capitalize this.apiKey.type}} API Key</strong> any time, but any scripts or applications using it will need to be updated.
+            {{t "Manual.Components.You_can_regenerate"}}<strong>{{capitalize this.apiKey.type}} {{t "Manual.Components.API_Key"}}</strong> {{t "Manual.Components.any_time,_but_any_scripts_or_applications_using_it_will_need_to_be_updated"}}
         {{/if}}
     </p>
     {{#if this.errorMessage}}
@@ -17,6 +17,6 @@
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Components.Cancel"}}</span></button>
     <GhTaskButton @buttonText="Regenerate {{capitalize this.apiKey.type}} API Key" @successText="Regenerated" @task={{this.regenerateKey}} @class="gh-btn gh-btn-icon gh-btn-red" />
 </div>

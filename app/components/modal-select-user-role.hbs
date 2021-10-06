@@ -1,7 +1,7 @@
 <header class="modal-header">
-    <h1>Change user role</h1>
+    <h1>{{t "Manual.Components.Change_user_role"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{on "click" this.close}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{on "click" this.close}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body" {{did-insert this.setRoleFromModel}}>
     <GhRoleSelection
@@ -11,6 +11,6 @@
 </div>
 
 <div class="modal-footer">
-    <button {{on "click" this.close}} class="gh-btn"><span>Cancel</span></button>
-    <button {{on "click" this.confirmAction}} class="gh-btn gh-btn-black"><span>Change role</span></button>
+    <button {{on "click" this.close}} class="gh-btn"><span>{{t "Manual.Components.Cancel"}}</span></button>
+    <button {{on "click" this.confirmAction}} class="gh-btn gh-btn-black"><span>{{t "Manual.Components.Change_role"}}</span></button>
 </div>
