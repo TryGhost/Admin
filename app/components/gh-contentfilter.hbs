@@ -12,7 +12,7 @@
                 @matchTriggerWidth={{false}}
                 as |type|
             >
-                {{#if type.name}}{{type.name}}{{else}}<span class="red">Unknown type</span>{{/if}}
+                {{#if type.name}}{{type.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_type"}}</span>{{/if}}
             </PowerSelect>
         </div>
     {{/unless}}
@@ -29,7 +29,7 @@
             @matchTriggerWidth={{false}}
             as |visibility|
         >
-            {{#if visibility.name}}{{visibility.name}}{{else}}<span class="red">Unknown visibility</span>{{/if}}
+            {{#if visibility.name}}{{visibility.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_visibility"}}</span>{{/if}}
         </PowerSelect>
     </div>
 
@@ -47,7 +47,7 @@
                 @matchTriggerWidth={{false}}
                 as |author|
             >
-                {{#if author.name}}{{author.name}}{{else}}<span class="red">Unknown author</span>{{/if}}
+                {{#if author.name}}{{author.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_author"}}</span>{{/if}}
             </PowerSelect>
         </div>
     {{/unless}}
@@ -67,7 +67,7 @@
                 @optionsComponent="power-select-vertical-collection-options"
                 as |tag|
             >
-                {{#if tag.name}}{{tag.name}}{{else}}<span class="red">Unknown tag</span>{{/if}}
+                {{#if tag.name}}{{tag.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_tag"}}</span>{{/if}}
             </PowerSelect>
         </div>
     {{/unless}}
@@ -84,7 +84,7 @@
             @matchTriggerWidth={{false}}
             as |order|
         >
-            {{#if order.name}}{{order.name}}{{else}}<span class="red">Unknown</span>{{/if}}
+            {{#if order.name}}{{order.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown"}}</span>{{/if}}
         </PowerSelect>
     </div>
 
@@ -94,7 +94,7 @@
                 <button
                     type="button"
                     class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
-                    title="Edit current view..."
+                    title={{t "Manual.Others.Edit_current_view"}}
                     data-test-button="edit-view"
                     {{on "click" this.customViews.toggleFormModal}}
                 >
@@ -104,7 +104,7 @@
                 <button
                     type="button"
                     class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
-                    title="Save as view..."
+                    title={{t "Manual.Others.Save_as_view"}}
                     data-test-button="add-view"
                     {{on "click" this.customViews.toggleFormModal}}
                 >
