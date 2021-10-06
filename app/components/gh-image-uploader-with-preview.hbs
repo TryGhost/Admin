@@ -3,7 +3,7 @@
         <div><img src={{@image}}></div>
         <a class="image-delete" title="Delete" {{on "click" (fn @remove "")}}>
             {{svg-jar "trash"}}
-            <span class="hidden">Delete</span>
+            <span class="hidden">{{t "Manual.Others.Delete"}</span>
         </a>
     </div>
 {{else}}
