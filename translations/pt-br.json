@@ -1765,7 +1765,28 @@
             "Remove_custom_Facebook_image": "Remover imagem personalizada do Facebooks",
             "Remove_custom_Twitter_image": "Remover imagem personalizada do Twitter",
             "image": "imagem",
-            "Please_select_at_least_one_tier": "Por favor, selecione pelo menos um nível"
+            "Please_select_at_least_one_tier": "Por favor, selecione pelo menos um nível",
+            "Reorder": "Reordenar",
+            "Add": "Adicionar",
+            "Upgrade": "Atualizar",
+            "Accent_color": "Ênfase de cor",
+            "Primary_color_used_in_your_publication_theme": "Cor primária usada em seu tema de publicação",
+            "Publication_icon": "Ícone de publicação",
+            "A_square_social_icon_used_in_the_UI_of_your_publication_at_least_60x60px": "Um ícone quadrado, social usado na interface do usuário da sua publicação, pelo menos 60x60px",
+            "Upload_icon": "Carregar ícone",
+            "Publication_logo": "Logotipo da publicação",
+            "The_primary_logo_for_your_brand_displayed_across_your_theme_should_be_transparent_and_at_least_600pxx72px": "O logotipo principal para sua marca exibido em seu tema, deve ser transparente e pelo menos 600px x 72px",
+            "Upload_logo": "Carregar logo",
+            "Publication_cover": "Capa de publicação",
+            "An_optional_large_background_image_for_your_site": "Uma imagem de fundo grande opcional para o seu site",
+            "Upload_cover": "Capa de upload",
+            "Edit_current_view": "Editar visualização atual...",
+            "Save_as_view": "Salvar como visualização...",
+            "Unknown_type": "Tipo desconhecido",
+            "Unknown_visibility": "Visibilidade desconhecida",
+            "Unknown_author": "Autor desconhecido",
+            "Unknown_tag": "Tag desconhecida",
+            "Unknown": "Desconhecido"
         }
     }
 }

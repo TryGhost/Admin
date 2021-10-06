@@ -1765,7 +1765,28 @@
             "Remove_custom_Facebook_image": "Remove custom Facebook image",
             "Remove_custom_Twitter_image": "Remove custom Twitter image",
             "image": "image",
-            "Please_select_at_least_one_tier": "Please select at least one tier"
+            "Please_select_at_least_one_tier": "Please select at least one tier",
+            "Reorder": "Reorder",
+            "Add": "Add",
+            "Upgrade": "Upgrade",
+            "Accent_color": "Accent color",
+            "Primary_color_used_in_your_publication_theme": "Primary color used in your publication theme",
+            "Publication_icon": "Publication icon",
+            "A_square_social_icon_used_in_the_UI_of_your_publication_at_least_60x60px": "A square, social icon used in the UI of your publication, at least 60x60px",
+            "Upload_icon": "Upload icon",
+            "Publication_logo": "Publication logo",
+            "The_primary_logo_for_your_brand_displayed_across_your_theme_should_be_transparent_and_at_least_600pxx72px": "The primary logo for your brand displayed across your theme, should be transparent and at least 600px x 72px",
+            "Upload_logo": "Upload logo",
+            "Publication_cover": "Publication cover",
+            "An_optional_large_background_image_for_your_site": "An optional large background image for your site",
+            "Upload_cover": "Upload cover",
+            "Edit_current_view": "Edit current view...",
+            "Save_as_view": "Save as view...",
+            "Unknown_type": "Unknown type",
+            "Unknown_visibility": "Unknown visibility",
+            "Unknown_author": "Unknown author",
+            "Unknown_tag": "Unknown tag",
+            "Unknown": "Unknown"
         }
     }
 }
