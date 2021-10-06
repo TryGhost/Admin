@@ -1,33 +1,40 @@
 <div data-test-editor-post-status ...attributes>
     {{#if this.isSaving}}
-        Saving...
+        {{t "Manual.Others.Saving"}}
     {{else if (or @post.isPublished @post.pastScheduledTime)}}
-        Published
+        {{t "Manual.Others.Published"}}
         {{#if (or (eq @post.email.status "submitting") (eq @post.email.status "submitting"))}}
-            and sending to {{gh-pluralize @post.email.emailCount "member"}}
+            {{t "Manual.Others.and_sending_to"}} {{gh-pluralize @post.email.emailCount "member"}}
         {{else if (eq @post.email.status "submitted")}}
-            and sent to {{gh-pluralize @post.email.emailCount "member"}}
+            {{t "Manual.Others.and_sent_to"}} {{gh-pluralize @post.email.emailCount "member"}}
         {{/if}}
         {{#if (feature "savedIndicator")}}
-            {{if (not @hasDirtyAttributes) "- Saved"}}
+            {{#if (not @hasDirtyAttributes)}}
+                {{t "Manual.Others.Saved"}}
+            {{/if}}
         {{/if}}
     {{else if @post.isScheduled}}
         <time datetime="{{@post.publishedAtUTC}}" class="ml1 green f8" data-test-schedule-countdown>
-            Will be published
+            {{t "Manual.Others.Will_be_published"}}
             {{#if @post.emailRecipientFilter}}
-                and sent to <GhRecipientFilterCount @filter={{@post.emailRecipientFilter}} />
+                {{t "Manual.Others.and_sent_to"}} <GhRecipientFilterCount @filter={{@post.emailRecipientFilter}} />
             {{/if}}
             {{this.scheduledTime}}
         </time>
         {{#if (feature "savedIndicator")}}
-            {{if (not @hasDirtyAttributes) "- Saved"}}
+            {{#if (not @hasDirtyAttributes)}}
+                {{t "Manual.Others.Saved"}}
+            {{/if}}
+
         {{/if}}
     {{else if @post.isNew}}
-        New
+        {{t "Manual.Others.New"}}
     {{else}}
-        Draft
+        {{t "Manual.Others.Draft"}}
         {{#if (feature "savedIndicator")}}
-            {{if (not @hasDirtyAttributes) "- Saved"}}
+           {{#if (not @hasDirtyAttributes)}}
+                {{t "Manual.Others.Saved"}}
+            {{/if}}
         {{/if}}
     {{/if}}
 </div>
