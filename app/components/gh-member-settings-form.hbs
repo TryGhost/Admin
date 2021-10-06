@@ -30,12 +30,12 @@
                                 {{#if (and (eq this.member.geolocation.country_code "US") @member.geolocation.region)}}
                                     {{this.member.geolocation.region}}, US
                                 {{else}}
-                                    {{or this.member.geolocation.country "Unknown location"}}
+                                    {{or this.member.geolocation.country {{t "Manual.Others.Unknown_location"}} }}
                                 {{/if}}
                             {{else}}
-                                Unknown location
+                               {{t "Manual.Others.Unknown_location"}}
                             {{/if}}
-                            – Created on {{moment-format @member.createdAtUTC "D MMM YYYY"}}
+                            – {{t "Manual.Others.Created_on"}} {{moment-format @member.createdAtUTC "D MMM YYYY"}}
                         </p>
                         {{/unless}}
                     </div>
@@ -43,15 +43,15 @@
 
                 <div class="flex">
                     <div class="flex-auto flex flex-column justify-center items-start">
-                        <div class="gh-heading-xs">Emails received</div>
+                        <div class="gh-heading-xs">{{t "Manual.Others.Emails_received"}}</div>
                         <div class="gh-data-summary">{{@member.emailCount}}</div>
                     </div>
                     <div class="flex-auto flex flex-column justify-center items-start">
-                        <div class="gh-heading-xs">Emails opened</div>
+                        <div class="gh-heading-xs">{{t "Manual.Others.Emails_opened"}}</div>
                         <div class="gh-data-summary">{{@member.emailOpenedCount}}</div>
                     </div>
                     <div class="flex-auto flex flex-column justify-center items-start">
-                        <div class="gh-heading-xs">Avg. open rate</div>
+                        <div class="gh-heading-xs">{{t "Manual.Others.Avg_open_rate"}}</div>
                         <div class="gh-data-summary">
                             {{#if (is-empty @member.emailOpenRate)}}
                                 <span data-tooltip="Insufficient data available">–</span>
@@ -66,19 +66,19 @@
     </section>
 
     <section class="gh-main-section">
-        <h4 class="gh-main-section-header small bn">Basic data</h4>
+        <h4 class="gh-main-section-header small bn">{{t "Manual.Others.Basic_data"}}</h4>
         <div class="gh-main-section-block">
             <div class="gh-main-section-content grey padding-top-s columns-2">
                 <div>
                     <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="name" @classNames="max-width">
-                        <label for="member-name">Name</label>
+                        <label for="member-name">{{t "Manual.Others.Name"}}</label>
                         <GhTextInput @id="member-name" @name="name" @value={{this.scratchMember.name}} @tabindex="1"
                             @focus-out={{action "setProperty" "name" this.scratchMember.name}} data-test-input="member-name" />
                         <GhErrorMessage @errors={{member.errors}} @property="name" />
                     </GhFormGroup>
 
                     <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="email" @classNames="max-width">
-                        <label for="member-email">Email</label>
+                        <label for="member-email">{{t "Manual.Others.Email"}}</label>
                         <GhTextInput @value={{this.scratchMember.email}} @id="member-email" @name="email" @tabindex="2"
                             @autocapitalize="off" @autocorrect="off" @autocomplete="off"
                             @focus-out={{action "setProperty" "email" this.scratchMember.email}} data-test-input="member-email"/>
@@ -88,8 +88,8 @@
                     <GhFormGroup @classNames="gh-members-subscribed-checkbox mb0">
                         <div class="flex justify-between items-center">
                             <div>
-                                <h4 class="gh-setting-title m">Subscribed to newsletter</h4>
-                                <p class="gh-setting-desc">If disabled, member will <em>not</em> receive newsletter emails</p>
+                                <h4 class="gh-setting-title m">{{t "Manual.Others.Subscribed_to_newsletter"}}</h4>
+                                <p class="gh-setting-desc">{{t "Manual.Others.If_disabled_member_will"}} <em>{{t "Manual.Others.not"}}</em> {{t "Manual.Others.receive_newsletter_emails"}}</p>
                             </div>
                             <div class="for-switch">
                                 <label class="switch" for="subscribed-checkbox">
@@ -104,16 +104,16 @@
 
                 <div class="flex-auto flex flex-column items-stretch">
                     <GhFormGroup @classNames="gh-member-labels">
-                        <label for="label-input">Labels</label>
+                        <label for="label-input">{{t "Manual.Others.Labels"}}</label>
                         <GhMemberLabelInput @onChange={{action "setLabels"}} @labels={{this.member.labels}} @triggerId="label-input" data-test-input="" />
                     </GhFormGroup>
-                
+
                     <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="note" @classNames="mb0 gh-member-note">
-                        <label for="member-note">Note <span class="midgrey-l2 fw4">(not visible to member)</span></label>
+                        <label for="member-note">{{t "Manual.Others.Note"}} <span class="midgrey-l2 fw4">({{t "Manual.Others.not_visible_to_member"}})</span></label>
                         <GhTextarea @id="member-note" @name="note" @class="gh-member-details-textarea" @tabindex="3"
                             @value={{this.scratchMember.note}} @focus-out={{action "setProperty" "note" this.scratchMember.note}} data-test-input="member-note" />
                         <GhErrorMessage @errors={{this.member.errors}} @property="note" />
-                        <p> Maximum: <b>500</b> characters. You’ve used
+                        <p> {{t "Manual.Others.Maximum"}} <b>500</b> {{t "Manual.Others.characters_You_ve_used"}}
                             {{gh-count-down-characters this.scratchMember.note 500}}</p>
                     </GhFormGroup>
                 </div>
@@ -124,14 +124,14 @@
 
     <section class="gh-main-section {{if this.canShowStripeInfo "columns-2"}}">
         <div class="gh-main-section-block">
-            <h4 class="gh-main-section-header small bn">Member activity</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Others.Member_activity"}}</h4>
             <div class="gh-main-section-content grey stretch-height">
                 <GhMemberActivityFeed @emailRecipients={{this.member.emailRecipients}} />
             </div>
         </div>
         {{#if this.canShowStripeInfo}}
         <div class="gh-main-section-block">
-            <h4 class="gh-main-section-header small bn">Stripe info</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Others.Stripe_info"}}</h4>
             <div class="gh-main-section-content stretch-height grey">
                 <div class="gh-member-stripe">
                     {{#if this.isLoading}}
@@ -143,14 +143,14 @@
                             {{#if this.subscriptions}}
                                 <div class="gh-member-header-stripeinfo">
                                     <div class="gh-btn-tabs">
-                                        <button type="button" class="gh-btn gh-member-btn-stripe-toggle {{if (eq this.stripeDetailsType "subscription") "gh-btn-tab-selected"}}" {{on "click" (fn this.changeStripeDetailsType "subscription")}}><span>Subscription</span></button>
-                                        <button type="button" class="gh-btn gh-member-btn-stripe-toggle {{if (eq this.stripeDetailsType "customer") "gh-btn-tab-selected"}}" {{on "click" (fn this.changeStripeDetailsType "customer")}}><span>Customer</span></button>
+                                        <button type="button" class="gh-btn gh-member-btn-stripe-toggle {{if (eq this.stripeDetailsType "subscription") "gh-btn-tab-selected"}}" {{on "click" (fn this.changeStripeDetailsType "subscription")}}><span>{{t "Manual.Others.Subscription"}}</span></button>
+                                        <button type="button" class="gh-btn gh-member-btn-stripe-toggle {{if (eq this.stripeDetailsType "customer") "gh-btn-tab-selected"}}" {{on "click" (fn this.changeStripeDetailsType "customer")}}><span>{{t "Manual.Others.Customer"}}</span></button>
                                     </div>
                                 </div>
                                 {{#if (eq this.stripeDetailsType "subscription")}}
                                     {{#if this.hasMultipleSubscriptions}}
                                         <div class="pa2 flex flex-column flex-row-ns items-center justify-center f7 fw5 bg-whitegrey-l2 bb b--whitegrey br4 br--top">
-                                            {{svg-jar "info" class="gh-member-info-icon mr2 fill-darkgrey"}} Member has multiple Stripe subscriptions
+                                            {{svg-jar "info" class="gh-member-info-icon mr2 fill-darkgrey"}} {{t "Manual.Others.Member_has_multiple_Stripe_subscriptions"}}
                                         </div>
                                     {{/if}}
                                     {{#each this.subscriptions as |subscription|}}
@@ -159,7 +159,7 @@
                                                 <div class="flex-auto">
                                                     <table class="gh-member-stripe-table">
                                                         <tr class="gh-member-stripe-row">
-                                                            <td class="gh-member-stripe-label">Stripe subscription ID</td>
+                                                            <td class="gh-member-stripe-label">{{t "Manual.Others.Stripe_subscription_ID"}}</td>
                                                             <td class="gh-member-stripe-data gh-member-stripe-id">
                                                                 <a href="https://dashboard.stripe.com/subscriptions/{{subscription.id}}" target="_blank" rel="noopener"
                                                                     data-tooltip="View on Stripe">
@@ -168,7 +168,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr class="gh-member-stripe-row">
-                                                            <td class="gh-member-stripe-label">Plan</td>
+                                                            <td class="gh-member-stripe-label">{{t "Manual.Others.Plan"}}</td>
                                                             <td class="gh-member-stripe-data">
                                                                 {{subscription.plan.nickname}}
                                                                 <span class="midgrey-d1">({{subscription.amount}}
@@ -177,10 +177,10 @@
                                                             </td>
                                                         </tr>
                                                         <tr class="gh-member-stripe-row">
-                                                            <td class="gh-member-stripe-label">Status</td>
+                                                            <td class="gh-member-stripe-label">{{t "Manual.Others.Status"}}</td>
                                                             <td class="gh-member-stripe-data">
                                                                 {{#if (and subscription.cancelAtPeriodEnd (not-eq subscription.status 'canceled'))}}
-                                                                    <span class="gh-member-cancels-on-label">Cancels on {{subscription.validUntil}}</span>
+                                                                    <span class="gh-member-cancels-on-label">{{t "Manual.Others.Cancels_on"}}{{subscription.validUntil}}</span>
                                                                 {{else}}
                                                                     <span class="gh-member-stripe-status">{{subscription.statusLabel}}</span>
                                                                 {{/if}}
@@ -188,17 +188,17 @@
                                                         </tr>
                                                         {{#if subscription.cancellationReason}}
                                                             <tr class="gh-member-stripe-row">
-                                                                <td class="gh-member-stripe-label">Cancellation reason</td>
+                                                                <td class="gh-member-stripe-label">{{t "Manual.Others.Cancellation_reason"}}</td>
                                                                 <td class="gh-member-stripe-data">
                                                                     <span class="gh-member-stripe-cancellation-reason">{{subscription.cancellationReason}}</span>
                                                                 </td>
                                                             </tr>
                                                         {{/if}}
                                                         <tr class="gh-member-stripe-row">
-                                                            <td class="gh-member-stripe-label">Next renewal date</td>
+                                                            <td class="gh-member-stripe-label">{{t "Manual.Others.Next_renewal_date"}}</td>
                                                             <td class="gh-member-stripe-data">
                                                                 {{#if subscription.cancelAtPeriodEnd}}
-                                                                    No further renewal
+                                                                    {{t "Manual.Others.No_further_renewal"}}
                                                                 {{else}}
                                                                     {{subscription.validUntil}}
                                                                 {{/if}}
@@ -209,7 +209,7 @@
                                                     {{#if (eq subscription.status "active")}}
                                                         {{#if subscription.cancelAtPeriodEnd}}
                                                             <GhTaskButton
-                                                                @buttonText="Continue subscription"
+                                                                @buttonText={{t "Manual.Others.Continue_subscription"}}
                                                                 @successText=""
                                                                 @task={{this.continueSubscription}}
                                                                 @taskArgs={{subscription.id}}
@@ -218,7 +218,7 @@
                                                             />
                                                         {{else}}
                                                             <GhTaskButton
-                                                                @buttonText="Cancel subscription"
+                                                                @buttonText={{t "Manual.Others.Cancel_subscription"}}
                                                                 @successText=""
                                                                 @task={{this.cancelSubscription}}
                                                                 @taskArgs={{subscription.id}}
@@ -238,7 +238,7 @@
                                             <div class="flex-auto">
                                                 <table class="gh-member-stripe-table">
                                                     <tr class="gh-member-stripe-row">
-                                                        <td class="gh-member-stripe-label">Stripe customer ID</td>
+                                                        <td class="gh-member-stripe-label">{{t "Manual.Others.Stripe_customer_ID"}}</td>
                                                         <td class="gh-member-stripe-data gh-member-stripe-id">
                                                             <a href="https://dashboard.stripe.com/customers/{{customer.id}}" target="_blank" rel="noopener" data-tooltip="View on Stripe">
                                                                 {{customer.id}}
@@ -246,32 +246,32 @@
                                                         </td>
                                                     </tr>
                                                     <tr class="gh-member-stripe-row">
-                                                        <td class="gh-member-stripe-label">Name</td>
+                                                        <td class="gh-member-stripe-label">{{t "Manual.Others.Name"}}</td>
                                                         <td class="gh-member-stripe-data">
                                                             {{#if customer.name}}
                                                                 {{customer.name}}
                                                             {{else}}
-                                                                <span class="midgrey-d1">No name</span>
+                                                                <span class="midgrey-d1">{{t "Manual.Others.No_name"}}</span>
                                                             {{/if}}
                                                         </td>
                                                     </tr>
                                                     <tr class="gh-member-stripe-row">
-                                                        <td class="gh-member-stripe-label">Email</td>
+                                                        <td class="gh-member-stripe-label">{{t "Manual.Others.Email"}}</td>
                                                         <td class="gh-member-stripe-data gh-member-stripe-email">
                                                             {{#if customer.email}}
                                                                 {{customer.email}}
                                                             {{else}}
-                                                                <span class="midgrey-d1">No email</span>
+                                                                <span class="midgrey-d1">{{t "Manual.Others.No_email"}}</span>
                                                             {{/if}}
                                                         </td>
                                                     </tr>
                                                     <tr class="gh-member-stripe-row">
-                                                        <td class="gh-member-stripe-label">Customer since</td>
+                                                        <td class="gh-member-stripe-label">{{t "Manual.Others.Customer_since"}}</td>
                                                         <td class="gh-member-stripe-data">
                                                             {{#if customer.startDate}}
                                                                 {{customer.startDate}}
                                                             {{else}}
-                                                                <span class="midgrey-d1">No data</span>
+                                                                <span class="midgrey-d1">{{t "Manual.Others.No_data"}}</span>
                                                             {{/if}}
                                                         </td>
                                                     </tr>
@@ -282,15 +282,15 @@
                                 {{/if}}
                             {{else}}
                                 <div class="pa12">
-                                    <p class="ma0 pa0 tc midgrey">Member doesn't have an active Stripe subscription</p>
+                                    <p class="ma0 pa0 tc midgrey">{{t "Manual.Others.Member_doesn_t_have_an_active_Stripe_subscription"}}</p>
                                 </div>
                             {{/if}}
                             <div class="flex flex-column justify-between bt b--whitegrey-d1">
                                 <GhFormGroup @classNames="gh-members-comped-checkbox">
                                     <div class="flex justify-between items-center gh-members-comped">
                                         <div class="mr5">
-                                            <h4 class="gh-setting-title">Complimentary premium plan</h4>
-                                            <p class="gh-setting-desc">If enabled, member will be placed onto a free of charge premium subscription</p>
+                                            <h4 class="gh-setting-title">{{t "Manual.Others.Complimentary_premium_plan"}}</h4>
+                                            <p class="gh-setting-desc">{{t "Manual.Others.If_enabled_member_will_be_placed_onto_a_free_of_charge_premium_subscription"}}</p>
                                         </div>
                                         <div class="for-switch gh-members-comped-switch">
                                             <label class="switch" for="comped-checkbox">
