@@ -2071,6 +2071,11 @@
             "Account": "Account",
             "Account_Plans": "Account/Plans",
             "Account_Profile": "Account/Profile"
+        },
+
+        "JS": {
+            "signed up": "signed up",
+            "Update": "Update"
         }
     }
 }
