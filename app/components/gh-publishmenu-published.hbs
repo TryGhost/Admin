@@ -1,18 +1,18 @@
 <div {{did-insert (fn @setSaveType "publish")}} data-test-publishmenu-published="true" ...attributes>
-    <header class="gh-publishmenu-heading">Update {{@post.displayName}} status</header>
+    <header class="gh-publishmenu-heading">{{t "Manual.Others.Update"}} {{@post.displayName}} {{t "Manual.Others.status"}}</header>
     <section class="gh-publishmenu-content gh-publishmenu-section">
         <div class="gh-publishmenu-radio {{if (eq @saveType "draft") "active"}}" {{on "click" (fn @setSaveType "draft")}}>
             <div class="gh-publishmenu-radio-button" data-test-publishmenu-unpublished-option></div>
             <div class="gh-publishmenu-radio-content">
-                <div class="gh-publishmenu-radio-label">Unpublished</div>
-                <div class="gh-publishmenu-radio-desc">Revert this {{@post.displayName}} to a private draft</div>
+                <div class="gh-publishmenu-radio-label">{{t "Manual.Others.Unpublished"}}</div>
+                <div class="gh-publishmenu-radio-desc">{{t "Manual.Others.Revert_this"}} {{@post.displayName}} {{t "Manual.Others.to_a_private_draft"}}</div>
             </div>
         </div>
         <div class="gh-publishmenu-radio {{if (eq @saveType "publish") "active"}}" {{on "click" (fn @setSaveType "publish")}}>
             <div class="gh-publishmenu-radio-button" data-test-publishmenu-published-option></div>
             <div class="gh-publishmenu-radio-content">
-                <div class="gh-publishmenu-radio-label">Published</div>
-                <div class="gh-publishmenu-radio-desc">Display this {{@post.displayName}} publicly</div>
+                <div class="gh-publishmenu-radio-label">{{t "Manual.Others.Published"}}</div>
+                <div class="gh-publishmenu-radio-desc">{{t "Manual.Others.Display_this"}} {{@post.displayName}} {{t "Manual.Others.publicly"}}</div>
             </div>
         </div>
     </section>
