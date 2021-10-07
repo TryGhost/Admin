@@ -2080,7 +2080,38 @@
 
         "JS": {
             "signed up": "inscrito",
-            "Update": "Atualizar"
+            "Update": "Atualizar",
+            "logged_in": "logado",
+            "made_a_payment": "fez um pagamento",
+            "subscribed_to": "inscrito em",
+            "unsubscribed_from": "cancelou a assinatura de",
+            "started": "iniciado",
+            "cancelled": "cancelado",
+            "changed": "mudado",
+            "emails": "emails",
+            "their_subscription": "a inscrição deles",
+            "Publishing": "Publicação",
+            "Publish": "Publicar",
+            "published": "publicados",
+            "scheduled": "agendado",
+            "draft": "rascunho",
+            "Scheduled": "Agendado",
+            "Scheduling": "Agendamento",
+            "Updating": "Atualizando",
+            "Unpublishing": "Cancelamento de publicação",
+            "Rescheduling": "Reagendar",
+            "Unscheduling": "Não agendado",
+            "Send": "Enviar",
+            "Schedule": "Agendar",
+            "Unpublish": "Cancelar publicação",
+            "Reschedule": "Reagendar",
+            "Unschedule": "Não agendar",
+            "Published": "Publicados",
+            "Unpublished": "Não publicado",
+            "Updated": "Atualizado",
+            "Unscheduled": "Não agendado",
+            "Rescheduled": "Reagendado",
+            "undefined": "indefinido"
         }
     }
 }

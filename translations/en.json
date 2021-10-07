@@ -2080,7 +2080,38 @@
 
         "JS": {
             "signed up": "signed up",
-            "Update": "Update"
+            "Update": "Update",
+            "logged_in": "logged in",
+            "made_a_payment": "made a payment",
+            "subscribed_to": "subscribed to",
+            "unsubscribed_from": "unsubscribed from",
+            "started": "started",
+            "cancelled": "cancelled",
+            "changed": "changed",
+            "emails": "emails",
+            "their_subscription": "their subscription",
+            "Publishing": "Publishing",
+            "Publish": "Publish",
+            "published": "published",
+            "scheduled": "scheduled",
+            "draft": "draft",
+            "Scheduled": "Scheduled",
+            "Scheduling": "Scheduling",
+            "Updating": "Updating",
+            "Unpublishing": "Unpublishing",
+            "Rescheduling": "Rescheduling",
+            "Unscheduling": "Unscheduling",
+            "Send": "Send",
+            "Schedule": "Schedule",
+            "Unpublish": "Unpublish",
+            "Reschedule": "Reschedule",
+            "Unschedule": "Unschedule",
+            "Published": "Published",
+            "Unpublished": "Unpublished",
+            "Updated": "Updated",
+            "Unscheduled": "Unscheduled",
+            "Rescheduled": "Rescheduled",
+            "undefined": "undefined"
         }
     }
 }
