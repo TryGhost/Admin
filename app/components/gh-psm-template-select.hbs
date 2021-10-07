@@ -1,6 +1,6 @@
 {{#if this.customTemplates}}
     <div class="form-group for-select" data-test-custom-template-form>
-        <label for="author-list">Template</label>
+        <label for="author-list">{{t "Manual.Others.Template"}}</label>
         <span class="gh-input-icon gh-icon-user">
             {{svg-jar "file-text-document"}}
             <span class="gh-select {{if this.matchedSlugTemplate "disabled"}}">
@@ -15,7 +15,7 @@
             </span>
         </span>
         {{#if this.matchedSlugTemplate}}
-            <p>Post URL matches {{this.matchedSlugTemplate.filename}}</p>
+            <p>{{t "Manual.Others.Post_URL_matches"}} {{this.matchedSlugTemplate.filename}}</p>
         {{/if}}
     </div>
 {{/if}}
