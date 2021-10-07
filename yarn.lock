@@ -1126,12 +1126,22 @@
     "@ember-decorators/utils" "^6.1.1"
     ember-cli-babel "^7.1.3"
 
-"@ember-decorators/utils@^6.1.0", "@ember-decorators/utils@^6.1.1":
+"@ember-decorators/utils@^6.0.0", "@ember-decorators/utils@^6.1.0", "@ember-decorators/utils@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@ember-decorators/utils/-/utils-6.1.1.tgz#6b619814942b4fb3747cfa9f540c9f05283d7c5e"
   integrity sha512-0KqnoeoLKb6AyoSU65TRF5T85wmS4uDn06oARddwNPxxf/lt5jQlh41uX3W7V/fWL9tPu8x1L1Vvpc80MN1+YA==
   dependencies:
     ember-cli-babel "^7.1.3"
+
+"@ember-intl/decorators@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ember-intl/decorators/-/decorators-1.1.0.tgz#b0c4a57bfed3eac80345064fd49a46d555c17f19"
+  integrity sha512-aUVM/outIcXmhHuQjKjq6sWfIi1OetwTuPlA4JXYutkZIoqGd1SHXzWVgW5qTJOttT+18r7yL4Ll1CVHRqBvkA==
+  dependencies:
+    "@ember-decorators/utils" "^6.0.0"
+    ember-cli-babel "^7.22.1"
+    ember-cli-typescript "^3.1.4"
+    ember-intl "^5.3.1"
 
 "@ember/edition-utils@^1.2.0":
   version "1.2.0"
@@ -8233,7 +8243,7 @@ ember-inflector@^3.0.1:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-intl@^5.7.0:
+ember-intl@^5.3.1, ember-intl@^5.7.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/ember-intl/-/ember-intl-5.7.0.tgz#2381a6a210e39bcf1e879308538ec72903b0da7a"
   integrity sha512-NcQFPeV9wxyOX7Tb0y+84CXHPt5XleYUlszywx5aQgJQ4yE6in3kHjI804CRKtLz6OY0rzVfTa5Jc/y8CtI+0Q==
