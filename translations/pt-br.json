@@ -1394,7 +1394,7 @@
             "Ghost_allows_you_to_inject_code_into_the_top_and_bottom_of_your_theme_files_without_editing_them._This_allows_for_quick_modifications_to_insert_useful_things_like_tracking_codes_and_meta_tags.": "O Ghost permite que você injete código na parte superior e inferior de seus arquivos de tema sem editá-los. Isso permite modificações rápidas para inserir itens úteis, como códigos de rastreamento e metatags.",
             "Code_here_will_be_injected_into_the": "O código aqui será injetado na tag ",
             "tag_on_every_page_of_the_site": " em todas as páginas do site",
-            "Save": "Salve",
+            "Save": "Salvar",
             "Saved": "Salvou",
             "Saving": "Salvando",
             "This_is_a_testing_ground_for_new_or_experimental_features._They_may_change,_break_or_inexplicably_disappear_at_any_time.": "Este é um campo de testes para recursos novos ou experimentais. Eles podem mudar, quebrar ou desaparecer inexplicavelmente a qualquer momento.",
