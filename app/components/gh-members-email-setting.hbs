@@ -113,8 +113,8 @@
                         <div class="flex items-center justify-center mt1">
                             <GhTextInput @value={{readonly this.fromAddress}} @input={{action "setFromAddress"
                                 value="target.value" }} @class="gh-labs-members-emailinput" />
-                            <GhTaskButton @buttonText="Update newsletter address" @runningText="Sending..."
-                                @successText="Confirmation email sent" @disabled={{this.disableUpdateFromAddressButton}}
+                            <GhTaskButton @buttonText={{t "Manual.Settings.Update_newsletter_address"}} @runningText={{t "Manual.Settings.Sending"}}
+                                @successText={{t "Manual.Settings.Confirmation_email_sent"}} @disabled={{this.disableUpdateFromAddressButton}}
                                 @task={{this.updateFromAddress}}
                                 @class="gh-btn gh-btn-icon gh-btn-green gh-btn-textfield-group gh-labs-members-emaildropdown"
                                 data-test-button="update-from-address" />
