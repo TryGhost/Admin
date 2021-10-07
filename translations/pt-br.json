@@ -2080,7 +2080,33 @@
 
         "JS": {
             "signed up": "inscrito",
-            "Update": "Atualizar"
+            "Update": "Atualizar",
+            "All posts":"Todos os Postagens",
+            "Draft posts":"Esboço das Postagens",
+            "Published posts":"Postagens Publicadas",
+            "Scheduled posts":"Postagens Agendadas",
+            "Featured posts":"Postagens Apresentadas",
+            "!unknown":"!Desconhecido",
+            "All access":"Todos os acesso",
+            "Public":"Publico",
+            "Members-only":"Apenas membros",
+            "Paid members-only":"Apenas membros Pagos",
+            "Newest":"O mais novo",
+            "Oldest":"O mais Velho",
+            "Recently updated":"Atualizado recente",
+            "All authors":"Todos os Autores",
+            "All tags":"Todas as Marcações",
+            "Open rate":"Taxa de abertura",
+            "All pages":"Todas as paginas",
+            "Draft pages":"Esboço das paginas",
+            "Published pages":"Paginas Publicadas",
+            "Scheduled pages":"Paginas Agendadas",
+            "Featured pages":"Paginas Apresentadas",
+            "All labels":"Todas os Rotulos",
+            "All members":"Todos membros",
+            "Free members":"Membros gratis",
+            "Paid members":"Membros pagos",
+            "member": "membro"
         }
     }
 }

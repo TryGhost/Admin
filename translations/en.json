@@ -2080,7 +2080,35 @@
 
         "JS": {
             "signed up": "signed up",
-            "Update": "Update"
+            "Update": "Update",
+            "All posts":"All posts",
+            "Draft posts":"Draft posts",
+            "Published posts":"Published posts",
+            "Scheduled posts":"Scheduled posts",
+            "Featured posts":"Featured posts",
+            "!unknown":"!unknown",
+            "All access":"All access",
+            "Public":"Public",
+            "Members-only":"Members-only",
+            "Paid members-only":"Paid members-only",
+            "Newest":"Newest",
+            "Oldest":"Oldest",
+            "Recently updated":"Recently updated",
+            "All authors":"All authors",
+            "All tags":"All tags",
+            "Open rate":"Open rate",
+            "All pages":"All pages",
+            "Draft pages":"Draft pages",
+            "Published pages":"Published pages",
+            "Scheduled pages":"Scheduled pages",
+            "Featured pages":"Featured pages",
+            "All labels":"All labels",
+            "All members":"All members",
+            "Free members":"Free members",
+            "Paid members":"Paid members",
+            "member": "member"
+
+
         }
     }
 }

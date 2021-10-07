@@ -12,18 +12,6 @@ import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
-
-const PAID_PARAMS = [{
-    name: 'All members',
-    value: null
-}, {
-    name: 'Free members',
-    value: 'false'
-}, {
-    name: 'Paid members',
-    value: 'true'
-}];
-
 export default class MembersController extends Controller {
     @service ajax;
     @service config;
@@ -33,6 +21,7 @@ export default class MembersController extends Controller {
     @service membersStats;
     @service router;
     @service store;
+    @service intl;
 
     queryParams = [
         'label',
@@ -59,16 +48,26 @@ export default class MembersController extends Controller {
 
     @tracked _availableLabels = A([]);
 
-    paidParams = PAID_PARAMS;
-
     constructor() {
         super(...arguments);
+
         this._availableLabels = this.store.peekAll('label');
 
         if (this.isTesting === undefined) {
             this.isTesting = config.environment === 'test';
         }
     }
+
+    paidParams = [{
+        name: this.intl.t('Manual.JS.All members'),
+        value: null
+    }, {
+        name: this.intl.t('Manual.JS.Free members'),
+        value: 'false'
+    }, {
+        name: this.intl.t('Manual.JS.Paid members'),
+        value: 'true'
+    }];
 
     // Computed properties -----------------------------------------------------
 
@@ -83,7 +82,7 @@ export default class MembersController extends Controller {
             return 'Search result';
         }
 
-        let count = ghPluralize(members.length, 'member');
+        let count = ghPluralize(members.length, this.intl.t('Manual.JS.member'));
 
         if (selectedLabel && selectedLabel.slug) {
             if (members.length > 1) {
@@ -106,10 +105,10 @@ export default class MembersController extends Controller {
 
         if (this.feature.get('emailAnalytics')) {
             return [{
-                name: 'Newest',
+                name: this.intl.t('Manual.JS.Newest'),
                 value: null
             }, {
-                name: 'Open rate',
+                name: this.intl.t('Manual.JS.Open rate'),
                 value: 'email_open_rate'
             }];
         }
@@ -128,7 +127,7 @@ export default class MembersController extends Controller {
             .sort((labelA, labelB) => labelA.name.localeCompare(labelB.name, undefined, {ignorePunctuation: true}));
         let options = labels.toArray();
 
-        options.unshiftObject({name: 'All labels', slug: null});
+        options.unshiftObject({name: this.intl.t('Manual.JS.All labels'), slug: null});
 
         return options;
     }
