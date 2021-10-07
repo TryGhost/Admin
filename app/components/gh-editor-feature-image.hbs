@@ -36,7 +36,7 @@
             {{/each}}
         {{else if @image}}
             {{!-- image is present --}}
-            <span class="gh-editor-feature-image-indicator" data-tooltip={{t "Manual.Others.A_feature_image_is_publicly_visible_to_anyone"}}>
+            <span class="gh-editor-feature-image-indicator" data-tooltip="A feature image is publicly visible to anyone">
                 {{svg-jar "feature-image"}}
             </span>
             <div class="gh-editor-feature-image">
@@ -59,7 +59,7 @@
                 {{else}}
                     <KoenigBasicHtmlInput
                         @html={{@caption}}
-                        @placeholder={{#if this.captionInputFocused}} "" {{else}}{{t "Manual.Others.Add_a_caption_to_the_feature_image"}}{{/if}}
+                        @placeholder={{t "Manual.Others.Add_a_caption_to_the_feature_image"}}
                         @class="gh-editor-feature-image-caption"
                         @name="caption"
                         @onChange={{@updateCaption}}
