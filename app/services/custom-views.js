@@ -81,6 +81,7 @@ export default class CustomViewsService extends Service {
 
     @tracked viewList = [];
     @tracked showFormModal = false;
+    @service intl;
 
     constructor() {
         super(...arguments);
@@ -106,15 +107,9 @@ export default class CustomViewsService extends Service {
         // contributors can only see their own draft posts so it doesn't make
         // sense to show them default views which change the status/type filter
         let user = await session.user;
-        let draft = 'Drafts';
-        let scheduled = 'Scheduleds';
-        let published = 'Publisheds';
-
-        if (this.settings.get('lang') === 'pt-br') {
-            draft = 'Rascunhos';
-            scheduled = 'Agendados';
-            published = 'Publicados';
-        }
+        let draft = this.intl.t('Manual.JS.draft');
+        let scheduled = this.intl.t('Manual.JS.Scheduled');
+        let published = this.intl.t('Manual.JS.Published');
 
         const DEFAULT_VIEWS = [{
             route: 'posts',
