@@ -1,13 +1,13 @@
 <header class="modal-header" data-test-delete-theme-modal>
-    <h1>Are you sure you want to delete this</h1>
+    <h1>{{t "Manual.Components.Are_you_sure_you_want_to_delete_this"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body">
-    <p>You're about to delete "<strong>{{this.theme.label}}</strong>". This is permanent! We warned you, k? Maybe <a href="#" {{action this.download}}>download your theme before continuing</a></p>
+    <p>{{t "Manual.Components.You're_about_to_delete"}}<strong>{{this.theme.label}}</strong>{{t "Manual.Components.This_is_permanent!_We_warned_you,_k?_Maybe"}}<a href="#" {{action this.download}}>{{t "Manual.Components.download_your_theme_before_continuing"}}</a></p>
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn" data-test-cancel-button><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn" data-test-cancel-button><span>{{t "Manual.Components.Cancel"}}</span></button>
     <GhTaskButton @buttonText="Delete" @successText="Deleted" @task={{this.deleteTheme}} @class="gh-btn gh-btn-red gh-btn-icon" data-test-delete-button="true" />
 </div>

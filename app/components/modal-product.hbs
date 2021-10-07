@@ -12,7 +12,7 @@
             <h4 class="gh-main-section-header small bn">Basic</h4>
             <div class="gh-main-section-content grey gh-product-priceform-block">
                 <GhFormGroup @errors={{this.errors}} @property="name">
-                    <label for="name" class="fw6">Name</label>
+                    <label for="name" class="fw6">{{t "Manual.Components.Name"}}</label>
                     <GhTextInput
                         @value={{readonly this.product.name}}
                         @input={{action (mut this.product.name) value="target.value"}}
@@ -22,7 +22,7 @@
                     <GhErrorMessage @errors={{this.errors}} @property="name" />
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.errors}} @property="description">
-                    <label for="description" class="fw6">Description</label>
+                    <label for="description" class="fw6">{{t "Manual.Integrations.Description"}}</label>
                     <GhTextInput
                         @value={{readonly this.product.description}}
                         @input={{action (mut this.product.description) value="target.value"}}
@@ -33,7 +33,7 @@
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="prices">
                     <div class="gh-settings-members-pricelabelcont">
-                        <label for="monthlyPrice">Prices</label>
+                        <label for="monthlyPrice">{{t "Manual.Components.Prices"}}</label>
                         <span>–</span>
                         <div>
                             <span class="gh-setting-members-currency gh-select">
@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="gh-main-section-block">
-            <h4 class="gh-main-section-header small bn">Benefits</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Components.Benefits"}}</h4>
             <div class="gh-main-section-content grey gh-product-form-benefits">
                 <div class="gh-product-benefits">
                     <form id="product-benefits" class="gh-blognav" novalidate="novalidate">
@@ -127,7 +127,7 @@
         {{action (optional this.noop) on="mouseDown"}}
         data-test-button="cancel-webhook"
     >
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
     <GhTaskButton @buttonText="{{if this.isExistingProduct "Save" "Add tier"}}"
         @successText={{this.successText}}

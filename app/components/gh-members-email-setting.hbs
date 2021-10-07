@@ -5,9 +5,11 @@
             <div class="gh-expandable-header">
                 <div>
                     <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_design"}}</h4>
-                    <p class="gh-expandable-description">{{t "Manual.Settings.Customize_the_look_and_feel_of_email_newsletters"}}</p>
+                    <p class="gh-expandable-description">{{t
+                        "Manual.Settings.Customize_the_look_and_feel_of_email_newsletters"}}</p>
                 </div>
-                <button type="button" class="gh-btn gh-btn-green" {{on "click" @toggleEmailDesignSettings}} data-test-toggle-membersFrom><span> {{t "Manual.Settings.Customize"}} </span></button>
+                <button type="button" class="gh-btn gh-btn-green" {{on "click" @toggleEmailDesignSettings}}
+                    data-test-toggle-membersFrom><span> {{t "Manual.Settings.Customize"}} </span></button>
             </div>
         </div>
     </section>
@@ -16,16 +18,15 @@
 <div class="gh-main-section">
     <h4 class="gh-main-section-header small bn">Email</h4>
     <section class="gh-expandable">
-        <Settings::EmailDefaultRecipients
-            @expanded={{this.emailRecipientsExpanded}}
-            @toggleExpansion={{this.toggleEmailRecipientsExpansion}}
-        />
+        <Settings::EmailDefaultRecipients @expanded={{this.emailRecipientsExpanded}}
+            @toggleExpansion={{this.toggleEmailRecipientsExpansion}} />
 
         <div class="gh-expandable-block">
             <div class="gh-expandable-header">
                 <div>
                     <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_addresses"}}</h4>
-                    <p class="gh-expandable-description">{{t "Manual.Settings.Contact_information_used_for_newsletters_and_member_login_emails"}}</p>
+                    <p class="gh-expandable-description">{{t
+                        "Manual.Settings.Contact_information_used_for_newsletters_and_member_login_emails"}}</p>
                 </div>
                 <button type="button" class="gh-btn" {{action (toggle "membersFromOpen" this)}} data-test-toggle-membersFrom>
                     <span>
@@ -68,7 +69,11 @@
                         <div class="flex items-center green-d1 nt3 lh-1">
                             {{svg-jar "check-circle" class="w4 h4 mr1 stroke-green-d1"}} <span class="nudge-left--2">{{t "Manual.Settings.Check_your_inbox_and_confirm_before_saving_your_settings"}}</span>
                         </div>
-                        {{/if}}
+                    </GhFormGroup>
+                    <div class="nt5 mb5">
+                        <span class="mt1 fw4 f8 midgrey">
+                            {{t "Manual.Settings.How_members_can_reach_you_for_help_with_their_account_(public)"}}
+                        </span>
                     </div>
                     <div>
                         <GhFormGroup>
@@ -101,27 +106,55 @@
                         </div>
                         {{/if}}
                     </div>
-                    <div class="mt8 mb8">
-                        <GhFormGroup @class="for-select gh-labs-members-defaultemaildd">
-                            <label class="fw6 f8" for="reply-address">{{t "Manual.Settings.Newsletter_replies_go_to"}}</label>
-                            <span class="gh-select mt1">
-                                {{one-way-select this.selectedReplyAddress
-                                    id="reply-address"
-                                    name="reply-address"
-                                    options=(readonly this.replyAddresses)
-                                    optionValuePath="value"
-                                    optionLabelPath="label"
-                                    update=(action "setReplyAddress")
-                                }}
-                                {{svg-jar "arrow-down-small"}}
-                            </span>
-                        </GhFormGroup>
-                        <div class="nt5 mb5">
-                            <span class="mt1 fw4 f8 midgrey">
-                                {{t "Manual.Settings.Where_you_receive_responses_to_newsletters"}}
-                            </span>
+                    {{/if}}
+                </div>
+                <div>
+                    <GhFormGroup>
+                        <label class="fw6 f8"> {{t "Manual.Settings.Newsletter_email_address"}}</label>
+                        <div class="flex items-center justify-center mt1">
+                            <GhTextInput @value={{readonly this.fromAddress}} @input={{action "setFromAddress"
+                                value="target.value" }} @class="gh-labs-members-emailinput" />
+                            <GhTaskButton @buttonText="Update newsletter address" @runningText="Sending..."
+                                @successText="Confirmation email sent" @disabled={{this.disableUpdateFromAddressButton}}
+                                @task={{this.updateFromAddress}}
+                                @class="gh-btn gh-btn-icon gh-btn-green gh-btn-textfield-group gh-labs-members-emaildropdown"
+                                data-test-button="update-from-address" />
                         </div>
+                    </GhFormGroup>
+                    <div class="nt5 mb5">
+                        <span class="mt1 fw4 f8 midgrey">
+                            {{t "Manual.Settings.The_address_your_newsletter_posts_are_sent_from"}}
+                        </span>
                     </div>
+                    {{#if this.showFromAddressConfirmation}}
+                    <div class="flex items-center green-d1 nt3 lh-1">
+                        {{svg-jar "check-circle" class="w4 h4 mr1 stroke-green-d1"}} <span class="nudge-left--2">Check
+                            your inbox and confirm before saving your settings</span>
+                    </div>
+                    {{/if}}
+                </div>
+                <div class="mt8 mb8">
+                    <GhFormGroup @class="for-select gh-labs-members-defaultemaildd">
+                        <label class="fw6 f8" for="reply-address">{{t
+                            "Manual.Settings.Newsletter_replies_go_to"}}</label>
+                        <span class="gh-select mt1">
+                            {{one-way-select this.selectedReplyAddress
+                            id="reply-address"
+                            name="reply-address"
+                            options=(readonly this.replyAddresses)
+                            optionValuePath="value"
+                            optionLabelPath="label"
+                            update=(action "setReplyAddress")
+                            }}
+                            {{svg-jar "arrow-down-small"}}
+                        </span>
+                    </GhFormGroup>
+                    <div class="nt5 mb5">
+                        <span class="mt1 fw4 f8 midgrey">
+                            {{t "Manual.Settings.Where_you_receive_responses_to_newsletters"}}
+                        </span>
+                    </div>
+                </div>
                 {{/liquid-if}}
             </div>
         </div>
@@ -130,11 +163,14 @@
             <div class="gh-expandable-header">
                 <div>
                     <h4 class="gh-expandable-title">{{t "Manual.Settings.Enable_newsletter_open-rate_analytics"}}</h4>
-                    <p class="gh-expandable-description">{{t "Manual.Settings.Track_how_many_members_are_reading_your_emails"}}</p>
+                    <p class="gh-expandable-description">{{t
+                        "Manual.Settings.Track_how_many_members_are_reading_your_emails"}}</p>
                 </div>
                 <div class="for-switch">
-                    <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens")}}>
-                        <input type="checkbox" checked={{this.emailTrackOpens}} class="gh-input" {{on "click" (action "toggleEmailTrackOpens")}} name="email-track-opens" data-test-checkbox="email-track-opens">
+                    <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens" )}}>
+                        <input type="checkbox" checked={{this.emailTrackOpens}} class="gh-input" {{on "click"
+                            (action "toggleEmailTrackOpens" )}} name="email-track-opens"
+                            data-test-checkbox="email-track-opens">
                         <span class="input-toggle-component mt1"></span>
                     </label>
                 </div>
@@ -146,7 +182,11 @@
             <div class="gh-expandable-header">
                 <div>
                     <h4 class="gh-expandable-title">{{t "Manual.Settings.Email_newsletter_settings"}}</h4>
-                    <p class="gh-expandable-description"><a href="https://www.mailgun.com/" target="_blank" rel="nofollow noopener">Mailgun API</a> {{t "Manual.Settings.is_used_for_bulk_email_newsletter_delivery"}} <a href="https://ghost.org/docs/faq/mailgun-newsletters/" target="_blank" rel="noopener">{{t "Manual.Settings.Why_is_this_required?"}}</a></p>
+                    <p class="gh-expandable-description"><a href="https://www.mailgun.com/" target="_blank"
+                            rel="nofollow noopener">Mailgun API</a> {{t
+                        "Manual.Settings.is_used_for_bulk_email_newsletter_delivery"}} <a
+                            href="https://ghost.org/docs/faq/mailgun-newsletters/" target="_blank" rel="noopener">{{t
+                            "Manual.Settings.Why_is_this_required?"}}</a></p>
                 </div>
                 <button type="button" class="gh-btn" {{action (toggle "membersEmailOpen" this)}} data-test-toggle-membersemail>
                     <span>
@@ -166,26 +206,18 @@
                         <GhFormGroup @class="gh-labs-mailgun-region">
                             <label class="fw6 f8">{{t "Manual.Settings.Mailgun_region"}}</label>
                             <div class="mt1">
-                                <PowerSelect
-                                    @options={{this.mailgunRegions}}
-                                    @selected={{this.mailgunRegion}}
-                                    @onChange={{action "setMailgunRegion"}}
-                                    @searchEnabled={{false}}
-                                    @triggerComponent="gh-power-select/trigger"
-                                    as |region|
-                                >
+                                <PowerSelect @options={{this.mailgunRegions}} @selected={{this.mailgunRegion}}
+                                    @onChange={{action "setMailgunRegion" }} @searchEnabled={{false}}
+                                    @triggerComponent="gh-power-select/trigger" as |region|>
                                     {{region.flag}} {{region.name}}
                                 </PowerSelect>
                             </div>
                         </GhFormGroup>
                         <GhFormGroup>
                             <label class="fw6 f8">{{t "Manual.Settings.Mailgun_domain"}}</label>
-                            <GhTextInput
-                                @value={{readonly this.mailgunSettings.domain}}
-                                @input={{action "setMailgunDomain"}}
-                                @class="mt1"
-                                data-test-mailgun-domain-input={{true}}
-                            />
+                            <GhTextInput @value={{readonly this.mailgunSettings.domain}}
+                                @input={{action "setMailgunDomain" }} @class="mt1"
+                                data-test-mailgun-domain-input={{true}} />
                         </GhFormGroup>
                     </div>
                     <div class="nt5 mb5">
@@ -195,14 +227,11 @@
                     </div>
                     <GhFormGroup>
                         <label class="fw6 f8">{{t "Manual.Settings.Mailgun_Private_API_key"}}</label>
-                        <GhTextInput
-                            @type="password"
-                            @value={{readonly this.mailgunSettings.apiKey}}
-                            @input={{action "setMailgunApiKey"}}
-                            @class="mt1 password" @autocomplete="new-password"
-                            data-test-mailgun-api-key-input={{true}}
-                        />
-                        <a href="https://app.mailgun.com/app/account/security/api_keys" target="_blank" class="mt1 fw4 f8">
+                        <GhTextInput @type="password" @value={{readonly this.mailgunSettings.apiKey}}
+                            @input={{action "setMailgunApiKey" }} @class="mt1 password" @autocomplete="new-password"
+                            data-test-mailgun-api-key-input={{true}} />
+                        <a href="https://app.mailgun.com/app/account/security/api_keys" target="_blank"
+                            class="mt1 fw4 f8">
                             {{t "Manual.Settings.Find_your_Mailgun_API_keys_here_»"}}
                         </a>
                     </GhFormGroup>

@@ -1,11 +1,11 @@
 <header class="modal-header">
-    <h1>Regenerate your Staff Access Token</h1>
+    <h1>{{t "Manual.Components.Regenerate_your_Staff_Access_Token"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body">
     <p>
-        You can regenerate your Staff Access Token any time, but any scripts or applications using it will need to be updated.
+       {{t "Manual.Components.You_can_regenerate_your_Staff_Access_Token_any_time,_but_any_scripts_or_applications_using_it_will_need_to_be_updated"}}
     </p>
     {{#if this.errorMessage}}
         <p class='red'> {{this.errorMessage}}</p>
@@ -13,8 +13,8 @@
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn" autofocus><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn" autofocus><span>{{t "Manual.Components.Cancel"}}</span></button>
     <button class="gh-btn gh-btn-icon gh-btn-red" {{action "confirm"}}>
-        <span>Regenerate your Staff Access Token</span>
+        <span>{{t "Manual.Components.Regenerate_your_Staff_Access_Token"}}</span>
     </button>
 </div>

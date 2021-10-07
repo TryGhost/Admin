@@ -7,10 +7,10 @@
         </h2>
         <section class="view-actions">
             <GhTaskButton
-                @buttonText="Save"
+                @buttonText={{t "Manual.Settings.Save"}}
                 @task={{this.saveSettingsTask}}
-                @successText="Saved"
-                @runningText="Saving"
+                @successText={{t "Manual.Settings.Saved"}}
+                @runningText={{t "Manual.Settings.Saving"}}
                 @class="gh-btn gh-btn-primary gh-btn-icon"
                 data-test-button="save-settings"
             />

@@ -1,5 +1,5 @@
 <header class="modal-header" data-test-modal="webhook-form">
-    <h1 data-test-text="title">Free membership settings</h1>
+    <h1 data-test-text="title">{{t "Manual.Components.Free_membership_settings"}}</h1>
 </header>
 <button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
     {{svg-jar "close"}}
@@ -10,7 +10,7 @@
     <div class="gh-main-section-block">
         <div class="gh-main-section-content grey gh-product-priceform-block">
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="name">
-                <label for="name" class="fw6">Portal display name</label>
+                <label for="name" class="fw6">{{t "Manual.Components.Portal_display_name"}}</label>
                 <GhTextInput
                     @value={{readonly this.settings.membersFreePriceName}}
                     @input={{action "updateName" value="target.value"}}
@@ -20,7 +20,7 @@
                 <GhErrorMessage @errors={{this.price.errors}} @property="name" />
             </GhFormGroup>
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="description">
-                <label for="description" class="fw6">Description</label>
+                <label for="description" class="fw6">{{t "Manual.Components.Description"}}</label>
                 <GhTextInput
                     @value={{readonly this.settings.membersFreePriceDescription}}
                     @input={{action "updateDescription" value="target.value"}}
@@ -30,7 +30,7 @@
                 <GhErrorMessage @errors={{this.price.errors}} @property="description" />
             </GhFormGroup>
             <GhFormGroup @errors={{this.price.errors}} @hasValidated={{this.price.hasValidated}} @property="welcome-page">
-                <label for="welcome-page" class="fw6">Welcome page</label>
+                <label for="welcome-page" class="fw6">{{t "Manual.Settings.Welcome_page"}}</label>
                 <GhUrlInput
                     @value={{readonly this.settings.membersFreeSignupRedirect}}
                     @baseUrl={{readonly this.siteUrl}}
@@ -42,7 +42,7 @@
                     @errors={{settings.errors}}
                     @property="membersFreeSignupRedirect"
                 />
-                <p>Redirect to this URL after signing up for a free membership</p>
+                <p>{{t "Manual.Components.Redirect_to_this_URL_after_signing_up_for_a_free_membership"}}</p>
                 <GhErrorMessage @errors={{this.price.errors}} @property="welcome-page" />
             </GhFormGroup>
         </div>
@@ -58,7 +58,7 @@
         {{!-- {{action (optional this.noop) on="mouseDown"}} --}}
         data-test-button="cancel-webhook"
     >
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
     <GhTaskButton @buttonText="Save"
         {{!-- @successText={{this.successText}} --}}

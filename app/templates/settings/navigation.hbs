@@ -6,7 +6,13 @@
             {{t "Manual.Settings.NAVIGATION"}}
         </h2>
         <section class="view-actions">
-            <GhTaskButton @task={{this.save}} @class="gh-btn gh-btn-primary gh-btn-icon" data-test-save-button={{true}} />
+            <GhTaskButton
+            @buttonText={{t "Manual.Settings.Save"}}
+            @successText={{t "Manual.Settings.Saved"}}
+            @runningText={{t "Manual.Settings.Saving"}}
+            @task={{this.save}}
+            @class="gh-btn gh-btn-primary gh-btn-icon"
+            data-test-save-button={{true}} />
         </section>
     </GhCanvasHeader>
 

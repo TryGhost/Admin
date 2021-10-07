@@ -2,7 +2,7 @@
 <header class="modal-header" data-test-modal="delete-user">
     <h1>{{headerMessage}}</h1>
 </header>
-<button class="close" title="Close" {{on "click" this.closeModal}}>{{svg-jar "close"}}<span class="hidden">Close</span></button>
+<button class="close" title="Close" {{on "click" this.closeModal}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></button>
 
 <div class="modal-body">
     <p>
@@ -12,10 +12,10 @@
 
 <div class="modal-footer">
     <button {{on "click" this.closeModal}} class="gh-btn" data-test-button="cancel-upgrade">
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
 
     <button {{on "click" (action "upgrade")}} class="gh-btn gh-btn-green" data-test-button="upgrade-plan">
-        <span>Upgrade</span>
+        <span>{{t "Manual.Components.Upgrade"}}</span>
     </button>
 </div>
