@@ -1,11 +1,14 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
 import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
+import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
 export default class EventTimeline extends Component {
     @tracked
     parsedEvents = null;
+
+    @service intl;
 
     constructor(...args) {
         super(...args);
@@ -18,7 +21,7 @@ export default class EventTimeline extends Component {
 
     getAction(event) {
         if (event.type === 'signup_event') {
-            return 'signed up';
+            return this.intl.t('Manual.JS.signed up');
         }
 
         if (event.type === 'login_event') {

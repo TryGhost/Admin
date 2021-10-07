@@ -17,6 +17,7 @@ export default Component.extend({
     session: service(),
     store: service(),
     limit: service(),
+    intl: service(),
 
     classNames: 'gh-publishmenu',
     displayState: 'draft',
@@ -67,7 +68,7 @@ export default Component.extend({
         let state = this.postState;
 
         if (state === 'published') {
-            return 'Update';
+            return this.intl.t('Manual.JS.Update');
         } else if (state === 'scheduled') {
             return 'Scheduled';
         } else {
