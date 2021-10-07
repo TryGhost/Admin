@@ -1,16 +1,16 @@
 <div class="flex flex-column items-stretch">
     {{!-- <p class="">Get started with one of the following options</p> --}}
     <button class="gh-btn gh-btn-green" {{on "click" this.addYourself}}>
-        <span>Add yourself as a member to test</span>
+        <span>{{t "Manual.Members.Add_yourself_as_a_member_to_test"}}</span>
     </button>
 
     <div class="flex flex-column items-stretch mt5 pt5">
         <LinkTo @route="member.new" class="gh-btn gh-btn-outline mb3">
-            <span>Manually add a member</span>
+            <span>{{t "Manual.Members.Manually_add_a_member"}}</span>
         </LinkTo>
 
         <LinkTo @route="members.import" class="gh-btn gh-btn-outline">
-            <span>Import members from CSV</span>
+            <span>{{t "Manual.Members.Import_members_from_CSV"}}</span>
         </LinkTo>
     </div>
 </div>
