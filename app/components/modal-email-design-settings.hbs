@@ -13,8 +13,7 @@
             </button>
 
             <GhTaskButton
-                @buttonText="Save and close"
-                @successText="Saved"
+                @buttonText={{t "Manual.Components.Save"}} @successText={{t "Manual.Settings.Saved"}}
                 @task={{this.saveSettings}}
                 @idleClass="gh-btn-primary"
                 @class="gh-btn gh-btn-icon"

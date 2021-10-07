@@ -1011,9 +1011,10 @@
             "No_member_activity.": "Nenhuma atividade do membro.",
             "Save": "Salvar",
             "Impersonate": "Personificar",
-            "This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support.": "Este é um link de autenticação para fazer login em (site) como (e-mail), você pode enviá-lo se precisarem ou usá-lo para fazer login em sua conta de suporte ao cliente.",
+            "This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support.": "Este é um link de autenticação para fazer login, você pode enviá-lo se precisarem ou usá-lo para fazer login em sua conta de suporte ao cliente.",
             "This_link_is_only_valid_for_the_next_24_hours": "Link valido por 24 horas",
             "Delete_member": "Deletar membro",
+            "Deleted":"Deletado",
             "Delete_member_account": "Deletar conta do membro",
             "Permanently_delete": "Exclua permanentemente ",
             "from_Ghost": "do Ghost.",
@@ -1504,7 +1505,7 @@
             "Newsletter_email_address": "Endereço de email do boletim informativo",
             "The_address_your_newsletter_posts_are_sent_from": "O endereço de onde as postagens do seu boletim informativo são enviadas",
             "Update_support_address": "Atualizar endereço de suporte",
-            "Update_newsletter_address": "Atualize o endereço do boletim informativo",
+            "Update_newsletter_address": "Atualize o endereço",
             "Newsletter_replies_go_to": "As respostas ao boletim informativo vão para",
             "Enable_newsletter_open-rate_analytics": "Habilitar análises de taxa aberta de boletins informativos",
             "Where_you_receive_responses_to_newsletters": "Onde você recebe respostas aos boletins informativos",
@@ -1838,7 +1839,12 @@
             "at_the_scheduled_time":"na hora agendada",
             "Sound_good":". Parece bom?",
             "Your_post_has_been_published_but_the_email_failed_to_send._Please_verify_your_email_settings_if_the_error_persists":"Sua postagem foi publicada, mas o e-mail não foi enviado. Verifique suas configurações de e-mail se o erro persistir.",
-            "Error_details":"Detalhes do erro"
+            "Error_details":"Detalhes do erro",
+            "Begin_writing_your":"Comece a escrever o seu ",
+            "title_from":"Titulo da ",
+            "Copy_link":"Copiar link",
+            "Link_copied":"Link copiado"
+
 
 
 
@@ -2030,7 +2036,7 @@
             "Template": "Modelo",
             "Post_URL_matches": "Correspondências de URL de postagem ",
             "Ready_to": "Pronto para",
-            "this": " isto ",
+            "this": " isto no ",
             "Set_it_live_now": "Defina-o ao vivo agora",
             "Publish_this": "Publicar isto",
             "immediately": " imediatamente",

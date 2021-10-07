@@ -1011,9 +1011,10 @@
             "View_all_activity":"View all activity",
             "Save": "Save",
             "Impersonate": "Impersonate",
-            "This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support.": "This is an authentication link to sign into (site) as (email), you can send it to them if they need it, or use it to sign into their account for customer support.",
+            "This_is_an_authentication_link_to_sign_into_(site)_as_(email),_you_can_send_it_to_them_if_they_need_it,_or_use_it_to_sign_into_their_account_for_customer_support.": "This is an authentication link to sign, you can send it to them if they need it, or use it to sign into their account for customer support.",
             "This_link_is_only_valid_for_the_next_24_hours": "This link is only valid for the next 24 hours",
             "Delete_member": "Delete member",
+            "Deleted":"Deleted",
             "Delete_member_account": "Delete member account",
             "Permanently_delete": "Permanently delete ",
             "from_Ghost": "from Ghost.",
@@ -1837,7 +1838,11 @@
             "at_the_scheduled_time":"at the scheduled time",
             "Sound_good":". Sound good?",
             "Your_post_has_been_published_but_the_email_failed_to_send._Please_verify_your_email_settings_if_the_error_persists":"Your post has been published but the email failed to send. Please verify your email settings if the error persists.",
-            "Error_details":"Error details"
+            "Error_details":"Error details",
+            "Begin_writing_your":"Begin writing your ",
+            "title_from":"Title from ",
+            "Copy_link":"Copy Link",
+            "Link_copied":"Link copied"
 
 
 
