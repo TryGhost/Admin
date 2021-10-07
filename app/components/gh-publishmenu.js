@@ -56,11 +56,11 @@ export default Component.extend({
 
     postState: computed('post.{isPublished,isScheduled}', 'forcePublishedMenu', function () {
         if (this.forcePublishedMenu || this.get('post.isPublished')) {
-            return 'published';
+            return this.intl.t('Manual.JS.published');
         } else if (this.get('post.isScheduled')) {
-            return 'scheduled';
+            return this.intl.t('Manual.JS.scheduled');
         } else {
-            return 'draft';
+            return this.intl.t('Manual.JS.draft');
         }
     }),
 
@@ -70,9 +70,9 @@ export default Component.extend({
         if (state === 'published') {
             return this.intl.t('Manual.JS.Update');
         } else if (state === 'scheduled') {
-            return 'Scheduled';
+            return this.intl.t('Manual.JS.Scheduled');
         } else {
-            return 'Publish';
+            return this.intl.t('Manual.JS.Publish');
         }
     }),
 
@@ -93,7 +93,7 @@ export default Component.extend({
             runningText = saveType === 'schedule' ? 'Rescheduling' : 'Unscheduling';
         }
 
-        return runningText || 'Publishing';
+        return runningText ? this.intl.t('Manual.JS.' + runningText) : this.intl.t('Manual.JS.Publishing');
     }),
 
     buttonText: computed('postState', 'saveType', 'post.emailOnly', function () {
@@ -118,7 +118,7 @@ export default Component.extend({
             buttonText = saveType === 'schedule' ? 'Reschedule' : 'Unschedule';
         }
 
-        return buttonText || 'Publish';
+        return buttonText ? this.intl.t('Manual.JS.' + buttonText) : this.intl.t('Manual.JS.Publish');
     }),
 
     successText: computed('_previousStatus', 'postState', function () {
@@ -138,7 +138,7 @@ export default Component.extend({
             buttonText = postState === 'draft' ? 'Unscheduled' : 'Rescheduled';
         }
 
-        return buttonText;
+        return this.intl.t('Manual.JS.' + buttonText);
     }),
 
     defaultEmailRecipients: computed('settings.{editorDefaultEmailRecipients,editorDefaultEmailRecipientsFilter}', 'post.visibility', function () {
