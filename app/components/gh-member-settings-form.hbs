@@ -30,7 +30,9 @@
                                 {{#if (and (eq this.member.geolocation.country_code "US") @member.geolocation.region)}}
                                     {{this.member.geolocation.region}}, US
                                 {{else}}
-                                    {{or this.member.geolocation.country {{t "Manual.Others.Unknown_location"}} }}
+                                    {{#if this.member.geolocation.country}}
+                                        {{t "Manual.Others.Unknown_location"}}
+                                    {{/if}}
                                 {{/if}}
                             {{else}}
                                {{t "Manual.Others.Unknown_location"}}
