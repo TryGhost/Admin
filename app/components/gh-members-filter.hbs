@@ -34,7 +34,7 @@
                 <a {{on "click" (fn @onLabelAdd)}}>
                     <span>
                         {{svg-jar "add"}}
-                        Add Label
+                        {{t "Manual.Others.Add_Label"}}
                     </span>
                 </a>
             </li>
@@ -55,7 +55,7 @@
         @matchTriggerWidth={{false}}
         as |paidParam|
     >
-        {{#if paidParam.name}}{{paidParam.name}}{{else}}<span class="red">Unknown paid status</span>{{/if}}
+        {{#if paidParam.name}}{{paidParam.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_paid_status"}}</span>{{/if}}
     </PowerSelect>
 </div>
 
@@ -71,6 +71,6 @@
         @matchTriggerWidth={{false}}
         as |order|
     >
-        {{#if order.name}}{{order.name}}{{else}}<span class="red">Unknown</span>{{/if}}
+        {{#if order.name}}{{order.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown"}}</span>{{/if}}
     </PowerSelect>
 </div>
