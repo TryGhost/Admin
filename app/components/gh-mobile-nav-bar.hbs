@@ -1,9 +1,9 @@
-<LinkTo @route="dashboard" data-test-mobile-nav="dashboard">{{svg-jar "house"}}Dashboard</LinkTo>
+<LinkTo @route="dashboard" data-test-mobile-nav="dashboard">{{svg-jar "house"}}{{t "Manual.Dashboard.Dashboard"}}</LinkTo>
 {{#if (eq this.router.currentRouteName "posts")}}
-    <LinkTo @route="posts" @query={{hash type=null}} @classNames="active" data-test-mobile-nav="posts">{{svg-jar "posts"}}Posts</LinkTo>
+    <LinkTo @route="posts" @query={{hash type=null}} @classNames="active" data-test-mobile-nav="posts">{{svg-jar "posts"}}{{t "Manual.Posts.Posts"}}</LinkTo>
 {{else}}
-    <LinkTo @route="posts">{{svg-jar "content" data-test-mobile-nav="posts"}}Posts</LinkTo>
+    <LinkTo @route="posts">{{svg-jar "content" data-test-mobile-nav="posts"}}{{t "Manual.Posts.Posts"}}</LinkTo>
 {{/if}}
-<LinkTo @route="members" @classNames="gh-nav-main-users" data-test-mobile-nav="members">{{svg-jar "members"}}Members</LinkTo>
-<div role="button" class="gh-mobile-nav-bar-more" {{action "openMobileMenu" target=this.ui data-test-mobile-nav="more"}}>{{svg-jar "icon" class="icon-gh"}}More</div>
+<LinkTo @route="members" @classNames="gh-nav-main-users" data-test-mobile-nav="members">{{svg-jar "members"}} {{t "Manual.Members.Members"}}</LinkTo>
+<div role="button" class="gh-mobile-nav-bar-more" {{action "openMobileMenu" target=this.ui data-test-mobile-nav="more"}}>{{svg-jar "icon" class="icon-gh"}} {{t "Manual.Integrations.More"}}</div>
 {{yield}}
