@@ -9,7 +9,7 @@
 <div class="modal-body">
     <fieldset>
         <GhFormGroup @errors={{this.model.errors}} @hasValidated={{this.model.hasValidated}} @property="name">
-            <label for="view-name" class="dib fw6">{{t "Manual.Integrations.View_name"}}</label>
+            <label for="view-name" class="dib fw6">{{t "Manual.Components.View_name"}}</label>
             <GhTextInput
                 @id="view-name"
                 @value={{this.model.name}}
@@ -21,13 +21,13 @@
                 <GhErrorMessage @errors={{this.model.errors}} @property="name" data-test-error="custom-view-name" />
             {{else}}
                 {{#if this.model.isNew}}
-                    <p>{{t "Manual.Integrations.Saved_views_appear_in_the_app_sidebar"}}</p>
+                    <p>{{t "Manual.Components.Saved_views_appear_in_the_app_sidebar"}}</p>
                 {{/if}}
             {{/if}}
         </GhFormGroup>
     </fieldset>
     <div>
-        <label for="view-name" class="dib fw6">{{t "Manual.Integrations.Icon_color"}}</label>
+        <label for="view-name" class="dib fw6">{{t "Manual.Components.Icon_color"}}</label>
         <div class="flex justify-between mt3 nl1">
             {{#each this.customViews.availableColors as |color|}}
                 <div class="gh-radio-color">
@@ -64,7 +64,7 @@
             {{on "mousedown" (optional this.noop)}}
             data-test-button="delete-custom-view"
         >
-            <span>{{svg-jar "trash"}} {{t "Manual.Integrations.Delete"}}</span>
+            <span>{{svg-jar "trash"}} {{t "Manual.Components.Delete"}}</span>
         </button
         >
     {{/if}}
