@@ -1,7 +1,8 @@
 <div class="gh-contentfilter view-actions-bottom-row" ...attributes>
     {{#unless @currentUser.isContributor}}
-        <div class="gh-contentfilter-menu gh-contentfilter-type {{if @selectedType.value "gh-contentfilter-selected"}}" data-test-type-select="true">
+        <div class="gh-contentfilter-menu gh-contentfilter-type {{if @selectedType.value "gh-contentfilter-selected"}}" data-test-type-select="true" data-content={{t "Manual.Others.Sort_by"}}>
             <PowerSelect
+                data-content={{t "Manual.Others.Sort_by"}}
                 @selected={{@selectedType}}
                 @options={{@availableTypes}}
                 @searchEnabled={{false}}
@@ -17,8 +18,9 @@
         </div>
     {{/unless}}
 
-    <div class="gh-contentfilter-menu gh-contentfilter-visibility {{if @selectedVisibility.value "gh-contentfilter-selected"}}" data-test-visibility-select="true">
+    <div class="gh-contentfilter-menu gh-contentfilter-visibility {{if @selectedVisibility.value "gh-contentfilter-selected"}}" data-test-visibility-select="true" data-content={{t "Manual.Others.Sort_by"}}>
         <PowerSelect
+            data-content={{t "Manual.Others.Sort_by"}}
             @selected={{@selectedVisibility}}
             @options={{@availableVisibilities}}
             @searchEnabled={{false}}
@@ -34,8 +36,9 @@
     </div>
 
     {{#unless @currentUser.isAuthorOrContributor}}
-        <div class="gh-contentfilter-menu gh-contentfilter-author {{if @selectedAuthor.slug "gh-contentfilter-selected"}}" data-test-author-select="true">
+        <div class="gh-contentfilter-menu gh-contentfilter-author {{if @selectedAuthor.slug "gh-contentfilter-selected"}}" data-test-author-select="true" data-content={{t "Manual.Others.Sort_by"}}>
             <PowerSelect
+                data-content={{t "Manual.Others.Sort_by"}}
                 @selected={{@selectedAuthor}}
                 @options={{@availableAuthors}}
                 @searchField="name"
@@ -53,8 +56,9 @@
     {{/unless}}
 
     {{#unless @currentUser.isContributor}}
-        <div class="gh-contentfilter-menu gh-contentfilter-tag {{if @selectedTag.slug "gh-contentfilter-selected"}}" data-test-tag-select="true">
+        <div class="gh-contentfilter-menu gh-contentfilter-tag {{if @selectedTag.slug "gh-contentfilter-selected"}}" data-test-tag-select="true" data-content={{t "Manual.Others.Sort_by"}}>
             <PowerSelect
+                data-content={{t "Manual.Others.Sort_by"}}
                 @selected={{@selectedTag}}
                 @options={{@availableTags}}
                 @searchField="name"
@@ -72,8 +76,9 @@
         </div>
     {{/unless}}
 
-    <div class="gh-contentfilter-menu gh-contentfilter-sort" data-test-order-select="true">
+    <div class="gh-contentfilter-menu gh-contentfilter-sort" data-test-order-select="true"  data-content={{t "Manual.Others.Sort_by"}}>
         <PowerSelect
+            data-content={{t "Manual.Others.Sort_by"}}
             @selected={{@selectedOrder}}
             @options={{@availableOrders}}
             @searchEnabled={{false}}
@@ -96,6 +101,7 @@
                     class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
                     title={{t "Manual.Others.Edit_current_view"}}
                     data-test-button="edit-view"
+                    data-content={{t "Manual.Others.Sort_by"}}
                     {{on "click" this.customViews.toggleFormModal}}
                 >
                     {{svg-jar "edit-view"}}
@@ -106,6 +112,7 @@
                     class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
                     title={{t "Manual.Others.Save_as_view"}}
                     data-test-button="add-view"
+                    data-content={{t "Manual.Others.Sort_by"}}
                     {{on "click" this.customViews.toggleFormModal}}
                 >
                     {{svg-jar "add-view"}}
