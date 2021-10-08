@@ -2075,7 +2075,8 @@
             "Sign_up_Free": "Sign up/Free",
             "Account": "Account",
             "Account_Plans": "Account/Plans",
-            "Account_Profile": "Account/Profile"
+            "Account_Profile": "Account/Profile",
+            "Sort_by": "Sort by: "
         },
 
         "JS": {
