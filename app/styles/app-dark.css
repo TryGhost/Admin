@@ -449,7 +449,7 @@ input:focus,
     background: #000;
 }
 
-.modal-content {
+.modal-content, .epm-modal .modal-content {
     background: var(--whitegrey);
 }
 
