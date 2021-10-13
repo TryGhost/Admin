@@ -68,7 +68,6 @@
                 @dropdownClass="gh-contentfilter-menu-dropdown"
                 @searchPlaceholder="Search tags"
                 @matchTriggerWidth={{false}}
-                @optionsComponent="power-select-vertical-collection-options"
                 as |tag|
             >
                 {{#if tag.name}}{{tag.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_tag"}}</span>{{/if}}
