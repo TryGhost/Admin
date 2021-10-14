@@ -175,7 +175,11 @@ export default Route.extend(ShortcutsRoute, {
             await this.session.postAuthPreparation();
         }
 
-        await this.get('intl').setLocale([this.settings.get('lang') ? this.settings.get('lang') : 'en']);
+        // Set the language according to the settings. If not defined, the default value will be 'pt-br'
+
+        // TODO: Check if the inputted lang is present in the translations folder.
+        // If not present, set the default language.
+        await this.get('intl').setLocale([this.settings.get('lang') ? this.settings.get('lang') : 'pt-br']);
     }
 
 });
