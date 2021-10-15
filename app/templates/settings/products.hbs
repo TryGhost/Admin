@@ -1,9 +1,9 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="settings">Settings</LinkTo>
+            <LinkTo @route="settings">{{t "Manual.Settings.Settings"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            Products
+            {{t "Manual.Settings.Products"}}
         </h2>
     </GhCanvasHeader>
 
@@ -12,13 +12,13 @@
             <div class="gh-product-card">
                 <span class="gh-product-list-icon">{{svg-jar "members"}}</span>
                 <h3 class="gh-product-card-name">
-                    Free membership
+                    {{t "Manual.Members.Free_members"}}
                 </h3>
                 <p class="gh-product-card-description">
                     {{this.settings.membersFreePriceDescription}}
                 </p>
                 <LinkTo @route="settings.products" class="gh-btn" {{action (toggle "showFreeMembershipModal" this)}}>
-                    <span>Customize</span>
+                    <span>{{t "Manual.Settings.Customize"}}</span>
                 </LinkTo>
             </div>
 
@@ -32,7 +32,7 @@
                     {{product.description}}
                 </p>
                 <LinkTo @route="settings.product" @model={{product}} class="gh-btn">
-                    <span>Customize</span>
+                    <span>{{t "Manual.Settings.Customize"}}</span>
                 </LinkTo>
             </div>
             {{/each}}

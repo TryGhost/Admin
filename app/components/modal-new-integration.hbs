@@ -1,5 +1,5 @@
 <header class="modal-header" data-test-modal="new-integration">
-    <h1>New custom integration</h1>
+    <h1>{{t "Manual.Integrations.New_custom_integration"}}</h1>
 </header>
 {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
 <button class="close" href title="Close" {{action "closeModal"}} {{action (optional this.noop) on="mouseDown"}}>
@@ -9,7 +9,7 @@
 <div class="modal-body">
     <fieldset>
         <GhFormGroup @errors={{this.integration.errors}} @hasValidated={{this.integration.hasValidated}} @property="name">
-            <label for="new-integration-name" class="fw6">Name</label>
+            <label for="new-integration-name" class="fw6">{{t "Manual.Components.Name"}}</label>
             <input type="text"
                 value={{this.integration.name}}
                 oninput={{action "updateName" value="target.value"}}
@@ -37,10 +37,10 @@
         {{action (optional this.noop) on="mouseDown"}}
         data-test-button="cancel-new-integration"
     >
-        <span>Cancel</span>
+        <span>{{t "Manual.Integrations.Cancel"}}</span>
     </button>
-    <GhTaskButton @buttonText="Create"
-        @successText="Created"
+    <GhTaskButton @buttonText={{t "Manual.Integrations.Create"}}
+        @successText={{t "Manual.Integrations.Created"}}
         @task={{this.createIntegration}}
         @class="gh-btn gh-btn-black gh-btn-icon"
         data-test-button="create-integration" />

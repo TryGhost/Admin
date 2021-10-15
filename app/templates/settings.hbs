@@ -1,52 +1,52 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            Settings
+            {{t "Manual.Settings.Settings"}}
         </h2>
     </GhCanvasHeader>
 
     <section class="view-container">
-        <div class="gh-setting-header gh-first-header">Website</div>
+        <div class="gh-setting-header gh-first-header">{{t "Manual.Settings.Website"}}</div>
         <div class="gh-settings-main-grid">
             <LinkTo class="gh-setting-group" @route="settings.general" data-test-nav="general">
                 <span class="yellow">{{svg-jar "settings"}}</span>
                 <div>
-                    <h4>General</h4>
-                    <p>Basic publication details and site metadata</p>
+                    <h4>{{t "Manual.Settings.General"}}</h4>
+                    <p>{{t "Manual.Settings.Basic_publication_details_and_site_metadata"}}</p>
                 </div>
             </LinkTo>
             {{#if (feature "customThemeSettings")}}
                 <LinkTo class="gh-setting-group" @route="settings.design" data-test-nav="design">
                     <span class="blue">{{svg-jar "paint-palette"}}</span>
                     <div>
-                        <h4>Design</h4>
-                        <p>Customize your site and manage themes</p>
+                        <h4>{{t "Manual.Others.Design"}}</h4>
+                        <p>{{t "Manual.Others.Customize_your_site_and_manage_themes"}}</p>
                     </div>
                 </LinkTo>
             {{else}}
                 <button type="button" class="gh-setting-group" {{action (toggle "showBrandingModal" this)}} data-test-nav="branding">
                     <span class="blue">{{svg-jar "paint-palette"}}</span>
                     <div>
-                        <h4>Branding</h4>
-                        <p>Upload site logo and set accent color</p>
+                       <h4>{{t "Manual.Settings.Branding"}}</h4>
+                        <p>{{t "Manual.Settings.Upload_site_logo_and_set_accent_color"}}</p>
                     </div>
                 </button>
                 <LinkTo class="gh-setting-group" @route="settings.theme" data-test-nav="theme">
                     <span class="green">{{svg-jar "view-site"}}</span>
                     <div>
-                        <h4>Theme</h4>
-                        <p>Install and update themes</p>
+                       <h4>{{t "Manual.Settings.Theme"}}</h4>
+                        <p>{{t "Manual.Settings.Install_and_update_themes"}}</p>
                     </div>
                 </LinkTo>
             {{/if}}
             <LinkTo class="gh-setting-group" @route="settings.navigation" data-test-nav="navigation">
                 <span class="pink">{{svg-jar "compass-2"}}</span>
                 <div>
-                    <h4>Navigation</h4>
-                    <p>Set up primary and secondary menus</p>
+                    <h4>{{t "Manual.Settings.Navegation"}}</h4>
+                    <p>{{t "Manual.Settings.Set_up_primary_and_secondary_menus"}}</p>
                 </div>
             </LinkTo>
-            
+
             {{#if (feature "offers")}}
             <LinkTo class="gh-setting-group" @route="staff" data-test-nav="navigation">
                 <span class="green">{{svg-jar "staff"}}</span>
@@ -58,34 +58,34 @@
             {{/if}}
         </div>
 
-        <div class="gh-setting-header">Members</div>
+        <div class="gh-setting-header">{{t "Manual.Settings.Members"}}</div>
         <div class="gh-settings-main-grid">
             <LinkTo class="gh-setting-group" @route="settings.membership" data-test-nav="members-membership">
                 <span class="blue">{{svg-jar "members"}}</span>
                 <div>
-                    <h4>Membership</h4>
-                    <p>Access, subscription, and pricing options</p>
+                    <h4>{{t "Manual.Settings.Membership"}}</h4>
+                    <p>{{t "Manual.Settings.Access,_subscription,_and_pricing_options"}}</p>
                 </div>
             </LinkTo>
             <LinkTo class="gh-setting-group" @route="settings.members-email" data-test-nav="members-email">
                 <span class="yellow">{{svg-jar "email-stroke"}}</span>
                 <div>
-                    <h4>Email newsletter</h4>
-                    <p>Customize emails and set email addresses</p>
+                    <h4>{{t "Manual.Settings.Email_newsletter"}}</h4>
+                    <p>{{t "Manual.Settings.Customize_emails_and_set_email_addresses"}}</p>
                 </div>
             </LinkTo>
         </div>
 
-        <div class="gh-setting-header">Advanced</div>
+        <div class="gh-setting-header">{{t "Manual.Settings.Advanced"}}</div>
         <div class="gh-settings-main-grid">
             <LinkTo class="gh-setting-group" @route="settings.code-injection" data-test-nav="code-injection">
                 <span class="green">{{svg-jar "brackets"}}</span>
                 <div>
-                    <h4>Code injection</h4>
-                    <p>Add code to your publication</p>
+                    <h4>{{t "Manual.Settings.Code_injection"}}</h4>
+                    <p>{{t "Manual.Settings.Add_code_to_your_publication"}}</p>
                 </div>
             </LinkTo>
-            
+
             {{#if (feature "offers")}}
             <LinkTo class="gh-setting-group" @route="integrations" data-test-nav="navigation">
                 <span class="blue">{{svg-jar "module"}}</span>
@@ -99,8 +99,8 @@
             <LinkTo class="gh-setting-group" @route="settings.labs" data-test-nav="labs">
                 <span class="pink">{{svg-jar "labs"}}</span>
                 <div>
-                    <h4>Labs</h4>
-                    <p>Testing ground for new features</p>
+                    <h4>{{t "Manual.Settings.Labs"}}</h4>
+                    <p>{{t "Manual.Settings.Testing_ground_for_new_features"}}</p>
                 </div>
             </LinkTo>
         </div>

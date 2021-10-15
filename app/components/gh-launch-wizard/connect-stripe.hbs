@@ -3,18 +3,20 @@
         <div class="gh-stack-item gh-setting-first">
             <div class="gh-members-stripe-info gh-launch-wizard-stripe-info">
                 <div class="gh-members-stripe-info-header">
-                    <h4>Getting paid</h4>
+                    <h4>{{t "Manual.Settings.Getting_paid"}}</h4>
                     {{svg-jar "stripe-verified-partner-badge" class="gh-members-stripe-badge"}}
                 </div>
                 <p class="f8 mt2 mb0">
-                    Stripe is our exclusive direct payments partner. Ghost collects <strong>no fees</strong> on any payments! If you don’t have a Stripe account yet, you can <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" class="gh-members-stripe-link">sign up here</a>.
+                    {{t "Manual.Settings.Stripe_is_our_exclusive_direct_payments_partner"}}
+                    {{t "Manual.Settings.Ghost_collects_no_fees_on_any_payments!_If_you_don’t_have_a_Stripe_account_yet,_you_can"}}
+                    <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" class="gh-members-stripe-link">{{t "Manual.Settings.sign_up_here"}}</a>.
                 </p>
             </div>
         </div>
         {{#if this.config.stripeDirect}}
             <div class="gh-stack-item gh-setting flex-column">
                 <div class="mb4">
-                    <label for="stripe-publishable-key" class="gh-setting-title">Stripe Publishable key</label>
+                    <label for="stripe-publishable-key" class="gh-setting-title">{{t "Manual.Settings.Stripe_Publishable_key"}}</label>
                     <GhTextInput
                         @id="stripe-publishable-key"
                         @type="password"
@@ -25,7 +27,7 @@
                     {{#if this.stripePublishableKeyError}}<p class="mb0 mt2 f8 red">{{this.stripePublishableKeyError}}</p>{{/if}}
                 </div>
                 <div>
-                    <label for="stripe-secret-key" class="gh-setting-title">Stripe Secret key</label>
+                    <label for="stripe-secret-key" class="gh-setting-title">{{t "Manual.Settings.Stripe_Secret_key"}}</label>
                     <GhTextInput
                         @id="stripe-secret-key"
                         @type="password"
@@ -35,28 +37,28 @@
                     />
                     {{#if this.stripeSecretKeyError}}<p class="mb0 mt2 f8 red">{{this.stripeSecretKeyError}}</p>{{/if}}
                     <a href="https://dashboard.stripe.com/account/apikeys" target="_blank" rel="noopener noreferrer" class="mt1 fw4 f8">
-                        Find your Stripe API keys here &raquo;
+                        {{t "Manual.Settings.Find_your_Stripe_API_keys_here_»"}}
                     </a>
                 </div>
             </div>
-            <div class="gh-setting-desc"><a href="javascript:void(0)" {{on "click" @skipStep}}>Skip</a> if you don't want to offer paid subscriptions.</div>
+            <div class="gh-setting-desc"><a href="javascript:void(0)" {{on "click" @skipStep}}>{{t "Manual.Settings.Skip"}}</a>{{t "Manual.Settings.if_you_don't_want_to_offer_paid_subscriptions."}}</div>
         {{else}}
             <div class="gh-stack-item gh-setting flex-wrap">
                 {{!-- Stripe already configured --}}
                 {{#if this.settings.stripeConnectAccountId}}
                     <div>
-                        <h4 class="gh-setting-title">Already connected to Stripe</h4>
+                        <h4 class="gh-setting-title">{{t "Manual.Settings.Already_connected_to_Stripe"}}</h4>
                         <p class="gh-setting-desc mt2">
-                            Connected to <a href="https://dashboard.stripe.com/{{this.settings.stripeConnectAccountId}}" target="_blank">{{this.settings.stripeConnectDisplayName}}</a>
+                            {{t "Manual.Settings.Connected_to"}} <a href="https://dashboard.stripe.com/{{this.settings.stripeConnectAccountId}}" target="_blank">{{this.settings.stripeConnectDisplayName}}</a>
 
                             {{#unless this.settings.stripeConnectLivemode}}
-                                <span class="gh-members-connect-testmodelabel">Test mode</span>
+                                <span class="gh-members-connect-testmodelabel">{{t "Manual.Settings.Test_mode"}}</span>
                             {{/unless}}
                         </p>
                     </div>
                     {{#if this.hasActiveStripeSubscriptions}}
                         <p class="red ma0 pa0 f8 nudge-bottom--2">
-                            Cannot disconnect while there are members with active Stripe subscriptions.
+                            {{t "Manual.Settings.Cannot_disconnect_while_there_are_members_with_active_Stripe_subscriptions."}}
                         </p>
                     {{else}}
                         <div class="gh-setting-action">
@@ -66,11 +68,11 @@
                 {{!-- Stripe not yet configured --}}
                 {{else}}
                     <div class="w-100">
-                        <div class="gh-setting-title">Generate secure key</div>
+                        <div class="gh-setting-title">{{t "Manual.Settings.Generate_secure_key"}}</div>
                         <div class="flex items-center mb4 gh-members-connectbutton-container justify-between mt2">
-                            <a href="{{this.stripeConnectAuthUrl}}" class="stripe-connect" target="_blank" rel="noopener noreferrer"><span>Connect with Stripe</span></a>
+                            <a href="{{this.stripeConnectAuthUrl}}" class="stripe-connect" target="_blank" rel="noopener noreferrer"><span>{{t "Manual.Settings.Connect_with_Stripe"}}</span></a>
                             <div class="ml2 flex items-center flex-nowrap">
-                                <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">Test mode</span>
+                                <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{t "Manual.Settings.Test_mode"}}</span>
                                 <div class="for-switch small">
                                     <label class="switch" for="stripe-connect-test-mode" {{on "click" this.toggleStripeConnectTestMode}}>
                                         <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} {{on "click" this.toggleStripeConnectTestMode}} data-test-checkbox="stripe-connect-test-mode">
@@ -82,12 +84,12 @@
                         <div class="gh-setting-action">
                             <GhTextarea
                                 class="gh-launch-wizard-stripe-connect-token"
-                                placeholder="Paste your secure key here"
+                                @placeholder={{t "Manual.Settings.Paste_your_secure_key_here"}}
                                 {{on "input" this.setStripeConnectIntegrationToken}}
                             />
                             {{#if this.stripeConnectError}}<p class="mb0 mt2 f8 red">{{this.stripeConnectError}}</p>{{/if}}
                         </div>
-                        <div class="gh-setting-desc skip-step"><a href="javascript:void(0)" {{on "click" @skipStep}}>Skip</a> if you don't want to offer paid subscriptions.</div>
+                        <div class="gh-setting-desc skip-step"><a href="javascript:void(0)" {{on "click" @skipStep}}>{{t "Manual.Settings.Skip"}}</a>{{t "Manual.Settings.if_you_don't_want_to_offer_paid_subscriptions."}}</div>
                     </div>
                 {{/if}}
             </div>
@@ -103,7 +105,7 @@
             data-test-button="wizard-next"
         >
             {{#if this.saveAndContinueTask.isRunning}}
-                <span>Saving...</span>
+                <span>{{t "Manual.Settings.Saving..."}}</span>
             {{else}}
                 <span>{{if this.settings.stripeConnectAccountId "Continue" "Save and continue"}}{{svg-jar "arrow-right-tail"}}</span>
             {{/if}}

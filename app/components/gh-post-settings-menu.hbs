@@ -6,7 +6,7 @@
     <div id="entry-controls">
         <div class="settings-menu settings-menu-pane settings-menu-pane-main">
             <div class="settings-menu-header">
-                <h4>{{capitalize this.post.displayName}} settings</h4>
+                <h4>{{capitalize this.post.displayName}} {{t "Manual.Others.settings"}}</h4>
             </div>
             <div class="settings-menu-content">
                 <form>
@@ -20,7 +20,7 @@
                         </a>
                         {{else if this.post.isScheduled}}
                         <a class="post-view-link" target="_blank" href="{{this.post.previewUrl}}">
-                            Preview {{svg-jar "external"}}
+                            {{t "Manual.Others.Preview"}} {{svg-jar "external"}}
                         </a>
                         {{/if}}
                     {{/unless}}
@@ -45,9 +45,9 @@
 
                 <div class="form-group">
                     {{#if (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime this.post.isSent)}}
-                        <label>Publish date</label>
+                        <label>{{t "Manual.Posts.Publish_date"}}</label>
                     {{else}}
-                        <label>Scheduled date</label>
+                        <label>{{t "Manual.Others.Scheduled_date"}}</label>
                     {{/if}}
                     <GhDateTimePicker
                         @date={{this.post.publishedAtBlogDate}}
@@ -62,13 +62,13 @@
                         @isActive={{not this.isViewingSubview}}
                     />
                     {{#unless (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime this.post.isSent)}}
-                    <p>Use the publish menu to re-schedule</p>
+                   <p>{{t "Manual.Others.Use_the_publish_menu_to_re_schedule"}}</p>
                     {{/unless}}
                 </div>
 
                 {{#unless this.session.user.isContributor}}
                 <div class="form-group">
-                    <label for="tag-input">Tags</label>
+                    <label for="tag-input">{{t "Manual.Posts.Tags"}}</label>
                     <GhPsmTagsInput @post={{this.post}} @triggerId="tag-input" />
                 </div>
                 {{/unless}}
@@ -76,7 +76,7 @@
                 {{#if this.showVisibilityInput}}
                     {{#if (feature "multipleProducts")}}
                         <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="visibility">
-                            <label for="visibility-input">{{capitalize @post.displayName}} access</label>
+                            <label for="visibility-input">{{capitalize @post.displayName}} {{t "Manual.Others.access"}}</label>
                             <GhPsmVisibilityInput @post={{this.post}} @triggerId="visibility-input" />
                         </GhFormGroup>
 
@@ -95,7 +95,7 @@
                         {{/if}}
                     {{else}}
                         <div class="form-group">
-                            <label for="visibility-input">Post access</label>
+                            <label for="visibility-input">{{t "Manual.Others.Post_access"}}</label>
                             <GhPsmVisibilityInput @post={{this.post}} @triggerId="visibility-input" />
                         </div>
                     {{/if}}
@@ -103,7 +103,7 @@
 
 
                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="customExcerpt">
-                    <label for="custom-excerpt">Excerpt</label>
+                    <label for="custom-excerpt">{{t "Manual.Others.Excerpt"}}</label>
                     <GhTextarea
                         @class="post-setting-custom-excerpt"
                         @id="custom-excerpt"
@@ -119,7 +119,7 @@
 
                 {{#unless this.session.user.isAuthorOrContributor}}
                     <GhFormGroup @class="for-select" @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="authors" data-test-input="authors">
-                        <label for="author-list">Authors</label>
+                        <label for="author-list">{{t "Manual.Others.Authors"}}</label>
                         <GhPsmAuthorsInput @selectedAuthors={{this.post.authors}} @updateAuthors={{action "changeAuthors"}} @triggerId="author-list" />
                         <GhErrorMessage @errors={{this.post.errors}} @property="authors" data-test-error="authors" />
                     </GhFormGroup>
@@ -128,38 +128,38 @@
                 <ul class="nav-list nav-list-block">
                     <li class="nav-list-item" {{action "showSubview" "meta-data"}} data-test-button="meta-data">
                         <button type="button">
-                            <b>Meta data</b>
-                            <span>Extra content for search engines</span>
+                            <b>{{t "Manual.Posts.Meta_data"}}</b>
+                            <span>{{t "Manual.Posts.Extra_content_for_search_engines"}}</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
                     <li class="nav-list-item" {{action "showSubview" "twitter-data"}} data-test-button="twitter-data">
                         <button type="button">
-                            <b>Twitter card</b>
-                            <span>Customize structured data for Twitter</span>
+                            <b>{{t "Manual.Posts.Twitter_card"}}</b>
+                            <span>{{t "Manual.Posts.Customize_structured_data_for_Twitter"}}</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
                     <li class="nav-list-item" {{action "showSubview" "facebook-data"}} data-test-button="facebook-data">
                         <button type="button">
-                            <b>Facebook card</b>
-                            <span>Customize Open Graph data</span>
+                            <b>{{t "Manual.Posts.Facebook_card"}}</b>
+                            <span>{{t "Manual.Posts.Customize_Open_Graph_data"}}</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
                     {{#if (and this.post.isPost showEmailNewsletter)}}
                         <li class="nav-list-item" {{action "showSubview" "email-settings"}} data-test-button="email-settings">
                             <button type="button">
-                                <b>Email newsletter</b>
-                                <span>Customize email settings</span>
+                                <b>{{t "Manual.Posts.Email_newsletter"}}</b>
+                                <span>{{t "Manual.Others.Customize_email_settings"}}</span>
                             </button>
                             {{svg-jar "arrow-right"}}
                         </li>
                     {{/if}}
                     <li class="nav-list-item" {{action "showSubview" "codeinjection"}} data-test-button="codeinjection">
                         <button type="button">
-                            <b>Code injection</b>
-                            <span>Add styles/scripts to the header &amp; footer</span>
+                            <b>{{t "Manual.Posts.Code_injection"}}</b>
+                            <span>{{t "Manual.Posts.Add_styles/scripts_to_the_header_&_footer"}}</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
@@ -176,7 +176,7 @@
                             data-test-checkbox="featured"
                         >
                         <span class="input-toggle-component"></span>
-                        <p>Feature this {{this.post.displayName}}</p>
+                        <p>{{t "Manual.Others.Feature_this"}} {{this.post.displayName}}</p>
                     </label>
                 </div>
                 {{/unless}}
@@ -186,7 +186,7 @@
                     @onTemplateSelect={{action (mut this.post.customTemplate)}} />
 
                 {{#unless this.post.isNew}}
-                    <button type="button" class="gh-btn gh-btn-hover-red gh-btn-icon settings-menu-delete-button" {{action "deletePost"}}><span>{{svg-jar "trash"}} Delete {{this.post.displayName}}</span></button>
+                    <button type="button" class="gh-btn gh-btn-hover-red gh-btn-icon settings-menu-delete-button" {{action "deletePost"}}><span>{{svg-jar "trash"}} {{t "Manual.Others.Delete"}} {{this.post.displayName}}</span></button>
                 {{/unless}}
 
                 </form>
@@ -198,15 +198,15 @@
             <div class="active">
                     {{#if (eq this.subview "meta-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
-                            <h4>Meta data</h4>
+                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">{{t "Manual.Others.Back"}}</span></button>
+                            <h4>{{t "Manual.Posts.Meta_data"}}</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content">
                             <form {{action "discardEnter" on="submit"}}>
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="metaTitle">
-                                    <label for="meta-title">Meta title</label>
+                                    <label for="meta-title">{{t "Manual.Posts.Meta_title"}}</label>
                                     <GhTextInput
                                         @class="post-setting-meta-title"
                                         @id="meta-title"
@@ -217,12 +217,12 @@
                                         @focus-out={{action "setMetaTitle" this.metaTitleScratch}}
                                         @stopEnterKeyDownPropagation={{true}}
                                         data-test-field="meta-title" />
-                                    <p>Recommended: <b>60</b> characters. You’ve used {{gh-count-down-characters this.metaTitleScratch 60}}</p>
+                                    <p>{{t "Manual.Tags.Recommended"}} <b>60</b> {{t "Manual.Tags.characters_You_ve_used"}} {{gh-count-down-characters this.metaTitleScratch 60}}</p>
                                     <GhErrorMessage @errors={{this.post.errors}} @property="meta-title" />
                                 </GhFormGroup>
 
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="metaDescription">
-                                    <label for="meta-description">Meta description</label>
+                                    <label for="meta-description">{{t "Manual.Posts.Meta_description"}}</label>
                                     <GhTextarea
                                         @class="post-setting-meta-description"
                                         @id="meta-description"
@@ -233,12 +233,12 @@
                                         @focus-out={{action "setMetaDescription" this.metaDescriptionScratch}}
                                         @stopEnterKeyDownPropagation="true"
                                         data-test-field="meta-description" />
-                                    <p>Recommended: <b>145</b> characters. You’ve used {{gh-count-down-characters this.metaDescriptionScratch 145}}</p>
+                                        <p>{{t "Manual.Tags.Recommended"}} <b>145</b> {{t "Manual.Tags.characters_You_ve_used"}} {{gh-count-down-characters this.metaDescriptionScratch 145}}</p>
                                     <GhErrorMessage @errors={{this.post.errors}} @property="meta-description" />
                                 </GhFormGroup>
 
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="canonicalUrl">
-                                    <label for="canonicalUrl">Canonical URL</label>
+                                    <label for="canonicalUrl">{{t "Manual.Posts.Canonical_URL"}}</label>
                                     <GhTextInput
                                         @class="post-setting-canonicalUrl"
                                         @name="post-setting-canonicalUrl"
@@ -251,7 +251,7 @@
                                 </GhFormGroup>
 
                                 <div class="form-group">
-                                    <label>Search Engine Result Preview</label>
+                                    <label>{{t "Manual.Posts.Search_Engine_Result_Preview"}}</label>
                                     <div class="gh-seo-container">
                                         <div class="gh-seo-preview">
                                             <div class="flex mb7">
@@ -270,8 +270,8 @@
 
                     {{#if (eq this.subview "twitter-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
-                            <h4>Twitter card</h4>
+                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">{{t "Manual.Others.Back"}}</span></button>
+                            <h4>{{t "Manual.Posts.Twitter_card"}}</h4>
                             <div style="width:23px;"></div>
                         </div>
 
@@ -280,13 +280,13 @@
                             <form {{action "discardEnter" on="submit"}}>
                                 <GhImageUploaderWithPreview
                                     @image={{this.post.twitterImage}}
-                                    @text="Add Twitter image"
+                                    @text={{t "Manual.Posts.Add_Twitter_image"}}
                                     @allowUnsplash={{true}}
                                     @update={{action "setTwitterImage"}}
                                     @remove={{action "clearTwitterImage"}}
                                 />
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="twitterTitle">
-                                    <label for="twitter-title">Twitter title</label>
+                                    <label for="twitter-title">{{t "Manual.Posts.Twitter_title"}}</label>
                                     <GhTextInput
                                         @class="post-setting-twitter-title"
                                         @id="twitter-title"
@@ -301,7 +301,7 @@
                                 </GhFormGroup>
 
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="twitterDescription">
-                                    <label for="twitter-description">Twitter description</label>
+                                    <label for="twitter-description">{{t "Manual.Posts.Twitter_decription"}}</label>
                                     <GhTextarea
                                         @class="post-setting-twitter-description"
                                         @id="twitter-description"
@@ -316,7 +316,7 @@
                                 </GhFormGroup>
 
                                 <div class="form-group">
-                                    <label>Twitter preview</label>
+                                    <label>{{t "Manual.Posts.Twitter_preview"}}</label>
                                     <div class="gh-social-twitter-post-preview">
                                         {{#if this.twitterImage}}
                                             <div class="gh-social-twitter-preview-image" style={{background-image-style this.twitterImage}}></div>
@@ -347,8 +347,8 @@
 
                     {{#if (eq this.subview "facebook-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
-                            <h4>Facebook card</h4>
+                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">{{t "Manual.Others.Back"}}</span></button>
+                            <h4>{{t "Manual.Posts.Facebook_card"}}</h4>
                             <div style="width:23px;"></div>
                         </div>
 
@@ -356,13 +356,13 @@
                             <form {{action "discardEnter" on="submit"}}>
                                 <GhImageUploaderWithPreview
                                     @image={{this.post.ogImage}}
-                                    @text="Add Facebook image"
+                                    @text={{t "Manual.Posts.Add_Facebook_image"}}
                                     @allowUnsplash={{true}}
                                     @update={{action "setOgImage"}}
                                     @remove={{action "clearOgImage"}}
                                 />
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="ogTitle">
-                                    <label for="og-title">Facebook title</label>
+                                    <label for="og-title">{{t "Manual.Posts.Facebook_title"}}</label>
                                     <GhTextInput
                                         @class="post-setting-og-title"
                                         @id="og-title"
@@ -377,7 +377,7 @@
                                 </GhFormGroup>
 
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="ogDescription">
-                                    <label for="og-description">Facebook description</label>
+                                    <label for="og-description">{{t "Manual.Settings.Facebook_description"}}</label>
                                     <GhTextarea
                                         @class="post-setting-og-description"
                                         @id="og-description" @name="post-setting-og-description"
@@ -391,7 +391,7 @@
                                 </GhFormGroup>
 
                                 <div class="form-group">
-                                    <label>Facebook preview</label>
+                                    <label>{{t "Manual.Posts.Facebook_preview"}}</label>
                                     <div class="gh-social-og-preview no-container">
                                         {{#if this.facebookImage}}
                                             <div class="gh-social-og-preview-image" style={{background-image-style this.facebookImage}}></div>
@@ -415,15 +415,15 @@
 
                     {{#if (eq this.subview "codeinjection")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
-                            <h4>Code injection</h4>
+                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">{{t "Manual.Others.Back"}}</span></button>
+                            <h4>{{t "Manual.Posts.Code_injection"}}</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content settings-menu-content-codeinjection">
                             <form {{action "discardEnter" on="submit"}}>
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="codeinjectionHead">
-                                    <label for="codeinjection-head">{{capitalize this.post.displayName}} header <code>\{{ghost_head}}</code></label>
+                                    <label for="codeinjection-head">{{capitalize this.post.displayName}} {{t "Manual.Others.header"}} <code>\{{ghost_head}}</code></label>
                                     <GhCmEditor @value={{this.codeinjectionHeadScratch}}
                                         @id="post-setting-codeinjection-head"
                                         @class="post-setting-codeinjection"
@@ -436,7 +436,7 @@
                                 </GhFormGroup>
 
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="codeinjectionFoot">
-                                    <label for="codeinjection-foot">{{capitalize this.post.displayName}} footer <code>\{{ghost_foot}}</code></label>
+                                    <label for="codeinjection-foot">{{capitalize this.post.displayName}} {{t "Manual.Others.footer"}} <code>\{{ghost_foot}}</code></label>
                                     <GhCmEditor @value={{this.codeinjectionFootScratch}}
                                         @id="post-setting-codeinjection-foot"
                                         @class="post-setting-codeinjection"

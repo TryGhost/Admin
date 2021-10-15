@@ -51,34 +51,6 @@ const CustomView = EmberObject.extend(ValidationEngine, {
     }
 });
 
-const DEFAULT_VIEWS = [{
-    route: 'posts',
-    name: 'Drafts',
-    color: 'midgrey',
-    icon: 'pencil',
-    filter: {
-        type: 'draft'
-    }
-}, {
-    route: 'posts',
-    name: 'Scheduled',
-    color: 'midgrey',
-    icon: 'clockface',
-    filter: {
-        type: 'scheduled'
-    }
-}, {
-    route: 'posts',
-    name: 'Published',
-    color: 'midgray',
-    icon: 'published-post',
-    filter: {
-        type: 'published'
-    }
-}].map((view) => {
-    return CustomView.create(Object.assign({}, view, {isDefault: true}));
-});
-
 let isFilterEqual = function (filterA, filterB) {
     let aProps = Object.getOwnPropertyNames(filterA);
     let bProps = Object.getOwnPropertyNames(filterB);
@@ -109,6 +81,7 @@ export default class CustomViewsService extends Service {
 
     @tracked viewList = [];
     @tracked showFormModal = false;
+    @service intl;
 
     constructor() {
         super(...arguments);
@@ -134,6 +107,38 @@ export default class CustomViewsService extends Service {
         // contributors can only see their own draft posts so it doesn't make
         // sense to show them default views which change the status/type filter
         let user = await session.user;
+        let draft = this.intl.t('Manual.JS.draft');
+        let scheduled = this.intl.t('Manual.JS.Scheduled');
+        let published = this.intl.t('Manual.JS.Published');
+
+        const DEFAULT_VIEWS = [{
+            route: 'posts',
+            name: draft,
+            color: 'midgrey',
+            icon: 'pencil',
+            filter: {
+                type: 'draft'
+            }
+        }, {
+            route: 'posts',
+            name: scheduled,
+            color: 'midgrey',
+            icon: 'clockface',
+            filter: {
+                type: 'scheduled'
+            }
+        }, {
+            route: 'posts',
+            name: published,
+            color: 'midgray',
+            icon: 'published-post',
+            filter: {
+                type: 'published'
+            }
+        }].map((view) => {
+            return CustomView.create(Object.assign({}, view, {isDefault: true}));
+        });
+
         if (!user.isContributor) {
             viewList.push(...DEFAULT_VIEWS);
         }

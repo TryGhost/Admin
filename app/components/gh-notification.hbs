@@ -15,7 +15,7 @@
 </div>
 <div class="gh-notification-content" data-test-text="notification-content">
     <span class="gh-notification-title">{{this.message.message}}</span>
-    
+
     {{#if this.message.description}}
         <p>{{this.message.description}}</p>
     {{/if}}
@@ -25,5 +25,5 @@
     {{/if}}
 </div>
 <button class="gh-notification-close" {{action "closeNotification"}} data-test-button="close-notification">
-    {{svg-jar "close"}}<span class="hidden">Close</span>
+    {{svg-jar "close"}}<span class="hidden">{{t "Manual.Staff.Close"}}</span>
 </button>

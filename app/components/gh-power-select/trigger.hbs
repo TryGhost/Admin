@@ -2,7 +2,7 @@
     {{#if @selectedItemComponent}}
         {{component @selectedItemComponent extra=(readonly @extra) option=(readonly @option.selected) select=(readonly @select)}}
     {{else}}
-        <span class="ember-power-select-selected-item">{{yield @select.selected select}}</span>
+        <span class="ember-power-select-selected-item" data-content={{t "Manual.Others.Sort_by"}}>{{yield @select.selected select}}</span>
     {{/if}}
     {{#if (and @allowClear (not @select.disabled))}}
         <span class="ember-power-select-clear-btn" {{on "mousedown" this.clear}} {{on "touchstart" this.clear}}>&times;</span>

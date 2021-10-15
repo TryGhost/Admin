@@ -5,52 +5,11 @@ import {computed} from '@ember/object';
 import {get} from '@ember/object';
 import {inject as service} from '@ember/service';
 
-const TYPES = [{
-    name: 'All posts',
-    value: null
-}, {
-    name: 'Draft posts',
-    value: 'draft'
-}, {
-    name: 'Published posts',
-    value: 'published'
-}, {
-    name: 'Scheduled posts',
-    value: 'scheduled'
-}, {
-    name: 'Featured posts',
-    value: 'featured'
-}];
-
-const VISIBILITIES = [{
-    name: 'All access',
-    value: null
-}, {
-    name: 'Public',
-    value: 'public'
-}, {
-    name: 'Members-only',
-    value: 'members'
-}, {
-    name: 'Paid members-only',
-    value: 'paid'
-}];
-
-const ORDERS = [{
-    name: 'Newest',
-    value: null
-}, {
-    name: 'Oldest',
-    value: 'published_at asc'
-}, {
-    name: 'Recently updated',
-    value: 'updated_at desc'
-}];
-
 export default Controller.extend({
     feature: service(),
     session: service(),
     store: service(),
+    intl: service(),
 
     // default values for these are set in `init` and defined in `helpers/reset-query-params`
     queryParams: ['type', 'access', 'author', 'tag', 'order'],
@@ -65,6 +24,49 @@ export default Controller.extend({
 
     init() {
         this._super(...arguments);
+
+        const TYPES = [{
+            name: this.intl.t('Manual.JS.All posts'),
+            value: null
+        }, {
+            name: this.intl.t('Manual.JS.Draft posts'),
+            value: 'draft'
+        }, {
+            name: this.intl.t('Manual.JS.Published posts'),
+            value: 'published'
+        }, {
+            name: this.intl.t('Manual.JS.Scheduled posts'),
+            value: 'scheduled'
+        }, {
+            name: this.intl.t('Manual.JS.Featured posts'),
+            value: 'featured'
+        }];
+
+        const VISIBILITIES = [{
+            name: this.intl.t('Manual.JS.All access'),
+            value: null
+        }, {
+            name: this.intl.t('Manual.JS.Public'),
+            value: 'public'
+        }, {
+            name: this.intl.t('Manual.JS.Members-only'),
+            value: 'members'
+        }, {
+            name: this.intl.t('Manual.JS.Paid members-only'),
+            value: 'paid'
+        }];
+
+        const ORDERS = [{
+            name: this.intl.t('Manual.JS.Newest'),
+            value: null
+        }, {
+            name: this.intl.t('Manual.JS.Oldest'),
+            value: 'published_at asc'
+        }, {
+            name: this.intl.t('Manual.JS.Recently updated'),
+            value: 'updated_at desc'
+        }];
+
         this.availableTypes = TYPES;
         this.availableOrders = ORDERS;
         this.availableVisibilities = VISIBILITIES;
@@ -72,7 +74,7 @@ export default Controller.extend({
 
         if (this.feature.get('emailAnalytics') && !this.availableOrders.findBy('name', 'Open rate')) {
             this.availableOrders.push({
-                name: 'Open rate',
+                name: this.intl.t('Manual.JS.Open rate'),
                 value: 'email.open_rate desc'
             });
         }
@@ -110,7 +112,7 @@ export default Controller.extend({
             .filter(tag => tag.get('id') !== null)
             .sort((tagA, tagB) => tagA.name.localeCompare(tagB.name, undefined, {ignorePunctuation: true}));
         let options = tags.toArray();
-        options.unshiftObject({name: 'All tags', slug: null});
+        options.unshiftObject({name: this.intl.t('Manual.JS.All tags'), slug: null});
 
         return options;
     }),
@@ -130,7 +132,7 @@ export default Controller.extend({
         let authors = this.get('_availableAuthors');
         let options = authors.toArray();
 
-        options.unshiftObject({name: 'All authors', slug: null});
+        options.unshiftObject({name: this.intl.t('Manual.JS.All authors'), slug: null});
 
         return options;
     }),

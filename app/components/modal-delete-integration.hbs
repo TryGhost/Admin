@@ -1,14 +1,14 @@
 <header class="modal-header">
-    <h1>Are you sure?</h1>
+    <h1>{{t "Manual.Integrations.Are_you_sure"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Integrations.Close"}}</span></a>
 <div class="modal-body">
     <p>
-        Deleting this integration will remove all webhooks and api keys associated with it.
+        {{t "Manual.Integrations.Deleting_this_integration_will_remove_all_webhooks_and_api_keys_associated_with_it"}}
     </p>
 </div>
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Integrations.Cancel"}}</span></button>
     <GhTaskButton
         @buttonText="Delete Integration"
         @successText="Deleted"

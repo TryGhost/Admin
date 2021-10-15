@@ -1,7 +1,7 @@
 <header class="modal-header">
-    <h1>Please re-authenticate</h1>
+    <h1>{{t "Manual.Components.Please_re-authenticate"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body {{if this.authenticationError 'error'}}">
 

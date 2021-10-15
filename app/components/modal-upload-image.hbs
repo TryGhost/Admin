@@ -4,7 +4,7 @@
             <div><img src={{this.url}}></div>
             <a class="image-delete" title="Delete" {{action 'removeImage'}}>
                 {{svg-jar "trash"}}
-                <span class="hidden">Delete</span>
+                <span class="hidden">{{t "Manual.Components.Delete"}}</span>
             </a>
         </div>
     {{else}}
@@ -23,9 +23,9 @@
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Components.Cancel"}}</span></button>
     {{#if this._isUploading}}
-        <button class="gh-btn gh-btn-black right gh-btn-icon disabled"><span>Save</span></button>
+        <button class="gh-btn gh-btn-black right gh-btn-icon disabled"><span>{{t "Manual.Components.Save"}}</span></button>
     {{else}}
         <GhTaskButton @task={{this.uploadImage}} @class="gh-btn gh-btn-black right gh-btn-icon" data-test-modal-accept-button={{true}} />
     {{/if}}

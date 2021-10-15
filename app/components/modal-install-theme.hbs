@@ -3,28 +3,28 @@
         <h1>
             {{#if this.installSuccess}}
                 {{#if this.hasWarningsOrErrors}}
-                    Install successful with {{#if this.validationErrors}}errors{{else}}warnings{{/if}}
+                    {{t "Manual.Components.Install_successful_with"}} {{#if this.validationErrors}}{{t "Manual.Components.errors"}}{{else}}{{t "Manual.Components.warnings"}}{{/if}}
                 {{else}}
-                    Install successful!
+                    {{t "Manual.Components.Install_successful"}}
                 {{/if}}
             {{else if this.hasWarningsOrErrors}}
-                Invalid theme
+                {{t "Manual.Components.Invalid_theme"}}
             {{else}}
-                Install theme
+                {{t "Manual.Components.Install_theme"}}
             {{/if}}
         </h1>
     </header>
-    <button type="button" class="close" title="Close" {{on "click" this.close}}>{{svg-jar "close"}}<span class="hidden">Close</span></button>
+    <button type="button" class="close" title="Close" {{on "click" this.close}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></button>
 
     <div class="modal-body">
         {{#if this.isReady}}
             <p>
-                You're about to install <strong>{{this.themeName}}</strong> from the theme directory.
+                {{t "Manual.Components.You're_about_to_install"}} <strong>{{this.themeName}}</strong> {{t "Manual.Components.You'from_the_theme_directory"}}
             </p>
             {{#if this.willOverwriteExisting}}
                 <p>
-                    This will overwrite your existing version of {{this.themeName}}{{if this.willOverwriteExisting.active " which is your active theme"}}.
-                    Any custom changes will be lost.
+                    {{t "Manual.Components.This_will_overwrite_your_existing_version_of"}} {{this.themeName}}{{if this.willOverwriteExisting.active " which is your active theme"}}.
+                    {{t "Manual.Components.Any_custom_changes_will_be_lost"}}
                 </p>
             {{/if}}
 
@@ -37,40 +37,40 @@
 
         {{#if this.willOverwriteDefault}}
             <p>
-                Sorry, the default Casper theme cannot be overwritten.<br>
-                If you wish to make changes please download the theme and upload a renamed zip file.
+                {{t "Manual.Components.Sorry,_the_default_Casper_theme_cannot_be_overwritten"}}<br>
+                {{t "Manual.Components.If_you_wish_to_make_changes_please_download_the_theme_and_upload_a_renamed_zip_file"}}
             </p>
         {{/if}}
 
         {{#if this.installSuccess}}
             {{#if this.hasWarningsOrErrors}}
                 <p>
-                    The theme <strong>"{{this.themeName}}"</strong> was installed successfully but we detected some {{if this.validationErrors "errors" "warnings"}}.
+                    {{t "Manual.Components.The_theme"}} <strong>"{{this.themeName}}"</strong> {{t "Manual.Components.was_installed_successfully_but_we_detected_some"}} {{if this.validationErrors "errors" "warnings"}}.
                     {{#unless this.theme.active}}
-                        You are still able to activate and use the theme but it is recommended to fix these {{if this.validationErrors "errors" "warnings"}} before you do so.
+                        {{t "Manual.Components.You_are_still_able_to_activate_and_use_the_theme_but_it_is_recommended_to_fix_these"}} {{if this.validationErrors "errors" "warnings"}} {{t "Manual.Components.before_you_do_so"}}
                     {{/unless}}
                 </p>
             {{else}}
                 {{!-- Installed with no errors --}}
-                <p>The theme <strong>"{{this.themeName}}"</strong> was installed successfully. {{unless this.theme.active "Do you want to activate it now?"}}</p>
+                <p>{{t "Manual.Components.The_theme"}} <strong>"{{this.themeName}}"</strong> {{t "Manual.Components.was_installed_successfully"}} {{unless this.theme.active "Do you want to activate it now?"}}</p>
             {{/if}}
         {{/if}}
 
         {{#if this.installError}}
             {{!-- Outright failure - not found, not a theme, server error, etc --}}
-            <p>{{this.themeName}} failed to install.</p>
+            <p>{{this.themeName}} {{t "Manual.Components.failed_to_install"}}</p>
             <p class="error"><strong class="response">{{this.installError}}</strong></p>
         {{/if}}
 
         {{#if this.installFailure}}
             {{!-- Invalid theme --}}
-            <p>This theme is invalid and cannot be activated. Contact the theme developer.</p>
+            <p>{{t "Manual.Components.This_theme_is_invalid_and_cannot_be_activated._Contact_the_theme_developer"}}</p>
         {{/if}}
 
         {{#if this.fatalValidationErrors}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6">Fatal Errors</h2>
-                <p class="mb2">Must-fix to activate theme</p>
+                <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.Fatal_Errors"}}</h2>
+                <p class="mb2">{{t "Manual.Components.Must-fix_to_activate_theme"}}</p>
             </div>
 
             <ul class="pa0">
@@ -84,8 +84,8 @@
 
         {{#if this.validationErrors}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                <p class="mb2">Highly recommended to fix, functionality <strong>could</strong> be restricted</p>
+                <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.errors"}}</h2>
+                <p class="mb2">{{t "Manual.Components.Highly_recommended_to_fix,_functionality_could_be_restricted"}}</p>
             </div>
             <ul class="pa0">
             {{#each this.validationErrors as |error|}}
@@ -98,7 +98,7 @@
 
         {{#if this.validationWarnings}}
             <div>
-                <h2 class="mb0 mt4 f5 fw6">Warnings</h2>
+                <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.warnings"}}</h2>
             </div>
             <ul class="pa0">
             {{#each this.validationWarnings as |error|}}
@@ -113,7 +113,7 @@
     <div class="modal-footer">
         <div class="flex items-center justify-between {{if this.hasActionButton "flex-auto"}}">
             <button type="button" class="gh-btn" {{on "click" this.close}} data-test-button="cancel">
-                <span>{{#if (or this.installSuccess this.installFailure)}}Close{{else}}Cancel{{/if}}</span>
+                <span>{{#if (or this.installSuccess this.installFailure)}}{{t "Manual.Components.Close"}}{{else}}{{t "Manual.Components.Cancel"}}{{/if}}</span>
             </button>
 
             {{#if this.hasActionButton}}

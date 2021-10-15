@@ -7,7 +7,7 @@
                         <GhTextInput
                             @type="password"
                             @name="newpassword"
-                            @placeholder="New password"
+                            @placeholder={{t "Manual.ProfilePitcure.New_Password"}}
                             @class="password"
                             @autocorrect="off"
                             @shouldFocus={{true}}
@@ -20,7 +20,7 @@
                         <GhTextInput
                             @type="password"
                             @name="ne2password"
-                            @placeholder="Confirm new password"
+                            @placeholder={{t "Manual.ProfilePitcure.Confirm_new_password"}}
                             @class="password"
                             @autocorrect="off"
                             @value={{readonly this.ne2Password}}

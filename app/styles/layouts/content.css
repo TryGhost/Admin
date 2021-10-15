@@ -118,7 +118,7 @@
 }
 
 .gh-contentfilter-sort .gh-contentfilter-menu-trigger .ember-power-select-selected-item::before {
-    content: "Sort by: ";
+    content: attr(data-content);
 }
 
 .gh-contentfilter-actions svg {

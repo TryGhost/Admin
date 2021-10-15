@@ -1,17 +1,17 @@
 <table class="f8 gh-members-import-table ma0">
     <thead>
         <tr>
-            <th class="table-cell-field"><span class="f-small midgrey ttu fw5">Field</span></th>
+            <th class="table-cell-field"><span class="f-small midgrey ttu fw5">{{t "Manual.Others.Field"}}</span></th>
             <th class="table-cell-data">
                 <div class="flex items-center justify-between">
-                    <span class="f-small midgrey ttu fw5 nudge-top--1">Sample data <span class="midlightgrey fw4">(#{{format-number this.currentRecord}})</span></span>
+                    <span class="f-small midgrey ttu fw5 nudge-top--1">{{t "Manual.Others.Sample_data "}}<span class="midlightgrey fw4">(#{{format-number this.currentRecord}})</span></span>
                     <div class="flex items-center bg-white br2 ml1 nr1 gh-members-import-datanav">
                         <a href="#" {{action "prev"}} class="pa1 flex items-center justify-center br b--whitegrey {{unless this.hasPrevRecord "o-30"}}" data-test-import-prev>{{svg-jar "arrow-left" class="w3 h3 fill-middarkgrey" }}</a>
                         <a href="#" {{action "next"}} class="pa1 flex items-center justify-center {{unless this.hasNextRecord "o-30"}}" data-test-import-next>{{svg-jar "arrow-right" class="w3 h3 fill-middarkgrey" }}</a>
                     </div>
                 </div>
             </th>
-            <th><span class="f-small midgrey ttu fw5">Import as</span></th>
+            <th><span class="f-small midgrey ttu fw5">{{t "Manual.Others.Import_as"}}</span></th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
             </tr>
         {{else}}
             <tr>
-                <td colspan="3" class="gh-member-import-nodata"><span>No data found in the uploaded CSV.</span></td>
+                <td colspan="3" class="gh-member-import-nodata"><span>{{t "Manual.Others.No_data_found_in_the_uploaded_CSV"}}</span></td>
             </tr>
         {{/each}}
     </tbody>

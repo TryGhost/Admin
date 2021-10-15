@@ -1,7 +1,7 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="integrations" data-test-link="integrations-back">Integrations</LinkTo>
+            <LinkTo @route="integrations" data-test-link="integrations-back">{{t "Manual.Integrations.Integrations"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
             Unsplash
         </h2>
@@ -25,19 +25,19 @@
                 </div>
                 <div class="app-cell">
                     <h3>Unsplash</h3>
-                    <p>Beautiful, free photos</p>
+                    <p>{{t "Manual.Integrations.Beautiful_free_photos"}}</p>
                 </div>
             </div>
         </section>
 
         <section class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">Unsplash configuration</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Integrations.Unsplash_configuration"}}</h4>
             <div class="gh-main-section-block">
                 <div class="gh-main-section-content grey">
                     <div class="gh-setting-first gh-setting-last" id="unsplash-toggle">
                         <div class="gh-setting-content">
-                            <div class="gh-setting-title">Enable Unsplash</div>
-                            <div class="gh-setting-desc mb0">Enable <a href="https://unsplash.com" target="_blank">Unsplash</a> image integration for your posts</div>
+                            <div class="gh-setting-title">{{t "Manual.Integrations.Enable"}} Unsplash</div>
+                            <div class="gh-setting-desc mb0">{{t "Manual.Integrations.Enable"}} <a href="https://unsplash.com" target="_blank">Unsplash</a> {{t "Manual.Integrations.image_integration_for_your_posts"}}</div>
                         </div>
                         <div class="gh-setting-action">
                             <div class="form-group right gh-setting-unsplash-checkbox">

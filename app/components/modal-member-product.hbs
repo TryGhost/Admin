@@ -1,19 +1,19 @@
 <header class="modal-header" data-test-modal="delete-user" {{did-insert this.setup}}>
-    <h1>Add subscription</h1>
+    <h1>{{t "Manual.Components.Add_subscription"}}</h1>
 </header>
 <a class="close" href="" role="button" title="Close" {{action "closeModal" }}>
-    {{svg-jar "close"}}<span class="hidden">Close</span>
+    {{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span>
 </a>
 
 <form>
     <div class="modal-body">
         <p class="gh-member-addcomp-subhed">
-            Select a tier for <strong>{{or this.member.name this.member.email}}</strong>'s
-            complimentary subscription.
+            {{t "Manual.Components.Select_a_tier_for"}} <strong>{{or this.member.name this.member.email}}</strong>'s
+            {{t "Manual.Components.complimentary_subscription"}}
         </p>
         {{#if this.activeSubscriptions.length}}
             <p class="gh-member-addcomp-warning">
-                Adding a complimentary subscription cancels all existing subscriptions of this member.
+                {{t "Manual.Components.Adding_a_complimentary_subscription_cancels_all_existing_subscriptions_of_this_member"}}
             </p>
         {{/if}}
         {{#if this.loadingProducts}}
@@ -48,12 +48,12 @@
         {{!-- disable mouseDown so it does not trigger focus-out validations --}}
         {{action (optional this.noop) on="mouseDown" }}
         data-test-button="cancel-webhook">
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
 
 
-    <GhTaskButton @buttonText="Add subscription"
-        @successText={{"Added"}}
+    <GhTaskButton @buttonText={{t "Manual.Components.Add_subscription"}}
+        @successText={{t "Manual.Components.Added"}}
         @task={{this.addProduct}}
         @class="gh-btn gh-btn-green gh-btn-icon gh-btn-add-memberproduct"
         data-test-button="save-comp-product" />

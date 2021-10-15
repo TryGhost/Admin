@@ -1,11 +1,11 @@
 <header class="modal-header">
-    <h1>Delete member account</h1>
+    <h1>{{t "Manual.Members.Delete_member_account"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Members.Close"}}</span></a>
 
 <div class="modal-body">
     <p class="mb6">
-        Permanently delete <strong>{{this.member.email}}</strong> from Ghost.
+        {{t "Manual.Members.Permanently_delete"}} <strong>{{this.member.email}}</strong> {{t "Manual.Members.from_Ghost"}}
     </p>
 
     {{#if this.hasActiveStripeSubscriptions}}
@@ -20,8 +20,8 @@
                     />
                     <span class="input-toggle-component"></span>
                     <div>
-                        <h4>Also cancel subscription in Stripe</h4>
-                        <p>If disabled, the member’s premium subscription will continue</p>
+                        <h4>{{t "Manual.Members.Also_cancel_subscription_in_Stripe"}}</h4>
+                        <p>{{t "Manual.Members.If_disabled,_the_member’s_premium_subscription_will_continue"}}</p>
                     </div>
                 </label>
             </div>
@@ -30,6 +30,7 @@
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
-    <GhTaskButton @buttonText={{if this.shouldCancelSubscriptions "Delete member + Cancel subscription" "Delete member"}} @successText="Deleted" @task={{this.deleteMember}} @class="gh-btn gh-btn-red gh-btn-icon" />
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Integrations.Cancel"}}</span></button>
+    <GhTaskButton
+    @buttonText={{t "Manual.Members.Delete_member"}} @successText={{t "Manual.Members.Deleted"}} @task={{this.deleteMember}} @class="gh-btn gh-btn-red gh-btn-icon" />
 </div>

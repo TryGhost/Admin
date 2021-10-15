@@ -2,11 +2,11 @@
     class="ember-power-select-search"
     @search={{action "search"}}
     @onChange={{action "openSelected"}}
-    @placeholder="Search site"
+    @placeholder={{t "Manual.Search.Search_site..."}}
     @searchEnabled={{false}}
     @triggerComponent="gh-input-with-select/trigger"
     @renderInPlace={{true}}
-    @loadingMessage="Loading"
+    @loadingMessage={{t "Manual.Search.Loading"}}
     @extra={{hash
         autofocus=true
         inputType="search"

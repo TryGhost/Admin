@@ -1,9 +1,9 @@
-<label>Tiers</label>
+<label>{{t "Manual.Settings.Tiers"}}</label>
 <div class="gh-product-cards">
 {{#each this.products as |product productIdx|}}
     <div class="gh-main-content-card gh-product-card">
         <button class="gh-product-card-editbutton gh-btn gh-btn-text gh-btn-link green" {{action "openEditProduct" product}}>
-            <span>Edit</span>
+            <span>{{t "Manual.Others.Edit"}}</span>
         </button>
         <div class="gh-product-card-block">
             <h3 class="gh-product-card-name">
@@ -14,7 +14,7 @@
             </p>
         </div>
         <div class="gh-product-card-block benefits-block">
-            <h4>Benefits <span class="counter">({{if product.benefits.length product.benefits.length "0"}})</span></h4>
+            <h4>{{t "Manual.Others.Benefits"}} <span class="counter">({{if product.benefits.length product.benefits.length "0"}})</span></h4>
             {{#if product.benefits.length}}
             <ul class="benefits">
                 {{#each product.benefits as |benefit|}}
@@ -22,7 +22,7 @@
                 {{/each}}
             </ul>
             {{else}}
-            <p class="gh-product-card-description">No benefits added for this tier.</p>
+            <p class="gh-product-card-description">{{t "Manual.Others.No_benefits_added_for_this_tier"}}</p>
             {{/if}}
         </div>
         <div class="gh-product-card-block">
@@ -32,14 +32,14 @@
                         <span class="amount">{{gh-price-amount product.monthlyPrice.amount}}</span>
                         <span class="currency">{{product.monthlyPrice.currency}}</span>
                     </div>
-                    <div class="period">Monthly</div>
+                    <div class="period">{{t "Manual.Others.Monthly"}}</div>
                 </div>
                 <div class="gh-product-card-price">
                     <div class="flex items-baseline">
                         <span class="amount">{{gh-price-amount product.yearlyPrice.amount}}</span>
                         <span class="currency">{{product.monthlyPrice.currency}}</span>
                     </div>
-                    <div class="period">Yearly</div>
+                    <div class="period">{{t "Manual.Others.Yearly"}}</div>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
 {{/each}}
 
 <div class="gh-product-cards-footer">
-    <button class="gh-btn gh-btn-link gh-btn-text gh-btn-icon gh-btn-add-product green" {{action "openNewProduct" product}}><span>{{svg-jar "add-stroke" class="stroke-green"}}Add tier</span></button>
+    <button class="gh-btn gh-btn-link gh-btn-text gh-btn-icon gh-btn-add-product green" {{action "openNewProduct" product}}><span>{{svg-jar "add-stroke" class="stroke-green"}}{{t "Manual.Others.Add_tier"}}</span></button>
     {{!-- <span>&ndash; Advanced (<a href="javascript:">learn more</a>)</span> --}}
 </div>
 </div>

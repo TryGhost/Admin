@@ -1,11 +1,14 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
 import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
+import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
 export default class EventTimeline extends Component {
     @tracked
     parsedEvents = null;
+
+    @service intl;
 
     constructor(...args) {
         super(...args);
@@ -18,45 +21,45 @@ export default class EventTimeline extends Component {
 
     getAction(event) {
         if (event.type === 'signup_event') {
-            return 'signed up';
+            return this.intl.t('Manual.JS.signed up');
         }
 
         if (event.type === 'login_event') {
-            return 'logged in';
+            return this.intl.t('Manual.JS.logged_in');
         }
 
         if (event.type === 'payment_event') {
-            return 'made a payment';
+            return this.intl.t('Manual.JS.made_a_payment');
         }
 
         if (event.type === 'newsletter_event') {
             if (event.data.subscribed) {
-                return 'subscribed to';
+                return this.intl.t('Manual.JS.subscribed_to');
             } else {
-                return 'unsubscribed from';
+                return this.intl.t('Manual.JS.unsubscribed_from');
             }
         }
 
         if (event.type === 'subscription_event') {
             if (event.data.from_plan === null) {
-                return 'started';
+                return this.intl.t('Manual.JS.started');
             }
 
             if (event.data.to_plan === null) {
-                return 'cancelled';
+                return this.intl.t('Manual.JS.cancelled');
             }
 
-            return 'changed';
+            return this.intl.t('Manual.JS.changed');
         }
     }
 
     getObject(event) {
         if (event.type === 'newsletter_event') {
-            return 'emails';
+            return this.intl.t('Manual.JS.emails');
         }
 
         if (event.type === 'subscription_event') {
-            return 'their subscription';
+            return this.intl.t('Manual.JS.their_subscription');
         }
 
         return '';

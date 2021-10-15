@@ -34,7 +34,7 @@
                 <a {{on "click" (fn @onLabelAdd)}}>
                     <span>
                         {{svg-jar "add"}}
-                        Add Label
+                        {{t "Manual.Others.Add_Label"}}
                     </span>
                 </a>
             </li>
@@ -55,11 +55,11 @@
         @matchTriggerWidth={{false}}
         as |paidParam|
     >
-        {{#if paidParam.name}}{{paidParam.name}}{{else}}<span class="red">Unknown paid status</span>{{/if}}
+        {{#if paidParam.name}}{{paidParam.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown_paid_status"}}</span>{{/if}}
     </PowerSelect>
 </div>
 
-<div class="gh-contenfilter-menu gh-contentfilter-sort" data-test-select="members-order">
+<div class="gh-contenfilter-menu gh-contentfilter-sort" data-test-select="members-order" data-content={{t "Manual.Others.Sort_by"}}>
     <PowerSelect
         @selected={{@selectedOrder}}
         @options={{@availableOrders}}
@@ -71,6 +71,6 @@
         @matchTriggerWidth={{false}}
         as |order|
     >
-        {{#if order.name}}{{order.name}}{{else}}<span class="red">Unknown</span>{{/if}}
+        {{#if order.name}}{{order.name}}{{else}}<span class="red">{{t "Manual.Others.Unknown"}}</span>{{/if}}
     </PowerSelect>
 </div>

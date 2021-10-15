@@ -1,6 +1,6 @@
 <div class="modal-body gh-ps-modal-body">
     <div class="gh-branding-settings-header">
-        <h4>Branding</h4>
+        <h4>{{t "Manual.Settings.Branding"}}</h4>
         <div class="gh-branding-settings-actions">
              <button
                 class="gh-btn mr3"
@@ -9,12 +9,11 @@
                 {{on "mousedown" (optional this.noop)}}
                 data-test-button="cancel-custom-view-form"
             >
-                <span>Cancel</span>
+                <span>{{t "Manual.Components.Cancel"}}</span>
             </button>
 
             <GhTaskButton
-                @buttonText="Save and close"
-                @successText="Saved"
+                @buttonText={{t "Manual.Components.Save"}} @successText={{t "Manual.Settings.Saved"}}
                 @task={{this.saveTask}}
                 @idleClass="gh-btn-primary"
                 @class="gh-btn gh-btn-icon"

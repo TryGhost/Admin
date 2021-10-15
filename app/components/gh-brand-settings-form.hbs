@@ -1,8 +1,8 @@
 <div class="gh-stack" ...attributes>
     <div class="gh-stack-item gh-setting-first gh-accent-color">
         <div class="gh-setting-content">
-            <div class="gh-setting-title">Accent color</div>
-            <div class="gh-setting-desc">Primary color used in your publication theme</div>
+            <div class="gh-setting-title">{{t "Manual.Others.Accent_color"}}</div>
+            <div class="gh-setting-desc">{{t "Manual.Others.Primary_color_used_in_your_publication_theme"}}</div>
             {{#each uploader.errors as |error|}}
                 <div class="gh-setting-error" data-test-error="icon">{{or error.context error.message}}</div>
             {{/each}}
@@ -58,8 +58,8 @@
             as |uploader|
         >
         <div class="gh-setting-content">
-            <div class="gh-setting-title">Publication icon</div>
-            <div class="gh-setting-desc">A square, social icon used in the UI of your publication, at least 60x60px</div>
+            <div class="gh-setting-title">{{t "Manual.Others.Publication_icon"}}</div>
+            <div class="gh-setting-desc">{{t "Manual.Others.A_square_social_icon_used_in_the_UI_of_your_publication_at_least_60x60px"}}</div>
             {{#each uploader.errors as |error|}}
                 <div class="gh-setting-error" data-test-error="icon">{{or error.context error.message}}</div>
             {{/each}}
@@ -76,7 +76,7 @@
                 </div>
             {{else}}
                 <button type="button" class="gh-btn self-center" {{on "click" triggerFileDialog}} data-test-image-upload-btn="icon">
-                    <span>Upload icon</span>
+                    <span>{{t "Manual.Others.Upload_icon"}}</span>
                 </button>
             {{/if}}
             <div style="display:none">
@@ -93,8 +93,8 @@
             as |uploader|
         >
         <div>
-            <div class="gh-setting-title">Publication logo</div>
-            <div class="gh-setting-desc mb3">The primary logo for your brand displayed across your theme, should be transparent and at least 600px x 72px</div>
+            <div class="gh-setting-title">{{t "Manual.Others.Publication_logo"}}</div>
+            <div class="gh-setting-desc mb3">{{t "Manual.Others.The_primary_logo_for_your_brand_displayed_across_your_theme_should_be_transparent_and_at_least_600pxx72px"}}</div>
 
             <div class="gh-setting-action gh-uploadbutton-container gh-setting-action-smallimg flex flex-column">
                 {{#each uploader.errors as |error|}}
@@ -111,7 +111,7 @@
                     </div>
                 {{else}}
                     <button type="button" class="gh-btn self-start" {{on "click" this.triggerFileDialog}} data-test-image-upload-btn="logo">
-                        <span>Upload logo</span>
+                        <span>{{t "Manual.Others.Upload_logo"}}</span>
                     </button>
                 {{/if}}
                 <div style="display:none">
@@ -129,8 +129,8 @@
             as |uploader|
         >
         <div>
-            <div class="gh-setting-title">Publication cover</div>
-            <div class="gh-setting-desc mb3">An optional large background image for your site</div>
+            <div class="gh-setting-title">{{t "Manual.Others.Publication_cover"}}</div>
+            <div class="gh-setting-desc mb3">{{t "Manual.Others.An_optional_large_background_image_for_your_site"}}</div>
             {{#each uploader.errors as |error|}}
                 <div class="gh-setting-error" data-test-error="coverImage">{{or error.context error.message}}</div>
             {{/each}}
@@ -147,7 +147,7 @@
                     </div>
                 {{else}}
                     <button type="button" class="gh-btn self-start" {{on "click" this.triggerFileDialog}} data-test-image-upload-btn="coverImage">
-                        <span>Upload cover</span>
+                        <span>{{t "Manual.Others.Upload_cover"}}</span>
                     </button>
                 {{/if}}
                 <div style="display:none">

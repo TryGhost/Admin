@@ -3,33 +3,33 @@
         <h1>
             {{#if this.theme}}
                 {{#if this.hasWarningsOrErrors}}
-                    Upload successful with {{#if this.validationErrors}}errors{{else}}warnings{{/if}}
+                    {{t "Manual.Components.Upload_successful_with"}} {{#if this.validationErrors}}{{t "Manual.Components.errors"}}{{else}}{{t "Manual.Components.warnings"}}{{/if}}
                 {{else}}
-                    Upload successful!
+                    {{t "Manual.Components.Upload_successful"}}
                 {{/if}}
             {{else if (or this.validationErrors this.fatalValidationErrors)}}
-                Invalid theme
+                {{t "Manual.Components.Invalid_theme"}}
             {{else}}
-                Upload a theme
+                {{t "Manual.Components.Upload_a_theme"}}
             {{/if}}
         </h1>
     </header>
-    <a class="close" href="#" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+    <a class="close" href="#" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
     <div class="modal-body">
         {{#if this.theme}}
             {{#if this.hasWarningsOrErrors}}
                 <p>
-                    The theme <strong>"{{this.themeName}}"</strong> was installed successfully but we detected some {{if this.validationErrors "errors" "warnings"}}.
+                    {{t "Manual.Components.The_theme"}} <strong>"{{this.themeName}}"</strong> {{t "Manual.Components.was_installed_successfully_but_we_detected_some"}} {{if this.validationErrors "errors" "warnings"}}.
                     {{#if this.canActivateTheme}}
-                        You are still able to activate and use the theme but it is recommended to fix these {{if this.validationErrors "errors" "warnings"}} before you do so.
+                        {{t "Manual.Components.You_are_still_able_to_activate_and_use_the_theme_but_it_is_recommended_to_fix_these"}} {{if this.validationErrors "errors" "warnings"}} {{t "Manual.Components.before_you_do_so"}}
                     {{/if}}
                 </p>
 
                 {{#if this.validationErrors}}
                     <div>
-                        <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                        <p class="mb2">Highly recommended to fix, functionality <strong>could</strong> be restricted</p>
+                        <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.errors"}}</h2>
+                        <p class="mb2">{{t "Manual.Components.Highly_recommended_to_fix,_functionality_could_be_restricted"}}</p>
                     </div>
                     <ul class="pa0">
                     {{#each this.validationErrors as |error|}}
@@ -42,7 +42,7 @@
 
                 {{#if this.validationWarnings}}
                     <div>
-                        <h2 class="mb0 mt4 f5 fw6">Warnings</h2>
+                        <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.warnings"}}</h2>
                     </div>
                     <ul class="pa0">
                     {{#each this.validationWarnings as |error|}}
@@ -54,24 +54,24 @@
                 {{/if}}
             {{else}}
                 <p>
-                    "{{this.themeName}}" uploaded successfully.
-                    {{#if this.canActivateTheme}}Do you want to activate it now?{{/if}}
+                    "{{this.themeName}}" {{t "Manual.Components.Upload_successful"}}
+                    {{#if this.canActivateTheme}}{{t "Manual.Components.Do_you_want_to_activate_it_now"}}{{/if}}
                 </p>
             {{/if}}
         {{else if this.displayOverwriteWarning}}
             <p>
-                The theme folder <strong>"{{this.fileThemeName}}"</strong> already exists. Do you want to overwrite it?
+                {{t "Manual.Components.The_theme_folder"}} <strong>"{{this.fileThemeName}}"</strong> {{t "Manual.Components.already_exists._Do_you_want_to_overwrite_it"}}
             </p>
         {{else if (or this.validationErrors this.fatalValidationErrors)}}
 
             <p>
-                This theme is invalid and cannot be activated. Fix the following errors and re-upload the theme.
+                {{t "Manual.Components.This_theme_is_invalid_and_cannot_be_activated._Fix_the_following_errors_and_re-upload_the_theme"}}
             </p>
 
             {{#if this.fatalValidationErrors}}
                 <div>
-                    <h2 class="mb0 mt4 f5 fw6">Fatal Errors</h2>
-                    <p class="mb2">Must-fix to activate theme</p>
+                    <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.Fatal_Errors"}}</h2>
+                    <p class="mb2">{{t "Manual.Components.Must-fix_to_activate_theme"}}</p>
                 </div>
 
                 <ul class="pa0">
@@ -85,8 +85,8 @@
 
             {{#if this.validationErrors}}
                 <div>
-                    <h2 class="mb0 mt4 f5 fw6">Errors</h2>
-                    <p class="mb2">Highly recommended to fix, functionality <strong>could</strong> be restricted</p>
+                    <h2 class="mb0 mt4 f5 fw6">{{t "Manual.Components.errors"}}</h2>
+                    <p class="mb2">{{t "Manual.Components.Highly_recommended_to_fix,_functionality"}} <strong>{{t "Manual.Components.could"}}</strong> {{t "Manual.Components.be_restricted"}}</p>
                 </div>
                 <ul class="pa0">
                 {{#each this.validationErrors as |error|}}
@@ -115,22 +115,22 @@
 <div class="modal-footer {{if (and this.theme this.hasWarningsOrErrors) "top-shadow"}}">
     <div class="flex items-center justify-between {{if (or this.displayOverwriteWarning this.canActivateTheme this.validationErrors this.fatalValidationErrors) "flex-auto"}}">
         <button {{action "closeModal"}} disabled={{this.closeDisabled}} class="gh-btn" data-test-close-button>
-            <span>{{#if this.theme}}Close{{else}}Cancel{{/if}}</span>
+            <span>{{#if this.theme}}{{t "Manual.Components.Close"}}{{else}}{{t "Manual.Components.Cancel"}}{{/if}}</span>
         </button>
         <div class="flex items-center">
             {{#if this.displayOverwriteWarning}}
                 <button {{action "confirmOverwrite"}} class="gh-btn gh-btn-red" data-test-overwrite-button>
-                    <span>Overwrite</span>
+                    <span>{{t "Manual.Components.Overwrite"}}</span>
                 </button>
             {{/if}}
             {{#if this.canActivateTheme}}
                 <button {{action "activate"}} class="gh-btn" data-test-activate-now-button>
-                    <span>Activate{{#if this.validationErrors}} with errors{{/if}}</span>
+                    <span>{{t "Manual.Components.Activate"}}{{#if this.validationErrors}} {{t "Manual.Components.with_errors"}}{{/if}}</span>
                 </button>
             {{/if}}
             {{#if (or this.validationErrors this.fatalValidationErrors)}}
                 <button {{action "reset"}} class="gh-btn gh-btn-black ml2" data-test-try-again-button>
-                    <span>Retry</span>
+                    <span>{{t "Manual.Components.Retry"}}</span>
                 </button>
             {{/if}}
         </div>

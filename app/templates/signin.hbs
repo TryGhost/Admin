@@ -14,7 +14,7 @@
                     </div>
                     <div class="gh-auth-lock-body">
                         <p>
-                            For security, you need to create a new password. An email has been sent to you with instructions!
+                            {{t "Manual.Login.For_security_you_need_to_create_a_new_password_An_email_has_been_sent_to_you_with_instructions"}}
                         </p>
                     </div>
                 </div>
@@ -22,21 +22,21 @@
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
                 <header>
                     <div class="gh-site-icon" style="{{this.siteIconStyle}}"></div>
-                    <h1>Sign in to {{this.config.blogTitle}}.</h1>
+                    <h1>{{t "Manual.Login.Sign_in_to" blogTitle=this.config.blogTitle}}.</h1>
                 </header>
                 {{#if this.config.oauth}}
                     <a
                         href="oauth/google"
                         class="login gh-btn gh-btn-login gh-btn-block gh-btn-white gh-btn-icon gh-center">
-                        <span style="color: #15171a;">{{svg-jar "google-favicon"}}Sign in with Google</span>
+                        <span style="color: #15171a;">{{svg-jar "google-favicon"}}{{t "Manual.Login.Sign_in_with_Google"}}</span>
                     </a>
 
                     <div class="gh-separator">
-                        or
+                        {{t "Manual.Login.or"}}
                     </div>
                 {{/if}}
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
-                    <label>Email address</label>
+                    <label>{{t "Manual.Login.Email_address"}}</label>
                     <span class="gh-input-icon gh-icon-mail">
                         <GhTrimFocusInput
                             @class="email"
@@ -54,7 +54,7 @@
                     </span>
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="password">
-                    <label>Password</label>
+                    <label>{{t "Manual.Login.Password"}}</label>
                     <span class="gh-input-icon gh-icon-lock forgotten-wrap">
                         <GhTextInput
                             @class="password"
@@ -76,7 +76,7 @@
                             @failureClass=""
                             as |task|
                         >
-                            <span>{{#if task.isRunning}}{{svg-jar "spinner" class="gh-spinner"}}{{else}}Forgot?{{/if}}</span>
+                            <span>{{#if task.isRunning}}{{svg-jar "spinner" class="gh-spinner"}}{{else}}{{t "Manual.Login.Forgot?"}}{{/if}}</span>
                         </GhTaskButton>
                     </span>
                 </GhFormGroup>

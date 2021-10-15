@@ -1,16 +1,16 @@
 <header class="modal-header">
-    <h1>Are you sure you want to delete this tag?</h1>
+    <h1>{{t "Manual.Tags.Are_you_sure_you_want_to_delete_this_tag?"}}</h1>
 </header>
-<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">Close</span></a>
+<a class="close" href="" role="button" title="Close" {{action "closeModal"}}>{{svg-jar "close"}}<span class="hidden">{{t "Manual.Components.Close"}}</span></a>
 
 <div class="modal-body">
     {{#if this.tag.post_count}}
-        <span class="red">This tag is attached to {{this.tag.count.posts}} {{this.postInflection}}.</span>
+        <span class="red">{{t "Manual.Components.This_tag_is_attached_to"}}{{this.tag.count.posts}} {{this.postInflection}}.</span>
     {{/if}}
-    You're about to delete "<strong>{{this.tag.name}}</strong>". This is permanent! We warned you, k?
+    {{t "Manual.Components.You're_about_to_delete"}}<strong>{{this.tag.name}}</strong>{{t "Manual.Components.This_is_permanent!_We_warned_you,_k?_Maybe"}}
 </div>
 
 <div class="modal-footer">
-    <button {{action "closeModal"}} class="gh-btn"><span>Cancel</span></button>
+    <button {{action "closeModal"}} class="gh-btn"><span>{{t "Manual.Components.Cancel"}}</span></button>
     <GhTaskButton @buttonText="Delete" @successText="Deleted" @task={{this.deleteTag}} @class="gh-btn gh-btn-red gh-btn-icon" />
 </div>

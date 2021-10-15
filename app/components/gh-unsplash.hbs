@@ -12,14 +12,14 @@
             <header class="flex-shrink-0 flex flex-row-l flex-column justify-between pt6 pr8 pb6 pl8 pt10-l pr20-l pb10-l pl20-l items-center">
                 <h1 class="flex items-center darkgrey-d2 w-100 nudge-top--4">
                     <a class="dib w8 mr2" href="https://unsplash.com/?utm_source=ghost&utm_medium=referral&utm_campaign=api-credit" target="_blank">{{svg-jar "unsplash" class="fill-darkgrey-d2"}}</a>
-                    Unsplash
+                   Unsplash
                 </h1>
                 <span class="gh-input-icon mw88-l flex-auto w-100 mt3 mt0-l">
                     {{svg-jar "search"}}
                     <GhTextInput
                         @class="gh-unsplash-search"
                         @name="searchKeyword"
-                        @placeholder="Search free high-resolution photos"
+                        @placeholder={{t "Manual.Others.Search_free_high_resolution_photos"}}
                         @tabindex="1"
                         @shouldFocus={{true}}
                         @autocorrect="off"
@@ -48,8 +48,8 @@
                     {{else if (and this.unsplash.searchTerm (not this.unsplash.error this.unsplash.isLoading))}}
                         <section class="gh-unsplash-error h-100 flex items-center justify-center pb30">
                             <div>
-                                <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="No photos found" />
-                                <h4>No photos found for '{{this.unsplash.searchTerm}}'</h4>
+                                <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt={{t "Manual.Others.No_photos_found_for"}} />
+                                <h4>{{t "Manual.Others.No_photos_found_for"}} '{{this.unsplash.searchTerm}}'</h4>
                             </div>
                         </section>
                     {{/if}}
@@ -59,7 +59,7 @@
                         <section class="gh-unsplash-error h-100 flex items-center justify-center pb30">
                             <div>
                                 <img class="gh-unsplash-error-404" src="assets/img/unsplash-404.png" alt="Network error" />
-                                <h4>{{this.unsplash.error}} (<a href="#" {{action "retry"}}>retry</a>)</h4>
+                                <h4>{{this.unsplash.error}} (<a href="#" {{action "retry"}}> {{t "Manual.Others.retry"}}</a>)</h4>
                             </div>
                         </section>
                     {{/if}}

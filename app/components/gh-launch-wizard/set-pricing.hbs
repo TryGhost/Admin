@@ -3,15 +3,15 @@
         <div class="gh-stack overflow-y-auto flex-grow-1">
             <div class="gh-setting-nossl-container">
                 <span class="red">{{svg-jar "shield-lock"}}</span>
-                <h4>Your site is not secured</h4>
-                <p>Paid memberships through Ghost can only be run on sites secured by SSL (HTTPS vs. HTTP). More information on adding a free SSL Certificate to your Ghost site can be <a href="https://ghost.org/integrations/lets-encrypt/" target="_blank" rel="noopener noreferrer">found here</a>.</p>
+                <h4>{{t "Manual.Settings.Your_site_is_not_secured"}}</h4>
+                <p>{{t "Manual.Settings.Paid_memberships_through"}} <a href="https://ghost.org/integrations/lets-encrypt/" target="_blank" rel="noopener noreferrer">{{t "Manual.Settings.found_here"}}</a>.</p>
             </div>
             <div class="w-100 mt6">
-                <div class="gh-setting-title">Generate secure key</div>
+                <div class="gh-setting-title">{{t "Manual.Settings.Generate_secure_key"}}</div>
                 <div class="flex items-center mb4 gh-members-connectbutton-container justify-between mt2">
-                    <div class="stripe-connect disabled"><span>Connect with Stripe</span></div>
+                    <div class="stripe-connect disabled"><span>{{t "Manual.Settings.Connect_with_Stripe"}}</span></div>
                     <div class="ml2 flex items-center flex-nowrap">
-                        <span class="mr2 f8 midgrey nowrap">Test mode</span>
+                        <span class="mr2 f8 midgrey nowrap">{{t "Manual.Settings.Test_mode"}}</span>
                         <div class="for-switch small disabled">
                             <label class="switch" for="stripe-connect-test-mode">
                                 <input type="checkbox" class="gh-input" disabled="disabled">
@@ -23,7 +23,7 @@
                 <div class="gh-setting-action">
                     <GhTextarea
                         class="gh-launch-wizard-stripe-connect-token"
-                        placeholder="Paste your secure key here"
+                        @placeholder={{t "Manual.Settings.Paste_your_secure_key_here"}}
                         disabled="disabled"
                     />
                 </div>
@@ -34,7 +34,7 @@
             <div class="gh-stack-item flex-column">
                 <div class="w-100">
                     <GhFormGroup @class="for-select">
-                        <div class="gh-setting-title" for="currency">Plan currency</div>
+                        <div class="gh-setting-title" for="currency">{{t "Manual.Settings.Plan_currency"}}</div>
                         <span class="gh-select mt2">
                             <OneWaySelect
                                 @disabled={{this.disabled}}
@@ -53,7 +53,7 @@
                 <div class="w-100 flex flex-column flex-row-ns">
                     <div class="w-100 w-50-ns mr3-ns">
                         <GhFormGroup>
-                        <div class="gh-setting-title">Monthly price</div>
+                        <div class="gh-setting-title">{{t "Manual.Settings.Monthly_price"}}</div>
 
                         <div class="flex items-center justify-center mt2 gh-input-group gh-labs-price-label">
                             <GhTextInput
@@ -69,7 +69,7 @@
                     </div>
                     <div class="w-100 w-50-ns ml2-ns">
                         <GhFormGroup>
-                        <div class="gh-setting-title">Yearly price</div>
+                        <div class="gh-setting-title">{{t "Manual.Settings.Yearly_price"}}</div>
                         <div class="flex items-center justify-center mt2 gh-input-group gh-labs-price-label">
                             <GhTextInput
                                 @disabled={{this.disabled}}
@@ -91,7 +91,7 @@
             </div>
 
             <div class="gh-stack-item gh-setting flex-column">
-                <div class="gh-setting-title">Plans available at signup</div>
+                <div class="gh-setting-title">{{t "Manual.Settings.Plans_available_at_signup"}}</div>
                 <div class="form-group mt2 mb0 for-checkbox">
                     <label
                         class="checkbox"
@@ -108,7 +108,7 @@
                             data-test-checkbox="featured"
                         >
                         <span class="input-toggle-component"></span>
-                        <p>Free</p>
+                        <p>{{t "Manual.Settings.Free"}}</p>
                     </label>
                 </div>
                 <div class="form-group mb0 for-checkbox">
@@ -127,7 +127,7 @@
                             data-test-checkbox="featured"
                         >
                         <span class="input-toggle-component"></span>
-                        <p>Monthly</p>
+                        <p>{{t "Manual.Settings.Monthly"}}</p>
                     </label>
                 </div>
                 <div class="form-group mb0 for-checkbox">
@@ -146,7 +146,7 @@
                             data-test-checkbox="featured"
                         >
                         <span class="input-toggle-component"></span>
-                        <p>Yearly</p>
+                        <p>{{t "Manual.Settings.Yearly"}}</p>
                     </label>
                 </div>
             </div>

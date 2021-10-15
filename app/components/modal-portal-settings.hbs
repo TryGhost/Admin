@@ -4,15 +4,15 @@
             <GhLoadingSpinner />
         {{else}}
         <div class="gh-portal-settings-sidebar">
-            <h2 class="gh-portal-settings-title">Portal settings</h2>
+            <h2 class="gh-portal-settings-title">{{t "Manual.Settings.Portal_Settings"}}</h2>
             <div class="gh-portal-form-wrapper">
                 <fieldset class="gh-portal-settings-form">
                     <div class="gh-portal-setting-section {{if (not-eq this.settings.membersSignupAccess "all") "disabled-overlay"}}" onclick={{action "switchToSignupPage"}}>
-                        <h3 class="gh-portal-setting-sectionheading">Signup options</h3>
+                        <h3 class="gh-portal-setting-sectionheading">{{t "Manual.Components.Signup_options"}}</h3>
                         <GhFormGroup @classNames="gh-members-subscribed-checkbox gh-portal-setting-first pb5 mb0">
                             <div class="flex justify-between items-center">
                                 <div class="mr3">
-                                    <h4 class="gh-portal-setting-title">Display name in signup form</h4>
+                                    <h4 class="gh-portal-setting-title">{{t "Manual.Components.Display_name_in_signup_form"}}</h4>
                                 </div>
                                 <div class="for-switch small">
                                     <label
@@ -36,7 +36,7 @@
                             <div {{did-insert this.refreshAfterStripeConnected}}>
                                 {{#if this.showPortalTiers}}
                                     <div class="mb3">
-                                        <h4 class="gh-portal-setting-title">Tiers available at signup</h4>
+                                        <h4 class="gh-portal-setting-title">{{t "Manual.Components.Tiers_available_at_signup"}}</h4>
                                     </div>
                                     <div class="form-group mb0 for-checkbox">
                                         <label
@@ -84,7 +84,7 @@
                                     {{/each}}
                                 {{/if}}
                                 <div class="mb3 {{if (feature "multipleProducts") "mt5" ""}}">
-                                    <h4 class="gh-portal-setting-title">Prices available at signup</h4>
+                                    <h4 class="gh-portal-setting-title">{{t "Manual.Components.Prices_available_at_signup"}}</h4>
                                 </div>
                                 {{#unless this.showPortalTiers}}
                                     <div class="form-group mb0 for-checkbox">
@@ -105,7 +105,7 @@
                                                 {{on "click" (action "togglePlan" "free")}}
                                             >
                                             <span class="input-toggle-component"></span>
-                                            <p>Free</p>
+                                            <p>{{t "Manual.Settings.Free"}}</p>
                                         </label>
                                     </div>
                                 {{/unless}}
@@ -127,7 +127,7 @@
                                             {{on "click" (action "togglePlan" "monthly")}}
                                         >
                                         <span class="input-toggle-component"></span>
-                                        <p>Monthly</p>
+                                        <p>{{t "Manual.Settings.Monthly"}}</p>
                                     </label>
                                 </div>
                                 <div class="form-group mb0 for-checkbox">
@@ -148,21 +148,21 @@
                                             {{on "click" (action "togglePlan" "yearly")}}
                                         >
                                         <span class="input-toggle-component"></span>
-                                        <p>Yearly</p>
+                                        <p>{{t "Manual.Settings.Yearly"}}</p>
                                     </label>
                                 </div>
                             </div>
                         {{else}}
                         <div class="gh-portal-setting-no-stripe">
-                            You need to <button class="gh-btn gh-btn-link black {{if (not this.session.user.isAdmin) "disabled"}}" {{on "click" (action "openStripeSettings")}}>connect to Stripe</button> to take payments
+                            {{t "Manual.Settings.You_need_to"}} <button class="gh-btn gh-btn-link black {{if (not this.session.user.isAdmin) "disabled"}}" {{on "click" (action "openStripeSettings")}}>{{t "Manual.Settings.connect_to_Stripe"}}</button> {{t "Manual.Settings.to_take_payments"}}
                         </div>
                         {{/if}}
                     </div>
                     <div class="gh-portal-setting-section" onclick={{action "switchToSignupPage"}}>
-                        <h3 class="gh-portal-setting-sectionheading">Look & feel</h3>
+                        <h3 class="gh-portal-setting-sectionheading">{{t "Manual.Components.Look_feel"}}</h3>
                         <GhFormGroup @classNames="gh-members-subscribed-checkbox gh-portal-setting-first mb0 b--whitegrey">
                             <div class="flex justify-between items-center">
-                                <h4 class="gh-portal-setting-title">Show Portal button</h4>
+                                <h4 class="gh-portal-setting-title">{{t "Manual.Components.Show_Portal_button"}}</h4>
                                 <div class="for-switch small">
                                     <label
                                         class="switch"
@@ -183,7 +183,7 @@
                         {{#if this.settings.portalButton}}
                             <div class="mt5">
                                 <GhFormGroup @classNames="space-l">
-                                    <h4 class="gh-portal-setting-title mb1">Portal button style</h4>
+                                    <h4 class="gh-portal-setting-title mb1">{{t "Manual.Components.Portal_button_style"}}</h4>
                                     <span
                                         class="gh-select mt2"
                                         data-select-text="test"
@@ -203,7 +203,7 @@
                                 </GhFormGroup>
                                 {{#if showIconSetting}}
                                     <GhFormGroup @classNames="space-l">
-                                        <h4 class="gh-portal-setting-title">Icon</h4>
+                                        <h4 class="gh-portal-setting-title">{{t "Manual.Integrations.Icon"}}</h4>
                                         <GhUploader
                                             @extensions={{this.iconExtensions}}
                                             @paramsHash={{hash purpose="image"}}
@@ -259,7 +259,7 @@
                             </div>
                             {{#if showButtonTextSetting}}
                             <GhFormGroup @classNames="space-l">
-                                <h4 class="gh-portal-setting-title">Signup button text</h4>
+                                <h4 class="gh-portal-setting-title">{{t "Manual.Components.Signup_button_text"}}</h4>
 
                                 <div class="flex items-center mt2">
                                     <GhTextInput
@@ -279,9 +279,9 @@
             <div class="gh-portal-settings-previewheader">
 
                 <div class="gh-btn-group">
-                    <a class="gh-btn {{if (eq this.page "signup") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "signup"}} data-test-link="switch-portal-preview-page"><span>Signup</span></a>
-                    <a class="gh-btn {{if (eq this.page "accountHome") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "accountHome"}} data-test-link="switch-portal-preview-page"><span>Account</span></a>
-                    <a class="gh-btn {{if this.showLinksPage "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "links"}} data-test-link="switch-portal-preview-page"><span>Links</span></a>
+                    <a class="gh-btn {{if (eq this.page "signup") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "signup"}} data-test-link="switch-portal-preview-page"><span>{{t "Manual.Components.Signup"}}</span></a>
+                    <a class="gh-btn {{if (eq this.page "accountHome") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "accountHome"}} data-test-link="switch-portal-preview-page"><span>{{t "Manual.Components.Account"}}</span></a>
+                    <a class="gh-btn {{if this.showLinksPage "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "links"}} data-test-link="switch-portal-preview-page"><span>{{t "Manual.Components.Links"}}</span></a>
                 </div>
 
                 <div class="gh-portal-settings-actions">
@@ -292,12 +292,11 @@
                         {{on "mousedown" (optional this.noop)}}
                         data-test-button="cancel-custom-view-form"
                     >
-                        <span>Cancel</span>
+                        <span>{{t "Manual.Components.Cancel"}}</span>
                     </button>
 
                     <GhTaskButton
-                        @buttonText="Save and close"
-                        @successText="Saved"
+                        @buttonText={{t "Manual.Components.Save"}} @successText={{t "Manual.Settings.Saved"}}
                         @task={{this.saveTask}}
                         @idleClass="gh-btn-primary"
                         @class="gh-btn gh-btn-icon"

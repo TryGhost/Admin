@@ -14,7 +14,7 @@
                 <h4 class="gh-main-section-header small bn">Basic</h4>
                 <div class="gh-main-section-content grey gh-product-priceform-block">
                     <GhFormGroup @errors={{this.errors}} @property="name">
-                        <label for="name" class="fw6">Name</label>
+                        <label for="name" class="fw6">{{t "Manual.Components.Name"}}</label>
                         <GhTextInput
                             @value={{readonly this.product.name}}
                             @input={{action (mut this.product.name) value="target.value"}}
@@ -25,19 +25,19 @@
                         <GhErrorMessage @errors={{this.errors}} @property="name" />
                     </GhFormGroup>
                     <GhFormGroup @errors={{this.errors}} @property="description">
-                        <label for="description" class="fw6">Description</label>
+                        <label for="description" class="fw6">{{t "Manual.Integrations.Description"}}</label>
                         <GhTextInput
                             @value={{readonly this.product.description}}
                             @input={{action (mut this.product.description) value="target.value"}}
                             @name="description"
-                            @placeholder="Full access to premium content"
+                            @placeholder={{t "Manual.Others.Full_access_to_premium_content"}}
                             @id="description"
                             @class="gh-input" />
                         <GhErrorMessage @errors={{this.errors}} @property="description" />
                     </GhFormGroup>
                     <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="prices">
                         <div class="gh-settings-members-pricelabelcont">
-                            <label for="monthlyPrice">Prices</label>
+                            <label for="monthlyPrice">{{t "Manual.Components.Prices"}}</label>
                             <span>–</span>
                             <div>
                                 <span class="gh-setting-members-currency gh-select">
@@ -88,7 +88,7 @@
                     </GhFormGroup>
                 </div>
 
-                <h4 class="gh-main-section-header small bn">Benefits</h4>
+                <h4 class="gh-main-section-header small bn">{{t "Manual.Components.Benefits"}}</h4>
                 <div class="gh-main-section-content grey gh-product-form-benefits">
                     <div class="gh-product-benefits">
                         <form id="product-benefits" class="gh-blognav" novalidate="novalidate">
@@ -122,10 +122,10 @@
             </div>
             <div class="gh-main-section-block gh-product-form-tierpreview">
                 <div class="gh-product-form-tierpreview-content">
-                    <h4 class="gh-main-section-header small bn">Tier Preview</h4>
+                    <h4 class="gh-main-section-header small bn">{{t "Manual.Others.Tier_Preview"}}</h4>
                     <div class="gh-main-section-content" style="border-color: {{this.settings.accentColor}}">
                         <span class="checkmark" style="background-color: {{this.settings.accentColor}}"></span>
-                        
+
                         {{#if this.product.name}}
                             <h4>{{this.product.name}}</h4>
                         {{else}}
@@ -135,7 +135,7 @@
                         {{#if this.product.description}}
                             <p>{{this.product.description}}</p>
                         {{else}}
-                            <p class="placeholder">Full access to premium content</p>
+                            <p class="placeholder">{{t "Manual.Others.Full_access_to_premium_content"}}</p>
                         {{/if}}
 
                         {{#if this.benefits}}
@@ -146,12 +146,12 @@
                             </ul>
                         {{else}}
                             <ul class="placeholder">
-                                <li>{{svg-jar "check-2"}} <span>Expert analysis</span></li>
+                                <li>{{svg-jar "check-2"}} <span>{{t "Manual.Others.Expert_analysis"}}</span></li>
                             </ul>
                         {{/if}}
-                        
+
                         <div class="price">
-                            
+
                             {{#if this.stripeMonthlyAmount}}
                                 <span class="monthly-price">
                                     <span class="currency">{{currency-symbol this.currency}}</span>
@@ -188,7 +188,7 @@
         {{action (optional this.noop) on="mouseDown"}}
         data-test-button="cancel-webhook"
     >
-        <span>Cancel</span>
+        <span>{{t "Manual.Components.Cancel"}}</span>
     </button>
     <GhTaskButton @buttonText="{{if this.isExistingProduct "Save" "Add tier"}}"
         @successText={{this.successText}}

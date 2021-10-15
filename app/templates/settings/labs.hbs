@@ -1,29 +1,29 @@
 <section class="gh-canvas">
     <GhCanvasHeader class="gh-canvas-header">
         <h2 class="gh-canvas-title" data-test-screen-title>
-            <LinkTo @route="settings">Settings</LinkTo>
+            <LinkTo @route="settings">{{t "Manual.Settings.Settings"}}</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            Labs
+            {{t "Manual.Settings.Labs"}}
         </h2>
     </GhCanvasHeader>
 
     <section class="view-container settings-debug">
-        <p class="gh-box gh-box-tip">{{svg-jar "idea"}}This is a testing ground for new or experimental features. They may change, break or inexplicably disappear at any time.</p>
+        <p class="gh-box gh-box-tip">{{svg-jar "idea"}}{{t "Manual.Settings.This_is_a_testing_ground_for_new_or_experimental_features._They_may_change,_break_or_inexplicably_disappear_at_any_time."}}</p>
 
         <div class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">Migration options</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.MIGRATION_OPTIONS"}}</h4>
             <div class="gh-expandable">
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Import content</h4>
-                            <p class="gh-expandable-description">Import posts from another Ghost installation</p>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Import_content"}}</h4>
+                            <p class="gh-expandable-description">{{t "Manual.Settings.Import_posts_from_another_Ghost_installation"}}</p>
                         </div>
                         <form id="settings-import" enctype="multipart/form-data">
                             <GhFileUpload
                                 @id="importfile"
                                 @classNames="flex"
-                                @uploadButtonText={{this.uploadButtonText}}
+                                @uploadButtonText={{t "Manual.Settings.Import"}}
                                 @onUpload={{action "onUpload"}}
                                 @acceptEncoding={{this.importMimeType}}
                                 data-test-file-input="import"
@@ -34,9 +34,9 @@
                         <div class="gh-import-errors {{if this.importSuccessful "gh-import-errors-alert"}}" data-test-import-errors>
                             <div class="gh-import-errors-title">
                                 {{#if this.importSuccessful}}
-                                    Import successful with warnings
+                                    {{t "Manual.Settings.Import_successful_with_warnings"}}
                                 {{else}}
-                                    Import failed
+                                    {{t "Manual.Settings.Import_failed"}}
                                 {{/if}}
                             </div>
 
@@ -60,27 +60,27 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Export your content</h4>
-                            <p class="gh-expandable-description">Download all of your posts and settings in a single, glorious JSON file</p>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Export_your_content"}}</h4>
+                            <p class="gh-expandable-description">{{t "Manual.Settings.Download_all_of_your_posts_and_settings_in_a_single,_glorious_JSON_file"}}</p>
                         </div>
-                        <button type="button" class="gh-btn" {{action "downloadFile" "db"}}><span>Export</span></button>
+                        <button type="button" class="gh-btn" {{action "downloadFile" "db"}}><span>{{t "Manual.Settings.Export"}}</span></button>
                     </div>
                 </div>
 
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Delete all content</h4>
-                            <p class="gh-expandable-description">Permanently delete all posts and tags from the database, a hard reset</p>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Delete_all_content"}}</h4>
+                            <p class="gh-expandable-description">{{t "Manual.Settings.Permanently_delete_all_posts_and_tags_from_the_database,_a_hard_reset"}}</p>
                         </div>
-                        <button type="button" class="gh-btn gh-btn-red js-delete" {{action "toggleDeleteAllModal"}}><span>Delete</span></button>
+                        <button type="button" class="gh-btn gh-btn-red js-delete" {{action "toggleDeleteAllModal"}}><span>{{t "Manual.Settings.Delete"}}</span></button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">Beta features</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.BETA_FEATURES"}}</h4>
             <div class="gh-expandable">
 
                 <div class="gh-expandable-block">
@@ -110,8 +110,8 @@
                     >
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Redirects</h4>
-                            <p class="gh-expandable-description">Configure redirects for old or moved content, more info in <a href="https://ghost.org/docs/tutorials/implementing-redirects/" target="_blank">the docs</a></p>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Redirects"}}</h4>
+                            <p class="gh-expandable-description">{{t "Manual.Settings.Configure_redirects_for_old_or_moved_content,_more_info_in_the_docs"}} <a href="https://ghost.org/docs/tutorials/implementing-redirects/" target="_blank">{{t "Manual.Others.the_docs"}}</a></p>
                         </div>
                         <div class="gh-setting-action flex flex-column items-end">
                             {{#if uploader.isUploading}}
@@ -125,15 +125,15 @@
                                 >
                                     <span>
                                         {{#if this.redirectSuccess}}
-                                            {{svg-jar "check-circle"}} Uploaded
+                                            {{svg-jar "check-circle"}} {{t "Manual.Settings.Uploaded"}}
                                         {{else if this.redirectFailure}}
-                                            {{svg-jar "retry"}} Upload Failed
+                                            {{svg-jar "retry"}} {{t "Manual.Settings.Upload_Failed"}}
                                         {{else}}
-                                            Upload redirects YAML/JSON
+                                            {{t "Manual.Settings.Upload_redirects_YAML/JSON"}}
                                         {{/if}}
                                     </span>
                                 </button>
-                                <div><a href="#" {{action "downloadFile" "redirects/download"}} data-test-link="download-redirects">Download current redirects</a></div>
+                                <div><a href="#" {{action "downloadFile" "redirects/download"}} data-test-link="download-redirects">{{t "Manual.Settings.Download_current_redirects"}}</a></div>
                             {{/if}}
 
                             {{#each uploader.errors as |error|}}
@@ -159,8 +159,8 @@
                     >
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Routes</h4>
-                            <p class="gh-expandable-description">Configure dynamic routing by modifying the routes.yaml file</p>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Routes"}}</h4>
+                            <p class="gh-expandable-description">{{t "Manual.Settings.Configure_dynamic_routing_by_modifying_the_routes.yaml_file"}}</p>
                         </div>
                         <div class="gh-setting-action flex flex-column items-end">
                             {{#if uploader.isUploading}}
@@ -174,15 +174,15 @@
                                 >
                                     <span>
                                         {{#if this.routesSuccess}}
-                                            {{svg-jar "check-circle"}} Uploaded
+                                            {{svg-jar "check-circle"}}  {{t "Manual.Settings.Uploaded"}}
                                         {{else if this.routesFailure}}
-                                            {{svg-jar "retry"}} Upload Failed
+                                            {{svg-jar "retry"}} {{t "Manual.Settings.Upload_Failed"}}
                                         {{else}}
-                                            Upload routes YAML
+                                            {{t "Manual.Settings.Upload_routes_YAML"}}
                                         {{/if}}
                                     </span>
                                 </button>
-                                <div><a href="#" {{action "downloadFile" "settings/routes/yaml"}} data-test-link="download-routes">Download current routes.yaml</a></div>
+                                <div><a href="#" {{action "downloadFile" "settings/routes/yaml"}} data-test-link="download-routes">{{t "Manual.Settings.Download_current_routes.yaml"}}</a></div>
                             {{/if}}
 
                             {{#each uploader.errors as |error|}}
@@ -202,15 +202,15 @@
 
         {{#if (enable-developer-experiments)}}
          <div class="gh-main-section">
-            <h4 class="gh-main-section-header small bn">Alpha Features</h4>
+            <h4 class="gh-main-section-header small bn">{{t "Manual.Settings.ALPHA_FEATURES"}}</h4>
             <div class="gh-expandable">
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Google OAuth for staff users</h4>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Google_OAuth_for_staff_users"}}</h4>
                             <p class="gh-expandable-description">
-                                Allow people to sign into Ghost Admin using Google SSO,
-                                <a href="https://ghost.org/docs/tutorials/setting-up-oauth/" target="_blank" rel="noopener">docs here</a>
+                                {{t "Manual.Settings.Allow_people_to_sign_into_Ghost_Admin_using_Google_SSO"}}
+                                <a href="https://ghost.org/docs/tutorials/setting-up-oauth/" target="_blank" rel="noopener">{{t "Manual.Settings.docs_here"}}</a>
                             </p>
                         </div>
                         <div class="for-switch">
@@ -220,10 +220,10 @@
                     <div class="gh-expandable-content">
                         {{#if this.feature.oauthLogin}}
                             <div class="gh-setting-content-extended gh-labs-sso-settings pt2 pb4">
-                                <a href="https://console.developers.google.com/" target="_blank" rel="noopener" class="gh-btn gh-btn-white mb4"><span>{{svg-jar "google-favicon"}}Configure Google OAuth</span></a>
+                                <a href="https://console.developers.google.com/" target="_blank" rel="noopener" class="gh-btn gh-btn-white mb4"><span>{{svg-jar "google-favicon"}}{{t "Manual.Settings.Configure_Google_OAuth"}}</span></a>
                                 <GhFormGroup @class="no-margin pt2" @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="password">
                                     <div class="form-group">
-                                        <label for="aouth-client-id">Google OAuth Client ID</label>
+                                        <label for="aouth-client-id">{{t "Manual.Settings.Google_OAuth_Client_ID"}}</label>
                                         <GhTextInput
                                             id="oauth-client-id"
                                             @value={{readonly this.settings.oauthClientId}}
@@ -234,7 +234,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="oauth-client-secret">Google OAuth Client Secret</label>
+                                        <label for="oauth-client-secret">{{t "Manual.Settings.Google_OAuth_Client_Secret"}}</label>
                                         <GhTextInput
                                             id="oauth-client-secret"
                                             @value={{readonly this.settings.oauthClientSecret}}
@@ -251,9 +251,9 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Match helper</h4>
+                            <h4 class="gh-expandable-title">{{t "Manual.Settings.Match_helper"}}</h4>
                             <p class="gh-expandable-description">
-                               Experimental <code>\{{match}}</code> helper for themes
+                               Experimental <code>\{{match}}</code> {{t "Manual.Settings.helper_for_themes"}}
                             </p>
                         </div>
                         <div class="for-switch">
@@ -264,9 +264,9 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Custom theme settings</h4>
+                            <h4 class="gh-expandable-title">{{t "Manual.Others.Custom_theme_settings"}}</h4>
                             <p class="gh-expandable-description">
-                               Redesign of "Design" settings in Admin and allow themes to specify custom settings.
+                               {{t "Manual.Others.Redesign_of_Design_settings_in_Admin_and_allow_themes_to_specify_custom_settings"}}
                             </p>
                         </div>
                         <div class="for-switch">
@@ -277,9 +277,9 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Members Activity</h4>
+                            <h4 class="gh-expandable-title">{{t "Manual.Others.Members_Activity"}}</h4>
                             <p class="gh-expandable-description">
-                               Enable recording of member activity for analytics
+                               {{t "Manual.Others.Enable_recording_of_member_activity_for_analytics"}}
                             </p>
                         </div>
                         <div class="for-switch">
@@ -290,9 +290,9 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
-                            <h4 class="gh-expandable-title">Offers</h4>
+                            <h4 class="gh-expandable-title">{{t "Manual.Others.Offers"}}</h4>
                             <p class="gh-expandable-description">
-                               Provide targeted discounts to new signups
+                               {{t "Manual.Others.Provide_targeted_discounts_to_new_signups"}}
                             </p>
                         </div>
                         <div class="for-switch">

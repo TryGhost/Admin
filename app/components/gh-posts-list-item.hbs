@@ -9,7 +9,7 @@
         </h3>
         <p>
             <span class="gh-content-entry-meta">
-                By <span class="midgrey-l2 fw5">{{this.authorNames}}</span>
+                {{t "Manual.Others.By"}} <span class="midgrey-l2 fw5">{{this.authorNames}}</span>
 
                 {{#if @post.primaryTag}}
                     in <span class="midgrey-l2 fw5">{{@post.primaryTag.name}}</span>
@@ -45,7 +45,7 @@
                             {{@post.email.openRate}}%&nbsp;
                         {{/if}}
                     </span>
-                    <span class="midgrey-l2 fw4 gh-content-email-stats-mobile">{{@post.email.openRate}}% opens</span>
+                    <span class="midgrey-l2 fw4 gh-content-email-stats-mobile">{{@post.email.openRate}}% {{t "Manual.Others.opens"}}</span>
                 </div>
             {{/if}}
         </LinkTo>
@@ -55,24 +55,24 @@
         <div class="flex items-center">
             {{#if @post.isScheduled}}
             <span class="gh-content-status-scheduled gh-badge nowrap" title="Scheduled" data-tooltip="{{capitalize this.scheduledText}} to {{@post.emailRecipientFilter}} members">
-                Scheduled
+                {{t "Manual.Others.Scheduled"}}
                 {{#if @post.emailRecipientFilter}}
-                {{svg-jar "email-stroke"}}
+                    {{svg-jar "email-stroke"}}
                 {{/if}}
             </span>
             {{/if}}
 
             {{#if @post.isDraft}}
             <span class="gh-content-status-draft gh-badge gh-badge-pink nowrap">
-                Draft
+                {{t "Manual.Others.Draft"}}
             </span>
             {{/if}}
 
             {{#if @post.isPublished}}
             <span class="gh-content-status-published nowrap">
-                Published
+                {{t "Manual.Others.Published"}}
                 {{#if @post.hasEmail}}
-                {{svg-jar "email-stroke"}}
+                    {{svg-jar "email-stroke"}}
                 {{/if}}
             </span>
             {{/if}}
