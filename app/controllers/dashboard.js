@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import {action} from '@ember/object';
-import {getSymbol, getNonDecimal} from 'ghost-admin/utils/currency';
+import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
