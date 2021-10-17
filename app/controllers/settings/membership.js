@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
-import {currencies, getCurrencyOptions, getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getCurrencyOptions, getNonDecimal, getSymbol, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -228,8 +228,8 @@ export default class MembersAccessController extends Controller {
     @action
     updatePortalPreview({forceRefresh} = {forceRefresh: false}) {
         // TODO: can these be worked out from settings in membersUtils?
-        const monthlyPrice = this.stripeMonthlyAmount * 100;
-        const yearlyPrice = this.stripeYearlyAmount * 100;
+        const monthlyPrice = isNonCurrencies(this.currency) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+        const yearlyPrice = isNonCurrencies(this.currency) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
         let portalPlans = this.settings.get('portalPlans') || [];
 
         let isMonthlyChecked = portalPlans.includes('monthly');
@@ -299,10 +299,11 @@ export default class MembersAccessController extends Controller {
             const monthlyPrice = product.get('monthlyPrice');
             const yearlyPrice = product.get('yearlyPrice');
             if (monthlyPrice && monthlyPrice.amount) {
-                this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, monthlyPrice.currency);
                 this.currency = monthlyPrice.currency;
+                this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, monthlyPrice.currency);
             }
             if (yearlyPrice && yearlyPrice.amount) {
+                this.currency = yearlyPrice.currency;
                 this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, yearlyPrice.currency);
             }
             this.updatePortalPreview();
@@ -352,8 +353,8 @@ export default class MembersAccessController extends Controller {
     async saveProduct() {
         const isStripeConnected = this.settings.get('stripeConnectAccountId');
         if (this.product && isStripeConnected) {
-            const monthlyAmount = this.stripeMonthlyAmount * 100;
-            const yearlyAmount = this.stripeYearlyAmount * 100;
+            const monthlyAmount = isNonCurrencies(this.currency) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+            const yearlyAmount = isNonCurrencies(this.currency) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
 
             this.product.set('monthlyPrice', {
                 nickname: 'Monthly',
