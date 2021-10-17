@@ -1,5 +1,5 @@
-import {helper} from '@ember/component/helper';
 import {getNonDecimal} from 'ghost-admin/utils/currency';
+import {helper} from '@ember/component/helper';
 
 export function ghPriceAmount(amount, currency) {
     if (amount) {
