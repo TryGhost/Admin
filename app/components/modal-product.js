@@ -2,7 +2,7 @@ import EmberObject, {action} from '@ember/object';
 import ModalBase from 'ghost-admin/components/modal-base';
 import ProductBenefitItem from '../models/product-benefit-item';
 import classic from 'ember-classic-decorator';
-import {currencies, non_dec_currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getNonDecimal, isNonCurrencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {A as emberA} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
@@ -48,11 +48,12 @@ export default class ModalProductPrice extends ModalBase {
         const monthlyPrice = this.product.get('monthlyPrice');
         const yearlyPrice = this.product.get('yearlyPrice');
         if (monthlyPrice) {
-            this.stripeMonthlyAmount = (monthlyPrice.amount / 100);
             this.currency = monthlyPrice.currency;
+            this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, this.currency);
         }
         if (yearlyPrice) {
-            this.stripeYearlyAmount = (yearlyPrice.amount / 100);
+            this.currency = yearlyPrice.currency;
+            this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, this.currency);
         }
         this.benefits = this.product.get('benefits') || emberA([]);
         this.newBenefit = ProductBenefitItem.create({
@@ -104,8 +105,8 @@ export default class ModalProductPrice extends ModalBase {
             yield this.send('addBenefit', this.newBenefit);
         }
 
-        const monthlyAmount = (-1 != non_dec_currencies.indexOf(this.currency)) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
-        const yearlyAmount = (-1 != non_dec_currencies.indexOf(this.currency)) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
+        const monthlyAmount = isNonCurrencies(this.currency) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+        const yearlyAmount = isNonCurrencies(this.currency) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
         this.product.set('monthlyPrice', {
             nickname: 'Monthly',
             amount: monthlyAmount,

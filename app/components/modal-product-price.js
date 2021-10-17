@@ -1,7 +1,7 @@
 import EmberObject, {action} from '@ember/object';
 import ModalBase from 'ghost-admin/components/modal-base';
 import classic from 'ember-classic-decorator';
-import {currencies} from 'ghost-admin/utils/currency';
+import {currencies, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {isEmpty} from '@ember/utils';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -88,7 +88,7 @@ export default class ModalProductPrice extends ModalBase {
         }
         const priceObj = {
             ...this.price,
-            amount: (this.price.amount || 0) * 100
+            amount: isNonCurrencies(this.price.currency) ? (this.price.amount || 0) : (this.price.amount || 0) * 100
         };
         if (!priceObj.id) {
             priceObj.active = 1;

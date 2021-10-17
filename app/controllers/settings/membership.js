@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
-import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getNonDecimal, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -66,10 +66,10 @@ export default class MembersAccessController extends Controller {
             const monthlyPrice = this.product.get('monthlyPrice');
             const yearlyPrice = this.product.get('yearlyPrice');
 
-            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== (monthlyPrice.amount / 100)) {
+            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, monthlyPrice.currency)) {
                 return true;
             }
-            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== (yearlyPrice.amount / 100)) {
+            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, yearlyPrice.currency)) {
                 return true;
             }
         }
@@ -299,11 +299,11 @@ export default class MembersAccessController extends Controller {
             const monthlyPrice = product.get('monthlyPrice');
             const yearlyPrice = product.get('yearlyPrice');
             if (monthlyPrice && monthlyPrice.amount) {
-                this.stripeMonthlyAmount = (monthlyPrice.amount / 100);
+                this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, monthlyPrice.currency);
                 this.currency = monthlyPrice.currency;
             }
             if (yearlyPrice && yearlyPrice.amount) {
-                this.stripeYearlyAmount = (yearlyPrice.amount / 100);
+                this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, yearlyPrice.currency);
             }
             this.updatePortalPreview();
         }
@@ -381,8 +381,8 @@ export default class MembersAccessController extends Controller {
         const monthlyPrice = this.product.get('monthlyPrice');
         const yearlyPrice = this.product.get('yearlyPrice');
 
-        this.stripeMonthlyAmount = monthlyPrice ? (monthlyPrice.amount / 100) : 5;
-        this.stripeYearlyAmount = yearlyPrice ? (yearlyPrice.amount / 100) : 50;
+        this.stripeMonthlyAmount = monthlyPrice ? getNonDecimal(monthlyPrice.amount, monthlyPrice.currency) : 5;
+        this.stripeYearlyAmount = yearlyPrice ? getNonDecimal(yearlyPrice.amount, yearlyPrice.currency) : 50;
     }
 
     reset() {

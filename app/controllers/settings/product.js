@@ -3,6 +3,7 @@ import EmberObject, {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
+import {getNonDecimal} from 'ghost-admin/utils/currency';
 
 export default class ProductController extends Controller {
     @service config;
@@ -29,7 +30,7 @@ export default class ProductController extends Controller {
         return stripePrices.map((d) => {
             return {
                 ...d,
-                amount: d.amount / 100
+                amount: getNonDecimal(d.amount, d.currency)
             };
         }).sort((a, b) => {
             return a.amount - b.amount;
