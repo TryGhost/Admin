@@ -134,11 +134,11 @@ export function isNonCurrencies(currency) {
 }
 
 export function getNonDecimal(amount, currency) {
-    if (isNonCurrencies(currency)) {
-        return amount;
-    } else {
-        return amount / 100;
-    }
+    //if (isNonCurrencies(currency)) {
+    //    return amount;
+    //} else {
+    return amount / 100;
+    //}
 }
 
 export function getCurrencyOptions() {

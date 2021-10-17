@@ -50,7 +50,7 @@ export default Component.extend({
                 currency: monthly.currency
             },
             yearly: {
-                amount: getNonDecimal(monthly.amount, monthly.currency) || 50,
+                amount: getNonDecimal(yearly.amount, yearly.currency) || 50,
                 currency: yearly.currency
             }
         };
