@@ -53,6 +53,7 @@ export const currencies = [
     {isoCode: 'INR', name: 'Indian rupee'},
     {isoCode: 'ISK', name: 'Icelandic króna'},
     {isoCode: 'JMD', name: 'Jamaican dollar'},
+    {isoCode: 'JPY', name: 'Japanese yen'},
     {isoCode: 'KES', name: 'Kenyan shilling'},
     {isoCode: 'KGS', name: 'Kyrgyzstani som'},
     {isoCode: 'KHR', name: 'Cambodian riel'},
