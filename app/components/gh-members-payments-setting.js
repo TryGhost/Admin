@@ -189,9 +189,9 @@ export default Component.extend({
                 if (plan.name !== 'Complimentary') {
                     let newAmount;
                     if (plan.interval === 'year') {
-                        newAmount = isNonCurrencies(selectedCurrency) ? yearlyAmount : yearlyAmount * 100;
+                        newAmount = isNonCurrencies(selectedCurrency.isoCode) ? yearlyAmount : yearlyAmount * 100;
                     } else if (plan.interval === 'month') {
-                        newAmount = isNonCurrencies(selectedCurrency) ? monthlyAmount : monthlyAmount * 100;
+                        newAmount = isNonCurrencies(selectedCurrency.isoCode) ? monthlyAmount : monthlyAmount * 100;
                     }
                     return Object.assign({}, plan, {
                         amount: newAmount

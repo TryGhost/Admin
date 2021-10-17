@@ -188,7 +188,6 @@ export default class GhLaunchWizardSetPricingComponent extends Component {
                 this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, this.currency);
             }
             if (yearlyPrice && yearlyPrice.amount) {
-                this.currency = yearlyPrice.currency;
                 this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, this.currency);
             }
         }

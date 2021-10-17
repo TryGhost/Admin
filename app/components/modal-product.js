@@ -52,7 +52,6 @@ export default class ModalProductPrice extends ModalBase {
             this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, this.currency);
         }
         if (yearlyPrice) {
-            this.currency = yearlyPrice.currency;
             this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, this.currency);
         }
         this.benefits = this.product.get('benefits') || emberA([]);
