@@ -10,6 +10,5 @@ export function ghPriceAmount(amount, currency) {
 
 // like {{pluralize}} but formats the number according to current locale
 export default helper(function ([amount, currency]) {
-    //return ghPriceAmount(amount, currency);
-    return ghPriceAmount(amount, 'JPY');
+    return ghPriceAmount(amount, currency);
 });
