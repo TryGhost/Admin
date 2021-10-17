@@ -130,7 +130,7 @@ export function getSymbol(currency) {
 }
 
 export function getNonDecimal(amount, currency) {
-	if (non_dec_currencies) {
+	if (-1 != non_dec_currencies.indexOf(currency)) {
 		return amount;
 	}
 	else {
