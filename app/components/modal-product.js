@@ -2,7 +2,7 @@ import EmberObject, {action} from '@ember/object';
 import ModalBase from 'ghost-admin/components/modal-base';
 import ProductBenefitItem from '../models/product-benefit-item';
 import classic from 'ember-classic-decorator';
-import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, non_dec_currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {A as emberA} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
@@ -104,8 +104,8 @@ export default class ModalProductPrice extends ModalBase {
             yield this.send('addBenefit', this.newBenefit);
         }
 
-        const monthlyAmount = this.stripeMonthlyAmount * 100;
-        const yearlyAmount = this.stripeYearlyAmount * 100;
+        const monthlyAmount = (-1 != non_dec_currencies.indexOf(this.currency)) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+        const yearlyAmount = (-1 != non_dec_currencies.indexOf(this.currency)) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
         this.product.set('monthlyPrice', {
             nickname: 'Monthly',
             amount: monthlyAmount,
