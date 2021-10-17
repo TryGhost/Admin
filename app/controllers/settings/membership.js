@@ -66,10 +66,10 @@ export default class MembersAccessController extends Controller {
             const monthlyPrice = this.product.get('monthlyPrice');
             const yearlyPrice = this.product.get('yearlyPrice');
 
-            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, this.currency)) {
+            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, 'JPY')) {
                 return true;
             }
-            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, this.currency)) {
+            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, 'JPY')) {
                 return true;
             }
         }
