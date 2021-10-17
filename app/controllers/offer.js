@@ -100,8 +100,8 @@ export default class OffersController extends Controller {
             const productCurrency = product.monthlyPrice.currency;
             const productCurrencySymbol = productCurrency.toUpperCase();
 
-            monthlyLabel = `${product.name} - Monthly (${ghPriceAmount(product.monthlyPrice.amount)} ${productCurrencySymbol})`;
-            yearlyLabel = `${product.name} - Yearly (${ghPriceAmount(product.yearlyPrice.amount)} ${productCurrencySymbol})`;
+            monthlyLabel = `${product.name} - Monthly (${ghPriceAmount(product.monthlyPrice.amount, product.monthlyPrice.currency)} ${productCurrencySymbol})`;
+            yearlyLabel = `${product.name} - Yearly (${ghPriceAmount(product.yearlyPrice.amount, product.yearlyPrice.currency)} ${productCurrencySymbol})`;
 
             cadences.push({
                 label: monthlyLabel,

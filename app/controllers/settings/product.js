@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import EmberObject, {action} from '@ember/object';
-import {getNonDecimal} from 'ghost-admin/utils/currency';
+import {getNonDecimal, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -91,14 +91,14 @@ export default class ProductController extends Controller {
     @action
     async archivePrice(price) {
         price.active = false;
-        price.amount = price.amount * 100;
+        price.amount = isNonCurrencies(price.currency) ? price.amount : price.amount * 100;
         this.send('savePrice', price);
     }
 
     @action
     async activatePrice(price) {
         price.active = true;
-        price.amount = price.amount * 100;
+        price.amount = isNonCurrencies(price.currency) ? price.amount : price.amount * 100;
         this.send('savePrice', price);
     }
 
