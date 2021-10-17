@@ -130,11 +130,7 @@ export function getSymbol(currency) {
 }
 
 export function isNonCurrencies(currency) {
-    if (typeof(currency) === typeof('')) {
-        return (-1 !== nonDecCurrencies.indexOf(currency));
-    } else {
-        return (-1 !== nonDecCurrencies.indexOf(currency.isoCode));
-    }
+    return (-1 !== nonDecCurrencies.indexOf(currency.toUpperCase()));
 }
 
 export function getNonDecimal(amount, currency) {
