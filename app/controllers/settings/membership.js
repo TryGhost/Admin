@@ -66,10 +66,10 @@ export default class MembersAccessController extends Controller {
             const monthlyPrice = this.product.get('monthlyPrice');
             const yearlyPrice = this.product.get('yearlyPrice');
 
-            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, 'JPY')) {
+            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, this.currency)) {
                 return true;
             }
-            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, 'JPY')) {
+            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, this.currency)) {
                 return true;
             }
         }
@@ -154,6 +154,11 @@ export default class MembersAccessController extends Controller {
             const symbol = getSymbol(this.currency);
             if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
                 throw new TypeError(`Subscription amount must be at least ${symbol}1.00`);
+            }
+            const mp = this.product.get('monthlyPrice');
+            const yp = this.product.get('yearlyPrice');
+            if (yearlyAmount === monthlyAmount) {
+                throw new TypeError(`c:"${this.currency}", sYA:"${this.stripeYearlyAmount}", sMA:"${this.stripeMonthlyAmount}", mp.c: "${mp?.currency}", mp.a: "${mp?.amount}", yp.a: "${yp?.amount}"`);
             }
 
             if (updatePortalPreview) {
