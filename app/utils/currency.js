@@ -130,15 +130,16 @@ export function getSymbol(currency) {
 }
 
 export function isNonCurrencies(currency) {
-    return (-1 !== nonDecCurrencies.indexOf(currency));
+    return true;
+    //return (-1 !== nonDecCurrencies.indexOf(currency));
 }
 
 export function getNonDecimal(amount, currency) {
-    //if (isNonCurrencies(currency)) {
-    //    return amount;
-    //} else {
-    return amount / 100;
-    //}
+    if (isNonCurrencies(currency)) {
+        return amount;
+    } else {
+        return amount / 100;
+    }
 }
 
 export function getCurrencyOptions() {
