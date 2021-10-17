@@ -2,7 +2,7 @@ import EmberObject, {action} from '@ember/object';
 import ModalBase from 'ghost-admin/components/modal-base';
 import ProductBenefitItem from '../models/product-benefit-item';
 import classic from 'ember-classic-decorator';
-import {currencies, getNonDecimal, isNonCurrencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getCurrencyOptions, getNonDecimal, getSymbol, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {A as emberA} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';

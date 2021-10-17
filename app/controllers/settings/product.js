@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
 import EmberObject, {action} from '@ember/object';
+import {getNonDecimal} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
-import {getNonDecimal} from 'ghost-admin/utils/currency';
 
 export default class ProductController extends Controller {
     @service config;

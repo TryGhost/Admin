@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
-import {currencies, getNonDecimal, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getCurrencyOptions, getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';

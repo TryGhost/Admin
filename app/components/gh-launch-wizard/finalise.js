@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 import {htmlSafe} from '@ember/template';
+import {isNonCurrencies} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
-import {isNonCurrencies} from 'ghost-admin/utils/currency';
 
 export default class GhLaunchWizardFinaliseComponent extends Component {
     @service feature;

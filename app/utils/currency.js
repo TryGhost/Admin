@@ -121,8 +121,8 @@ export const currencies = [
     {isoCode: 'ZMW', name: 'Zambian kwacha'}
 ];
 
-const non_dec_currencies = [
-	"JPY"
+const nonDecCurrencies = [
+    'JPY'
 ];
 
 export function getSymbol(currency) {
@@ -130,16 +130,15 @@ export function getSymbol(currency) {
 }
 
 export function isNonCurrencies(currency) {
-	return (-1 != non_dec_currencies.indexOf(currency));
+    return (-1 !== nonDecCurrencies.indexOf(currency));
 }
 
 export function getNonDecimal(amount, currency) {
-	if (isNonCurrencies(currency)) {
-		return amount;
-	}
-	else {
-		return amount / 100;
-	}
+    if (isNonCurrencies(currency)) {
+        return amount;
+    } else {
+        return amount / 100;
+    }
 }
 
 export function getCurrencyOptions() {
