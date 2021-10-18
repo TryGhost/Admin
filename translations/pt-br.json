@@ -2113,7 +2113,8 @@
             "Enable_recording_of_member_activity_for_analytics": "Permitir o registro da atividade do membro para análises",
             "Provide_targeted_discounts_to_new_signups": "Ofereça descontos direcionados a novas inscrições",
             "Fund_your_work_with_subscription_revenue_Connect_your_Stripe_account_and_offer_premium_content_to_your_audience_Our_creators_are_already_making_over_5_million_per_year_while": "Financie seu trabalho com a receita de assinaturas. Conecte sua conta Stripe e ofereça conteúdo premium para seu público. Nossos criadores já estão ganhando mais de $ 5 milhões por ano, enquanto ",
-            "Ghost_takes_0_payment_fees": "Ghost cobra 0% de taxas de pagamento"
+            "Ghost_takes_0_payment_fees": "Ghost cobra 0% de taxas de pagamento",
+            "Make_Ghost_work_with_apps_and_tools": "Faça o Ghost funcionar com aplicativos e ferramentas"
         },
 
         "JS": {

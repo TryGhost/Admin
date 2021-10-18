@@ -2114,7 +2114,8 @@
             "Enable_recording_of_member_activity_for_analytics": "Enable recording of member activity for analytics",
             "Provide_targeted_discounts_to_new_signups": "Provide targeted discounts to new signups",
             "Fund_your_work_with_subscription_revenue_Connect_your_Stripe_account_and_offer_premium_content_to_your_audience_Our_creators_are_already_making_over_5_million_per_year_while": "Fund your work with subscription revenue. Connect your Stripe account and offer premium content to your audience. Our creators are already making over $5 million per year, while ",
-            "Ghost_takes_0_payment_fees": "Ghost takes 0% payment fees"
+            "Ghost_takes_0_payment_fees": "Ghost takes 0% payment fees",
+            "Make_Ghost_work_with_apps_and_tools": "Make Ghost work with apps and tools"
         },
 
         "JS": {
