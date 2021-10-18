@@ -670,12 +670,20 @@ export default Controller.extend({
     }).group('saveTasks'),
 
     // convenience method for saving the post and performing post-save cleanup
-    _savePostTask: task(function* (options) {
+    _savePostTask: task(function* (options = {}) {
         let {post} = this;
+
+        const previousEmailOnlyValue = this.post.emailOnly;
+
+        if (Object.prototype.hasOwnProperty.call(options, 'emailOnly')) {
+            this.post.set('emailOnly', options.emailOnly);
+        }
 
         try {
             yield post.save(options);
         } catch (error) {
+            this.post.set('emailOnly', previousEmailOnlyValue);
+
             if (isServerUnreachableError(error)) {
                 const [prevStatus, newStatus] = this.post.changedAttributes().status || [this.post.status, this.post.status];
                 this._showErrorAlert(prevStatus, newStatus, error);

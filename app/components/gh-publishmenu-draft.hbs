@@ -2,7 +2,8 @@
     <header class="gh-publishmenu-heading">{{t "Manual.Others.Ready_to"}}
         {{#if this.showEmailOnlyInput}}
             <GhDistributionActionSelect
-                @post={{@post}}
+                @emailOnly={{@emailOnly}}
+                @emailRecipientFilter={{@recipientsFilter}}
                 @setDistributionAction={{@setDistributionAction}}
             />
         {{else}}
