@@ -8,7 +8,25 @@ export default Component.extend({
     ghostPaths: service(),
     ajax: service(),
     notifications: service(),
+    store: service(),
 
+    isOwner: null,
+    ownerUser: null,
+
+    async init() {
+        this._super(...arguments);
+
+        // Try to receive the owner user from the store
+        let user = this.store.peekAll('user').findBy('isOwnerOnly', true);
+
+        if (!user) {
+            // load it when it's not there yet
+            await this.store.query('user', {isOwnerOnly: true});
+            user = this.store.peekAll('user').findBy('isOwnerOnly', true);
+        }
+
+        this.set('ownerUser', user);
+    },
     didInsertElement() {
         this._super(...arguments);
 
@@ -27,13 +45,21 @@ export default Component.extend({
                         request: 'token',
                         response: token
                     }, '*');
+
+                    this.set('isOwner', true);
                 }).catch((error) => {
                     if (error.payload?.errors && error.payload.errors[0]?.type === 'NoPermissionError') {
-                        // noop - user doesn't have permission to access billing
-                        return;
-                    }
+                        // no permission means the current user requested the token is not the owner of the site.
+                        this.set('isOwner', false);
 
-                    throw error;
+                        // Avoid letting the BMA waiting for a message and send an empty token response instead
+                        this.billing.getBillingIframe().contentWindow.postMessage({
+                            request: 'token',
+                            response: null
+                        }, '*');
+                    } else {
+                        throw error;
+                    }
                 });
 
                 // NOTE: the handler is placed here to avoid additional logic to check if iframe has loaded
@@ -45,6 +71,27 @@ export default Component.extend({
                         response: 'subscription'
                     }, '*');
                 }
+            }
+
+            if (event && event.data && event.data.request === 'forceUpgradeInfo') {
+                // Send BMA requested information about forceUpgrade and owner name/email
+                let ownerUser = null;
+                const owner = this.get('ownerUser');
+
+                if (owner) {
+                    ownerUser = {
+                        name: owner.get('name'),
+                        email: owner.get('email')
+                    };
+                }
+                this.billing.getBillingIframe().contentWindow.postMessage({
+                    request: 'forceUpgradeInfo',
+                    response: {
+                        forceUpgrade: this.config.get('hostSettings.forceUpgrade'),
+                        isOwner: this.get('isOwner'),
+                        ownerUser
+                    }
+                }, '*');
             }
 
             if (event && event.data && event.data.subscription) {
