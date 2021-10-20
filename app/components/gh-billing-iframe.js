@@ -11,9 +11,6 @@ export default Component.extend({
 
     isOwner: null,
 
-    init() {
-        this._super(...arguments);
-    },
     didInsertElement() {
         this._super(...arguments);
 
