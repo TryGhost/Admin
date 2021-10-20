@@ -53,6 +53,7 @@ export const currencies = [
     {isoCode: 'INR', name: 'Indian rupee'},
     {isoCode: 'ISK', name: 'Icelandic króna'},
     {isoCode: 'JMD', name: 'Jamaican dollar'},
+    {isoCode: 'JPY', name: 'Japanese yen'},
     {isoCode: 'KES', name: 'Kenyan shilling'},
     {isoCode: 'KGS', name: 'Kyrgyzstani som'},
     {isoCode: 'KHR', name: 'Cambodian riel'},
@@ -120,13 +121,24 @@ export const currencies = [
     {isoCode: 'ZMW', name: 'Zambian kwacha'}
 ];
 
+const nonDecCurrencies = [
+    'JPY'
+];
+
 export function getSymbol(currency) {
     return Intl.NumberFormat('en', {currency, style: 'currency'}).format(0).replace(/[\d\s.]/g, '');
 }
 
-// We currently only support decimal currencies
-export function getNonDecimal(amount/*, currency*/) {
-    return amount / 100;
+export function isNonCurrencies(currency) {
+    return (-1 !== nonDecCurrencies.indexOf(currency.toUpperCase()));
+}
+
+export function getNonDecimal(amount, currency) {
+    if (isNonCurrencies(currency)) {
+        return amount;
+    } else {
+        return amount / 100;
+    }
 }
 
 export function getCurrencyOptions() {

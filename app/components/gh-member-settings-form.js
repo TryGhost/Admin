@@ -58,7 +58,7 @@ export default class extends Component {
                 price: {
                     ...sub.price,
                     currencySymbol: getSymbol(sub.price.currency),
-                    nonDecimalAmount: getNonDecimal(sub.price.amount)
+                    nonDecimalAmount: getNonDecimal(sub.price.amount, sub.price.currency)
                 },
                 isComplimentary: !sub.id
             };

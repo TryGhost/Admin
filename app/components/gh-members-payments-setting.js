@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
-import {currencies} from 'ghost-admin/utils/currency';
+import {currencies, getNonDecimal, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
@@ -46,11 +46,11 @@ export default Component.extend({
 
         return {
             monthly: {
-                amount: parseInt(monthly.amount) / 100 || 5,
+                amount: getNonDecimal(monthly.amount, monthly.currency) || 5,
                 currency: monthly.currency
             },
             yearly: {
-                amount: parseInt(yearly.amount) / 100 || 50,
+                amount: getNonDecimal(yearly.amount, yearly.currency) || 50,
                 currency: yearly.currency
             }
         };
@@ -189,9 +189,9 @@ export default Component.extend({
                 if (plan.name !== 'Complimentary') {
                     let newAmount;
                     if (plan.interval === 'year') {
-                        newAmount = yearlyAmount * 100;
+                        newAmount = isNonCurrencies(selectedCurrency.isoCode) ? yearlyAmount : yearlyAmount * 100;
                     } else if (plan.interval === 'month') {
-                        newAmount = monthlyAmount * 100;
+                        newAmount = isNonCurrencies(selectedCurrency.isoCode) ? monthlyAmount : monthlyAmount * 100;
                     }
                     return Object.assign({}, plan, {
                         amount: newAmount

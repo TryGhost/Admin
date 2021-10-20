@@ -1,8 +1,9 @@
+import {getNonDecimal} from 'ghost-admin/utils/currency';
 import {helper} from '@ember/component/helper';
 
-export function ghPriceAmount(amount) {
+export function ghPriceAmount(amount, currency) {
     if (amount) {
-        let price = amount / 100;
+        let price = getNonDecimal(amount, currency);
         if (price % 1 === 0) {
             return price;
         } else {
@@ -13,6 +14,6 @@ export function ghPriceAmount(amount) {
 }
 
 // like {{pluralize}} but formats the number according to current locale
-export default helper(function ([amount]) {
-    return ghPriceAmount(amount);
+export default helper(function ([amount, currency]) {
+    return ghPriceAmount(amount, currency);
 });

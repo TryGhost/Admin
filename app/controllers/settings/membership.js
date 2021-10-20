@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
-import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getCurrencyOptions, getNonDecimal, getSymbol, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency-decorators';
 import {tracked} from '@glimmer/tracking';
@@ -62,17 +62,17 @@ export default class MembersAccessController extends Controller {
     }
 
     get hasChangedPrices() {
-        if (this.product) {
-            const monthlyPrice = this.product.get('monthlyPrice');
-            const yearlyPrice = this.product.get('yearlyPrice');
+        //if (this.product) {
+        //    const monthlyPrice = this.product.get('monthlyPrice');
+        //    const yearlyPrice = this.product.get('yearlyPrice');
 
-            if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== (monthlyPrice.amount / 100)) {
-                return true;
-            }
-            if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== (yearlyPrice.amount / 100)) {
-                return true;
-            }
-        }
+        //    if (monthlyPrice?.amount && parseFloat(this.stripeMonthlyAmount) !== getNonDecimal(monthlyPrice.amount, this.currency)) {
+        //        return true;
+        //    }
+        //    if (yearlyPrice?.amount && parseFloat(this.stripeYearlyAmount) !== getNonDecimal(yearlyPrice.amount, this.currency)) {
+        //        return true;
+        //    }
+        //}
 
         return false;
     }
@@ -155,6 +155,11 @@ export default class MembersAccessController extends Controller {
             if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
                 throw new TypeError(`Subscription amount must be at least ${symbol}1.00`);
             }
+            //const mp = this.product.get('monthlyPrice');
+            //const yp = this.product.get('yearlyPrice');
+            //if (yearlyAmount === monthlyAmount) {
+            //    throw new TypeError(`c:"${this.currency}", sYA:"${this.stripeYearlyAmount}", sMA:"${this.stripeMonthlyAmount}", mp.c: "${mp?.currency}", mp.a: "${mp?.amount}", yp.a: "${yp?.amount}"`);
+            //}
 
             if (updatePortalPreview) {
                 this.updatePortalPreview();
@@ -228,8 +233,8 @@ export default class MembersAccessController extends Controller {
     @action
     updatePortalPreview({forceRefresh} = {forceRefresh: false}) {
         // TODO: can these be worked out from settings in membersUtils?
-        const monthlyPrice = this.stripeMonthlyAmount * 100;
-        const yearlyPrice = this.stripeYearlyAmount * 100;
+        const monthlyPrice = isNonCurrencies(this.currency) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+        const yearlyPrice = isNonCurrencies(this.currency) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
         let portalPlans = this.settings.get('portalPlans') || [];
 
         let isMonthlyChecked = portalPlans.includes('monthly');
@@ -298,12 +303,14 @@ export default class MembersAccessController extends Controller {
         if (product) {
             const monthlyPrice = product.get('monthlyPrice');
             const yearlyPrice = product.get('yearlyPrice');
-            if (monthlyPrice && monthlyPrice.amount) {
-                this.stripeMonthlyAmount = (monthlyPrice.amount / 100);
+            if (monthlyPrice && monthlyPrice.currency) {
                 this.currency = monthlyPrice.currency;
             }
+            if (monthlyPrice && monthlyPrice.amount) {
+                this.stripeMonthlyAmount = getNonDecimal(monthlyPrice.amount, this.currency);
+            }
             if (yearlyPrice && yearlyPrice.amount) {
-                this.stripeYearlyAmount = (yearlyPrice.amount / 100);
+                this.stripeYearlyAmount = getNonDecimal(yearlyPrice.amount, this.currency);
             }
             this.updatePortalPreview();
         }
@@ -352,8 +359,8 @@ export default class MembersAccessController extends Controller {
     async saveProduct() {
         const isStripeConnected = this.settings.get('stripeConnectAccountId');
         if (this.product && isStripeConnected) {
-            const monthlyAmount = this.stripeMonthlyAmount * 100;
-            const yearlyAmount = this.stripeYearlyAmount * 100;
+            const monthlyAmount = isNonCurrencies(this.currency) ? this.stripeMonthlyAmount : this.stripeMonthlyAmount * 100;
+            const yearlyAmount = isNonCurrencies(this.currency) ? this.stripeYearlyAmount : this.stripeYearlyAmount * 100;
 
             this.product.set('monthlyPrice', {
                 nickname: 'Monthly',
@@ -381,8 +388,8 @@ export default class MembersAccessController extends Controller {
         const monthlyPrice = this.product.get('monthlyPrice');
         const yearlyPrice = this.product.get('yearlyPrice');
 
-        this.stripeMonthlyAmount = monthlyPrice ? (monthlyPrice.amount / 100) : 5;
-        this.stripeYearlyAmount = yearlyPrice ? (yearlyPrice.amount / 100) : 50;
+        this.stripeMonthlyAmount = monthlyPrice ? getNonDecimal(monthlyPrice.amount, this.currency) : 5;
+        this.stripeYearlyAmount = yearlyPrice ? getNonDecimal(yearlyPrice.amount, this.currency) : 50;
     }
 
     reset() {

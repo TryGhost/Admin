@@ -2,7 +2,7 @@ import Controller, {inject as controller} from '@ember/controller';
 import config from 'ghost-admin/config/environment';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {action} from '@ember/object';
-import {getSymbol} from 'ghost-admin/utils/currency';
+import {getSymbol, isNonCurrencies} from 'ghost-admin/utils/currency';
 import {ghPriceAmount} from '../helpers/gh-price-amount';
 import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
@@ -105,8 +105,8 @@ export default class OffersController extends Controller {
             const productCurrency = product.monthlyPrice.currency;
             const productCurrencySymbol = productCurrency.toUpperCase();
 
-            monthlyLabel = `${product.name} - Monthly (${ghPriceAmount(product.monthlyPrice.amount)} ${productCurrencySymbol})`;
-            yearlyLabel = `${product.name} - Yearly (${ghPriceAmount(product.yearlyPrice.amount)} ${productCurrencySymbol})`;
+            monthlyLabel = `${product.name} - Monthly (${ghPriceAmount(product.monthlyPrice.amount, product.monthlyPrice.currency)} ${productCurrencySymbol})`;
+            yearlyLabel = `${product.name} - Yearly (${ghPriceAmount(product.yearlyPrice.amount, product.yearlyPrice.currency)} ${productCurrencySymbol})`;
 
             cadences.push({
                 label: monthlyLabel,
@@ -288,9 +288,10 @@ export default class OffersController extends Controller {
         if (!this.isDiscountSectionDisabled) {
             this._saveOfferProperty('type', discountType);
             if (this.offer.type === 'fixed' && this.offer.amount !== '') {
-                this.offer.amount = this.offer.amount * 100;
+                this.offer.amount = isNonCurrencies(this.offer.currency) ? this.offer.amount : this.offer.amount * 100;
             } else if (this.offer.amount !== '') {
                 this.offer.amount = this.offer.amount / 100;
+                this.offer.amount = isNonCurrencies(this.offer.currency) ? this.offer.amount : this.offer.amount / 100;
             }
             this.updatePortalPreview({forceRefresh: false});
         }
@@ -300,7 +301,7 @@ export default class OffersController extends Controller {
     setDiscountAmount(e) {
         let amount = e.target.value;
         if (this.offer.type === 'fixed' && amount !== '') {
-            amount = parseFloat(amount) * 100;
+            amount = isNonCurrencies(this.offer.currency) ? parseInt(amount) : parseInt(amount) * 100;
         }
         this._saveOfferProperty('amount', amount);
     }
