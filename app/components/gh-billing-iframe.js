@@ -11,21 +11,9 @@ export default Component.extend({
     store: service(),
 
     isOwner: null,
-    ownerUser: null,
 
-    async init() {
+    init() {
         this._super(...arguments);
-
-        // Try to receive the owner user from the store
-        let user = this.store.peekAll('user').findBy('isOwnerOnly', true);
-
-        if (!user) {
-            // load it when it's not there yet
-            await this.store.query('user', {isOwnerOnly: true});
-            user = this.store.peekAll('user').findBy('isOwnerOnly', true);
-        }
-
-        this.set('ownerUser', user);
     },
     didInsertElement() {
         this._super(...arguments);
@@ -76,8 +64,7 @@ export default Component.extend({
             if (event && event.data && event.data.request === 'forceUpgradeInfo') {
                 // Send BMA requested information about forceUpgrade and owner name/email
                 let ownerUser = null;
-                const owner = this.get('ownerUser');
-
+                const owner = this.billing.get('ownerUser');
                 if (owner) {
                     ownerUser = {
                         name: owner.get('name'),
