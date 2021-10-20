@@ -8,7 +8,6 @@ export default Component.extend({
     ghostPaths: service(),
     ajax: service(),
     notifications: service(),
-    store: service(),
 
     isOwner: null,
 
@@ -37,7 +36,7 @@ export default Component.extend({
                     this.set('isOwner', true);
                 }).catch((error) => {
                     if (error.payload?.errors && error.payload.errors[0]?.type === 'NoPermissionError') {
-                        // no permission means the current user requested the token is not the owner of the site.
+                        // no permission means the current user requesting the token is not the owner of the site.
                         this.set('isOwner', false);
 
                         // Avoid letting the BMA waiting for a message and send an empty token response instead
