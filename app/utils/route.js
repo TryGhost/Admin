@@ -13,6 +13,7 @@ Route.reopen({
                 this.upgradeStatus.requireUpgrade();
                 return false;
             } else if (this.config.get('hostSettings.forceUpgrade')) {
+                transition.abort();
                 // Catch and redirect every route in a force upgrade state
                 this.billing.openBillingWindow(this.router.currentURL, '/pro');
                 return false;
