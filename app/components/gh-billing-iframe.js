@@ -60,11 +60,12 @@ export default Component.extend({
             if (event && event.data && event.data.request === 'forceUpgradeInfo') {
                 // Send BMA requested information about forceUpgrade and owner name/email
                 let ownerUser = null;
-                const owner = this.billing.get('ownerUser');
+                const owner = this.billing.ownerUser;
+
                 if (owner) {
                     ownerUser = {
-                        name: owner.get('name'),
-                        email: owner.get('email')
+                        name: owner?.name,
+                        email: owner?.email
                     };
                 }
                 this.billing.getBillingIframe().contentWindow.postMessage({
