@@ -38,6 +38,7 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
     tour: service(),
     ui: service(),
     whatsNew: service(),
+    billing: service(),
 
     shortcuts,
 
@@ -208,6 +209,11 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
             transition.send('authorizationFailed');
         } else {
             run.scheduleOnce('routerTransitions', this, 'send', 'authorizationFailed');
+        }
+
+        if (this.config.get('hostSettings.forceUpgrade')) {
+            // enforce opening the BMA in a force upgrade state
+            this.billing.openBillingWindow(this.router.currentURL, '/pro');
         }
     }
 });
