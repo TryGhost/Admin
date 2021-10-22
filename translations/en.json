@@ -2077,7 +2077,6 @@
             "Account_Plans": "Account/Plans",
             "Account_Profile": "Account/Profile",
             "Sort_by": "Sort by: ",
-
             "All_events_related_to_this_member_will_be_shown_here": "All events related to this member will be shown here.",
             "No_subscriptions": "No subscriptions",
             "This_member_doesnt_have_any_subscriptions": "This member doesn't have any subscriptions.",
@@ -2177,7 +2176,33 @@
             "Updated": "Updated",
             "Unscheduled": "Unscheduled",
             "Rescheduled": "Rescheduled",
-            "undefined": "undefined"
+            "undefined": "undefined",
+            "Label": "Label",
+            "Newsletter_subscription": "Newsletter subscription",
+            "Member_status": "Member status",
+            "Billing_period": "Billing period",
+            "Stripe_subscription_status": "Stripe subscription status",
+            "Emails_sent_all_time": "Emails sent (all time)",
+            "Emails_opened_all_time": "Emails opened (all time)",
+            "Open_rate_all_time": "Open rate (all time)",
+            "is": "is",
+            "is_not": "is not",
+            "is_greater_than": "is greater than",
+            "is_less_than": "is less than",
+            "Monthly": "Monthly",
+            "Yearly": "Yearly",
+            "Paid": "Paid",
+            "Free": "Free",
+            "Complimentary": "Complimentary",
+            "Subscribed": "Subscribed",
+            "Unsubscribed": "Unsubscribed",
+            "Active": "Active",
+            "Trialing": "Trialing",
+            "Canceled": "Canceled",
+            "Unpaid": "Unpaid",
+            "Past_Due": "Past Due",
+            "Incomplete": "Incomplete",
+            "Incomplete_Expired": "Incomplete - Expired"
         }
     }
 }
