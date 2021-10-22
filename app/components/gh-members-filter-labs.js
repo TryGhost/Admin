@@ -4,111 +4,60 @@ import nql from '@nexes/nql-lang';
 import {A} from '@ember/array';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
-const FILTER_PROPERTIES = [
-    // Basic
-    // {label: 'Name', name: 'name', group: 'Basic'},
-    // {label: 'Email', name: 'email', group: 'Basic'},
-    // {label: 'Location', name: 'location', group: 'Basic'},
-    {label: 'Label', name: 'label', group: 'Basic'},
-    {label: 'Newsletter subscription', name: 'subscribed', group: 'Basic'},
-
-    // Member subscription
-    {label: 'Member status', name: 'status', group: 'Subscription'},
-    // {label: 'Tier', name: 'tier', group: 'Subscription'},
-    {label: 'Billing period', name: 'subscriptions.plan_interval', group: 'Subscription'},
-    {label: 'Stripe subscription status', name: 'subscriptions.status', group: 'Subscription'},
-
-    // Emails
-    {label: 'Emails sent (all time)', name: 'email_count', group: 'Email'},
-    {label: 'Emails opened (all time)', name: 'email_opened_count', group: 'Email'},
-    {label: 'Open rate (all time)', name: 'email_open_rate', group: 'Email'}
-    // {label: 'Emails sent (30 days)', name: 'x', group: 'Email'},
-    // {label: 'Emails opened (30 days)', name: 'x', group: 'Email'},
-    // {label: 'Open rate (30 days)', name: 'x', group: 'Email'},
-    // {label: 'Emails sent (60 days)', name: 'x', group: 'Email'},
-    // {label: 'Emails opened (60 days)', name: 'x', group: 'Email'},
-    // {label: 'Open rate (60 days)', name: 'x', group: 'Email'},
-];
-
-const FILTER_RELATIONS_OPTIONS = {
-    subscribed: [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    name: [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    email: [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    status: [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    'subscriptions.plan_interval': [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    'subscriptions.status': [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    label: [
-        {label: 'is', name: 'is'},
-        {label: 'is not', name: 'is-not'}
-    ],
-    email_count: [
-        {label: 'is', name: 'is'},
-        {label: 'is greater than', name: 'is-greater'},
-        {label: 'is less than', name: 'is-less'}
-    ],
-    email_opened_count: [
-        {label: 'is', name: 'is'},
-        {label: 'is greater than', name: 'is-greater'},
-        {label: 'is less than', name: 'is-less'}
-    ],
-    email_open_rate: [
-        {label: 'is', name: 'is'},
-        {label: 'is greater than', name: 'is-greater'},
-        {label: 'is less than', name: 'is-less'}
-    ]
-};
-
-const FILTER_VALUE_OPTIONS = {
-    'subscriptions.plan_interval': [
-        {label: 'Monthly', name: 'month'},
-        {label: 'Yearly', name: 'year'}
-    ],
-    status: [
-        {label: 'Paid', name: 'paid'},
-        {label: 'Free', name: 'free'},
-        {label: 'Complimentary', name: 'comped'}
-    ],
-    subscribed: [
-        {label: 'Subscribed', name: 'true'},
-        {label: 'Unsubscribed', name: 'false'}
-    ],
-    'subscriptions.status': [
-        {label: 'Active', name: 'active'},
-        {label: 'Trialing', name: 'trialing'},
-        {label: 'Canceled', name: 'canceled'},
-        {label: 'Unpaid', name: 'unpaid'},
-        {label: 'Past Due', name: 'past_due'},
-        {label: 'Incomplete', name: 'incomplete'},
-        {label: 'Incomplete - Expired', name: 'incomplete_expired'}
-    ]
-};
 export default class GhMembersFilterLabsComponent extends Component {
     @service session
+    @service intl
     @tracked filters = A([
         EmberObject.create({
             id: `filter-0`,
             type: 'label',
             relation: 'is',
             value: [],
-            relationOptions: FILTER_RELATIONS_OPTIONS.label
+            relationOptions: {
+                subscribed: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                name: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                email: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                status: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                'subscriptions.plan_interval': [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                'subscriptions.status': [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                label: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+                ],
+                email_count: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                    {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+                ],
+                email_opened_count: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                    {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+                ],
+                email_open_rate: [
+                    {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                    {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                    {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+                ]
+            }.label
         })
     ]);
 
@@ -118,9 +67,90 @@ export default class GhMembersFilterLabsComponent extends Component {
 
     constructor(...args) {
         super(...args);
-        this.availableFilterProperties = FILTER_PROPERTIES;
-        this.availableFilterRelationsOptions = FILTER_RELATIONS_OPTIONS;
-        this.availableFilterValueOptions = FILTER_VALUE_OPTIONS;
+        this.availableFilterProperties = [
+            // Basic
+            {label: this.intl.t('Manual.JS.Label'), name: 'label', group: 'Basic'},
+            {label: this.intl.t('Manual.JS.Newsletter_subscription'), name: 'subscribed', group: 'Basic'},
+
+            // Member subscription
+            {label: this.intl.t('Manual.JS.Member_status'), name: 'status', group: 'Subscription'},
+            {label: this.intl.t('Manual.JS.Billing_period'), name: 'subscriptions.plan_interval', group: 'Subscription'},
+            {label: this.intl.t('Manual.JS.Stripe_subscription_status'), name: 'subscriptions.status', group: 'Subscription'},
+
+            // Emails
+            {label: this.intl.t('Manual.JS.Emails_sent_all_time'), name: 'email_count', group: 'Email'},
+            {label: this.intl.t('Manual.JS.Emails_opened_all_time'), name: 'email_opened_count', group: 'Email'},
+            {label: this.intl.t('Manual.JS.Open_rate_all_time'), name: 'email_open_rate', group: 'Email'}
+        ];
+        this.availableFilterRelationsOptions = {
+            subscribed: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            name: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            email: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            status: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            'subscriptions.plan_interval': [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            'subscriptions.status': [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            label: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_not'), name: 'is-not'}
+            ],
+            email_count: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+            ],
+            email_opened_count: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+            ],
+            email_open_rate: [
+                {label: this.intl.t('Manual.JS.is'), name: 'is'},
+                {label: this.intl.t('Manual.JS.is_greater_than'), name: 'is-greater'},
+                {label: this.intl.t('Manual.JS.is_less_than'), name: 'is-less'}
+            ]
+        };
+        this.availableFilterValueOptions = {
+            'subscriptions.plan_interval': [
+                {label: this.intl.t('Manual.JS.Monthly'), name: 'month'},
+                {label: this.intl.t('Manual.JS.Yearly'), name: 'year'}
+            ],
+            status: [
+                {label: this.intl.t('Manual.JS.Paid'), name: 'paid'},
+                {label: this.intl.t('Manual.JS.Free'), name: 'free'},
+                {label: this.intl.t('Manual.JS.Complimentary'), name: 'comped'}
+            ],
+            subscribed: [
+                {label: this.intl.t('Manual.JS.Subscribed'), name: 'true'},
+                {label: this.intl.t('Manual.JS.Unsubscribed'), name: 'false'}
+            ],
+            'subscriptions.status': [
+                {label: this.intl.t('Manual.JS.Active'), name: 'active'},
+                {label: this.intl.t('Manual.JS.Trialing'), name: 'trialing'},
+                {label: this.intl.t('Manual.JS.Canceled'), name: 'canceled'},
+                {label: this.intl.t('Manual.JS.Unpaid'), name: 'unpaid'},
+                {label: this.intl.t('Manual.JS.Past_Due'), name: 'past_due'},
+                {label: this.intl.t('Manual.JS.Incomplete'), name: 'incomplete'},
+                {label: this.intl.t('Manual.JS.Incomplete_Expired'), name: 'incomplete_expired'}
+            ]
+        };
         this.nextFilterId = 1;
         if (this.args.defaultFilterParam) {
             this.parseNqlFilter(this.args.defaultFilterParam);
@@ -134,7 +164,7 @@ export default class GhMembersFilterLabsComponent extends Component {
             type: 'label',
             relation: 'is',
             value: [],
-            relationOptions: FILTER_RELATIONS_OPTIONS.label
+            relationOptions: this.availableFilterRelationsOptions.label
         }));
         this.nextFilterId = this.nextFilterId + 1;
         this.applySoftFilter();
@@ -174,7 +204,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                     type: key,
                     relation: 'is',
                     value: value.$in,
-                    relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                    relationOptions: this.availableFilterRelationsOptions[key]
                 });
             }
             if (value.$nin !== undefined && key === 'label') {
@@ -184,7 +214,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                     type: key,
                     relation: 'is-not',
                     value: value.$nin,
-                    relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                    relationOptions: this.availableFilterRelationsOptions[key]
                 });
             }
             if (value.$ne !== undefined) {
@@ -194,7 +224,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                     type: key,
                     relation: 'is-not',
                     value: value.$ne,
-                    relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                    relationOptions: this.availableFilterRelationsOptions[key]
                 });
             }
             if (value.$gt !== undefined) {
@@ -204,7 +234,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                     type: key,
                     relation: 'is-greater',
                     value: value.$gt ,
-                    relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                    relationOptions: this.availableFilterRelationsOptions[key]
                 });
             }
 
@@ -215,7 +245,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                     type: key,
                     relation: 'is-less',
                     value: value.$lt,
-                    relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                    relationOptions: this.availableFilterRelationsOptions[key]
                 });
             }
             return null;
@@ -226,13 +256,13 @@ export default class GhMembersFilterLabsComponent extends Component {
                 type: key,
                 relation: 'is',
                 value: value,
-                relationOptions: FILTER_RELATIONS_OPTIONS[key]
+                relationOptions: this.availableFilterRelationsOptions[key]
             });
         }
     }
 
     parseNqlFilter(filterParam) {
-        const validKeys = Object.keys(FILTER_RELATIONS_OPTIONS);
+        const validKeys = Object.keys(this.availableFilterRelationsOptions);
         const filters = nql.parse(filterParam);
         const filterKeys = Object.keys(filters);
         let filterData = [];
@@ -347,7 +377,7 @@ export default class GhMembersFilterLabsComponent extends Component {
                 type: 'label',
                 relation: 'is',
                 value: [],
-                relationOptions: FILTER_RELATIONS_OPTIONS.label
+                relationOptions: this.availableFilterRelationsOptions.label
             })
         ]);
         this.args.onResetFilter();
