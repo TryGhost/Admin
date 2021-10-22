@@ -72,7 +72,7 @@ export default Component.extend({
                     request: 'forceUpgradeInfo',
                     response: {
                         forceUpgrade: this.config.get('hostSettings.forceUpgrade'),
-                        isOwner: this.get('isOwner'),
+                        isOwner: this.isOwner,
                         ownerUser
                     }
                 }, '*');
