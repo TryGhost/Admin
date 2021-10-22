@@ -61,7 +61,7 @@ export default Service.extend({
 
             if (!user) {
                 // load it when it's not there yet
-                await this.store.query('user', {isOwnerOnly: true});
+                await this.store.findAll('user');
                 user = this.store.peekAll('user').findBy('isOwnerOnly', true);
             }
             this.set('ownerUser', user);
