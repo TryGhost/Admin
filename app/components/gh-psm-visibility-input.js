@@ -2,14 +2,9 @@ import Component from '@ember/component';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 
-const VISIBILITIES = [
-    {label: 'Public', name: 'public'},
-    {label: 'Members only', name: 'members'},
-    {label: 'Paid-members only', name: 'paid'}
-];
-
 export default Component.extend({
 
+    intl: service(),
     settings: service(),
     feature: service(),
 
@@ -22,10 +17,14 @@ export default Component.extend({
 
     init() {
         this._super(...arguments);
-        this.availableVisibilities = [...VISIBILITIES];
+        this.availableVisibilities = [
+            {label: this.intl.t('Manual.Settings.Public'), name: 'public'},
+            {label: this.intl.t('Manual.Settings.Members_only'), name: 'members'},
+            {label: this.intl.t('Manual.Settings.Paid-members_only'), name: 'paid'}
+        ];
         if (this.feature.get('multipleProducts')) {
             this.availableVisibilities.push(
-                {label: 'Specific tier(s)', name: 'filter'}
+                {label: this.intl.t('Manual.Others.Specific_tier_s'), name: 'filter'}
             );
         }
     },
