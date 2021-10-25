@@ -316,20 +316,20 @@
                 {{#if (eq @member.emailCount 0)}}
                     <div class="gh-members-no-data gh-members-no-stats">
                         <span class="lightgrey">{{svg-jar "no-data-line-chart"}}</span>
-                        <h4>Email engagement</h4>
+                        <h4>{{t "Manual.Others.Email_engagement"}}</h4>
                         <p>
-                            This member hasn't received a newsletter yet. Once they do, we'll show their engagement here.
+                            {{t "Manual.Others.This_member_hasn_t_received_a_newsletter_yet_Once_they_do_we_ll_show_their_engagement_here"}}
                         </p>
                     </div>
                 {{else}}
-                    <div class="gh-heading-xs">Emails received</div>
+                    <div class="gh-heading-xs">{{t "Manual.Others.Emails_received"}}</div>
                     <div class="gh-data-summary gh-cp-data-summary">{{@member.emailCount}}</div>
-                    <div class="gh-heading-xs">Emails opened</div>
+                    <div class="gh-heading-xs">{{t "Manual.Others.Emails_opened"}}</div>
                     <div class="gh-data-summary gh-cp-data-summary">{{@member.emailOpenedCount}}</div>
-                    <div class="gh-heading-xs">Avg. open rate</div>
+                    <div class="gh-heading-xs">{{t "Manual.Others.Avg_open_rate"}}</div>
                     <div class="gh-data-summary gh-cp-data-summary {{if (is-empty @member.emailOpenRate) "gh-data-unavailable-label"}}">
                         {{#if (is-empty @member.emailOpenRate)}}
-                            This metric is calculated once a member has received 5 newsletters.
+                            {{t "Manual.Others.This_metric_is_calculated_once_a_member_has_received_5_newsletters"}}
                         {{else}}
                             {{@member.emailOpenRate}}%
                         {{/if}}
