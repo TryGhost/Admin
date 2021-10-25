@@ -17,7 +17,7 @@ export default AuthenticatedRoute.extend({
 
         return this.session.user.then((user) => {
             // allow non-owner users to access the BMA when we're in a force upgrade state
-            if (!user.isOwnerOnly && !this.config.get('hostSettings.forceUpgrade')) {
+            if (!user.get('isOwner') && !this.config.get('forceUpgrade')) {
                 return this.transitionTo('home');
             }
 

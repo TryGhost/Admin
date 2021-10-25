@@ -211,7 +211,7 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
             run.scheduleOnce('routerTransitions', this, 'send', 'authorizationFailed');
         }
 
-        if (this.config.get('hostSettings.forceUpgrade')) {
+        if (this.config.get('forceUpgrade')) {
             // enforce opening the BMA in a force upgrade state
             this.billing.openBillingWindow(this.router.currentURL, '/pro');
         }

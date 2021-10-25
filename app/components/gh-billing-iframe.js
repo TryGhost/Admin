@@ -59,19 +59,19 @@ export default Component.extend({
             if (event && event.data && event.data.request === 'forceUpgradeInfo') {
                 // Send BMA requested information about forceUpgrade and owner name/email
                 let ownerUser = null;
-                const owner = this.billing.ownerUser;
+                const owner = this.billing.get('ownerUser');
 
                 if (owner) {
                     ownerUser = {
-                        name: owner?.name,
-                        email: owner?.email
+                        name: owner.get('name'),
+                        email: owner.get('email')
                     };
                 }
                 this.billing.getBillingIframe().contentWindow.postMessage({
                     request: 'forceUpgradeInfo',
                     response: {
-                        forceUpgrade: this.config.get('hostSettings.forceUpgrade'),
-                        isOwner: this.isOwner,
+                        forceUpgrade: this.config.get('forceUpgrade'),
+                        isOwner: this.get('isOwner'),
                         ownerUser
                     }
                 }, '*');

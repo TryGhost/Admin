@@ -57,12 +57,12 @@ export default Service.extend({
     async getOwnerUser() {
         if (!this.get('ownerUser')) {
             // Try to receive the owner user from the store
-            let user = this.store.peekAll('user').findBy('isOwnerOnly', true);
+            let user = this.store.peekAll('user').findBy('isOwner', true);
 
             if (!user) {
                 // load it when it's not there yet
                 await this.store.findAll('user');
-                user = this.store.peekAll('user').findBy('isOwnerOnly', true);
+                user = this.store.peekAll('user').findBy('isOwner', true);
             }
             this.set('ownerUser', user);
         }
@@ -125,6 +125,9 @@ export default Service.extend({
     },
 
     getBillingIframe() {
+        // initiate getting owner user in the background
+        this.getOwnerUser();
+
         return document.getElementById('billing-frame');
     }
 });
