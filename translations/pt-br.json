@@ -2114,7 +2114,13 @@
             "Provide_targeted_discounts_to_new_signups": "Ofereça descontos direcionados a novas inscrições",
             "Fund_your_work_with_subscription_revenue_Connect_your_Stripe_account_and_offer_premium_content_to_your_audience_Our_creators_are_already_making_over_5_million_per_year_while": "Financie seu trabalho com a receita de assinaturas. Conecte sua conta Stripe e ofereça conteúdo premium para seu público. Nossos criadores já estão ganhando mais de $ 5 milhões por ano, enquanto ",
             "Ghost_takes_0_payment_fees": "Ghost cobra 0% de taxas de pagamento",
-            "Make_Ghost_work_with_apps_and_tools": "Faça o Ghost funcionar com aplicativos e ferramentas"
+            "Make_Ghost_work_with_apps_and_tools": "Faça o Ghost funcionar com aplicativos e ferramentas",
+            "Contributor": "Contribuidor",
+            "Owner": "Proprietário",
+            "Email_engagement": "Engajamento por e-mail",
+            "This_member_hasn_t_received_a_newsletter_yet_Once_they_do_we_ll_show_their_engagement_here": "Este membro ainda não recebeu um boletim informativo. Assim que o fizerem, mostraremos seu envolvimento aqui.",
+            "This_metric_is_calculated_once_a_member_has_received_5_newsletters": "Esta métrica é calculada quando um membro recebe 5 boletins informativos.",
+            "Specific_tier_s": "Nível (s) específico (s)"
         },
 
         "JS": {
