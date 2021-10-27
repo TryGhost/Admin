@@ -85,7 +85,7 @@ export default Component.extend({
                     // config might not be updated after a subscription has been set to active.
                     // Until then assume the forceUpgrade is over and the subscription
                     // was activated successfully.
-                    this.config.set('hostSettings.forceUpgrade', false);
+                    this.config.set('forceUpgrade', false);
                 }
 
                 // Detect if the current subscription is in a grace state and render a notification
