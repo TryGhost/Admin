@@ -123,25 +123,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    height: 72px;
-    border-bottom: 1px solid var(--whitegrey);
+    height: 88px;
+    min-height: 88px;
     margin: 0;
     padding: 0 20px;
+    border-bottom: 1px solid var(--whitegrey);
 }
 
 .gh-pe-emailclient-sender p {
+    margin: 2px 0;
     padding: 0;
-    margin: 0;
     color: var(--midlightgrey);
     line-height: 1.8em;
 }
 
 .gh-pe-emailclient-sender span {
-    color: var(--darkgrey);
+    color: var(--black);
+    font-weight: 600;
 }
 
-.gh-pe-emailclient-sender span.strong {
-    font-weight: 600;
+.gh-pe-emailclient-sender .subject {
+    padding: 4px;
+    color: var(--darkgrey);
+    font-weight: 400;
+    border-radius: 3px;
+}
+
+.gh-pe-emailclient-sender .subject:hover {
+    margin-left: -1px;
+    border: 1px solid var(--whitegrey-d2)
+}
+
+.gh-pe-emailclient-sender .subject:hover svg path {
+    fill: var(--green-d1);
 }
 
 .fullscreen-modal-email-preview .gh-pe-mobile-container {

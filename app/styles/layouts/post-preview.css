@@ -169,6 +169,19 @@
     border-radius: 3px;
 }
 
+.gh-post-preview-email-mockup .gh-pe-emailclient-sender svg {
+    margin: 0 0 2px 4px;
+    height: 14px;
+    width: 14px;
+    line-height: 1em;
+    fill: var(--darkgrey);
+    vertical-align: middle;
+}
+
+.gh-post-preview-email-mockup .gh-pe-emailclient-sender svg path {
+    fill: var(--darkgrey);
+}
+
 .gh-post-preview-email-container iframe {
     flex-grow: 1;
     border: none;
