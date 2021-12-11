@@ -1012,3 +1012,7 @@ input:focus,
 .gh-filter-builder .gh-filters {
     background: var(--whitegrey);
 }
+
+kbd {
+    color: #394047;
+}
