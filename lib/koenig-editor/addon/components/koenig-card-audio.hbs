@@ -1,6 +1,6 @@
 <KoenigCard
     @env={{@env}}
-    @class={{"ba b--transparent relative kg-card-hover kg-card kg-upload-card mih10 miw-100 relative" (kg-style "breakout" size=@payload.cardWidth)}}
+    @class={{"ba b--transparent relative kg-card-hover kg-card kg-upload-card kg-audio-card mih10 miw-100 relative" (kg-style "breakout" size=@payload.cardWidth)}}
     @headerOffset={{@headerOffset}}
     @toolbar={{this.toolbar}}
     @payload={{@payload}}
@@ -40,7 +40,7 @@
 
                     {{#if (or uploader.errors uploader.isUploading)}}
                         {{#if uploader.errors}}
-                            <span class="db absolute top-0 right-0 left-0 flex items-center h8 pl2 pr2 bg-red white sans-serif f7">
+                            <span class="db flex items-center h8 pl2 pr2 red sans-serif f6 fw6">
                                 {{uploader.errors.firstObject.message}}
                             </span>
                         {{/if}}
@@ -58,13 +58,7 @@
                         {{else}}
                             <button class="kg-upload-button" {{on "click" this.triggerThumbnailFileDialog}}>
                                 <img src={{@payload.thumbnailSrc}} class="{{kg-style this.kgImgStyle}}">
-                                {{!-- <span class="mt2 midgrey">Click to select an audio</span> --}}
                             </button>
-                            {{!-- <div class="absolute absolute--fill flex items-center bg-black-60 pe-none">
-                                <span class="fw6 f7 white">
-                                    Drop to replace thumbnail
-                                </span>
-                            </div> --}}
                         {{/if}}
                     {{else}}
                         {{#if this.isDraggedOver}}
@@ -78,23 +72,22 @@
                                 <img src={{@payload.thumbnailSrc}} />
                                 <div class="image-overlay">
                                     <div class="flex flex-row-reverse">
-                                        <button class="bg-white-90 br3 pe-auto" {{on "click" this.triggerThumbnailFileDialog}}>
-                                            {{svg-jar "koenig/kg-replace" class="koenig-audio-replace-icon fill-darkgrey"}}
+                                        <button class="bg-white-90 br3 pe-auto" {{on "click" this.deleteThumbnail}}>
+                                            {{svg-jar "koenig/kg-trash" class="kg-replace-icon fill-darkgrey"}}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         {{else}}
-                            <button class="kg-upload-button" {{on "click" this.triggerThumbnailFileDialog}}>
-                                {{svg-jar "audio-file" class="kg-audio-icon"}}
-                                <div class="image-overlay">
-                                    <div class="flex flex-row-reverse">
-                                        <button class="bg-white-90 br3 pe-auto" {{on "click" this.triggerThumbnailFileDialog}}>
-                                            {{svg-jar "upload" class="koenig-audio-upload-icon"}}
-                                        </button>
-                                    </div>
-                                </div>
-                            </button>
+                            {{#if @isEditing}}
+                                <button class="kg-upload-button pointer" {{on "click" this.triggerThumbnailFileDialog}}>
+                                    {{svg-jar "upload" class="kg-audio-upload-icon"}}
+                                </button>
+                            {{else}}
+                                <button class="kg-upload-button">
+                                    {{svg-jar "audio-file" class="kg-audio-icon"}}
+                                </button>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                     <div style="display:none">
@@ -115,20 +108,21 @@
                     @class="kg-upload-title"
                 />
                 <div class="kg-player">
-                    <button class="kg-audio-play-icon">{{svg-jar "play"}}</button>
-                    <button class="kg-audio-pause-icon kg-audio-hide">{{svg-jar "pause"}}</button>
-                    <span class="kg-audio-current-time">0:00</span>
-                    <div class="kg-audio-time">
-                        /<span class="kg-audio-duration">{{this.totalDuration}}</span>
+                    <button class="kg-player-play-icon">{{svg-jar "play"}}</button>
+                    <span class="kg-player-current-time">0:00</span>
+                    <div class="kg-player-time">
+                        /<span class="kg-player-duration">{{this.totalDuration}}</span>
                     </div>
-                    <input type="range" class="kg-audio-seek-slider" max="100" value="0">
-                    <button class="kg-audio-playback-rate">1&#215;</button>
-                    <button class="kg-audio-unmute-icon">{{svg-jar "unmute"}}</button>
-                    <button class="kg-audio-mute-icon kg-audio-hide">{{svg-jar "mute"}}</button>
-                    <input type="range" class="kg-audio-volume-slider" max="100" value="70">
+                    <input type="range" class="kg-player-seek-slider" max="100" value="0">
+                    <button class="kg-player-playback-rate">1&#215;</button>
+                    <button class="kg-player-unmute-icon">{{svg-jar "unmute"}}</button>
+                    <input type="range" class="kg-player-volume-slider" max="100" value="70">
                 </div>
             </div>
         </div>
+        {{#if (not @isEditing)}}
+            <div class="koenig-card-click-overlay"></div>
+        {{/if}}
     {{else}}
         <div class="kg-upload-container kg-upload-container-empty">
             <GhUploader
@@ -144,7 +138,7 @@
             >
                 {{#if (or uploader.errors uploader.isUploading)}}
                     {{#if uploader.errors}}
-                        <span class="db absolute top-0 right-0 left-0 flex items-center h8 pl2 pr2 bg-red white sans-serif f7">
+                        <span class="flex items-center h8 pl2 pr2 red sans-serif f6 fw5">
                             {{uploader.errors.firstObject.message}}
                         </span>
                     {{/if}}
@@ -164,7 +158,7 @@
                     {{else if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else}}
-                        <div {{on "click" this.triggerAudioFileDialog}} class="flex pa4">
+                        <div {{on "click" this.triggerAudioFileDialog}} class="flex pa4 pointer">
                             {{svg-jar "audio-upload"}}
                             <span class="kg-upload-placeholder-text">
                                 Click to upload an audio file

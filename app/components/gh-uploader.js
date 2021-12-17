@@ -244,9 +244,10 @@ export default Component.extend({
         let ajax = this.ajax;
         let formData = this._getFormData(file);
         let url = `${ghostPaths().apiRoot}${this.uploadUrl}`;
+        let metadata = null;
 
         try {
-            this.onUploadStart(file);
+            metadata = yield Promise.resolve(this.onUploadStart(file));
 
             let response = yield ajax[this.requestMethod](url, {
                 data: formData,
@@ -296,13 +297,13 @@ export default Component.extend({
             };
 
             this.uploadUrls[index] = result;
-            this.onUploadSuccess(result);
+            this.onUploadSuccess(result, metadata);
 
             return true;
         } catch (error) {
             // grab custom error message if present
-            let message = error.payload.errors && error.payload.errors[0].message || '';
-            let context = error.payload.errors && error.payload.errors[0].context || '';
+            let message = error.payload && error.payload.errors && error.payload.errors[0].message || '';
+            let context = error.payload && error.payload.errors && error.payload.errors[0].context || '';
 
             // fall back to EmberData/ember-ajax default message for error type
             if (!message) {
@@ -317,7 +318,7 @@ export default Component.extend({
 
             // TODO: check for or expose known error types?
             this.errors.pushObject(result);
-            this.onUploadFailure(result);
+            this.onUploadFailure(result, metadata);
         }
     }).maxConcurrency(MAX_SIMULTANEOUS_UPLOADS).enqueue(),
 
