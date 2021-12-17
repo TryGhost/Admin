@@ -2042,6 +2042,11 @@ button.emoji-picker__category-button.active {
     transition: background-color var(--animation-speed-fast) ease-in-out;
 }
 
+.kg-header-card .__mobiledoc-editor.__has-no-content h2,
+.kg-header-card .__mobiledoc-editor.__has-no-content h3 {
+    text-align: left;
+}
+
 .kg-header-card a {
     pointer-events: none;
 }
