@@ -115,7 +115,7 @@
     "emberx-file-input": "1.2.1",
     "eslint": "7.32.0",
     "eslint-plugin-ghost": "2.11.0",
-    "faker": "5.5.3",
+    "faker": "6.6.6",
     "fs-extra": "10.0.0",
     "glob": "7.2.0",
     "google-caja-bower": "https://github.com/acburdine/google-caja-bower#ghost",
