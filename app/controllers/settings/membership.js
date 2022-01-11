@@ -44,6 +44,14 @@ export default class MembersAccessController extends Controller {
 
     queryParams = ['showPortalSettings'];
 
+    get freeProduct() {
+        return this.products?.find(product => product.type === 'free');
+    }
+
+    get paidProducts() {
+        return this.products?.filter(product => product.type === 'paid');
+    }
+
     get allCurrencies() {
         return getCurrencyOptions();
     }
