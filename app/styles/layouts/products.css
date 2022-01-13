@@ -117,7 +117,8 @@
 
 .gh-product-card-price .currency-symbol,
 .gh-product-card-price .amount,
-.gh-product-card-price .currency {
+.gh-product-card-price .currency,
+.gh-product-card-price .currency-code {
     font-weight: 600;
     color: var(--darkgrey);
 }
@@ -145,10 +146,21 @@
     line-height: 1;
 }
 
+.gh-product-card-price .currency-code {
+    text-transform: uppercase;
+    position: relative;
+    top: 0;
+    font-weight: 600;
+    line-height: 1;
+    font-size: 1.25rem;
+    letter-spacing: -.2px;
+}
+
 .gh-product-card-price .period {
     font-size: 1.25rem;
     text-transform: lowercase;
     line-height: 1.2em;
+    margin-top: 2px;
 }
 
 .gh-product-cards-footer {
