@@ -127,16 +127,22 @@
 }
 
 .gh-product-card-price .amount {
-    font-size: 2.1rem;
-    letter-spacing: -0.2px;
+    letter-spacing: -.2px;
     line-height: 1;
     margin-right: 2px;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
 }
 
 .gh-product-card-price .currency {
-    font-size: 1.25rem;
-    letter-spacing: -0.2px;
     text-transform: uppercase;
+    position: relative;
+    top: 2px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    line-height: 1;
 }
 
 .gh-product-card-price .period {

@@ -26,16 +26,16 @@
         <div class="gh-product-card-block">
             <div class="gh-product-price-container">
                 <div class="gh-product-card-price">
-                    <div class="flex items-baseline">
+                    <div class="flex items-start">
+                        <span class="currency">{{currency-symbol this.product.monthlyPrice.currency}}</span>
                         <span class="amount">{{gh-price-amount this.product.monthlyPrice.amount}}</span>
-                        <span class="currency">{{this.product.monthlyPrice.currency}}</span>
                     </div>
                     <div class="period">Monthly</div>
                 </div>
                 <div class="gh-product-card-price">
-                    <div class="flex items-baseline">
+                    <div class="flex items-start">
+                        <span class="currency">{{currency-symbol this.product.monthlyPrice.currency}}</span>
                         <span class="amount">{{gh-price-amount this.product.yearlyPrice.amount}}</span>
-                        <span class="currency">{{this.product.monthlyPrice.currency}}</span>
                     </div>
                     <div class="period">Yearly</div>
                 </div>
