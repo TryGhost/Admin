@@ -319,10 +319,10 @@ export default class MembersAccessController extends Controller {
 
     @task({drop: true})
     *fetchProducts() {
-        this.products = yield this.store.query('product', {include: 'monthly_price,yearly_price,benefits'});
-        this.product = this.products.find((product) => {
-            return product.type === 'paid';
+        this.products = yield this.store.query('product', {
+            filter: 'type:paid', include: 'monthly_price,yearly_price,benefits'
         });
+        this.product = this.products.firstObject;
         this.setupPortalProduct(this.product);
     }
 

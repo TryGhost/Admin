@@ -33,9 +33,7 @@ export default Component.extend({
 
     productOptions: computed('products.[]', function () {
         if (this.get('products')) {
-            return this.get('products').filter((product) => {
-                return product.type === 'paid';
-            }).map((product) => {
+            return this.get('products').map((product) => {
                 return {
                     label: product.name,
                     name: product.id
@@ -59,15 +57,12 @@ export default Component.extend({
         }
     },
     fetchProducts: task(function* () {
-        const products = yield this.store.query('product', {include: 'monthly_price,yearly_price'}) || [];
+        const products = yield this.store.query('product', {filter: 'type:paid', include: 'monthly_price,yearly_price'}) || [];
         this.set('products', products);
         if (products.length > 0) {
-            const paidProduct = products.find((product) => {
-                return product.type === 'paid';
-            });
             this.set('selectedProduct', {
-                name: paidProduct.id,
-                label: paidProduct.name
+                name: products.firstObject.id,
+                label: products.firstObject.name
             });
         }
     }),
