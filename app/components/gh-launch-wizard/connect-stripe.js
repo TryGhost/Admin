@@ -167,7 +167,9 @@ export default class GhLaunchWizardConnectStripeComponent extends Component {
             yield this.settings.save();
 
             const products = yield this.store.query('product', {include: 'monthly_price,yearly_price'});
-            this.product = products.firstObject;
+            this.product = products.find((product) => {
+                return product.type === 'free';
+            });
             if (this.product) {
                 const yearlyDiscount = this.calculateDiscount(5, 50);
                 this.product.set('monthlyPrice', {

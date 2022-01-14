@@ -252,7 +252,9 @@ export default Component.extend({
 
     saveProduct: task(function* () {
         const products = yield this.store.query('product', {include: 'monthly_price, yearly_price'});
-        this.product = products.firstObject;
+        this.product = products.find((product) => {
+            return product.type === 'paid';
+        });
         if (this.product) {
             const yearlyDiscount = this.calculateDiscount(5, 50);
             this.product.set('monthlyPrice', {
