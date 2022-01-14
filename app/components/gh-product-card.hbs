@@ -62,17 +62,7 @@
                     <div class="period">Monthly</div>
                 </div>
                 <div class="gh-product-card-price">
-                    {{#if (eq this.product.monthlyPrice.currency "usd" )}}
-                        <div class="flex items-start">
-                            <span class="currency">{{currency-symbol this.product.monthlyPrice.currency}}</span>
-                            <span class="amount">{{gh-price-amount this.product.yearlyPrice.amount}}</span>
-                        </div>
-                    {{else if (eq this.product.monthlyPrice.currency "eur" )}}
-                        <div class="flex items-start">
-                            <span class="currency">{{currency-symbol this.product.monthlyPrice.currency}}</span>
-                            <span class="amount">{{gh-price-amount this.product.yearlyPrice.amount}}</span>
-                        </div>
-                    {{else if (eq this.product.monthlyPrice.currency "gbp" )}}
+                    {{#if this.hasCurrencySymbol}}
                         <div class="flex items-start">
                             <span class="currency">{{currency-symbol this.product.monthlyPrice.currency}}</span>
                             <span class="amount">{{gh-price-amount this.product.yearlyPrice.amount}}</span>
