@@ -35,7 +35,7 @@
 }
 
 .gh-product-card-block {
-    flex-basis: 50%;
+    flex-basis: 30%;
 }
 
 .gh-product-card-block:not(:first-of-type) {
@@ -63,6 +63,10 @@
     line-height: 1.45em;
     margin: 4px 20px 4px 0;
     color: var(--midgrey);
+}
+
+.gh-product-card-block.title-block {
+    flex-basis: 40%;
 }
 
 .gh-product-card-block.benefits-block .gh-product-card-description {
@@ -99,13 +103,15 @@
 
 .gh-product-price-container {
     display: flex;
-    margin: 0 40px 0 20px;
+    margin: 0 60px 0 20px;
+    justify-content: flex-end;
 }
 
 .gh-product-card-price {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin: 0 12px 2px 0;
     font-size: 1.3rem;
     color: var(--midgrey);
@@ -113,6 +119,7 @@
     border: 1px solid var(--whitegrey);
     border-radius: 3px;
     min-width: 90px;
+    min-height: 66px;
 }
 
 .gh-product-card-price .currency-symbol,

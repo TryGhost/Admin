@@ -153,13 +153,12 @@
                                 <li>{{svg-jar "check-2"}} <span>Expert analysis</span></li>
                             </ul>
                         {{/if}}
-                        {{#if (not this.isFreeProduct)}}
-                            <div class="price">
-
+                        <div class="price">
+                            {{#if (not this.isFreeProduct)}}
                                 {{#if this.stripeMonthlyAmount}}
                                     <span class="monthly-price">
                                         <span class="currency">{{currency-symbol this.currency}}</span>
-                                        {{this.stripeMonthlyAmount}}
+                                        {{format-number this.stripeMonthlyAmount}}
                                         <span class="period">/month</span>
                                     </span>
                                 {{else}}
@@ -171,12 +170,17 @@
                                 {{/if}}
 
                                 {{#if this.stripeYearlyAmount}}
-                                    <span class="yearly-price">{{currency-symbol this.currency}}{{this.stripeYearlyAmount}}/year</span>
+                                    <span class="yearly-price">{{currency-symbol this.currency}}{{format-number this.stripeYearlyAmount}}/year</span>
                                 {{else}}
                                     <span class="yearly-price placeholder">0<span class="currency">{{this.currency}}</span>/year</span>
                                 {{/if}}
-                            </div>
-                        {{/if}}
+                            {{else}}
+                            <span class="monthly-price">
+                                <span class="currency">{{currency-symbol this.currency}}</span>
+                                0
+                            </span>
+                            {{/if}}
+                        </div>
                     </div>
                 </div>
             </div>
