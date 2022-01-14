@@ -21,10 +21,7 @@ export default class ModalMemberProduct extends ModalComponent {
 
         this.loadingProducts = false;
         if (this.products.length > 0) {
-            const paidProduct = this.products.find((product) => {
-                return product.type === 'paid';
-            });
-            this.selectedProduct = paidProduct.id;
+            this.selectedProduct = this.products.firstObject.id;
         }
     }
 
