@@ -63,25 +63,23 @@
             <GhErrorMessage @errors={{this.webhook.errors}} @property="targetUrl" data-test-error="webhook-targetUrl" />
         </GhFormGroup>
     </fieldset>
-    {{#if (enable-developer-experiments)}}
-        <fieldset>
-            <GhFormGroup @errors={{this.webhook.errors}} @hasValidated={{this.webhook.hasValidated}} @property="secret">
-                <label for="webhook-secret" class="fw6">Secret</label>
-                <GhTextInput
-                    @value={{readonly this.webhook.secret}}
-                    @oninput={{action (mut this.webhook.secret) value="target.value"}}
-                    @focus-out={{action "validate" "secret" target=this.webhook}}
-                    @id="webhook-secret"
-                    @name="secret"
-                    @class="gh-input mt1"
-                    @shouldFocus={{true}}
-                    @autocapitalize="off"
-                    @autocorrect="off"
-                    data-test-input="webhook-secret" />
-                <GhErrorMessage @errors={{this.webhook.errors}} @property="secret" data-test-error="webhook-secret" />
-            </GhFormGroup>
-        </fieldset>
-    {{/if}}
+    <fieldset>
+        <GhFormGroup @errors={{this.webhook.errors}} @hasValidated={{this.webhook.hasValidated}} @property="secret">
+            <label for="webhook-secret" class="fw6">Secret</label>
+            <GhTextInput
+                @value={{readonly this.webhook.secret}}
+                @input={{action (mut this.webhook.secret) value="target.value"}}
+                @focus-out={{action "validate" "secret" target=this.webhook}}
+                @id="webhook-secret"
+                @name="secret"
+                @class="gh-input mt1"
+                @shouldFocus={{true}}
+                @autocapitalize="off"
+                @autocorrect="off"
+                data-test-input="webhook-secret" />
+            <GhErrorMessage @errors={{this.webhook.errors}} @property="secret" data-test-error="webhook-secret" />
+        </GhFormGroup>
+    </fieldset>
     {{#if this.error}}
         <p class="red">{{this.error}}</p>
     {{/if}}
