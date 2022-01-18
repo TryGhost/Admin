@@ -1,60 +1,24 @@
-<div class="gh-expandable-block">
-    <h4 class="gh-expandable-header">
+<div class="gh-setting-richdd-container">
+    <div class="gh-expandable-header">
         <div>
             <h4 class="gh-expandable-title">Default newsletter recipients</h4>
-            <p class="gh-expandable-description">Who do you usually want to send emails to?</p>
+            <p class="gh-expandable-description">When you publish new content, who do you usually want to send it to?</p>
         </div>
-        <button type="button" class="gh-btn" {{on "click" @toggleExpansion}} data-test-toggle="post-access"><span>{{if @expanded "Close" "Expand"}}</span></button>
-    </h4>
-    <div class="gh-expandable-content">
-        {{#liquid-if @expanded}}
-        <div class="flex flex-column w-50">
-            <div class="{{if this.isDisabled "disabled-overlay"}}">
-                <div
-                    class="gh-radio member-segments {{if this.isSegmentSelected "active"}}"
-                    {{on "click" (fn this.setDefaultEmailRecipients "segment")}}
-                >
-                    <div class="gh-radio-button"></div>
-                    <div class="gh-radio-content">
-                        <div class="gh-radio-label">Send emails to</div>
-                        <div class="gh-radio-desc select-members">
-                            <GhMembersSegmentSelect
-                                @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
-                                @onChange={{this.setDefaultEmailRecipientsFilter}}
-                                @enforcedCountFilter="subscribed:true"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="gh-radio {{if this.isVisibilitySelected "active"}}"
-                    {{on "click" (fn this.setDefaultEmailRecipients "visibility")}}
-                >
-                    <div class="gh-radio-button"></div>
-                    <div class="gh-radio-content">
-                        <div class="gh-radio-label">Match post access level</div>
-                    </div>
-                </div>
-                <div
-                    class="gh-radio {{if this.isNobodySelected "active"}}"
-                    {{on "click" (fn this.setDefaultEmailRecipients "none")}}
-                >
-                    <div class="gh-radio-button"></div>
-                    <div class="gh-radio-content">
-                        <div class="gh-radio-label">Nobody</div>
-                    </div>
-                </div>
-                <div
-                    class="gh-radio {{if this.isDisabledSelected "active"}}"
-                    {{on "click" (fn this.setDefaultEmailRecipients "disabled")}}
-                >
-                    <div class="gh-radio-button"></div>
-                    <div class="gh-radio-content">
-                        <div class="gh-radio-label">Disabled</div>
-                    </div>
-                </div>
+    </div>
+    <PowerSelect
+        @options={{this.options}}
+        @selected={{this.selectedOption}}
+        @onChange={{this.setDefaultEmailRecipients}}
+        @triggerClass="gh-setting-dropdown"
+        @dropdownClass="gh-setting-dropdown-list"
+        as |option|
+    >
+        <div class="gh-setting-dropdown-content">
+            {{svg-jar option.icon class=(concat "w8 h8 mr2 fill-" (or option.icon_color "green"))}}
+            <div class="gh-radio-label">
+                {{option.name}}<br>
+                <div class="gh-radio-desc">{{option.description}}</div>
             </div>
         </div>
-        {{/liquid-if}}
-    </div>
+    </PowerSelect>
 </div>

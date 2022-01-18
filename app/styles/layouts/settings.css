@@ -751,6 +751,93 @@
 /* Email newsletter
 /* ---------------------------------------------------------- */
 
+.gh-setting-email-section .gh-expandable {
+    margin-bottom: 20px;
+}
+
+.gh-setting-email-section .gh-expandable:last-of-type {
+    margin-bottom: 0;
+}
+
+.gh-setting-email-section.content-preview {
+    display: grid;
+    grid-template-columns: auto calc(336px * .9);
+    grid-gap: 4rem;
+}
+
+.gh-setting-email hr {
+    margin: 4.8em 0;
+}
+
+.gh-setting-email-section .gh-setting-richdd-container {
+    margin: 0;
+    background: var(--white);
+}
+
+.gh-mailgun-region {
+    width: 140px !important;
+    margin-right: 12px;
+}
+
+.gh-mailgun-region .ember-power-select-trigger {
+    padding: 6px 12px;
+    white-space: nowrap;
+    background: var(--white);
+}
+
+.gh-mailgun-region .ember-power-select-selected-item {
+    margin-left: 0;
+}
+
+.gh-mailgun-region .ember-power-select-trigger svg {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 10px;
+    height: 6px;
+}
+
+.gh-email-publishmenu-preview .gh-main-section-header.small {
+    padding-top: 4px;
+}
+
+.gh-email-publishmenu-preview .gh-publishmenu-dropdown-container {
+    height: calc(346px * .9);
+}
+
+.gh-email-publishmenu-preview .gh-publishmenu-dropdown {
+    position: relative;
+    top: inherit;
+    right: inherit;
+    margin: 0;
+    box-shadow:         
+        0 7px 7px rgba(0, 0, 0, 0.04),
+        0 3px 2.2px -5px rgba(0, 0, 0, 0.011),
+        0 6px 5.3px -5px rgba(0, 0, 0, 0.016),
+        0 10.5px 10px -5px rgba(0, 0, 0, 0.02),
+        0 18px 17.9px -5px rgba(0, 0, 0, 0.024),
+        0 33.8px 33.4px -5px rgba(0, 0, 0, 0.029),
+        0 80px 80px -5px rgba(0, 0, 0, 0.04)
+    ;
+    transform: scale(.9);
+    transform-origin: top left;
+    pointer-events: none;
+}
+
+.gh-email-publishmenu-preview .gh-publishmenu-radio .gh-publishmenu-radio-label:after {
+    content: "";
+    display: block;
+    width: 80%;
+    height: 12px;
+    margin-top: 8px;
+    background: var(--whitegrey-d1);
+    border-radius: 6px;
+}
+
+.gh-email-publishmenu-preview .gh-publishmenu-radio.active .gh-publishmenu-radio-label:after {
+    width: 100%;
+}
+
 .member-segments .select-members {
     margin-bottom: .4rem;
 }

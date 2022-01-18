@@ -310,17 +310,7 @@
 .token-segment-product svg path {
     stroke: var(--white);
     fill: var(--white);
-}
-
-/* Inside settings / Mailgun region */
-/* TODO: make these general styles? */
-
-.gh-labs-mailgun-region .ember-power-select-trigger {
-    padding: 6px 12px;
-}
-.gh-labs-mailgun-region .ember-power-select-selected-item {
-    margin-left: 0;
-}
+}   
 
 /* Inline input */
 .ember-power-select-inline {
