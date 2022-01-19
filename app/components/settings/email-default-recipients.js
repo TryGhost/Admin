@@ -49,12 +49,6 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
             value: 'none',
             icon: 'no-members',
             icon_color: 'midlightgrey-d2'
-        }, {
-            name: 'Disable completely',
-            description: 'Posts cannot be sent by email, deactivate newsletter features',
-            value: 'disabled',
-            icon: 'no-email',
-            icon_color: 'red'
         }];
     }
 
