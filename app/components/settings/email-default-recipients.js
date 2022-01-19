@@ -1,9 +1,23 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
+import {tracked} from '@glimmer/tracking';
 
 export default class SettingsDefaultEmailRecipientsComponent extends Component {
     @service settings;
+
+    @tracked segmentSelected = false;
+
+    get isDisabled() {
+        return this.settings.get('membersSignupAccess') === 'none';
+    }
+
+    get isSegmentSelected() {
+        const defaultEmailRecipientsFilter = this.settings.get('editorDefaultEmailRecipientsFilter');
+        const isCustomSegment = this.settings.get('editorDefaultEmailRecipients') === 'filter' && 
+            !['status:free,status:-free', 'status:-free'].includes(defaultEmailRecipientsFilter);
+        return (this.segmentSelected || isCustomSegment);
+    }
 
     get options() {
         return [{
@@ -15,13 +29,13 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
         }, {
             name: 'All members',
             description: 'Everyone who is subscribed to newsletter updates, whether free or paid members',
-            value: 'invite',
+            value: 'all-members',
             icon: 'members-all',
             icon_color: 'blue'
         }, {
             name: 'Paid-members only',
             description: 'People who have a premium subscription',
-            value: 'none',
+            value: 'paid-only',
             icon: 'members-paid',
             icon_color: 'pink'
         }, {
@@ -46,16 +60,55 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
     }
 
     get selectedOption() {
-        return this.options.find(o => o.value === this.settings.get('membersSignupAccess'));
+        const defaultEmailRecipients = this.settings.get('editorDefaultEmailRecipients');
+        let selected = '';
+
+        if (defaultEmailRecipients === 'filter') {
+            const defaultEmailRecipientsFilter = this.settings.get('editorDefaultEmailRecipientsFilter');
+
+            if (defaultEmailRecipientsFilter === 'status:free,status:-free' && !this.segmentSelected) {
+                selected = 'all-members';
+            } else if (defaultEmailRecipientsFilter === 'status:-free' && !this.segmentSelected) {
+                selected = 'paid-only';
+            } else if (defaultEmailRecipientsFilter === null && !this.segmentSelected) {
+                selected = 'none';
+            } else {
+                selected = 'segment';
+            }
+        } else {
+            selected = defaultEmailRecipients;
+        }
+        
+        return this.options.find(o => o.value === selected);
     }
 
     @action
     setDefaultEmailRecipients(option) {
-        if (['disabled', 'visibility'].includes(option.value)) {
+        // Set filter to specific tiers
+        if (option.value === 'segment') {
+            this.segmentSelected = true;
+            this.settings.set('editorDefaultEmailRecipients', 'filter');
+            return;
+        }
+
+        this.segmentSelected = false;
+
+        if (['visibility', 'disabled'].includes(option.value)) {
             this.settings.set('editorDefaultEmailRecipients', option.value);
             return;
         }
 
+        // Set filter to paid + free when all members are selected
+        if (option.value === 'all-members') {
+            this.settings.set('editorDefaultEmailRecipientsFilter', 'status:free,status:-free');
+        }
+
+        // Set filter to paid only
+        if (option.value === 'paid-only') {
+            this.settings.set('editorDefaultEmailRecipientsFilter', 'status:-free');
+        }
+
+        // Set filters to null
         if (option.value === 'none') {
             this.settings.set('editorDefaultEmailRecipientsFilter', null);
         }
@@ -64,12 +117,7 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
     }
 
     @action
-    setSignupAccess(option) {
-        this.settings.set('membersSignupAccess', option.value);
-        this.args.onChange?.(option.value);
-
-        if (option.value === 'none') {
-            this.settings.set('defaultContentVisibility', 'public');
-        }
+    setDefaultEmailRecipientsFilter(filter) {
+        this.settings.set('editorDefaultEmailRecipientsFilter', filter);
     }
 }

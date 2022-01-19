@@ -11,6 +11,7 @@
         @onChange={{this.setDefaultEmailRecipients}}
         @triggerClass="gh-setting-dropdown"
         @dropdownClass="gh-setting-dropdown-list"
+        @disabled={{this.isDisabled}}
         as |option|
     >
         <div class="gh-setting-dropdown-content">
@@ -21,4 +22,15 @@
             </div>
         </div>
     </PowerSelect>
+    
+    {{#if this.isSegmentSelected}}
+        <div class="mt2">
+            <GhMembersSegmentSelect
+                @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
+                @onChange={{this.setDefaultEmailRecipientsFilter}}
+                @enforcedCountFilter="subscribed:true"
+                @disabled={{this.isDisabled}}
+            />
+        </div>
+    {{/if}}
 </div>
