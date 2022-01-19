@@ -7,8 +7,8 @@
                     <p class="gh-expandable-description">Newsletter features are active, posts can be sent by email</p>
                 </div>
                 <div class="for-switch">
-                    <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens")}}>
-                        <input type="checkbox" checked={{this.emailTrackOpens}} class="gh-input" {{on "click" (action "toggleEmailTrackOpens")}} name="email-track-opens" data-test-checkbox="email-track-opens">
+                    <label class="switch" for="email-newsletter-enabled" {{on "click" (action "toggleEmailNewsletterEnabled")}}>
+                        <input type="checkbox" checked={{this.emailNewsletterEnabled}} class="gh-input" {{on "click" (action "toggleEmailNewsletterEnabled")}} name="email-newsletter-enabled" data-test-checkbox="email-newsletter-enabled">
                         <span class="input-toggle-component mt1"></span>
                     </label>
                 </div>
@@ -167,7 +167,7 @@
                                 <label class="gh-publishmenu-radio-label mb3">Send by email to</label>
                                 <div class="form-group">
                                     <GhMembersRecipientSelect
-                                        @filter={{publishMenuPreviewRecipients}}
+                                        @filter={{this.settings.editorDefaultEmailRecipientsFilter}}
                                         @disabled={{this.disableEmailOption}}
                                     />
                                 </div>

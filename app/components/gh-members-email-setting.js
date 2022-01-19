@@ -31,7 +31,9 @@ export default Component.extend({
 
     mailgunIsConfigured: reads('config.mailgunIsConfigured'),
     emailTrackOpens: reads('settings.emailTrackOpens'),
-    publishMenuPreviewRecipients: reads('settings.editorDefaultEmailRecipientsFilter'),
+    emailNewsletterEnabled: computed('settings.editorDefaultEmailRecipients', function () {
+        return this.get('settings.editorDefaultEmailRecipients') !== 'disabled';
+    }),
 
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
         return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));
@@ -117,6 +119,19 @@ export default Component.extend({
                 event.preventDefault();
             }
             this.set('settings.emailTrackOpens', !this.emailTrackOpens);
+        },
+
+        toggleEmailNewsletterEnabled(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            this.set('emailNewsletterEnabled', !this.get('emailNewsletterEnabled'));
+            if (this.get('emailNewsletterEnabled')) {
+                this.set('settings.editorDefaultEmailRecipients', 'visibility');
+            } else {
+                this.set('settings.editorDefaultEmailRecipients', 'disabled');
+                this.set('settings.editorDefaultEmailRecipientsFilter', null);
+            }
         },
 
         setReplyAddress(event) {
