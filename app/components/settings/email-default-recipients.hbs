@@ -1,4 +1,4 @@
-<div class="gh-setting-richdd-container">
+<div class="gh-setting-richdd-container gh-setting-rich-dropdown">
     <div class="gh-expandable-header">
         <div>
             <h4 class="gh-expandable-title">Default newsletter recipients</h4>
@@ -24,7 +24,7 @@
     </PowerSelect>
     
     {{#if this.segmentSelected}}
-        <div class="mt2">
+        <div class="gh-setting-large-dropdown mt2">
             <GhMembersSegmentSelect
                 @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
                 @onChange={{this.setDefaultEmailRecipientsFilter}}

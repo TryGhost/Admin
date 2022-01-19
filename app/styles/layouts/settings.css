@@ -1990,7 +1990,7 @@ p.theme-validation-details {
     line-height: 1.4;
 }
 
-.gh-setting-members-access {
+.gh-setting-rich-dropdown {
     margin-bottom: 30px;
 }
 
@@ -2064,15 +2064,15 @@ p.theme-validation-details {
     margin: 36px 0;
 }
 
-.gh-default-post-access .ember-power-select-multiple-trigger {
+.gh-setting-large-dropdown .ember-power-select-multiple-trigger {
     padding: 8px;
 }
 
-.gh-default-post-access .segment-totals {
+.gh-setting-large-dropdown .segment-totals {
     display: none;
 }
 
-.gh-setting-members-access .ember-power-select-status-icon {
+.gh-setting-rich-dropdown .ember-power-select-status-icon {
     right: 20px;
 }
 
