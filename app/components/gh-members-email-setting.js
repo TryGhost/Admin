@@ -31,6 +31,7 @@ export default Component.extend({
 
     mailgunIsConfigured: reads('config.mailgunIsConfigured'),
     emailTrackOpens: reads('settings.emailTrackOpens'),
+    publishMenuPreviewRecipients: reads('settings.editorDefaultEmailRecipientsFilter'),
 
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
         return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));

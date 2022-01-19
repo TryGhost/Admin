@@ -167,8 +167,7 @@
                                 <label class="gh-publishmenu-radio-label mb3">Send by email to</label>
                                 <div class="form-group">
                                     <GhMembersRecipientSelect
-                                        @filter={{@recipientsFilter}}
-                                        @onChange={{@setSendEmailWhenPublished}}
+                                        @filter={{publishMenuPreviewRecipients}}
                                         @disabled={{this.disableEmailOption}}
                                     />
                                 </div>

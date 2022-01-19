@@ -6,17 +6,11 @@ import {tracked} from '@glimmer/tracking';
 export default class SettingsDefaultEmailRecipientsComponent extends Component {
     @service settings;
 
-    @tracked segmentSelected = false;
+    @tracked segmentSelected = this.settings.get('editorDefaultEmailRecipients') === 'filter' && 
+        !['status:free,status:-free', 'status:-free', null].includes(this.settings.get('editorDefaultEmailRecipientsFilter'));
 
     get isDisabled() {
         return this.settings.get('membersSignupAccess') === 'none';
-    }
-
-    get isSegmentSelected() {
-        const defaultEmailRecipientsFilter = this.settings.get('editorDefaultEmailRecipientsFilter');
-        const isCustomSegment = this.settings.get('editorDefaultEmailRecipients') === 'filter' && 
-            !['status:free,status:-free', 'status:-free'].includes(defaultEmailRecipientsFilter);
-        return (this.segmentSelected || isCustomSegment);
     }
 
     get options() {
