@@ -751,6 +751,10 @@
 /* Email newsletter
 /* ---------------------------------------------------------- */
 
+.gh-setting-email-section:first-of-type {
+    margin-bottom: 20px;
+}
+
 .gh-setting-email-section .gh-expandable {
     margin-bottom: 20px;
 }
