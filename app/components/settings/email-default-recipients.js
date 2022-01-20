@@ -11,7 +11,7 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
 
     get isSegment() {
         return this.segmentSelected || this.settings.get('editorDefaultEmailRecipients') === 'filter' && 
-            !['status:free,status:-free', 'status:-free', null].includes(this.settings.get('editorDefaultEmailRecipientsFilter'))
+            !['status:free,status:-free', 'status:-free', null].includes(this.settings.get('editorDefaultEmailRecipientsFilter'));
     }
 
     get isDisabled() {
