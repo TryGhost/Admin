@@ -21,7 +21,7 @@
         </p>
     </LinkTo>
 
-    {{#if this.emailNewsletterEnabled}}
+    {{#if (not-eq this.settings.editorDefaultEmailRecipients "disabled")}}
         {{#if (and this.feature.emailAnalytics (eq @post.displayName "post"))}}
             <LinkTo @route="editor.edit" @models={{array @post.displayName @post.id}} class="permalink gh-list-data gh-post-list-recipients">
                 <div class="flex fw4">

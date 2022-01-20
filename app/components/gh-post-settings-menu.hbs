@@ -148,7 +148,7 @@
                         {{svg-jar "arrow-right"}}
                     </li>
                     {{#if (and this.post.isPost showEmailNewsletter)}}
-                        {{#if this.emailNewsletterEnabled}}
+                        {{#if (not-eq this.settings.editorDefaultEmailRecipients "disabled")}}
                             <li class="nav-list-item" {{action "showSubview" "email-settings"}} data-test-button="email-settings">
                                 <button type="button">
                                     <b>Email newsletter</b>

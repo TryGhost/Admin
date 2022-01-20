@@ -23,14 +23,16 @@
             </div>
         </LinkTo>
 
-        {{#if (feature "emailAnalytics")}}
-            <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{if (not @member.name) "gh-members-list-open-rate-noname"}}">
-                {{#if (not (is-empty @member.emailOpenRate))}}
-                    <span>{{@member.emailOpenRate}}%</span>
-                {{else}}
-                    <span class="midlightgrey">N/A</span>
-                {{/if}}
-            </LinkTo>
+        {{#if @newsletterEnabled}}
+            {{#if (feature "emailAnalytics")}}
+                <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{if (not @member.name) "gh-members-list-open-rate-noname"}}">
+                    {{#if (not (is-empty @member.emailOpenRate))}}
+                        <span>{{@member.emailOpenRate}}%</span>
+                    {{else}}
+                        <span class="midlightgrey">N/A</span>
+                    {{/if}}
+                </LinkTo>
+            {{/if}}
         {{/if}}
 
         <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{if (not @member.name) "gh-members-geolocation-noname"}}">
