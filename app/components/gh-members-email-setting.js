@@ -125,8 +125,10 @@ export default Component.extend({
             if (event) {
                 event.preventDefault();
             }
-            this.set('emailNewsletterEnabled', !this.get('emailNewsletterEnabled'));
-            if (this.get('emailNewsletterEnabled')) {
+
+            const newsletterEnabled = !this.emailNewsletterEnabled;
+
+            if (newsletterEnabled) {
                 this.set('settings.editorDefaultEmailRecipients', 'visibility');
             } else {
                 this.set('settings.editorDefaultEmailRecipients', 'disabled');
