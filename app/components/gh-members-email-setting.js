@@ -7,17 +7,6 @@ import {task} from 'ember-concurrency';
 const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3'};
 const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3'};
 
-const REPLY_ADDRESSES = [
-    {
-        label: 'Newsletter email address',
-        value: 'newsletter'
-    },
-    {
-        label: 'Support email address',
-        value: 'support'
-    }
-];
-
 export default Component.extend({
     config: service(),
     ghostPaths: service(),
@@ -36,7 +25,7 @@ export default Component.extend({
     }),
 
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
-        return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));
+        return this.replyAddresses.findBy('value', this.get('settings.membersReplyAddress'));
     }),
 
     disableUpdateFromAddressButton: computed('fromAddress', function () {
@@ -76,7 +65,16 @@ export default Component.extend({
     init() {
         this._super(...arguments);
         this.set('mailgunRegions', [US, EU]);
-        this.set('replyAddresses', REPLY_ADDRESSES);
+        this.set('replyAddresses', [
+            {
+                label: 'Newsletter email address (' + this.fromAddress + ')',
+                value: 'newsletter'
+            },
+            {
+                label: 'Support email address (' + this.supportAddress + ')',
+                value: 'support'
+            }
+        ])
     },
 
     actions: {
