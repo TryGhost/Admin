@@ -15,7 +15,6 @@ export default Component.extend({
 
     replyAddresses: null,
     showFromAddressConfirmation: false,
-    showSupportAddressConfirmation: false,
     showEmailDesignSettings: false,
 
     mailgunIsConfigured: reads('config.mailgunIsConfigured'),
@@ -34,14 +33,6 @@ export default Component.extend({
             return !this.fromAddress || (this.fromAddress === `${savedFromAddress}@${this.config.emailDomain}`);
         }
         return !this.fromAddress || (this.fromAddress === savedFromAddress);
-    }),
-
-    disableUpdateSupportAddressButton: computed('supportAddress', function () {
-        const savedSupportAddress = this.get('settings.membersSupportAddress') || '';
-        if (!savedSupportAddress.includes('@') && this.config.emailDomain) {
-            return !this.supportAddress || (this.supportAddress === `${savedSupportAddress}@${this.config.emailDomain}`);
-        }
-        return !this.supportAddress || (this.supportAddress === savedSupportAddress);
     }),
 
     mailgunRegion: computed('settings.mailgunBaseUrl', function () {
@@ -74,7 +65,7 @@ export default Component.extend({
                 label: 'Support email address (' + this.supportAddress + ')',
                 value: 'support'
             }
-        ])
+        ]);
     },
 
     actions: {
@@ -106,10 +97,6 @@ export default Component.extend({
 
         setFromAddress(fromAddress) {
             this.setEmailAddress('fromAddress', fromAddress);
-        },
-
-        setSupportAddress(supportAddress) {
-            this.setEmailAddress('supportAddress', supportAddress);
         },
 
         toggleEmailTrackOpens(event) {
@@ -151,23 +138,6 @@ export default Component.extend({
                 }
             });
             this.toggleProperty('showFromAddressConfirmation');
-            return response;
-        } catch (e) {
-            // Failed to send email, retry
-            return false;
-        }
-    }).drop(),
-
-    updateSupportAddress: task(function* () {
-        let url = this.get('ghostPaths.url').api('/settings/members/email');
-        try {
-            const response = yield this.ajax.post(url, {
-                data: {
-                    email: this.supportAddress,
-                    type: 'supportAddressUpdate'
-                }
-            });
-            this.toggleProperty('showSupportAddressConfirmation');
             return response;
         } catch (e) {
             // Failed to send email, retry
