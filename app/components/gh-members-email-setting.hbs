@@ -123,9 +123,9 @@
             <h4 class="gh-main-section-header small bn">Preview</h4>
             <div class="gh-publishmenu-dropdown-container">
                 <div class="gh-publishmenu-dropdown">
-                    <header class="gh-publishmenu-heading">Ready to publish & send this post?</header>
+                    <header class="gh-publishmenu-heading">Ready to <span class="gh-publishmenu-heading-dropdown">{{#if this.settings.editorDefaultEmailRecipientsFilter}} publish & send {{else}} publish {{/if}}{{svg-jar "arrow-down"}}</span> this post?</header>
                     <section class="gh-publishmenu-content">
-                        <div class="gh-publishmenu-section">
+                        <div class="gh-publishmenu-section {{if this.settings.editorDefaultEmailRecipientsFilter "" "mb7"}}">
                             <div class="gh-publishmenu-radio active">
                                 <div class="gh-publishmenu-radio-button"></div>
                                 <div class="gh-publishmenu-radio-content">
@@ -139,19 +139,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="gh-publishmenu-section">
-                            <div class="gh-publishmenu-email">
-                                <div class="gh-publishmenu-email-label">
-                                    <label class="gh-publishmenu-radio-label mb3">Send by email to</label>
-                                    <div class="form-group">
-                                        <GhMembersRecipientSelect
-                                            @filter={{this.settings.editorDefaultEmailRecipientsFilter}}
-                                            @disabled={{this.disableEmailOption}}
-                                        />
+                        {{#if this.settings.editorDefaultEmailRecipientsFilter}}
+                            <div class="gh-publishmenu-section">
+                                <div class="gh-publishmenu-email">
+                                    <div class="gh-publishmenu-email-label">
+                                        <label class="gh-publishmenu-radio-label mb3">Send by email to</label>
+                                        <div class="form-group">
+                                            <GhMembersRecipientSelect
+                                                @filter={{this.settings.editorDefaultEmailRecipientsFilter}}
+                                                @disabled={{this.disableEmailOption}}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {{/if}}
                     </section>
                 </div>
             </div>

@@ -223,7 +223,9 @@ export default Component.extend({
         this.setDefaultSendEmailWhenPublished();
         this.checkIsSendingEmailLimitedTask.perform();
 
-        if (this.post.isPage) {
+        const defaultEmailRecipients = this.get('defaultEmailRecipients');
+
+        if (this.post.isPage || !defaultEmailRecipients) {
             this.set('distributionAction', 'publish');
         }
     },

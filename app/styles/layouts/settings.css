@@ -828,6 +828,22 @@
     pointer-events: none;
 }
 
+.gh-publishmenu-heading-dropdown {
+    font-weight: 500;
+    color: var(--black);
+}
+
+.gh-publishmenu-heading-dropdown svg {
+    width: auto;
+    height: 9px;
+    margin-right: 4px;
+}
+
+.gh-publishmenu-heading-dropdown svg path {
+    stroke: var(--black);
+    stroke-width: 2px;
+}
+
 .gh-email-publishmenu-preview .gh-publishmenu-radio .gh-publishmenu-radio-label:after {
     content: "";
     display: block;
