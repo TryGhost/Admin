@@ -374,8 +374,12 @@ export default Component.extend({
             return false;
         }
 
-        // always opens publish confirmation if post will be published/scheduled
-        if (post.status === 'draft' && (saveType === 'publish' || saveType === 'schedule')) {
+        const isPublishOnly = this.sendEmailWhenPublished === 'none'
+            || this.post.displayName === 'page'
+            || this.post.email;
+
+        // open publish confirmation if post will be published/scheduled and emailed
+        if (!isPublishOnly && post.status === 'draft' && (saveType === 'publish' || saveType === 'schedule')) {
             if (options.dropdown) {
                 this._skipDropdownCloseCleanup = true;
                 options.dropdown.actions.close();
