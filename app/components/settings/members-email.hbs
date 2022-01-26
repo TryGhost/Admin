@@ -45,7 +45,7 @@
                             <p class="gh-expandable-description">When you publish new content, who do you usually want to send it to?</p>
                         </div>
                     </div>
-                    <Settings::EmailDefaultRecipients
+                    <Settings::MembersEmail::DefaultRecipientsSelect
                         @recipients={{this.recipientsSelectValue}}
                         @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
                         @onRecipientsChange={{action "setDefaultEmailRecipients"}}
