@@ -23,6 +23,14 @@ export default Component.extend({
         return this.get('settings.editorDefaultEmailRecipients') !== 'disabled';
     }),
 
+    emailPreviewVisible: computed('settings.{editorDefaultEmailRecipients,editorDefaultEmailRecipientsFilter}', function () {
+        if (this.get('settings.editorDefaultEmailRecipients') !== 'filter' || this.get('settings.editorDefaultEmailRecipientsFilter')) {
+            return true;
+        } else {
+            return false;
+        }
+    }),
+
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
         return this.replyAddresses.findBy('value', this.get('settings.membersReplyAddress'));
     }),

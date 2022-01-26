@@ -88,6 +88,7 @@ export default class SettingsDefaultEmailRecipientsComponent extends Component {
 
         if (['visibility', 'disabled'].includes(option.value)) {
             this.settings.set('editorDefaultEmailRecipients', option.value);
+            this.settings.set('editorDefaultEmailRecipientsFilter', null);
             return;
         }
 

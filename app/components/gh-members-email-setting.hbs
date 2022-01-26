@@ -123,9 +123,9 @@
             <h4 class="gh-main-section-header small bn">Preview</h4>
             <div class="gh-publishmenu-dropdown-container">
                 <div class="gh-publishmenu-dropdown">
-                    <header class="gh-publishmenu-heading">Ready to <span class="gh-publishmenu-heading-dropdown">{{#if this.settings.editorDefaultEmailRecipientsFilter}} publish & send {{else}} publish {{/if}}{{svg-jar "arrow-down"}}</span> this post?</header>
+                    <header class="gh-publishmenu-heading">Ready to <span class="gh-publishmenu-heading-dropdown">{{#if emailPreviewVisible}} publish & send {{else}} publish {{/if}}{{svg-jar "arrow-down"}}</span> this post?</header>
                     <section class="gh-publishmenu-content">
-                        <div class="gh-publishmenu-section {{if this.settings.editorDefaultEmailRecipientsFilter "" "mb7"}}">
+                        <div class="gh-publishmenu-section {{if emailPreviewVisible "" "mb7"}}">
                             <div class="gh-publishmenu-radio active">
                                 <div class="gh-publishmenu-radio-button"></div>
                                 <div class="gh-publishmenu-radio-content">
@@ -139,7 +139,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{#if this.settings.editorDefaultEmailRecipientsFilter}}
+                        {{#if emailPreviewVisible}}
                             <div class="gh-publishmenu-section">
                                 <div class="gh-publishmenu-email">
                                     <div class="gh-publishmenu-email-label">
