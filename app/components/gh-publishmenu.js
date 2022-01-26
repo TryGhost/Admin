@@ -374,7 +374,8 @@ export default Component.extend({
             return false;
         }
 
-        const isPublishOnly = this.sendEmailWhenPublished === 'none'
+        const isPublishOnly = this.distributionAction === 'publish'
+            || this.sendEmailWhenPublished === 'none'
             || this.post.displayName === 'page'
             || this.post.email;
 
