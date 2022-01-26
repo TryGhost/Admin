@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import {computed} from '@ember/object';
-import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
@@ -17,8 +16,6 @@ export default Component.extend({
     showFromAddressConfirmation: false,
     showEmailDesignSettings: false,
 
-    mailgunIsConfigured: reads('config.mailgunIsConfigured'),
-    emailTrackOpens: reads('settings.emailTrackOpens'),
     emailNewsletterEnabled: computed('settings.editorDefaultEmailRecipients', function () {
         return this.get('settings.editorDefaultEmailRecipients') !== 'disabled';
     }),

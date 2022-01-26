@@ -108,7 +108,7 @@
                         </div>
                         <div class="for-switch">
                             <label class="switch" for="email-track-opens" {{on "click" (action "toggleEmailTrackOpens")}}>
-                                <input type="checkbox" checked={{this.emailTrackOpens}} class="gh-input" {{on "click" (action "toggleEmailTrackOpens")}} name="email-track-opens" data-test-checkbox="email-track-opens">
+                                <input type="checkbox" checked={{this.settings.emailTrackOpens}} class="gh-input" {{on "click" (action "toggleEmailTrackOpens")}} name="email-track-opens" data-test-checkbox="email-track-opens">
                                 <span class="input-toggle-component mt1"></span>
                             </label>
                         </div>
@@ -120,9 +120,9 @@
             <h4 class="gh-main-section-header small bn">Preview</h4>
             <div class="gh-publishmenu-dropdown-container">
                 <div class="gh-publishmenu-dropdown">
-                    <header class="gh-publishmenu-heading">Ready to <span class="gh-publishmenu-heading-dropdown">{{#if emailPreviewVisible}} publish & send {{else}} publish {{/if}}{{svg-jar "arrow-down"}}</span> this post?</header>
+                    <header class="gh-publishmenu-heading">Ready to <span class="gh-publishmenu-heading-dropdown">{{#if this.emailPreviewVisible}} publish & send {{else}} publish {{/if}}{{svg-jar "arrow-down"}}</span> this post?</header>
                     <section class="gh-publishmenu-content">
-                        <div class="gh-publishmenu-section {{if emailPreviewVisible "" "mb7"}}">
+                        <div class="gh-publishmenu-section {{if this.emailPreviewVisible "" "mb7"}}">
                             <div class="gh-publishmenu-radio active">
                                 <div class="gh-publishmenu-radio-button"></div>
                                 <div class="gh-publishmenu-radio-content">
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{#if emailPreviewVisible}}
+                        {{#if this.emailPreviewVisible}}
                             <div class="gh-publishmenu-section">
                                 <div class="gh-publishmenu-email">
                                     <div class="gh-publishmenu-email-label">
@@ -144,7 +144,6 @@
                                         <div class="form-group">
                                             <GhMembersRecipientSelect
                                                 @filter={{this.settings.editorDefaultEmailRecipientsFilter}}
-                                                @disabled={{this.disableEmailOption}}
                                             />
                                         </div>
                                     </div>
@@ -157,7 +156,7 @@
         </div>
     </section>
 
-    {{#unless this.mailgunIsConfigured}}
+    {{#unless this.config.mailgunIsConfigured}}
         <hr>
         <section class="gh-main-section">
             <h4 class="gh-main-section-header small bn">Advanced</h4>

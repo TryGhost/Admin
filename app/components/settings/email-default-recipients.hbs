@@ -9,7 +9,6 @@
         @options={{this.options}}
         @selected={{this.selectedOption}}
         @onChange={{this.setDefaultEmailRecipients}}
-        @onUpdate={{this.updateSegmentSelected}}
         @triggerClass="gh-setting-dropdown"
         @dropdownClass="gh-setting-dropdown-list"
         @disabled={{this.isDisabled}}
@@ -23,7 +22,7 @@
             </div>
         </div>
     </PowerSelect>
-    
+
     {{#if this.isSegment}}
         <div class="gh-setting-large-dropdown mt2">
             <GhMembersSegmentSelect
