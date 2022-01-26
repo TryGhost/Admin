@@ -38,9 +38,20 @@
     <section class="gh-main-section gh-setting-email-section content-preview">
         <div>
             <div class="gh-expandable">
-
-                <Settings::EmailDefaultRecipients />
-
+                <div class="gh-setting-richdd-container gh-setting-rich-dropdown">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Default newsletter recipients</h4>
+                            <p class="gh-expandable-description">When you publish new content, who do you usually want to send it to?</p>
+                        </div>
+                    </div>
+                    <Settings::EmailDefaultRecipients
+                        @recipients={{this.recipientsSelectValue}}
+                        @segment={{this.settings.editorDefaultEmailRecipientsFilter}}
+                        @onRecipientsChange={{action "setDefaultEmailRecipients"}}
+                        @onSegmentChange={{action "setDefaultEmailRecipientsFilter"}}
+                    />
+                </div>
             </div>
             <div class="gh-expandable">
                 <div class="gh-expandable-block">

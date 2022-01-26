@@ -13,6 +13,7 @@ export default Component.extend({
     settings: service(),
 
     replyAddresses: null,
+    recipientsSelectValue: null,
     showFromAddressConfirmation: false,
     showEmailDesignSettings: false,
 
@@ -20,12 +21,8 @@ export default Component.extend({
         return this.get('settings.editorDefaultEmailRecipients') !== 'disabled';
     }),
 
-    emailPreviewVisible: computed('settings.{editorDefaultEmailRecipients,editorDefaultEmailRecipientsFilter}', function () {
-        if (this.get('settings.editorDefaultEmailRecipients') !== 'filter' || this.get('settings.editorDefaultEmailRecipientsFilter')) {
-            return true;
-        } else {
-            return false;
-        }
+    emailPreviewVisible: computed('recipientsSelectValue', function () {
+        return this.recipientsSelectValue !== 'none';
     }),
 
     selectedReplyAddress: computed('settings.membersReplyAddress', function () {
@@ -71,6 +68,12 @@ export default Component.extend({
                 value: 'support'
             }
         ]);
+
+        // set recipientsSelectValue as a static property because within this
+        // component's lifecycle it's not always derived from the settings values.
+        // e.g. can be set to "segment" when the filter is empty which is not derivable
+        // from settings as it would equate to "none"
+        this.set('recipientsSelectValue', this._getDerivedRecipientsSelectValue());
     },
 
     actions: {
@@ -124,12 +127,45 @@ export default Component.extend({
                 this.set('settings.editorDefaultEmailRecipients', 'disabled');
                 this.set('settings.editorDefaultEmailRecipientsFilter', null);
             }
+
+            this.set('recipientsSelectValue', this._getDerivedRecipientsSelectValue());
         },
 
         setReplyAddress(event) {
             const newReplyAddress = event.value;
 
             this.set('settings.membersReplyAddress', newReplyAddress);
+        },
+
+        setDefaultEmailRecipients(value) {
+            // Update the underlying setting properties to match the selected recipients option
+
+            if (['visibility', 'disabled'].includes(value)) {
+                this.settings.set('editorDefaultEmailRecipients', value);
+                this.settings.set('editorDefaultEmailRecipientsFilter', null);
+            } else {
+                this.settings.set('editorDefaultEmailRecipients', 'filter');
+            }
+
+            if (value === 'all-members') {
+                this.settings.set('editorDefaultEmailRecipientsFilter', 'status:free,status:-free');
+            }
+
+            if (value === 'paid-only') {
+                this.settings.set('editorDefaultEmailRecipientsFilter', 'status:-free');
+            }
+
+            if (value === 'none') {
+                this.settings.set('editorDefaultEmailRecipientsFilter', null);
+            }
+
+            // Update the value used to display the selected recipients option explicitly
+            // because it's local non-derived state
+            this.set('recipientsSelectValue', value);
+        },
+
+        setDefaultEmailRecipientsFilter(filter) {
+            this.settings.set('editorDefaultEmailRecipientsFilter', filter);
         }
     },
 
@@ -148,5 +184,24 @@ export default Component.extend({
             // Failed to send email, retry
             return false;
         }
-    }).drop()
+    }).drop(),
+
+    _getDerivedRecipientsSelectValue() {
+        const defaultEmailRecipients = this.settings.get('editorDefaultEmailRecipients');
+        const defaultEmailRecipientsFilter = this.settings.get('editorDefaultEmailRecipientsFilter');
+
+        if (defaultEmailRecipients === 'filter') {
+            if (defaultEmailRecipientsFilter === 'status:free,status:-free') {
+                return 'all-members';
+            } else if (defaultEmailRecipientsFilter === 'status:-free') {
+                return 'paid-only';
+            } else if (defaultEmailRecipientsFilter === null) {
+                return 'none';
+            } else {
+                return 'segment';
+            }
+        }
+
+        return defaultEmailRecipients;
+    }
 });
