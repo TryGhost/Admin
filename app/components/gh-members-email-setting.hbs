@@ -39,10 +39,7 @@
         <div>
             <div class="gh-expandable">
 
-                <Settings::EmailDefaultRecipients
-                    @expanded={{this.emailRecipientsExpanded}}
-                    @toggleExpansion={{this.toggleEmailRecipientsExpansion}}
-                />
+                <Settings::EmailDefaultRecipients />
 
             </div>
             <div class="gh-expandable">
@@ -96,7 +93,7 @@
                                     }}
                                     {{svg-jar "arrow-down-small"}}
                                 </span>
-                                <p>Where you receive responses to newsletters</p>                            
+                                <p>Where you receive responses to newsletters</p>
                             </GhFormGroup>
                         {{/liquid-if}}
                     </div>
@@ -206,7 +203,7 @@
                                             />
                                         </GhFormGroup>
                                     </div>
-                                    <p>Find your Mailgun region and domain 
+                                    <p>Find your Mailgun region and domain
                                         <a href="https://app.mailgun.com/app/sending/domains" target="_blank" class="fw5">here</a>
                                     </p>
                                 </GhFormGroup>
@@ -219,7 +216,7 @@
                                         @class="mt1 password" @autocomplete="new-password"
                                         data-test-mailgun-api-key-input={{true}}
                                     />
-                                    <p>Find your Mailgun API keys 
+                                    <p>Find your Mailgun API keys
                                         <a href="https://app.mailgun.com/app/account/security/api_keys" target="_blank" class="fw5">here</a>
                                     </p>
                                 </GhFormGroup>
@@ -230,5 +227,5 @@
             </div>
         </section>
     {{/unless}}
-    
+
 {{/if}}
