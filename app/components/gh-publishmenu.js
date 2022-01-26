@@ -486,7 +486,11 @@ export default Component.extend({
     },
 
     _cleanup() {
-        this.set('distributionAction', 'publish_send');
+        if (this.post.isPage || !this.defaultEmailRecipients) {
+            this.set('distributionAction', 'publish');
+        } else {
+            this.set('distributionAction', 'publish_send');
+        }
 
         // when closing the menu we reset the publishedAtBlogTZ date so that the
         // unsaved changes made to the scheduled date aren't reflected in the PSM
