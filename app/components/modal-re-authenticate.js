@@ -1,27 +1,34 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend(ValidationEngine, {
-    config: service(),
-    notifications: service(),
-    session: service(),
+@classic
+export default class ModalReAuthenticate extends ModalComponent.extend(ValidationEngine) {
+    @service
+    config;
 
-    validationType: 'signin',
+    @service
+    notifications;
 
-    authenticationError: null,
+    @service
+    session;
 
-    identification: reads('session.user.email'),
+    validationType = 'signin';
+    authenticationError = null;
 
-    actions: {
-        confirm() {
-            this.reauthenticate.perform();
-        }
-    },
+    @reads('session.user.email')
+    identification;
+
+    @action
+    confirm() {
+        this.reauthenticate.perform();
+    }
 
     _authenticate() {
         let session = this.session;
@@ -37,7 +44,7 @@ export default ModalComponent.extend(ValidationEngine, {
             this.toggleProperty('submitting');
             session.set('skipAuthSuccessHandler', undefined);
         });
-    },
+    }
 
     _passwordConfirm() {
         // Manually trigger events for input fields, ensuring legacy compatibility with
@@ -68,9 +75,10 @@ export default ModalComponent.extend(ValidationEngine, {
             this.hasValidated.pushObject('password');
             return false;
         });
-    },
+    }
 
-    reauthenticate: task(function* () {
+    @(task(function* () {
         return yield this._passwordConfirm();
-    }).drop()
-});
+    }).drop())
+    reauthenticate;
+}

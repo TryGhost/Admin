@@ -1,3 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
 
-export default ModalComponent.extend({});
+@classic
+export default class ModalEarlyAccess extends ModalComponent {}

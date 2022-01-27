@@ -1,5 +1,6 @@
 import Component from '@ember/component';
-import {computed} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -18,41 +19,56 @@ const REPLY_ADDRESSES = [
     }
 ];
 
-export default Component.extend({
-    config: service(),
-    ghostPaths: service(),
-    ajax: service(),
-    settings: service(),
+@classic
+export default class GhMembersEmailSetting extends Component {
+    @service
+    config;
 
-    replyAddresses: null,
-    showFromAddressConfirmation: false,
-    showSupportAddressConfirmation: false,
-    showEmailDesignSettings: false,
+    @service
+    ghostPaths;
 
-    mailgunIsConfigured: reads('config.mailgunIsConfigured'),
-    emailTrackOpens: reads('settings.emailTrackOpens'),
+    @service
+    ajax;
 
-    selectedReplyAddress: computed('settings.membersReplyAddress', function () {
+    @service
+    settings;
+
+    replyAddresses = null;
+    showFromAddressConfirmation = false;
+    showSupportAddressConfirmation = false;
+    showEmailDesignSettings = false;
+
+    @reads('config.mailgunIsConfigured')
+    mailgunIsConfigured;
+
+    @reads('settings.emailTrackOpens')
+    emailTrackOpens;
+
+    @computed('settings.membersReplyAddress')
+    get selectedReplyAddress() {
         return REPLY_ADDRESSES.findBy('value', this.get('settings.membersReplyAddress'));
-    }),
+    }
 
-    disableUpdateFromAddressButton: computed('fromAddress', function () {
+    @computed('fromAddress')
+    get disableUpdateFromAddressButton() {
         const savedFromAddress = this.get('settings.membersFromAddress') || '';
         if (!savedFromAddress.includes('@') && this.config.emailDomain) {
             return !this.fromAddress || (this.fromAddress === `${savedFromAddress}@${this.config.emailDomain}`);
         }
         return !this.fromAddress || (this.fromAddress === savedFromAddress);
-    }),
+    }
 
-    disableUpdateSupportAddressButton: computed('supportAddress', function () {
+    @computed('supportAddress')
+    get disableUpdateSupportAddressButton() {
         const savedSupportAddress = this.get('settings.membersSupportAddress') || '';
         if (!savedSupportAddress.includes('@') && this.config.emailDomain) {
             return !this.supportAddress || (this.supportAddress === `${savedSupportAddress}@${this.config.emailDomain}`);
         }
         return !this.supportAddress || (this.supportAddress === savedSupportAddress);
-    }),
+    }
 
-    mailgunRegion: computed('settings.mailgunBaseUrl', function () {
+    @computed('settings.mailgunBaseUrl')
+    get mailgunRegion() {
         if (!this.settings.get('mailgunBaseUrl')) {
             return US;
         }
@@ -60,72 +76,80 @@ export default Component.extend({
         return [US, EU].find((region) => {
             return region.baseUrl === this.settings.get('mailgunBaseUrl');
         });
-    }),
+    }
 
-    mailgunSettings: computed('settings.{mailgunBaseUrl,mailgunApiKey,mailgunDomain}', function () {
+    @computed('settings.{mailgunBaseUrl,mailgunApiKey,mailgunDomain}')
+    get mailgunSettings() {
         return {
             apiKey: this.get('settings.mailgunApiKey') || '',
             domain: this.get('settings.mailgunDomain') || '',
             baseUrl: this.get('settings.mailgunBaseUrl') || ''
         };
-    }),
+    }
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.set('mailgunRegions', [US, EU]);
         this.set('replyAddresses', REPLY_ADDRESSES);
-    },
+    }
 
-    actions: {
-        toggleFromAddressConfirmation() {
-            this.toggleProperty('showFromAddressConfirmation');
-        },
+    @action
+    toggleFromAddressConfirmation() {
+        this.toggleProperty('showFromAddressConfirmation');
+    }
 
-        closeEmailDesignSettings() {
-            this.set('showEmailDesignSettings', false);
-        },
+    @action
+    closeEmailDesignSettings() {
+        this.set('showEmailDesignSettings', false);
+    }
 
-        setMailgunDomain(event) {
-            this.set('settings.mailgunDomain', event.target.value);
-            if (!this.get('settings.mailgunBaseUrl')) {
-                this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
-            }
-        },
-
-        setMailgunApiKey(event) {
-            this.set('settings.mailgunApiKey', event.target.value);
-            if (!this.get('settings.mailgunBaseUrl')) {
-                this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
-            }
-        },
-
-        setMailgunRegion(region) {
-            this.set('settings.mailgunBaseUrl', region.baseUrl);
-        },
-
-        setFromAddress(fromAddress) {
-            this.setEmailAddress('fromAddress', fromAddress);
-        },
-
-        setSupportAddress(supportAddress) {
-            this.setEmailAddress('supportAddress', supportAddress);
-        },
-
-        toggleEmailTrackOpens(event) {
-            if (event) {
-                event.preventDefault();
-            }
-            this.set('settings.emailTrackOpens', !this.emailTrackOpens);
-        },
-
-        setReplyAddress(event) {
-            const newReplyAddress = event.value;
-
-            this.set('settings.membersReplyAddress', newReplyAddress);
+    @action
+    setMailgunDomain(event) {
+        this.set('settings.mailgunDomain', event.target.value);
+        if (!this.get('settings.mailgunBaseUrl')) {
+            this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
         }
-    },
+    }
 
-    updateFromAddress: task(function* () {
+    @action
+    setMailgunApiKey(event) {
+        this.set('settings.mailgunApiKey', event.target.value);
+        if (!this.get('settings.mailgunBaseUrl')) {
+            this.set('settings.mailgunBaseUrl', this.mailgunRegion.baseUrl);
+        }
+    }
+
+    @action
+    setMailgunRegion(region) {
+        this.set('settings.mailgunBaseUrl', region.baseUrl);
+    }
+
+    @action
+    setFromAddress(fromAddress) {
+        this.setEmailAddress('fromAddress', fromAddress);
+    }
+
+    @action
+    setSupportAddress(supportAddress) {
+        this.setEmailAddress('supportAddress', supportAddress);
+    }
+
+    @action
+    toggleEmailTrackOpens(event) {
+        if (event) {
+            event.preventDefault();
+        }
+        this.set('settings.emailTrackOpens', !this.emailTrackOpens);
+    }
+
+    @action
+    setReplyAddress(event) {
+        const newReplyAddress = event.value;
+
+        this.set('settings.membersReplyAddress', newReplyAddress);
+    }
+
+    @(task(function* () {
         let url = this.get('ghostPaths.url').api('/settings/members/email');
         try {
             const response = yield this.ajax.post(url, {
@@ -140,9 +164,10 @@ export default Component.extend({
             // Failed to send email, retry
             return false;
         }
-    }).drop(),
+    }).drop())
+    updateFromAddress;
 
-    updateSupportAddress: task(function* () {
+    @(task(function* () {
         let url = this.get('ghostPaths.url').api('/settings/members/email');
         try {
             const response = yield this.ajax.post(url, {
@@ -157,5 +182,6 @@ export default Component.extend({
             // Failed to send email, retry
             return false;
         }
-    }).drop()
-});
+    }).drop())
+    updateSupportAddress;
+}

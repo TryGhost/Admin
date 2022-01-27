@@ -1,23 +1,26 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    user: null,
+@classic
+export default class ModalTransferOwner extends ModalComponent {
+    user = null;
 
     // Allowed actions
-    confirm: () => {},
+    confirm = () => {};
 
-    actions: {
-        confirm() {
-            this.transferOwnership.perform();
-        }
-    },
+    @action
+    confirm() {
+        this.transferOwnership.perform();
+    }
 
-    transferOwnership: task(function* () {
+    @(task(function* () {
         try {
             yield this.confirm();
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    transferOwnership;
+}

@@ -1,22 +1,28 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
 import {alias, reads} from '@ember/object/computed';
-import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    membersStats: service(),
+@classic
+export default class ModalDeleteMember extends ModalComponent {
+    @service
+    membersStats;
 
-    shouldCancelSubscriptions: false,
+    shouldCancelSubscriptions = false;
 
     // Allowed actions
-    confirm: () => {},
+    confirm = () => {};
 
-    member: alias('model'),
+    @alias('model')
+    member;
 
-    cancelSubscriptions: reads('shouldCancelSubscriptions'),
+    @reads('shouldCancelSubscriptions')
+    cancelSubscriptions;
 
-    hasActiveStripeSubscriptions: computed('member', function () {
+    @computed('member')
+    get hasActiveStripeSubscriptions() {
         let subscriptions = this.member.get('subscriptions');
 
         if (!subscriptions || subscriptions.length === 0) {
@@ -28,24 +34,25 @@ export default ModalComponent.extend({
         });
 
         return firstActiveStripeSubscription !== undefined;
-    }),
+    }
 
-    actions: {
-        confirm() {
-            this.deleteMember.perform();
-        },
+    @action
+    confirm() {
+        this.deleteMember.perform();
+    }
 
-        toggleShouldCancelSubscriptions() {
-            this.set('shouldCancelSubscriptions', !this.shouldCancelSubscriptions);
-        }
-    },
+    @action
+    toggleShouldCancelSubscriptions() {
+        this.set('shouldCancelSubscriptions', !this.shouldCancelSubscriptions);
+    }
 
-    deleteMember: task(function* () {
+    @(task(function* () {
         try {
             yield this.confirm(this.shouldCancelSubscriptions);
             this.membersStats.invalidate();
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    deleteMember;
+}

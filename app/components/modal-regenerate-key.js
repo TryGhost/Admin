@@ -1,30 +1,42 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {capitalize} from '@ember/string';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    ajax: service(),
-    store: service(),
-    ghostPaths: service(),
+@classic
+export default class ModalRegenerateKey extends ModalComponent {
+    @service
+    ajax;
 
-    errorMessage: null,
+    @service
+    store;
+
+    @service
+    ghostPaths;
+
+    errorMessage = null;
 
     // Allowed actions
-    confirm: () => {},
+    confirm = () => {};
 
-    apiKey: alias('model.apiKey'),
-    integration: alias('model.integration'),
-    internalIntegration: alias('model.internalIntegration'),
+    @alias('model.apiKey')
+    apiKey;
 
-    actions: {
-        confirm() {
-            this.regenerateApiKey.perform();
-        }
-    },
+    @alias('model.integration')
+    integration;
 
-    regenerateKey: task(function* () {
+    @alias('model.internalIntegration')
+    internalIntegration;
+
+    @action
+    confirm() {
+        this.regenerateApiKey.perform();
+    }
+
+    @(task(function* () {
         let url = this.get('ghostPaths.url').api('/integrations/', this.integration.id, 'api_key', this.apiKey.id, 'refresh');
         try {
             const response = yield this.ajax.post(url, {
@@ -40,5 +52,6 @@ export default ModalComponent.extend({
             this.set('errorMessage', errMessage);
             return;
         }
-    }).drop()
-});
+    }).drop())
+    regenerateKey;
+}

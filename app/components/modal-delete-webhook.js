@@ -1,20 +1,24 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    notifications: service(),
+@classic
+export default class ModalDeleteWebhook extends ModalComponent {
+    @service
+    notifications;
 
-    webhook: alias('model'),
+    @alias('model')
+    webhook;
 
-    actions: {
-        confirm() {
-            this.deleteWebhook.perform();
-        }
-    },
+    @action
+    confirm() {
+        this.deleteWebhook.perform();
+    }
 
-    deleteWebhook: task(function* () {
+    @(task(function* () {
         try {
             yield this.confirm();
         } catch (error) {
@@ -22,5 +26,6 @@ export default ModalComponent.extend({
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    deleteWebhook;
+}

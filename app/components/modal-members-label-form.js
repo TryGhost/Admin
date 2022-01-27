@@ -1,40 +1,49 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {and} from '@ember/object/computed';
 import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    router: service(),
-    notifications: service(),
-    model: null,
-    showDeleteLabelModal: false,
+@classic
+export default class ModalMembersLabelForm extends ModalComponent {
+    @service
+    router;
 
-    confirm() {},
-    label: and('model', 'model.label'),
+    @service
+    notifications;
+
+    model = null;
+    showDeleteLabelModal = false;
+    confirm() {}
+
+    @and('model', 'model.label')
+    label;
 
     willDestroyElement() {
-        this._super(...arguments);
+        super.willDestroyElement(...arguments);
         this.label.errors.clear();
         this.label.rollbackAttributes();
-    },
+    }
 
-    actions: {
-        toggleDeleteLabelModal() {
-            this.label.rollbackAttributes();
-            this.set('showDeleteLabelModal', true);
-        },
+    @action
+    toggleDeleteLabelModal() {
+        this.label.rollbackAttributes();
+        this.set('showDeleteLabelModal', true);
+    }
 
-        validate(property) {
-            return this.label.validate({property});
-        },
+    @action
+    validate(property) {
+        return this.label.validate({property});
+    }
 
-        confirm() {
-            return this.saveTask.perform();
-        }
-    },
+    @action
+    confirm() {
+        return this.saveTask.perform();
+    }
 
-    saveTask: task(function* () {
+    @task(function* () {
         let label = this.model && this.model.label;
         let availableLabels = (this.model && this.model.labels) || [];
         if (!label) {
@@ -65,9 +74,10 @@ export default ModalComponent.extend({
                 this.notifications.showAPIError(error, {key: 'label.save'});
             }
         }
-    }),
+    })
+    saveTask;
 
-    deleteLabel: task(function * () {
+    @task(function * () {
         let label = this.model && this.model.label;
         if (!label) {
             return false;
@@ -84,5 +94,5 @@ export default ModalComponent.extend({
             }
         }
     })
-
-});
+    deleteLabel;
+}

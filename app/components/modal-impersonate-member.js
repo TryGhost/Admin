@@ -1,38 +1,47 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
+import {classNames} from '@ember-decorators/component';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    config: service(),
-    store: service(),
+@classic
+@classNames('modal-impersonate-member')
+export default class ModalImpersonateMember extends ModalComponent {
+    @service
+    config;
 
-    classNames: 'modal-impersonate-member',
+    @service
+    store;
 
-    signinUrl: null,
-    member: alias('model'),
+    signinUrl = null;
+
+    @alias('model')
+    member;
 
     didInsertElement() {
-        this._super(...arguments);
+        super.didInsertElement(...arguments);
 
         this._signinUrlUpdateTask.perform();
-    },
+    }
 
-    actions: {
-        // noop - we don't want the enter key doing anything
-        confirm() {}
-    },
+    // noop - we don't want the enter key doing anything
+    @action
+    confirm() {}
 
-    copySigninUrl: task(function* () {
+    @task(function* () {
         copyTextToClipboard(this.signinUrl);
         yield timeout(1000);
         return true;
-    }),
+    })
+    copySigninUrl;
 
-    _signinUrlUpdateTask: task(function*() {
+    @(task(function*() {
         const memberSigninURL = yield this.member.fetchSigninUrl.perform();
 
         this.set('signinUrl', memberSigninURL.url);
-    }).drop()
-});
+    }).drop())
+    _signinUrlUpdateTask;
+}

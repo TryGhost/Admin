@@ -1,19 +1,30 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    router: service(),
-    feature: service(),
-    notifications: service(),
-    integration: alias('model'),
-    actions: {
-        confirm() {
-            this.deleteIntegration.perform();
-        }
-    },
-    deleteIntegration: task(function* () {
+@classic
+export default class ModalDeleteIntegration extends ModalComponent {
+    @service
+    router;
+
+    @service
+    feature;
+
+    @service
+    notifications;
+
+    @alias('model')
+    integration;
+
+    @action
+    confirm() {
+        this.deleteIntegration.perform();
+    }
+
+    @(task(function* () {
         try {
             yield this.confirm();
             this.router.transitionTo('settings.integrations');
@@ -22,5 +33,6 @@ export default ModalComponent.extend({
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    deleteIntegration;
+}

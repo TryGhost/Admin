@@ -1,24 +1,28 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
+@classic
+export default class ModalDisconnectStripe extends ModalComponent {
     // Allowed actions
-    confirm: () => {},
+    confirm = () => {};
 
-    stripeConnectAccountName: alias('model.stripeConnectAccountName'),
+    @alias('model.stripeConnectAccountName')
+    stripeConnectAccountName;
 
-    actions: {
-        confirm() {
-            this.disconnectStripe.perform();
-        }
-    },
+    @action
+    confirm() {
+        this.disconnectStripe.perform();
+    }
 
-    disconnectStripe: task(function* () {
+    @(task(function* () {
         try {
             yield this.confirm();
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    disconnectStripe;
+}

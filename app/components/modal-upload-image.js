@@ -1,62 +1,67 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
 import cajaSanitizers from 'ghost-admin/utils/caja-sanitizers';
-import {computed} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    config: service(),
-    notifications: service(),
+@classic
+export default class ModalUploadImage extends ModalComponent {
+    @service
+    config;
 
-    model: null,
+    @service
+    notifications;
 
-    url: '',
-    newUrl: '',
-    _isUploading: false,
+    model = null;
+    url = '';
+    newUrl = '';
+    _isUploading = false;
 
-    image: computed('model.{model,imageProperty}', {
-        get() {
-            let imageProperty = this.get('model.imageProperty');
+    @computed('model.{model,imageProperty}')
+    get image() {
+        let imageProperty = this.get('model.imageProperty');
 
-            return this.get(`model.model.${imageProperty}`);
-        },
+        return this.get(`model.model.${imageProperty}`);
+    }
 
-        set(key, value) {
-            let model = this.get('model.model');
-            let imageProperty = this.get('model.imageProperty');
+    set image(value) {
+        let model = this.get('model.model');
+        let imageProperty = this.get('model.imageProperty');
 
-            return model.set(imageProperty, value);
-        }
-    }),
+        return model.set(imageProperty, value);
+    }
 
     didReceiveAttrs() {
-        this._super(...arguments);
+        super.didReceiveAttrs(...arguments);
 
         let image = this.image;
         this.set('url', image);
         this.set('newUrl', image);
-    },
+    }
 
-    actions: {
-        fileUploaded(url) {
-            this.set('url', url);
-            this.set('newUrl', url);
-        },
+    @action
+    fileUploaded(url) {
+        this.set('url', url);
+        this.set('newUrl', url);
+    }
 
-        removeImage() {
-            this.set('url', '');
-            this.set('newUrl', '');
-        },
+    @action
+    removeImage() {
+        this.set('url', '');
+        this.set('newUrl', '');
+    }
 
-        confirm() {
-            this.uploadImage.perform();
-        },
+    @action
+    confirm() {
+        this.uploadImage.perform();
+    }
 
-        isUploading() {
-            this.toggleProperty('_isUploading');
-        }
-    },
+    @action
+    isUploading() {
+        this.toggleProperty('_isUploading');
+    }
 
     // TODO: should validation be handled in the gh-image-uploader component?
     //  pro - consistency everywhere, simplification here
@@ -68,7 +73,7 @@ export default ModalComponent.extend({
     //        affect the url input form
     keyDown() {
         this._setErrorState(false);
-    },
+    }
 
     _setErrorState(state) {
         if (state) {
@@ -76,7 +81,7 @@ export default ModalComponent.extend({
         } else {
             this.element.querySelector('.url').classList.remove('error');
         }
-    },
+    }
 
     _validateUrl(url) {
         if (!isEmpty(url) && !cajaSanitizers.url(url)) {
@@ -85,10 +90,11 @@ export default ModalComponent.extend({
         }
 
         return true;
-    },
+    }
+
     // end validation
 
-    uploadImage: task(function* () {
+    @(task(function* () {
         let model = this.get('model.model');
         let newUrl = this.newUrl;
         let result = this._validateUrl(newUrl);
@@ -105,5 +111,6 @@ export default ModalComponent.extend({
                 this.send('closeModal');
             }
         }
-    }).drop()
-});
+    }).drop())
+    uploadImage;
+}

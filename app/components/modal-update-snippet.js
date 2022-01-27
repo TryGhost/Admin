@@ -1,21 +1,27 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-export default ModalComponent.extend({
-    router: service(),
-    notifications: service(),
+@classic
+export default class ModalUpdateSnippet extends ModalComponent {
+    @service
+    router;
 
-    snippet: alias('model.snippetRecord'),
+    @service
+    notifications;
 
-    actions: {
-        confirm() {
-            this.updateSnippet.perform();
-        }
-    },
+    @alias('model.snippetRecord')
+    snippet;
 
-    updateSnippet: task(function* () {
+    @action
+    confirm() {
+        this.updateSnippet.perform();
+    }
+
+    @(task(function* () {
         try {
             yield this.confirm();
         } catch (error) {
@@ -23,5 +29,6 @@ export default ModalComponent.extend({
         } finally {
             this.send('closeModal');
         }
-    }).drop()
-});
+    }).drop())
+    updateSnippet;
+}
