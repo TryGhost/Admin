@@ -1,26 +1,41 @@
-<div class="flex justify-between items-center">    
+<div class="flex justify-between items-center">
     <label>Tiers</label>
-    <div class="ember-view ember-basic-dropdown-trigger
-            ember-basic-dropdown-trigger--left
-            ember-basic-dropdown-trigger--below
-            ember-power-select-trigger gh-contentfilter-menu-trigger bg-transparent" role="button" tabindex="0" data-ebd-id="ember596-trigger" aria-owns="ember-basic-dropdown-content-ember596" aria-expanded="true">
-            <span class="ember-power-select-selected-item">
-            Active
-        </span>
-        <svg viewBox="0 0 26 17"><path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <div>
+        <div class="gh-contentfilter-menu gh-contentfilter-type {{if (not (eq this.selectedType.value "active")) "gh-contentfilter-selected"}}" data-test-type-select="true">
+            <PowerSelect
+                @selected={{this.selectedType}}
+                @options={{this.availableTypes}}
+                @searchEnabled={{false}}
+                @onChange={{this.onTypeChange}}
+                @triggerComponent="gh-power-select/trigger"
+                @triggerClass="gh-contentfilter-menu-trigger"
+                @dropdownClass="gh-contentfilter-menu-dropdown"
+                @matchTriggerWidth={{false}}
+                as |type|
+            >
+                {{#if type.name}}{{type.name}} tiers{{else}}<span class="red">Unknown type</span>{{/if}}
+            </PowerSelect>
+        </div>
     </div>
 </div>
 <div class="gh-product-cards">
-{{#each this.products as |product productIdx|}}
-    <GhProductCard
-        @product={{product}}
-        @openEditProduct={{this.openEditProduct}}
-    />
-{{/each}}
+    {{#if this.isEmptyList}}
+        No tier
+    {{/if}}
 
-<div class="gh-product-cards-footer">
-    <button class="gh-btn gh-btn-link gh-btn-text gh-btn-icon gh-btn-add-product green" {{action "openNewProduct" product}}><span>{{svg-jar "add-stroke" class="stroke-green"}}Add tier</span></button>
-</div>
+    {{#each this.products as |product productIdx|}}
+        <GhProductCard
+            @product={{product}}
+            @openEditProduct={{this.openEditProduct}}
+        />
+    {{/each}}
+    {{#if (eq this.type "active" )}}
+        <div class="gh-product-cards-footer">
+            <button class="gh-btn gh-btn-link gh-btn-text gh-btn-icon gh-btn-add-product green" {{action "openNewProduct" product}}>
+                <span>{{svg-jar "add-stroke" class="stroke-green"}}Add tier</span>
+            </button>
+        </div>
+    {{/if}}
 </div>
 
 {{#if this.showProductModal}}
