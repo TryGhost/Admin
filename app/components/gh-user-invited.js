@@ -84,9 +84,9 @@ export default class GhUserInvited extends Component {
         }).catch((error) => {
             if (isNotFoundError(error)) {
                 // if the invite no longer exists, then show a warning and reload the route
-                let action = this.reload;
-                if (action) {
-                    action();
+                let reloadAction = this.reload;
+                if (reloadAction) {
+                    reloadAction();
                 }
 
                 notifications.showAlert('This invite has been revoked or a user has already accepted the invitation.', {type: 'error', delayed: true, key: 'invite.revoke.already-accepted'});

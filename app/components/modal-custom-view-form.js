@@ -14,7 +14,6 @@ export default class ModalCustomViewForm extends ModalComponent {
     router;
 
     delayedModelColor = '';
-    confirm() {}
 
     init() {
         super.init(...arguments);

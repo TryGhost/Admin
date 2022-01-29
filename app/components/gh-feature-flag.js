@@ -27,7 +27,7 @@ class FeatureFlagComponent extends Component {
     }
 
     set value(value) {
-        return this.set(`feature.${this.flag}`, value);
+        this.set(`feature.${this.flag}`, value);
     }
 
     @computed('flag')

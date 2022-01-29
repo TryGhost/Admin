@@ -90,9 +90,7 @@ export default class GhDropdown extends Component.extend(DropdownMixin) {
         }
     }
 
-    click(event) {
-        undefined;
-
+    click() {
         if (this.closeOnClick) {
             return this.close();
         }

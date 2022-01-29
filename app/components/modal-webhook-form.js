@@ -20,7 +20,6 @@ export default class ModalWebhookForm extends ModalComponent {
     error = null;
     buttonText = 'Save';
     successText = 'Saved';
-    confirm() {}
 
     @alias('model')
     webhook;

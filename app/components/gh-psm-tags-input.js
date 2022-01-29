@@ -38,8 +38,8 @@ export default class GhPsmTagsInput extends Component {
     }
 
     @action
-    matchTags(tagName, term) {
-        return tagName.toLowerCase() === term.trim().toLowerCase();
+    matchTags(tagNameAttr, term) {
+        return tagNameAttr.toLowerCase() === term.trim().toLowerCase();
     }
 
     @action
@@ -63,25 +63,25 @@ export default class GhPsmTagsInput extends Component {
     }
 
     @action
-    createTag(tagName) {
+    createTag(tagNameAttr) {
         let currentTags = this.get('post.tags');
         let currentTagNames = currentTags.map(tag => tag.get('name').toLowerCase());
         let tagToAdd;
 
-        tagName = tagName.trim();
+        tagNameAttr = tagNameAttr.trim();
 
         // abort if tag is already selected
-        if (currentTagNames.includes(tagName.toLowerCase())) {
+        if (currentTagNames.includes(tagNameAttr.toLowerCase())) {
             return;
         }
 
         // find existing tag if there is one
-        tagToAdd = this._findTagByName(tagName);
+        tagToAdd = this._findTagByName(tagNameAttr);
 
         // create new tag if no match
         if (!tagToAdd) {
             tagToAdd = this.store.createRecord('tag', {
-                name: tagName
+                name: tagNameAttr
             });
 
             // set to public/internal based on the tag name

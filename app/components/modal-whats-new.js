@@ -8,8 +8,6 @@ export default class ModalWhatsNew extends ModalComponent {
     @service
     whatsNew;
 
-    confirm() {}
-
     // noop - enter key shouldn't do anything
     @action
     confirm() {}

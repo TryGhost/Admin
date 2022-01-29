@@ -30,7 +30,7 @@ export default class ModalUploadImage extends ModalComponent {
         let model = this.get('model.model');
         let imageProperty = this.get('model.imageProperty');
 
-        return model.set(imageProperty, value);
+        model.set(imageProperty, value);
     }
 
     didReceiveAttrs() {

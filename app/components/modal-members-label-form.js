@@ -16,7 +16,6 @@ export default class ModalMembersLabelForm extends ModalComponent {
 
     model = null;
     showDeleteLabelModal = false;
-    confirm() {}
 
     @and('model', 'model.label')
     label;
