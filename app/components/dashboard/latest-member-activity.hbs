@@ -2,11 +2,11 @@
     <div class="gh-dashboard-box activity" data-test-dashboard-member-activity>
         <h4 class="gh-dashboard-header-container">
             <h4 class="gh-dashboard-header">
-                Members activity
+                Activity
             </h4>
         </h4>
         <div class="content">
-            {{#let (members-event-fetcher filter=(if (feature "membersActivityFeed") "type:-[email_delivered_event,email_opened_event,email_failed_event]") pageSize=5) as |eventsFetcher|}}
+            {{#let (members-event-fetcher filter=(if (feature "membersActivityFeed") (members-event-filter excludeEmailEvents=true)) pageSize=(if (feature "membersActivityFeed") 10 5)) as |eventsFetcher|}}
                 {{#if eventsFetcher.isLoading}}
                     Loading...
                 {{/if}}

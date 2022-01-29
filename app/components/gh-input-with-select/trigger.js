@@ -69,6 +69,10 @@ export default class GhSearchInputTrigger extends Component {
         }
 
         this.args.onFocus?.(...arguments);
+
+        if (this.args.extra.showSearchMessage === false && this.args.select.results.length === 0) {
+            this.close();
+        }
     }
 
     @action
@@ -83,7 +87,7 @@ export default class GhSearchInputTrigger extends Component {
             }
         }
 
-        if (this.args.extra.value && this.args.select.searchText === this.args.extra.value) {
+        if (this.args.extra?.value && this.args.select.searchText === this.args.extra.value) {
             this.args.select.actions.search('');
             this.close();
         }
