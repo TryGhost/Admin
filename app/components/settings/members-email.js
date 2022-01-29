@@ -1,11 +1,11 @@
-import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
+import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3' };
-const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3' };
+const US = {flag: '🇺🇸', name: 'US', baseUrl: 'https://api.mailgun.net/v3'};
+const EU = {flag: '🇪🇺', name: 'EU', baseUrl: 'https://api.eu.mailgun.net/v3'};
 
 @classic
 export default class MembersEmail extends Component {
