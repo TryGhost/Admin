@@ -8,19 +8,21 @@
                 @searchEnabled={{false}}
                 @onChange={{this.onTypeChange}}
                 @triggerComponent="gh-power-select/trigger"
-                @triggerClass="gh-contentfilter-menu-trigger"
+                @triggerClass="gh-contentfilter-menu-trigger gh-contentfilter-menu-trigger-tiers"
                 @dropdownClass="gh-contentfilter-menu-dropdown"
                 @matchTriggerWidth={{false}}
                 as |type|
             >
-                {{#if type.name}}{{type.name}} tiers{{else}}<span class="red">Unknown type</span>{{/if}}
+                {{#if type.name}}{{type.name}}{{else}}<span class="red">Unknown type</span>{{/if}}
             </PowerSelect>
         </div>
     </div>
 </div>
 <div class="gh-product-cards">
     {{#if this.isEmptyList}}
-        No tier
+    <div class="flex justify-center items-center gh-main-content-card">
+        <p style="color:#7c8b9a" class="mb0 pa8">You have no {{this.selectedType.value}} tiers.</p>
+    </div>
     {{/if}}
 
     {{#each this.products as |product productIdx|}}

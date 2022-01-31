@@ -11,6 +11,11 @@
     }
 }
 
+.gh-contentfilter-menu-trigger-tiers {
+    margin-right: 0 !important;
+    background: transparent !important;
+}
+
 .gh-product-cards {
     margin: 0 0 24px;
 }
