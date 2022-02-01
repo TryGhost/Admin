@@ -30,7 +30,7 @@ export default class GhPsmVisibilityInput extends Component {
         this.availableVisibilities = [...VISIBILITIES];
         if (this.feature.get('multipleProducts')) {
             this.availableVisibilities.push(
-                {label: 'Specific tier(s)', name: 'filter'}
+                {label: 'Specific tier(s)', name: 'tiers'}
             );
         }
     }
@@ -38,8 +38,8 @@ export default class GhPsmVisibilityInput extends Component {
     @action
     updateVisibility(newVisibility) {
         this.post.set('visibility', newVisibility);
-        if (newVisibility !== 'filter') {
-            this.post.set('visibilityFilter', null);
+        if (newVisibility !== 'tiers') {
+            this.post.set('tiers', []);
         }
     }
 }
