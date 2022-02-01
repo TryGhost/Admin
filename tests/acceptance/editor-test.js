@@ -144,6 +144,8 @@ describe('Acceptance: Editor', function () {
             await fillIn('[data-test-date-time-picker-time-input]', futureTime.format('HH:mm'));
             await blur('[data-test-date-time-picker-time-input]');
 
+            debugger;
+
             expect(find('[data-test-date-time-picker-error]').textContent.trim(), 'inline error response for future time')
                 .to.equal('Must be in the past');
 

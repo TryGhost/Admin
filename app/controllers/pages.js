@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import PostsController from './posts';
 
 const TYPES = [{
@@ -29,16 +31,16 @@ const ORDERS = [{
 }];
 
 /* eslint-disable ghost/ember/alias-model-in-controller */
-export default PostsController.extend({
+@classic
+export default class PagesController extends PostsController {
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.availableTypes = TYPES;
         this.availableOrders = ORDERS;
-    },
-
-    actions: {
-        openEditor(page) {
-            this.transitionToRoute('editor.edit', 'page', page.get('id'));
-        }
     }
-});
+
+    @action
+    openEditor(page) {
+        this.transitionToRoute('editor.edit', 'page', page.get('id'));
+    }
+}
