@@ -1,6 +1,6 @@
 <div class="gh-nav-bottom">
     <div class="flex items-center justify-between">
-        <div>
+        <div class="pe-all">
             <GhBasicDropdown @horizontalPosition="left" @verticalPosition="above" @calculatePosition={{this.userDropdownPosition}} as |dropdown|>
                 <dropdown.Trigger class="outline-0 pointer">
                     <div class="flex-auto flex items-center">
@@ -89,7 +89,7 @@
                 </dropdown.Content>
             </GhBasicDropdown>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center pe-all">
             {{#if (gh-user-can-admin this.session.user)}}
                 <LinkTo class="gh-nav-bottom-tabicon" @route="settings" @current-when={{this.isSettingsRoute}} data-test-nav="settings">{{svg-jar "settings"}}</LinkTo>
             {{/if}}

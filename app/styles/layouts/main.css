@@ -113,6 +113,7 @@
     border-right: none;
     background: unset;
     width: 100%;
+    pointer-events: none;
 }
 
 .gh-nav-menu {
@@ -889,7 +890,7 @@
     }
 
     /* Hide the nav */
-    .gh-nav {
+    .gh-nav:not(.gh-nav-contributor) {
         position: absolute;
         top: 0;
         left: 0;
@@ -899,6 +900,7 @@
         transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
         transform: translate3d(-260px, 0px, 0px);
     }
+    
     .mobile-menu-expanded .gh-nav {
         transform: translate3d(0,0,0);
     }
@@ -920,7 +922,7 @@
         padding: 24px 15px 24px 16px;
     }
 
-    .gh-nav {
+    .gh-nav:not(.gh-nav-contributor) {
         width: 80vw;
         transform: translate3d(-80vw, 0px, 0px);
     }
@@ -968,7 +970,7 @@
         padding-bottom: 55px;
     }
 
-    .gh-nav-body {
+    .gh-nav:not(.gh-nav-contributor) .gh-nav-body {
         padding-bottom: 64px;
     }
 
