@@ -1,14 +1,13 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 
-@classic
-export default class ModalWhatsNew extends ModalComponent {
-    @service
-    whatsNew;
+export default ModalComponent.extend({
+    whatsNew: service(),
 
-    // noop - enter key shouldn't do anything
-    @action
-    confirm() {}
-}
+    confirm() {},
+
+    actions: {
+        // noop - enter key shouldn't do anything
+        confirm() {}
+    }
+});

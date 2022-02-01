@@ -1,29 +1,25 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalUnsubscribeMembers extends ModalComponent {
-    @service
-    membersStats;
+export default ModalComponent.extend({
+    membersStats: service(),
 
-    shouldCancelSubscriptions = false;
+    shouldCancelSubscriptions: false,
 
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @alias('model')
-    member;
+    member: alias('model'),
 
-    @action
-    confirm() {
-        this.unsubscribeMemberTask.perform();
-    }
+    actions: {
+        confirm() {
+            this.unsubscribeMemberTask.perform();
+        }
+    },
 
-    @(task(function* () {
+    unsubscribeMemberTask: task(function* () {
         try {
             const response = yield this.confirm();
             this.set('response', response);
@@ -35,6 +31,5 @@ export default class ModalUnsubscribeMembers extends ModalComponent {
             }
             throw e;
         }
-    }).drop())
-    unsubscribeMemberTask;
-}
+    }).drop()
+});

@@ -1,37 +1,28 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {alias, not} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalAddLabelMembers extends ModalComponent {
-    @service
-    membersStats;
-
-    selectedLabel = null;
-
+export default ModalComponent.extend({
+    membersStats: service(),
+    selectedLabel: null,
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @not('selectedLabel')
-    isDisabled;
+    isDisabled: not('selectedLabel'),
+    member: alias('model'),
 
-    @alias('model')
-    member;
+    actions: {
+        confirm() {
+            this.addLabelTask.perform();
+        },
 
-    @action
-    confirm() {
-        this.addLabelTask.perform();
-    }
+        setLabel(label) {
+            this.set('selectedLabel', label);
+        }
+    },
 
-    @action
-    setLabel(label) {
-        this.set('selectedLabel', label);
-    }
-
-    @(task(function* () {
+    addLabelTask: task(function* () {
         try {
             const response = yield this.confirm(this.selectedLabel);
             this.set('response', response);
@@ -43,6 +34,5 @@ export default class ModalAddLabelMembers extends ModalComponent {
             }
             throw e;
         }
-    }).drop())
-    addLabelTask;
-}
+    }).drop()
+});

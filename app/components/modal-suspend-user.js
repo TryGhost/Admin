@@ -1,28 +1,24 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalSuspendUser extends ModalComponent {
+export default ModalComponent.extend({
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @alias('model')
-    user;
+    user: alias('model'),
 
-    @action
-    confirm() {
-        return this.suspendUser.perform();
-    }
+    actions: {
+        confirm() {
+            return this.suspendUser.perform();
+        }
+    },
 
-    @(task(function* () {
+    suspendUser: task(function* () {
         try {
             yield this.confirm();
         } finally {
             this.send('closeModal');
         }
-    }).drop())
-    suspendUser;
-}
+    }).drop()
+});

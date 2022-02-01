@@ -1,28 +1,23 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalEnableTiers extends ModalComponent {
-    @service
-    feature;
-
+export default ModalComponent.extend({
+    feature: service(),
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @action
-    confirm() {
-        this.enableTiers.perform();
-    }
+    actions: {
+        confirm() {
+            this.enableTiers.perform();
+        }
+    },
 
-    @(task(function* () {
+    enableTiers: task(function* () {
         try {
             yield this.feature.set('multipleProducts', true);
         } finally {
             this.send('closeModal');
         }
-    }).drop())
-    enableTiers;
-}
+    }).drop()
+});

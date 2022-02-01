@@ -1,33 +1,29 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action, computed} from '@ember/object';
 import {alias} from '@ember/object/computed';
+import {computed} from '@ember/object';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalDeleteTag extends ModalComponent {
+export default ModalComponent.extend({
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @alias('model')
-    tag;
+    tag: alias('model'),
 
-    @computed('tag.count.posts')
-    get postInflection() {
+    postInflection: computed('tag.count.posts', function () {
         return this.get('tag.count.posts') > 1 ? 'posts' : 'post';
-    }
+    }),
 
-    @action
-    confirm() {
-        this.deleteTag.perform();
-    }
+    actions: {
+        confirm() {
+            this.deleteTag.perform();
+        }
+    },
 
-    @(task(function* () {
+    deleteTag: task(function* () {
         try {
             yield this.confirm();
         } finally {
             this.send('closeModal');
         }
-    }).drop())
-    deleteTag;
-}
+    }).drop()
+});

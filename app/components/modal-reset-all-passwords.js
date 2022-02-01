@@ -1,30 +1,24 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action, set} from '@ember/object';
 import {fetch} from 'fetch';
 import {not} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
+import {set} from '@ember/object';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalResetAllPasswords extends ModalComponent {
-    @service
-    notifications;
+export default ModalComponent.extend({
+    notifications: service(),
 
-    isChecked = false;
+    isChecked: false,
+    isConfirmDisabled: not('isChecked'),
 
-    @not('isChecked')
-    isConfirmDisabled;
-
-    @action
-    toggleCheckbox() {
-        set(this, 'isChecked', !this.isChecked);
-    }
-
-    @action
-    confirm() {
-        this.deletePost.perform();
-    }
+    actions: {
+        toggleCheckbox() {
+            set(this, 'isChecked', !this.isChecked);
+        },
+        confirm() {
+            this.deletePost.perform();
+        }
+    },
 
     async _resetPasswords() {
         const res = await fetch('/ghost/api/canary/admin/authentication/reset_all_passwords/', {
@@ -33,13 +27,13 @@ export default class ModalResetAllPasswords extends ModalComponent {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('api failed ' + res.status + ' ' + res.statusText);
         }
-    }
+    },
 
     _failure(error) {
         this.notifications.showAPIError(error, {key: 'user.resetAllPasswords.failed'});
-    }
+    },
 
-    @(task(function* () {
+    resetPasswords: task(function* () {
         try {
             yield this._resetPasswords();
             window.location = window.location.href.split('#')[0];
@@ -48,6 +42,5 @@ export default class ModalResetAllPasswords extends ModalComponent {
         } finally {
             this.send('closeModal');
         }
-    }).drop())
-    resetPasswords;
-}
+    }).drop()
+});

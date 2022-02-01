@@ -1,23 +1,21 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
-import {action} from '@ember/object';
 import {task} from 'ember-concurrency';
 
-@classic
-export default class ModalDeleteMembers extends ModalComponent {
-    confirmed = false;
-    response = null;
-    error = null;
+export default ModalComponent.extend({
+    confirmed: false,
+    response: null,
+    error: null,
 
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @action
-    confirm() {
-        this.deleteMembersTask.perform();
-    }
+    actions: {
+        confirm() {
+            this.deleteMembersTask.perform();
+        }
+    },
 
-    @(task(function* () {
+    deleteMembersTask: task(function* () {
         try {
             this.set('response', (yield this.confirm()));
             this.set('confirmed', true);
@@ -29,6 +27,5 @@ export default class ModalDeleteMembers extends ModalComponent {
 
             throw e;
         }
-    }).drop())
-    deleteMembersTask;
-}
+    }).drop()
+});

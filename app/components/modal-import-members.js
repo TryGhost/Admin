@@ -1,5 +1,4 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import classic from 'ember-classic-decorator';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import moment from 'moment';
 import unparse from '@tryghost/members-csv/lib/unparse';
@@ -9,46 +8,37 @@ import {
     isUnsupportedMediaTypeError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-import {action, computed} from '@ember/object';
+import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {isBlank} from '@ember/utils';
 import {inject as service} from '@ember/service';
 
-@classic
-export default class ModalImportMembers extends ModalComponent {
-    @service
-    config;
+export default ModalComponent.extend({
+    config: service(),
+    ajax: service(),
+    notifications: service(),
+    store: service(),
 
-    @service
-    ajax;
+    state: 'INIT',
 
-    @service
-    notifications;
-
-    @service
-    store;
-
-    state = 'INIT';
-    file = null;
-    mappingResult = null;
-    mappingFileData = null;
-    paramName = 'membersfile';
-    importResponse = null;
-    errorMessage = null;
-    errorHeader = null;
-    showMappingErrors = false;
-    showTryAgainButton = true;
+    file: null,
+    mappingResult: null,
+    mappingFileData: null,
+    paramName: 'membersfile',
+    importResponse: null,
+    errorMessage: null,
+    errorHeader: null,
+    showMappingErrors: false,
+    showTryAgainButton: true,
 
     // Allowed actions
-    confirm = () => {};
+    confirm: () => {},
 
-    @computed
-    get uploadUrl() {
+    uploadUrl: computed(function () {
         return `${ghostPaths().apiRoot}/members/upload/`;
-    }
+    }),
 
-    @computed('file')
-    get formData() {
+    formData: computed('file', function () {
         let formData = new FormData();
 
         formData.append(this.paramName, this.file);
@@ -67,61 +57,50 @@ export default class ModalImportMembers extends ModalComponent {
         }
 
         return formData;
-    }
+    }),
 
-    @action
-    setFile(file) {
-        this.set('file', file);
-        this.set('state', 'MAPPING');
-    }
+    actions: {
+        setFile(file) {
+            this.set('file', file);
+            this.set('state', 'MAPPING');
+        },
 
-    @action
-    setMappingResult(mappingResult) {
-        this.set('mappingResult', mappingResult);
-    }
+        setMappingResult(mappingResult) {
+            this.set('mappingResult', mappingResult);
+        },
 
-    @action
-    setMappingFileData(mappingFileData) {
-        this.set('mappingFileData', mappingFileData);
-    }
+        setMappingFileData(mappingFileData) {
+            this.set('mappingFileData', mappingFileData);
+        },
 
-    @action
-    upload() {
-        if (this.file && !this.mappingResult.error) {
-            this.generateRequest();
+        upload() {
+            if (this.file && !this.mappingResult.error) {
+                this.generateRequest();
+                this.set('showMappingErrors', false);
+            } else {
+                this.set('showMappingErrors', true);
+            }
+        },
+
+        reset() {
             this.set('showMappingErrors', false);
-        } else {
-            this.set('showMappingErrors', true);
-        }
-    }
+            this.set('errorMessage', null);
+            this.set('errorHeader', null);
+            this.set('file', null);
+            this.set('mapping', null);
+            this.set('state', 'INIT');
+            this.set('showTryAgainButton', true);
+        },
 
-    @action
-    reset() {
-        this.set('showMappingErrors', false);
-        this.set('errorMessage', null);
-        this.set('errorHeader', null);
-        this.set('file', null);
-        this.set('mapping', null);
-        this.set('state', 'INIT');
-        this.set('showTryAgainButton', true);
-    }
+        closeModal() {
+            if (this.state !== 'UPLOADING') {
+                this._super(...arguments);
+            }
+        },
 
-    @action
-    closeModal() {
-        if (this.state !== 'UPLOADING') {
-            // TODO: This call to super is within an action, and has to refer to the parent
-            // class's actions to be safe. This should be refactored to call a normal method
-            // on the parent class. If the parent class has not been converted to native
-            // classes, it may need to be refactored as well. See
-            // https: //github.com/scalvert/ember-native-class-codemod/blob/master/README.md
-            // for more details.
-            super.actions.closeModal.call(this, ...arguments);
-        }
-    }
-
-    // noop - we don't want the enter key doing anything
-    @action
-    confirm() {}
+        // noop - we don't want the enter key doing anything
+        confirm() {}
+    },
 
     generateRequest() {
         let ajax = this.ajax;
@@ -145,7 +124,7 @@ export default class ModalImportMembers extends ModalComponent {
             this._uploadError(error);
             this.set('state', 'ERROR');
         });
-    }
+    },
 
     _uploadSuccess(importResponse) {
         let importedCount = importResponse.meta.stats.imported;
@@ -215,7 +194,7 @@ export default class ModalImportMembers extends ModalComponent {
         // invoke the passed in confirm action to refresh member data
         // @TODO wtf does confirm mean?
         this.confirm({label: importResponse.meta.import_label});
-    }
+    },
 
     _uploadError(error) {
         let message;
@@ -246,4 +225,4 @@ export default class ModalImportMembers extends ModalComponent {
         this.set('errorMessage', message);
         this.set('errorHeader', header);
     }
-}
+});
