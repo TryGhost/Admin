@@ -1,9 +1,9 @@
 import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
+import {inject as service} from '@ember/service';
 /* eslint-disable camelcase, ghost/ember/alias-model-in-controller */
 import Controller, {inject as controller} from '@ember/controller';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
-import { get, action } from '@ember/object';
+import {action, get} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {isInvalidError} from 'ember-ajax/errors';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';

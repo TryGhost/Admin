@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { empty } from '@ember/object/computed';
+import {action} from '@ember/object';
+import {empty} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';

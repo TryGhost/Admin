@@ -1,9 +1,9 @@
-import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import {DEFAULT_QUERY_PARAMS} from 'ghost-admin/helpers/reset-query-params';
-import { get, action, computed } from '@ember/object';
+import {action, computed, get} from '@ember/object';
+import {alias} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 
 const TYPES = [{
     name: 'All posts',

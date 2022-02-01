@@ -1,11 +1,11 @@
-import classic from 'ember-classic-decorator';
-import { tagName } from '@ember-decorators/component';
-import { inject as service } from '@ember/service';
-import { reads, or } from '@ember/object/computed';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import moment from 'moment';
-import { action, computed } from '@ember/object';
+import {action, computed} from '@ember/object';
 import {isBlank, isEmpty} from '@ember/utils';
+import {or, reads} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
+import {tagName} from '@ember-decorators/component';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -166,6 +166,11 @@ export default class GhDateTimePicker extends Component {
                 this.setDate(this._date);
             }
         }
+    }
+
+    @action
+    updateTimeValue(event) {
+        this.set('_time', event.target.value);
     }
 
     @action

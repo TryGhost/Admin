@@ -1,8 +1,8 @@
-import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { sort, alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {action, computed} from '@ember/object';
+import {alias, sort} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 
 @classic
 export default class TagsController extends Controller {

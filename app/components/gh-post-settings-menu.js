@@ -1,11 +1,11 @@
-import classic from 'ember-classic-decorator';
-import { tagName } from '@ember-decorators/component';
-import { inject as service } from '@ember/service';
-import { or, alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import classic from 'ember-classic-decorator';
 import moment from 'moment';
-import { action, computed } from '@ember/object';
+import {action, computed} from '@ember/object';
+import {alias, or} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
+import {tagName} from '@ember-decorators/component';
 
 @classic
 @tagName('')

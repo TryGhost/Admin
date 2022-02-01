@@ -30,8 +30,8 @@
             type="text"
             value={{this._time}}
             disabled={{this.disabled}}
-            oninput={{action (mut this._time) value="target.value"}}
-            onblur={{action "setTimeInternal" this._time}}
+            {{on "change" this.updateTimeValue}}
+            {{on "blur" (fn this.setTimeInternal this._time)}}
             {{did-insert this.registerTimeInput}}
             data-test-date-time-picker-time-input
         >

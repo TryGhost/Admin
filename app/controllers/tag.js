@@ -1,9 +1,9 @@
-import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
-import EmberObject, { defineProperty, action, computed } from '@ember/object';
+import EmberObject, {action, computed, defineProperty} from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import classic from 'ember-classic-decorator';
+import {alias} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
 import {task} from 'ember-concurrency';
 

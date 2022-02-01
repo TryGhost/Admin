@@ -1,7 +1,7 @@
-import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
-import { readOnly } from '@ember/object/computed';
 import Controller, {inject as controller} from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {readOnly} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 
 /* eslint-disable ghost/ember/alias-model-in-controller */
 @classic

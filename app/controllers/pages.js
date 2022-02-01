@@ -1,6 +1,6 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
 import PostsController from './posts';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 
 const TYPES = [{
     name: 'All pages',

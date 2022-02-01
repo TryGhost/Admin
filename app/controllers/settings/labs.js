@@ -1,5 +1,5 @@
 import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';
@@ -10,10 +10,10 @@ import {
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError
 } from 'ghost-admin/services/ajax';
+import {action, set} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
-import { set, action } from '@ember/object';
 import {task, timeout} from 'ember-concurrency';
 
 const {Promise} = RSVP;

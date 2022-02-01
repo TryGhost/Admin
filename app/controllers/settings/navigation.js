@@ -1,6 +1,6 @@
 import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
+import {action, computed} from '@ember/object';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';

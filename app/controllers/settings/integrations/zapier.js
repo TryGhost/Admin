@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
+import {action, computed} from '@ember/object';
+import {alias} from '@ember/object/computed';
+import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
 import config from 'ghost-admin/config/environment';

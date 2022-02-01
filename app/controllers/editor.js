@@ -620,7 +620,6 @@ export default Controller.extend({
                 // validation error
                 return;
             }
-            debugger;
 
             if (error) {
                 let status = this.get('post.status');

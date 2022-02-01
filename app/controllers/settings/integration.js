@@ -1,15 +1,15 @@
-import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import config from 'ghost-admin/config/environment';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
 } from 'ghost-admin/components/gh-image-uploader';
+import {action, computed} from '@ember/object';
+import {alias} from '@ember/object/computed';
 import {htmlSafe} from '@ember/template';
+import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
 @classic

@@ -1,7 +1,7 @@
-import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
-import { readOnly } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {computed} from '@ember/object';
+import {readOnly} from '@ember/object/computed';
 
 @classic
 export default class ErrorController extends Controller {

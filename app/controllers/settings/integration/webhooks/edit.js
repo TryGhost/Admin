@@ -1,7 +1,7 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
+import {alias} from '@ember/object/computed';
 
 @classic
 export default class EditController extends Controller {
