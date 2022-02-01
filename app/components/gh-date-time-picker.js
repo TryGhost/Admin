@@ -261,7 +261,7 @@ export default class GhDateTimePicker extends Component {
             return false;
         }
 
-        this.send('setDate', date.toDate());
+        this.setDateInternal(date.toDate());
         this._resetScratchDate();
         return true;
     }
