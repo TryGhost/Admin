@@ -1,3 +1,6 @@
+// TODO: bump lint rules to be able to take advantage of https://github.com/ember-cli/eslint-plugin-ember/issues/560
+/* eslint-disable ghost/ember/alias-model-in-controller */
+
 import $ from 'jquery';
 import Controller, {inject as controller} from '@ember/controller';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
