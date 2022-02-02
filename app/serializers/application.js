@@ -15,8 +15,8 @@ export default class Application extends RESTSerializer {
         return meta;
     }
 
-    serialize/*snapshot, options*/() {
-        let json = super.serialize/*snapshot, options*/(...arguments);
+    serialize() {
+        let json = super.serialize(...arguments);
 
         // don't send attributes that are updated automatically on the server
         delete json.created_by;
