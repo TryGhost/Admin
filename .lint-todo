@@ -1480,3 +1480,9 @@ add|ember-template-lint|no-action|4|11|4|11|831dd12209c22868d0614c65417281fda799
 add|ember-template-lint|require-valid-alt-text|3|44|3|44|a7f0566c430150bae4153e0dfb489a218bdeb8a4|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-card-embed/nft.hbs
 add|ember-template-lint|require-valid-alt-text|8|20|8|20|9d0c591086dc9139ff38a7b385c3367a83438786|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-card-embed/nft.hbs
 add|ember-template-lint|require-input-label|10|12|10|12|8c3c0ea315ff4da828363989a45fa11256a78796|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-card-image/selector-tenor.hbs
+remove|ember-template-lint|no-unused-block-params|28|51|28|51|78d4f0fc627f28987ff46b3700f26c540ef76c2f|1643760000000|1646352000000|1648940400000|app/components/gh-membership-products-alpha.hbs
+remove|ember-template-lint|no-invalid-interactive|10|134|10|134|567455d736d9159cc936bde44a89024366827c1c|1643760000000|1646352000000|1648940400000|app/components/modal-portal-settings.hbs
+add|ember-template-lint|no-unused-block-params|28|51|28|51|040794f44ec6dab3105b4227304bbaca577545d1|1643760000000|1646352000000|1648940400000|app/components/gh-membership-products-alpha.hbs
+add|ember-template-lint|no-implicit-this|86|38|86|38|901fa42864c87eba57199729acd1e15d6b3a7d3e|1643760000000|1646352000000|1648940400000|app/components/modal-portal-settings.hbs
+add|ember-template-lint|no-implicit-this|114|38|114|38|901fa42864c87eba57199729acd1e15d6b3a7d3e|1643760000000|1646352000000|1648940400000|app/components/modal-portal-settings.hbs
+add|ember-template-lint|no-invalid-interactive|10|134|10|134|0864ebcf096994ae4dd0e69637dfcd3e2d416aea|1643760000000|1646352000000|1648940400000|app/components/modal-portal-settings.hbs
