@@ -3,8 +3,8 @@ import classic from 'ember-classic-decorator';
 
 @classic
 export default class Page extends PostSerializer {
-    serialize/*snapshot, options*/() {
-        let json = super.serialize/*snapshot, options*/(...arguments);
+    serialize() {
+        let json = super.serialize(...arguments);
 
         // Properties that exist on the model but we don't want sent in the payload
         delete json.email_subject;
