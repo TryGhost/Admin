@@ -70,13 +70,16 @@
                     @classNames="gh-tier-actions-menu dropdown-menu dropdown-triangle-top-right"
                 >
                     <li>
-                        <button class="mr2" {{action "openEditProduct" this.product}}>
+                        <button class="mr2" type="button" {{action "openEditProduct" this.product}}>
                             <span>Edit</span>
                         </button>
                     </li>
-                    {{#if (eq this.product.type "paid" )}}
+                    {{#if this.showArchiveOption}}
                         <li>
-                            <Settings::Members::ArchiveTier @product={{this.product}} />
+                            <Settings::Members::ArchiveTier
+                                @product={{this.product}}
+                                @onUnarchive={{@onUnarchive}}
+                            />
                         </li>
                     {{/if}}
                 </GhDropdown>
