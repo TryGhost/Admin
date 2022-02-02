@@ -1,5 +1,5 @@
-import classic from 'ember-classic-decorator';
 import ApplicationSerializer from './application';
+import classic from 'ember-classic-decorator';
 
 @classic
 export default class Theme extends ApplicationSerializer {
