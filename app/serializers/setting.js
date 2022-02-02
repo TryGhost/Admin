@@ -1,7 +1,7 @@
 import ApplicationSerializer from 'ghost-admin/serializers/application';
 import {pluralize} from 'ember-inflector';
 
-export default ApplicationSerializer.extend({
+export default class Setting extends ApplicationSerializer {
     serializeIntoHash(hash, type, record, options) {
         // Settings API does not want ids
         options = options || {};
@@ -18,17 +18,17 @@ export default ApplicationSerializer.extend({
         });
 
         hash[root] = payload;
-    },
+    }
 
     normalizeArrayResponse(store, primaryModelClass, _payload, id, requestType) {
         let payload = {settings: [this._extractObjectFromArrayPayload(_payload)]};
-        return this._super(store, primaryModelClass, payload, id, requestType);
-    },
+        return super.normalizeArrayResponse(store, primaryModelClass, payload, id, requestType);
+    }
 
     normalizeSingleResponse(store, primaryModelClass, _payload, id, requestType) {
         let payload = {setting: this._extractObjectFromArrayPayload(_payload)};
-        return this._super(store, primaryModelClass, payload, id, requestType);
-    },
+        return super.normalizeSingleResponse(store, primaryModelClass, payload, id, requestType);
+    }
 
     _extractObjectFromArrayPayload(_payload) {
         let payload = {id: '0'};
@@ -39,4 +39,4 @@ export default ApplicationSerializer.extend({
 
         return payload;
     }
-});
+}
