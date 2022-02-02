@@ -1619,3 +1619,4 @@ remove|ember-template-lint|no-curly-component-invocation|4|120|4|120|0790f3a0d5c
 remove|ember-template-lint|no-implicit-this|1|6|1|6|fb0e9e28b0ebf7e49936738a5c7c25f66a5ba580|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-link-toolbar.hbs
 remove|ember-template-lint|no-implicit-this|4|23|4|23|81736358b1645103ae83247b10c5f82af641ddfc|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-link-toolbar.hbs
 remove|ember-template-lint|no-implicit-this|4|122|4|122|81736358b1645103ae83247b10c5f82af641ddfc|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-link-toolbar.hbs
+remove|ember-template-lint|no-unused-block-params|1|0|1|0|71c42c35dcde8daa1419d95e0f38dc3e36aeaeb7|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-card-email.hbs
