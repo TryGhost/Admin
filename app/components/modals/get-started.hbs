@@ -4,7 +4,7 @@
     <div class="tc f4">
         <h1>You're all set!</h1>
         <p>Your site is ready to start publishing content and sending newsletters.</p>
-        <p><LinkTo @route="editor.new" @model="post" @classNames="gh-btn gh-btn-black" {{on "click" @close}}><span>Start writing</span></LinkTo></p>
+        <p><LinkTo @route="editor.new" @model="post" class="gh-btn gh-btn-black" {{on "click" @close}}><span>Start writing</span></LinkTo></p>
     </div>
 
     <div class="flex flex-row f8">
@@ -14,12 +14,12 @@
                 Allowing your audience to subscribe is fast and simple through Stripe. Not sure?
                 <a href="https://docs.ghost.org"><span>Learn more.</span></a>
             </p>
-            <p class="tc"><LinkTo @route="settings.membership" @classNames="gh-btn" {{on "click" @close}}><span>Connect Stripe</span></LinkTo></p>
+            <p class="tc"><LinkTo @route="settings.membership" class="gh-btn" {{on "click" @close}}><span>Connect Stripe</span></LinkTo></p>
         </div>
         <div class="pa4 w-50">
             <h3 class="tc">Migrating data?</h3>
             <p>Our migration tools make it quick and painless to import your content and readers from other platforms.</p>
-            <p class="tc"><a href="https://docs.ghost.org" class="gh-btn" target="_blank" rel="noopener noreferer"><span>Learn more</span></a></p>
+            <p class="tc"><a href="https://docs.ghost.org" class="gh-btn" target="_blank" rel="noreferer noopener noreferrer"><span>Learn more</span></a></p>
         </div>
     </div>
 </div>
