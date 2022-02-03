@@ -80,7 +80,7 @@
                             <span class="mr2 f8 midgrey nowrap {{if this.stripeConnectTestMode "gh-members-connect-testmodeon"}}">{{if this.stripeConnectTestMode "Using" "Use"}} test mode</span>
                             <div class="for-switch small">
                                 <label class="switch" for="stripe-connect-test-mode" {{action (toggle "stripeConnectTestMode" this) bubbles="false"}}>
-                                    <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} onclick={{action (toggle "stripeConnectTestMode" this)}} data-test-checkbox="stripe-connect-test-mode">
+                                    <input type="checkbox" class="gh-input" checked={{this.stripeConnectTestMode}} data-test-checkbox="stripe-connect-test-mode" {{on "click" (toggle "stripeConnectTestMode" this)}}>
                                     <span class="input-toggle-component mt1"></span>
                                 </label>
                             </div>

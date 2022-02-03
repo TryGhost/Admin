@@ -406,13 +406,7 @@
                     </div>
                     <div class="for-switch">
                         <label class="switch" for="settings-private">
-                            <input
-                                type="checkbox"
-                                checked={{this.settings.isPrivate}}
-                                id="settings-private"
-                                onclick={{action "toggleIsPrivate" value="target.checked"}}
-                                data-test-private-checkbox
-                            >
+                            <input type="checkbox" checked={{this.settings.isPrivate}} id="settings-private" data-test-private-checkbox {{on "click" (action this.toggleIsPrivate value="target.checked")}}>
                             <span class="input-toggle-component"></span>
                         </label>
                     </div>

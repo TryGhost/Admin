@@ -45,14 +45,7 @@
                             <div class="gh-setting-action">
                                 <div class="for-checkbox">
                                     <label for="amp" class="checkbox">
-                                        <input
-                                            type="checkbox"
-                                            checked={{this.settings.amp}}
-                                            id="amp"
-                                            name="amp"
-                                            onclick={{action "update" value="target.checked"}}
-                                            data-test-amp-checkbox
-                                        >
+                                        <input type="checkbox" checked={{this.settings.amp}} id="amp" name="amp" data-test-amp-checkbox {{on "click" (action this.update value="target.checked")}}>
                                         <span class="input-toggle-component"></span>
                                     </label>
                                 </div>
@@ -70,7 +63,7 @@
                                             @name="amp_gtag_id"
                                             @value={{this.settings.ampGtagId}}
                                             @keyEvents={{hash
-                                                Enter=(action "save")
+                                                Enter=this.save
                                             }}
                                         />
                                         <GhErrorMessage @errors={{this.settings.errors}} @property="ampGtagId"/>

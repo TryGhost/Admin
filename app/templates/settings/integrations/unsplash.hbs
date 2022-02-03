@@ -45,14 +45,7 @@
                             <div class="form-group right gh-setting-unsplash-checkbox">
                                 <div class="for-checkbox">
                                     <label for="unsplash" class="checkbox">
-                                            <input
-                                                type="checkbox"
-                                                checked={{this.settings.unsplash}}
-                                                id="unsplash"
-                                                name="unsplash"
-                                                onclick={{action "update" value="target.checked"}}
-                                                data-test-unsplash-checkbox
-                                            >
+                                            <input type="checkbox" checked={{this.settings.unsplash}} id="unsplash" name="unsplash" data-test-unsplash-checkbox {{on "click" (action this.update value="target.checked")}}>
                                             <span class="input-toggle-component"></span>
                                     </label>
                                 </div>

@@ -25,7 +25,7 @@
                     @value={{readonly this.email}}
                     @input={{action (mut this.email) value="target.value"}}
                     @keyEvents={{hash
-                        Enter=(action "confirm")
+                        Enter=this.confirm
                     }}
                 />
                 <GhErrorMessage @errors={{this.errors}} @property="email" />

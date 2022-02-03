@@ -8,7 +8,7 @@
                 <td>
                     <div class='toggle-header'>
                         <h4>{{this.sectionHeaderLabel}}</h4>
-                        <h4 class='gh-portal-links-cell toggle' onclick={{action "toggleShowLinks"}}>{{this.toggleValue}}</h4>
+                        <h4 class='gh-portal-links-cell toggle' {{on "click" this.toggleShowLinks}}>{{this.toggleValue}}</h4>
                     </div>
                 </td>
             </tr>

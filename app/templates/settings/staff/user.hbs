@@ -204,7 +204,7 @@
                         {{#if this.rolesDropdownIsVisible}}
                             <div class="form-group">
                                 <label for="user-role">Role</label>
-                                <div class="gh-input pointer" {{on "click" (action "toggleRoleSelectionModal")}}>{{this.user.role.name}}{{svg-jar "arrow-down-small"}}</div>
+                                <div class="gh-input pointer" {{on "click" this.toggleRoleSelectionModal}}>{{this.user.role.name}}{{svg-jar "arrow-down-small"}}</div>
                                 <p>What permissions should this user have?</p>
                             </div>
 

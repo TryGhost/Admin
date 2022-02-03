@@ -1,5 +1,5 @@
 {{#if this.post}}
-    <div class="flex flex-row" {{on-key "cmd+p" (action "openPostPreview")}}>
+    <div class="flex flex-row" {{on-key "cmd+p" this.openPostPreview}}>
         <GhEditor
             @tagName="section"
             @class="gh-editor gh-view relative"
@@ -32,7 +32,7 @@
                     {{#unless this.post.isNew}}
                         {{#if this.post.isDraft}}
                             <div>
-                                <button type="button" class="gh-btn gh-editor-preview-trigger" {{on "click" (action "openPostPreviewModal")}}>
+                                <button type="button" class="gh-btn gh-editor-preview-trigger" {{on "click" this.openPostPreviewModal}}>
                                     <span>Preview</span>
                                 </button>
                             </div>

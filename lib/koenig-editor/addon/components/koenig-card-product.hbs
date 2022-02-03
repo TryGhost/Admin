@@ -69,7 +69,7 @@
                             {{else if uploader.isUploading}}
                                 {{uploader.progressBar}}
                             {{else if (not this.previewSrc @payload.productImageSrc)}}
-                                <button class="w-100 h-100 sans-serif fw4 f7 middarkgrey kg-image-button" onclick={{action "triggerFileDialog"}} type="button">
+                                <button class="w-100 h-100 sans-serif fw4 f7 middarkgrey kg-image-button" type="button" {{on "click" this.triggerFileDialog}}>
                                     <div class="flex flex-column items-center">
                                         {{svg-jar this.placeholder class="kg-placeholder-image"}}
                                         <span class="mt4 midgrey">Click to select an image</span>
@@ -97,19 +97,19 @@
                     />
                     {{#if @payload.productRatingEnabled}}
                     <div class="kg-product-card-rating-edit icons" style="line-height: auto;">
-                        <button class="{{if (gte @payload.productStarRating 1) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="1" onclick={{action "changeStars"}} onmouseover={{this.hoverStarOn}} onmouseout={{this.hoverStarOff}} type="button">
+                        <button class="{{if (gte @payload.productStarRating 1) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="1" type="button" {{on "click" this.changeStars}} {{on "mouseover" this.hoverStarOn}} {{on "mouseout" this.hoverStarOff}}>
                             <span>{{svg-jar "koenig/kg-star"}}</span>
                         </button>
-                        <button class="{{if (gte @payload.productStarRating 2) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="2" onclick={{action "changeStars"}} onmouseover={{this.hoverStarOn}} onmouseout={{this.hoverStarOff}} type="button">
+                        <button class="{{if (gte @payload.productStarRating 2) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="2" type="button" {{on "click" this.changeStars}} {{on "mouseover" this.hoverStarOn}} {{on "mouseout" this.hoverStarOff}}>
                             <span>{{svg-jar "koenig/kg-star"}}</span>
                         </button>
-                        <button class="{{if (gte @payload.productStarRating 3) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="3" onclick={{action "changeStars"}} onmouseover={{this.hoverStarOn}} onmouseout={{this.hoverStarOff}} type="button">
+                        <button class="{{if (gte @payload.productStarRating 3) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="3" type="button" {{on "click" this.changeStars}} {{on "mouseover" this.hoverStarOn}} {{on "mouseout" this.hoverStarOff}}>
                             <span>{{svg-jar "koenig/kg-star"}}</span>
                         </button>
-                        <button class="{{if (gte @payload.productStarRating 4) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="4" onclick={{action "changeStars"}} onmouseover={{this.hoverStarOn}} onmouseout={{this.hoverStarOff}} type="button">
+                        <button class="{{if (gte @payload.productStarRating 4) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="4" type="button" {{on "click" this.changeStars}} {{on "mouseover" this.hoverStarOn}} {{on "mouseout" this.hoverStarOff}}>
                             <span>{{svg-jar "koenig/kg-star"}}</span>
                         </button>
-                        <button class="{{if (gte @payload.productStarRating 5) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="5" onclick={{action "changeStars"}} onmouseover={{this.hoverStarOn}} onmouseout={{this.hoverStarOff}} type="button">
+                        <button class="{{if (gte @payload.productStarRating 5) "kg-product-card-rating-active"}} kg-product-card-rating-star" value="5" type="button" {{on "click" this.changeStars}} {{on "mouseover" this.hoverStarOn}} {{on "mouseout" this.hoverStarOff}}>
                             <span>{{svg-jar "koenig/kg-star"}}</span>
                         </button>
                     </div>

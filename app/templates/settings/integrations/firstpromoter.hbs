@@ -45,14 +45,7 @@
                         <div class="gh-setting-action">
                             <div class="for-checkbox">
                                 <label for="firstpromoter" class="checkbox">
-                                    <input
-                                        type="checkbox"
-                                        checked={{this.settings.firstpromoter}}
-                                        id="firstpromoter"
-                                        name="firstpromoter"
-                                        onclick={{action "update" value="target.checked"}}
-                                        data-test-firstpromoter-checkbox
-                                    >
+                                    <input type="checkbox" checked={{this.settings.firstpromoter}} id="firstpromoter" name="firstpromoter" data-test-firstpromoter-checkbox {{on "click" (action this.update value="target.checked")}}>
                                     <span class="input-toggle-component"></span>
                                 </label>
                             </div>
@@ -70,7 +63,7 @@
                                         @name="firstpromoter_id"
                                         @value={{this.settings.firstpromoterId}}
                                         @keyEvents={{hash
-                                            Enter=(action "save")
+                                            Enter=this.save
                                         }}
                                     />
                                     <GhErrorMessage @errors={{this.settings.errors}} @property="firstpromoterId"/>

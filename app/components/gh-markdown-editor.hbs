@@ -3,14 +3,14 @@
         value=this.markdown
         placeholder=this.placeholder
         autofocus=this.autofocus
-        onChange=(action "updateMarkdown")
+        onChange=this.updateMarkdown
         onFocus=(action "updateFocusState" true)
         onBlur=(action "updateFocusState" false)
-        onEditorInit=(action "setEditor")
+        onEditorInit=this.setEditor
         options=this.simpleMDEOptions)
     isFullScreen=this._isFullScreen
     isSplitScreen=this._isSplitScreen
-    focus=(action "focusEditor")
+    focus=this.focusEditor
 )}}
 
 <div style="display:none">

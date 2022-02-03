@@ -11,7 +11,7 @@
         <img src={{this.previewDataURL}} class="gravatar-img">
     {{/if}}
 
-    <span class="edit-account-image" onclick={{action "openFileDialog"}} role="button">
+    <span class="edit-account-image" role="button" {{on "click" this.openFileDialog}}>
         {{svg-jar "photos"}}
         <span class="sr-only">Upload an image</span>
     </span>

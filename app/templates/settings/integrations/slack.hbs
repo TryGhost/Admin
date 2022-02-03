@@ -51,7 +51,7 @@
                                                 @value={{readonly this.slackSettings.url}}
                                                 @input={{action "updateURL" value="target.value"}}
                                                 @keyEvents={{hash
-                                                    Enter=(action "save")
+                                                    Enter=this.save
                                                 }}
                                                 @focus-out={{action "triggerDirtyState"}}
                                                 data-test-slack-url-input={{true}}
@@ -77,7 +77,7 @@
                                                 @value={{readonly this.slackSettings.username}}
                                                 @input={{action "updateUsername" value="target.value"}}
                                                 @keyEvents={{hash
-                                                    Enter=(action "save")
+                                                    Enter=this.save
                                                 }}
                                                 @focus-out={{action "triggerDirtyState"}}
                                                 data-test-slack-username-input={{true}}

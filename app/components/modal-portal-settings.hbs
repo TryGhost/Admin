@@ -7,7 +7,7 @@
             <h2 class="gh-portal-settings-title">Portal settings</h2>
             <div class="gh-portal-form-wrapper">
                 <fieldset class="gh-portal-settings-form">
-                    <div class="gh-portal-setting-section {{if (not-eq this.settings.membersSignupAccess "all") "disabled-overlay"}}" onclick={{action "switchPreviewPage" "signup"}}>
+                    <div class="gh-portal-setting-section {{if (not-eq this.settings.membersSignupAccess "all") "disabled-overlay"}}" {{on "click" (fn (action "switchPreviewPage") "signup")}}>
                         <h3 class="gh-portal-setting-sectionheading">Signup options</h3>
                         <GhFormGroup @classNames="gh-members-subscribed-checkbox gh-portal-setting-first pb5 mb0">
                             <div class="flex justify-between items-center">
@@ -162,7 +162,7 @@
                         </div>
                         {{/if}}
                     </div>
-                    <div class="gh-portal-setting-section" onclick={{action "switchPreviewPage" "signup"}}>
+                    <div class="gh-portal-setting-section" {{on "click" (fn (action "switchPreviewPage") "signup")}}>
                         <h3 class="gh-portal-setting-sectionheading">Look & feel</h3>
                         <GhFormGroup @classNames="gh-members-subscribed-checkbox gh-portal-setting-first mb0 b--whitegrey">
                             <div class="flex justify-between items-center">
@@ -172,13 +172,7 @@
                                         class="switch"
                                         for="portal-button-checkbox"
                                     >
-                                        <input
-                                            type="checkbox"
-                                            checked={{this.settings.portalButton}}
-                                            id="portal-button-checkbox"
-                                            name="portal-button-checkbox"
-                                            onclick={{action "togglePortalButton" value="target.checked"}}
-                                        >
+                                        <input type="checkbox" checked={{this.settings.portalButton}} id="portal-button-checkbox" name="portal-button-checkbox" {{on "click" (action "togglePortalButton" value="target.checked")}}>
                                         <span class="input-toggle-component"></span>
                                     </label>
                                 </div>
@@ -212,13 +206,11 @@
                                             @extensions={{this.iconExtensions}}
                                             @paramsHash={{hash purpose="image"}}
                                             @onComplete={{action "imageUploaded" "buttonIcon"}}
-                                            as
-                                            |uploader|
-                                        >
+                                            as |imgIcon|>
                                             <div class="flex items-center justify-between mt2 br3 ba b--whitegrey bg-white">
                                                 <div class="gh-portal-settings-icons">
                                                     {{#each this.membersUtils.defaultButtonIcons as |imgIcon| }}
-                                                        <span class="gh-portal-button-icon {{if (eq this.membersUtils.buttonIcon imgIcon.value) "selected-icon"}}" onclick={{action "selectDefaultIcon" imgIcon.value}}>
+                                                        <span class="gh-portal-button-icon {{if (eq this.membersUtils.buttonIcon imgIcon.value) "selected-icon"}}" {{on "click" (fn (action "selectDefaultIcon") imgIcon.value)}}>
                                                             {{svg-jar imgIcon.icon}}
                                                         </span>
                                                     {{/each}}
@@ -229,20 +221,14 @@
                                                             <div class="gh-loading-spinner"></div>
                                                         </div>
                                                     {{else if this.customIcon}}
-                                                        <img
-                                                            class="gh-portal-button-icon gh-portal-button-custom {{if (eq this.membersUtils.buttonIcon this.customIcon) "selected-icon"}}"
-                                                            src="{{this.customIcon}}"
-                                                            onclick={{action "selectDefaultIcon" this.customIcon}}
-                                                            alt="icon"
-                                                            data-test-icon-img
-                                                        >
+                                                        <img class="gh-portal-button-icon gh-portal-button-custom {{if (eq this.membersUtils.buttonIcon this.customIcon) "selected-icon"}}" src="{{this.customIcon}}" alt="icon" data-test-icon-img {{on "click" (fn (action "selectDefaultIcon") this.customIcon)}}>
                                                         {{#if (eq this.membersUtils.buttonIcon this.customIcon)}}
                                                         <button type="button" class="gh-btn gh-btn-hover-red gh-portal-button-deleteicon" {{action "deleteCustomIcon"}}>
                                                             <span> {{svg-jar "trash" class="w5 h5"}} </span>
                                                         </button>
                                                         {{/if}}
                                                     {{else}}
-                                                        <button type="button" class="gh-btn gh-portal-button-uploadicon" onclick={{action "triggerFileDialog"}} data-test-image-upload-btn="icon" data-tooltip="Upload icon">
+                                                        <button type="button" class="gh-btn gh-portal-button-uploadicon" data-test-image-upload-btn="icon" data-tooltip="Upload icon" {{on "click" (action "triggerFileDialog")}}>
                                                             <span>{{svg-jar "upload-fill" class="w5 h5"}}</span>
                                                         </button>
                                                         <div style="display:none">
@@ -277,7 +263,7 @@
                         {{/if}}
                     </div>
 
-                    <div class="gh-portal-setting-section" onclick={{action "switchPreviewPage" "accountHome"}}>
+                    <div class="gh-portal-setting-section" {{on "click" (fn (action "switchPreviewPage") "accountHome")}}>
                         <h3 class="gh-portal-setting-sectionheading">Account page settings</h3>
                         <GhFormGroup @classNames="space-l mt5">
                             <h4 class="gh-portal-setting-title">Support email address</h4>

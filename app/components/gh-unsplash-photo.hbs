@@ -1,4 +1,4 @@
-<a class="gh-unsplash-photo" href="#" onclick={{action "zoom"}} data-unsplash-zoomed-photo={{if this.zoomed this.photo.id}} data-test-unsplash-photo={{this.photo.id}} style={{this.style}}>
+<a class="gh-unsplash-photo" href="#" data-unsplash-zoomed-photo={{if this.zoomed this.photo.id}} data-test-unsplash-photo={{this.photo.id}} style={{this.style}} {{on "click" this.zoom}}>
     <div class="gh-unsplash-photo-container" style={{this.containerStyle}} data-test-unsplash-photo-container>
         <img src={{this.imageUrl}} alt={{this.photo.description}} width={{this.width}} height={{this.height}} data-test-unsplash-photo-image />
         <div class="gh-unsplash-photo-overlay">
@@ -15,7 +15,7 @@
                         {{this.photo.user.name}}
                     </a>
                 </div>
-                <a class="gh-unsplash-button" href="#" onclick={{action "select"}}>Insert image</a>
+                <a class="gh-unsplash-button" href="#" {{on "click" this.select}}>Insert image</a>
             </div>
         </div>
     </div>

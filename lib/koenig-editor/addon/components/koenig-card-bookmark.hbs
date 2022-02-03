@@ -69,14 +69,7 @@
                 </button>
             </div>
         {{else}}
-            <input
-                type="text"
-                value={{this.payload.url}}
-                name="url"
-                placeholder="Paste URL to add bookmark content..."
-                class="miw-100 pa2 ba br2 b--lightgrey-d2 f7 form-text lh-title tracked-2 h10 nl2 nr2"
-                oninput={{action "updateUrl"}}
-                onkeydown={{action "urlKeydown"}}>
+            <input type="text" value={{this.payload.url}} name="url" placeholder="Paste URL to add bookmark content..." class="miw-100 pa2 ba br2 b--lightgrey-d2 f7 form-text lh-title tracked-2 h10 nl2 nr2" {{on "input" this.updateUrl}} {{on "keydown" this.urlKeydown}}>
         {{/if}}
     {{/if}}
 </KoenigCard>

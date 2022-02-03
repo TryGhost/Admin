@@ -16,7 +16,7 @@
                         class="gh-input"
                         type="checkbox"
                         checked={{this.shouldCancelSubscriptions}}
-                        {{on "click" (action "toggleShouldCancelSubscriptions")}}
+                        {{on "click" this.toggleShouldCancelSubscriptions}}
                     />
                     <span class="input-toggle-component"></span>
                     <div>

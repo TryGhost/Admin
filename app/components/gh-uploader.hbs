@@ -1,12 +1,12 @@
 {{yield (hash
-    cancel=(action "cancel")
+    cancel=this.cancel
     errors=this.errors
     files=this.files
     isUploading=this._uploadFiles.isRunning
     progressBar=(component "gh-progress-bar" percentage=this.uploadPercentage)
-    setFiles=(action "setFiles")
-    registerFileInput=(action "registerFileInput")
-    triggerFileDialog=(action "triggerFileDialog")
+    setFiles=this.setFiles
+    registerFileInput=this.registerFileInput
+    triggerFileDialog=this.triggerFileDialog
     imageExtensions=this.imageExtensions
     imageMimeTypes=this.imageMimeTypes
     iconExtensions=this.iconExtensions

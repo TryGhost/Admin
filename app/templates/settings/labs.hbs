@@ -117,12 +117,7 @@
                             {{#if uploader.isUploading}}
                                 {{uploader.progressBar}}
                             {{else}}
-                                <button
-                                    type="button"
-                                    class="gh-btn gh-btn-icon {{if this.redirectSuccess "gh-btn-green"}} {{if this.redirectFailure "gh-btn-red"}}"
-                                    onclick={{action "triggerFileDialog"}}
-                                    data-test-button="upload-redirects"
-                                >
+                                <button type="button" class="gh-btn gh-btn-icon {{if this.redirectSuccess "gh-btn-green"}} {{if this.redirectFailure "gh-btn-red"}}" data-test-button="upload-redirects" {{on "click" this.triggerFileDialog}}>
                                     <span>
                                         {{#if this.redirectSuccess}}
                                             {{svg-jar "check-circle"}} Uploaded
@@ -166,12 +161,7 @@
                             {{#if uploader.isUploading}}
                                 {{uploader.progressBar}}
                             {{else}}
-                                <button
-                                    type="button"
-                                    class="gh-btn gh-btn-icon {{if this.routesSuccess "gh-btn-green"}} {{if this.routesFailure "gh-btn-red"}}"
-                                    onclick={{action "triggerFileDialog"}}
-                                    data-test-button="upload-routes"
-                                >
+                                <button type="button" class="gh-btn gh-btn-icon {{if this.routesSuccess "gh-btn-green"}} {{if this.routesFailure "gh-btn-red"}}" data-test-button="upload-routes" {{on "click" this.triggerFileDialog}}>
                                     <span>
                                         {{#if this.routesSuccess}}
                                             {{svg-jar "check-circle"}} Uploaded

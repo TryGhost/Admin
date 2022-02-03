@@ -6,7 +6,7 @@
                 <h1>Create your account</h1>
             </header>
 
-            <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate" onsubmit={{action "submit"}}>
+            <form id="signup" class="gh-flow-create" method="post" novalidate="novalidate" {{on "submit" this.submit}}>
                 <GhProfileImage @email={{this.signupDetails.email}} @setImage={{action "setImage"}} />
 
                 <GhFormGroup @errors={{this.signupDetails.errors}} @hasValidated={{this.signupDetails.hasValidated}} @property="name">

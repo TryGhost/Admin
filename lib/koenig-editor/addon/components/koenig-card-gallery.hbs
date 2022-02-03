@@ -69,7 +69,7 @@
                     {{else if uploader.isUploading}}
                         {{uploader.progressBar}}
                     {{else if (is-empty this.imageRows)}}
-                        <button class="flex flex-column items-center center sans-serif fw4 f7 middarkgrey pa8 pt6 pb6 kg-image-button" onclick={{action "triggerFileDialog"}} type="button">
+                        <button class="flex flex-column items-center center sans-serif fw4 f7 middarkgrey pa8 pt6 pb6 kg-image-button" type="button" {{on "click" this.triggerFileDialog}}>
                             {{svg-jar "gallery-placeholder" class="kg-placeholder-gallery nudge-bottom--10"}}
                             <span class="mt2 midgrey">Click to select up to 9 images</span>
                         </button>
@@ -87,7 +87,7 @@
                 <div class="absolute absolute--fill flex items-center bg-black-60">
                     <span class="db center sans-serif fw7 f7 pl2 pr2 bg-red white">
                         {{this.errorMessage}}.
-                        <button onclick={{action "clearErrorMessage"}} style="text-decoration: underline !important" type="button">
+                        <button style="text-decoration: underline !important" type="button" {{on "click" this.clearErrorMessage}}>
                             Dismiss
                         </button>
                     </span>

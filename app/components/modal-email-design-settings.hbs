@@ -3,7 +3,7 @@
         <h2 class="modal-fullsettings-heading">Email newsletter design</h2>
         <div class="flex items-center">
             <button
-                class="gh-btn mr3" type="button" {{on "click" (action "closeModal")}}
+                class="gh-btn mr3" type="button" {{on "click" this.closeModal}}
                 {{!-- disable mouseDown so it does not trigger focus-out validations --}}
                 {{on "mousedown" (optional this.noop)}}
             >
