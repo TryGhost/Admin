@@ -4,7 +4,7 @@ import Transform from '@ember-data/serializer/transform';
 import {isArray as isEmberArray} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 
-export default Transform.extend({
+export default class SlackSettings extends Transform {
     deserialize(serialized) {
         let settingsArray;
         try {
@@ -20,7 +20,7 @@ export default Transform.extend({
         let slackObjs = settingsArray.map(itemDetails => SlackObject.create(itemDetails));
 
         return slackObjs;
-    },
+    }
 
     serialize(deserialized) {
         let settingsArray;
@@ -37,4 +37,4 @@ export default Transform.extend({
         }
         return JSON.stringify(settingsArray);
     }
-});
+}

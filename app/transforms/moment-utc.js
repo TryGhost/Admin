@@ -1,13 +1,13 @@
 import Transform from '@ember-data/serializer/transform';
 import moment from 'moment';
 
-export default Transform.extend({
+export default class MomentUtc extends Transform {
     deserialize(serialized) {
         if (serialized) {
             return moment.utc(serialized);
         }
         return serialized;
-    },
+    }
 
     serialize(deserialized) {
         if (deserialized) {
@@ -19,4 +19,4 @@ export default Transform.extend({
         }
         return deserialized;
     }
-});
+}

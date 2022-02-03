@@ -1,5 +1,5 @@
 <div class="modal-body gh-ps-modal-body">
-    <div class="flex pa0 flex-grow-1 gh-portal-settings" {{did-insert (fn this.finishPreloading)}}>
+    <div class="flex pa0 flex-grow-1 gh-portal-settings" {{did-insert this.finishPreloading}}>
         {{#if this.isPreloading}}
             <GhLoadingSpinner />
         {{else}}
@@ -83,9 +83,11 @@
                                         </div>
                                     {{/each}}
                                 {{/if}}
-                                <div class="mb3 {{if (and (feature "multipleProducts") this.showPortalTiers) "mt5" ""}}">
-                                    <h4 class="gh-portal-setting-title">Prices available at signup</h4>
-                                </div>
+                                {{#if this.showPortalPrices}}
+                                    <div class="mb3 {{if (and (feature "multipleProducts") this.showPortalTiers) "mt5" ""}}">
+                                        <h4 class="gh-portal-setting-title">Prices available at signup</h4>
+                                    </div>
+                                {{/if}}
                                 {{#unless this.showPortalTiers}}
                                     <div class="form-group mb0 for-checkbox">
                                         <label
@@ -109,52 +111,54 @@
                                         </label>
                                     </div>
                                 {{/unless}}
-                                <div class="form-group mb0 for-checkbox">
-                                    <label
-                                        class="checkbox"
-                                        for="monthly-plan"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            id="monthly-plan"
-                                            name="monthly-plan"
-                                            checked={{this.isMonthlyChecked}}
-                                            disabled={{or
-                                                (not this.membersUtils.isStripeEnabled)
-                                                (not-eq this.settings.membersSignupAccess "all")
-                                            }}
-                                            class="gh-input post-settings-featured"
-                                            {{on "click" (action "togglePlan" "monthly")}}
+                                {{#if this.showPortalPrices}}
+                                    <div class="form-group mb0 for-checkbox">
+                                        <label
+                                            class="checkbox"
+                                            for="monthly-plan"
                                         >
-                                        <span class="input-toggle-component"></span>
-                                        <p>Monthly</p>
-                                    </label>
-                                </div>
-                                <div class="form-group mb0 for-checkbox">
-                                    <label
-                                        class="checkbox"
-                                        for="yearly-plan"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            id="yearly-plan"
-                                            name="yearly-plan"
-                                            checked={{this.isYearlyChecked}}
-                                            disabled={{or
-                                                (not this.membersUtils.isStripeEnabled)
-                                                (not-eq this.settings.membersSignupAccess "all")
-                                            }}
-                                            class="gh-input post-settings-featured"
-                                            {{on "click" (action "togglePlan" "yearly")}}
+                                            <input
+                                                type="checkbox"
+                                                id="monthly-plan"
+                                                name="monthly-plan"
+                                                checked={{this.isMonthlyChecked}}
+                                                disabled={{or
+                                                    (not this.membersUtils.isStripeEnabled)
+                                                    (not-eq this.settings.membersSignupAccess "all")
+                                                }}
+                                                class="gh-input post-settings-featured"
+                                                {{on "click" (action "togglePlan" "monthly")}}
+                                            >
+                                            <span class="input-toggle-component"></span>
+                                            <p>Monthly</p>
+                                        </label>
+                                    </div>
+                                    <div class="form-group mb0 for-checkbox">
+                                        <label
+                                            class="checkbox"
+                                            for="yearly-plan"
                                         >
-                                        <span class="input-toggle-component"></span>
-                                        <p>Yearly</p>
-                                    </label>
-                                </div>
+                                            <input
+                                                type="checkbox"
+                                                id="yearly-plan"
+                                                name="yearly-plan"
+                                                checked={{this.isYearlyChecked}}
+                                                disabled={{or
+                                                    (not this.membersUtils.isStripeEnabled)
+                                                    (not-eq this.settings.membersSignupAccess "all")
+                                                }}
+                                                class="gh-input post-settings-featured"
+                                                {{on "click" (action "togglePlan" "yearly")}}
+                                            >
+                                            <span class="input-toggle-component"></span>
+                                            <p>Yearly</p>
+                                        </label>
+                                    </div>
+                                {{/if}}
                             </div>
                         {{else}}
                         <div class="gh-portal-setting-no-stripe">
-                            You need to <button class="gh-btn gh-btn-link black {{if (not this.session.user.isAdmin) "disabled"}}" {{on "click" (action "openStripeSettings")}}>connect to Stripe</button> to take payments
+                            You need to <button class="gh-btn gh-btn-link black {{unless this.session.user.isAdmin "disabled"}}" type="button" {{on "click" (action "openStripeSettings")}}>connect to Stripe</button> to take payments
                         </div>
                         {{/if}}
                     </div>
@@ -201,7 +205,7 @@
                                         {{svg-jar "arrow-down-small"}}
                                     </span>
                                 </GhFormGroup>
-                                {{#if showIconSetting}}
+                                {{#if this.showIconSetting}}
                                     <GhFormGroup @classNames="space-l">
                                         <h4 class="gh-portal-setting-title">Icon</h4>
                                         <GhUploader
@@ -257,7 +261,7 @@
                                     </GhFormGroup>
                                 {{/if}}
                             </div>
-                            {{#if showButtonTextSetting}}
+                            {{#if this.showButtonTextSetting}}
                             <GhFormGroup @classNames="space-l">
                                 <h4 class="gh-portal-setting-title">Signup button text</h4>
 
@@ -309,8 +313,7 @@
 
                 <div class="gh-portal-settings-actions">
                     <button
-                        class="gh-btn mr3"
-                        {{action "closeModal"}}
+                        class="gh-btn mr3" type="button" {{action "closeModal"}}
                         {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
                         {{on "mousedown" (optional this.noop)}}
                     >

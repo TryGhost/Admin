@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="gh-product-card-block benefits-block">
-        <h4>Benefits <span class="counter">({{if this.product.benefits.length product.benefits.length "0"}})</span></h4>
+        <h4>Benefits <span class="counter">({{if this.product.benefits.length this.product.benefits.length "0"}})</span></h4>
         {{#if this.product.benefits.length}}
             <ul class="benefits">
                 {{#each this.product.benefits as |benefit|}}
@@ -70,13 +70,16 @@
                     @classNames="gh-tier-actions-menu dropdown-menu dropdown-triangle-top-right"
                 >
                     <li>
-                        <button class="mr2" {{action "openEditProduct" this.product}}>
+                        <button class="mr2" type="button" {{action "openEditProduct" this.product}}>
                             <span>Edit</span>
                         </button>
                     </li>
-                    {{#if (eq this.product.type "paid" )}}
+                    {{#if this.showArchiveOption}}
                         <li>
-                            <Settings::Members::ArchiveTier @product={{this.product}} />
+                            <Settings::Members::ArchiveTier
+                                @product={{this.product}}
+                                @onUnarchive={{@onUnarchive}}
+                            />
                         </li>
                     {{/if}}
                 </GhDropdown>

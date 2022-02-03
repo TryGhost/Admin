@@ -2,7 +2,7 @@ import ProductBenefitItem from '../models/product-benefit-item';
 import Transform from '@ember-data/serializer/transform';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
 
-export default Transform.extend({
+export default class ProductBenefits extends Transform {
     deserialize(serialized) {
         let benefitsItems, benefitsArray;
 
@@ -13,7 +13,7 @@ export default Transform.extend({
         });
 
         return emberA(benefitsItems);
-    },
+    }
 
     serialize(deserialized) {
         let benefitsArray;
@@ -29,4 +29,4 @@ export default Transform.extend({
 
         return benefitsArray;
     }
-});
+}
