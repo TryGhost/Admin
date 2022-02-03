@@ -1792,3 +1792,4 @@ add|ember-template-lint|no-down-event-binding|53|242|53|242|e82f6aa36fd44bb3dccf
 add|ember-template-lint|require-input-label|53|12|53|12|48449ec6e053afc5fe23189c0af883e0c48a5fe3|1643846400000|1646438400000|1649026800000|lib/koenig-editor/addon/components/koenig-card-embed.hbs
 add|ember-template-lint|no-unused-block-params|1|0|1|0|af6d7b0f92dc738fbc04edc7bd358622e51472b1|1643846400000|1646438400000|1649026800000|lib/koenig-editor/addon/components/koenig-card-product.hbs
 add|ember-template-lint|require-input-label|1|0|1|0|2d4b3692b22b6c996c33a180c836e63801b45cfc|1643846400000|1646438400000|1649026800000|lib/koenig-editor/addon/components/koenig-link-input.hbs
+remove|ember-template-lint|no-action|14|25|14|25|dcfe39b0f6e42f3e4cb5138223798067d7a0a2b7|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-plus-menu.hbs
