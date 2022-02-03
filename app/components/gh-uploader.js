@@ -8,6 +8,7 @@ import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
 } from 'ghost-admin/components/gh-image-uploader';
+import {action} from '@ember/object';
 import {all, task} from 'ember-concurrency';
 import {isArray} from '@ember/array';
 import {isEmpty} from '@ember/utils';
@@ -117,34 +118,32 @@ export default Component.extend({
         this._setFiles(files);
     },
 
-    actions: {
-        registerFileInput(input) {
-            this.fileInput = input;
-        },
+    registerFileInput: action(function (input) {
+        this.fileInput = input;
+    }),
 
-        triggerFileDialog() {
-            if (!this.fileInput) {
-                // eslint-disable-next-line
-                console.error('When using uploader.triggerFileDialog you must call uploader.registerFileInput first');
-                return;
-            }
-
-            this.fileInput.click();
-        },
-
-        setFiles(files, resetInput) {
-            this._setFiles(files);
-
-            if (resetInput) {
-                this.fileInput = resetInput();
-            }
-        },
-
-        cancel() {
-            this._reset();
-            this.onCancel();
+    triggerFileDialog: action(function () {
+        if (!this.fileInput) {
+            // eslint-disable-next-line
+            console.error('When using uploader.triggerFileDialog you must call uploader.registerFileInput first');
+            return;
         }
-    },
+
+        this.fileInput.click();
+    }),
+
+    setFiles: action(function (files, resetInput) {
+        this._setFiles(files);
+
+        if (resetInput) {
+            this.fileInput = resetInput();
+        }
+    }),
+
+    cancel: action(function () {
+        this._reset();
+        this.onCancel();
+    }),
 
     _setFiles(files) {
         this.set('files', files);
