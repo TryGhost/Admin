@@ -4,7 +4,11 @@
             {{this.product.name}}
         </h3>
         <p class="gh-product-card-description">
+        {{#if this.product.description.length}}
             {{this.product.description}}
+        {{else}}
+            No description added for this tier.
+        {{/if}}
         </p>
     </div>
     <div class="gh-product-card-block benefits-block">
@@ -51,11 +55,12 @@
             </div>
         </div>
     {{/if}}
-    <div class="gh-product-card-editbutton-container">
+    {{#if (eq this.product.type "paid" )}}
+    <div class="gh-product-card-button-container">
         <span class="dropdown">
             <GhDropdownButton
                 @dropdownName="tiers-actions-menu-{{this.product.name}}"
-                @classNames="gh-btn gh-btn-action-icon gh-btn-icon gh-btn-outline gh-product-card-editbutton icon-only"
+                @classNames="gh-btn gh-btn-action-icon gh-btn-icon gh-btn-outline gh-product-card-actions-button icon-only"
                 @title="Tiers Actions"
                 data-test-button="tiers-actions"
             >
@@ -70,7 +75,7 @@
                     @classNames="gh-tier-actions-menu dropdown-menu dropdown-triangle-top-right"
                 >
                     <li>
-                        <button class="mr2" type="button" {{action "openEditProduct" this.product}}>
+                        <button class="mr2" type="button" {{on "click" (fn this.openEditProduct this.product)}}>
                             <span>Edit</span>
                         </button>
                     </li>
@@ -85,4 +90,13 @@
                 </GhDropdown>
         </span>
     </div>
+    {{else}}
+    <div class="gh-product-card-button-container">
+        <button type="button" {{on "click" (fn this.openEditProduct this.product)}} class="gh-btn gh-btn-action-icon gh-btn-icon gh-btn-outline gh-product-card-edit-button icon-only">
+            <span>
+                {{svg-jar "pen"}}
+            </span>
+        </button>
+    </div>
+    {{/if}}
 </div>
