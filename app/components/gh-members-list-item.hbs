@@ -53,7 +53,7 @@
 
         <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8">
             {{#if @member.createdAtUTC}}
-                <div>{{moment-format @member.createdAtUTC "D MMM YYYY"}}</div>
+                <div>{{moment-format @member.createdAtTZ "D MMM YYYY"}}</div>
                 <div class="midlightgrey gh-members-list-subscribed-moment">{{moment-from-now @member.createdAtUTC}}</div>
             {{/if}}
         </LinkTo>

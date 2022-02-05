@@ -2,8 +2,13 @@ import Model, {attr, hasMany} from '@ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
+import { computed } from '@ember/object';
 
 export default Model.extend(ValidationEngine, {
+    ghostPaths: service(),
+    ajax: service(),
+    settings: service(),
+
     validationType: 'member',
 
     name: attr('string'),
@@ -24,8 +29,15 @@ export default Model.extend(ValidationEngine, {
     labels: hasMany('label', {embedded: 'always', async: false}),
     emailRecipients: hasMany('emailRecipient', {embedded: 'always', async: false}),
 
-    ghostPaths: service(),
-    ajax: service(),
+    createdAtTZ: computed('settings.timezone', {
+        get() {
+            let createdAtUTC = this.createdAtUTC;
+            let timezone = this.get('settings.timezone');
+
+            return moment.tz(createdAtUTC, timezone)
+        }
+    }),
+
 
     // remove client-generated labels, which have `id: null`.
     // Ember Data won't recognize/update them automatically
