@@ -229,10 +229,11 @@ module.exports = function (defaults) {
         },
         autoImport: {
             webpack: {
-                node: {
-                    util: true,
-                    fs: 'empty',
-                    path: true
+                resolve: {
+                    fallback: {
+                        path: require.resolve('path-browserify'),
+                        fs: false
+                    }
                 }
             },
             alias: {
