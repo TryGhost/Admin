@@ -172,7 +172,8 @@ export default class EditorController extends Controller {
     }
 
     set hasDirtyAttributes(value) {
-        // noop
+        // eslint-disable-next-line no-setter-return
+        return value;
     }
 
     @computed
@@ -1034,6 +1035,7 @@ export default class EditorController extends Controller {
         // new+unsaved posts always return `hasDirtyAttributes: true`
         // so we need a manual check to see if any
         if (post.get('isNew')) {
+            debugger;
             let changedAttributes = Object.keys(post.changedAttributes());
 
             if (changedAttributes.length) {
