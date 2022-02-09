@@ -89,43 +89,22 @@ const messageMap = {
 
 @classic
 export default class EditorController extends Controller {
-    @controller
-    application;
+    @controller application;
 
-    @service
-    config;
-
-    @service
-    feature;
-
-    @service
-    membersCountCache;
-
-    @service
-    modals;
-
-    @service
-    notifications;
-
-    @service
-    router;
-
-    @service
-    slugGenerator;
-
-    @service
-    session;
-
-    @service
-    settings;
-
-    @service
-    ui;
+    @service config;
+    @service feature;
+    @service membersCountCache;
+    @service modals;
+    @service notifications;
+    @service router;
+    @service slugGenerator;
+    @service session;
+    @service settings;
+    @service ui;
 
     /* public properties -----------------------------------------------------*/
 
     shouldFocusTitle = false;
-
     showReAuthenticateModal = false;
     showPostPreviewModal = false;
     showUpgradeModal = false;
@@ -139,7 +118,6 @@ export default class EditorController extends Controller {
     /* private properties ----------------------------------------------------*/
 
     _leaveConfirmed = false;
-
     _previousTagNames = null; // set by setPost and _postSaved, used in hasDirtyAttributes
 
     /* computed properties ---------------------------------------------------*/
@@ -390,12 +368,12 @@ export default class EditorController extends Controller {
     toggleSettingsMenu() {
         this.set('showSettingsMenu', !this.showSettingsMenu);
     }
-    
+
     @action
     closeSettingsMenu() {
         this.set('showSettingsMenu', false);
     }
-    
+
     @action
     saveSnippet(snippet) {
         let snippetRecord = this.store.createRecord('snippet', snippet);
@@ -417,7 +395,7 @@ export default class EditorController extends Controller {
             throw error;
         });
     }
-    
+
     @action
     toggleUpdateSnippetModal(snippetRecord, updatedProperties = {}) {
         if (snippetRecord) {
@@ -426,16 +404,16 @@ export default class EditorController extends Controller {
             this.set('snippetToUpdate', null);
         }
     }
-    
+
     @action
     updateSnippet() {
         if (!this.snippetToUpdate) {
             return Promise.reject();
         }
-    
+
         const {snippetRecord, updatedProperties: {mobiledoc}} = this.snippetToUpdate;
         snippetRecord.set('mobiledoc', mobiledoc);
-    
+
         return snippetRecord.save().then(() => {
             this.set('snippetToUpdate', null);
             this.notifications.closeAlerts('snippet.save');
@@ -455,12 +433,12 @@ export default class EditorController extends Controller {
             throw error;
         });
     }
-    
+
     @action
     toggleDeleteSnippetModal(snippet) {
         this.set('snippetToDelete', snippet);
     }
-    
+
     @action
     deleteSnippet(snippet) {
         return snippet.destroyRecord();
@@ -480,7 +458,7 @@ export default class EditorController extends Controller {
 
     // save tasks cancels autosave before running, although this cancels the
     // _xSave tasks  that will also cancel the autosave task
-    @task({group: 'saveTasks'}) 
+    @task({group: 'saveTasks'})
     *saveTask(options = {}) {
         let prevStatus = this.get('post.status');
         let isNew = this.get('post.isNew');
@@ -617,7 +595,7 @@ export default class EditorController extends Controller {
     /*
      * triggered by a user manually changing slug
      */
-    @task({group: 'saveTasks'}) 
+    @task({group: 'saveTasks'})
     *updateSlugTask(_newSlug) {
         let slug = this.get('post.slug');
         let newSlug, serverSlug;
