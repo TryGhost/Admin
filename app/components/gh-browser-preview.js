@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import {inject as service} from '@ember/service';
 
-export default class GhMembersFilterComponent extends Component {
-    @service session
+export default class GhBrowserPreview extends Component {
+    @service settings;
 }

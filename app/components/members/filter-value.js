@@ -27,8 +27,9 @@ const FILTER_OPTIONS = {
     ]
 };
 
-export default class GhMembersFilterValueLabs extends Component {
+export default class MembersFilterValue extends Component {
     @tracked filterValue;
+
     constructor(...args) {
         super(...args);
         this.availableFilterOptions = FILTER_OPTIONS;
@@ -47,7 +48,8 @@ export default class GhMembersFilterValueLabs extends Component {
 
     @action
     updateInputFilterValueOnEnter(filterType, filterId, event) {
-        if (event.keyCode === 13) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
             this.args.setFilterValue(filterType, filterId, this.filterValue);
         }
     }

@@ -2,19 +2,25 @@
     <GhCanvasHeader class="gh-canvas-header break tablet members-header">
         <h2 class="gh-canvas-title" data-test-screen-title>Members</h2>
         <section class="view-actions">
-            <div class="view-actions-bottom-row">
+            <div class="view-actions-bottom-row {{if this.hideSearchBar "hidden"}}">
                 <div class="relative gh-members-header-search">
                     {{svg-jar "search" class="gh-input-search-icon"}}
-                    <GhTextInput
+                    <input
+                        type="text"
                         placeholder="Search members..."
-                        @value={{this.searchText}}
-                        @input={{this.search}}
-                        class="gh-members-list-searchfield {{if this.searchText "active"}}" />
+                        value={{this.searchParam}}
+                        aria-label="Search members"
+                        class="gh-input gh-members-list-searchfield {{if this.searchParam "active"}}"
+                        {{on "input" this.search}}
+                        {{on "focus" (fn (mut this.searchIsFocused) true)}}
+                        {{on "blur" (fn (mut this.searchIsFocused) false)}}
+                        {{will-destroy (fn (mut this.searchIsFocused) false)}}
+                    />
                 </div>
             </div>
 
             <div class="view-actions-top-row">
-                <GhMembersFilterLabs
+                <Members::Filter
                     @isFiltered={{this.isFiltered}}
                     @onApplyFilter={{this.applyFilter}}
                     @defaultFilterParam={{this.filterParam}}
@@ -91,55 +97,83 @@
         </section>
     </GhCanvasHeader>
 
-    {{#unless this.members.loading}}
-        <section class="view-container">
-            {{#if this.members}}
-            <div class="gh-list-scrolling">
-                <table class="gh-list">
-                    <thead>
-                        <tr>
-                            <th>{{this.listHeader}}</th>
-                            {{#if (not-eq this.settings.editorDefaultEmailRecipients "disabled")}}
-                                <th>Open rate</th>
-                            {{/if}}
-                            <th>Location</th>
-                            <th>Created</th>
-                            {{#each this.filterColumnLabels as |filterColumn|}}
-                                <th>{{filterColumn}}</th>
-                            {{/each}}
-                        </tr>
-                    </thead>
-                    <VerticalCollection @tagName="tbody" @items={{this.members}} @key="id" @containerSelector=".gh-list-scrolling" @estimateHeight={{69}} @staticHeight={{true}} @bufferSize={{20}} as |member|>
-                        <GhMembersListItem @newsletterEnabled={{not-eq this.settings.editorDefaultEmailRecipients "disabled"}}
-                            @member={{member}}
-                            @filterColumns={{this.filterColumns}}
-                            data-test-member={{member.id}}
-                        />
-                    </VerticalCollection>
-                </table>
-            </div>
-            {{else}}
-            <div class="no-posts-box">
-                <div class="no-posts">
-                {{svg-jar "members-placeholder" class="gh-members-placeholder"}}
-                {{#if this.showingAll}}
-                    <h3>No members yet</h3>
-                    <GhMembersNoMembers @afterCreate={{this.refreshData}} />
-                {{else}}
-                    <h3>No members match the current filter</h3>
-                    <LinkTo @route="members" @query={{hash filter=null}} class="gh-btn gh-btn-lg">
-                        <span>Show all members</span>
-                    </LinkTo>
-                {{/if}}
-                </div>
-            </div>
-            {{/if}}
-        </section>
-    {{else}}
+    {{#if this.members.loading}}
         <div class="gh-content">
             <GhLoadingSpinner />
         </div>
-    {{/unless}}
+    {{else}}
+        <section class="view-container">
+            {{#if this.members}}
+                <div class="gh-list-scrolling {{if (lt this.members.length 6) "gh-list-with-helpsection"}}">
+                    <table class="gh-list">
+                        <thead>
+                            <tr>
+                                <th>{{this.listHeader}}</th>
+                                {{#if (not-eq this.settings.editorDefaultEmailRecipients "disabled")}}
+                                    <th>Open rate</th>
+                                {{/if}}
+                                <th>Location</th>
+                                <th>Created</th>
+                                {{#each this.filterColumnLabels as |filterColumn|}}
+                                    <th>{{filterColumn}}</th>
+                                {{/each}}
+                            </tr>
+                        </thead>
+                        <VerticalCollection @tagName="tbody" @items={{this.members}} @key="id" @containerSelector=".gh-list-scrolling" @estimateHeight={{69}} @staticHeight={{true}} @bufferSize={{20}} as |member|>
+                            <GhMembersListItem @newsletterEnabled={{not-eq this.settings.editorDefaultEmailRecipients "disabled"}}
+                                @member={{member}}
+                                @filterColumns={{this.filterColumns}}
+                                data-test-member={{member.id}}
+                            />
+                        </VerticalCollection>
+                    </table>
+                </div>
+            {{else}}
+                {{#if this.showingAll}}
+                    <GhMembersNoMembers @afterCreate={{this.refreshData}} @members={{this.members}} />
+                {{else}}
+                    <div class="gh-members-empty">
+                        {{svg-jar "members-placeholder" class="gh-members-placeholder"}}
+                        <h4>No members match the current filter</h4>
+                        <LinkTo @route="members" @query={{reset-query-params "members.index"}} class="gh-btn mt4">
+                            <span>Show all members</span>
+                        </LinkTo>
+                    </div>
+                {{/if}}
+            {{/if}}
+            {{#if (lt this.members.length 6)}}
+                <div class="gh-main-section gh-members-help">
+                    <h2 class="gh-main-section-header small bn">Get the most out of offers</h2>
+                    <div class="gh-main-section-block">
+                        <div class="gh-main-section-content grey">
+                            <a href="https://ghost.org/resources/build-audience-subscriber-signups/" target="_blank" class="gh-members-help-card" rel="noopener noreferrer">
+                                <div class="gh-members-help-content">
+                                    <div class="thumbnail" style="background-image: url(assets/img/marketing/members-1.jpg);"></div>
+                                    <div class="text">
+                                        <h3>Building your audience with subscriber signups</h3>
+                                        <p>Learn how to turn anonymous visitors into logged-in members with memberships in Ghost.</p>
+                                        <div class="gh-btn gh-btn-link">Start building &rarr;</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="https://ghost.org/resources/first-100-email-subscribers/" target="_blank" class="gh-members-help-card" rel="noopener noreferrer">
+                                <div class="gh-members-help-content">
+                                    <div class="thumbnail right" style="background-image: url(assets/img/marketing/members-2.jpg);"></div>
+                                    <div class="text">
+                                        <h3>Get your first 100 email subscribers</h3>
+                                        <p>Starting from zero? Use this guide to find your founding audience members.</p>
+                                        <div class="gh-btn gh-btn-link">Become an expert &rarr;</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </section>
+    {{/if}}
 </section>
 
 {{outlet}}
