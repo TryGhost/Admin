@@ -1035,7 +1035,6 @@ export default class EditorController extends Controller {
         // new+unsaved posts always return `hasDirtyAttributes: true`
         // so we need a manual check to see if any
         if (post.get('isNew')) {
-            debugger;
             let changedAttributes = Object.keys(post.changedAttributes());
 
             if (changedAttributes.length) {
