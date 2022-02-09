@@ -43,6 +43,11 @@ export default class NavigationController extends Controller {
     }
 
     @action
+    save() {
+        this.saveTask.perform();
+    }
+
+    @action
     addNavItem(item) {
         // If the url sent through is blank (user never edited the url)
         if (item.get('url') === '') {
@@ -156,7 +161,7 @@ export default class NavigationController extends Controller {
         }
     }
 
-    @task *save() {
+    @task *saveTask() {
         let navItems = this.get('settings.navigation');
         let secondaryNavItems = this.get('settings.secondaryNavigation');
 
