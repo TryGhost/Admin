@@ -49,6 +49,7 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
         this.set('profileImage', image);
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     @task(function* () {
         return yield this._passwordSetup();
     })

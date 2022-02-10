@@ -99,6 +99,7 @@ export default class ModalProductPrice extends ModalBase {
         return this.config.get('blogUrl');
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     get welcomePageURL() {
         return this.model.product.welcomePageURL;
     }

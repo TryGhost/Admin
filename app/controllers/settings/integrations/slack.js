@@ -104,6 +104,7 @@ export default class SlackController extends Controller {
         return transition.retry();
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     @(task(function* () {
         let slack = this.slackSettings;
         let settings = this.settings;

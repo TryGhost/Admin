@@ -63,6 +63,7 @@ export default class FirstpromoterController extends Controller {
         return transition.retry();
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     @(task(function* () {
         try {
             yield this.settings.validate();

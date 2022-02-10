@@ -87,6 +87,7 @@ export default class TagController extends Controller {
         return this.leaveScreenTransition.retry();
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     @(task(function* () {
         let {tag, scratchTag} = this;
 
