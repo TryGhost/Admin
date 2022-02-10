@@ -268,7 +268,6 @@ export default class GeneralController extends Controller {
         });
     }
 
-    // eslint-disable-next-line no-dupe-class-members
     @task(function* () {
         let notifications = this.notifications;
         let config = this.config;

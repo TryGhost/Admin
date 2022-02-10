@@ -65,7 +65,6 @@ export default class SigninController extends Controller.extend(ValidationEngine
         return this.validateAndAuthenticate.perform();
     }
 
-    // eslint-disable-next-line no-dupe-class-members
     @(task(function* (authStrategy, authentication) {
         try {
             return yield this.session

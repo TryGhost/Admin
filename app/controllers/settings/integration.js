@@ -185,7 +185,6 @@ export default class IntegrationController extends Controller {
         return this.webhookToDelete.destroyRecord();
     }
 
-    // eslint-disable-next-line no-dupe-class-members
     @task(function* () {
         return yield this.integration.save();
     })
