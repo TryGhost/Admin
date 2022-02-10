@@ -69,23 +69,23 @@
                         {{#if (and this.members.length this.isFiltered)}}
                             <li class="divider"></li>
                             <li>
-                                <button class="mr2" data-test-button="add-label-selected" type="button" {{on "click" this.toggleAddMembersLabelModal}}>
+                                <button class="mr2" data-test-button="add-label-selected" type="button" {{on "click" this.bulkAddLabel}}>
                                     <span>Add label for selected members ({{this.members.length}})</span>
                                 </button>
                             </li>
                             <li>
-                                <button class="mr2" data-test-button="remove-label-selected" type="button" {{on "click" this.toggleRemoveMembersLabelModal}}>
+                                <button class="mr2" data-test-button="remove-label-selected" type="button" {{on "click" this.bulkRemoveLabel}}>
                                     <span>Remove label from selected members ({{this.members.length}})</span>
                                 </button>
                             </li>
                             <li>
-                                <button class="mr2" data-test-button="remove-label-selected" type="button" {{on "click" this.toggleUnsubscribeMembersModal}}>
+                                <button class="mr2" data-test-button="remove-label-selected" type="button" {{on "click" this.bulkUnsubscribe}}>
                                     <span>Unsubscribe selected members ({{this.members.length}})</span>
                                 </button>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <button class="mr2" data-test-button="delete-selected" type="button" {{on "click" this.toggleDeleteMembersModal}}>
+                                <button class="mr2" data-test-button="delete-selected" type="button" {{on "click" this.bulkDelete}}>
                                     <span class="red">Delete selected members ({{this.members.length}})</span>
                                 </button>
                             </li>
@@ -178,42 +178,12 @@
 
 {{outlet}}
 
-{{#if this.showAddMembersLabelModal}}
-    <GhFullscreenModal
-        @modal="add-label-members"
-        @model={{hash memberCount=this.members.length}}
-        @confirm={{this.addLabelToMembers}}
-        @close={{this.toggleAddMembersLabelModal}}
-        @modifier="action wide"
-    />
-{{/if}}
-
-{{#if this.showRemoveMembersLabelModal}}
-    <GhFullscreenModal
-        @modal="remove-label-members"
-        @model={{hash memberCount=this.members.length}}
-        @confirm={{this.removeLabelFromMembers}}
-        @close={{this.toggleRemoveMembersLabelModal}}
-        @modifier="action wide"
-    />
-{{/if}}
-
 {{#if this.showUnsubscribeMembersModal}}
     <GhFullscreenModal
         @modal="unsubscribe-members"
         @model={{hash memberCount=this.members.length}}
         @confirm={{this.unsubscribeMembers}}
         @close={{this.toggleUnsubscribeMembersModal}}
-        @modifier="action wide"
-    />
-{{/if}}
-
-{{#if this.showDeleteMembersModal}}
-    <GhFullscreenModal
-        @modal="delete-members"
-        @model={{hash memberCount=this.members.length}}
-        @confirm={{this.deleteMembers}}
-        @close={{this.toggleDeleteMembersModal}}
         @modifier="action wide"
     />
 {{/if}}
