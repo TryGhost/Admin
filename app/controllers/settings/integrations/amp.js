@@ -72,5 +72,5 @@ export default class AmpController extends Controller {
             throw error;
         }
     }).drop())
-    save;
+        save;
 }
