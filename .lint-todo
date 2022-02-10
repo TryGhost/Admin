@@ -1941,3 +1941,12 @@ remove|ember-template-lint|no-action|7|12|7|12|4f06b6550239f5051755a093e90fd49b8
 remove|ember-template-lint|no-action|17|12|17|12|f2e037cab09fad7a6edeae52f9429bc5db47a04c|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
 remove|ember-template-lint|no-action|28|16|28|16|12bd8189164be10f6b66235b43aa57efb166fd6e|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
 remove|ember-template-lint|no-action|70|12|70|12|98c33bc8a7a032179cbbc279c04e635a4ac4bce3|1643760000000|1646352000000|1648940400000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
+add|ember-template-lint|no-action|103|25|103|25|7db56e6734f46e63e91445e399e1a3a602c31636|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-editor.hbs
+add|ember-template-lint|no-action|106|23|106|23|0401c18c6ce3fe2477e645d5923710feb6491de3|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-editor.hbs
+add|ember-template-lint|no-action|107|25|107|25|74128407cfa61ff0257028d0266c841fdebcdcb1|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-editor.hbs
+add|ember-template-lint|no-action|108|21|108|21|24b49ddef48d36b91530840b7831b973e37465b8|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-editor.hbs
+add|ember-template-lint|no-action|109|23|109|23|61683de5dc0f30ebbc34e67eba5fc99df939a892|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-editor.hbs
+add|ember-template-lint|no-action|7|12|7|12|fada170dae44678cba8240b4ae3233c631db4a6f|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
+add|ember-template-lint|no-action|17|12|17|12|b75d66d02a33b108a64bb94d494fa194434c82f9|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
+add|ember-template-lint|no-action|28|16|28|16|e5e787868d089ae3141666004a914deff774b489|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-toolbar.hbs
+add|ember-template-lint|no-action|70|12|70|12|03d2eaf613eae8cb3ea3c821ba63544c730364c8|1644364800000|1646956800000|1649545200000|lib/koenig-editor/addon/components/koenig-toolbar.hbs

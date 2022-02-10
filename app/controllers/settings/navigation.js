@@ -10,20 +10,11 @@ import {task} from 'ember-concurrency';
 
 @classic
 export default class NavigationController extends Controller {
-    @service
-    config;
-
-    @service
-    ghostPaths;
-
-    @service
-    notifications;
-
-    @service
-    session;
-
-    @service
-    settings;
+    @service config;
+    @service ghostPaths;
+    @service notifications;
+    @service session;
+    @service settings;
 
     dirtyAttributes = false;
     newNavItem = null;

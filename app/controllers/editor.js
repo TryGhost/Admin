@@ -89,6 +89,7 @@ const messageMap = {
 
 @classic
 export default class EditorController extends Controller {
+<<<<<<< HEAD
     @controller
     application;
 
@@ -121,11 +122,28 @@ export default class EditorController extends Controller {
 
     @service
     ui;
+=======
+    @controller application;
+
+    @service config;
+    @service feature;
+    @service membersCountCache;
+    @service modals;
+    @service notifications;
+    @service router;
+    @service slugGenerator;
+    @service session;
+    @service settings;
+    @service ui;
+>>>>>>> main
 
     /* public properties -----------------------------------------------------*/
 
     shouldFocusTitle = false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     showReAuthenticateModal = false;
     showPostPreviewModal = false;
     showUpgradeModal = false;
@@ -139,7 +157,10 @@ export default class EditorController extends Controller {
     /* private properties ----------------------------------------------------*/
 
     _leaveConfirmed = false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     _previousTagNames = null; // set by setPost and _postSaved, used in hasDirtyAttributes
 
     /* computed properties ---------------------------------------------------*/
@@ -170,12 +191,21 @@ export default class EditorController extends Controller {
     get hasDirtyAttributes() {
         return this._hasDirtyAttributes();
     }
+<<<<<<< HEAD
 
     set hasDirtyAttributes(value) {
         // eslint-disable-next-line no-setter-return
         return value;
     }
 
+=======
+
+    set hasDirtyAttributes(value) {
+        // eslint-disable-next-line no-setter-return
+        return value;
+    }
+
+>>>>>>> main
     @computed
     get _snippets() {
         return this.store.peekAll('snippet');
@@ -319,6 +349,7 @@ export default class EditorController extends Controller {
         }
         this.toggleProperty('showReAuthenticateModal');
     }
+<<<<<<< HEAD
 
     @action
     openUpgradeModal() {
@@ -381,6 +412,70 @@ export default class EditorController extends Controller {
     setFeatureImageCaption(html) {
         this.post.set('featureImageCaption', html);
 
+=======
+
+    @action
+    openUpgradeModal() {
+        this.set('showUpgradeModal', true);
+    }
+
+    @action
+    closeUpgradeModal() {
+        this.set('showUpgradeModal', false);
+    }
+
+    @action
+    setKoenigEditor(koenig) {
+        this._koenig = koenig;
+
+        // remove any empty cards when displaying a draft post
+        // - empty cards may be left in draft posts due to autosave occuring
+        //   whilst an empty card is present then the user closing the browser
+        //   or refreshing the page
+        if (this.post.isDraft) {
+            this._koenig.cleanup();
+        }
+    }
+
+    @action
+    updateWordCount(counts) {
+        this.set('wordCount', counts);
+    }
+
+    @action
+    setFeatureImage(url) {
+        this.post.set('featureImage', url);
+
+        if (this.post.isDraft) {
+            this.autosaveTask.perform();
+        }
+    }
+
+    @action
+    clearFeatureImage() {
+        this.post.set('featureImage', null);
+        this.post.set('featureImageAlt', null);
+        this.post.set('featureImageCaption', null);
+
+        if (this.post.isDraft) {
+            this.autosaveTask.perform();
+        }
+    }
+
+    @action
+    setFeatureImageAlt(text) {
+        this.post.set('featureImageAlt', text);
+
+        if (this.post.isDraft) {
+            this.autosaveTask.perform();
+        }
+    }
+
+    @action
+    setFeatureImageCaption(html) {
+        this.post.set('featureImageCaption', html);
+
+>>>>>>> main
         if (this.post.isDraft) {
             this.autosaveTask.perform();
         }
@@ -390,12 +485,20 @@ export default class EditorController extends Controller {
     toggleSettingsMenu() {
         this.set('showSettingsMenu', !this.showSettingsMenu);
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     closeSettingsMenu() {
         this.set('showSettingsMenu', false);
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     saveSnippet(snippet) {
         let snippetRecord = this.store.createRecord('snippet', snippet);
@@ -417,7 +520,11 @@ export default class EditorController extends Controller {
             throw error;
         });
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     toggleUpdateSnippetModal(snippetRecord, updatedProperties = {}) {
         if (snippetRecord) {
@@ -426,7 +533,11 @@ export default class EditorController extends Controller {
             this.set('snippetToUpdate', null);
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     updateSnippet() {
         if (!this.snippetToUpdate) {
@@ -455,12 +566,20 @@ export default class EditorController extends Controller {
             throw error;
         });
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     toggleDeleteSnippetModal(snippet) {
         this.set('snippetToDelete', snippet);
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> main
     @action
     deleteSnippet(snippet) {
         return snippet.destroyRecord();
@@ -480,7 +599,11 @@ export default class EditorController extends Controller {
 
     // save tasks cancels autosave before running, although this cancels the
     // _xSave tasks  that will also cancel the autosave task
+<<<<<<< HEAD
     @task({group: 'saveTasks'}) 
+=======
+    @task({group: 'saveTasks'})
+>>>>>>> main
     *saveTask(options = {}) {
         let prevStatus = this.get('post.status');
         let isNew = this.get('post.isNew');
@@ -617,7 +740,11 @@ export default class EditorController extends Controller {
     /*
      * triggered by a user manually changing slug
      */
+<<<<<<< HEAD
     @task({group: 'saveTasks'}) 
+=======
+    @task({group: 'saveTasks'})
+>>>>>>> main
     *updateSlugTask(_newSlug) {
         let slug = this.get('post.slug');
         let newSlug, serverSlug;

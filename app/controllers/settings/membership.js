@@ -3,7 +3,7 @@ import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
 import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const CURRENCIES = currencies.map((currency) => {
@@ -259,8 +259,8 @@ export default class MembersAccessController extends Controller {
     @action
     updatePortalPreview({forceRefresh} = {forceRefresh: false}) {
         // TODO: can these be worked out from settings in membersUtils?
-        const monthlyPrice = this.stripeMonthlyAmount * 100;
-        const yearlyPrice = this.stripeYearlyAmount * 100;
+        const monthlyPrice = Math.round(this.stripeMonthlyAmount * 100);
+        const yearlyPrice = Math.round(this.stripeYearlyAmount * 100);
         let portalPlans = this.settings.get('portalPlans') || [];
 
         let isMonthlyChecked = portalPlans.includes('monthly');
