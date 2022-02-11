@@ -48,12 +48,13 @@
             save button needs to be outside of menu components so it doesn't lose state
             or cancel the task when the post status updates and switches components
          --}}
-        <footer class="gh-publishmenu-footer">
+        <footer class="gh-publishmenu-footer" {{did-insert (perform this.countTotalMembersTask)}}>
             <button class="gh-btn gh-btn-outline" data-test-publishmenu-cancel type="button" {{on "click" (action dd.actions.close)}}>
                 <span>Cancel</span>
             </button>
             <GhTaskButton
                 @buttonText={{this.buttonText}}
+                @disabled={{if (and this.softDisableEmailOption (eq this.distributionAction "send")) true false}}
                 @task={{this.save}}
                 @taskArgs={{hash dropdown=dd}}
                 @successText={{this.successText}}

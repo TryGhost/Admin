@@ -31,6 +31,7 @@ export default Component.extend({
     typedDateError: null,
     isSendingEmailLimited: false,
     sendingEmailLimitError: '',
+    totalMemberCount: 0,
 
     _publishedAtBlogTZ: null,
     _previousStatus: null,
@@ -44,6 +45,10 @@ export default Component.extend({
     hasEmailPermission: or('session.user.isOwnerOnly', 'session.user.isAdminOnly', 'session.user.isEditor'),
 
     emailOnly: computed.equal('distributionAction', 'send'),
+
+    softDisableEmailOption: computed('totalMemberCount', 'countTotalMembersTask', function () {
+        return this.totalMemberCount === 0 || this.countTotalMembersTask.isRunning;
+    }),
 
     canSendEmail: computed('hasEmailPermission', 'post.{isPost,email}', 'settings.{editorDefaultEmailRecipients,membersSignupAccess,mailgunIsConfigured}', 'config.mailgunIsConfigured', function () {
         let isDisabled = this.settings.get('editorDefaultEmailRecipients') === 'disabled' || this.settings.get('membersSignupAccess') === 'none';
@@ -112,7 +117,7 @@ export default Component.extend({
                 if (saveType === 'publish') {
                     buttonText = 'Publish';
 
-                    if (this.canSendEmail && this.sendEmailWhenPublished && this.sendEmailWhenPublished !== 'none') {
+                    if (this.canSendEmail && this.sendEmailWhenPublished && this.sendEmailWhenPublished !== 'none' && !this.softDisableEmailOption) {
                         buttonText = `${buttonText} & send`;
                     }
                 } else {
@@ -350,6 +355,15 @@ export default Component.extend({
         }
     }),
 
+    countTotalMembersTask: task(function* () {
+        const user = yield this.session.user;
+
+        if (user.isAdmin) {
+            const result = yield this.store.query('member', {limit: 1, filter: 'subscribed:true'});
+            this.set('totalMemberCount', result.meta.pagination.total);
+        }
+    }),
+
     reloadSettingsTask: task(function* () {
         yield this.settings.reload();
     }),
@@ -379,7 +393,7 @@ export default Component.extend({
             || this.post.displayName === 'page'
             || this.post.email;
 
-        // open publish confirmation if post will be published/scheduled and emailed
+        // open publish &confirmation if post will be published/scheduled and emailed
         if (!isPublishOnly && post.status === 'draft' && (saveType === 'publish' || saveType === 'schedule')) {
             if (options.dropdown) {
                 this._skipDropdownCloseCleanup = true;
