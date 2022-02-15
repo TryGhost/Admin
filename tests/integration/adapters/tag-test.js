@@ -1,24 +1,23 @@
 import Pretender from 'pretender';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Integration: Adapter: tag', function () {
-    setupTest();
+module('Integration: Adapter: tag', function (hooks) {
+    setupTest(hooks);
 
     let server, store;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         store = this.owner.lookup('service:store');
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('loads tags from regular endpoint when all are fetched', function (done) {
+    test('loads tags from regular endpoint when all are fetched', function (assert) {
         server.get(`${ghostPaths().apiRoot}/tags/`, function () {
             return [200, {'Content-Type': 'application/json'}, JSON.stringify({tags: [
                 {
@@ -34,13 +33,12 @@ describe('Integration: Adapter: tag', function () {
         });
 
         store.findAll('tag', {reload: true}).then((tags) => {
-            expect(tags).to.be.ok;
-            expect(tags.objectAtContent(0).get('name')).to.equal('Tag 1');
-            done();
+            assert.ok(tags);
+            assert.strictEqual(tags.objectAtContent(0).get('name'), 'Tag 1');
         });
     });
 
-    it('loads tag from slug endpoint when single tag is queried and slug is passed in', function (done) {
+    test('loads tag from slug endpoint when single tag is queried and slug is passed in', function (assert) {
         server.get(`${ghostPaths().apiRoot}/tags/slug/tag-1/`, function () {
             return [200, {'Content-Type': 'application/json'}, JSON.stringify({tags: [
                 {
@@ -52,9 +50,8 @@ describe('Integration: Adapter: tag', function () {
         });
 
         store.queryRecord('tag', {slug: 'tag-1'}).then((tag) => {
-            expect(tag).to.be.ok;
-            expect(tag.get('name')).to.equal('Tag 1');
-            done();
+            assert.ok(tag);
+            assert.strictEqual(tag.get('name'), 'Tag 1');
         });
     });
 });

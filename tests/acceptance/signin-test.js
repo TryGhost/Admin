@@ -1,32 +1,28 @@
 import {Response} from 'ember-cli-mirage';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {
-    beforeEach,
-    describe,
-    it
-} from 'mocha';
 import {click, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../helpers/visit';
 
-describe('Acceptance: Signin', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Signin', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects if already authenticated', async function () {
+    test('redirects if already authenticated', async function (assert) {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/signin');
 
-        expect(currentURL(), 'current url').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'current url');
     });
 
-    describe('when attempting to signin', function () {
-        beforeEach(function () {
+    module('when attempting to signin', function (hooks) {
+        hooks.beforeEach(function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
@@ -51,48 +47,42 @@ describe('Acceptance: Signin', function () {
             });
         });
 
-        it('errors correctly', async function () {
+        test('errors correctly', async function (assert) {
             await invalidateSession();
             await visit('/signin');
 
-            expect(currentURL(), 'signin url').to.equal('/signin');
+            assert.strictEqual(currentURL(), '/signin', 'signin url');
 
-            expect(findAll('input[name="identification"]').length, 'email input field')
-                .to.equal(1);
-            expect(findAll('input[name="password"]').length, 'password input field')
-                .to.equal(1);
+            assert.strictEqual(findAll('input[name="identification"]').length, 1, 'email input field');
+            assert.strictEqual(findAll('input[name="password"]').length, 1, 'password input field');
 
             await click('.js-login-button');
 
-            expect(findAll('.form-group.error').length, 'number of invalid fields')
-                .to.equal(2);
+            assert.strictEqual(findAll('.form-group.error').length, 2, 'number of invalid fields');
 
-            expect(findAll('.main-error').length, 'main error is displayed')
-                .to.equal(1);
+            assert.strictEqual(findAll('.main-error').length, 1, 'main error is displayed');
 
             await fillIn('[name="identification"]', 'test@example.com');
             await fillIn('[name="password"]', 'invalid');
             await click('.js-login-button');
 
-            expect(currentURL(), 'current url').to.equal('/signin');
+            assert.strictEqual(currentURL(), '/signin', 'current url');
 
-            expect(findAll('.main-error').length, 'main error is displayed')
-                .to.equal(1);
+            assert.strictEqual(findAll('.main-error').length, 1, 'main error is displayed');
 
-            expect(find('.main-error').textContent.trim(), 'main error text')
-                .to.equal('Invalid Password');
+            assert.strictEqual(find('.main-error').textContent.trim(), 'Invalid Password', 'main error text');
         });
 
-        it('submits successfully', async function () {
+        test('submits successfully', async function (assert) {
             invalidateSession();
 
             await visit('/signin');
-            expect(currentURL(), 'current url').to.equal('/signin');
+            assert.strictEqual(currentURL(), '/signin', 'current url');
 
             await fillIn('[name="identification"]', 'test@example.com');
             await fillIn('[name="password"]', 'thisissupersafe');
             await click('.js-login-button');
-            expect(currentURL(), 'currentURL').to.equal('/dashboard');
+            assert.strictEqual(currentURL(), '/dashboard', 'currentURL');
         });
     });
 });

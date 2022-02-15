@@ -1,19 +1,17 @@
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {A as emberA} from '@ember/array';
-import {expect} from 'chai';
 import {find, render, settled} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
 let notificationsStub = Service.extend({
     notifications: emberA()
 });
 
-describe('Integration: Component: gh-notifications', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-notifications', function (hooks) {
+    setupRenderingTest(hooks);
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         this.owner.register('service:notifications', notificationsStub);
         let notifications = this.owner.lookup('service:notifications');
 
@@ -23,15 +21,15 @@ describe('Integration: Component: gh-notifications', function () {
         ]);
     });
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         await render(hbs`{{gh-notifications}}`);
-        expect(find('.gh-notifications')).to.exist;
+        assert.dom('.gh-notifications').exists();
 
-        expect(find('.gh-notifications').children.length).to.equal(2);
+        assert.strictEqual(find('.gh-notifications').children.length, 2);
 
         let notifications = this.owner.lookup('service:notifications');
         notifications.set('notifications', emberA());
         await settled();
-        expect(find('.gh-notifications').children.length).to.equal(0);
+        assert.strictEqual(find('.gh-notifications').children.length, 0);
     });
 });

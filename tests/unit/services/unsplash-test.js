@@ -1,12 +1,11 @@
 import Pretender from 'pretender';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
 import {settled} from '@ember/test-helpers';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Service: unsplash', function () {
-    setupTest();
+module('Unit: Service: unsplash', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
@@ -18,24 +17,24 @@ describe('Unit: Service: unsplash', function () {
         server.shutdown();
     });
 
-    it('can load new');
-    it('can load next page');
+    test('can load new');
+    test('can load next page');
 
-    describe('search', function () {
-        it('sends search request');
-        it('debounces query updates');
-        it('can load next page of search results');
-        it('clears photos when starting new search');
-        it('loads new when query is cleared');
+    module('search', function () {
+        test('sends search request');
+        test('debounces query updates');
+        test('can load next page of search results');
+        test('clears photos when starting new search');
+        test('loads new when query is cleared');
     });
 
-    describe('columns', function () {
-        it('sorts photos into columns based on column height');
-        it('can change column count');
+    module('columns', function () {
+        test('sorts photos into columns based on column height');
+        test('can change column count');
     });
 
-    describe('error handling', function () {
-        it('handles rate limit exceeded', async function () {
+    module('error handling', function () {
+        test('handles rate limit exceeded', async function (assert) {
             server.get('https://api.unsplash.com/photos', function () {
                 return [403, {'x-ratelimit-remaining': '0'}, 'Rate Limit Exceeded'];
             });
@@ -47,10 +46,10 @@ describe('Unit: Service: unsplash', function () {
             });
             await settled();
 
-            expect(service.get('error')).to.have.string('Unsplash API rate limit reached');
+            assert.includes(service.get('error'), 'Unsplash API rate limit reached');
         });
 
-        it('handles json errors', async function () {
+        test('handles json errors', async function (assert) {
             server.get('https://api.unsplash.com/photos', function () {
                 return [500, {'Content-Type': 'application/json'}, JSON.stringify({
                     errors: ['Unsplash API Error']
@@ -64,10 +63,10 @@ describe('Unit: Service: unsplash', function () {
             });
             await settled();
 
-            expect(service.get('error')).to.equal('Unsplash API Error');
+            assert.strictEqual(service.get('error'), 'Unsplash API Error');
         });
 
-        it('handles text errors', async function () {
+        test('handles text errors', async function (assert) {
             server.get('https://api.unsplash.com/photos', function () {
                 return [500, {'Content-Type': 'text/xml'}, 'Unsplash text error'];
             });
@@ -79,15 +78,15 @@ describe('Unit: Service: unsplash', function () {
             });
             await settled();
 
-            expect(service.get('error')).to.equal('Unsplash text error');
+            assert.strictEqual(service.get('error'), 'Unsplash text error');
         });
     });
 
-    describe('isLoading', function () {
-        it('is false by default');
-        it('is true when loading new');
-        it('is true when loading next page');
-        it('is true when searching');
-        it('returns to false when finished');
+    module('isLoading', function () {
+        test('is false by default');
+        test('is true when loading new');
+        test('is true when loading next page');
+        test('is true when searching');
+        test('returns to false when finished');
     });
 });

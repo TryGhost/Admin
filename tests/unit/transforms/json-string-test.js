@@ -1,24 +1,23 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Transform: json-string', function () {
-    setupTest();
+module('Unit: Transform: json-string', function (hooks) {
+    setupTest(hooks);
 
-    it('serialises an Object to a JSON String', function () {
+    test('serialises an Object to a JSON String', function (assert) {
         let transform = this.owner.lookup('transform:json-string');
         let obj = {one: 'one', two: 'two'};
-        expect(transform.serialize(obj)).to.equal(JSON.stringify(obj));
+        assert.strictEqual(transform.serialize(obj), JSON.stringify(obj));
     });
 
-    it('deserialises a JSON String to an Object', function () {
+    test('deserialises a JSON String to an Object', function (assert) {
         let transform = this.owner.lookup('transform:json-string');
         let obj = {one: 'one', two: 'two'};
-        expect(transform.deserialize(JSON.stringify(obj))).to.deep.equal(obj);
+        assert.deepEqual(transform.deserialize(JSON.stringify(obj)), obj);
     });
 
-    it('handles deserializing a blank string', function () {
+    test('handles deserializing a blank string', function (assert) {
         let transform = this.owner.lookup('transform:json-string');
-        expect(transform.deserialize('')).to.equal(null);
+        assert.strictEqual(transform.deserialize(''), null);
     });
 });

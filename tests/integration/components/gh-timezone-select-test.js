@@ -1,14 +1,13 @@
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import {blur, fillIn, find, findAll, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {blur, fillIn, find, render} from '@ember/test-helpers';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-timezone-select', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-timezone-select', function (hooks) {
+    setupRenderingTest(hooks);
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         this.set('availableTimezones', [
             {name: 'Pacific/Pago_Pago', label: '(GMT -11:00) Midway Island, Samoa'},
             {name: 'Etc/UTC', label: '(GMT) UTC'},
@@ -17,17 +16,17 @@ describe('Integration: Component: gh-timezone-select', function () {
         this.set('timezone', 'Etc/UTC');
     });
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         await render(hbs`{{gh-timezone-select
             availableTimezones=availableTimezones
             timezone=timezone}}`);
 
-        expect(this.element, 'top-level elements').to.exist;
-        expect(findAll('option'), 'number of options').to.have.length(3);
-        expect(find('select').value, 'selected option value').to.equal('Etc/UTC');
+        assert.ok(this.element, 'top-level elements');
+        assert.dom('option').exists({count: 3}, 'number of options');
+        assert.strictEqual(find('select').value, 'Etc/UTC', 'selected option value');
     });
 
-    it('handles an unknown timezone', async function () {
+    test('handles an unknown timezone', async function (assert) {
         this.set('timezone', 'Europe/London');
 
         await render(hbs`{{gh-timezone-select
@@ -35,14 +34,14 @@ describe('Integration: Component: gh-timezone-select', function () {
             timezone=timezone}}`);
 
         // we have an additional blank option at the top
-        expect(findAll('option'), 'number of options').to.have.length(4);
+        assert.dom('option').exists({count: 4}, 'number of options');
         // blank option is selected
-        expect(find('select').value, 'selected option value').to.equal('');
+        assert.strictEqual(find('select').value, '', 'selected option value');
         // we indicate the manual override
-        expect(find('p').textContent).to.match(/Your timezone has been automatically set to Europe\/London/);
+        assert.match(find('p').textContent, /Your timezone has been automatically set to Europe\/London/);
     });
 
-    it('triggers update action on change', async function () {
+    test('triggers update action on change', async function (assert) {
         let update = sinon.spy();
         this.set('update', update);
 
@@ -54,12 +53,11 @@ describe('Integration: Component: gh-timezone-select', function () {
         await fillIn('select', 'Pacific/Pago_Pago');
         await blur('select');
 
-        expect(update.calledOnce, 'update was called once').to.be.true;
-        expect(update.firstCall.args[0].name, 'update was passed new timezone')
-            .to.equal('Pacific/Pago_Pago');
+        assert.true(update.calledOnce, 'update was called once');
+        assert.strictEqual(update.firstCall.args[0].name, 'Pacific/Pago_Pago', 'update was passed new timezone');
     });
 
     // TODO: mock clock service, fake the time, test we have the correct
     // local time and it changes alongside selection changes
-    it('renders local time');
+    test('renders local time');
 });

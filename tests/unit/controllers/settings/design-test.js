@@ -1,9 +1,9 @@
 import EmberObject from '@ember/object';
 import NavItem from 'ghost-admin/models/navigation-item';
-import {assert, expect} from 'chai';
-import {describe, it} from 'mocha';
+import {assert} from 'chai';
+import {module, skip} from 'qunit';
 import {run} from '@ember/runloop';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
 // const navSettingJSON = `[
 //     {"label":"Home","url":"/"},
@@ -16,31 +16,31 @@ import {setupTest} from 'ember-mocha';
 //     {"label":"No Protocol","url":"//example.com"}
 // ]`;
 
-describe.skip('Unit: Controller: settings/design', function () {
-    setupTest();
+module('Unit: Controller: settings/design', function (hooks) {
+    setupTest(hooks);
 
-    it('blogUrl: captures config and ensures trailing slash', function () {
+    skip('blogUrl: captures config and ensures trailing slash', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
         ctrl.set('config.blogUrl', 'http://localhost:2368/blog');
-        expect(ctrl.get('blogUrl')).to.equal('http://localhost:2368/blog/');
+        assert.strictEqual(ctrl.get('blogUrl'), 'http://localhost:2368/blog/');
     });
 
-    it('init: creates a new navigation item', function () {
+    skip('init: creates a new navigation item', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
 
         run(() => {
-            expect(ctrl.get('newNavItem')).to.exist;
-            expect(ctrl.get('newNavItem.isNew')).to.be.true;
+            assert.ok(ctrl.get('newNavItem'));
+            assert.strictEqual(ctrl.get('newNavItem.isNew'), true);
         });
     });
 
-    it('blogUrl: captures config and ensures trailing slash', function () {
+    skip('blogUrl: captures config and ensures trailing slash', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
         ctrl.set('config.blogUrl', 'http://localhost:2368/blog');
-        expect(ctrl.get('blogUrl')).to.equal('http://localhost:2368/blog/');
+        assert.strictEqual(ctrl.get('blogUrl'), 'http://localhost:2368/blog/');
     });
 
-    it('save: validates nav items', function (done) {
+    skip('save: validates nav items', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
 
         run(() => {
@@ -50,22 +50,20 @@ describe.skip('Unit: Controller: settings/design', function () {
                 NavItem.create({label: 'Third', url: ''})
             ]}));
             // blank item won't get added because the last item is incomplete
-            expect(ctrl.get('settings.navigation.length')).to.equal(3);
+            assert.strictEqual(ctrl.get('settings.navigation.length'), 3);
 
             ctrl.get('save').perform().then(function passedValidation() {
                 assert(false, 'navigationItems weren\'t validated on save');
-                done();
             }).catch(function failedValidation() {
                 let navItems = ctrl.get('settings.navigation');
-                expect(navItems[0].get('errors').toArray()).to.be.empty;
-                expect(navItems[1].get('errors.firstObject.attribute')).to.equal('label');
-                expect(navItems[2].get('errors.firstObject.attribute')).to.equal('url');
-                done();
+                assert.notOk(navItems[0].get('errors').toArray());
+                assert.strictEqual(navItems[1].get('errors.firstObject.attribute'), 'label');
+                assert.strictEqual(navItems[2].get('errors.firstObject.attribute'), 'url');
             });
         });
     });
 
-    it('save: ignores blank last item when saving', function (done) {
+    skip('save: ignores blank last item when saving', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
 
         run(() => {
@@ -74,20 +72,18 @@ describe.skip('Unit: Controller: settings/design', function () {
                 NavItem.create({label: '', url: ''})
             ]}));
 
-            expect(ctrl.get('settings.navigation.length')).to.equal(2);
+            assert.strictEqual(ctrl.get('settings.navigation.length'), 2);
 
             ctrl.get('save').perform().then(function passedValidation() {
                 assert(false, 'navigationItems weren\'t validated on save');
-                done();
             }).catch(function failedValidation() {
                 let navItems = ctrl.get('settings.navigation');
-                expect(navItems[0].get('errors').toArray()).to.be.empty;
-                done();
+                assert.notOk(navItems[0].get('errors').toArray());
             });
         });
     });
 
-    it('action - addNavItem: adds item to navigationItems', function () {
+    skip('action - addNavItem: adds item to navigationItems', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
 
         run(() => {
@@ -96,7 +92,7 @@ describe.skip('Unit: Controller: settings/design', function () {
             ]}));
         });
 
-        expect(ctrl.get('settings.navigation.length')).to.equal(1);
+        assert.strictEqual(ctrl.get('settings.navigation.length'), 1);
 
         ctrl.set('newNavItem.label', 'New');
         ctrl.set('newNavItem.url', '/new');
@@ -105,29 +101,29 @@ describe.skip('Unit: Controller: settings/design', function () {
             ctrl.send('addNavItem', ctrl.get('newNavItem'));
         });
 
-        expect(ctrl.get('settings.navigation.length')).to.equal(2);
-        expect(ctrl.get('settings.navigation.lastObject.label')).to.equal('New');
-        expect(ctrl.get('settings.navigation.lastObject.url')).to.equal('/new');
-        expect(ctrl.get('settings.navigation.lastObject.isNew')).to.be.false;
-        expect(ctrl.get('newNavItem.label')).to.be.empty;
-        expect(ctrl.get('newNavItem.url')).to.be.empty;
-        expect(ctrl.get('newNavItem.isNew')).to.be.true;
+        assert.strictEqual(ctrl.get('settings.navigation.length'), 2);
+        assert.strictEqual(ctrl.get('settings.navigation.lastObject.label'), 'New');
+        assert.strictEqual(ctrl.get('settings.navigation.lastObject.url'), '/new');
+        assert.strictEqual(ctrl.get('settings.navigation.lastObject.isNew'), false);
+        assert.notOk(ctrl.get('newNavItem.label'));
+        assert.notOk(ctrl.get('newNavItem.url'));
+        assert.strictEqual(ctrl.get('newNavItem.isNew'), true);
     });
 
-    it('action - addNavItem: doesn\'t insert new item if last object is incomplete', function () {
+    skip('action - addNavItem: doesn\'t insert new item if last object is incomplete', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
 
         run(() => {
             ctrl.set('settings', EmberObject.create({navigation: [
                 NavItem.create({label: '', url: '', last: true})
             ]}));
-            expect(ctrl.get('settings.navigation.length')).to.equal(1);
+            assert.strictEqual(ctrl.get('settings.navigation.length'), 1);
             ctrl.send('addNavItem', ctrl.get('settings.navigation.lastObject'));
-            expect(ctrl.get('settings.navigation.length')).to.equal(1);
+            assert.strictEqual(ctrl.get('settings.navigation.length'), 1);
         });
     });
 
-    it('action - deleteNavItem: removes item from navigationItems', function () {
+    skip('action - deleteNavItem: removes item from navigationItems', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
         let navItems = [
             NavItem.create({label: 'First', url: '/first'}),
@@ -136,13 +132,13 @@ describe.skip('Unit: Controller: settings/design', function () {
 
         run(() => {
             ctrl.set('settings', EmberObject.create({navigation: navItems}));
-            expect(ctrl.get('settings.navigation').mapBy('label')).to.deep.equal(['First', 'Second']);
+            assert.deepEqual(ctrl.get('settings.navigation').mapBy('label'), ['First', 'Second']);
             ctrl.send('deleteNavItem', ctrl.get('settings.navigation.firstObject'));
-            expect(ctrl.get('settings.navigation').mapBy('label')).to.deep.equal(['Second']);
+            assert.deepEqual(ctrl.get('settings.navigation').mapBy('label'), ['Second']);
         });
     });
 
-    it('action - updateUrl: updates URL on navigationItem', function () {
+    skip('action - updateUrl: updates URL on navigationItem', function (assert) {
         let ctrl = this.owner.lookup('controller:settings/design');
         let navItems = [
             NavItem.create({label: 'First', url: '/first'}),
@@ -151,9 +147,9 @@ describe.skip('Unit: Controller: settings/design', function () {
 
         run(() => {
             ctrl.set('settings', EmberObject.create({navigation: navItems}));
-            expect(ctrl.get('settings.navigation').mapBy('url')).to.deep.equal(['/first', '/second']);
+            assert.deepEqual(ctrl.get('settings.navigation').mapBy('url'), ['/first', '/second']);
             ctrl.send('updateUrl', '/new', ctrl.get('settings.navigation.firstObject'));
-            expect(ctrl.get('settings.navigation').mapBy('url')).to.deep.equal(['/new', '/second']);
+            assert.deepEqual(ctrl.get('settings.navigation').mapBy('url'), ['/new', '/second']);
         });
     });
 });

@@ -1,14 +1,13 @@
 import hbs from 'htmlbars-inline-precompile';
 import {clickTrigger} from 'ember-basic-dropdown/test-support/helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {find, render, settled} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {render, settled} from '@ember/test-helpers';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-basic-dropdown', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-basic-dropdown', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('closes when dropdown service fires close event', async function () {
+    test('closes when dropdown service fires close event', async function (assert) {
         let dropdownService = this.owner.lookup('service:dropdown');
 
         await render(hbs`
@@ -19,11 +18,11 @@ describe('Integration: Component: gh-basic-dropdown', function () {
         `);
 
         await clickTrigger();
-        expect(find('#dropdown-is-opened')).to.exist;
+        assert.dom('#dropdown-is-opened').exists();
 
         dropdownService.closeDropdowns();
         await settled();
 
-        expect(find('#dropdown-is-opened')).to.not.exist;
+        assert.dom('#dropdown-is-opened').doesNotExist();
     });
 });

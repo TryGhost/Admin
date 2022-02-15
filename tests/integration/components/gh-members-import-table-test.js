@@ -1,13 +1,12 @@
 import hbs from 'htmlbars-inline-precompile';
 import {click, findAll, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-members-import-table', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-members-import-table', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders members data with all the properties', async function () {
+    test('renders members data with all the properties', async function (assert) {
         this.set('importData', [{
             name: 'Kevin',
             email: 'kevin@example.com'
@@ -18,16 +17,16 @@ describe('Integration: Component: gh-members-import-table', function () {
             <GhMembersImportTable @data={{this.importData}} @setMapping={{this.setMapping}}/>
         `);
 
-        expect(findAll('table tbody tr').length).to.equal(2);
-        expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-        expect(findAll('table tbody tr td')[1].textContent).to.equal('Kevin');
-        expect(findAll('table tbody tr td')[2].textContent).to.match(/Not imported/);
-        expect(findAll('table tbody tr td')[3].textContent).to.equal('email');
-        expect(findAll('table tbody tr td')[4].textContent).to.equal('kevin@example.com');
-        expect(findAll('table tbody tr td')[5].textContent).to.match(/Not imported/);
+        assert.strictEqual(findAll('table tbody tr').length, 2);
+        assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+        assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Kevin');
+        assert.match(findAll('table tbody tr td')[2].textContent, /Not imported/);
+        assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'email');
+        assert.strictEqual(findAll('table tbody tr td')[4].textContent, 'kevin@example.com');
+        assert.match(findAll('table tbody tr td')[5].textContent, /Not imported/);
     });
 
-    it('navigates through data when next and previous are clicked', async function () {
+    test('navigates through data when next and previous are clicked', async function (assert) {
         this.set('importData', [{
             name: 'Kevin',
             email: 'kevin@example.com'
@@ -41,37 +40,37 @@ describe('Integration: Component: gh-members-import-table', function () {
             <GhMembersImportTable @data={{this.importData}} @setMapping={{this.setMapping}}/>
         `);
 
-        expect(findAll('table tbody tr').length).to.equal(2);
-        expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-        expect(findAll('table tbody tr td')[1].textContent).to.equal('Kevin');
-        expect(findAll('table tbody tr td')[2].textContent).to.match(/Not imported/);
-        expect(findAll('table tbody tr td')[3].textContent).to.equal('email');
-        expect(findAll('table tbody tr td')[4].textContent).to.equal('kevin@example.com');
-        expect(findAll('table tbody tr td')[5].textContent).to.match(/Not imported/);
+        assert.strictEqual(findAll('table tbody tr').length, 2);
+        assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+        assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Kevin');
+        assert.match(findAll('table tbody tr td')[2].textContent, /Not imported/);
+        assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'email');
+        assert.strictEqual(findAll('table tbody tr td')[4].textContent, 'kevin@example.com');
+        assert.match(findAll('table tbody tr td')[5].textContent, /Not imported/);
 
         await click('[data-test-import-next]');
 
-        expect(findAll('table tbody tr').length).to.equal(2);
-        expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-        expect(findAll('table tbody tr td')[1].textContent).to.equal('Rish');
-        expect(findAll('table tbody tr td')[2].textContent).to.match(/Not imported/);
-        expect(findAll('table tbody tr td')[3].textContent).to.equal('email');
-        expect(findAll('table tbody tr td')[4].textContent).to.equal('rish@example.com');
-        expect(findAll('table tbody tr td')[5].textContent).to.match(/Not imported/);
+        assert.strictEqual(findAll('table tbody tr').length, 2);
+        assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+        assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Rish');
+        assert.match(findAll('table tbody tr td')[2].textContent, /Not imported/);
+        assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'email');
+        assert.strictEqual(findAll('table tbody tr td')[4].textContent, 'rish@example.com');
+        assert.match(findAll('table tbody tr td')[5].textContent, /Not imported/);
 
         await click('[data-test-import-prev]');
 
-        expect(findAll('table tbody tr').length).to.equal(2);
-        expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-        expect(findAll('table tbody tr td')[1].textContent).to.equal('Kevin');
-        expect(findAll('table tbody tr td')[2].textContent).to.match(/Not imported/);
-        expect(findAll('table tbody tr td')[3].textContent).to.equal('email');
-        expect(findAll('table tbody tr td')[4].textContent).to.equal('kevin@example.com');
-        expect(findAll('table tbody tr td')[5].textContent).to.match(/Not imported/);
+        assert.strictEqual(findAll('table tbody tr').length, 2);
+        assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+        assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Kevin');
+        assert.match(findAll('table tbody tr td')[2].textContent, /Not imported/);
+        assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'email');
+        assert.strictEqual(findAll('table tbody tr td')[4].textContent, 'kevin@example.com');
+        assert.match(findAll('table tbody tr td')[5].textContent, /Not imported/);
     });
 
-    it('cannot navigate through data when only one data item is present', async function () {
-        it('renders members data with all the properties', async function () {
+    test('cannot navigate through data when only one data item is present', async function (assert) {
+        test('renders members data with all the properties', async function () {
             this.set('importData', [{
                 name: 'Egg',
                 email: 'egg@example.com'
@@ -83,19 +82,19 @@ describe('Integration: Component: gh-members-import-table', function () {
 
             await click('[data-test-import-prev]');
 
-            expect(findAll('table tbody tr').length).to.equal(2);
-            expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-            expect(findAll('table tbody tr td')[1].textContent).to.equal('Egg');
-            expect(findAll('table tbody tr td')[2].textContent).to.equal('email');
-            expect(findAll('table tbody tr td')[3].textContent).to.equal('egg@example.com');
+            assert.strictEqual(findAll('table tbody tr').length, 2);
+            assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+            assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Egg');
+            assert.strictEqual(findAll('table tbody tr td')[2].textContent, 'email');
+            assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'egg@example.com');
 
             await click('[data-test-import-next]');
 
-            expect(findAll('table tbody tr').length).to.equal(2);
-            expect(findAll('table tbody tr td')[0].textContent).to.equal('name');
-            expect(findAll('table tbody tr td')[1].textContent).to.equal('Egg');
-            expect(findAll('table tbody tr td')[2].textContent).to.equal('email');
-            expect(findAll('table tbody tr td')[3].textContent).to.equal('egg@example.com');
+            assert.strictEqual(findAll('table tbody tr').length, 2);
+            assert.strictEqual(findAll('table tbody tr td')[0].textContent, 'name');
+            assert.strictEqual(findAll('table tbody tr td')[1].textContent, 'Egg');
+            assert.strictEqual(findAll('table tbody tr td')[2].textContent, 'email');
+            assert.strictEqual(findAll('table tbody tr td')[3].textContent, 'egg@example.com');
         });
     });
 });

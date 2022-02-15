@@ -1,9 +1,8 @@
 import Mirage from 'ember-cli-mirage';
 import {authenticateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
 import {click, currentRouteName, fillIn, find, findAll, visit} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
@@ -15,20 +14,20 @@ let htmlErrorResponse = function () {
     );
 };
 
-describe('Acceptance: Error Handling', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Error Handling', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    describe('VersionMismatch errors', function () {
-        describe('logged in', function () {
-            beforeEach(async function () {
+    module('VersionMismatch errors', function () {
+        module('logged in', function (hooks) {
+            hooks.beforeEach(async function () {
                 let role = this.server.create('role', {name: 'Administrator'});
                 this.server.create('user', {roles: [role]});
 
                 return await authenticateSession();
             });
 
-            it('displays an alert and disables navigation when saving', async function () {
+            test('displays an alert and disables navigation when saving', async function (assert) {
                 this.server.createList('post', 3);
 
                 // mock the post save endpoint to return version mismatch
@@ -40,16 +39,16 @@ describe('Acceptance: Error Handling', function () {
                 await click('[data-test-publishmenu-save]');
 
                 // has the refresh to update alert
-                expect(findAll('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').textContent).to.match(/refresh/);
+                assert.strictEqual(findAll('.gh-alert').length, 1);
+                assert.match(find('.gh-alert').textContent, /refresh/);
 
                 // try navigating back to the content list
                 await click('[data-test-link="posts"]');
 
-                expect(currentRouteName()).to.equal('editor.edit');
+                assert.strictEqual(currentRouteName(), 'editor.edit');
             });
 
-            it('displays alert and aborts the transition when navigating', async function () {
+            test('displays alert and aborts the transition when navigating', async function (assert) {
                 await visit('/posts');
 
                 // mock the tags endpoint to return version mismatch
@@ -58,16 +57,16 @@ describe('Acceptance: Error Handling', function () {
                 await click('[data-test-nav="tags"]');
 
                 // navigation is blocked on loading screen
-                expect(currentRouteName()).to.equal('tags_loading');
+                assert.strictEqual(currentRouteName(), 'tags_loading');
 
                 // has the refresh to update alert
-                expect(findAll('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').textContent).to.match(/refresh/);
+                assert.strictEqual(findAll('.gh-alert').length, 1);
+                assert.match(find('.gh-alert').textContent, /refresh/);
             });
         });
 
-        describe('logged out', function () {
-            it('displays alert', async function () {
+        module('logged out', function () {
+            test('displays alert', async function (assert) {
                 this.server.post('/session', versionMismatchResponse);
 
                 await visit('/signin');
@@ -76,14 +75,14 @@ describe('Acceptance: Error Handling', function () {
                 await click('.js-login-button');
 
                 // has the refresh to update alert
-                expect(findAll('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').textContent).to.match(/refresh/);
+                assert.strictEqual(findAll('.gh-alert').length, 1);
+                assert.match(find('.gh-alert').textContent, /refresh/);
             });
         });
     });
 
-    describe('CloudFlare errors', function () {
-        beforeEach(async function () {
+    module('CloudFlare errors', function (hooks) {
+        hooks.beforeEach(async function () {
             this.server.loadFixtures();
 
             let roles = this.server.schema.roles.where({name: 'Administrator'});
@@ -92,7 +91,7 @@ describe('Acceptance: Error Handling', function () {
             return await authenticateSession();
         });
 
-        it('handles Ember Data HTML response', async function () {
+        test('handles Ember Data HTML response', async function (assert) {
             this.server.put('/posts/1/', htmlErrorResponse);
             this.server.create('post');
 
@@ -100,12 +99,12 @@ describe('Acceptance: Error Handling', function () {
             await click('[data-test-publishmenu-trigger]');
             await click('[data-test-publishmenu-save]');
 
-            expect(findAll('.gh-alert').length).to.equal(1);
-            expect(find('.gh-alert').textContent).to.not.match(/html>/);
-            expect(find('.gh-alert').textContent).to.match(/Request was rejected due to server error/);
+            assert.strictEqual(findAll('.gh-alert').length, 1);
+            assert.notMatch(find('.gh-alert').textContent, /html>/);
+            assert.match(find('.gh-alert').textContent, /Request was rejected due to server error/);
         });
 
-        it('handles ember-ajax HTML response', async function () {
+        test('handles ember-ajax HTML response', async function (assert) {
             this.server.del('/themes/foo/', htmlErrorResponse);
 
             await visit('/settings/design/change-theme');
@@ -115,9 +114,9 @@ describe('Acceptance: Error Handling', function () {
             await click('[data-test-actions-for="foo"] [data-test-button="delete"]');
             await click('[data-test-modal="delete-theme"] [data-test-button="confirm"]');
 
-            expect(findAll('.gh-alert').length).to.equal(1);
-            expect(find('.gh-alert').textContent).to.not.match(/html>/);
-            expect(find('.gh-alert').textContent).to.match(/Request was rejected due to server error/);
+            assert.strictEqual(findAll('.gh-alert').length, 1);
+            assert.notMatch(find('.gh-alert').textContent, /html>/);
+            assert.match(find('.gh-alert').textContent, /Request was rejected due to server error/);
         });
     });
 });

@@ -1,11 +1,10 @@
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
 import {find, render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-unsplash-photo', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-unsplash-photo', function (hooks) {
+    setupRenderingTest(hooks);
 
     beforeEach(function () {
         // NOTE: images.unsplash.com replaced with example.com to ensure we aren't
@@ -68,50 +67,40 @@ describe('Integration: Component: gh-unsplash-photo', function () {
         });
     });
 
-    it('sets background-color style', async function () {
+    test('sets background-color style', async function (assert) {
         await render(hbs`{{gh-unsplash-photo photo=photo}}`);
 
-        expect(
-            find('[data-test-unsplash-photo-container]').attributes.style.value
-        ).to.have.string('background-color: #A8A99B');
+        assert.includes(find('[data-test-unsplash-photo-container]').attributes.style.value, 'background-color: #A8A99B');
     });
 
-    it('sets padding-bottom style', async function () {
+    test('sets padding-bottom style', async function (assert) {
         await render(hbs`{{gh-unsplash-photo photo=photo}}`);
 
         // don't check full padding-bottom value as it will likely vary across
         // browsers
-        expect(
-            find('[data-test-unsplash-photo-container]').attributes.style.value
-        ).to.have.string('padding-bottom: 66.66');
+        assert.includes(find('[data-test-unsplash-photo-container]').attributes.style.value, 'padding-bottom: 66.66');
     });
 
-    it('uses correct image size url', async function () {
+    test('uses correct image size url', async function (assert) {
         await render(hbs`{{gh-unsplash-photo photo=photo}}`);
 
-        expect(
-            find('[data-test-unsplash-photo-image]').attributes.src.value
-        ).to.have.string('&w=1200');
+        assert.includes(find('[data-test-unsplash-photo-image]').attributes.src.value, '&w=1200');
     });
 
-    it('calculates image width/height', async function () {
+    test('calculates image width/height', async function (assert) {
         await render(hbs`{{gh-unsplash-photo photo=photo}}`);
 
-        expect(
-            find('[data-test-unsplash-photo-image]').attributes.width.value
-        ).to.equal('1200');
+        assert.strictEqual(find('[data-test-unsplash-photo-image]').attributes.width.value, '1200');
 
-        expect(
-            find('[data-test-unsplash-photo-image]').attributes.height.value
-        ).to.equal('800');
+        assert.strictEqual(find('[data-test-unsplash-photo-image]').attributes.height.value, '800');
     });
 
-    it('triggers insert action');
-    it('triggers zoom action');
+    test('triggers insert action');
+    test('triggers zoom action');
 
-    describe('zoomed', function () {
-        it('omits padding-bottom style');
-        it('triggers insert action');
-        it('triggers zoom action');
+    module('zoomed', function () {
+        test('omits padding-bottom style');
+        test('triggers insert action');
+        test('triggers zoom action');
     });
 });

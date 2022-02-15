@@ -1,26 +1,25 @@
 import hbs from 'htmlbars-inline-precompile';
 import {blur, find, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-trim-focus-input', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-trim-focus-input', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('trims value on focusOut', async function () {
+    test('trims value on focusOut', async function (assert) {
         this.set('text', 'some random stuff    ');
         await render(hbs`{{gh-trim-focus-input value=(readonly text) input=(action (mut text) value="target.value")}}`);
 
         await blur('input');
 
-        expect(this.text).to.equal('some random stuff');
+        assert.strictEqual(this.text, 'some random stuff');
     });
 
-    it('trims value on focusOut before calling custom focus-out', async function () {
+    test('trims value on focusOut before calling custom focus-out', async function (assert) {
         this.set('text', 'some random stuff    ');
         this.set('customFocusOut', function (value) {
-            expect(find('.gh-input').value, 'input value').to.equal('some random stuff');
-            expect(value, 'value').to.equal('some random stuff');
+            assert.strictEqual(find('.gh-input').value, 'some random stuff', 'input value');
+            assert.strictEqual(value, 'some random stuff', 'value');
         });
 
         await render(hbs`{{gh-trim-focus-input
@@ -31,30 +30,30 @@ describe('Integration: Component: gh-trim-focus-input', function () {
 
         await blur('input');
 
-        expect(this.text).to.equal('some random stuff');
+        assert.strictEqual(this.text, 'some random stuff');
     });
 
-    it('does not have the autofocus attribute if not set to focus', async function () {
+    test('does not have the autofocus attribute if not set to focus', async function (assert) {
         this.set('text', 'some text');
         await render(hbs`{{gh-trim-focus-input value=(readonly text) shouldFocus=false}}`);
-        expect(find('input').autofocus).to.not.be.ok;
+        assert.notOk(find('input').autofocus);
     });
 
-    it('has the autofocus attribute if set to focus', async function () {
+    test('has the autofocus attribute if set to focus', async function (assert) {
         this.set('text', 'some text');
         await render(hbs`{{gh-trim-focus-input value=(readonly text) shouldFocus=true}}`);
-        expect(find('input').autofocus).to.be.ok;
+        assert.ok(find('input').autofocus);
     });
 
-    it('handles undefined values', async function () {
+    test('handles undefined values', async function (assert) {
         this.set('text', undefined);
         await render(hbs`{{gh-trim-focus-input value=(readonly text) shouldFocus=true}}`);
-        expect(find('input').autofocus).to.be.ok;
+        assert.ok(find('input').autofocus);
     });
 
-    it('handles non-string values', async function () {
+    test('handles non-string values', async function (assert) {
         this.set('text', 10);
         await render(hbs`{{gh-trim-focus-input value=(readonly text) shouldFocus=true}}`);
-        expect(find('input').value).to.equal('10');
+        assert.strictEqual(find('input').value, '10');
     });
 });

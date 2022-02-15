@@ -1,41 +1,38 @@
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, find, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-notification', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-notification', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         this.set('message', {message: 'Test message', type: 'success'});
 
         await render(hbs`{{gh-notification message=message}}`);
 
-        expect(find('article.gh-notification')).to.exist;
+        assert.dom('article.gh-notification').exists();
 
         let notification = find('.gh-notification');
-        expect(notification).to.have.class('gh-notification-passive');
-        expect(notification).to.contain.text('Test message');
+        assert.dom(notification).hasClass('gh-notification-passive');
+        assert.dom(notification).hasText('Test message');
     });
 
-    it('maps message types to CSS classes', async function () {
+    test('maps message types to CSS classes', async function (assert) {
         this.set('message', {message: 'Test message', type: 'success'});
 
         await render(hbs`{{gh-notification message=message}}`);
         let notification = find('.gh-notification');
 
         this.set('message.type', 'error');
-        expect(notification, 'success class is red')
-            .to.have.class('gh-notification-red');
+        assert.dom(notification).hasClass('gh-notification-red', 'success class is red');
 
         this.set('message.type', 'warn');
-        expect(notification, 'success class is yellow')
-            .to.have.class('gh-notification-yellow');
+        assert.dom(notification).hasClass('gh-notification-yellow', 'success class is yellow');
     });
 
-    it('closes notification through notifications service', async function () {
+    test('closes notification through notifications service', async function (assert) {
         let message = {message: 'Test close', type: 'success'};
         this.set('message', message);
 
@@ -43,10 +40,10 @@ describe('Integration: Component: gh-notification', function () {
         notifications.closeNotification = sinon.stub();
 
         await render(hbs`{{gh-notification message=message}}`);
-        expect(find('.gh-notification')).to.exist;
+        assert.dom('.gh-notification').exists();
 
         await click('[data-test-button="close-notification"]');
 
-        expect(notifications.closeNotification.calledWith(message)).to.be.true;
+        assert.true(notifications.closeNotification.calledWith(message));
     });
 });

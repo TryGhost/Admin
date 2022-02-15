@@ -1,9 +1,8 @@
 import Service from '@ember/service';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import sinon from 'sinon';
-import {beforeEach, describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {beforeEach, module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
 const mockAjax = Service.extend({
     skipSessionDeletion: false,
@@ -39,7 +38,7 @@ const mockGhostPaths = Service.extend({
     apiRoot: ghostPaths().apiRoot
 });
 
-describe('Unit: Authenticator: cookie', () => {
+module('Unit: Authenticator: cookie', () => {
     setupTest();
 
     beforeEach(function () {
@@ -50,42 +49,42 @@ describe('Unit: Authenticator: cookie', () => {
         this.owner.register('service:ghost-paths', mockGhostPaths);
     });
 
-    describe('#restore', function () {
-        it('returns a resolving promise', function () {
+    module('#restore', function () {
+        test('returns a resolving promise', function () {
             return this.owner.lookup('authenticator:cookie').restore();
         });
     });
 
-    describe('#authenticate', function () {
-        it('posts the username and password to the sessionEndpoint and returns the promise', function () {
+    module('#authenticate', function () {
+        test('posts the username and password to the sessionEndpoint and returns the promise', function (assert) {
             let authenticator = this.owner.lookup('authenticator:cookie');
             let post = authenticator.ajax.post;
 
             return authenticator.authenticate('AzureDiamond', 'hunter2').then(() => {
-                expect(post.args[0][0]).to.equal(`${ghostPaths().apiRoot}/session`);
-                expect(post.args[0][1]).to.deep.include({
+                assert.strictEqual(post.args[0][0], `${ghostPaths().apiRoot}/session`);
+                assert.includes(post.args[0][1], {
                     data: {
                         username: 'AzureDiamond',
                         password: 'hunter2'
                     }
                 });
-                expect(post.args[0][1]).to.deep.include({
+                assert.includes(post.args[0][1], {
                     dataType: 'text'
                 });
-                expect(post.args[0][1]).to.deep.include({
+                assert.includes(post.args[0][1], {
                     contentType: 'application/json;charset=utf-8'
                 });
             });
         });
     });
 
-    describe('#invalidate', function () {
-        it('makes a delete request to the sessionEndpoint', function () {
+    module('#invalidate', function () {
+        test('makes a delete request to the sessionEndpoint', function (assert) {
             let authenticator = this.owner.lookup('authenticator:cookie');
             let del = authenticator.ajax.del;
 
             return authenticator.invalidate().then(() => {
-                expect(del.args[0][0]).to.equal(`${ghostPaths().apiRoot}/session`);
+                assert.strictEqual(del.args[0][0], `${ghostPaths().apiRoot}/session`);
             });
         });
     });

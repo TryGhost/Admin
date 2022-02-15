@@ -1,17 +1,16 @@
 import hbs from 'htmlbars-inline-precompile';
 import mockThemes from '../../../mirage/config/themes';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
 import {find, render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 
-describe('Integration: Component: gh-psm-template-select', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-psm-template-select', function (hooks) {
+    setupRenderingTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = startMirage();
 
         server.create('theme', {
@@ -52,11 +51,11 @@ describe('Integration: Component: gh-psm-template-select', function () {
         mockThemes(server);
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('disables template selector if slug matches post template', async function () {
+    test('disables template selector if slug matches post template', async function (assert) {
         this.set('post', {
             slug: 'one',
             constructor: {
@@ -66,11 +65,11 @@ describe('Integration: Component: gh-psm-template-select', function () {
 
         await render(hbs`{{gh-psm-template-select post=post}}`);
 
-        expect(find('select').disabled, 'select is disabled').to.be.true;
-        expect(find('p')).to.contain.text('post-one.hbs');
+        assert.true(find('select').disabled, 'select is disabled');
+        assert.dom('p').hasText('post-one.hbs');
     });
 
-    it('disables template selector if slug matches page template', async function () {
+    test('disables template selector if slug matches page template', async function (assert) {
         this.set('post', {
             slug: 'about',
             constructor: {
@@ -80,7 +79,7 @@ describe('Integration: Component: gh-psm-template-select', function () {
 
         await render(hbs`{{gh-psm-template-select post=post}}`);
 
-        expect(find('select').disabled, 'select is disabled').to.be.true;
-        expect(find('p')).to.contain.text('page-about.hbs');
+        assert.true(find('select').disabled, 'select is disabled');
+        assert.dom('p').hasText('page-about.hbs');
     });
 });

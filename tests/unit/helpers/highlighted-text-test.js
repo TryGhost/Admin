@@ -1,16 +1,12 @@
 import {
-    describe,
-    it
-} from 'mocha';
-import {expect} from 'chai';
-import {
     highlightedText
 } from 'ghost-admin/helpers/highlighted-text';
+import {module, test} from 'qunit';
 
-describe('Unit: Helper: highlighted-text', function () {
-    it('works', function () {
+module('Unit: Helper: highlighted-text', function () {
+    test('works', function (assert) {
         let result = highlightedText(['Test', 'e']);
-        expect(result).to.be.an('object');
-        expect(result.string).to.equal('T<span class="highlight">e</span>st');
+        assert.instanceOf(Object, result);
+        assert.strictEqual(result.string, 'T<span class="highlight">e</span>st');
     });
 });

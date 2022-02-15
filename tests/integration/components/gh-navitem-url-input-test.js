@@ -1,15 +1,14 @@
 import hbs from 'htmlbars-inline-precompile';
-import {blur, click, fillIn, find, findAll, render, triggerKeyEvent} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {blur, click, fillIn, render, triggerKeyEvent} from '@ember/test-helpers';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
 // we want baseUrl to match the running domain so relative URLs are
 // handled as expected (browser auto-sets the domain when using a.href)
 let currentUrl = `${window.location.protocol}//${window.location.host}/`;
 
-describe('Integration: Component: gh-navitem-url-input', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-navitem-url-input', function (hooks) {
+    setupRenderingTest(hooks);
 
     beforeEach(function () {
         // set defaults
@@ -21,70 +20,70 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         });
     });
 
-    it('renders correctly with blank url', async function () {
+    test('renders correctly with blank url', async function (assert) {
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action clearErrors)}}
         `);
 
-        expect(findAll('input')).to.have.length(1);
-        expect(find('input')).to.have.class('gh-input');
-        expect(find('input')).to.have.value(currentUrl);
+        assert.dom('input').exists({count: 1});
+        assert.dom('input').hasClass('gh-input');
+        assert.dom('input').hasValue(currentUrl);
     });
 
-    it('renders correctly with relative urls', async function () {
+    test('renders correctly with relative urls', async function (assert) {
         this.set('url', '/about');
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action clearErrors)}}
         `);
 
-        expect(find('input')).to.have.value(`${currentUrl}about`);
+        assert.dom('input').hasValue(`${currentUrl}about`);
 
         this.set('url', '/about#contact');
-        expect(find('input')).to.have.value(`${currentUrl}about#contact`);
+        assert.dom('input').hasValue(`${currentUrl}about#contact`);
     });
 
-    it('renders correctly with absolute urls', async function () {
+    test('renders correctly with absolute urls', async function (assert) {
         this.set('url', 'https://example.com:2368/#test');
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action clearErrors)}}
         `);
 
-        expect(find('input')).to.have.value('https://example.com:2368/#test');
+        assert.dom('input').hasValue('https://example.com:2368/#test');
 
         this.set('url', 'mailto:test@example.com');
-        expect(find('input')).to.have.value('mailto:test@example.com');
+        assert.dom('input').hasValue('mailto:test@example.com');
 
         this.set('url', 'tel:01234-5678-90');
-        expect(find('input')).to.have.value('tel:01234-5678-90');
+        assert.dom('input').hasValue('tel:01234-5678-90');
 
         this.set('url', '//protocol-less-url.com');
-        expect(find('input')).to.have.value('//protocol-less-url.com');
+        assert.dom('input').hasValue('//protocol-less-url.com');
 
         this.set('url', '#anchor');
-        expect(find('input')).to.have.value('#anchor');
+        assert.dom('input').hasValue('#anchor');
     });
 
-    it('deletes base URL on backspace', async function () {
+    test('deletes base URL on backspace', async function (assert) {
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action clearErrors)}}
         `);
 
-        expect(find('input')).to.have.value(currentUrl);
+        assert.dom('input').hasValue(currentUrl);
         await triggerKeyEvent('input', 'keydown', 8);
-        expect(find('input')).to.have.value('');
+        assert.dom('input').hasValue('');
     });
 
-    it('deletes base URL on delete', async function () {
+    test('deletes base URL on delete', async function (assert) {
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew clearErrors=(action clearErrors)}}
         `);
 
-        expect(find('input')).to.have.value(currentUrl);
+        assert.dom('input').hasValue(currentUrl);
         await triggerKeyEvent('input', 'keydown', 46);
-        expect(find('input')).to.have.value('');
+        assert.dom('input').hasValue('');
     });
 
-    it('adds base url to relative urls on blur', async function () {
+    test('adds base url to relative urls on blur', async function (assert) {
         this.set('updateUrl', val => val);
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew update=(action updateUrl) clearErrors=(action clearErrors)}}
@@ -93,10 +92,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await fillIn('input', '/about');
         await blur('input');
 
-        expect(find('input')).to.have.value(`${currentUrl}about/`);
+        assert.dom('input').hasValue(`${currentUrl}about/`);
     });
 
-    it('adds "mailto:" to email addresses on blur', async function () {
+    test('adds "mailto:" to email addresses on blur', async function (assert) {
         this.set('updateUrl', val => val);
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew update=(action updateUrl) clearErrors=(action clearErrors)}}
@@ -105,14 +104,14 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await fillIn('input', 'test@example.com');
         await blur('input');
 
-        expect(find('input')).to.have.value('mailto:test@example.com');
+        assert.dom('input').hasValue('mailto:test@example.com');
 
         // ensure we don't double-up on the mailto:
         await blur('input');
-        expect(find('input')).to.have.value('mailto:test@example.com');
+        assert.dom('input').hasValue('mailto:test@example.com');
     });
 
-    it('doesn\'t add base url to invalid urls on blur', async function () {
+    test('doesn\'t add base url to invalid urls on blur', async function (assert) {
         this.set('updateUrl', val => val);
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew update=(action updateUrl) clearErrors=(action clearErrors)}}
@@ -124,13 +123,13 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         };
 
         await changeValue('with spaces');
-        expect(find('input')).to.have.value('with spaces');
+        assert.dom('input').hasValue('with spaces');
 
         await changeValue('/with spaces');
-        expect(find('input')).to.have.value('/with spaces');
+        assert.dom('input').hasValue('/with spaces');
     });
 
-    it('doesn\'t mangle invalid urls on blur', async function () {
+    test('doesn\'t mangle invalid urls on blur', async function (assert) {
         this.set('updateUrl', val => val);
         await render(hbs`
             {{gh-navitem-url-input baseUrl=baseUrl url=url isNew=isNew update=(action updateUrl) clearErrors=(action clearErrors)}}
@@ -139,11 +138,11 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await fillIn('input', `${currentUrl} /test`);
         await blur('input');
 
-        expect(find('input')).to.have.value(`${currentUrl} /test`);
+        assert.dom('input').hasValue(`${currentUrl} /test`);
     });
 
     // https://github.com/TryGhost/Ghost/issues/9373
-    it('doesn\'t mangle urls when baseUrl has unicode characters', async function () {
+    test('doesn\'t mangle urls when baseUrl has unicode characters', async function (assert) {
         this.set('updateUrl', val => val);
 
         this.set('baseUrl', 'http://exämple.com');
@@ -154,10 +153,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await fillIn('input', `${currentUrl}/test`);
         await blur('input');
 
-        expect(find('input')).to.have.value(`${currentUrl}/test`);
+        assert.dom('input').hasValue(`${currentUrl}/test`);
     });
 
-    it('triggers "update" action on blur', async function () {
+    test('triggers "update" action on blur', async function (assert) {
         let changeActionCallCount = 0;
         this.set('updateUrl', (val) => {
             changeActionCallCount += 1;
@@ -170,10 +169,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await click('input');
         await blur('input');
 
-        expect(changeActionCallCount).to.equal(1);
+        assert.strictEqual(changeActionCallCount, 1);
     });
 
-    it('triggers "update" action on enter', async function () {
+    test('triggers "update" action on enter', async function (assert) {
         let changeActionCallCount = 0;
         this.set('updateUrl', (val) => {
             changeActionCallCount += 1;
@@ -185,10 +184,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         `);
         await triggerKeyEvent('input', 'keypress', 13);
 
-        expect(changeActionCallCount).to.equal(1);
+        assert.strictEqual(changeActionCallCount, 1);
     });
 
-    it('triggers "update" action on CMD-S', async function () {
+    test('triggers "update" action on CMD-S', async function (assert) {
         let changeActionCallCount = 0;
         this.set('updateUrl', (val) => {
             changeActionCallCount += 1;
@@ -202,10 +201,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
             metaKey: true
         });
 
-        expect(changeActionCallCount).to.equal(1);
+        assert.strictEqual(changeActionCallCount, 1);
     });
 
-    it('sends absolute urls straight through to update action', async function () {
+    test('sends absolute urls straight through to update action', async function (assert) {
         let lastSeenUrl = '';
 
         this.set('updateUrl', (url) => {
@@ -220,7 +219,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         let testUrl = async (url) => {
             await fillIn('input', url);
             await blur('input');
-            expect(lastSeenUrl).to.equal(url);
+            assert.strictEqual(lastSeenUrl, url);
         };
 
         await testUrl('http://example.com');
@@ -234,7 +233,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await testUrl('javascript:alert("testing");');
     });
 
-    it('strips base url from relative urls before sending to update action', async function () {
+    test('strips base url from relative urls before sending to update action', async function (assert) {
         let lastSeenUrl = '';
 
         this.set('updateUrl', (url) => {
@@ -249,7 +248,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         let testUrl = async (url) => {
             await fillIn('input', `${currentUrl}${url}`);
             await blur('input');
-            expect(lastSeenUrl).to.equal(`/${url}`);
+            assert.strictEqual(lastSeenUrl, `/${url}`);
         };
 
         await testUrl('about/');
@@ -257,13 +256,13 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await testUrl('test/nested/');
     });
 
-    it('handles links to subdomains of blog domain', async function () {
+    test('handles links to subdomains of blog domain', async function (assert) {
         let expectedUrl = '';
 
         this.set('baseUrl', 'http://example.com/');
 
         this.set('updateUrl', (url) => {
-            expect(url).to.equal(expectedUrl);
+            assert.strictEqual(url, expectedUrl);
             return url;
         });
 
@@ -274,10 +273,10 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         expectedUrl = 'http://test.example.com/';
         await fillIn('input', expectedUrl);
         await blur('input');
-        expect(find('input')).to.have.value(expectedUrl);
+        assert.dom('input').hasValue(expectedUrl);
     });
 
-    it('adds trailing slash to relative URL', async function () {
+    test('adds trailing slash to relative URL', async function (assert) {
         let lastSeenUrl = '';
 
         this.set('updateUrl', (url) => {
@@ -292,14 +291,14 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         let testUrl = async (url) => {
             await fillIn('input', `${currentUrl}${url}`);
             await blur('input');
-            expect(lastSeenUrl).to.equal(`/${url}/`);
+            assert.strictEqual(lastSeenUrl, `/${url}/`);
         };
 
         await testUrl('about');
         await testUrl('test/nested');
     });
 
-    it('does not add trailing slash on relative URL with [.?#]', async function () {
+    test('does not add trailing slash on relative URL with [.?#]', async function (assert) {
         let lastSeenUrl = '';
 
         this.set('updateUrl', (url) => {
@@ -314,7 +313,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         let testUrl = async (url) => {
             await fillIn('input', `${currentUrl}${url}`);
             await blur('input');
-            expect(lastSeenUrl).to.equal(`/${url}`);
+            assert.strictEqual(lastSeenUrl, `/${url}`);
         };
 
         await testUrl('about#contact');
@@ -323,7 +322,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await testUrl('test/nested?sli=mer');
     });
 
-    it('does not add trailing slash on non-relative URLs', async function () {
+    test('does not add trailing slash on non-relative URLs', async function (assert) {
         let lastSeenUrl = '';
 
         this.set('updateUrl', (url) => {
@@ -338,7 +337,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         let testUrl = async (url) => {
             await fillIn('input', url);
             await blur('input');
-            expect(lastSeenUrl).to.equal(url);
+            assert.strictEqual(lastSeenUrl, url);
         };
 
         await testUrl('http://woo.ff/test');
@@ -347,12 +346,12 @@ describe('Integration: Component: gh-navitem-url-input', function () {
         await testUrl('https://kabo.om/explosion?really=now');
     });
 
-    describe('with sub-folder baseUrl', function () {
-        beforeEach(function () {
+    module('with sub-folder baseUrl', function (hooks) {
+        hooks.beforeEach(function () {
             this.set('baseUrl', `${currentUrl}blog/`);
         });
 
-        it('handles URLs relative to base url', async function () {
+        test('handles URLs relative to base url', async function (assert) {
             let lastSeenUrl = '';
 
             this.set('updateUrl', (url) => {
@@ -367,7 +366,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
             let testUrl = async (url) => {
                 await fillIn('input', `${currentUrl}blog${url}`);
                 await blur('input');
-                expect(lastSeenUrl).to.equal(url);
+                assert.strictEqual(lastSeenUrl, url);
             };
 
             await testUrl('/about/');
@@ -375,7 +374,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
             await testUrl('/test/nested/');
         });
 
-        it('handles URLs relative to base host', async function () {
+        test('handles URLs relative to base host', async function (assert) {
             let lastSeenUrl = '';
 
             this.set('updateUrl', (url) => {
@@ -390,7 +389,7 @@ describe('Integration: Component: gh-navitem-url-input', function () {
             let testUrl = async (url) => {
                 await fillIn('input', url);
                 await blur('input');
-                expect(lastSeenUrl).to.equal(url);
+                assert.strictEqual(lastSeenUrl, url);
             };
 
             await testUrl(`http://${window.location.host}`);

@@ -1,10 +1,7 @@
 import SlackObject from 'ghost-admin/models/slack-integration';
 import validator from 'ghost-admin/validators/slack-integration';
-import {
-    describe,
-    it
-} from 'mocha';
 import {expect} from 'chai';
+import {module, test} from 'qunit';
 
 const testInvalidUrl = function (url) {
     let slackObject = SlackObject.create({url});
@@ -28,8 +25,8 @@ const testValidUrl = function (url) {
     expect(slackObject.get('hasValidated')).to.include('url');
 };
 
-describe('Unit: Validator: slack-integration', function () {
-    it('fails on invalid url values', function () {
+module('Unit: Validator: slack-integration', function () {
+    test('fails on invalid url values', function () {
         let invalidUrls = [
             'test@example.com',
             '/has spaces',
@@ -42,7 +39,7 @@ describe('Unit: Validator: slack-integration', function () {
         });
     });
 
-    it('passes on valid url values', function () {
+    test('passes on valid url values', function () {
         let validUrls = [
             'https://hooks.slack.com/services/;alskdjf',
             'https://hooks.slack.com/services/123445678',
@@ -55,12 +52,12 @@ describe('Unit: Validator: slack-integration', function () {
         });
     });
 
-    it('validates url by default', function () {
+    test('validates url by default', function (assert) {
         let slackObject = SlackObject.create();
 
         validator.check(slackObject);
 
-        expect(slackObject.get('errors').errorsFor('url')).to.be.empty;
-        expect(validator.get('passed')).to.be.true;
+        assert.notOk(slackObject.get('errors').errorsFor('url'));
+        assert.true(validator.get('passed'));
     });
 });

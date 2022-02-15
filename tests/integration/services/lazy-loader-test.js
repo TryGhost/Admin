@@ -1,25 +1,24 @@
 import Pretender from 'pretender';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Integration: Service: lazy-loader', function () {
-    setupTest();
+module('Integration: Service: lazy-loader', function (hooks) {
+    setupTest(hooks);
 
     let server;
     let ghostPaths = {
         adminRoot: '/assets/'
     };
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('loads a script correctly and only once', async function () {
+    test('loads a script correctly and only once', async function (assert) {
         let subject = this.owner.lookup('service:lazy-loader');
 
         subject.setProperties({
@@ -33,23 +32,17 @@ describe('Integration: Service: lazy-loader', function () {
             .then(() => {})
             .catch(() => {});
 
-        expect(
-            document.querySelectorAll('script[src="/assets/lazy-test.js"]').length,
-            'no of script tags on first load'
-        ).to.equal(1);
+        assert.strictEqual(document.querySelectorAll('script[src="/assets/lazy-test.js"]').length, 1, 'no of script tags on first load');
 
         // second load should not add another script element
         await subject.loadScript('test', '/assets/lazy-test.js')
             .then(() => { })
             .catch(() => { });
 
-        expect(
-            document.querySelectorAll('script[src="/assets/lazy-test.js"]').length,
-            'no of script tags on second load'
-        ).to.equal(1);
+        assert.strictEqual(document.querySelectorAll('script[src="/assets/lazy-test.js"]').length, 1, 'no of script tags on second load');
     });
 
-    it('loads styles correctly', function () {
+    test('loads styles correctly', function (assert) {
         let subject = this.owner.lookup('service:lazy-loader');
 
         subject.setProperties({
@@ -59,8 +52,8 @@ describe('Integration: Service: lazy-loader', function () {
 
         return subject.loadStyle('testing', 'style.css').catch(() => {
             // we add a catch handler here because `/assets/style.css` doesn't exist
-            expect(document.querySelectorAll('#testing-styles').length).to.equal(1);
-            expect(document.querySelector('#testing-styles').getAttribute('href')).to.equal('/assets/style.css');
+            assert.strictEqual(document.querySelectorAll('#testing-styles').length, 1);
+            assert.strictEqual(document.querySelector('#testing-styles').getAttribute('href'), '/assets/style.css');
         });
     });
 });

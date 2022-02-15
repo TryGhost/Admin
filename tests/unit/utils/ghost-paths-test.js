@@ -1,60 +1,59 @@
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 
-describe('Unit: Util: ghost-paths', function () {
-    describe('join', function () {
+module('Unit: Util: ghost-paths', function () {
+    module('join', function () {
         let {join} = ghostPaths().url;
 
-        it('should join two or more paths, normalizing slashes', function () {
+        test('should join two or more paths, normalizing slashes', function (assert) {
             let path;
 
             path = join('/one/', '/two/');
-            expect(path).to.equal('/one/two/');
+            assert.strictEqual(path, '/one/two/');
 
             path = join('/one', '/two/');
-            expect(path).to.equal('/one/two/');
+            assert.strictEqual(path, '/one/two/');
 
             path = join('/one/', 'two/');
-            expect(path).to.equal('/one/two/');
+            assert.strictEqual(path, '/one/two/');
 
             path = join('/one/', 'two/', '/three/');
-            expect(path).to.equal('/one/two/three/');
+            assert.strictEqual(path, '/one/two/three/');
 
             path = join('/one/', 'two', 'three/');
-            expect(path).to.equal('/one/two/three/');
+            assert.strictEqual(path, '/one/two/three/');
         });
 
-        it('should not change the slash at the beginning', function () {
+        test('should not change the slash at the beginning', function (assert) {
             let path;
 
             path = join('one/');
-            expect(path).to.equal('one/');
+            assert.strictEqual(path, 'one/');
             path = join('one/', 'two');
-            expect(path).to.equal('one/two/');
+            assert.strictEqual(path, 'one/two/');
             path = join('/one/', 'two');
-            expect(path).to.equal('/one/two/');
+            assert.strictEqual(path, '/one/two/');
             path = join('one/', 'two', 'three');
-            expect(path).to.equal('one/two/three/');
+            assert.strictEqual(path, 'one/two/three/');
             path = join('/one/', 'two', 'three');
-            expect(path).to.equal('/one/two/three/');
+            assert.strictEqual(path, '/one/two/three/');
         });
 
-        it('should always return a slash at the end', function () {
+        test('should always return a slash at the end', function (assert) {
             let path;
 
             path = join();
-            expect(path).to.equal('/');
+            assert.strictEqual(path, '/');
             path = join('');
-            expect(path).to.equal('/');
+            assert.strictEqual(path, '/');
             path = join('one');
-            expect(path).to.equal('one/');
+            assert.strictEqual(path, 'one/');
             path = join('one/');
-            expect(path).to.equal('one/');
+            assert.strictEqual(path, 'one/');
             path = join('one', 'two');
-            expect(path).to.equal('one/two/');
+            assert.strictEqual(path, 'one/two/');
             path = join('one', 'two/');
-            expect(path).to.equal('one/two/');
+            assert.strictEqual(path, 'one/two/');
         });
     });
 });

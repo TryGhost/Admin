@@ -1,24 +1,23 @@
 import Pretender from 'pretender';
 import config from 'ghost-admin/config/environment';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Integration: Service: store', function () {
-    setupTest();
+module('Integration: Service: store', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('adds Ghost version header to requests', function (done) {
+    test('adds Ghost version header to requests', function (assert) {
         let {version} = config.APP;
         let store = this.owner.lookup('service:store');
 
@@ -32,8 +31,7 @@ describe('Integration: Service: store', function () {
 
         store.find('post', 1).catch(() => {
             let [request] = server.handledRequests;
-            expect(request.requestHeaders['X-Ghost-Version']).to.equal(version);
-            done();
+            assert.strictEqual(request.requestHeaders['X-Ghost-Version'], version);
         });
     });
 });

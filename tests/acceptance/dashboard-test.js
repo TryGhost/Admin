@@ -1,35 +1,34 @@
 import {authenticateSession} from 'ember-simple-auth/test-support';
 import {currentURL, visit} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 
-describe('Acceptance: Dashboard', function () {
-    const hooks = setupApplicationTest();
+module('Acceptance: Dashboard', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('is not accessible when logged out', async function () {
+    test('is not accessible when logged out', async function (assert) {
         await visit('/dashboard');
-        expect(currentURL()).to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('can visit /dashboard', async function () {
+        test('can visit /dashboard', async function (assert) {
             await visit('/dashboard');
-            expect(currentURL()).to.equal('/dashboard');
+            assert.strictEqual(currentURL(), '/dashboard');
         });
 
-        it('/ redirects to /dashboard', async function () {
+        test('/ redirects to /dashboard', async function (assert) {
             await visit('/');
-            expect(currentURL()).to.equal('/dashboard');
+            assert.strictEqual(currentURL(), '/dashboard');
         });
     });
 });

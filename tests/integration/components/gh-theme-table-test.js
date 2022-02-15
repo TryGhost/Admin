@@ -1,13 +1,13 @@
 import hbs from 'htmlbars-inline-precompile';
 import {click, find, findAll, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-theme-table', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-theme-table', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         this.set('themes', [
             {name: 'Daring', package: {name: 'Daring', version: '0.1.4'}, active: true},
             {name: 'casper', package: {name: 'Casper', version: '1.3.1'}},
@@ -17,33 +17,27 @@ describe('Integration: Component: gh-theme-table', function () {
 
         await render(hbs`<GhThemeTable @themes={{themes}} />`);
 
-        expect(findAll('[data-test-themes-list]').length, 'themes list is present').to.equal(1);
-        expect(findAll('[data-test-theme-id]').length, 'number of rows').to.equal(4);
+        assert.strictEqual(findAll('[data-test-themes-list]').length, 1, 'themes list is present');
+        assert.strictEqual(findAll('[data-test-theme-id]').length, 4, 'number of rows');
 
         let packageNames = findAll('[data-test-theme-title]').map(name => name.textContent.trim());
 
-        expect(packageNames[0]).to.match(/Casper \(default\)/);
-        expect(packageNames[1]).to.match(/Daring\s+Active/);
-        expect(packageNames[2]).to.match(/foo/);
-        expect(packageNames[3]).to.match(/Lanyon/);
+        assert.match(packageNames[0], /Casper \(default\)/);
+        assert.match(packageNames[1], /Daring\s+Active/);
+        assert.match(packageNames[2], /foo/);
+        assert.match(packageNames[3], /Lanyon/);
 
         expect(
             find('[data-test-theme-active="true"]').querySelector('[data-test-theme-title]'),
             'active theme is highlighted'
         ).to.contain.text('Daring');
 
-        expect(
-            findAll('[data-test-button="activate"]').length,
-            'non-active themes have an activate link'
-        ).to.equal(3);
+        assert.strictEqual(findAll('[data-test-button="activate"]').length, 3, 'non-active themes have an activate link');
 
-        expect(
-            find('[data-test-theme-active="true"]').querySelector('[data-test-button="activate"]'),
-            'active theme doesn\'t have an activate link'
-        ).to.not.exist;
+        assert.notOk(find('[data-test-theme-active="true"]').querySelector('[data-test-button="activate"]'), 'active theme doesn\'t have an activate link');
     });
 
-    it('has download button in actions dropdown for all themes', async function () {
+    test('has download button in actions dropdown for all themes', async function (assert) {
         const themes = [
             {name: 'Daring', package: {name: 'Daring', version: '0.1.4'}, active: true},
             {name: 'casper', package: {name: 'Casper', version: '1.3.1'}},
@@ -56,13 +50,11 @@ describe('Integration: Component: gh-theme-table', function () {
 
         for (const theme of themes) {
             await click(`[data-test-theme-id="${theme.name}"] [data-test-button="actions"]`);
-            expect(
-                find(`[data-test-actions-for="${theme.name}"] [data-test-button="download"]`)
-            ).to.exist;
+            assert.dom(`[data-test-actions-for="${theme.name}"] [data-test-button="download"]`).exists();
         }
     });
 
-    it('has delete button for non-active, non-default, themes', async function () {
+    test('has delete button for non-active, non-default, themes', async function (assert) {
         const themes = [
             {name: 'Daring', package: {name: 'Daring', version: '0.1.4'}},
             {name: 'oscar-ghost-1.1.0', package: {name: 'Lanyon', version: '1.1.0'}},
@@ -74,13 +66,11 @@ describe('Integration: Component: gh-theme-table', function () {
 
         for (const theme of themes) {
             await click(`[data-test-theme-id="${theme.name}"] [data-test-button="actions"]`);
-            expect(
-                find(`[data-test-actions-for="${theme.name}"] [data-test-button="delete"]`)
-            ).to.exist;
+            assert.dom(`[data-test-actions-for="${theme.name}"] [data-test-button="delete"]`).exists();
         }
     });
 
-    it('does not show delete action for casper', async function () {
+    test('does not show delete action for casper', async function (assert) {
         const themes = [
             {name: 'Daring', package: {name: 'Daring', version: '0.1.4'}, active: true},
             {name: 'casper', package: {name: 'Casper', version: '1.3.1'}},
@@ -92,13 +82,11 @@ describe('Integration: Component: gh-theme-table', function () {
         await render(hbs`<GhThemeTable @themes={{themes}} />`);
 
         await click(`[data-test-theme-id="casper"] [data-test-button="actions"]`);
-        expect(find('[data-test-actions-for="casper"]')).to.exist;
-        expect(
-            find(`[data-test-actions-for="casper"] [data-test-button="delete"]`)
-        ).to.not.exist;
+        assert.dom('[data-test-actions-for="casper"]').exists();
+        assert.dom(`[data-test-actions-for="casper"] [data-test-button="delete"]`).doesNotExist();
     });
 
-    it('does not show delete action for active theme', async function () {
+    test('does not show delete action for active theme', async function (assert) {
         const themes = [
             {name: 'Daring', package: {name: 'Daring', version: '0.1.4'}, active: true},
             {name: 'casper', package: {name: 'Casper', version: '1.3.1'}},
@@ -110,13 +98,11 @@ describe('Integration: Component: gh-theme-table', function () {
         await render(hbs`<GhThemeTable @themes={{themes}} />`);
 
         await click(`[data-test-theme-id="Daring"] [data-test-button="actions"]`);
-        expect(find('[data-test-actions-for="Daring"]')).to.exist;
-        expect(
-            find(`[data-test-actions-for="Daring"] [data-test-button="delete"]`)
-        ).to.not.exist;
+        assert.dom('[data-test-actions-for="Daring"]').exists();
+        assert.dom(`[data-test-actions-for="Daring"] [data-test-button="delete"]`).doesNotExist();
     });
 
-    it('displays folder names if there are duplicate package names', async function () {
+    test('displays folder names if there are duplicate package names', async function (assert) {
         this.set('themes', [
             {name: 'daring', package: {name: 'Daring', version: '0.1.4'}},
             {name: 'daring-0.1.5', package: {name: 'Daring', version: '0.1.4'}},
@@ -130,16 +116,13 @@ describe('Integration: Component: gh-theme-table', function () {
 
         let packageNames = findAll('[data-test-theme-title]').map(name => name.textContent.trim());
 
-        expect(
-            packageNames,
-            'themes are ordered by label, folder names shown for duplicates'
-        ).to.deep.equal([
+        assert.deepEqual(packageNames, [
             'Casper (another)',
             'Casper (default)',
             'Casper (mine)',
             'Daring (daring)',
             'Daring (daring-0.1.5)',
             'foo'
-        ]);
+        ], 'themes are ordered by label, folder names shown for duplicates');
     });
 });

@@ -1,30 +1,29 @@
 import {authenticateSession} from 'ember-simple-auth/test-support';
 import {currentURL, visit} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 
-describe('Acceptance: Launch flow', function () {
-    const hooks = setupApplicationTest();
+module('Acceptance: Launch flow', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('is not accessible when logged out', async function () {
+    test('is not accessible when logged out', async function (assert) {
         await visit('/launch');
-        expect(currentURL()).to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Owner'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('can visit /launch', async function () {
+        test('can visit /launch', async function (assert) {
             await visit('/launch');
-            expect(currentURL()).to.equal('/launch');
+            assert.strictEqual(currentURL(), '/launch');
         });
     });
 });

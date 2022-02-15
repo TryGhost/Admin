@@ -1,38 +1,36 @@
 import moment from 'moment';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
-import {blur, click, currentURL, fillIn, find, findAll, settled} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {blur,click,currentURL,fillIn,find,findAll,settled} from '@ember/test-helpers';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {timeout} from 'ember-concurrency';
 import {visit} from '../helpers/visit';
 
-describe('Acceptance: Offers', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Offers', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/offers');
 
-        expect(currentURL()).to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin');
     });
 
-    it('redirects non-admins to site', async function () {
+    test('redirects non-admins to site', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role]});
 
         await authenticateSession();
         await visit('/offers');
 
-        expect(currentURL()).to.equal('/site');
-        expect(find('[data-test-nav="offers"]'), 'sidebar link')
-            .to.not.exist;
+        assert.strictEqual(currentURL(), '/site');
+        assert.dom('[data-test-nav="offers"]').doesNotExist('sidebar link');
     });
 
-    describe('as owner', function () {
-        beforeEach(async function () {
+    module('as owner', function (hooks) {
+        hooks.beforeEach(async function () {
             this.server.loadFixtures('products');
 
             let role = this.server.create('role', {name: 'Owner'});
@@ -41,7 +39,7 @@ describe('Acceptance: Offers', function () {
             return await authenticateSession();
         });
 
-        it('it renders, can be navigated, can edit offer', async function () {
+        test('it renders, can be navigated, can edit offer', async function (assert) {
             let offer1 = this.server.create('offer', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
             this.server.create('offer', {createdAt: moment.utc().subtract(2, 'day').valueOf()});
 
@@ -50,18 +48,16 @@ describe('Acceptance: Offers', function () {
             await settled();
 
             // lands on correct page
-            expect(currentURL(), 'currentURL').to.equal('/offers');
+            assert.strictEqual(currentURL(), '/offers', 'currentURL');
 
             // it has correct page title
-            expect(document.title, 'page title').to.equal('Offers - Test Blog');
+            assert.strictEqual(document.title, 'Offers - Test Blog', 'page title');
 
             // it lists all offers
-            expect(findAll('[data-test-list="offers-list-item"]').length, 'offers list count')
-                .to.equal(2);
+            assert.strictEqual(findAll('[data-test-list="offers-list-item"]').length, 2, 'offers list count');
 
             let offer = find('[data-test-list="offers-list-item"]');
-            expect(offer.querySelector('[data-test-list="offer-name"] h3').textContent, 'offer list item name')
-                .to.equal(offer1.name);
+            assert.strictEqual(offer.querySelector('[data-test-list="offer-name"] h3').textContent, offer1.name, 'offer list item name');
 
             await visit(`/offers/${offer1.id}`);
 
@@ -69,8 +65,7 @@ describe('Acceptance: Offers', function () {
             await settled();
 
             // it shows selected offer form
-            expect(find('[data-test-input="offer-name"]').value, 'loads correct offer into form')
-                .to.equal(offer1.name);
+            assert.strictEqual(find('[data-test-input="offer-name"]').value, offer1.name, 'loads correct offer into form');
 
             // trigger save
             await fillIn('[data-test-input="offer-name"]', 'New Name');
@@ -85,7 +80,7 @@ describe('Acceptance: Offers', function () {
             await click('[data-test-link="offers-back"]');
 
             // lands on correct page
-            expect(currentURL(), 'currentURL').to.equal('/offers');
+            assert.strictEqual(currentURL(), '/offers', 'currentURL');
         });
     });
 });

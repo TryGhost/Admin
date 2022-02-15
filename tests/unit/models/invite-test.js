@@ -1,26 +1,25 @@
 import Pretender from 'pretender';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
 import {settled} from '@ember/test-helpers';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: invite', function () {
-    setupTest();
+module('Unit: Model: invite', function (hooks) {
+    setupTest(hooks);
 
-    describe('with network', function () {
+    module('with network', function (hooks) {
         let server;
 
-        beforeEach(function () {
+        hooks.beforeEach(function () {
             server = new Pretender();
         });
 
-        afterEach(function () {
+        hooks.afterEach(function () {
             server.shutdown();
         });
 
-        it('resend hits correct endpoints', async function () {
+        test('resend hits correct endpoints', async function (assert) {
             let store = this.owner.lookup('service:store');
             let model = store.createRecord('invite', {
                 id: 42
@@ -43,22 +42,16 @@ describe('Unit: Model: invite', function () {
             });
             await settled();
 
-            expect(
-                server.handledRequests.length,
-                'number of requests'
-            ).to.equal(2);
+            assert.strictEqual(server.handledRequests.length, 2, 'number of requests');
             let [, lastRequest] = server.handledRequests;
             let requestBody = JSON.parse(lastRequest.requestBody);
             let [invite] = requestBody.invites;
 
-            expect(
-                requestBody.invites.length,
-                'number of invites in request body'
-            ).to.equal(1);
+            assert.strictEqual(requestBody.invites.length, 1, 'number of invites in request body');
 
-            expect(invite.email).to.equal('resend-test@example.com');
+            assert.strictEqual(invite.email, 'resend-test@example.com');
             // eslint-disable-next-line camelcase
-            expect(invite.role_id, 'role ID').to.equal('1');
+            assert.strictEqual(invite.role_id, '1', 'role ID');
         });
     });
 });

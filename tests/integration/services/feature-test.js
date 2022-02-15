@@ -2,11 +2,11 @@ import EmberError from '@ember/error';
 import FeatureService, {feature} from 'ghost-admin/services/feature';
 import Pretender from 'pretender';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
 import {settled} from '@ember/test-helpers';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
 function stubSettings(server, labs, validSave = true) {
     let settings = [
@@ -71,20 +71,20 @@ function addTestFlag() {
     });
 }
 
-describe('Integration: Service: feature', function () {
-    setupTest();
+module('Integration: Service: feature', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('loads labs and user settings correctly', async function () {
+    test('loads labs and user settings correctly', async function (assert) {
         stubSettings(server, {testFlag: true});
         stubUser(server, {testUserFlag: true});
 
@@ -96,12 +96,12 @@ describe('Integration: Service: feature', function () {
         let service = this.owner.lookup('service:feature');
 
         return service.fetch().then(() => {
-            expect(service.get('testFlag')).to.be.true;
-            expect(service.get('testUserFlag')).to.be.true;
+            assert.true(service.get('testFlag'));
+            assert.true(service.get('testUserFlag'));
         });
     });
 
-    it('returns false for set flag with config false and labs false', async function () {
+    test('returns false for set flag with config false and labs false', async function (assert) {
         stubSettings(server, {testFlag: false});
         stubUser(server, {});
 
@@ -114,12 +114,12 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', false);
 
         return service.fetch().then(() => {
-            expect(service.get('labs.testFlag')).to.be.false;
-            expect(service.get('testFlag')).to.be.false;
+            assert.false(service.get('labs.testFlag'));
+            assert.false(service.get('testFlag'));
         });
     });
 
-    it('returns true for set flag with config true and labs false', async function () {
+    test('returns true for set flag with config true and labs false', async function (assert) {
         stubSettings(server, {testFlag: false});
         stubUser(server, {});
 
@@ -132,12 +132,12 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', true);
 
         return service.fetch().then(() => {
-            expect(service.get('labs.testFlag')).to.be.false;
-            expect(service.get('testFlag')).to.be.true;
+            assert.false(service.get('labs.testFlag'));
+            assert.true(service.get('testFlag'));
         });
     });
 
-    it('returns true for set flag with config false and labs true', async function () {
+    test('returns true for set flag with config false and labs true', async function (assert) {
         stubSettings(server, {testFlag: true});
         stubUser(server, {});
 
@@ -150,12 +150,12 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', false);
 
         return service.fetch().then(() => {
-            expect(service.get('labs.testFlag')).to.be.true;
-            expect(service.get('testFlag')).to.be.true;
+            assert.true(service.get('labs.testFlag'));
+            assert.true(service.get('testFlag'));
         });
     });
 
-    it('returns true for set flag with config true and labs true', async function () {
+    test('returns true for set flag with config true and labs true', async function (assert) {
         stubSettings(server, {testFlag: true});
         stubUser(server, {});
 
@@ -168,12 +168,12 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', true);
 
         return service.fetch().then(() => {
-            expect(service.get('labs.testFlag')).to.be.true;
-            expect(service.get('testFlag')).to.be.true;
+            assert.true(service.get('labs.testFlag'));
+            assert.true(service.get('testFlag'));
         });
     });
 
-    it('returns false for set flag with accessibility false', async function () {
+    test('returns false for set flag with accessibility false', async function (assert) {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false});
 
@@ -185,12 +185,12 @@ describe('Integration: Service: feature', function () {
         let service = this.owner.lookup('service:feature');
 
         return service.fetch().then(() => {
-            expect(service.get('accessibility.testUserFlag')).to.be.false;
-            expect(service.get('testUserFlag')).to.be.false;
+            assert.false(service.get('accessibility.testUserFlag'));
+            assert.false(service.get('testUserFlag'));
         });
     });
 
-    it('returns true for set flag with accessibility true', async function () {
+    test('returns true for set flag with accessibility true', async function (assert) {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: true});
 
@@ -202,12 +202,12 @@ describe('Integration: Service: feature', function () {
         let service = this.owner.lookup('service:feature');
 
         return service.fetch().then(() => {
-            expect(service.get('accessibility.testUserFlag')).to.be.true;
-            expect(service.get('testUserFlag')).to.be.true;
+            assert.true(service.get('accessibility.testUserFlag'));
+            assert.true(service.get('testUserFlag'));
         });
     });
 
-    it('saves labs setting correctly', async function () {
+    test('saves labs setting correctly', async function (assert) {
         stubSettings(server, {testFlag: false});
         stubUser(server, {testUserFlag: false});
 
@@ -220,20 +220,20 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', false);
 
         return service.fetch().then(() => {
-            expect(service.get('testFlag')).to.be.false;
+            assert.false(service.get('testFlag'));
 
             run(() => {
                 service.set('testFlag', true);
             });
 
             return settled().then(() => {
-                expect(server.handlers[1].numberOfCalls).to.equal(1);
-                expect(service.get('testFlag')).to.be.true;
+                assert.strictEqual(server.handlers[1].numberOfCalls, 1);
+                assert.true(service.get('testFlag'));
             });
         });
     });
 
-    it('saves accessibility setting correctly', async function () {
+    test('saves accessibility setting correctly', async function (assert) {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false});
 
@@ -245,20 +245,20 @@ describe('Integration: Service: feature', function () {
         let service = this.owner.lookup('service:feature');
 
         return service.fetch().then(() => {
-            expect(service.get('testUserFlag')).to.be.false;
+            assert.false(service.get('testUserFlag'));
 
             run(() => {
                 service.set('testUserFlag', true);
             });
 
             return settled().then(() => {
-                expect(server.handlers[3].numberOfCalls).to.equal(1);
-                expect(service.get('testUserFlag')).to.be.true;
+                assert.strictEqual(server.handlers[3].numberOfCalls, 1);
+                assert.true(service.get('testUserFlag'));
             });
         });
     });
 
-    it('notifies for server errors on labs save', async function () {
+    test('notifies for server errors on labs save', async function (assert) {
         stubSettings(server, {testFlag: false}, false);
         stubUser(server, {});
 
@@ -271,29 +271,23 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', false);
 
         return service.fetch().then(() => {
-            expect(service.get('testFlag')).to.be.false;
+            assert.false(service.get('testFlag'));
 
             run(() => {
                 service.set('testFlag', true);
             });
 
             return settled().then(() => {
-                expect(
-                    server.handlers[1].numberOfCalls,
-                    'PUT call is made'
-                ).to.equal(1);
+                assert.strictEqual(server.handlers[1].numberOfCalls, 1, 'PUT call is made');
 
-                expect(
-                    service.get('notifications.alerts').length,
-                    'number of alerts shown'
-                ).to.equal(1);
+                assert.strictEqual(service.get('notifications.alerts').length, 1, 'number of alerts shown');
 
-                expect(service.get('testFlag')).to.be.false;
+                assert.false(service.get('testFlag'));
             });
         });
     });
 
-    it('notifies for server errors on accessibility save', async function () {
+    test('notifies for server errors on accessibility save', async function (assert) {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false}, false);
 
@@ -305,29 +299,23 @@ describe('Integration: Service: feature', function () {
         let service = this.owner.lookup('service:feature');
 
         return service.fetch().then(() => {
-            expect(service.get('testUserFlag')).to.be.false;
+            assert.false(service.get('testUserFlag'));
 
             run(() => {
                 service.set('testUserFlag', true);
             });
 
             return settled().then(() => {
-                expect(
-                    server.handlers[3].numberOfCalls,
-                    'PUT call is made'
-                ).to.equal(1);
+                assert.strictEqual(server.handlers[3].numberOfCalls, 1, 'PUT call is made');
 
-                expect(
-                    service.get('notifications.alerts').length,
-                    'number of alerts shown'
-                ).to.equal(1);
+                assert.strictEqual(service.get('notifications.alerts').length, 1, 'number of alerts shown');
 
-                expect(service.get('testUserFlag')).to.be.false;
+                assert.false(service.get('testUserFlag'));
             });
         });
     });
 
-    it('notifies for validation errors', async function () {
+    test('notifies for validation errors', async function (assert) {
         stubSettings(server, {testFlag: false}, true, false);
         stubUser(server, {});
 
@@ -340,7 +328,7 @@ describe('Integration: Service: feature', function () {
         service.get('config').set('testFlag', false);
 
         return service.fetch().then(() => {
-            expect(service.get('testFlag')).to.be.false;
+            assert.false(service.get('testFlag'));
 
             run(() => {
                 expect(() => {
@@ -350,8 +338,8 @@ describe('Integration: Service: feature', function () {
 
             return settled().then(() => {
                 // ensure validation is happening before the API is hit
-                expect(server.handlers[1].numberOfCalls).to.equal(0);
-                expect(service.get('testFlag')).to.be.false;
+                assert.strictEqual(server.handlers[1].numberOfCalls, 0);
+                assert.false(service.get('testFlag'));
             });
         });
     });

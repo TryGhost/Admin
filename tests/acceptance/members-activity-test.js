@@ -1,27 +1,26 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {currentURL} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
 import {disableLabsFlag, enableLabsFlag} from '../helpers/labs-flag';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../helpers/visit';
 
-describe('Acceptance: Members activity', function () {
-    const hooks = setupApplicationTest();
+module('Acceptance: Members activity', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
     beforeEach(function () {
         enableLabsFlag(this.server, 'membersActivityFeed');
     });
 
-    it('redirects when not authenticated', async function () {
+    test('redirects when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/members-activity');
-        expect(currentURL()).to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin');
     });
 
-    it('redirects non-admins', async function () {
+    test('redirects non-admins', async function (assert) {
         await invalidateSession();
 
         const role = this.server.create('role', {name: 'Editor'});
@@ -29,26 +28,26 @@ describe('Acceptance: Members activity', function () {
 
         await authenticateSession();
         await visit('/members-activity');
-        expect(currentURL()).to.equal('/site');
+        assert.strictEqual(currentURL(), '/site');
     });
 
-    describe('as admin', function () {
-        beforeEach(async function () {
+    module('as admin', function (hooks) {
+        hooks.beforeEach(async function () {
             const role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             await authenticateSession();
         });
 
-        it('renders', async function () {
+        test('renders', async function (assert) {
             await visit('/members-activity');
-            expect(currentURL()).to.equal('/members-activity');
+            assert.strictEqual(currentURL(), '/members-activity');
         });
 
-        it('requires feature flag', async function () {
+        test('requires feature flag', async function (assert) {
             disableLabsFlag(this.server, 'membersActivityFeed');
             await visit('/members-activity');
-            expect(currentURL()).to.equal('/dashboard');
+            assert.strictEqual(currentURL(), '/dashboard');
         });
     });
 });

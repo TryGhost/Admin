@@ -1,87 +1,64 @@
 import {click, fillIn, find, findAll, visit} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
 import {invalidateSession} from 'ember-simple-auth/test-support';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 
-describe('Acceptance: Password Reset', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Password Reset', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    describe('request reset', function () {
-        it('is successful with valid data', async function () {
+    module('request reset', function () {
+        test('is successful with valid data', async function (assert) {
             await invalidateSession();
             await visit('/signin');
             await fillIn('input[name="identification"]', 'test@example.com');
             await click('.forgotten-link');
 
             // an alert with instructions is displayed
-            expect(findAll('.gh-alert-blue').length, 'alert count')
-                .to.equal(1);
+            assert.strictEqual(findAll('.gh-alert-blue').length, 1, 'alert count');
         });
 
-        it('shows error messages with invalid data', async function () {
+        test('shows error messages with invalid data', async function (assert) {
             await visit('/signin');
 
             // no email provided
             await click('.forgotten-link');
 
             // email field is invalid
-            expect(
-                find('input[name="identification"]').closest('.form-group'),
-                'email field has error class (no email)'
-            ).to.match('.error');
+            assert.match(find('input[name="identification"]').closest('.form-group'), '.error', 'email field has error class (no email)');
 
             // password field is valid
-            expect(
-                find('input[name="password"]').closest('.form-group'),
-                'password field has error class (no email)'
-            ).to.not.match('.error');
+            assert.notMatch(find('input[name="password"]').closest('.form-group'), '.error', 'password field has error class (no email)');
 
             // error message shown
-            expect(find('p.main-error').textContent.trim(), 'error message')
-                .to.equal('We need your email address to reset your password!');
+            assert.strictEqual(find('p.main-error').textContent.trim(), 'We need your email address to reset your password!', 'error message');
 
             // invalid email provided
             await fillIn('input[name="identification"]', 'test');
             await click('.forgotten-link');
 
             // email field is invalid
-            expect(
-                find('input[name="identification"]').closest('.form-group'),
-                'email field has error class (invalid email)'
-            ).to.match('.error');
+            assert.match(find('input[name="identification"]').closest('.form-group'), '.error', 'email field has error class (invalid email)');
 
             // password field is valid
-            expect(
-                find('input[name="password"]').closest('.form-group'),
-                'password field has error class (invalid email)'
-            ).to.not.match('.error');
+            assert.notMatch(find('input[name="password"]').closest('.form-group'), '.error', 'password field has error class (invalid email)');
 
             // error message
-            expect(find('p.main-error').textContent.trim(), 'error message')
-                .to.equal('We need your email address to reset your password!');
+            assert.strictEqual(find('p.main-error').textContent.trim(), 'We need your email address to reset your password!', 'error message');
 
             // unknown email provided
             await fillIn('input[name="identification"]', 'unknown@example.com');
             await click('.forgotten-link');
 
             // email field is invalid
-            expect(
-                find('input[name="identification"]').closest('.form-group'),
-                'email field has error class (unknown email)'
-            ).to.match('.error');
+            assert.match(find('input[name="identification"]').closest('.form-group'), '.error', 'email field has error class (unknown email)');
 
             // password field is valid
-            expect(
-                find('input[name="password"]').closest('.form-group'),
-                'password field has error class (unknown email)'
-            ).to.not.match('.error');
+            assert.notMatch(find('input[name="password"]').closest('.form-group'), '.error', 'password field has error class (unknown email)');
 
             // error message
-            expect(find('p.main-error').textContent.trim(), 'error message')
-                .to.equal('There is no user with that email address.');
+            assert.strictEqual(find('p.main-error').textContent.trim(), 'There is no user with that email address.', 'error message');
         });
     });
 

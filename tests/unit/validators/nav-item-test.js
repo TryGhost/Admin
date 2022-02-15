@@ -1,10 +1,7 @@
 import NavItem from 'ghost-admin/models/navigation-item';
 import validator from 'ghost-admin/validators/nav-item';
-import {
-    describe,
-    it
-} from 'mocha';
 import {expect} from 'chai';
+import {module, test} from 'qunit';
 
 const testInvalidUrl = function (url) {
     let navItem = NavItem.create({url});
@@ -28,34 +25,34 @@ const testValidUrl = function (url) {
     expect(navItem.get('hasValidated')).to.include('url');
 };
 
-describe('Unit: Validator: nav-item', function () {
-    it('requires label presence', function () {
+module('Unit: Validator: nav-item', function () {
+    test('requires label presence', function (assert) {
         let navItem = NavItem.create();
 
         validator.check(navItem, 'label');
 
-        expect(validator.get('passed')).to.be.false;
-        expect(navItem.get('errors').errorsFor('label').toArray()).to.deep.equal([{
+        assert.false(validator.get('passed'));
+        assert.deepEqual(navItem.get('errors').errorsFor('label').toArray(), [{
             attribute: 'label',
             message: 'You must specify a label'
         }]);
-        expect(navItem.get('hasValidated')).to.include('label');
+        assert.includes(navItem.get('hasValidated'), 'label');
     });
 
-    it('requires url presence', function () {
+    test('requires url presence', function (assert) {
         let navItem = NavItem.create();
 
         validator.check(navItem, 'url');
 
-        expect(validator.get('passed')).to.be.false;
-        expect(navItem.get('errors').errorsFor('url').toArray()).to.deep.equal([{
+        assert.false(validator.get('passed'));
+        assert.deepEqual(navItem.get('errors').errorsFor('url').toArray(), [{
             attribute: 'url',
             message: 'You must specify a URL or relative path'
         }]);
-        expect(navItem.get('hasValidated')).to.include('url');
+        assert.includes(navItem.get('hasValidated'), 'url');
     });
 
-    it('fails on invalid url values', function () {
+    test('fails on invalid url values', function () {
         let invalidUrls = [
             'test@example.com',
             '/has spaces',
@@ -68,7 +65,7 @@ describe('Unit: Validator: nav-item', function () {
         });
     });
 
-    it('passes on valid url values', function () {
+    test('passes on valid url values', function () {
         let validUrls = [
             'http://localhost:2368',
             'http://localhost:2368/some-path',
@@ -88,13 +85,13 @@ describe('Unit: Validator: nav-item', function () {
         });
     });
 
-    it('validates url and label by default', function () {
+    test('validates url and label by default', function (assert) {
         let navItem = NavItem.create();
 
         validator.check(navItem);
 
-        expect(navItem.get('errors').errorsFor('label')).to.not.be.empty;
-        expect(navItem.get('errors').errorsFor('url')).to.not.be.empty;
-        expect(validator.get('passed')).to.be.false;
+        assert.ok(navItem.get('errors').errorsFor('label'));
+        assert.ok(navItem.get('errors').errorsFor('url'));
+        assert.false(validator.get('passed'));
     });
 });

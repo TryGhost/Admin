@@ -1,37 +1,35 @@
 import Pretender from 'pretender';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {settled} from '@ember/test-helpers';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
-describe('Integration: Service: config', function () {
-    setupTest();
+module('Integration: Service: config', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('returns a list of timezones in the expected format', function (done) {
+    test('returns a list of timezones in the expected format', function (assert) {
         let service = this.owner.lookup('service:config');
 
         service.get('availableTimezones').then(function (timezones) {
-            expect(timezones.length).to.equal(66);
-            expect(timezones[0].name).to.equal('Pacific/Pago_Pago');
-            expect(timezones[0].label).to.equal('(GMT -11:00) Midway Island, Samoa');
-            expect(timezones[1].name).to.equal('Pacific/Honolulu');
-            expect(timezones[1].label).to.equal('(GMT -10:00) Hawaii');
-            done();
+            assert.strictEqual(timezones.length, 66);
+            assert.strictEqual(timezones[0].name, 'Pacific/Pago_Pago');
+            assert.strictEqual(timezones[0].label, '(GMT -11:00) Midway Island, Samoa');
+            assert.strictEqual(timezones[1].name, 'Pacific/Honolulu');
+            assert.strictEqual(timezones[1].label, '(GMT -10:00) Hawaii');
         });
     });
 
-    it('normalizes blogUrl to non-trailing-slash', function (done) {
+    test('normalizes blogUrl to non-trailing-slash', function (assert) {
         let stubBlogUrl = function stubBlogUrl(url) {
             server.get(`${ghostPaths().apiRoot}/config/`, function () {
                 return [
@@ -58,20 +56,14 @@ describe('Integration: Service: config', function () {
         stubBlogUrl('http://localhost:2368/');
 
         service.fetch().then(() => {
-            expect(
-                service.get('blogUrl'), 'trailing-slash'
-            ).to.equal('http://localhost:2368');
+            assert.strictEqual(service.get('blogUrl'), 'http://localhost:2368', 'trailing-slash');
         });
 
         settled().then(() => {
             stubBlogUrl('http://localhost:2368');
 
             service.fetch().then(() => {
-                expect(
-                    service.get('blogUrl'), 'non-trailing-slash'
-                ).to.equal('http://localhost:2368');
-
-                done();
+                assert.strictEqual(service.get('blogUrl'), 'http://localhost:2368', 'non-trailing-slash');
             });
         });
     });

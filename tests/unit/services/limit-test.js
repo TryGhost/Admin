@@ -1,17 +1,16 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit | Service | limit', function () {
-    setupTest();
+module('Unit | Service | limit', function (hooks) {
+    setupTest(hooks);
 
     let limitService;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         limitService = this.owner.lookup('service:limit');
     });
 
-    it('exists', function () {
-        expect(limitService).to.be.ok;
+    test('exists', function (assert) {
+        assert.ok(limitService);
     });
 });

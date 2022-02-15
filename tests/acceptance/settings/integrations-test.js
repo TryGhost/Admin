@@ -1,158 +1,151 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
 import {blur, click, currentRouteName, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, skip, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Settings - Integrations - Custom', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Settings - Integrations - Custom', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    describe('access permissions', function () {
-        beforeEach(function () {
+    module('access permissions', function (hooks) {
+        hooks.beforeEach(function () {
             this.server.create('integration', {name: 'Test'});
         });
 
-        it('redirects /integrations/ to signin when not authenticated', async function () {
+        test('redirects /integrations/ to signin when not authenticated', async function (assert) {
             await invalidateSession();
             await visit('/settings/integrations');
 
-            expect(currentURL(), 'currentURL').to.equal('/signin');
+            assert.strictEqual(currentURL(), '/signin', 'currentURL');
         });
 
-        it('redirects /integrations/ to home page when authenticated as contributor', async function () {
+        test('redirects /integrations/ to home page when authenticated as contributor', async function (assert) {
             let role = this.server.create('role', {name: 'Contributor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations');
 
-            expect(currentURL(), 'currentURL').to.equal('/posts');
+            assert.strictEqual(currentURL(), '/posts', 'currentURL');
         });
 
-        it('redirects /integrations/ to home page when authenticated as author', async function () {
+        test('redirects /integrations/ to home page when authenticated as author', async function (assert) {
             let role = this.server.create('role', {name: 'Author'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations');
 
-            expect(currentURL(), 'currentURL').to.equal('/site');
+            assert.strictEqual(currentURL(), '/site', 'currentURL');
         });
 
-        it('redirects /integrations/ to home page when authenticated as editor', async function () {
+        test('redirects /integrations/ to home page when authenticated as editor', async function (assert) {
             let role = this.server.create('role', {name: 'Editor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/site');
+            assert.strictEqual(currentURL(), '/site', 'currentURL');
         });
 
-        it('redirects /integrations/:id/ to signin when not authenticated', async function () {
+        test('redirects /integrations/:id/ to signin when not authenticated', async function (assert) {
             await invalidateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/signin');
+            assert.strictEqual(currentURL(), '/signin', 'currentURL');
         });
 
-        it('redirects /integrations/:id/ to home page when authenticated as contributor', async function () {
+        test('redirects /integrations/:id/ to home page when authenticated as contributor', async function (assert) {
             let role = this.server.create('role', {name: 'Contributor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/posts');
+            assert.strictEqual(currentURL(), '/posts', 'currentURL');
         });
 
-        it('redirects /integrations/:id/ to home page when authenticated as author', async function () {
+        test('redirects /integrations/:id/ to home page when authenticated as author', async function (assert) {
             let role = this.server.create('role', {name: 'Author'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/site');
+            assert.strictEqual(currentURL(), '/site', 'currentURL');
         });
 
-        it('redirects /integrations/:id/ to home page when authenticated as editor', async function () {
+        test('redirects /integrations/:id/ to home page when authenticated as editor', async function (assert) {
             let role = this.server.create('role', {name: 'Editor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/site');
+            assert.strictEqual(currentURL(), '/site', 'currentURL');
         });
     });
 
-    describe('navigation', function () {
-        beforeEach(async function () {
+    module('navigation', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('renders correctly', async function () {
+        test('renders correctly', async function (assert) {
             await visit('/settings/integrations');
 
             // slack is not configured in the fixtures
-            expect(
-                find('[data-test-app="slack"] [data-test-app-status]').textContent.trim(),
-                'slack app status'
-            ).to.equal('Configure');
+            assert.strictEqual(find('[data-test-app="slack"] [data-test-app-status]').textContent.trim(), 'Configure', 'slack app status');
 
             // amp is enabled in the fixtures
-            expect(
-                find('[data-test-app="amp"] [data-test-app-status]').textContent.trim(),
-                'amp app status'
-            ).to.equal('Active');
+            assert.strictEqual(find('[data-test-app="amp"] [data-test-app-status]').textContent.trim(), 'Active', 'amp app status');
         });
 
-        it('it redirects to Slack when clicking on the grid', async function () {
+        test('it redirects to Slack when clicking on the grid', async function (assert) {
             await visit('/settings/integrations');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'currentURL');
 
             await click('[data-test-link="slack"]');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
+            assert.strictEqual(currentURL(), '/settings/integrations/slack', 'currentURL');
         });
 
-        it('it redirects to AMP when clicking on the grid', async function () {
+        test('it redirects to AMP when clicking on the grid', async function (assert) {
             await visit('/settings/integrations');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'currentURL');
 
             await click('[data-test-link="amp"]');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
+            assert.strictEqual(currentURL(), '/settings/integrations/amp', 'currentURL');
         });
 
-        it('it redirects to Unsplash when clicking on the grid', async function () {
+        test('it redirects to Unsplash when clicking on the grid', async function (assert) {
             await visit('/settings/integrations');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'currentURL');
 
             await click('[data-test-link="unsplash"]');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
+            assert.strictEqual(currentURL(), '/settings/integrations/unsplash', 'currentURL');
         });
     });
 
-    describe('custom integrations', function () {
-        beforeEach(async function () {
+    module('custom integrations', function (hooks) {
+        hooks.beforeEach(async function () {
             this.server.loadFixtures('configs');
             let config = this.server.schema.configs.first();
             config.update({
@@ -165,191 +158,112 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             return await authenticateSession();
         });
 
-        it('handles 404', async function () {
+        test('handles 404', async function (assert) {
             await visit('/settings/integrations/1');
-            expect(currentRouteName()).to.equal('error404');
+            assert.strictEqual(currentRouteName(), 'error404');
         });
 
-        it('can add new integration', async function () {
+        test('can add new integration', async function (assert) {
             // sanity check
-            expect(
-                this.server.db.integrations.length,
-                'number of integrations in db at start'
-            ).to.equal(0);
-            expect(
-                this.server.db.apiKeys.length,
-                'number of apiKeys in db at start'
-            ).to.equal(0);
+            assert.strictEqual(this.server.db.integrations.length, 0, 'number of integrations in db at start');
+            assert.strictEqual(this.server.db.apiKeys.length, 0, 'number of apiKeys in db at start');
 
             // blank slate
             await visit('/settings/integrations');
 
-            expect(
-                find('[data-test-blank="custom-integrations"]'),
-                'initial blank slate'
-            ).to.exist;
+            assert.dom('[data-test-blank="custom-integrations"]').exists('initial blank slate');
 
             // new integration modal opens/closes
             await click('[data-test-button="new-integration"]');
 
-            expect(currentURL(), 'url after clicking new').to.equal('/settings/integrations/new');
-            expect(find('[data-test-modal="new-integration"]'), 'modal after clicking new').to.exist;
+            assert.strictEqual(currentURL(), '/settings/integrations/new', 'url after clicking new');
+            assert.dom('[data-test-modal="new-integration"]').exists('modal after clicking new');
 
             await click('[data-test-button="cancel-new-integration"]');
 
-            expect(find('[data-test-modal="new-integration"]'), 'modal after clicking cancel')
-                .to.not.exist;
+            assert.dom('[data-test-modal="new-integration"]').doesNotExist('modal after clicking cancel');
 
-            expect(
-                find('[data-test-blank="custom-integrations"]'),
-                'blank slate after cancelled creation'
-            ).to.exist;
+            assert.dom('[data-test-blank="custom-integrations"]').exists('blank slate after cancelled creation');
 
             // new integration validations
             await click('[data-test-button="new-integration"]');
             await click('[data-test-button="create-integration"]');
 
-            expect(
-                find('[data-test-error="new-integration-name"]').textContent,
-                'name error after create with blank field'
-            ).to.have.string('enter a name');
+            assert.includes(find('[data-test-error="new-integration-name"]').textContent, 'enter a name', 'name error after create with blank field');
 
             await fillIn('[data-test-input="new-integration-name"]', 'Duplicate');
             await click('[data-test-button="create-integration"]');
 
-            expect(
-                find('[data-test-error="new-integration-name"]').textContent,
-                'name error after create with duplicate name'
-            ).to.have.string('already been used');
+            assert.includes(find('[data-test-error="new-integration-name"]').textContent, 'already been used', 'name error after create with duplicate name');
 
             // successful creation
             await fillIn('[data-test-input="new-integration-name"]', 'Test');
 
-            expect(
-                find('[data-test-error="new-integration-name"]').textContent.trim(),
-                'name error after typing in field'
-            ).to.be.empty;
+            assert.notOk(find('[data-test-error="new-integration-name"]').textContent.trim(), 'name error after typing in field');
 
             await click('[data-test-button="create-integration"]');
 
-            expect(
-                find('[data-test-modal="new-integration"]'),
-                'modal after successful create'
-            ).to.not.exist;
+            assert.dom('[data-test-modal="new-integration"]').doesNotExist('modal after successful create');
 
-            expect(
-                this.server.db.integrations.length,
-                'number of integrations in db after create'
-            ).to.equal(1);
+            assert.strictEqual(this.server.db.integrations.length, 1, 'number of integrations in db after create');
             // mirage sanity check
-            expect(
-                this.server.db.apiKeys.length,
-                'number of api keys in db after create'
-            ).to.equal(2);
+            assert.strictEqual(this.server.db.apiKeys.length, 2, 'number of api keys in db after create');
 
-            expect(
-                currentURL(),
-                'url after integration creation'
-            ).to.equal('/settings/integrations/1');
+            assert.strictEqual(currentURL(), '/settings/integrations/1', 'url after integration creation');
 
             // test navigation back to list then back to new integration
             await click('[data-test-link="integrations-back"]');
 
-            expect(
-                currentURL(),
-                'url after clicking "Back"'
-            ).to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'url after clicking "Back"');
 
-            expect(
-                find('[data-test-blank="custom-integrations"]'),
-                'blank slate after creation'
-            ).to.not.exist;
+            assert.dom('[data-test-blank="custom-integrations"]').doesNotExist('blank slate after creation');
 
-            expect(
-                findAll('[data-test-custom-integration]').length,
-                'number of custom integrations after creation'
-            ).to.equal(1);
+            assert.strictEqual(findAll('[data-test-custom-integration]').length, 1, 'number of custom integrations after creation');
 
             await click(`[data-test-integration="1"]`);
 
-            expect(
-                currentURL(),
-                'url after clicking integration in list'
-            ).to.equal('/settings/integrations/1');
+            assert.strictEqual(currentURL(), '/settings/integrations/1', 'url after clicking integration in list');
         });
 
-        it.skip('can manage an integration', async function () {
+        skip('can manage an integration', async function (assert) {
             this.server.create('integration');
 
             await visit('/settings/integrations/1');
 
-            expect(
-                currentURL(),
-                'initial URL'
-            ).to.equal('/settings/integrations/1');
+            assert.strictEqual(currentURL(), '/settings/integrations/1', 'initial URL');
 
-            expect(
-                find('[data-test-screen-title]').textContent,
-                'screen title'
-            ).to.have.string('Integration 1');
+            assert.includes(find('[data-test-screen-title]').textContent, 'Integration 1', 'screen title');
 
             // fields have expected values
             // TODO: add test for logo
 
-            expect(
-                find('[data-test-input="name"]').value,
-                'initial name value'
-            ).to.equal('Integration 1');
+            assert.strictEqual(find('[data-test-input="name"]').value, 'Integration 1', 'initial name value');
 
-            expect(
-                find('[data-test-input="description"]').value,
-                'initial description value'
-            ).to.equal('');
+            assert.strictEqual(find('[data-test-input="description"]').value, '', 'initial description value');
 
-            expect(
-                find('[data-test-text="content-key"]'),
-                'content key text'
-            ).to.have.trimmed.text('integration-1_content_key-12345');
+            assert.dom('[data-test-text="content-key"]').hasText('integration-1_content_key-12345', 'content key text');
 
-            expect(
-                find('[data-test-text="admin-key"]'),
-                'admin key text'
-            ).to.have.trimmed.text('integration-1_admin_key-12345');
+            assert.dom('[data-test-text="admin-key"]').hasText('integration-1_admin_key-12345', 'admin key text');
 
-            expect(
-                find('[data-test-text="api-url"]'),
-                'api url text'
-            ).to.have.trimmed.text(window.location.origin);
+            assert.dom('[data-test-text="api-url"]').hasText(window.location.origin, 'api url text');
 
             // it can modify integration fields and has validation
 
-            expect(
-                find('[data-test-error="name"]').textContent.trim(),
-                'initial name error'
-            ).to.be.empty;
+            assert.notOk(find('[data-test-error="name"]').textContent.trim(), 'initial name error');
 
             await fillIn('[data-test-input="name"]', '');
             await await blur('[data-test-input="name"]');
 
-            expect(
-                find('[data-test-error="name"]').textContent,
-                'name validation for blank string'
-            ).to.have.string('enter a name');
+            assert.includes(find('[data-test-error="name"]').textContent, 'enter a name', 'name validation for blank string');
 
             await click('[data-test-button="save"]');
 
-            expect(
-                this.server.schema.integrations.first().name,
-                'db integration name after failed save'
-            ).to.equal('Integration 1');
+            assert.strictEqual(this.server.schema.integrations.first().name, 'Integration 1', 'db integration name after failed save');
 
             await fillIn('[data-test-input="name"]', 'Test Integration');
             await await blur('[data-test-input="name"]');
 
-            expect(
-                find('[data-test-error="name"]').textContent.trim(),
-                'name error after valid entry'
-            ).to.be.empty;
+            assert.notOk(find('[data-test-error="name"]').textContent.trim(), 'name error after valid entry');
 
             await fillIn('[data-test-input="description"]', 'Description for Test Integration');
             await await blur('[data-test-input="description"]');
@@ -359,20 +273,11 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
 
             await click('[data-test-link="integrations-back"]');
 
-            expect(
-                currentURL(),
-                'url after saving and clicking "back"'
-            ).to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'url after saving and clicking "back"');
 
-            expect(
-                find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(),
-                'integration name after save'
-            ).to.equal('Test Integration');
+            assert.strictEqual(find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(), 'Test Integration', 'integration name after save');
 
-            expect(
-                find('[data-test-integration="1"] [data-test-text="description"]').textContent.trim(),
-                'integration description after save'
-            ).to.equal('Description for Test Integration');
+            assert.strictEqual(find('[data-test-integration="1"] [data-test-text="description"]').textContent.trim(), 'Description for Test Integration', 'integration description after save');
 
             await click('[data-test-integration="1"]');
 
@@ -381,58 +286,39 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             await fillIn('[data-test-input="name"]', 'Unsaved test');
             await click('[data-test-link="integrations-back"]');
 
-            expect(
-                find('[data-test-modal="unsaved-settings"]'),
-                'modal shown when navigating with unsaved changes'
-            ).to.exist;
+            assert.dom('[data-test-modal="unsaved-settings"]').exists('modal shown when navigating with unsaved changes');
 
             await click('[data-test-stay-button]');
 
-            expect(
-                find('[data-test-modal="unsaved-settings"]'),
-                'modal is closed after clicking "stay"'
-            ).to.not.exist;
+            assert.dom('[data-test-modal="unsaved-settings"]').doesNotExist('modal is closed after clicking "stay"');
 
-            expect(
-                currentURL(),
-                'url after clicking "stay"'
-            ).to.equal('/settings/integrations/1');
+            assert.strictEqual(currentURL(), '/settings/integrations/1', 'url after clicking "stay"');
 
             await click('[data-test-link="integrations-back"]');
             await click('[data-test-leave-button]');
 
-            expect(
-                find('[data-test-modal="unsaved-settings"]'),
-                'modal is closed after clicking "leave"'
-            ).to.not.exist;
+            assert.dom('[data-test-modal="unsaved-settings"]').doesNotExist('modal is closed after clicking "leave"');
 
-            expect(
-                currentURL(),
-                'url after clicking "leave"'
-            ).to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations', 'url after clicking "leave"');
 
-            expect(
-                find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(),
-                'integration name after leaving unsaved changes'
-            ).to.equal('Test Integration');
+            assert.strictEqual(find('[data-test-integration="1"] [data-test-text="name"]').textContent.trim(), 'Test Integration', 'integration name after leaving unsaved changes');
         });
 
-        it('can manage an integration\'s webhooks', async function () {
+        test('can manage an integration\'s webhooks', async function (assert) {
             this.server.create('integration');
 
             await visit('/settings/integrations/1');
 
-            expect(find('[data-test-webhooks-blank-slate]')).to.exist;
+            assert.dom('[data-test-webhooks-blank-slate]').exists();
 
             // open new webhook modal
             await click('[data-test-link="add-webhook"]');
-            expect(find('[data-test-modal="webhook-form"]')).to.exist;
-            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent)
-                .to.have.string('New webhook');
+            assert.dom('[data-test-modal="webhook-form"]').exists();
+            assert.includes(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent, 'New webhook');
 
             // can cancel new webhook
             await click('[data-test-button="cancel-webhook"]');
-            expect(find('[data-test-modal="webhook-form"]')).to.not.exist;
+            assert.dom('[data-test-modal="webhook-form"]').doesNotExist();
 
             // create new webhook
             await click('[data-test-link="add-webhook"]');
@@ -442,29 +328,24 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             await click('[data-test-button="save-webhook"]');
 
             // modal closed and 1 webhook listed with correct details
-            expect(find('[data-test-modal="webhook-form"]')).to.not.exist;
-            expect(find('[data-test-webhook-row]')).to.exist;
+            assert.dom('[data-test-modal="webhook-form"]').doesNotExist();
+            assert.dom('[data-test-webhook-row]').exists();
             let row = find('[data-test-webhook-row="1"]');
-            expect(row.querySelector('[data-test-text="name"]').textContent)
-                .to.have.string('First webhook');
-            expect(row.querySelector('[data-test-text="event"]').textContent)
-                .to.have.string('Site changed (rebuild)');
-            expect(row.querySelector('[data-test-text="targetUrl"]').textContent)
-                .to.have.string('https://example.com/first-webhook');
-            expect(row.querySelector('[data-test-text="last-triggered"]').textContent)
-                .to.have.string('Not triggered');
+            assert.includes(row.querySelector('[data-test-text="name"]').textContent, 'First webhook');
+            assert.includes(row.querySelector('[data-test-text="event"]').textContent, 'Site changed (rebuild)');
+            assert.includes(row.querySelector('[data-test-text="targetUrl"]').textContent, 'https://example.com/first-webhook');
+            assert.includes(row.querySelector('[data-test-text="last-triggered"]').textContent, 'Not triggered');
 
             // click edit webhook link
             await click('[data-test-webhook-row="1"] [data-test-link="edit-webhook"]');
 
             // modal appears and has correct title
-            expect(find('[data-test-modal="webhook-form"]')).to.exist;
-            expect(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent)
-                .to.have.string('Edit webhook');
+            assert.dom('[data-test-modal="webhook-form"]').exists();
+            assert.includes(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent, 'Edit webhook');
         });
 
         // test to ensure the `value=description` passed to `gh-text-input` is `readonly`
-        it('doesn\'t show unsaved changes modal after placing focus on description field', async function () {
+        test('doesn\'t show unsaved changes modal after placing focus on description field', async function (assert) {
             this.server.create('integration');
 
             await visit('/settings/integrations/1');
@@ -472,12 +353,9 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             await await blur('[data-test-input="description"]');
             await click('[data-test-link="integrations-back"]');
 
-            expect(
-                find('[data-test-modal="unsaved-settings"]'),
-                'unsaved changes modal is not shown'
-            ).to.not.exist;
+            assert.dom('[data-test-modal="unsaved-settings"]').doesNotExist('unsaved changes modal is not shown');
 
-            expect(currentURL()).to.equal('/settings/integrations');
+            assert.strictEqual(currentURL(), '/settings/integrations');
         });
     });
 });

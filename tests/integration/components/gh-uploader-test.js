@@ -4,9 +4,8 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, find, findAll, render, settled, waitFor, waitUntil} from '@ember/test-helpers';
 import {createFile} from '../../helpers/file-upload';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
 const stubSuccessfulUpload = function (server, delay = 0) {
     server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
@@ -25,8 +24,8 @@ const stubFailedUpload = function (server, code, error, delay = 0) {
     }, delay);
 };
 
-describe('Integration: Component: gh-uploader', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-uploader', function (hooks) {
+    setupRenderingTest(hooks);
 
     let server;
 
@@ -38,46 +37,46 @@ describe('Integration: Component: gh-uploader', function () {
         server.shutdown();
     });
 
-    describe('uploads', function () {
-        beforeEach(function () {
+    module('uploads', function (hooks) {
+        hooks.beforeEach(function () {
             stubSuccessfulUpload(server);
         });
 
-        it('triggers uploads when `files` is set', async function () {
+        test('triggers uploads when `files` is set', async function (assert) {
             await render(hbs`{{#gh-uploader files=files}}{{/gh-uploader}}`);
 
             this.set('files', [createFile()]);
             await settled();
 
             let [lastRequest] = server.handledRequests;
-            expect(server.handledRequests.length).to.equal(1);
-            expect(lastRequest.url).to.equal(`${ghostPaths().apiRoot}/images/upload/`);
+            assert.strictEqual(server.handledRequests.length, 1);
+            assert.strictEqual(lastRequest.url, `${ghostPaths().apiRoot}/images/upload/`);
             // requestBody is a FormData object
             // this will fail in anything other than Chrome and Firefox
             // https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility
-            expect(lastRequest.requestBody.has('file')).to.be.true;
+            assert.true(lastRequest.requestBody.has('file'));
         });
 
-        it('triggers multiple uploads', async function () {
+        test('triggers multiple uploads', async function (assert) {
             await render(hbs`{{#gh-uploader files=files}}{{/gh-uploader}}`);
 
             this.set('files', [createFile(), createFile()]);
             await settled();
 
-            expect(server.handledRequests.length).to.equal(2);
+            assert.strictEqual(server.handledRequests.length, 2);
         });
 
-        it('triggers onStart when upload starts', async function () {
+        test('triggers onStart when upload starts', async function (assert) {
             this.set('uploadStarted', sinon.spy());
 
             await render(hbs`{{#gh-uploader files=files onStart=(action uploadStarted)}}{{/gh-uploader}}`);
             this.set('files', [createFile(), createFile()]);
             await settled();
 
-            expect(this.uploadStarted.calledOnce).to.be.true;
+            assert.true(this.uploadStarted.calledOnce);
         });
 
-        it('triggers onUploadSuccess when a file uploads', async function () {
+        test('triggers onUploadSuccess when a file uploads', async function (assert) {
             this.set('fileUploaded', sinon.spy());
 
             await render(hbs`{{#gh-uploader files=files onUploadSuccess=(action fileUploaded)}}{{/gh-uploader}}`);
@@ -85,15 +84,15 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             // triggered for each file
-            expect(this.fileUploaded.calledTwice).to.be.true;
+            assert.true(this.fileUploaded.calledTwice);
 
             // filename and url is passed in arg
             let firstCall = this.fileUploaded.getCall(0);
-            expect(firstCall.args[0].fileName).to.equal('file1.png');
-            expect(firstCall.args[0].url).to.equal('/content/images/test.png');
+            assert.strictEqual(firstCall.args[0].fileName, 'file1.png');
+            assert.strictEqual(firstCall.args[0].url, '/content/images/test.png');
         });
 
-        it('triggers onComplete when all files uploaded', async function () {
+        test('triggers onComplete when all files uploaded', async function (assert) {
             this.set('uploadsFinished', sinon.spy());
 
             await render(hbs`{{#gh-uploader files=files onComplete=(action uploadsFinished)}}{{/gh-uploader}}`);
@@ -103,18 +102,18 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.uploadsFinished.calledOnce).to.be.true;
+            assert.true(this.uploadsFinished.calledOnce);
 
             // array of filenames and urls is passed in arg
             let [result] = this.uploadsFinished.getCall(0).args;
-            expect(result.length).to.equal(2);
-            expect(result[0].fileName).to.equal('file1.png');
-            expect(result[0].url).to.equal('/content/images/test.png');
-            expect(result[1].fileName).to.equal('file2.png');
-            expect(result[1].url).to.equal('/content/images/test.png');
+            assert.strictEqual(result.length, 2);
+            assert.strictEqual(result[0].fileName, 'file1.png');
+            assert.strictEqual(result[0].url, '/content/images/test.png');
+            assert.strictEqual(result[1].fileName, 'file2.png');
+            assert.strictEqual(result[1].url, '/content/images/test.png');
         });
 
-        it('onComplete only passes results for last upload', async function () {
+        test('onComplete only passes results for last upload', async function (assert) {
             this.set('uploadsFinished', sinon.spy());
 
             await render(hbs`{{#gh-uploader files=files onComplete=(action uploadsFinished)}}{{/gh-uploader}}`);
@@ -130,11 +129,11 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [results] = this.uploadsFinished.getCall(1).args;
-            expect(results.length).to.equal(1);
-            expect(results[0].fileName).to.equal('file2.png');
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].fileName, 'file2.png');
         });
 
-        it('onComplete returns results in same order as selected', async function () {
+        test('onComplete returns results in same order as selected', async function (assert) {
             // first request has a delay to simulate larger file
             server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
                 // second request has no delay to simulate small file
@@ -153,11 +152,11 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [results] = this.uploadsFinished.getCall(0).args;
-            expect(results.length).to.equal(2);
-            expect(results[0].fileName).to.equal('file1.png');
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].fileName, 'file1.png');
         });
 
-        it('doesn\'t allow new files to be set whilst uploading', async function () {
+        test('doesn\'t allow new files to be set whilst uploading', async function (assert) {
             let errorSpy = sinon.spy(console, 'error');
             stubSuccessfulUpload(server, 100);
 
@@ -174,12 +173,12 @@ describe('Integration: Component: gh-uploader', function () {
 
             await settled();
 
-            expect(server.handledRequests.length).to.equal(2);
-            expect(errorSpy.calledOnce).to.be.true;
+            assert.strictEqual(server.handledRequests.length, 2);
+            assert.true(errorSpy.calledOnce);
             errorSpy.restore();
         });
 
-        it('yields isUploading whilst upload is in progress', async function () {
+        test('yields isUploading whilst upload is in progress', async function (assert) {
             stubSuccessfulUpload(server, 100);
 
             await render(hbs`
@@ -194,10 +193,10 @@ describe('Integration: Component: gh-uploader', function () {
             await waitFor('.is-uploading-test', {timeout: 150});
             await settled();
 
-            expect(find('.is-uploading-test')).to.not.exist;
+            assert.dom('.is-uploading-test').doesNotExist();
         });
 
-        it('yields progressBar component with total upload progress', async function () {
+        test('yields progressBar component with total upload progress', async function (assert) {
             stubSuccessfulUpload(server, 100);
 
             await render(hbs`
@@ -216,10 +215,10 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let finalProgressWidth = parseInt(find('[data-test-progress-bar]').style.width);
-            expect(finalProgressWidth, 'final progress width').to.equal(100);
+            assert.strictEqual(finalProgressWidth, 100, 'final progress width');
         });
 
-        it('yields files property', async function () {
+        test('yields files property', async function (assert) {
             await render(hbs`
             {{#gh-uploader files=files as |uploader|}}
                 {{#each uploader.files as |file|}}
@@ -232,11 +231,11 @@ describe('Integration: Component: gh-uploader', function () {
                 createFile(['test'], {name: 'file2.png'})
             ]);
 
-            expect(findAll('.file')[0].textContent).to.equal('file1.png');
-            expect(findAll('.file')[1].textContent).to.equal('file2.png');
+            assert.strictEqual(findAll('.file')[0].textContent, 'file1.png');
+            assert.strictEqual(findAll('.file')[1].textContent, 'file2.png');
         });
 
-        it('can be cancelled', async function () {
+        test('can be cancelled', async function (assert) {
             stubSuccessfulUpload(server, 200);
             this.set('cancelled', sinon.spy());
             this.set('complete', sinon.spy());
@@ -253,11 +252,11 @@ describe('Integration: Component: gh-uploader', function () {
             await waitFor('.cancel-button');
             await click('.cancel-button');
 
-            expect(this.cancelled.calledOnce, 'onCancel triggered').to.be.true;
-            expect(this.complete.notCalled, 'onComplete triggered').to.be.true;
+            assert.true(this.cancelled.calledOnce, 'onCancel triggered');
+            assert.true(this.complete.notCalled, 'onComplete triggered');
         });
 
-        it('uploads to supplied `uploadUrl`', async function () {
+        test('uploads to supplied `uploadUrl`', async function (assert) {
             server.post(`${ghostPaths().apiRoot}/images/`, function () {
                 return [200, {'Content-Type': 'application/json'}, '{"images": [{"url": "/content/images/test.png"}]'];
             });
@@ -267,10 +266,10 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [lastRequest] = server.handledRequests;
-            expect(lastRequest.url).to.equal(`${ghostPaths().apiRoot}/images/`);
+            assert.strictEqual(lastRequest.url, `${ghostPaths().apiRoot}/images/`);
         });
 
-        it('passes supplied paramName in request', async function () {
+        test('passes supplied paramName in request', async function (assert) {
             await render(hbs`{{#gh-uploader files=files paramName="testupload"}}{{/gh-uploader}}`);
             this.set('files', [createFile()]);
             await settled();
@@ -279,12 +278,12 @@ describe('Integration: Component: gh-uploader', function () {
             // requestBody is a FormData object
             // this will fail in anything other than Chrome and Firefox
             // https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility
-            expect(lastRequest.requestBody.has('testupload')).to.be.true;
+            assert.true(lastRequest.requestBody.has('testupload'));
         });
     });
 
-    describe('validation', function () {
-        it('validates file extensions by default', async function () {
+    module('validation', function () {
+        test('validates file extensions by default', async function (assert) {
             this.set('onFailed', sinon.spy());
 
             await render(hbs`
@@ -294,12 +293,12 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [onFailedResult] = this.onFailed.firstCall.args;
-            expect(onFailedResult.length).to.equal(1);
-            expect(onFailedResult[0].fileName, 'onFailed file name').to.equal('test.png');
-            expect(onFailedResult[0].message, 'onFailed message').to.match(/not supported/);
+            assert.strictEqual(onFailedResult.length, 1);
+            assert.strictEqual(onFailedResult[0].fileName, 'test.png', 'onFailed file name');
+            assert.match(onFailedResult[0].message, /not supported/, 'onFailed message');
         });
 
-        it('accepts custom validation method', async function () {
+        test('accepts custom validation method', async function (assert) {
             this.set('validate', function (file) {
                 return `${file.name} failed test validation`;
             });
@@ -312,12 +311,12 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [onFailedResult] = this.onFailed.firstCall.args;
-            expect(onFailedResult.length).to.equal(1);
-            expect(onFailedResult[0].fileName).to.equal('test.png');
-            expect(onFailedResult[0].message).to.equal('test.png failed test validation');
+            assert.strictEqual(onFailedResult.length, 1);
+            assert.strictEqual(onFailedResult[0].fileName, 'test.png');
+            assert.strictEqual(onFailedResult[0].message, 'test.png failed test validation');
         });
 
-        it('yields errors when validation fails', async function () {
+        test('yields errors when validation fails', async function (assert) {
             await render(hbs`
                 {{#gh-uploader files=files extensions="jpg,jpeg" as |uploader|}}
                     {{#each uploader.errors as |error|}}
@@ -329,17 +328,17 @@ describe('Integration: Component: gh-uploader', function () {
             this.set('files', [createFile(['test'], {name: 'test.png'})]);
             await settled();
 
-            expect(find('.error-fileName').textContent).to.equal('test.png');
-            expect(find('.error-message').textContent).to.match(/not supported/);
+            assert.strictEqual(find('.error-fileName').textContent, 'test.png');
+            assert.match(find('.error-message').textContent, /not supported/);
         });
     });
 
-    describe('server errors', function () {
-        beforeEach(function () {
+    module('server errors', function (hooks) {
+        hooks.beforeEach(function () {
             stubFailedUpload(server, 500, 'No upload for you');
         });
 
-        it('triggers onFailed when uploads complete', async function () {
+        test('triggers onFailed when uploads complete', async function (assert) {
             this.set('uploadFailed', sinon.spy());
             this.set('uploadComplete', sinon.spy());
 
@@ -356,16 +355,16 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.uploadFailed.calledOnce).to.be.true;
-            expect(this.uploadComplete.calledOnce).to.be.true;
+            assert.true(this.uploadFailed.calledOnce);
+            assert.true(this.uploadComplete.calledOnce);
 
             let [failures] = this.uploadFailed.firstCall.args;
-            expect(failures.length).to.equal(2);
-            expect(failures[0].fileName).to.equal('file1.png');
-            expect(failures[0].message).to.equal('Error: No upload for you');
+            assert.strictEqual(failures.length, 2);
+            assert.strictEqual(failures[0].fileName, 'file1.png');
+            assert.strictEqual(failures[0].message, 'Error: No upload for you');
         });
 
-        it('triggers onUploadFailure when each upload fails', async function () {
+        test('triggers onUploadFailure when each upload fails', async function (assert) {
             this.set('uploadFail', sinon.spy());
 
             await render(hbs`
@@ -380,18 +379,18 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.uploadFail.calledTwice).to.be.true;
+            assert.true(this.uploadFail.calledTwice);
 
             let [firstFailure] = this.uploadFail.firstCall.args;
-            expect(firstFailure.fileName).to.equal('file1.png');
-            expect(firstFailure.message).to.equal('Error: No upload for you');
+            assert.strictEqual(firstFailure.fileName, 'file1.png');
+            assert.strictEqual(firstFailure.message, 'Error: No upload for you');
 
             let [secondFailure] = this.uploadFail.secondCall.args;
-            expect(secondFailure.fileName).to.equal('file2.png');
-            expect(secondFailure.message).to.equal('Error: No upload for you');
+            assert.strictEqual(secondFailure.fileName, 'file2.png');
+            assert.strictEqual(secondFailure.message, 'Error: No upload for you');
         });
 
-        it('yields errors when uploads fail', async function () {
+        test('yields errors when uploads fail', async function (assert) {
             await render(hbs`
                 {{#gh-uploader files=files as |uploader|}}
                     {{#each uploader.errors as |error|}}
@@ -403,8 +402,8 @@ describe('Integration: Component: gh-uploader', function () {
             this.set('files', [createFile(['test'], {name: 'test.png'})]);
             await settled();
 
-            expect(find('.error-fileName').textContent).to.equal('test.png');
-            expect(find('.error-message').textContent).to.equal('Error: No upload for you');
+            assert.strictEqual(find('.error-fileName').textContent, 'test.png');
+            assert.strictEqual(find('.error-message').textContent, 'Error: No upload for you');
         });
     });
 });

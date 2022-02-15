@@ -1,51 +1,49 @@
 import SlackIntegration from 'ghost-admin/models/slack-integration';
-import {describe, it} from 'mocha';
-import {A as emberA} from '@ember/array';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Transform: slack-settings', function () {
-    setupTest();
+module('Unit: Transform: slack-settings', function (hooks) {
+    setupTest(hooks);
 
-    it('deserializes settings json', function () {
+    test('deserializes settings json', function (assert) {
         let transform = this.owner.lookup('transform:slack-settings');
         let serialized = '[{"url":"http://myblog.com/blogpost1","username":"SlackBot"}]';
         let result = transform.deserialize(serialized);
 
-        expect(result.length).to.equal(1);
-        expect(result[0]).to.be.instanceof(SlackIntegration);
-        expect(result[0].get('url')).to.equal('http://myblog.com/blogpost1');
-        expect(result[0].get('username')).to.equal('SlackBot');
+        assert.strictEqual(result.length, 1);
+        assert.instanceOf(result[0]);
+        assert.strictEqual(result[0].get('url'), 'http://myblog.com/blogpost1');
+        assert.strictEqual(result[0].get('username'), 'SlackBot');
     });
 
-    it('deserializes empty array', function () {
+    test('deserializes empty array', function (assert) {
         let transform = this.owner.lookup('transform:slack-settings');
         let serialized = '[]';
         let result = transform.deserialize(serialized);
 
-        expect(result.length).to.equal(1);
-        expect(result[0]).to.be.instanceof(SlackIntegration);
-        expect(result[0].get('url')).to.equal('');
-        expect(result[0].get('username')).to.equal('');
+        assert.strictEqual(result.length, 1);
+        assert.instanceOf(result[0]);
+        assert.strictEqual(result[0].get('url'), '');
+        assert.strictEqual(result[0].get('username'), '');
     });
 
-    it('serializes array of Slack settings', function () {
+    test('serializes array of Slack settings', function (assert) {
         let transform = this.owner.lookup('transform:slack-settings');
         let deserialized = emberA([
             SlackIntegration.create({url: 'http://myblog.com/blogpost1', username: 'SlackBot'})
         ]);
         let result = transform.serialize(deserialized);
 
-        expect(result).to.equal('[{"url":"http://myblog.com/blogpost1","username":"SlackBot"}]');
+        assert.strictEqual(result, '[{"url":"http://myblog.com/blogpost1","username":"SlackBot"}]');
     });
 
-    it('serializes empty SlackIntegration objects', function () {
+    test('serializes empty SlackIntegration objects', function (assert) {
         let transform = this.owner.lookup('transform:slack-settings');
         let deserialized = emberA([
             SlackIntegration.create({url: ''})
         ]);
         let result = transform.serialize(deserialized);
 
-        expect(result).to.equal('[]');
+        assert.strictEqual(result, '[]');
     });
 });

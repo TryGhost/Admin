@@ -1,13 +1,12 @@
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-unsplash', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-unsplash', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.on('myAction', function(val) { ... });
         // Template block usage:
@@ -18,26 +17,26 @@ describe('Integration: Component: gh-unsplash', function () {
         // `);
 
         await render(hbs`{{gh-unsplash}}`);
-        expect(this.element).to.exist;
+        assert.ok(this.element);
     });
 
-    it('loads new photos by default');
-    it('has responsive columns');
-    it('can zoom');
-    it('can close zoom by clicking on image');
-    it('can close zoom by clicking outside image');
-    it('triggers insert action');
-    it('handles errors');
+    test('loads new photos by default');
+    test('has responsive columns');
+    test('can zoom');
+    test('can close zoom by clicking on image');
+    test('can close zoom by clicking outside image');
+    test('triggers insert action');
+    test('handles errors');
 
-    describe('searching', function () {
-        it('works');
-        it('handles no results');
-        it('handles error');
+    module('searching', function () {
+        test('works');
+        test('handles no results');
+        test('handles error');
     });
 
-    describe('closing', function () {
-        it('triggers close action');
-        it('can be triggerd by escape key');
-        it('cannot be triggered by escape key when zoomed');
+    module('closing', function () {
+        test('triggers close action');
+        test('can be triggerd by escape key');
+        test('cannot be triggered by escape key when zoomed');
     });
 });

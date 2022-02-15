@@ -1,34 +1,31 @@
-// import {expect} from 'chai';
-import {
-    describe,
-    it
-} from 'mocha';
+// import { expect } from 'chai';
+import {module, test} from 'qunit';
 // import EmberObject from 'ember-object';
 // import ValidationEngineMixin from 'ghost-admin/mixins/validation-engine';
 
-describe('ValidationEngineMixin', function () {
-    describe('#validate', function () {
-        it('loads the correct validator');
-        it('rejects if the validator doesn\'t exist');
-        it('resolves with valid object');
-        it('rejects with invalid object');
-        it('clears all existing errors');
+module('ValidationEngineMixin', function () {
+    module('#validate', function () {
+        test('loads the correct validator');
+        test('rejects if the validator doesn\'t exist');
+        test('resolves with valid object');
+        test('rejects with invalid object');
+        test('clears all existing errors');
 
-        describe('with a specified property', function () {
-            it('resolves with valid property');
-            it('rejects with invalid property');
-            it('adds property to hasValidated array');
-            it('clears existing error on specified property');
+        module('with a specified property', function () {
+            test('resolves with valid property');
+            test('rejects with invalid property');
+            test('adds property to hasValidated array');
+            test('clears existing error on specified property');
         });
 
-        it('handles a passed in model');
-        it('uses this.model if available');
+        test('handles a passed in model');
+        test('uses this.model if available');
     });
 
-    describe('#save', function () {
-        it('calls validate');
-        it('rejects with validation errors');
-        it('calls object\'s #save if validation passes');
-        it('skips validation if it\'s a deletion');
+    module('#save', function () {
+        test('calls validate');
+        test('rejects with validation errors');
+        test('calls object\'s #save if validation passes');
+        test('skips validation if it\'s a deletion');
     });
 });

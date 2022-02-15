@@ -1,61 +1,60 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: navigation-item', function () {
-    setupTest();
+module('Unit: Model: navigation-item', function (hooks) {
+    setupTest(hooks);
 
-    it('isComplete is true when label and url are filled', function () {
+    test('isComplete is true when label and url are filled', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', 'test');
         model.set('url', 'test');
 
-        expect(model.get('isComplete')).to.be.true;
+        assert.true(model.get('isComplete'));
     });
 
-    it('isComplete is false when label is blank', function () {
+    test('isComplete is false when label is blank', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', '');
         model.set('url', 'test');
 
-        expect(model.get('isComplete')).to.be.false;
+        assert.false(model.get('isComplete'));
     });
 
-    it('isComplete is false when url is blank', function () {
+    test('isComplete is false when url is blank', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', 'test');
         model.set('url', '');
 
-        expect(model.get('isComplete')).to.be.false;
+        assert.false(model.get('isComplete'));
     });
 
-    it('isBlank is true when label and url are blank', function () {
+    test('isBlank is true when label and url are blank', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', '');
         model.set('url', '');
 
-        expect(model.get('isBlank')).to.be.true;
+        assert.true(model.get('isBlank'));
     });
 
-    it('isBlank is false when label is present', function () {
+    test('isBlank is false when label is present', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', 'test');
         model.set('url', '');
 
-        expect(model.get('isBlank')).to.be.false;
+        assert.false(model.get('isBlank'));
     });
 
-    it('isBlank is false when url is present', function () {
+    test('isBlank is false when url is present', function (assert) {
         let model = this.owner.lookup('model:navigation-item');
 
         model.set('label', '');
         model.set('url', 'test');
 
-        expect(model.get('isBlank')).to.be.false;
+        assert.false(model.get('isBlank'));
     });
 });

@@ -1,13 +1,12 @@
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-member-avatar', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-member-avatar', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         this.set('member', {
             get(key) {
                 if (key === 'name') {
@@ -18,6 +17,6 @@ describe('Integration: Component: gh-member-avatar', function () {
 
         await render(hbs`<GhMemberAvatar @member={{member}} />`);
         let avatar = this.element;
-        expect(avatar).to.exist;
+        assert.ok(avatar);
     });
 });

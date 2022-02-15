@@ -2,14 +2,13 @@ import RSVP from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: modal-transfer-owner', function () {
-    setupRenderingTest();
+module('Integration: Component: modal-transfer-owner', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('triggers confirm action', async function () {
+    test('triggers confirm action', async function (assert) {
         let confirm = sinon.stub();
         let closeModal = sinon.spy();
 
@@ -21,7 +20,7 @@ describe('Integration: Component: modal-transfer-owner', function () {
         await render(hbs`{{modal-transfer-owner confirm=(action confirm) closeModal=(action closeModal)}}`);
         await click('.gh-btn.gh-btn-red');
 
-        expect(confirm.calledOnce, 'confirm called').to.be.true;
-        expect(closeModal.calledOnce, 'closeModal called').to.be.true;
+        assert.true(confirm.calledOnce, 'confirm called');
+        assert.true(closeModal.calledOnce, 'closeModal called');
     });
 });

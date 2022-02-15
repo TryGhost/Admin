@@ -1,50 +1,49 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: post', function () {
-    setupTest();
+module('Unit: Model: post', function (hooks) {
+    setupTest(hooks);
 
     let store;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         store = this.owner.lookup('service:store');
     });
 
-    it('has a validation type of "post"', function () {
+    test('has a validation type of "post"', function (assert) {
         let model = store.createRecord('post');
 
-        expect(model.validationType).to.equal('post');
+        assert.strictEqual(model.validationType, 'post');
     });
 
-    it('isPublished, isDraft and isScheduled are correct', function () {
+    test('isPublished, isDraft and isScheduled are correct', function (assert) {
         let model = store.createRecord('post', {
             status: 'published'
         });
 
-        expect(model.get('isPublished')).to.be.ok;
-        expect(model.get('isDraft')).to.not.be.ok;
-        expect(model.get('isScheduled')).to.not.be.ok;
+        assert.ok(model.get('isPublished'));
+        assert.notOk(model.get('isDraft'));
+        assert.notOk(model.get('isScheduled'));
 
         run(function () {
             model.set('status', 'draft');
 
-            expect(model.get('isPublished')).to.not.be.ok;
-            expect(model.get('isDraft')).to.be.ok;
-            expect(model.get('isScheduled')).to.not.be.ok;
+            assert.notOk(model.get('isPublished'));
+            assert.ok(model.get('isDraft'));
+            assert.notOk(model.get('isScheduled'));
         });
 
         run(function () {
             model.set('status', 'scheduled');
 
-            expect(model.get('isScheduled')).to.be.ok;
-            expect(model.get('isPublished')).to.not.be.ok;
-            expect(model.get('isDraft')).to.not.be.ok;
+            assert.ok(model.get('isScheduled'));
+            assert.notOk(model.get('isPublished'));
+            assert.notOk(model.get('isDraft'));
         });
     });
 
-    it('isAuthoredByUser is correct', function () {
+    test('isAuthoredByUser is correct', function (assert) {
         let user1 = store.createRecord('user', {id: 'abcd1234'});
         let user2 = store.createRecord('user', {id: 'wxyz9876'});
 
@@ -52,16 +51,16 @@ describe('Unit: Model: post', function () {
             authors: [user1]
         });
 
-        expect(model.isAuthoredByUser(user1)).to.be.ok;
+        assert.ok(model.isAuthoredByUser(user1));
 
         run(function () {
             model.set('authors', [user2]);
 
-            expect(model.isAuthoredByUser(user1)).to.not.be.ok;
+            assert.notOk(model.isAuthoredByUser(user1));
         });
     });
 
-    it('updateTags removes and deletes old tags', function () {
+    test('updateTags removes and deletes old tags', function (assert) {
         let model = store.createRecord('post');
 
         run(this, function () {
@@ -78,16 +77,16 @@ describe('Unit: Model: post', function () {
             modelTags.pushObject(tag2);
             modelTags.pushObject(tag3);
 
-            expect(model.get('tags.length')).to.equal(3);
+            assert.strictEqual(model.get('tags.length'), 3);
 
             model.updateTags();
 
-            expect(model.get('tags.length')).to.equal(2);
-            expect(model.get('tags.firstObject.id')).to.equal('1');
-            expect(model.get('tags').objectAt(1).get('id')).to.equal('2');
-            expect(tag1.get('isDeleted')).to.not.be.ok;
-            expect(tag2.get('isDeleted')).to.not.be.ok;
-            expect(tag3.get('isDeleted')).to.be.ok;
+            assert.strictEqual(model.get('tags.length'), 2);
+            assert.strictEqual(model.get('tags.firstObject.id'), '1');
+            assert.strictEqual(model.get('tags').objectAt(1).get('id'), '2');
+            assert.notOk(tag1.get('isDeleted'));
+            assert.notOk(tag2.get('isDeleted'));
+            assert.ok(tag3.get('isDeleted'));
         });
     });
 });

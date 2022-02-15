@@ -1,26 +1,25 @@
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import {blur, fillIn, find, findAll, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {blur, fillIn, find, render} from '@ember/test-helpers';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: gh-psm-visibility-input', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-psm-visibility-input', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         this.set('post', {
             visibility: 'members'
         });
 
         await render(hbs`{{gh-psm-visibility-input post=post}}`);
 
-        expect(this.element, 'top-level elements').to.exist;
-        expect(findAll('option'), 'number of options').to.have.length(3);
-        expect(find('select').value, 'selected option value').to.equal('members');
+        assert.ok(this.element, 'top-level elements');
+        assert.dom('option').exists({count: 3}, 'number of options');
+        assert.strictEqual(find('select').value, 'members', 'selected option value');
     });
 
-    it('updates post visibility on change', async function () {
+    test('updates post visibility on change', async function (assert) {
         let setVisibility = sinon.spy();
 
         this.set('post', {
@@ -30,15 +29,15 @@ describe('Integration: Component: gh-psm-visibility-input', function () {
 
         await render(hbs`{{gh-psm-visibility-input post=post}}`);
 
-        expect(this.element, 'top-level elements').to.exist;
-        expect(findAll('option'), 'number of options').to.have.length(3);
-        expect(find('select').value, 'selected option value').to.equal('public');
+        assert.ok(this.element, 'top-level elements');
+        assert.dom('option').exists({count: 3}, 'number of options');
+        assert.strictEqual(find('select').value, 'public', 'selected option value');
 
         await fillIn('select', 'paid');
         await blur('select');
 
-        expect(setVisibility.calledTwice).to.be.true;
-        expect(setVisibility.calledWith('visibility', 'paid')).to.be.true;
-        expect(setVisibility.calledWith('tiers', [])).to.be.true;
+        assert.true(setVisibility.calledTwice);
+        assert.true(setVisibility.calledWith('visibility', 'paid'));
+        assert.true(setVisibility.calledWith('tiers', []));
     });
 });

@@ -1,73 +1,71 @@
 import Mirage from 'ember-cli-mirage';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
+import {authenticateSession,invalidateSession} from 'ember-simple-auth/test-support';
 import {blur, click, currentURL, fillIn, find, findAll, triggerEvent} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Settings - Integrations - Slack', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Settings - Integrations - Slack', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as contributor', async function () {
+    test('redirects to home page when authenticated as contributor', async function (assert) {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/posts');
+        assert.strictEqual(currentURL(), '/posts', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as author', async function () {
+    test('redirects to home page when authenticated as author', async function (assert) {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as editor', async function () {
+    test('redirects to home page when authenticated as editor', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('it validates and saves slack settings properly', async function () {
+        test('it validates and saves slack settings properly', async function (assert) {
             await visit('/settings/integrations/slack');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
+            assert.strictEqual(currentURL(), '/settings/integrations/slack', 'currentURL');
 
             await fillIn('[data-test-slack-url-input]', 'notacorrecturl');
             await click('[data-test-save-button]');
 
-            expect(find('[data-test-error="slack-url"]').textContent.trim(), 'inline validation response')
-                .to.equal('The URL must be in a format like https://hooks.slack.com/services/<your personal key>');
+            assert.strictEqual(find('[data-test-error="slack-url"]').textContent.trim(), 'The URL must be in a format like https://hooks.slack.com/services/<your personal key>', 'inline validation response');
 
             // CMD-S shortcut works
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
@@ -82,17 +80,15 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             let params = JSON.parse(newRequest.requestBody);
             let [result] = JSON.parse(params.settings.findBy('key', 'slack').value);
 
-            expect(result.url).to.equal('https://hooks.slack.com/services/1275958430');
-            expect(result.username).to.equal('SlackBot');
-            expect(find('[data-test-error="slack-url"]'), 'inline validation response')
-                .to.not.exist;
+            assert.strictEqual(result.url, 'https://hooks.slack.com/services/1275958430');
+            assert.strictEqual(result.username, 'SlackBot');
+            assert.dom('[data-test-error="slack-url"]').doesNotExist('inline validation response');
 
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
             await click('[data-test-send-notification-button]');
 
-            expect(findAll('.gh-notification').length, 'number of notifications').to.equal(1);
-            expect(find('[data-test-error="slack-url"]'), 'inline validation response')
-                .to.not.exist;
+            assert.strictEqual(findAll('.gh-notification').length, 1, 'number of notifications');
+            assert.dom('[data-test-error="slack-url"]').doesNotExist('inline validation response');
 
             this.server.put('/settings/', function () {
                 return new Mirage.Response(422, {}, {
@@ -110,37 +106,34 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
 
             // we shouldn't try to send the test request if the save fails
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
-            expect(lastRequest.url).to.not.match(/\/slack\/test/);
-            expect(findAll('.gh-notification').length, 'check slack notification after api validation error').to.equal(0);
+            assert.notMatch(lastRequest.url, /\/slack\/test/);
+            assert.strictEqual(findAll('.gh-notification').length, 0, 'check slack notification after api validation error');
         });
 
-        it('warns when leaving without saving', async function () {
+        test('warns when leaving without saving', async function (assert) {
             await visit('/settings/integrations/slack');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
+            assert.strictEqual(currentURL(), '/settings/integrations/slack', 'currentURL');
 
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
             await blur('[data-test-slack-url-input]');
 
             await visit('/settings');
 
-            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            assert.strictEqual(findAll('.fullscreen-modal').length, 1, 'modal exists');
 
             // Leave without saving
             await click('.fullscreen-modal [data-test-leave-button]');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings');
+            assert.strictEqual(currentURL(), '/settings', 'currentURL');
 
             await visit('/settings/integrations/slack');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/slack');
+            assert.strictEqual(currentURL(), '/settings/integrations/slack', 'currentURL');
 
             // settings were not saved
-            expect(
-                find('[data-test-slack-url-input]').textContent.trim(),
-                'Slack Webhook URL'
-            ).to.equal('');
+            assert.strictEqual(find('[data-test-slack-url-input]').textContent.trim(), '', 'Slack Webhook URL');
         });
     });
 });

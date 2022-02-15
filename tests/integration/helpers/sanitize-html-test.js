@@ -1,13 +1,13 @@
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Helper: sanitize-html', function () {
-    setupRenderingTest();
+module('Integration: Helper: sanitize-html', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders html', async function () {
+    test('renders html', async function (assert) {
         this.set('inputValue', '<strong>bold</strong>');
 
         await render(hbs`{{{sanitize-html inputValue}}}`);
@@ -15,7 +15,7 @@ describe('Integration: Helper: sanitize-html', function () {
         expect(this.element).to.have.trimmed.html('<strong>bold</strong>');
     });
 
-    it('replaces scripts', async function () {
+    test('replaces scripts', async function (assert) {
         this.set('inputValue', '<script></script>');
 
         await render(hbs`{{{sanitize-html inputValue}}}`);

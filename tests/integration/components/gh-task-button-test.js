@@ -1,43 +1,42 @@
 import hbs from 'htmlbars-inline-precompile';
 import {click, find, render, settled, waitFor} from '@ember/test-helpers';
 import {defineProperty} from '@ember/object';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, skip, test} from 'qunit';
 import {run} from '@ember/runloop';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 import {task, timeout} from 'ember-concurrency';
 
-describe('Integration: Component: gh-task-button', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-task-button', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         // sets button text using positional param
         await render(hbs`<GhTaskButton @buttonText="Test" />`);
-        expect(find('button')).to.exist;
-        expect(find('button')).to.contain.text('Test');
-        expect(find('button').disabled).to.be.false;
+        assert.dom('button').exists();
+        assert.dom('button').hasText('Test');
+        assert.false(find('button').disabled);
 
         await render(hbs`<GhTaskButton @class="testing" />`);
-        expect(find('button')).to.have.class('testing');
+        assert.dom('button').hasClass('testing');
         // default button text is "Save"
-        expect(find('button')).to.contain.text('Save');
+        assert.dom('button').hasText('Save');
 
         // passes disabled attr
         await render(hbs`<GhTaskButton @disabled={{true}} @buttonText="Test" />`);
-        expect(find('button').disabled).to.be.true;
+        assert.true(find('button').disabled);
         // allows button text to be set via hash param
-        expect(find('button')).to.contain.text('Test');
+        assert.dom('button').hasText('Test');
 
         // passes type attr
         await render(hbs`<GhTaskButton @type="submit" />`);
-        expect(find('button')).to.have.attr('type', 'submit');
+        assert.dom('button').hasAttribute('type', 'submit');
 
         // passes tabindex attr
         await render(hbs`<GhTaskButton @tabindex="-1" />`);
-        expect(find('button')).to.have.attr('tabindex', '-1');
+        assert.dom('button').hasAttribute('tabindex', '-1');
     });
 
-    it('shows spinner whilst running', async function () {
+    test('shows spinner whilst running', async function () {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
         }));
@@ -50,7 +49,7 @@ describe('Integration: Component: gh-task-button', function () {
         await settled();
     });
 
-    it('shows running text when passed whilst running', async function () {
+    test('shows running text when passed whilst running', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
         }));
@@ -60,28 +59,28 @@ describe('Integration: Component: gh-task-button', function () {
         this.myTask.perform();
 
         await waitFor('button svg', {timeout: 50});
-        expect(find('button')).to.contain.text('Running');
+        assert.dom('button').hasText('Running');
 
         await settled();
     });
 
-    it('appears disabled whilst running', async function () {
+    test('appears disabled whilst running', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
         }));
 
         await render(hbs`<GhTaskButton @task={{myTask}} />`);
-        expect(find('button'), 'initial class').to.not.have.class('appear-disabled');
+        assert.dom('button').doesNotHaveClass('appear-disabled', 'initial class');
 
         this.myTask.perform();
 
         await waitFor('button.appear-disabled', {timeout: 100});
         await settled();
 
-        expect(find('button'), 'ended class').to.not.have.class('appear-disabled');
+        assert.dom('button').doesNotHaveClass('appear-disabled', 'ended class');
     });
 
-    it('shows success on success', async function () {
+    test('shows success on success', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
             return true;
@@ -91,11 +90,11 @@ describe('Integration: Component: gh-task-button', function () {
 
         await this.myTask.perform();
 
-        expect(find('button')).to.have.class('gh-btn-green');
-        expect(find('button')).to.contain.text('Saved');
+        assert.dom('button').hasClass('gh-btn-green');
+        assert.dom('button').hasText('Saved');
     });
 
-    it('assigns specified success class on success', async function () {
+    test('assigns specified success class on success', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
             return true;
@@ -105,12 +104,12 @@ describe('Integration: Component: gh-task-button', function () {
 
         await this.myTask.perform();
 
-        expect(find('button')).to.not.have.class('gh-btn-green');
-        expect(find('button')).to.have.class('im-a-success');
-        expect(find('button')).to.contain.text('Saved');
+        assert.dom('button').doesNotHaveClass('gh-btn-green');
+        assert.dom('button').hasClass('im-a-success');
+        assert.dom('button').hasText('Saved');
     });
 
-    it('shows failure when task errors', async function () {
+    test('shows failure when task errors', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             try {
                 yield timeout(50);
@@ -125,12 +124,12 @@ describe('Integration: Component: gh-task-button', function () {
         this.myTask.perform();
         await waitFor('button.is-failed');
 
-        expect(find('button')).to.contain.text('Retry');
+        assert.dom('button').hasText('Retry');
 
         await settled();
     });
 
-    it('shows failure on falsy response', async function () {
+    test('shows failure on falsy response', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
             return false;
@@ -141,12 +140,12 @@ describe('Integration: Component: gh-task-button', function () {
         this.myTask.perform();
         await waitFor('button.gh-btn-red', {timeout: 50});
 
-        expect(find('button')).to.contain.text('Retry');
+        assert.dom('button').hasText('Retry');
 
         await settled();
     });
 
-    it('assigns specified failure class on failure', async function () {
+    test('assigns specified failure class on failure', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
             return false;
@@ -158,13 +157,13 @@ describe('Integration: Component: gh-task-button', function () {
 
         await waitFor('button.im-a-failure', {timeout: 50});
 
-        expect(find('button')).to.not.have.class('gh-btn-red');
-        expect(find('button')).to.contain.text('Retry');
+        assert.dom('button').doesNotHaveClass('gh-btn-red');
+        assert.dom('button').hasText('Retry');
 
         await settled();
     });
 
-    it('performs task on click', async function () {
+    test('performs task on click', async function (assert) {
         let taskCount = 0;
 
         defineProperty(this, 'myTask', task(function* () {
@@ -175,10 +174,10 @@ describe('Integration: Component: gh-task-button', function () {
         await render(hbs`<GhTaskButton @task={{myTask}} />`);
         await click('button');
 
-        expect(taskCount, 'taskCount').to.equal(1);
+        assert.strictEqual(taskCount, 1, 'taskCount');
     });
 
-    it.skip('keeps button size when showing spinner', async function () {
+    skip('keeps button size when showing spinner', async function (assert) {
         defineProperty(this, 'myTask', task(function* () {
             yield timeout(50);
         }));
@@ -186,7 +185,7 @@ describe('Integration: Component: gh-task-button', function () {
         await render(hbs`<GhTaskButton @task={{myTask}} />`);
         let width = find('button').clientWidth;
         let height = find('button').clientHeight;
-        expect(find('button')).to.not.have.attr('style');
+        assert.dom('button').doesNotHaveAttribute('style');
 
         this.myTask.perform();
 
@@ -197,12 +196,12 @@ describe('Integration: Component: gh-task-button', function () {
             let [widthInt] = width.toString().split('.');
             let [heightInt] = height.toString().split('.');
 
-            expect(find('button')).to.have.attr('style', `width: ${widthInt}`);
-            expect(find('button')).to.have.attr('style', `height: ${heightInt}`);
+            assert.dom('button').hasAttribute('style', `width: ${widthInt}`);
+            assert.dom('button').hasAttribute('style', `height: ${heightInt}`);
         }, 20);
 
         run.later(this, function () {
-            expect(find('button').getAttribute('style')).to.be.empty;
+            assert.notOk(find('button').getAttribute('style'));
         }, 100);
 
         await settled();

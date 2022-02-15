@@ -1,12 +1,11 @@
 import sinon from 'sinon';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Service: event-bus', function () {
-    setupTest();
+module('Unit: Service: event-bus', function (hooks) {
+    setupTest(hooks);
 
-    it('works', function () {
+    test('works', function (assert) {
         let service = this.owner.lookup('service:event-bus');
         let eventHandler = sinon.spy();
 
@@ -18,14 +17,8 @@ describe('Unit: Service: event-bus', function () {
 
         service.publish('test-event', 'test two');
 
-        expect(
-            eventHandler.calledOnce,
-            'event handler only triggered once'
-        ).to.be.true;
+        assert.true(eventHandler.calledOnce, 'event handler only triggered once');
 
-        expect(
-            eventHandler.calledWith('test'),
-            'event handler was passed correct arguments'
-        ).to.be.true;
+        assert.true(eventHandler.calledWith('test'), 'event handler was passed correct arguments');
     });
 });

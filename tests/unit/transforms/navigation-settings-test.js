@@ -1,27 +1,25 @@
 import NavigationItem from 'ghost-admin/models/navigation-item';
-import {describe, it} from 'mocha';
-import {A as emberA} from '@ember/array';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Transform: navigation-settings', function () {
-    setupTest();
+module('Unit: Transform: navigation-settings', function (hooks) {
+    setupTest(hooks);
 
-    it('deserializes navigation json', function () {
+    test('deserializes navigation json', function (assert) {
         let transform = this.owner.lookup('transform:navigation-settings');
         let serialized = '[{"label":"One","url":"/one"},{"label":"Two","url":"/two"}]';
         let result = transform.deserialize(serialized);
 
-        expect(result.length).to.equal(2);
-        expect(result[0]).to.be.instanceof(NavigationItem);
-        expect(result[0].get('label')).to.equal('One');
-        expect(result[0].get('url')).to.equal('/one');
-        expect(result[1]).to.be.instanceof(NavigationItem);
-        expect(result[1].get('label')).to.equal('Two');
-        expect(result[1].get('url')).to.equal('/two');
+        assert.strictEqual(result.length, 2);
+        assert.instanceOf(result[0]);
+        assert.strictEqual(result[0].get('label'), 'One');
+        assert.strictEqual(result[0].get('url'), '/one');
+        assert.instanceOf(result[1]);
+        assert.strictEqual(result[1].get('label'), 'Two');
+        assert.strictEqual(result[1].get('url'), '/two');
     });
 
-    it('serializes array of NavigationItems', function () {
+    test('serializes array of NavigationItems', function (assert) {
         let transform = this.owner.lookup('transform:navigation-settings');
         let deserialized = emberA([
             NavigationItem.create({label: 'One', url: '/one'}),
@@ -29,6 +27,6 @@ describe('Unit: Transform: navigation-settings', function () {
         ]);
         let result = transform.serialize(deserialized);
 
-        expect(result).to.equal('[{"label":"One","url":"/one"},{"label":"Two","url":"/two"}]');
+        assert.strictEqual(result, '[{"label":"One","url":"/one"},{"label":"Two","url":"/two"}]');
     });
 });

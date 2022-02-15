@@ -3,17 +3,16 @@
 import DS from 'ember-data';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {find, render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {render} from '@ember/test-helpers';
+import {setupRenderingTest} from 'ember-qunit';
 
 const {Errors} = DS;
 
-describe('Integration: Component: gh-validation-status-container', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-validation-status-container', function (hooks) {
+    setupRenderingTest(hooks);
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         let testObject = EmberObject.create();
         testObject.set('name', 'Test');
         testObject.set('hasValidated', []);
@@ -22,18 +21,18 @@ describe('Integration: Component: gh-validation-status-container', function () {
         this.set('testObject', testObject);
     });
 
-    it('has no success/error class by default', async function () {
+    test('has no success/error class by default', async function (assert) {
         await render(hbs`
             {{#gh-validation-status-container class="gh-test" property="name" errors=testObject.errors hasValidated=testObject.hasValidated}}
             {{/gh-validation-status-container}}
         `);
 
-        expect(find('.gh-test')).to.exist;
-        expect(find('.gh-test')).to.not.have.class('success');
-        expect(find('.gh-test')).to.not.have.class('error');
+        assert.dom('.gh-test').exists();
+        assert.dom('.gh-test').doesNotHaveClass('success');
+        assert.dom('.gh-test').doesNotHaveClass('error');
     });
 
-    it('has success class when valid', async function () {
+    test('has success class when valid', async function (assert) {
         this.get('testObject.hasValidated').push('name');
 
         await render(hbs`
@@ -41,12 +40,12 @@ describe('Integration: Component: gh-validation-status-container', function () {
             {{/gh-validation-status-container}}
         `);
 
-        expect(find('.gh-test')).to.exist;
-        expect(find('.gh-test')).to.have.class('success');
-        expect(find('.gh-test')).to.not.have.class('error');
+        assert.dom('.gh-test').exists();
+        assert.dom('.gh-test').hasClass('success');
+        assert.dom('.gh-test').doesNotHaveClass('error');
     });
 
-    it('has error class when invalid', async function () {
+    test('has error class when invalid', async function (assert) {
         this.get('testObject.hasValidated').push('name');
         this.get('testObject.errors').add('name', 'has error');
 
@@ -55,12 +54,12 @@ describe('Integration: Component: gh-validation-status-container', function () {
             {{/gh-validation-status-container}}
         `);
 
-        expect(find('.gh-test')).to.exist;
-        expect(find('.gh-test')).to.not.have.class('success');
-        expect(find('.gh-test')).to.have.class('error');
+        assert.dom('.gh-test').exists();
+        assert.dom('.gh-test').doesNotHaveClass('success');
+        assert.dom('.gh-test').hasClass('error');
     });
 
-    it('still renders if hasValidated is undefined', async function () {
+    test('still renders if hasValidated is undefined', async function (assert) {
         this.set('testObject.hasValidated', undefined);
 
         await render(hbs`
@@ -68,6 +67,6 @@ describe('Integration: Component: gh-validation-status-container', function () {
             {{/gh-validation-status-container}}
         `);
 
-        expect(find('.gh-test')).to.exist;
+        assert.dom('.gh-test').exists();
     });
 });

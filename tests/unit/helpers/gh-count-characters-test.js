@@ -1,37 +1,31 @@
 import {countCharacters} from 'ghost-admin/helpers/gh-count-characters';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 
-describe('Unit: Helper: gh-count-characters', function () {
+module('Unit: Helper: gh-count-characters', function () {
     let defaultStyle = 'color: rgb(69, 195, 46);';
     let errorStyle = 'color: rgb(240, 82, 48);';
 
-    it('counts remaining chars', function () {
+    test('counts remaining chars', function (assert) {
         let result = countCharacters(['test']);
-        expect(result.string)
-            .to.equal(`<span class="word-count" style="${defaultStyle}">196</span>`);
+        assert.strictEqual(result.string, `<span class="word-count" style="${defaultStyle}">196</span>`);
     });
 
-    it('warns when nearing limit', function () {
+    test('warns when nearing limit', function (assert) {
         let result = countCharacters([Array(195 + 1).join('x')]);
-        expect(result.string)
-            .to.equal(`<span class="word-count" style="${errorStyle}">5</span>`);
+        assert.strictEqual(result.string, `<span class="word-count" style="${errorStyle}">5</span>`);
     });
 
-    it('indicates too many chars', function () {
+    test('indicates too many chars', function (assert) {
         let result = countCharacters([Array(205 + 1).join('x')]);
-        expect(result.string)
-            .to.equal(`<span class="word-count" style="${errorStyle}">-5</span>`);
+        assert.strictEqual(result.string, `<span class="word-count" style="${errorStyle}">-5</span>`);
     });
 
-    it('counts multibyte correctly', function () {
+    test('counts multibyte correctly', function (assert) {
         let result = countCharacters(['💩']);
-        expect(result.string)
-            .to.equal(`<span class="word-count" style="${defaultStyle}">199</span>`);
+        assert.strictEqual(result.string, `<span class="word-count" style="${defaultStyle}">199</span>`);
 
         // emoji + modifier is still two chars
         result = countCharacters(['💃🏻']);
-        expect(result.string)
-            .to.equal(`<span class="word-count" style="${defaultStyle}">198</span>`);
+        assert.strictEqual(result.string, `<span class="word-count" style="${defaultStyle}">198</span>`);
     });
 });

@@ -1,83 +1,78 @@
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
 import {blur, click, currentURL, fillIn, find, findAll, focus, triggerEvent} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Settings - General', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Settings - General', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/settings/general');
 
-        expect(currentURL(), 'currentURL').to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as contributor', async function () {
+    test('redirects to home page when authenticated as contributor', async function (assert) {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/general');
 
-        expect(currentURL(), 'currentURL').to.equal('/posts');
+        assert.strictEqual(currentURL(), '/posts', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as author', async function () {
+    test('redirects to home page when authenticated as author', async function (assert) {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/general');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as editor', async function () {
+    test('redirects to home page when authenticated as editor', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/general');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('it renders, handles image uploads', async function () {
+        test('it renders, handles image uploads', async function (assert) {
             await visit('/settings/general');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/general');
+            assert.strictEqual(currentURL(), '/settings/general', 'currentURL');
 
             // has correct page title
-            expect(document.title, 'page title').to.equal('Settings - General - Test Blog');
+            assert.strictEqual(document.title, 'Settings - General - Test Blog', 'page title');
 
             // highlights nav menu
-            expect(find('[data-test-nav="settings"]'), 'highlights nav menu item')
-                .to.have.class('active');
+            assert.dom('[data-test-nav="settings"]').hasClass('active', 'highlights nav menu item');
 
-            expect(
-                find('[data-test-button="save"]').textContent.trim(),
-                'save button text'
-            ).to.equal('Save');
+            assert.strictEqual(find('[data-test-button="save"]').textContent.trim(), 'Save', 'save button text');
 
             await click('[data-test-toggle-pub-info]');
             await fillIn('[data-test-title-input]', 'New Blog Title');
             await click('[data-test-button="save"]');
-            expect(document.title, 'page title').to.equal('Settings - General - New Blog Title');
+            assert.strictEqual(document.title, 'Settings - General - New Blog Title', 'page title');
 
             // CMD-S shortcut works
             // -------------------------------------------------------------- //
@@ -91,68 +86,57 @@ describe('Acceptance: Settings - General', function () {
             // that we've had another save, check the request was fired instead
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
-            expect(params.settings.findBy('key', 'title').value).to.equal('CMD-S Test');
+            assert.strictEqual(params.settings.findBy('key', 'title').value, 'CMD-S Test');
         });
 
-        it('renders timezone selector correctly', async function () {
+        test('renders timezone selector correctly', async function (assert) {
             await visit('/settings/general');
             await click('[data-test-toggle-timezone]');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/general');
+            assert.strictEqual(currentURL(), '/settings/general', 'currentURL');
 
-            expect(findAll('#timezone option').length, 'available timezones').to.equal(66);
-            expect(find('#timezone option:checked').textContent.trim()).to.equal('(GMT) UTC');
+            assert.strictEqual(findAll('#timezone option').length, 66, 'available timezones');
+            assert.strictEqual(find('#timezone option:checked').textContent.trim(), '(GMT) UTC');
             find('#timezone option[value="Africa/Cairo"]').selected = true;
 
             await triggerEvent('#timezone', 'change');
             await click('[data-test-button="save"]');
-            expect(find('#timezone option:checked').textContent.trim()).to.equal('(GMT +2:00) Cairo, Egypt');
+            assert.strictEqual(find('#timezone option:checked').textContent.trim(), '(GMT +2:00) Cairo, Egypt');
         });
 
-        it('handles private blog settings correctly', async function () {
+        test('handles private blog settings correctly', async function (assert) {
             await visit('/settings/general');
 
             // handles private blog settings correctly
-            expect(find('[data-test-private-checkbox]').checked, 'isPrivate checkbox').to.be.false;
+            assert.false(find('[data-test-private-checkbox]').checked, 'isPrivate checkbox');
 
             await click('[data-test-private-checkbox]');
 
-            expect(find('[data-test-private-checkbox]').checked, 'isPrivate checkbox').to.be.true;
-            expect(findAll('[data-test-password-input]').length, 'password input').to.equal(1);
-            expect(find('[data-test-password-input]').value, 'password default value').to.not.equal('');
+            assert.true(find('[data-test-private-checkbox]').checked, 'isPrivate checkbox');
+            assert.strictEqual(findAll('[data-test-password-input]').length, 1, 'password input');
+            assert.notEqual(find('[data-test-password-input]').value, '', 'password default value');
 
             await fillIn('[data-test-password-input]', '');
             await blur('[data-test-password-input]');
 
-            expect(find('[data-test-password-error]').textContent.trim(), 'empty password error')
-                .to.equal('Password must be supplied');
+            assert.strictEqual(find('[data-test-password-error]').textContent.trim(), 'Password must be supplied', 'empty password error');
 
             await fillIn('[data-test-password-input]', 'asdfg');
             await blur('[data-test-password-input]');
 
-            expect(find('[data-test-password-error]').textContent.trim(), 'present password error')
-                .to.equal('');
+            assert.strictEqual(find('[data-test-password-error]').textContent.trim(), '', 'present password error');
         });
 
-        it('handles social blog settings correctly', async function () {
+        test('handles social blog settings correctly', async function (assert) {
             let testSocialInput = async function (type, input, expectedValue, expectedError = '') {
                 await fillIn(`[data-test-${type}-input]`, input);
                 await blur(`[data-test-${type}-input]`);
 
-                expect(
-                    find(`[data-test-${type}-input]`).value,
-                    `${type} value for ${input}`
-                ).to.equal(expectedValue);
+                assert.strictEqual(find(`[data-test-${type}-input]`).value, expectedValue, `${type} value for ${input}`);
 
-                expect(
-                    find(`[data-test-${type}-error]`).textContent.trim(),
-                    `${type} validation response for ${input}`
-                ).to.equal(expectedError);
+                assert.strictEqual(find(`[data-test-${type}-error]`).textContent.trim(), expectedError, `${type} validation response for ${input}`);
 
-                expect(
-                    find(`[data-test-${type}-input]`).closest('.form-group').classList.contains('error'),
-                    `${type} input should be in error state with '${input}'`
-                ).to.equal(!!expectedError);
+                assert.strictEqual(find(`[data-test-${type}-input]`).closest('.form-group').classList.contains('error'), !!expectedError, `${type} input should be in error state with '${input}'`);
             };
 
             let testFacebookValidation = async (...args) => testSocialInput('facebook', ...args);
@@ -163,16 +147,14 @@ describe('Acceptance: Settings - General', function () {
 
             // validates a facebook url correctly
             // loads fixtures and performs transform
-            expect(find('[data-test-facebook-input]').value, 'initial facebook value')
-                .to.equal('https://www.facebook.com/test');
+            assert.strictEqual(find('[data-test-facebook-input]').value, 'https://www.facebook.com/test', 'initial facebook value');
 
             await focus('[data-test-facebook-input]');
             await blur('[data-test-facebook-input]');
 
             // regression test: we still have a value after the input is
             // focused and then blurred without any changes
-            expect(find('[data-test-facebook-input]').value, 'facebook value after blur with no change')
-                .to.equal('https://www.facebook.com/test');
+            assert.strictEqual(find('[data-test-facebook-input]').value, 'https://www.facebook.com/test', 'facebook value after blur with no change');
 
             await testFacebookValidation(
                 'facebook.com/username',
@@ -215,16 +197,14 @@ describe('Acceptance: Settings - General', function () {
             // validates a twitter url correctly
 
             // loads fixtures and performs transform
-            expect(find('[data-test-twitter-input]').value, 'initial twitter value')
-                .to.equal('https://twitter.com/test');
+            assert.strictEqual(find('[data-test-twitter-input]').value, 'https://twitter.com/test', 'initial twitter value');
 
             await focus('[data-test-twitter-input]');
             await blur('[data-test-twitter-input]');
 
             // regression test: we still have a value after the input is
             // focused and then blurred without any changes
-            expect(find('[data-test-twitter-input]').value, 'twitter value after blur with no change')
-                .to.equal('https://twitter.com/test');
+            assert.strictEqual(find('[data-test-twitter-input]').value, 'https://twitter.com/test', 'twitter value after blur with no change');
 
             await testTwitterValidation(
                 'twitter.com/username',
@@ -249,47 +229,35 @@ describe('Acceptance: Settings - General', function () {
                 'Your Username is not a valid Twitter Username');
         });
 
-        it('warns when leaving without saving', async function () {
+        test('warns when leaving without saving', async function (assert) {
             await visit('/settings/general');
 
-            expect(
-                find('[data-test-private-checkbox]').checked,
-                'private blog checkbox'
-            ).to.be.false;
+            assert.false(find('[data-test-private-checkbox]').checked, 'private blog checkbox');
 
             await click('[data-test-toggle-pub-info]');
             await fillIn('[data-test-title-input]', 'New Blog Title');
 
             await click('[data-test-private-checkbox]');
 
-            expect(
-                find('[data-test-private-checkbox]').checked,
-                'private blog checkbox'
-            ).to.be.true;
+            assert.true(find('[data-test-private-checkbox]').checked, 'private blog checkbox');
 
             await visit('/settings/staff');
 
-            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            assert.strictEqual(findAll('.fullscreen-modal').length, 1, 'modal exists');
 
             // Leave without saving
             await click('.fullscreen-modal [data-test-leave-button]');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/staff');
+            assert.strictEqual(currentURL(), '/settings/staff', 'currentURL');
 
             await visit('/settings/general');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/general');
+            assert.strictEqual(currentURL(), '/settings/general', 'currentURL');
 
             // settings were not saved
-            expect(
-                find('[data-test-private-checkbox]').checked,
-                'private blog checkbox'
-            ).to.be.false;
+            assert.false(find('[data-test-private-checkbox]').checked, 'private blog checkbox');
 
-            expect(
-                find('[data-test-title-input]').textContent.trim(),
-                'Blog title'
-            ).to.equal('');
+            assert.strictEqual(find('[data-test-title-input]').textContent.trim(), '', 'Blog title');
         });
     });
 });

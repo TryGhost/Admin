@@ -1,19 +1,18 @@
 import hbs from 'htmlbars-inline-precompile';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, skip} from 'qunit';
 import {render} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe.skip('Integration: Component: gh-whats-new', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-whats-new', function (hooks) {
+    setupRenderingTest(hooks);
 
-    it('renders', async function () {
+    skip('renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
         await render(hbs`<GhWhatsNew />`);
 
-        expect(this.element.textContent.trim()).to.equal('');
+        assert.strictEqual(this.element.textContent.trim(), '');
 
         // Template block usage:
         await render(hbs`
@@ -22,6 +21,6 @@ describe.skip('Integration: Component: gh-whats-new', function () {
       </GhWhatsNew>
     `);
 
-        expect(this.element.textContent.trim()).to.equal('template block text');
+        assert.strictEqual(this.element.textContent.trim(), 'template block text');
     });
 });

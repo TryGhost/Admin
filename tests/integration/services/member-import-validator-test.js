@@ -1,15 +1,14 @@
 import Pretender from 'pretender';
 import Service from '@ember/service';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
 let MembersUtilsStub = Service.extend({
     isStripeEnabled: true
 });
 
-describe('Integration: Service: member-import-validator', function () {
-    setupTest();
+module('Integration: Service: member-import-validator', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
@@ -22,7 +21,7 @@ describe('Integration: Service: member-import-validator', function () {
         server.shutdown();
     });
 
-    it('checks correct data without Stripe customer', async function () {
+    test('checks correct data without Stripe customer', async function (assert) {
         let service = this.owner.lookup('service:member-import-validator');
 
         const mapping = await service.check([{
@@ -30,11 +29,11 @@ describe('Integration: Service: member-import-validator', function () {
             email: 'validemail@example.com'
         }]);
 
-        expect(mapping.email).to.equal('email');
+        assert.strictEqual(mapping.email, 'email');
     });
 
-    describe('data sampling method', function () {
-        it('returns whole data set when sampled size is less then default 30', async function () {
+    module('data sampling method', function () {
+        test('returns whole data set when sampled size is less then default 30', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -47,10 +46,10 @@ describe('Integration: Service: member-import-validator', function () {
                 email: 'email2@example.com'
             }]);
 
-            expect(result.length).to.equal(2);
+            assert.strictEqual(result.length, 2);
         });
 
-        it('returns dataset with sample size for non empty values only', async function () {
+        test('returns dataset with sample size for non empty values only', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -70,13 +69,13 @@ describe('Integration: Service: member-import-validator', function () {
 
             const result = await service._sampleData(data, 3);
 
-            expect(result.length).to.equal(3);
-            expect(result[0].email).to.equal('email2@example.com');
-            expect(result[1].email).to.equal('email3@example.com');
-            expect(result[2].email).to.equal('email4@example.com');
+            assert.strictEqual(result.length, 3);
+            assert.strictEqual(result[0].email, 'email2@example.com');
+            assert.strictEqual(result[1].email, 'email3@example.com');
+            assert.strictEqual(result[2].email, 'email4@example.com');
         });
 
-        it('returns dataset with sample size for non empty values for objects with multiple properties', async function () {
+        test('returns dataset with sample size for non empty values for objects with multiple properties', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -100,18 +99,18 @@ describe('Integration: Service: member-import-validator', function () {
 
             const result = await service._sampleData(data, 3);
 
-            expect(result.length).to.equal(3);
-            expect(result[0].email).to.equal('email2@example.com');
-            expect(result[0].other_prop).to.equal('non empty 1');
-            expect(result[1].email).to.equal('email3@example.com');
-            expect(result[1].other_prop).to.equal('non empty 2');
-            expect(result[2].email).to.equal('email4@example.com');
-            expect(result[2].other_prop).to.equal('non empty 5');
+            assert.strictEqual(result.length, 3);
+            assert.strictEqual(result[0].email, 'email2@example.com');
+            assert.strictEqual(result[0].other_prop, 'non empty 1');
+            assert.strictEqual(result[1].email, 'email3@example.com');
+            assert.strictEqual(result[1].other_prop, 'non empty 2');
+            assert.strictEqual(result[2].email, 'email4@example.com');
+            assert.strictEqual(result[2].other_prop, 'non empty 5');
         });
     });
 
-    describe('data detection method', function () {
-        it('correctly detects only email mapping', async function () {
+    module('data detection method', function () {
+        test('correctly detects only email mapping', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -124,11 +123,11 @@ describe('Integration: Service: member-import-validator', function () {
                 correo_electronico: 'email2@example.com'
             }]);
 
-            expect(result.email).to.equal('correo_electronico');
-            expect(result.stripe_customer_id).to.equal(undefined);
+            assert.strictEqual(result.email, 'correo_electronico');
+            assert.strictEqual(result.stripe_customer_id, undefined);
         });
 
-        it('correctly detects only email mapping', async function () {
+        test('correctly detects only email mapping', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -143,10 +142,10 @@ describe('Integration: Service: member-import-validator', function () {
                 stripe_id: 'cus_'
             }]);
 
-            expect(result.email).to.equal('correo_electronico');
+            assert.strictEqual(result.email, 'correo_electronico');
         });
 
-        it('correctly detects variation of "name" mapping', async function () {
+        test('correctly detects variation of "name" mapping', async function (assert) {
             this.owner.register('service:membersUtils', Service.extend({
                 isStripeEnabled: false
             }));
@@ -157,7 +156,7 @@ describe('Integration: Service: member-import-validator', function () {
                 first_name: 'Rish'
             }]);
 
-            expect(result.name).to.equal('first_name');
+            assert.strictEqual(result.name, 'first_name');
         });
     });
 });

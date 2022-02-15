@@ -1,69 +1,64 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {
-    beforeEach,
-    describe,
-    it
-} from 'mocha';
 import {currentURL} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Settings - Integrations - Zapier', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Settings - Integrations - Zapier', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/settings/integrations/zapier');
 
-        expect(currentURL(), 'currentURL').to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as contributor', async function () {
+    test('redirects to home page when authenticated as contributor', async function (assert) {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/zapier');
 
-        expect(currentURL(), 'currentURL').to.equal('/posts');
+        assert.strictEqual(currentURL(), '/posts', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as author', async function () {
+    test('redirects to home page when authenticated as author', async function (assert) {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/zapier');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as editor', async function () {
+    test('redirects to home page when authenticated as editor', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/zapier');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('it loads', async function () {
+        test('it loads', async function (assert) {
             await visit('/settings/integrations/zapier');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/integrations/zapier');
+            assert.strictEqual(currentURL(), '/settings/integrations/zapier', 'currentURL');
         });
     });
 });

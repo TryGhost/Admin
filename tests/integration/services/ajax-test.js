@@ -1,6 +1,5 @@
 import Pretender from 'pretender';
 import config from 'ghost-admin/config/environment';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {
     isAjaxError,
@@ -12,7 +11,8 @@ import {
     isUnsupportedMediaTypeError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
 function stubAjaxEndpoint(server, response = {}, code = 200) {
     server.get('/test/', function () {
@@ -24,20 +24,20 @@ function stubAjaxEndpoint(server, response = {}, code = 200) {
     });
 }
 
-describe('Integration: Service: ajax', function () {
-    setupTest();
+module('Integration: Service: ajax', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('adds Ghost version header to requests', function (done) {
+    test('adds Ghost version header to requests', function (assert) {
         let {version} = config.APP;
         let ajax = this.owner.lookup('service:ajax');
 
@@ -45,12 +45,11 @@ describe('Integration: Service: ajax', function () {
 
         ajax.request('/test/').then(() => {
             let [request] = server.handledRequests;
-            expect(request.requestHeaders['X-Ghost-Version']).to.equal(version);
-            done();
+            assert.strictEqual(request.requestHeaders['X-Ghost-Version'], version);
         });
     });
 
-    it('correctly parses single message response text', function (done) {
+    test('correctly parses single message response text', function (assert) {
         let errorResponse = {message: 'Test Error'};
         stubAjaxEndpoint(server, errorResponse, 500);
 
@@ -59,13 +58,12 @@ describe('Integration: Service: ajax', function () {
         ajax.request('/test/').then(() => {
             expect(false).to.be.true();
         }).catch((error) => {
-            expect(error.payload.errors.length).to.equal(1);
-            expect(error.payload.errors[0].message).to.equal('Test Error');
-            done();
+            assert.strictEqual(error.payload.errors.length, 1);
+            assert.strictEqual(error.payload.errors[0].message, 'Test Error');
         });
     });
 
-    it('correctly parses single error response text', function (done) {
+    test('correctly parses single error response text', function (assert) {
         let errorResponse = {error: 'Test Error'};
         stubAjaxEndpoint(server, errorResponse, 500);
 
@@ -74,13 +72,12 @@ describe('Integration: Service: ajax', function () {
         ajax.request('/test/').then(() => {
             expect(false).to.be.true();
         }).catch((error) => {
-            expect(error.payload.errors.length).to.equal(1);
-            expect(error.payload.errors[0].message).to.equal('Test Error');
-            done();
+            assert.strictEqual(error.payload.errors.length, 1);
+            assert.strictEqual(error.payload.errors[0].message, 'Test Error');
         });
     });
 
-    it('correctly parses multiple error messages', function (done) {
+    test('correctly parses multiple error messages', function (assert) {
         let errorResponse = {errors: ['First Error', 'Second Error']};
         stubAjaxEndpoint(server, errorResponse, 500);
 
@@ -89,40 +86,37 @@ describe('Integration: Service: ajax', function () {
         ajax.request('/test/').then(() => {
             expect(false).to.be.true();
         }).catch((error) => {
-            expect(error.payload.errors.length).to.equal(2);
-            expect(error.payload.errors[0].message).to.equal('First Error');
-            expect(error.payload.errors[1].message).to.equal('Second Error');
-            done();
+            assert.strictEqual(error.payload.errors.length, 2);
+            assert.strictEqual(error.payload.errors[0].message, 'First Error');
+            assert.strictEqual(error.payload.errors[1].message, 'Second Error');
         });
     });
 
-    it('returns default error object for non built-in error', function (done) {
+    test('returns default error object for non built-in error', function (assert) {
         stubAjaxEndpoint(server, {}, 500);
 
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isAjaxError(error)).to.be.true;
-            done();
+            assert.true(isAjaxError(error));
         });
     });
 
-    it('handles error checking for built-in errors', function (done) {
+    test('handles error checking for built-in errors', function (assert) {
         stubAjaxEndpoint(server, '', 401);
 
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isUnauthorizedError(error)).to.be.true;
-            done();
+            assert.true(isUnauthorizedError(error));
         });
     });
 
-    it('handles error checking for VersionMismatchError', function (done) {
+    test('handles error checking for VersionMismatchError', function (assert) {
         server.get('/test/', function () {
             return [
                 400,
@@ -139,49 +133,45 @@ describe('Integration: Service: ajax', function () {
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isVersionMismatchError(error)).to.be.true;
-            done();
+            assert.true(isVersionMismatchError(error));
         });
     });
 
-    it('handles error checking for RequestEntityTooLargeError on 413 errors', function (done) {
+    test('handles error checking for RequestEntityTooLargeError on 413 errors', function (assert) {
         stubAjaxEndpoint(server, {}, 413);
 
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isRequestEntityTooLargeError(error)).to.be.true;
-            done();
+            assert.true(isRequestEntityTooLargeError(error));
         });
     });
 
-    it('handles error checking for UnsupportedMediaTypeError on 415 errors', function (done) {
+    test('handles error checking for UnsupportedMediaTypeError on 415 errors', function (assert) {
         stubAjaxEndpoint(server, {}, 415);
 
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isUnsupportedMediaTypeError(error)).to.be.true;
-            done();
+            assert.true(isUnsupportedMediaTypeError(error));
         });
     });
 
-    it('handles error checking for MaintenanceError on 503 errors', function (done) {
+    test('handles error checking for MaintenanceError on 503 errors', function (assert) {
         stubAjaxEndpoint(server, {}, 503);
 
         let ajax = this.owner.lookup('service:ajax');
 
         ajax.request('/test/').then(() => {
-            expect(false).to.be.true;
+            assert.false(true);
         }).catch((error) => {
-            expect(isMaintenanceError(error)).to.be.true;
-            done();
+            assert.true(isMaintenanceError(error));
         });
     });
 });

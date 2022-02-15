@@ -1,24 +1,23 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: role', function () {
-    setupTest();
+module('Unit: Model: role', function (hooks) {
+    setupTest(hooks);
 
-    it('provides a lowercase version of the name', function () {
+    test('provides a lowercase version of the name', function (assert) {
         let model = this.owner.lookup('service:store').createRecord('role', {
             name: 'Author'
         });
 
-        expect(model.get('name')).to.equal('Author');
-        expect(model.get('lowerCaseName')).to.equal('author');
+        assert.strictEqual(model.get('name'), 'Author');
+        assert.strictEqual(model.get('lowerCaseName'), 'author');
 
         run(function () {
             model.set('name', 'Editor');
 
-            expect(model.get('name')).to.equal('Editor');
-            expect(model.get('lowerCaseName')).to.equal('editor');
+            assert.strictEqual(model.get('name'), 'Editor');
+            assert.strictEqual(model.get('lowerCaseName'), 'editor');
         });
     });
 });

@@ -1,44 +1,43 @@
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import {click, find, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
 const featureStub = Service.extend({
     testFlag: true
 });
 
-describe('Integration: Component: gh-feature-flag', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-feature-flag', function (hooks) {
+    setupRenderingTest(hooks);
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         this.owner.register('service:feature', featureStub);
     });
 
-    it('renders properties correctly', async function () {
+    test('renders properties correctly', async function (assert) {
         await render(hbs`<GhFeatureFlag @flag="testFlag" />`);
-        expect(find('label').getAttribute('for')).to.equal(find('input[type="checkbox"]').id);
+        assert.strictEqual(find('label').getAttribute('for'), find('input[type="checkbox"]').id);
     });
 
-    it('renders correctly when flag is set to true', async function () {
+    test('renders correctly when flag is set to true', async function (assert) {
         await render(hbs`<GhFeatureFlag @flag="testFlag" />`);
-        expect(find('label input[type="checkbox"]').checked).to.be.true;
+        assert.true(find('label input[type="checkbox"]').checked);
     });
 
-    it('renders correctly when flag is set to false', async function () {
+    test('renders correctly when flag is set to false', async function (assert) {
         let feature = this.owner.lookup('service:feature');
         feature.set('testFlag', false);
 
         await render(hbs`<GhFeatureFlag @flag="testFlag" />`);
-        expect(find('label input[type="checkbox"]').checked).to.be.false;
+        assert.false(find('label input[type="checkbox"]').checked);
     });
 
-    it('updates to reflect changes in flag property', async function () {
+    test('updates to reflect changes in flag property', async function (assert) {
         await render(hbs`<GhFeatureFlag @flag="testFlag" />`);
-        expect(find('label input[type="checkbox"]').checked).to.be.true;
+        assert.true(find('label input[type="checkbox"]').checked);
 
         await click('label');
-        expect(find('label input[type="checkbox"]').checked).to.be.false;
+        assert.false(find('label input[type="checkbox"]').checked);
     });
 });

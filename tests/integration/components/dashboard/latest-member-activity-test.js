@@ -1,34 +1,33 @@
 import hbs from 'htmlbars-inline-precompile';
 import {authenticateSession} from 'ember-simple-auth/test-support';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {find, findAll, render} from '@ember/test-helpers';
+import {findAll, render} from '@ember/test-helpers';
+import {module, test} from 'qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
-describe('Integration: Component: <Dashboard::LatestMemberActivity>', function () {
-    const hooks = setupRenderingTest();
+module('Integration: Component: <Dashboard::LatestMemberActivity>', function (hooks) {
+    setupRenderingTest(hooks);
     setupMirage(hooks);
 
-    it('renders with no activities', async function () {
+    test('renders with no activities', async function (assert) {
         await render(hbs(`<Dashboard::LatestMemberActivity />`));
 
-        expect(find('[data-test-dashboard-member-activity]')).to.exist;
-        expect(find('[data-test-no-member-activities]')).to.exist;
+        assert.dom('[data-test-dashboard-member-activity]').exists();
+        assert.dom('[data-test-no-member-activities]').exists();
     });
 
-    it('renders 5 latest activities', async function () {
+    test('renders 5 latest activities', async function (assert) {
         this.server.createList('member-activity-event', 10);
 
         await render(hbs(`<Dashboard::LatestMemberActivity />`));
 
-        expect(find('[data-test-dashboard-member-activity]')).to.exist;
-        expect(find('[data-test-no-member-activities]')).to.not.exist;
+        assert.dom('[data-test-dashboard-member-activity]').exists();
+        assert.dom('[data-test-no-member-activities]').doesNotExist();
 
-        expect(findAll('[data-test-dashboard-member-activity-item]').length).to.equal(5);
+        assert.strictEqual(findAll('[data-test-dashboard-member-activity-item]').length, 5);
     });
 
-    it('renders nothing when owner has not completed launch', async function () {
+    test('renders nothing when owner has not completed launch', async function (assert) {
         let role = this.server.create('role', {name: 'Owner'});
         this.server.create('user', {roles: [role]});
         await authenticateSession();
@@ -45,6 +44,6 @@ describe('Integration: Component: <Dashboard::LatestMemberActivity>', function (
 
         await render(hbs(`<Dashboard::LatestMemberActivity />`));
 
-        expect(find('[data-test-dashboard-member-activity]')).to.not.exist;
+        assert.dom('[data-test-dashboard-member-activity]').doesNotExist();
     });
 });

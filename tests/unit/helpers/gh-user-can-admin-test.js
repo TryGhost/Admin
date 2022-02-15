@@ -1,10 +1,9 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
 import {ghUserCanAdmin} from 'ghost-admin/helpers/gh-user-can-admin';
+import {module, test} from 'qunit';
 
-describe('Unit: Helper: gh-user-can-admin', function () {
+module('Unit: Helper: gh-user-can-admin', function () {
     // Mock up roles and test for truthy
-    describe('Owner or admin roles', function () {
+    module('Owner or admin roles', function () {
         let user = {
             get(role) {
                 if (role === 'isAdmin') {
@@ -14,13 +13,13 @@ describe('Unit: Helper: gh-user-can-admin', function () {
             }
         };
 
-        it(' - can be Admin', function () {
+        test(' - can be Admin', function (assert) {
             let result = ghUserCanAdmin([user]);
-            expect(result).to.equal(true);
+            assert.true(result);
         });
     });
 
-    describe('Editor, Author & Contributor roles', function () {
+    module('Editor, Author & Contributor roles', function () {
         let user = {
             get(role) {
                 if (role === 'isAdmin') {
@@ -30,9 +29,9 @@ describe('Unit: Helper: gh-user-can-admin', function () {
             }
         };
 
-        it(' - cannot be Admin', function () {
+        test(' - cannot be Admin', function (assert) {
             let result = ghUserCanAdmin([user]);
-            expect(result).to.equal(false);
+            assert.false(result);
         });
     });
 });

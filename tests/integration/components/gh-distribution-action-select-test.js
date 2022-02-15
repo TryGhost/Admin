@@ -1,16 +1,15 @@
 import hbs from 'htmlbars-inline-precompile';
 import mockPosts from '../../../mirage/config/posts';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {render, settled} from '@ember/test-helpers';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 
-describe('Integration: Component: gh-distribution-action-select', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-distribution-action-select', function (hooks) {
+    setupRenderingTest(hooks);
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = startMirage();
         let author = server.create('user');
 
@@ -21,16 +20,16 @@ describe('Integration: Component: gh-distribution-action-select', function () {
         this.set('store', this.owner.lookup('service:store'));
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('renders', async function () {
+    test('renders', async function (assert) {
         this.set('post', this.store.findRecord('post', 1));
         await settled();
 
         await render(hbs`<GhDistributionActionSelect @post=post />`);
 
-        expect(this.element, 'top-level elements').to.exist;
+        assert.ok(this.element, 'top-level elements');
     });
 });

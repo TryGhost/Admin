@@ -1,16 +1,15 @@
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {authenticateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
+import {beforeEach, module, test} from 'qunit';
 import {click, fillIn, find, triggerKeyEvent, visit} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 
 // keyCodes
 const KEY_S = 83;
 
-describe('Acceptance: Custom Post Templates', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Custom Post Templates', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
     beforeEach(async function () {
@@ -22,8 +21,8 @@ describe('Acceptance: Custom Post Templates', function () {
         return await authenticateSession();
     });
 
-    describe('with custom templates', function () {
-        beforeEach(function () {
+    module('with custom templates', function (hooks) {
+        hooks.beforeEach(function () {
             this.server.create('theme', {
                 active: true,
                 name: 'example-theme',
@@ -60,27 +59,27 @@ describe('Acceptance: Custom Post Templates', function () {
             });
         });
 
-        it('can change selected template', async function () {
+        test('can change selected template', async function (assert) {
             let post = this.server.create('post', {customTemplate: 'custom-news-bulletin.hbs'});
 
             await visit('/editor/post/1');
             await click('[data-test-psm-trigger]');
 
             // template form should be shown
-            expect(find('[data-test-custom-template-form]')).to.exist;
+            assert.dom('[data-test-custom-template-form]').exists();
 
             // custom template should be selected
             let select = find('[data-test-select="custom-template"]');
-            expect(select.value, 'selected value').to.equal('custom-news-bulletin.hbs');
+            assert.strictEqual(select.value, 'custom-news-bulletin.hbs', 'selected value');
 
             // templates list should contain default and custom templates in alphabetical order
-            expect(select.options.length).to.equal(3);
-            expect(select.options.item(0).value, 'default value').to.equal('');
-            expect(select.options.item(0).text, 'default text').to.equal('Default');
-            expect(select.options.item(1).value, 'first custom value').to.equal('custom-big-images.hbs');
-            expect(select.options.item(1).text, 'first custom text').to.equal('Big Images');
-            expect(select.options.item(2).value, 'second custom value').to.equal('custom-news-bulletin.hbs');
-            expect(select.options.item(2).text, 'second custom text').to.equal('News Bulletin');
+            assert.strictEqual(select.options.length, 3);
+            assert.strictEqual(select.options.item(0).value, '', 'default value');
+            assert.strictEqual(select.options.item(0).text, 'Default', 'default text');
+            assert.strictEqual(select.options.item(1).value, 'custom-big-images.hbs', 'first custom value');
+            assert.strictEqual(select.options.item(1).text, 'Big Images', 'first custom text');
+            assert.strictEqual(select.options.item(2).value, 'custom-news-bulletin.hbs', 'second custom value');
+            assert.strictEqual(select.options.item(2).text, 'News Bulletin', 'second custom text');
 
             // select the default template
             await fillIn(select, '');
@@ -91,15 +90,12 @@ describe('Acceptance: Custom Post Templates', function () {
                 ctrlKey: ctrlOrCmd === 'ctrl'
             });
 
-            expect(
-                this.server.db.posts.find(post.id).customTemplate,
-                'saved custom template'
-            ).to.equal('');
+            assert.strictEqual(this.server.db.posts.find(post.id).customTemplate, '', 'saved custom template');
         });
 
-        it('disables template selector if slug matches slug-based template');
+        test('disables template selector if slug matches slug-based template');
 
-        it('doesn\'t query themes endpoint unncessarily', async function () {
+        test('doesn\'t query themes endpoint unncessarily', async function (assert) {
             // eslint-disable-next-line
             let themeRequests = () => {
                 return this.server.pretender.handledRequests.filter(function (request) {
@@ -112,17 +108,17 @@ describe('Acceptance: Custom Post Templates', function () {
             await visit('/editor/post/1');
             await click('[data-test-psm-trigger]');
 
-            expect(themeRequests().length, 'after first open').to.equal(1);
+            assert.strictEqual(themeRequests().length, 1, 'after first open');
 
             await click('[data-test-psm-trigger]'); // hide
             await click('[data-test-psm-trigger]'); // show
 
-            expect(themeRequests().length, 'after second open').to.equal(1);
+            assert.strictEqual(themeRequests().length, 1, 'after second open');
         });
     });
 
-    describe('without custom templates', function () {
-        beforeEach(function () {
+    module('without custom templates', function (hooks) {
+        hooks.beforeEach(function () {
             this.server.create('theme', {
                 active: true,
                 name: 'example-theme',
@@ -134,14 +130,14 @@ describe('Acceptance: Custom Post Templates', function () {
             });
         });
 
-        it('doesn\'t show template selector', async function () {
+        test('doesn\'t show template selector', async function (assert) {
             this.server.create('post', {customTemplate: 'custom-news-bulletin.hbs'});
 
             await visit('/editor/post/1');
             await click('[data-test-psm-trigger]');
 
             // template form should be shown
-            expect(find('[data-test-custom-template-form]')).to.not.exist;
+            assert.dom('[data-test-custom-template-form]').doesNotExist();
         });
     });
 });

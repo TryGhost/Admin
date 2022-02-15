@@ -7,10 +7,9 @@ import sinon from 'sinon';
 import {UnsupportedMediaTypeError} from 'ghost-admin/services/ajax';
 import {click, find, findAll, render, settled, triggerEvent} from '@ember/test-helpers';
 import {createFile, fileUpload} from '../../helpers/file-upload';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {run} from '@ember/runloop';
-import {setupRenderingTest} from 'ember-mocha';
+import {setupRenderingTest} from 'ember-qunit';
 
 const notificationsStub = Service.extend({
     showAPIError(/* error, options */) {
@@ -46,8 +45,8 @@ const stubFailedUpload = function (server, code, error, delay = 0) {
     }, delay);
 };
 
-describe('Integration: Component: gh-image-uploader', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-image-uploader', function (hooks) {
+    setupRenderingTest(hooks);
 
     let server;
 
@@ -62,28 +61,28 @@ describe('Integration: Component: gh-image-uploader', function () {
         server.shutdown();
     });
 
-    it('renders form with supplied alt text', async function () {
+    test('renders form with supplied alt text', async function (assert) {
         await render(hbs`{{gh-image-uploader image=image altText="text test"}}`);
-        expect(find('[data-test-file-input-description]')).to.have.trimmed.text('Upload image of "text test"');
+        assert.dom('[data-test-file-input-description]').hasText('Upload image of "text test"');
     });
 
-    it('renders form with supplied text', async function () {
+    test('renders form with supplied text', async function (assert) {
         await render(hbs`{{gh-image-uploader image=image text="text test"}}`);
-        expect(find('[data-test-file-input-description]')).to.have.trimmed.text('text test');
+        assert.dom('[data-test-file-input-description]').hasText('text test');
     });
 
-    it('generates request to correct endpoint', async function () {
+    test('generates request to correct endpoint', async function (assert) {
         stubSuccessfulUpload(server);
 
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(server.handledRequests.length).to.equal(1);
-        expect(server.handledRequests[0].url).to.equal(`${ghostPaths().apiRoot}/images/upload/`);
-        expect(server.handledRequests[0].requestHeaders.Authorization).to.be.undefined;
+        assert.strictEqual(server.handledRequests.length, 1);
+        assert.strictEqual(server.handledRequests[0].url, `${ghostPaths().apiRoot}/images/upload/`);
+        assert.notOk(server.handledRequests[0].requestHeaders.Authorization);
     });
 
-    it('fires update action on successful upload', async function () {
+    test('fires update action on successful upload', async function (assert) {
         let update = sinon.spy();
         this.set('update', update);
 
@@ -92,11 +91,11 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(update.calledOnce).to.be.true;
-        expect(update.firstCall.args[0]).to.equal('/content/images/test.png');
+        assert.true(update.calledOnce);
+        assert.strictEqual(update.firstCall.args[0], '/content/images/test.png');
     });
 
-    it('doesn\'t fire update action on failed upload', async function () {
+    test('doesn\'t fire update action on failed upload', async function (assert) {
         let update = sinon.spy();
         this.set('update', update);
 
@@ -105,10 +104,10 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(update.calledOnce).to.be.false;
+        assert.false(update.calledOnce);
     });
 
-    it('fires fileSelected action on file selection', async function () {
+    test('fires fileSelected action on file selection', async function (assert) {
         let fileSelected = sinon.spy();
         this.set('fileSelected', fileSelected);
 
@@ -117,11 +116,11 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image fileSelected=(action fileSelected) update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(fileSelected.calledOnce).to.be.true;
-        expect(fileSelected.args[0]).to.not.be.empty;
+        assert.true(fileSelected.calledOnce);
+        assert.ok(fileSelected.args[0]);
     });
 
-    it('fires uploadStarted action on upload start', async function () {
+    test('fires uploadStarted action on upload start', async function (assert) {
         let uploadStarted = sinon.spy();
         this.set('uploadStarted', uploadStarted);
 
@@ -130,10 +129,10 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image uploadStarted=(action uploadStarted) update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(uploadStarted.calledOnce).to.be.true;
+        assert.true(uploadStarted.calledOnce);
     });
 
-    it('fires uploadFinished action on successful upload', async function () {
+    test('fires uploadFinished action on successful upload', async function (assert) {
         let uploadFinished = sinon.spy();
         this.set('uploadFinished', uploadFinished);
 
@@ -142,10 +141,10 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image uploadFinished=(action uploadFinished) update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(uploadFinished.calledOnce).to.be.true;
+        assert.true(uploadFinished.calledOnce);
     });
 
-    it('fires uploadFinished action on failed upload', async function () {
+    test('fires uploadFinished action on failed upload', async function (assert) {
         let uploadFinished = sinon.spy();
         this.set('uploadFinished', uploadFinished);
 
@@ -154,61 +153,61 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image uploadFinished=(action uploadFinished) update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(uploadFinished.calledOnce).to.be.true;
+        assert.true(uploadFinished.calledOnce);
     });
 
-    it('displays invalid file type error', async function () {
+    test('displays invalid file type error', async function (assert) {
         stubFailedUpload(server, 415, 'UnsupportedMediaTypeError');
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
-        expect(findAll('.gh-btn-green').length, 'reset button is displayed').to.equal(1);
-        expect(find('.gh-btn-green').textContent).to.equal('Try Again');
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /The image type you uploaded is not supported/);
+        assert.strictEqual(findAll('.gh-btn-green').length, 1, 'reset button is displayed');
+        assert.strictEqual(find('.gh-btn-green').textContent, 'Try Again');
     });
 
-    it('displays file too large for server error', async function () {
+    test('displays file too large for server error', async function (assert) {
         stubFailedUpload(server, 413, 'RequestEntityTooLargeError');
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/The image you uploaded was larger/);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /The image you uploaded was larger/);
     });
 
-    it('handles file too large error directly from the web server', async function () {
+    test('handles file too large error directly from the web server', async function (assert) {
         server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
             return [413, {}, ''];
         });
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/The image you uploaded was larger/);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /The image you uploaded was larger/);
     });
 
-    it('displays other server-side error with message', async function () {
+    test('displays other server-side error with message', async function (assert) {
         stubFailedUpload(server, 400, 'UnknownError');
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/Error: UnknownError/);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /Error: UnknownError/);
     });
 
-    it('handles unknown failure', async function () {
+    test('handles unknown failure', async function (assert) {
         server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
             return [500, {'Content-Type': 'application/json'}, ''];
         });
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/Something went wrong/);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /Something went wrong/);
     });
 
-    it('triggers notifications.showAPIError for VersionMismatchError', async function () {
+    test('triggers notifications.showAPIError for VersionMismatchError', async function (assert) {
         let showAPIError = sinon.spy();
         let notifications = this.owner.lookup('service:notifications');
         notifications.set('showAPIError', showAPIError);
@@ -218,10 +217,10 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(showAPIError.calledOnce).to.be.true;
+        assert.true(showAPIError.calledOnce);
     });
 
-    it('doesn\'t trigger notifications.showAPIError for other errors', async function () {
+    test('doesn\'t trigger notifications.showAPIError for other errors', async function (assert) {
         let showAPIError = sinon.spy();
         let notifications = this.owner.lookup('service:notifications');
         notifications.set('showAPIError', showAPIError);
@@ -230,19 +229,19 @@ describe('Integration: Component: gh-image-uploader', function () {
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(showAPIError.called).to.be.false;
+        assert.false(showAPIError.called);
     });
 
-    it('can be reset after a failed upload', async function () {
+    test('can be reset after a failed upload', async function (assert) {
         stubFailedUpload(server, 400, 'UnknownError');
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
         await fileUpload('input[type="file"]', ['test'], {type: 'test.png'});
         await click('.gh-btn-green');
 
-        expect(findAll('input[type="file"]').length).to.equal(1);
+        assert.strictEqual(findAll('input[type="file"]').length, 1);
     });
 
-    it('handles drag over/leave', async function () {
+    test('handles drag over/leave', async function (assert) {
         stubSuccessfulUpload(server);
 
         await render(hbs`{{gh-image-uploader image=image update=(action update)}}`);
@@ -258,14 +257,14 @@ describe('Integration: Component: gh-image-uploader', function () {
         });
         await settled();
 
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.true;
+        assert.true(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class');
 
         await triggerEvent('.gh-image-uploader', 'dragleave');
 
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.false;
+        assert.false(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class');
     });
 
-    it('triggers file upload on file drop', async function () {
+    test('triggers file upload on file drop', async function (assert) {
         let uploadSuccess = sinon.spy();
         // eslint-disable-next-line new-cap
         let drop = $.Event('drop', {
@@ -284,11 +283,11 @@ describe('Integration: Component: gh-image-uploader', function () {
         });
         await settled();
 
-        expect(uploadSuccess.calledOnce).to.be.true;
-        expect(uploadSuccess.firstCall.args[0]).to.equal('/content/images/test.png');
+        assert.true(uploadSuccess.calledOnce);
+        assert.strictEqual(uploadSuccess.firstCall.args[0], '/content/images/test.png');
     });
 
-    it('validates extension by default', async function () {
+    test('validates extension by default', async function (assert) {
         let uploadSuccess = sinon.spy();
         let uploadFailed = sinon.spy();
 
@@ -303,13 +302,13 @@ describe('Integration: Component: gh-image-uploader', function () {
 
         await fileUpload('input[type="file"]', ['test'], {name: 'test.json'});
 
-        expect(uploadSuccess.called).to.be.false;
-        expect(uploadFailed.calledOnce).to.be.true;
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
+        assert.false(uploadSuccess.called);
+        assert.true(uploadFailed.calledOnce);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /The image type you uploaded is not supported/);
     });
 
-    it('uploads if validate action supplied and returns true', async function () {
+    test('uploads if validate action supplied and returns true', async function (assert) {
         let validate = sinon.stub().returns(true);
         let uploadSuccess = sinon.spy();
 
@@ -324,11 +323,11 @@ describe('Integration: Component: gh-image-uploader', function () {
 
         await fileUpload('input[type="file"]', ['test'], {name: 'test.txt'});
 
-        expect(validate.calledOnce).to.be.true;
-        expect(uploadSuccess.calledOnce).to.be.true;
+        assert.true(validate.calledOnce);
+        assert.true(uploadSuccess.calledOnce);
     });
 
-    it('skips upload and displays error if validate action supplied and doesn\'t return true', async function () {
+    test('skips upload and displays error if validate action supplied and doesn\'t return true', async function (assert) {
         let validate = sinon.stub().returns(new UnsupportedMediaTypeError());
         let uploadSuccess = sinon.spy();
         let uploadFailed = sinon.spy();
@@ -346,17 +345,17 @@ describe('Integration: Component: gh-image-uploader', function () {
 
         await fileUpload('input[type="file"]', ['test'], {name: 'test.png'});
 
-        expect(validate.calledOnce).to.be.true;
-        expect(uploadSuccess.called).to.be.false;
-        expect(uploadFailed.calledOnce).to.be.true;
-        expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
-        expect(find('.failed').textContent).to.match(/The image type you uploaded is not supported/);
+        assert.true(validate.calledOnce);
+        assert.false(uploadSuccess.called);
+        assert.true(uploadFailed.calledOnce);
+        assert.strictEqual(findAll('.failed').length, 1, 'error message is displayed');
+        assert.match(find('.failed').textContent, /The image type you uploaded is not supported/);
     });
 
-    describe('unsplash', function () {
-        it('has unsplash icon only when unsplash is active & allowed');
-        it('opens unsplash modal when icon clicked');
-        it('inserts unsplash image when selected');
-        it('closes unsplash modal when close is triggered');
+    module('unsplash', function () {
+        test('has unsplash icon only when unsplash is active & allowed');
+        test('opens unsplash modal when icon clicked');
+        test('inserts unsplash image when selected');
+        test('closes unsplash modal when close is triggered');
     });
 });

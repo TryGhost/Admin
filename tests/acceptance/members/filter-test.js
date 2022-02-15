@@ -1,12 +1,11 @@
 import {authenticateSession} from 'ember-simple-auth/test-support';
-import {click, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {click, currentURL, fillIn, findAll} from '@ember/test-helpers';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 
-describe('Acceptance: Members filtering', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Members filtering', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
     beforeEach(async function () {
@@ -18,32 +17,32 @@ describe('Acceptance: Members filtering', function () {
         return await authenticateSession();
     });
 
-    it('has a known base-state', async function () {
+    test('has a known base-state', async function (assert) {
         this.server.createList('member', 7);
 
         await visit('/members');
 
         // members are listed
-        expect(findAll('[data-test-list="members-list-item"]').length, '# of member rows').to.equal(7);
+        assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 7, '# of member rows');
 
         // export is available
-        expect(find('[data-test-button="export-members"]'), 'export members button').to.exist;
-        expect(find('[data-test-button="export-members"]'), 'export members button').to.not.have.attribute('disabled');
+        assert.dom('[data-test-button="export-members"]').exists('export members button');
+        assert.dom('[data-test-button="export-members"]').doesNotHaveAttribute('disabled', 'export members button');
 
         // bulk actions are hidden
-        expect(find('[data-test-button="add-label-selected"]'), 'add label to selected button').to.not.exist;
-        expect(find('[data-test-button="remove-label-selected"]'), 'remove label from selected button').to.not.exist;
-        expect(find('[data-test-button="unsubscribe-selected"]'), 'unsubscribe selected button').to.not.exist;
-        expect(find('[data-test-button="delete-selected"]'), 'delete selected button').to.not.exist;
+        assert.dom('[data-test-button="add-label-selected"]').doesNotExist('add label to selected button');
+        assert.dom('[data-test-button="remove-label-selected"]').doesNotExist('remove label from selected button');
+        assert.dom('[data-test-button="unsubscribe-selected"]').doesNotExist('unsubscribe selected button');
+        assert.dom('[data-test-button="delete-selected"]').doesNotExist('delete selected button');
 
         // filter and search are inactive
-        expect(find('[data-test-input="members-search"]'), 'search input').to.exist;
-        expect(find('[data-test-input="members-search"]'), 'search input').to.not.have.class('active');
-        expect(find('[data-test-button="members-filter-actions"]'), 'filter button').to.not.have.class('gh-btn-label-green');
+        assert.dom('[data-test-input="members-search"]').exists('search input');
+        assert.dom('[data-test-input="members-search"]').doesNotHaveClass('active', 'search input');
+        assert.dom('[data-test-button="members-filter-actions"]').doesNotHaveClass('gh-btn-label-green', 'filter button');
     });
 
-    describe('search', function () {
-        beforeEach(function () {
+    module('search', function (hooks) {
+        hooks.beforeEach(function () {
             // specific member names+emails so search is deterministic
             // (default factory has random names+emails)
             this.server.create('member', {name: 'X', email: 'x@x.xxx'});
@@ -51,79 +50,75 @@ describe('Acceptance: Members filtering', function () {
             this.server.create('member', {name: 'Z', email: 'z@z.zzz'});
         });
 
-        it('works', async function () {
+        test('works', async function (assert) {
             await visit('/members');
 
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of initial member rows')
-                .to.equal(3);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 3, '# of initial member rows');
 
             await fillIn('[data-test-input="members-search"]', 'X');
 
             // list updates
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of members matching "X"')
-                .to.equal(1);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 1, '# of members matching "X"');
 
             // URL reflects search
-            expect(currentURL()).to.equal('/members?search=X');
+            assert.strictEqual(currentURL(), '/members?search=X');
 
             // search input is active
-            expect(find('[data-test-input="members-search"]')).to.have.class('active');
+            assert.dom('[data-test-input="members-search"]').hasClass('active');
 
             // bulk actions become available
-            expect(find('[data-test-button="add-label-selected"]'), 'add label to selected button').to.exist;
-            expect(find('[data-test-button="remove-label-selected"]'), 'remove label from selected button').to.exist;
-            expect(find('[data-test-button="unsubscribe-selected"]'), 'unsubscribe selected button').to.exist;
-            expect(find('[data-test-button="delete-selected"]'), 'delete selected button').to.exist;
+            assert.dom('[data-test-button="add-label-selected"]').exists('add label to selected button');
+            assert.dom('[data-test-button="remove-label-selected"]').exists('remove label from selected button');
+            assert.dom('[data-test-button="unsubscribe-selected"]').exists('unsubscribe selected button');
+            assert.dom('[data-test-button="delete-selected"]').exists('delete selected button');
 
             // clearing search returns us to starting state
             await fillIn('[data-test-input="members-search"]', '');
 
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of members after clearing search')
-                .to.equal(3);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 3, '# of members after clearing search');
 
-            expect(find('[data-test-input="members-search"]')).to.not.have.class('active');
+            assert.dom('[data-test-input="members-search"]').doesNotHaveClass('active');
         });
 
-        it('populates from query param', async function () {
+        test('populates from query param', async function (assert) {
             await visit('/members?search=Y');
 
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of initial member rows')
-                .to.equal(1);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 1, '# of initial member rows');
 
-            expect(find('[data-test-input="members-search"]')).to.have.value('Y');
-            expect(find('[data-test-input="members-search"]')).to.have.class('active');
+            assert.dom('[data-test-input="members-search"]').hasValue('Y');
+            assert.dom('[data-test-input="members-search"]').hasClass('active');
         });
 
-        it('has an empty state', async function () {
+        test('has an empty state', async function (assert) {
             await visit('/members');
             await fillIn('[data-test-input="members-search"]', 'unknown');
 
-            expect(currentURL()).to.equal('/members?search=unknown');
+            assert.strictEqual(currentURL(), '/members?search=unknown');
 
             // replaces members table with the no-matching members state
-            expect(find('[data-test-table="members"]')).to.not.exist;
-            expect(find('[data-test-no-matching-members]')).to.exist;
+            assert.dom('[data-test-table="members"]').doesNotExist();
+            assert.dom('[data-test-no-matching-members]').exists();
 
             // search input is still shown
-            expect(find('[data-test-input="members-search"]')).to.be.visible;
-            expect(find('[data-test-input="members-search"]')).to.have.class('active');
+            assert.dom('[data-test-input="members-search"]').isVisible();
+            assert.dom('[data-test-input="members-search"]').hasClass('active');
 
             // export is disabled
-            expect(find('[data-test-button="export-members"]')).to.have.attribute('disabled');
+            assert.dom('[data-test-button="export-members"]').hasAttribute('disabled');
 
             // bulk actions are hidden
-            expect(find('[data-test-button="add-label-selected"]')).to.not.exist;
-            expect(find('[data-test-button="remove-label-selected"]')).to.not.exist;
-            expect(find('[data-test-button="unsubscribe-selected"]')).to.not.exist;
-            expect(find('[data-test-button="delete-selected"]')).to.not.exist;
+            assert.dom('[data-test-button="add-label-selected"]').doesNotExist();
+            assert.dom('[data-test-button="remove-label-selected"]').doesNotExist();
+            assert.dom('[data-test-button="unsubscribe-selected"]').doesNotExist();
+            assert.dom('[data-test-button="delete-selected"]').doesNotExist();
 
             // can clear the search
             await click('[data-test-no-matching-members] [data-test-button="show-all-members"]');
 
-            expect(currentURL()).to.equal('/members');
-            expect(find('[data-test-input="members-search"]')).to.have.value('');
-            expect(find('[data-test-input="members-search"]')).to.not.have.class('active');
-            expect(findAll('[data-test-list="members-list-item"]').length).to.equal(3);
+            assert.strictEqual(currentURL(), '/members');
+            assert.dom('[data-test-input="members-search"]').hasValue('');
+            assert.dom('[data-test-input="members-search"]').doesNotHaveClass('active');
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 3);
         });
     });
 });

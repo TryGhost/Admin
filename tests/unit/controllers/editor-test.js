@@ -1,17 +1,16 @@
 import EmberObject from '@ember/object';
 import RSVP from 'rsvp';
 import {defineProperty} from '@ember/object';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
+import {module, test} from 'qunit';
 import {settled} from '@ember/test-helpers';
-import {setupTest} from 'ember-mocha';
+import {setupTest} from 'ember-qunit';
 import {task} from 'ember-concurrency';
 
-describe('Unit: Controller: editor', function () {
-    setupTest();
+module('Unit: Controller: editor', function (hooks) {
+    setupTest(hooks);
 
-    describe('generateSlug', function () {
-        it('should generate a slug and set it on the post', async function () {
+    module('generateSlug', function () {
+        test('should generate a slug and set it on the post', async function (assert) {
             let controller = this.owner.lookup('controller:editor');
 
             controller.set('slugGenerator', EmberObject.create({
@@ -24,14 +23,14 @@ describe('Unit: Controller: editor', function () {
             controller.set('post.titleScratch', 'title');
             await settled();
 
-            expect(controller.get('post.slug')).to.equal('');
+            assert.strictEqual(controller.get('post.slug'), '');
 
             await controller.generateSlugTask.perform();
 
-            expect(controller.get('post.slug')).to.equal('title-slug');
+            assert.strictEqual(controller.get('post.slug'), 'title-slug');
         });
 
-        it('should not set the destination if the title is "(Untitled)" and the post already has a slug', async function () {
+        test('should not set the destination if the title is "(Untitled)" and the post already has a slug', async function (assert) {
             let controller = this.owner.lookup('controller:editor');
 
             controller.set('slugGenerator', EmberObject.create({
@@ -41,22 +40,22 @@ describe('Unit: Controller: editor', function () {
             }));
             controller.set('post', EmberObject.create({slug: 'whatever'}));
 
-            expect(controller.get('post.slug')).to.equal('whatever');
+            assert.strictEqual(controller.get('post.slug'), 'whatever');
 
             controller.set('post.titleScratch', '(Untitled)');
             await controller.generateSlugTask.perform();
 
-            expect(controller.get('post.slug')).to.equal('whatever');
+            assert.strictEqual(controller.get('post.slug'), 'whatever');
         });
     });
 
-    describe('saveTitleTask', function () {
-        beforeEach(function () {
+    module('saveTitleTask', function (hooks) {
+        hooks.beforeEach(function () {
             this.controller = this.owner.lookup('controller:editor');
             this.controller.set('target', {send() {}});
         });
 
-        it('should invoke generateSlug if the post is new and a title has not been set', async function () {
+        test('should invoke generateSlug if the post is new and a title has not been set', async function (assert) {
             let {controller} = this;
 
             controller.set('target', {send() {}});
@@ -66,17 +65,17 @@ describe('Unit: Controller: editor', function () {
             }));
             controller.set('post', EmberObject.create({isNew: true}));
 
-            expect(controller.get('post.isNew')).to.be.true;
-            expect(controller.get('post.titleScratch')).to.not.be.ok;
+            assert.true(controller.get('post.isNew'));
+            assert.notOk(controller.get('post.titleScratch'));
 
             controller.set('post.titleScratch', 'test');
             await controller.saveTitleTask.perform();
 
-            expect(controller.get('post.titleScratch')).to.equal('test');
-            expect(controller.get('post.slug')).to.equal('test-slug');
+            assert.strictEqual(controller.get('post.titleScratch'), 'test');
+            assert.strictEqual(controller.get('post.slug'), 'test-slug');
         });
 
-        it('should invoke generateSlug if the post is not new and it\'s title is "(Untitled)"', async function () {
+        test('should invoke generateSlug if the post is not new and it\'s title is "(Untitled)"', async function (assert) {
             let {controller} = this;
 
             controller.set('target', {send() {}});
@@ -86,23 +85,23 @@ describe('Unit: Controller: editor', function () {
             }));
             controller.set('post', EmberObject.create({isNew: false, title: '(Untitled)'}));
 
-            expect(controller.get('post.isNew')).to.be.false;
-            expect(controller.get('post.titleScratch')).to.not.be.ok;
+            assert.false(controller.get('post.isNew'));
+            assert.notOk(controller.get('post.titleScratch'));
 
             controller.set('post.titleScratch', 'New Title');
 
             await controller.saveTitleTask.perform();
 
-            expect(controller.get('post.titleScratch')).to.equal('New Title');
-            expect(controller.get('post.slug')).to.equal('test-slug');
+            assert.strictEqual(controller.get('post.titleScratch'), 'New Title');
+            assert.strictEqual(controller.get('post.slug'), 'test-slug');
         });
 
-        it('should not invoke generateSlug if the post is new but has a title', async function () {
+        test('should not invoke generateSlug if the post is new but has a title', async function (assert) {
             let {controller} = this;
 
             controller.set('target', {send() {}});
             defineProperty(controller, 'generateSlugTask', task(function * () {
-                expect(false, 'generateSlug should not be called').to.equal(true);
+                assert.false(true, 'generateSlug should not be called');
                 yield RSVP.resolve();
             }));
             controller.set('post', EmberObject.create({
@@ -110,35 +109,35 @@ describe('Unit: Controller: editor', function () {
                 title: 'a title'
             }));
 
-            expect(controller.get('post.isNew')).to.be.true;
-            expect(controller.get('post.title')).to.equal('a title');
-            expect(controller.get('post.titleScratch')).to.not.be.ok;
+            assert.true(controller.get('post.isNew'));
+            assert.strictEqual(controller.get('post.title'), 'a title');
+            assert.notOk(controller.get('post.titleScratch'));
 
             controller.set('post.titleScratch', 'test');
             await controller.saveTitleTask.perform();
 
-            expect(controller.get('post.titleScratch')).to.equal('test');
-            expect(controller.get('post.slug')).to.not.be.ok;
+            assert.strictEqual(controller.get('post.titleScratch'), 'test');
+            assert.notOk(controller.get('post.slug'));
         });
 
-        it('should not invoke generateSlug if the post is not new and the title is not "(Untitled)"', async function () {
+        test('should not invoke generateSlug if the post is not new and the title is not "(Untitled)"', async function (assert) {
             let {controller} = this;
 
             controller.set('target', {send() {}});
             defineProperty(controller, 'generateSlugTask', task(function * () {
-                expect(false, 'generateSlug should not be called').to.equal(true);
+                assert.false(true, 'generateSlug should not be called');
                 yield RSVP.resolve();
             }));
             controller.set('post', EmberObject.create({isNew: false}));
 
-            expect(controller.get('post.isNew')).to.be.false;
-            expect(controller.get('post.title')).to.not.be.ok;
+            assert.false(controller.get('post.isNew'));
+            assert.notOk(controller.get('post.title'));
 
             controller.set('post.titleScratch', 'title');
             await controller.saveTitleTask.perform();
 
-            expect(controller.get('post.titleScratch')).to.equal('title');
-            expect(controller.get('post.slug')).to.not.be.ok;
+            assert.strictEqual(controller.get('post.titleScratch'), 'title');
+            assert.notOk(controller.get('post.slug'));
         });
     });
 });

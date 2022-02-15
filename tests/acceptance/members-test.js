@@ -1,38 +1,36 @@
 import moment from 'moment';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
 import {blur, click, currentURL, fillIn, find, findAll, settled} from '@ember/test-helpers';
-import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {timeout} from 'ember-concurrency';
 import {visit} from '../helpers/visit';
 
-describe('Acceptance: Members', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Members', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/members');
 
-        expect(currentURL()).to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin');
     });
 
-    it('redirects non-admins to site', async function () {
+    test('redirects non-admins to site', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role]});
 
         await authenticateSession();
         await visit('/members');
 
-        expect(currentURL()).to.equal('/site');
-        expect(find('[data-test-nav="members"]'), 'sidebar link')
-            .to.not.exist;
+        assert.strictEqual(currentURL(), '/site');
+        assert.dom('[data-test-nav="members"]').doesNotExist('sidebar link');
     });
 
-    describe('as owner', function () {
-        beforeEach(async function () {
+    module('as owner', function (hooks) {
+        hooks.beforeEach(async function () {
             this.server.loadFixtures('configs');
 
             let role = this.server.create('role', {name: 'Owner'});
@@ -41,7 +39,7 @@ describe('Acceptance: Members', function () {
             return await authenticateSession();
         });
 
-        it('it renders, can be navigated, can edit member', async function () {
+        test('it renders, can be navigated, can edit member', async function (assert) {
             let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
             this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').valueOf()});
 
@@ -50,18 +48,16 @@ describe('Acceptance: Members', function () {
             await settled();
 
             // lands on correct page
-            expect(currentURL(), 'currentURL').to.equal('/members');
+            assert.strictEqual(currentURL(), '/members', 'currentURL');
 
             // it has correct page title
-            expect(document.title, 'page title').to.equal('Members - Test Blog');
+            assert.strictEqual(document.title, 'Members - Test Blog', 'page title');
 
             // it lists all members
-            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
-                .to.equal(2);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 2, 'members list count');
 
             let member = find('[data-test-list="members-list-item"]');
-            expect(member.querySelector('.gh-members-list-name').textContent, 'member list item title')
-                .to.equal(member1.name);
+            assert.strictEqual(member.querySelector('.gh-members-list-name').textContent, member1.name, 'member list item title');
 
             await visit(`/members/${member1.id}`);
 
@@ -69,11 +65,9 @@ describe('Acceptance: Members', function () {
             await settled();
 
             // it shows selected member form
-            expect(find('[data-test-input="member-name"]').value, 'loads correct member into form')
-                .to.equal(member1.name);
+            assert.strictEqual(find('[data-test-input="member-name"]').value, member1.name, 'loads correct member into form');
 
-            expect(find('[data-test-input="member-email"]').value, 'loads correct email into form')
-                .to.equal(member1.email);
+            assert.strictEqual(find('[data-test-input="member-email"]').value, member1.email, 'loads correct email into form');
 
             // trigger save
             await fillIn('[data-test-input="member-name"]', 'New Name');
@@ -88,10 +82,10 @@ describe('Acceptance: Members', function () {
             await click('[data-test-link="members-back"]');
 
             // lands on correct page
-            expect(currentURL(), 'currentURL').to.equal('/members');
+            assert.strictEqual(currentURL(), '/members', 'currentURL');
         });
 
-        it('can create a new member', async function () {
+        test('can create a new member', async function (assert) {
             this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
 
             await visit('/members');
@@ -99,28 +93,25 @@ describe('Acceptance: Members', function () {
             await settled();
 
             // lands on correct page
-            expect(currentURL(), 'currentURL').to.equal('/members');
+            assert.strictEqual(currentURL(), '/members', 'currentURL');
 
             // it has correct page title
-            expect(document.title, 'page title').to.equal('Members - Test Blog');
+            assert.strictEqual(document.title, 'Members - Test Blog', 'page title');
 
             // it lists all members
-            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
-                .to.equal(1);
+            assert.strictEqual(findAll('[data-test-list="members-list-item"]').length, 1, 'members list count');
 
             //  start new member
             await click('[data-test-new-member-button="true"]');
 
             // it navigates to the new member route
-            expect(currentURL(), 'new member URL').to.equal('/members/new');
+            assert.strictEqual(currentURL(), '/members/new', 'new member URL');
             // it displays the new member form
-            expect(find('.gh-canvas-header h2').textContent, 'settings pane title')
-                .to.contain('New member');
+            assert.includes(find('.gh-canvas-header h2').textContent, 'New member', 'settings pane title');
 
             // all fields start blank
             findAll('.gh-member-settings-primary .gh-input').forEach(function (elem) {
-                expect(elem.value, `input field for ${elem.getAttribute('name')}`)
-                    .to.be.empty;
+                assert.notOk(elem.value, `input field for ${elem.getAttribute('name')}`);
             });
 
             // save new member
@@ -132,14 +123,12 @@ describe('Acceptance: Members', function () {
 
             await click('[data-test-button="save"]');
 
-            expect(find('[data-test-input="member-name"]').value, 'name has been preserved')
-                .to.equal('New Name');
+            assert.strictEqual(find('[data-test-input="member-name"]').value, 'New Name', 'name has been preserved');
 
-            expect(find('[data-test-input="member-email"]').value, 'email has been preserved')
-                .to.equal('example@domain.com');
+            assert.strictEqual(find('[data-test-input="member-email"]').value, 'example@domain.com', 'email has been preserved');
         });
 
-        it('can bulk delete members', async function () {
+        test('can bulk delete members', async function (assert) {
             // members to be kept
             this.server.createList('member', 6);
 
@@ -149,11 +138,11 @@ describe('Acceptance: Members', function () {
 
             await visit('/members');
 
-            expect(findAll('[data-test-member]').length).to.equal(11);
+            assert.strictEqual(findAll('[data-test-member]').length, 11);
 
             await click('[data-test-button="members-actions"]');
 
-            expect(find('[data-test-button="delete-selected"]')).to.not.exist;
+            assert.dom('[data-test-button="delete-selected"]').doesNotExist();
 
             // a filter is needed for the delete-selected button to show
             await click('[data-test-button="members-filter-actions"]');
@@ -161,17 +150,17 @@ describe('Acceptance: Members', function () {
             await click(`[data-test-label-filter="${label.name}"]`);
             await click(`[data-test-button="members-apply-filter"]`);
 
-            expect(findAll('[data-test-member]').length).to.equal(5);
-            expect(currentURL()).to.equal('/members?filter=label%3A%5Blabel-0%5D');
+            assert.strictEqual(findAll('[data-test-member]').length, 5);
+            assert.strictEqual(currentURL(), '/members?filter=label%3A%5Blabel-0%5D');
 
             await click('[data-test-button="members-actions"]');
 
-            expect(find('[data-test-button="delete-selected"]')).to.exist;
+            assert.dom('[data-test-button="delete-selected"]').exists();
 
             await click('[data-test-button="delete-selected"]');
 
-            expect(find('[data-test-modal="delete-members"]')).to.exist;
-            expect(find('[data-test-text="delete-count"]')).to.have.text('5 members');
+            assert.dom('[data-test-modal="delete-members"]').exists();
+            assert.dom('[data-test-text="delete-count"]').hasText('5 members');
 
             // ensure export endpoint gets hit with correct query params when deleting
             let exportQueryParams;
@@ -181,18 +170,18 @@ describe('Acceptance: Members', function () {
 
             await click('[data-test-button="confirm"]');
 
-            expect(exportQueryParams).to.deep.equal({filter: 'label:[label-0]', limit: 'all'});
+            assert.deepEqual(exportQueryParams, {filter: 'label:[label-0]', limit: 'all'});
 
-            expect(find('[data-test-text="deleted-count"]')).to.have.text('5 members');
-            expect(find('[data-test-button="confirm"]')).to.not.exist;
+            assert.dom('[data-test-text="deleted-count"]').hasText('5 members');
+            assert.dom('[data-test-button="confirm"]').doesNotExist();
 
             // members filter is reset
-            expect(currentURL()).to.equal('/members');
-            expect(findAll('[data-test-member]').length).to.equal(6);
+            assert.strictEqual(currentURL(), '/members');
+            assert.strictEqual(findAll('[data-test-member]').length, 6);
 
             await click('[data-test-button="close-modal"]');
 
-            expect(find('[data-test-modal="delete-members"]')).to.not.exist;
+            assert.dom('[data-test-modal="delete-members"]').doesNotExist();
         });
     });
 });

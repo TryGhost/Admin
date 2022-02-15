@@ -1,13 +1,12 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: setting', function () {
-    setupTest();
+module('Unit: Model: setting', function (hooks) {
+    setupTest(hooks);
 
-    it('has a validation type of "setting"', function () {
+    test('has a validation type of "setting"', function (assert) {
         let model = this.owner.lookup('service:store').createRecord('setting');
 
-        expect(model.get('validationType')).to.equal('setting');
+        assert.strictEqual(model.get('validationType'), 'setting');
     });
 });

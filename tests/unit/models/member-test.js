@@ -1,19 +1,18 @@
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
-describe('Unit: Model: member', function () {
-    setupTest();
+module('Unit: Model: member', function (hooks) {
+    setupTest(hooks);
 
     let store;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         store = this.owner.lookup('service:store');
     });
 
-    it('has a validation type of "member"', function () {
+    test('has a validation type of "member"', function (assert) {
         let model = store.createRecord('member');
 
-        expect(model.get('validationType')).to.equal('member');
+        assert.strictEqual(model.get('validationType'), 'member');
     });
 });

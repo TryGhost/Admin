@@ -5,9 +5,8 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import {blur, click, fillIn, find, findAll, render} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
-import {expect} from 'chai';
-import {setupRenderingTest} from 'ember-mocha';
+import {module, skip} from 'qunit';
+import {setupRenderingTest} from 'ember-qunit';
 
 const {Errors} = DS;
 
@@ -19,10 +18,10 @@ let mediaQueriesStub = Service.extend({
     maxWidth600: false
 });
 
-describe.skip('Integration: Component: gh-tag-settings-form', function () {
-    setupRenderingTest();
+module('Integration: Component: gh-tag-settings-form', function (hooks) {
+    setupRenderingTest(hooks);
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         /* eslint-disable camelcase */
         let tag = EmberObject.create({
             id: 1,
@@ -47,49 +46,49 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
         this.owner.register('service:media-queries', mediaQueriesStub);
     });
 
-    it('has the correct title', async function () {
+    skip('has the correct title', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
-        expect(find('.tag-settings-pane h4').textContent, 'existing tag title').to.equal('Tag settings');
+        assert.strictEqual(find('.tag-settings-pane h4').textContent, 'Tag settings', 'existing tag title');
 
         this.set('tag.isNew', true);
-        expect(find('.tag-settings-pane h4').textContent, 'new tag title').to.equal('New tag');
+        assert.strictEqual(find('.tag-settings-pane h4').textContent, 'New tag', 'new tag title');
     });
 
-    it('renders main settings', async function () {
+    skip('renders main settings', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
 
-        expect(findAll('.gh-image-uploader').length, 'displays image uploader').to.equal(1);
-        expect(find('input[name="name"]').value, 'name field value').to.equal('Test');
-        expect(find('input[name="slug"]').value, 'slug field value').to.equal('test');
-        expect(find('textarea[name="description"]').value, 'description field value').to.equal('Description.');
-        expect(find('input[name="metaTitle"]').value, 'metaTitle field value').to.equal('Meta Title');
-        expect(find('textarea[name="metaDescription"]').value, 'metaDescription field value').to.equal('Meta description');
+        assert.strictEqual(findAll('.gh-image-uploader').length, 1, 'displays image uploader');
+        assert.strictEqual(find('input[name="name"]').value, 'Test', 'name field value');
+        assert.strictEqual(find('input[name="slug"]').value, 'test', 'slug field value');
+        assert.strictEqual(find('textarea[name="description"]').value, 'Description.', 'description field value');
+        assert.strictEqual(find('input[name="metaTitle"]').value, 'Meta Title', 'metaTitle field value');
+        assert.strictEqual(find('textarea[name="metaDescription"]').value, 'Meta description', 'metaDescription field value');
     });
 
-    it('can switch between main/meta settings', async function () {
+    skip('can switch between main/meta settings', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
 
-        expect(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), 'main settings are displayed by default').to.be.true;
-        expect(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-out-right'), 'meta settings are hidden by default').to.be.true;
+        assert.strictEqual(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), true, 'main settings are displayed by default');
+        assert.strictEqual(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-out-right'), true, 'meta settings are hidden by default');
 
         await click('.meta-data-button');
 
-        expect(find('.tag-settings-pane').classList.contains('settings-menu-pane-out-left'), 'main settings are hidden after clicking Meta Data button').to.be.true;
-        expect(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-in'), 'meta settings are displayed after clicking Meta Data button').to.be.true;
+        assert.strictEqual(find('.tag-settings-pane').classList.contains('settings-menu-pane-out-left'), true, 'main settings are hidden after clicking Meta Data button');
+        assert.strictEqual(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-in'), true, 'meta settings are displayed after clicking Meta Data button');
 
         await click('.back');
 
-        expect(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), 'main settings are displayed after clicking "back"').to.be.true;
-        expect(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-out-right'), 'meta settings are hidden after clicking "back"').to.be.true;
+        assert.strictEqual(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), true, 'main settings are displayed after clicking "back"');
+        assert.strictEqual(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-out-right'), true, 'meta settings are hidden after clicking "back"');
     });
 
-    it('has one-way binding for properties', async function () {
+    skip('has one-way binding for properties', async function (assert) {
         this.set('setProperty', function () {
             // noop
         });
@@ -104,14 +103,14 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
         await fillIn('input[name="metaTitle"]', 'New metaTitle');
         await fillIn('textarea[name="metaDescription"]', 'New metaDescription');
 
-        expect(this.get('tag.name'), 'tag name').to.equal('Test');
-        expect(this.get('tag.slug'), 'tag slug').to.equal('test');
-        expect(this.get('tag.description'), 'tag description').to.equal('Description.');
-        expect(this.get('tag.metaTitle'), 'tag metaTitle').to.equal('Meta Title');
-        expect(this.get('tag.metaDescription'), 'tag metaDescription').to.equal('Meta description');
+        assert.strictEqual(this.get('tag.name'), 'Test', 'tag name');
+        assert.strictEqual(this.get('tag.slug'), 'test', 'tag slug');
+        assert.strictEqual(this.get('tag.description'), 'Description.', 'tag description');
+        assert.strictEqual(this.get('tag.metaTitle'), 'Meta Title', 'tag metaTitle');
+        assert.strictEqual(this.get('tag.metaDescription'), 'Meta description', 'tag metaDescription');
     });
 
-    it('triggers setProperty action on blur of all fields', async function () {
+    skip('triggers setProperty action on blur of all fields', async function (assert) {
         let lastSeenProperty = '';
         let lastSeenValue = '';
 
@@ -124,8 +123,8 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
             await click(selector);
             await fillIn(selector, expectedValue);
             await blur(selector);
-            expect(lastSeenProperty, 'property').to.equal(expectedProperty);
-            expect(lastSeenValue, 'value').to.equal(expectedValue);
+            assert.strictEqual(lastSeenProperty, expectedProperty, 'property');
+            assert.strictEqual(lastSeenValue, expectedValue, 'value');
         };
 
         await render(hbs`
@@ -139,7 +138,7 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
         await testSetProperty('textarea[name="metaDescription"]', 'metaDescription', 'New metaDescription');
     });
 
-    it('displays error messages for validated fields', async function () {
+    skip('displays error messages for validated fields', async function (assert) {
         let errors = this.get('tag.errors');
         let hasValidated = this.get('tag.hasValidated');
 
@@ -163,88 +162,88 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
         `);
 
         let nameFormGroup = find('input[name="name"]').closest('.form-group');
-        expect(nameFormGroup, 'name form group has error state').to.have.class('error');
-        expect(nameFormGroup.querySelector('.response'), 'name form group has error message').to.exist;
+        assert.dom(nameFormGroup).hasClass('error', 'name form group has error state');
+        assert.ok(nameFormGroup.querySelector('.response'), 'name form group has error message');
 
         let slugFormGroup = find('input[name="slug"]').closest('.form-group');
-        expect(slugFormGroup, 'slug form group has error state').to.have.class('error');
-        expect(slugFormGroup.querySelector('.response'), 'slug form group has error message').to.exist;
+        assert.dom(slugFormGroup).hasClass('error', 'slug form group has error state');
+        assert.ok(slugFormGroup.querySelector('.response'), 'slug form group has error message');
 
         let descriptionFormGroup = find('textarea[name="description"]').closest('.form-group');
-        expect(descriptionFormGroup, 'description form group has error state').to.have.class('error');
+        assert.dom(descriptionFormGroup).hasClass('error', 'description form group has error state');
 
         let metaTitleFormGroup = find('input[name="metaTitle"]').closest('.form-group');
-        expect(metaTitleFormGroup, 'metaTitle form group has error state').to.have.class('error');
-        expect(metaTitleFormGroup.querySelector('.response'), 'metaTitle form group has error message').to.exist;
+        assert.dom(metaTitleFormGroup).hasClass('error', 'metaTitle form group has error state');
+        assert.ok(metaTitleFormGroup.querySelector('.response'), 'metaTitle form group has error message');
 
         let metaDescriptionFormGroup = find('textarea[name="metaDescription"]').closest('.form-group');
-        expect(metaDescriptionFormGroup, 'metaDescription form group has error state').to.have.class('error');
-        expect(metaDescriptionFormGroup.querySelector('.response'), 'metaDescription form group has error message').to.exist;
+        assert.dom(metaDescriptionFormGroup).hasClass('error', 'metaDescription form group has error state');
+        assert.ok(metaDescriptionFormGroup.querySelector('.response'), 'metaDescription form group has error message');
     });
 
-    it('displays char count for text fields', async function () {
+    skip('displays char count for text fields', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
 
         let descriptionFormGroup = find('textarea[name="description"]').closest('.form-group');
-        expect(descriptionFormGroup.querySelector('.word-count'), 'description char count').to.have.trimmed.text('12');
+        assert.dom('.word-count').hasText('12', 'description char count');
 
         let metaDescriptionFormGroup = find('textarea[name="metaDescription"]').closest('.form-group');
-        expect(metaDescriptionFormGroup.querySelector('.word-count'), 'description char count').to.have.trimmed.text('16');
+        assert.dom('.word-count').hasText('16', 'description char count');
     });
 
-    it('renders SEO title preview', async function () {
+    skip('renders SEO title preview', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
-        expect(find('.seo-preview-title').textContent, 'displays meta title if present').to.equal('Meta Title');
+        assert.strictEqual(find('.seo-preview-title').textContent, 'Meta Title', 'displays meta title if present');
 
         this.set('tag.metaTitle', '');
-        expect(find('.seo-preview-title').textContent, 'falls back to tag name without metaTitle').to.equal('Test');
+        assert.strictEqual(find('.seo-preview-title').textContent, 'Test', 'falls back to tag name without metaTitle');
 
         this.set('tag.name', (new Array(151).join('x')));
         let expectedLength = 70 + '…'.length;
-        expect(find('.seo-preview-title').textContent.length, 'cuts title to max 70 chars').to.equal(expectedLength);
+        assert.strictEqual(find('.seo-preview-title').textContent.length, expectedLength, 'cuts title to max 70 chars');
     });
 
-    it('renders SEO URL preview', async function () {
+    skip('renders SEO URL preview', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
-        expect(find('.seo-preview-link').textContent, 'adds url and tag prefix').to.equal('http://localhost:2368/tag/test/');
+        assert.strictEqual(find('.seo-preview-link').textContent, 'http://localhost:2368/tag/test/', 'adds url and tag prefix');
 
         this.set('tag.slug', (new Array(151).join('x')));
         let expectedLength = 70 + '…'.length;
-        expect(find('.seo-preview-link').textContent.length, 'cuts slug to max 70 chars').to.equal(expectedLength);
+        assert.strictEqual(find('.seo-preview-link').textContent.length, expectedLength, 'cuts slug to max 70 chars');
     });
 
-    it('renders SEO description preview', async function () {
+    skip('renders SEO description preview', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
-        expect(find('.seo-preview-description').textContent, 'displays meta description if present').to.equal('Meta description');
+        assert.strictEqual(find('.seo-preview-description').textContent, 'Meta description', 'displays meta description if present');
 
         this.set('tag.metaDescription', '');
-        expect(find('.seo-preview-description').textContent, 'falls back to tag description without metaDescription').to.equal('Description.');
+        assert.strictEqual(find('.seo-preview-description').textContent, 'Description.', 'falls back to tag description without metaDescription');
 
         this.set('tag.description', (new Array(500).join('x')));
         let expectedLength = 156 + '…'.length;
-        expect(find('.seo-preview-description').textContent.length, 'cuts description to max 156 chars').to.equal(expectedLength);
+        assert.strictEqual(find('.seo-preview-description').textContent.length, expectedLength, 'cuts description to max 156 chars');
     });
 
-    it('resets if a new tag is received', async function () {
+    skip('resets if a new tag is received', async function (assert) {
         await render(hbs`
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
         await click('.meta-data-button');
-        expect(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-in'), 'meta data pane is shown').to.be.true;
+        assert.strictEqual(find('.tag-meta-settings-pane').classList.contains('settings-menu-pane-in'), true, 'meta data pane is shown');
 
         this.set('tag', EmberObject.create({id: '2'}));
-        expect(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), 'resets to main settings').to.be.true;
+        assert.strictEqual(find('.tag-settings-pane').classList.contains('settings-menu-pane-in'), true, 'resets to main settings');
     });
 
-    it('triggers delete tag modal on delete click', async function () {
+    skip('triggers delete tag modal on delete click', async function (assert) {
         let openModalFired = false;
 
         this.set('openModal', () => {
@@ -256,10 +255,10 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
         `);
         await click('.settings-menu-delete-button');
 
-        expect(openModalFired).to.be.true;
+        assert.strictEqual(openModalFired, true);
     });
 
-    it('shows tags arrow link on mobile', async function () {
+    skip('shows tags arrow link on mobile', async function (assert) {
         let mediaQueries = this.owner.lookup('service:media-queries');
         mediaQueries.set('maxWidth600', true);
 
@@ -267,6 +266,6 @@ describe.skip('Integration: Component: gh-tag-settings-form', function () {
             {{gh-tag-settings-form tag=tag setProperty=(action setProperty)}}
         `);
 
-        expect(findAll('.tag-settings-pane .settings-menu-header .settings-menu-header-action').length, 'tags link is shown').to.equal(1);
+        assert.strictEqual(findAll('.tag-settings-pane .settings-menu-header .settings-menu-header-action').length, 1, 'tags link is shown');
     });
 });

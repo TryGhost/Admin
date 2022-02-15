@@ -1,9 +1,9 @@
 import Pretender from 'pretender';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {dasherize} from '@ember/string';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {setupTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupTest} from 'ember-qunit';
 
 function stubSlugEndpoint(server, type, slug) {
     server.get(`${ghostPaths().apiRoot}/slugs/:type/:slug/`, function (request) {
@@ -18,37 +18,35 @@ function stubSlugEndpoint(server, type, slug) {
     });
 }
 
-describe('Integration: Service: slug-generator', function () {
-    setupTest();
+module('Integration: Service: slug-generator', function (hooks) {
+    setupTest(hooks);
 
     let server;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
         server = new Pretender();
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
         server.shutdown();
     });
 
-    it('returns empty if no slug is provided', function (done) {
+    test('returns empty if no slug is provided', function (assert) {
         let service = this.owner.lookup('service:slug-generator');
 
         service.generateSlug('post', '').then(function (slug) {
-            expect(slug).to.equal('');
-            done();
+            assert.strictEqual(slug, '');
         });
     });
 
-    it('calls correct endpoint and returns correct data', function (done) {
+    test('calls correct endpoint and returns correct data', function (assert) {
         let rawSlug = 'a test post';
         stubSlugEndpoint(server, 'post', rawSlug);
 
         let service = this.owner.lookup('service:slug-generator');
 
         service.generateSlug('post', rawSlug).then(function (slug) {
-            expect(slug).to.equal(dasherize(rawSlug));
-            done();
+            assert.strictEqual(slug, dasherize(rawSlug));
         });
     });
 });

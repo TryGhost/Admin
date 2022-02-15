@@ -1,16 +1,16 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {blur, click, currentRouteName, fillIn, find} from '@ember/test-helpers';
-import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../helpers/visit';
 
-describe('Acceptance: Signup', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Signup', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('can signup successfully', async function () {
+    test('can signup successfully', async function (assert) {
         let server = this.server;
 
         server.get('/authentication/invitation', function () {
@@ -21,10 +21,10 @@ describe('Acceptance: Signup', function () {
 
         server.post('/authentication/invitation/', function ({users}, {requestBody}) {
             let params = JSON.parse(requestBody);
-            expect(params.invitation[0].name).to.equal('Test User');
-            expect(params.invitation[0].email).to.equal('kevin+test2@ghost.org');
-            expect(params.invitation[0].password).to.equal('thisissupersafe');
-            expect(params.invitation[0].token).to.equal('MTQ3MDM0NjAxNzkyOXxrZXZpbit0ZXN0MkBnaG9zdC5vcmd8MmNEblFjM2c3ZlFUajluTks0aUdQU0dmdm9ta0xkWGY2OEZ1V2dTNjZVZz0');
+            assert.strictEqual(params.invitation[0].name, 'Test User');
+            assert.strictEqual(params.invitation[0].email, 'kevin+test2@ghost.org');
+            assert.strictEqual(params.invitation[0].password, 'thisissupersafe');
+            assert.strictEqual(params.invitation[0].token, 'MTQ3MDM0NjAxNzkyOXxrZXZpbit0ZXN0MkBnaG9zdC5vcmd8MmNEblFjM2c3ZlFUajluTks0aUdQU0dmdm9ta0xkWGY2OEZ1V2dTNjZVZz0');
 
             // ensure that `/users/me/` request returns a user
             let role = server.create('role', {name: 'Author'});
@@ -41,7 +41,7 @@ describe('Acceptance: Signup', function () {
         // "1470346017929|kevin+test2@ghost.org|2cDnQc3g7fQTj9nNK4iGPSGfvomkLdXf68FuWgS66Ug="
         await visit('/signup/MTQ3MDM0NjAxNzkyOXxrZXZpbit0ZXN0MkBnaG9zdC5vcmd8MmNEblFjM2c3ZlFUajluTks0aUdQU0dmdm9ta0xkWGY2OEZ1V2dTNjZVZz0');
 
-        expect(currentRouteName()).to.equal('signup');
+        assert.strictEqual(currentRouteName(), 'signup');
 
         // focus out in Name field triggers inline error
         await blur('[data-test-input="name"]');
@@ -51,10 +51,7 @@ describe('Acceptance: Signup', function () {
             'name field group has error class when empty'
         ).to.have.class('error');
 
-        expect(
-            find('[data-test-input="name"]').closest('.form-group').querySelector('.response').textContent,
-            'name inline-error text'
-        ).to.have.string('Please enter a name');
+        assert.includes(find('[data-test-input="name"]').closest('.form-group').querySelector('.response').textContent, 'Please enter a name', 'name inline-error text');
 
         // entering text in Name field clears error
         await fillIn('[data-test-input="name"]', 'Test User');
@@ -65,10 +62,7 @@ describe('Acceptance: Signup', function () {
             'name field loses error class after text input'
         ).to.not.have.class('error');
 
-        expect(
-            find('[data-test-input="name"]').closest('.form-group').querySelector('.response').textContent.trim(),
-            'name field error is removed after text input'
-        ).to.be.empty;
+        assert.notOk(find('[data-test-input="name"]').closest('.form-group').querySelector('.response').textContent.trim(), 'name field error is removed after text input');
 
         // focus out in Email field triggers inline error
         await click('[data-test-input="email"]');
@@ -79,10 +73,7 @@ describe('Acceptance: Signup', function () {
             'email field group has error class when empty'
         ).to.have.class('error');
 
-        expect(
-            find('[data-test-input="email"]').closest('.form-group').querySelector('.response').textContent,
-            'email inline-error text'
-        ).to.have.string('Please enter an email');
+        assert.includes(find('[data-test-input="email"]').closest('.form-group').querySelector('.response').textContent, 'Please enter an email', 'email inline-error text');
 
         // entering text in email field clears error
         await fillIn('[data-test-input="email"]', 'kevin+test2@ghost.org');
@@ -93,10 +84,7 @@ describe('Acceptance: Signup', function () {
             'email field loses error class after text input'
         ).to.not.have.class('error');
 
-        expect(
-            find('[data-test-input="email"]').closest('.form-group').querySelector('.response').textContent.trim(),
-            'email field error is removed after text input'
-        ).to.be.empty;
+        assert.notOk(find('[data-test-input="email"]').closest('.form-group').querySelector('.response').textContent.trim(), 'email field error is removed after text input');
 
         // check password validation
         // focus out in password field triggers inline error
@@ -109,46 +97,31 @@ describe('Acceptance: Signup', function () {
             'password field group has error class when empty'
         ).to.have.class('error');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent,
-            'password field error text'
-        ).to.have.string('must be at least 10 characters');
+        assert.includes(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent, 'must be at least 10 characters', 'password field error text');
 
         // password too short
         await fillIn('[data-test-input="password"]', 'short');
         await blur('[data-test-input="password"]');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent,
-            'password field error text'
-        ).to.have.string('must be at least 10 characters');
+        assert.includes(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent, 'must be at least 10 characters', 'password field error text');
 
         // password must not be a bad password
         await fillIn('[data-test-input="password"]', '1234567890');
         await blur('[data-test-input="password"]');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent,
-            'password field error text'
-        ).to.have.string('you cannot use an insecure password');
+        assert.includes(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent, 'you cannot use an insecure password', 'password field error text');
 
         // password must not be a disallowed password
         await fillIn('[data-test-input="password"]', 'password99');
         await blur('[data-test-input="password"]');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent,
-            'password field error text'
-        ).to.have.string('you cannot use an insecure password');
+        assert.includes(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent, 'you cannot use an insecure password', 'password field error text');
 
         // password must not have repeating characters
         await fillIn('[data-test-input="password"]', '2222222222');
         await blur('[data-test-input="password"]');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent,
-            'password field error text'
-        ).to.have.string('you cannot use an insecure password');
+        assert.includes(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent, 'you cannot use an insecure password', 'password field error text');
 
         // entering valid text in Password field clears error
         await fillIn('[data-test-input="password"]', 'thisissupersafe');
@@ -159,18 +132,15 @@ describe('Acceptance: Signup', function () {
             'password field loses error class after text input'
         ).to.not.have.class('error');
 
-        expect(
-            find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent.trim(),
-            'password field error is removed after text input'
-        ).to.equal('');
+        assert.strictEqual(find('[data-test-input="password"]').closest('.form-group').querySelector('.response').textContent.trim(), '', 'password field error is removed after text input');
 
         // submitting sends correct details and redirects to content screen
         await click('.gh-btn-green');
 
-        expect(currentRouteName()).to.equal('site');
+        assert.strictEqual(currentRouteName(), 'site');
     });
 
-    it('redirects if already logged in', async function () {
+    test('redirects if already logged in', async function (assert) {
         this.server.get('/authentication/invitation', function () {
             return {
                 invitation: [{valid: true}]
@@ -185,19 +155,19 @@ describe('Acceptance: Signup', function () {
         // "1470346017929|kevin+test2@ghost.org|2cDnQc3g7fQTj9nNK4iGPSGfvomkLdXf68FuWgS66Ug="
         await visit('/signup/MTQ3MDM0NjAxNzkyOXxrZXZpbit0ZXN0MkBnaG9zdC5vcmd8MmNEblFjM2c3ZlFUajluTks0aUdQU0dmdm9ta0xkWGY2OEZ1V2dTNjZVZz0');
 
-        expect(currentRouteName()).to.equal('site');
-        expect(find('.gh-alert-content').textContent).to.have.string('sign out to register');
+        assert.strictEqual(currentRouteName(), 'site');
+        assert.includes(find('.gh-alert-content').textContent, 'sign out to register');
     });
 
-    it('redirects with alert on invalid token', async function () {
+    test('redirects with alert on invalid token', async function (assert) {
         await invalidateSession();
         await visit('/signup/---invalid---');
 
-        expect(currentRouteName()).to.equal('signin');
-        expect(find('.gh-alert-content').textContent).to.have.string('Invalid token');
+        assert.strictEqual(currentRouteName(), 'signin');
+        assert.includes(find('.gh-alert-content').textContent, 'Invalid token');
     });
 
-    it('redirects with alert on non-existant or expired token', async function () {
+    test('redirects with alert on non-existant or expired token', async function (assert) {
         this.server.get('/authentication/invitation', function () {
             return {
                 invitation: [{valid: false}]
@@ -207,7 +177,7 @@ describe('Acceptance: Signup', function () {
         await invalidateSession();
         await visit('/signup/expired');
 
-        expect(currentRouteName()).to.equal('signin');
-        expect(find('.gh-alert-content').textContent).to.have.string('not exist');
+        assert.strictEqual(currentRouteName(), 'signin');
+        assert.includes(find('.gh-alert-content').textContent, 'not exist');
     });
 });
