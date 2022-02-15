@@ -1,84 +1,82 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {beforeEach, describe, it} from 'mocha';
-import {click, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
-import {expect} from 'chai';
+import {click, currentURL, fillIn, findAll} from '@ember/test-helpers';
 import {fileUpload} from '../../helpers/file-upload';
-import {setupApplicationTest} from 'ember-mocha';
+import {module, test} from 'qunit';
+import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
 // import wait from 'ember-test-helpers/wait';
 // import {timeout} from 'ember-concurrency';
 
-describe('Acceptance: Settings - Labs', function () {
-    let hooks = setupApplicationTest();
+module('Acceptance: Settings - Labs', function (hooks) {
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    it('redirects to signin when not authenticated', async function () {
+    test('redirects to signin when not authenticated', async function (assert) {
         await invalidateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/signin');
+        assert.strictEqual(currentURL(), '/signin', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as contributor', async function () {
+    test('redirects to home page when authenticated as contributor', async function (assert) {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/posts');
+        assert.strictEqual(currentURL(), '/posts', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as author', async function () {
+    test('redirects to home page when authenticated as author', async function (assert) {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    it('redirects to home page when authenticated as editor', async function () {
+    test('redirects to home page when authenticated as editor', async function (assert) {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/site');
+        assert.strictEqual(currentURL(), '/site', 'currentURL');
     });
 
-    describe('when logged in', function () {
-        beforeEach(async function () {
+    module('when logged in', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it.skip('it renders, loads modals correctly', async function () {
+        test.skip('it renders, loads modals correctly', async function (assert) {
             await visit('/settings/labs');
 
             // has correct url
-            expect(currentURL(), 'currentURL').to.equal('/settings/labs');
+            assert.strictEqual(currentURL(), '/settings/labs', 'currentURL');
 
             // has correct page title
-            expect(document.title, 'page title').to.equal('Settings - Labs - Test Blog');
+            assert.strictEqual(document.title, 'Settings - Labs - Test Blog', 'page title');
 
             // highlights nav menu
-            expect(find('[data-test-nav="labs"]'), 'highlights nav menu item')
-                .to.have.class('active');
+            assert.dom('[data-test-nav="labs"]').hasClass('active', 'highlights nav menu item');
 
             await click('#settings-resetdb .js-delete');
-            expect(findAll('.fullscreen-modal .modal-content').length, 'modal element').to.equal(1);
+            assert.strictEqual(findAll('.fullscreen-modal .modal-content').length, 1, 'modal element');
 
             await click('.fullscreen-modal .modal-footer .gh-btn');
-            expect(findAll('.fullscreen-modal').length, 'modal element').to.equal(0);
+            assert.strictEqual(findAll('.fullscreen-modal').length, 0, 'modal element');
         });
 
-        it('can upload/download redirects', async function () {
+        test('can upload/download redirects', async function (assert) {
             await visit('/settings/labs');
 
             // successful upload
@@ -112,15 +110,9 @@ describe('Acceptance: Settings - Labs', function () {
 
             // returned to normal button
             let buttons = findAll('[data-test-button="upload-redirects"]');
-            expect(buttons.length, 'no of post-success buttons').to.equal(1);
-            expect(
-                buttons[0],
-                'post-success button doesn\'t have success class'
-            ).to.not.have.class('gh-btn-green');
-            expect(
-                buttons[0].textContent,
-                'post-success button text'
-            ).to.have.string('Upload redirects');
+            assert.strictEqual(buttons.length, 1, 'no of post-success buttons');
+            assert.dom(buttons[0]).doesNotHaveClass('gh-btn-green', 'post-success button doesn\'t have success class');
+            assert.dom(buttons[0]).containsText('Upload redirects', 'post-success button text');
 
             // failed upload
             this.server.post('/redirects/upload/', {
@@ -157,22 +149,13 @@ describe('Acceptance: Settings - Labs', function () {
             // await wait();
 
             // shows error message
-            expect(
-                find('[data-test-error="redirects"]').textContent.trim(),
-                'upload error text'
-            ).to.have.string('Test failure message');
+            assert.dom('[data-test-error="redirects"]').containsText('Test failure message', 'upload error text');
 
             // returned to normal button
             buttons = findAll('[data-test-button="upload-redirects"]');
-            expect(buttons.length, 'no of post-failure buttons').to.equal(1);
-            expect(
-                buttons[0],
-                'post-failure button doesn\'t have failure class'
-            ).to.not.have.class('gh-btn-red');
-            expect(
-                buttons[0].textContent,
-                'post-failure button text'
-            ).to.have.string('Upload redirects');
+            assert.strictEqual(buttons.length, 1, 'no of post-failure buttons');
+            assert.dom(buttons[0]).doesNotHaveClass('gh-btn-red', 'post-failure button doesn\'t have failure class');
+            assert.dom(buttons[0]).containsText('Upload redirects', 'post-failure button text');
 
             // successful upload clears error
             this.server.post('/redirects/upload/', {}, 200);
@@ -182,16 +165,16 @@ describe('Acceptance: Settings - Labs', function () {
                 {name: 'redirects-bad.json', type: 'application/json'}
             );
 
-            expect(find('[data-test-error="redirects"]')).to.not.exist;
+            assert.dom('[data-test-error="redirects"]').doesNotExist();
 
             // can download redirects.json
             await click('[data-test-link="download-redirects"]');
 
             let iframe = document.querySelector('#iframeDownload');
-            expect(iframe.getAttribute('src')).to.have.string('/redirects/download/');
+            assert.dom(iframe).hasAttribute('src', '/redirects/download/');
         });
 
-        it('can upload/download routes.yaml', async function () {
+        test('can upload/download routes.yaml', async function (assert) {
             await visit('/settings/labs');
 
             // successful upload
@@ -225,15 +208,9 @@ describe('Acceptance: Settings - Labs', function () {
 
             // returned to normal button
             let buttons = findAll('[data-test-button="upload-routes"]');
-            expect(buttons.length, 'no of post-success buttons').to.equal(1);
-            expect(
-                buttons[0],
-                'routes post-success button doesn\'t have success class'
-            ).to.not.have.class('gh-btn-green');
-            expect(
-                buttons[0].textContent,
-                'routes post-success button text'
-            ).to.have.string('Upload routes YAML');
+            assert.strictEqual(buttons.length, 1, 'no of post-success buttons');
+            assert.dom(buttons[0]).doesNotHaveClass('gh-btn-green', 'routes post-success button doesn\'t have success class');
+            assert.dom(buttons[0]).containsText('Upload routes YAML', 'routes post-success button text');
 
             // failed upload
             this.server.post('/settings/routes/yaml/', {
@@ -270,22 +247,13 @@ describe('Acceptance: Settings - Labs', function () {
             // await wait();
 
             // shows error message
-            expect(
-                find('[data-test-error="routes"]').textContent,
-                'routes upload error text'
-            ).to.have.string('Test failure message');
+            assert.dom('[data-test-error="routes"]').containsText('Test failure message', 'routes upload error text');
 
             // returned to normal button
             buttons = findAll('[data-test-button="upload-routes"]');
-            expect(buttons.length, 'no of post-failure buttons').to.equal(1);
-            expect(
-                buttons[0],
-                'routes post-failure button doesn\'t have failure class'
-            ).to.not.have.class('gh-btn-red');
-            expect(
-                buttons[0].textContent,
-                'routes post-failure button text'
-            ).to.have.string('Upload routes YAML');
+            assert.strictEqual(buttons.length, 1, 'no of post-failure buttons');
+            assert.dom(buttons[0]).doesNotHaveClass('gh-btn-red', 'routes post-failure button doesn\'t have failure class');
+            assert.dom(buttons[0]).containsText('Upload routes YAML', 'routes post-failure button text');
 
             // successful upload clears error
             this.server.post('/settings/routes/yaml/', {}, 200);
@@ -295,25 +263,25 @@ describe('Acceptance: Settings - Labs', function () {
                 {name: 'routes-good.yaml', type: 'application/x-yaml'}
             );
 
-            expect(find('[data-test-error="routes"]')).to.not.exist;
+            assert.dom('[data-test-error="routes"]').doesNotExist();
 
             // can download redirects.json
             await click('[data-test-link="download-routes"]');
 
             let iframe = document.querySelector('#iframeDownload');
-            expect(iframe.getAttribute('src')).to.have.string('/settings/routes/yaml/');
+            assert.dom(iframe).hasAttribute('src', '/settings/routes/yaml/');
         });
     });
 
-    describe('When logged in as Owner', function () {
-        beforeEach(async function () {
+    module('When logged in as Owner', function (hooks) {
+        hooks.beforeEach(async function () {
             let role = this.server.create('role', {name: 'Owner'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it.skip('sets the mailgunBaseUrl to the default', async function () {
+        test.skip('sets the mailgunBaseUrl to the default', async function (assert) {
             await visit('/settings/members');
 
             await fillIn('[data-test-mailgun-api-key-input]', 'i_am_an_api_key');
@@ -324,7 +292,7 @@ describe('Acceptance: Settings - Labs', function () {
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
 
-            expect(params.settings.findBy('key', 'mailgun_base_url').value).not.to.equal(null);
+            assert.notEqual(params.settings.findBy('key', 'mailgun_base_url').value, null);
         });
     });
 });

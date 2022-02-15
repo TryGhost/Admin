@@ -1,6 +1,7 @@
-import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {click, currentURL, find, findAll} from '@ember/test-helpers';
+import {authenticateSession,invalidateSession} from 'ember-simple-auth/test-support';
+import {click, currentURL, findAll} from '@ember/test-helpers';
 import {fileUpload} from '../../helpers/file-upload';
+import {module, test} from 'qunit';
 import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
@@ -9,7 +10,7 @@ module('Acceptance: Settings - Design', function (hooks) {
     setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
         let role = this.server.create('role', {name: 'Administrator'});
         this.server.create('user', {roles: [role]});
 
@@ -45,14 +46,14 @@ module('Acceptance: Settings - Design', function (hooks) {
         assert.dom('[data-test-nav-group]').exists({count: 1}, 'no of groups open');
 
         // current theme is shown in nav menu
-        assert.dom('[data-test-text="current-theme"]').hasText('casper - v1.0');
+        assert.dom('[data-test-text="current-theme"]').containsText('casper - v1.0');
 
         // defaults to "home" desktop preview
         assert.dom('[data-test-button="desktop-preview"]').hasClass('gh-btn-group-selected');
         assert.dom('[data-test-button="mobile-preview"]').doesNotHaveClass('gh-btn-group-selected');
     });
 
-    test('renders with custom theme settings');
+    test.skip('renders with custom theme settings');
 
     test('can install an official theme', async function (assert) {
         await visit('/settings/design');
@@ -78,7 +79,7 @@ module('Acceptance: Settings - Design', function (hooks) {
         assert.dom('[data-test-modal="install-theme"]').doesNotExist();
 
         // nav menu shows current theme
-        assert.dom('[data-test-text="current-theme"]').hasText('Journal - v0.1');
+        assert.dom('[data-test-text="current-theme"]').containsText('Journal - v0.1');
     });
 
     test('can upload custom theme', async function (assert) {
@@ -108,11 +109,11 @@ module('Acceptance: Settings - Design', function (hooks) {
 
         assert.strictEqual(currentURL(), '/settings/design', 'url after activate');
         assert.dom('[data-test-modal="install-theme"]').doesNotExist();
-        assert.dom('[data-test-text="current-theme"]').hasText('custom - v1.0');
+        assert.dom('[data-test-text="current-theme"]').containsText('custom - v1.0');
     });
 
-    test('can change between installed themes');
-    test('can delete installed theme');
+    test.skip('can change between installed themes');
+    test.skip('can delete installed theme');
 
     module('limits', function () {
         test('displays upgrade notice when custom themes are not allowed', async function (assert) {

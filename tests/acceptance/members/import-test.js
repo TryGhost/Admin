@@ -2,6 +2,7 @@ import {Response} from 'ember-cli-mirage';
 import {authenticateSession} from 'ember-simple-auth/test-support';
 import {click, currentURL, find, findAll} from '@ember/test-helpers';
 import {fileUpload} from '../../helpers/file-upload';
+import {module, test} from 'qunit';
 import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
@@ -49,11 +50,11 @@ testemail@example.com,Test Email,This is a test template for importing your memb
         assert.dom('[data-test-csv-file-mapping]').exists('csv file mapper');
         assert.dom('[data-test-members-import-table]').exists('csv file mapper');
         assert.strictEqual(findAll('[data-test-members-import-mapper]').length, 6, '# of mapper rows');
-        assert.dom('[data-test-button="perform-import"]').hasText(' 1 ');
+        assert.dom('[data-test-button="perform-import"]').containsText(' 1 ');
 
         await click('[data-test-button="perform-import"]');
 
-        assert.dom('[data-test-modal="import-members"]').hasText('Import complete');
+        assert.dom('[data-test-modal="import-members"]').containsText('Import complete');
 
         await click('[data-test-button="close-import-members"]');
 

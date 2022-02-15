@@ -189,12 +189,12 @@ module('Acceptance: Settings - Integrations - Custom', function (hooks) {
             await click('[data-test-button="new-integration"]');
             await click('[data-test-button="create-integration"]');
 
-            assert.includes(find('[data-test-error="new-integration-name"]').textContent, 'enter a name', 'name error after create with blank field');
+            assert.dom('[data-test-error="new-integration-name"]').containsText('enter a name', 'name error after create with blank field');
 
             await fillIn('[data-test-input="new-integration-name"]', 'Duplicate');
             await click('[data-test-button="create-integration"]');
 
-            assert.includes(find('[data-test-error="new-integration-name"]').textContent, 'already been used', 'name error after create with duplicate name');
+            assert.dom('[data-test-error="new-integration-name"]').containsText('already been used', 'name error after create with duplicate name');
 
             // successful creation
             await fillIn('[data-test-input="new-integration-name"]', 'Test');
@@ -314,7 +314,7 @@ module('Acceptance: Settings - Integrations - Custom', function (hooks) {
             // open new webhook modal
             await click('[data-test-link="add-webhook"]');
             assert.dom('[data-test-modal="webhook-form"]').exists();
-            assert.includes(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent, 'New webhook');
+            assert.dom(find('[data-test-modal="webhook-form"] [data-test-text="title"]')).containsText('New webhook');
 
             // can cancel new webhook
             await click('[data-test-button="cancel-webhook"]');
@@ -331,17 +331,17 @@ module('Acceptance: Settings - Integrations - Custom', function (hooks) {
             assert.dom('[data-test-modal="webhook-form"]').doesNotExist();
             assert.dom('[data-test-webhook-row]').exists();
             let row = find('[data-test-webhook-row="1"]');
-            assert.includes(row.querySelector('[data-test-text="name"]').textContent, 'First webhook');
-            assert.includes(row.querySelector('[data-test-text="event"]').textContent, 'Site changed (rebuild)');
-            assert.includes(row.querySelector('[data-test-text="targetUrl"]').textContent, 'https://example.com/first-webhook');
-            assert.includes(row.querySelector('[data-test-text="last-triggered"]').textContent, 'Not triggered');
+            assert.dom(row.querySelector('[data-test-text="name"]')).containsText('First webhook');
+            assert.dom(row.querySelector('[data-test-text="event"]')).containsText('Site changed (rebuild)');
+            assert.dom(row.querySelector('[data-test-text="targetUrl"]')).containsText('https://example.com/first-webhook');
+            assert.dom(row.querySelector('[data-test-text="last-triggered"]')).containsText('Not triggered');
 
             // click edit webhook link
             await click('[data-test-webhook-row="1"] [data-test-link="edit-webhook"]');
 
             // modal appears and has correct title
             assert.dom('[data-test-modal="webhook-form"]').exists();
-            assert.includes(find('[data-test-modal="webhook-form"] [data-test-text="title"]').textContent, 'Edit webhook');
+            assert.dom(find('[data-test-modal="webhook-form"] [data-test-text="title"]')).containsText('Edit webhook');
         });
 
         // test to ensure the `value=description` passed to `gh-text-input` is `readonly`

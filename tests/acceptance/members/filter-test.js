@@ -1,5 +1,6 @@
 import {authenticateSession} from 'ember-simple-auth/test-support';
 import {click, currentURL, fillIn, findAll} from '@ember/test-helpers';
+import {module, test} from 'qunit';
 import {setupApplicationTest} from 'ember-qunit';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {visit} from '../../helpers/visit';
@@ -8,7 +9,7 @@ module('Acceptance: Members filtering', function (hooks) {
     setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
         this.server.loadFixtures('configs');
 
         let role = this.server.create('role', {name: 'Owner'});

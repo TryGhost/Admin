@@ -127,6 +127,7 @@ module('Acceptance: Settings - General', function (hooks) {
             assert.strictEqual(find('[data-test-password-error]').textContent.trim(), '', 'present password error');
         });
 
+        // eslint-disable-next-line qunit/require-expect
         test('handles social blog settings correctly', async function (assert) {
             let testSocialInput = async function (type, input, expectedValue, expectedError = '') {
                 await fillIn(`[data-test-${type}-input]`, input);
