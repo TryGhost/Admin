@@ -4,7 +4,6 @@
 let launch_in_ci = [process.env.BROWSER || 'Chrome'];
 
 module.exports = {
-    framework: 'mocha',
     browser_start_timeout: 120,
     browser_disconnect_timeout: 60,
     test_page: 'tests/index.html?hidepassed',
