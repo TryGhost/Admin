@@ -1,8 +1,6 @@
 <li class="gh-list-row gh-tags-list-item" ...attributes>
     <LinkTo @route="tag" @model={{@tag}} class="gh-list-data gh-tag-list-title gh-list-cellwidth-70" title="Edit tag">
-        <h3 class="gh-tag-list-name">
-            {{@tag.name}}
-        </h3>
+        <h3 class="gh-tag-list-name">{{@tag.name}}</h3>
         {{#if @tag.description}}
             <p class="ma0 pa0 f8 midgrey gh-tag-list-description">
                 {{@tag.description}}

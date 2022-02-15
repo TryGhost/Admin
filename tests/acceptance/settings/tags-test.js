@@ -113,7 +113,7 @@ describe.skip('Acceptance: Tags', function () {
             let tag = find('.tags-list .gh-tags-list-item');
             expect(tag.querySelector('.gh-tag-list-name').textContent, 'tag list item title')
                 .to.equal(tag1.name);
-            expect(tag.querySelector('.gh-tag-list-slug span[title="' + tag1.title + '"]').textContent, 'tag list item tag')
+            expect(tag.querySelector('.gh-tag-list-slug span').textContent, 'tag list item tag')
                 .to.equal(tag1.slug);
 
             // it highlights selected tag
