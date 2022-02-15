@@ -11,7 +11,7 @@
     </LinkTo>
 
     <LinkTo @route="tag" @model={{@tag}} class="gh-list-data middarkgrey f8 gh-tag-list-slug gh-list-cellwidth-10" title="Edit tag">
-        <span title="{{@slug}}">{{@slug}}</span>
+        <span title="{{@tag.slug}}">{{@tag.slug}}</span>
     </LinkTo>
 
     {{#if @tag.count.posts}}
