@@ -1,6 +1,5 @@
 import hbs from 'htmlbars-inline-precompile';
 import {click, find, render, settled, waitFor} from '@ember/test-helpers';
-import {defineProperty} from '@ember/object';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
@@ -38,26 +37,38 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('shows spinner whilst running', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        this.set('context', context);
 
-        this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
+
+        context.myTask.perform();
 
         await waitFor('button svg', {timeout: 50});
         await settled();
     });
 
     it('shows running text when passed whilst running', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} @runningText="Running" />`);
+        this.set('context', context);
 
-        this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} @runningText="Running" />`);
+
+        context.myTask.perform();
 
         await waitFor('button svg', {timeout: 50});
         expect(find('button')).to.contain.text('Running');
@@ -66,14 +77,20 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('appears disabled whilst running', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        this.set('context', context);
+
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
         expect(find('button'), 'initial class').to.not.have.class('appear-disabled');
 
-        this.myTask.perform();
+        context.myTask.perform();
 
         await waitFor('button.appear-disabled', {timeout: 100});
         await settled();
@@ -82,28 +99,40 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('shows success on success', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-            return true;
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+                return true;
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        this.set('context', context);
 
-        await this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
+
+        await context.myTask.perform();
 
         expect(find('button')).to.have.class('gh-btn-green');
         expect(find('button')).to.contain.text('Saved');
     });
 
     it('assigns specified success class on success', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-            return true;
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+                return true;
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} @successClass="im-a-success" />`);
+        this.set('context', context);
 
-        await this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} @successClass="im-a-success" />`);
+
+        await context.myTask.perform();
 
         expect(find('button')).to.not.have.class('gh-btn-green');
         expect(find('button')).to.have.class('im-a-success');
@@ -111,18 +140,24 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('shows failure when task errors', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            try {
-                yield timeout(50);
-                throw new ReferenceError('test error');
-            } catch (error) {
-                // noop, prevent mocha triggering unhandled error assert
+        class Context {
+            @task
+            *myTask() {
+                try {
+                    yield timeout(50);
+                    throw new ReferenceError('test error');
+                } catch (error) {
+                    // noop, prevent mocha triggering unhandled error assert
+                }
             }
-        }));
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} @failureClass="is-failed" />`);
+        this.set('context', context);
 
-        this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} @failureClass="is-failed" />`);
+
+        context.myTask.perform();
         await waitFor('button.is-failed');
 
         expect(find('button')).to.contain.text('Retry');
@@ -131,14 +166,20 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('shows failure on falsy response', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-            return false;
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+                return false;
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        this.set('context', context);
 
-        this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
+
+        context.myTask.perform();
         await waitFor('button.gh-btn-red', {timeout: 50});
 
         expect(find('button')).to.contain.text('Retry');
@@ -147,14 +188,20 @@ describe('Integration: Component: gh-task-button', function () {
     });
 
     it('assigns specified failure class on failure', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-            return false;
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+                return false;
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} @failureClass="im-a-failure" />`);
+        this.set('context', context);
 
-        this.myTask.perform();
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} @failureClass="im-a-failure" />`);
+
+        context.myTask.perform();
 
         await waitFor('button.im-a-failure', {timeout: 50});
 
@@ -166,29 +213,40 @@ describe('Integration: Component: gh-task-button', function () {
 
     it('performs task on click', async function () {
         let taskCount = 0;
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+                taskCount = taskCount + 1;
+            }
+        }
+        const context = new Context();
 
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-            taskCount = taskCount + 1;
-        }));
+        this.set('context', context);
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
         await click('button');
 
         expect(taskCount, 'taskCount').to.equal(1);
     });
 
     it.skip('keeps button size when showing spinner', async function () {
-        defineProperty(this, 'myTask', task(function* () {
-            yield timeout(50);
-        }));
+        class Context {
+            @task
+            *myTask() {
+                yield timeout(50);
+            }
+        }
+        const context = new Context();
 
-        await render(hbs`<GhTaskButton @task={{myTask}} />`);
+        this.set('context', context);
+
+        await render(hbs`<GhTaskButton @task={{this.context.myTask}} />`);
         let width = find('button').clientWidth;
         let height = find('button').clientHeight;
         expect(find('button')).to.not.have.attr('style');
 
-        this.myTask.perform();
+        context.myTask.perform();
 
         run.later(this, function () {
             // we can't test exact width/height because Chrome/Firefox use different rounding methods
