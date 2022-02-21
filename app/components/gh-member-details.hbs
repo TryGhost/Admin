@@ -47,7 +47,7 @@
                     Created on {{moment-format @member.createdAtUTC "D MMM YYYY"}}
                 </p>
             </div>
-            {{#if (not-eq this.settings.editorDefaultEmailRecipients "disabled")}}
+            {{#if (and (not-eq this.settings.membersSignupAccess "none") (not-eq this.settings.editorDefaultEmailRecipients "disabled"))}}
                 <div class="gh-member-details-stats">
                     <h4 class="gh-main-section-header small bn">Newsletter engagement</h4>
                     {{#if (eq @member.emailCount 0)}}
