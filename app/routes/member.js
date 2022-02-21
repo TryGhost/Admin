@@ -45,6 +45,13 @@ export default class MembersRoute extends AdminRoute {
         this._requiresBackgroundRefresh = true;
     }
 
+    buildRouteInfoMetadata() {
+        return {
+            titleToken: 'Member',
+            mainClasses: ['gh-main-fullwidth']
+        };
+    }
+
     @action
     save() {
         this.controller.save();
