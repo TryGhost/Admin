@@ -28,9 +28,7 @@ export default class LimitsService extends Service {
     @service store;
     @service membersStats;
 
-    constructor() {
-        super(...arguments);
-
+    async fetch() {
         let limits = this.config.get('hostSettings.limits');
 
         this.limiter = new LimitService();

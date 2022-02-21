@@ -28,9 +28,12 @@ export default class SlackSettings extends Transform {
             settingsArray = deserialized.map((item) => {
                 let url = (item.get('url') || '').trim();
                 let username = (item.get('username') || '').trim();
+
                 if (url) {
                     return {url, username};
                 }
+
+                return undefined;
             }).compact();
         } else {
             settingsArray = [];

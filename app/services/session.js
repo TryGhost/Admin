@@ -8,15 +8,16 @@ import {tracked} from '@glimmer/tracking';
 
 export default class SessionService extends ESASessionService {
     @service config;
-    @service('store') dataStore;
     @service feature;
+    @service frontend;
+    @service limits;
     @service notifications;
     @service router;
-    @service frontend;
     @service settings;
     @service ui;
     @service upgradeStatus;
     @service whatsNew;
+    @service('store') dataStore;
 
     @tracked user = null;
 
@@ -36,7 +37,8 @@ export default class SessionService extends ESASessionService {
         await RSVP.all([
             this.config.fetchAuthenticated(),
             this.feature.fetch(),
-            this.settings.fetch()
+            this.settings.fetch(),
+            this.limits.fetch()
         ]);
 
         await this.frontend.loginIfNeeded();
