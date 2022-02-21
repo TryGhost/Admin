@@ -233,8 +233,7 @@ export default class GeneralController extends Controller {
                 [username] = newUrl.match(/([^/]+)\/?$/mi);
             }
 
-            // check if username starts with http or www and show error if so
-            if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
+            if (!username.match(/^[a-z\d._]{1,15}$/mi)) {
                 errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitter Username' : 'The URL must be in a format like https://twitter.com/yourUsername';
 
                 this.get('settings.errors').add('twitter', errMessage);
