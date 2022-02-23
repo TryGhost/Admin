@@ -78,6 +78,10 @@ export default function mockMembers(server) {
                     {
                         key: 'label',
                         replacement: 'labels.slug'
+                    },
+                    {
+                        key: 'product',
+                        replacement: 'products.slug'
                     }
                 ]
             });

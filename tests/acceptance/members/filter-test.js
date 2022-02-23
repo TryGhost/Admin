@@ -119,6 +119,51 @@ describe('Acceptance: Members filtering', function () {
                 .to.equal(7);
         });
 
+        it('can filter by tier', async function () {
+            // add some non-labelled members so we can see the filter excludes correctly
+            this.server.createList('member', 4);
+
+            // add some labels to test the selection dropdown
+            // this.server.createList('product', 4);
+
+            // add a labelled member so we can test the filter includes correctly
+            const product = this.server.create('product');
+            this.server.createList('member', 3, {products: [product]});
+
+            await visit('/members');
+
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of initial member rows')
+                .to.equal(7);
+            await click('[data-test-button="members-filter-actions"]');
+
+            const filterSelector = `[data-test-members-filter="1"]`;
+
+            await fillIn(`${filterSelector} [data-test-select="members-filter"]`, 'label');
+
+            // has the right operators
+            const operatorOptions = findAll(`${filterSelector} [data-test-select="members-filter-operator"] option`);
+            expect(operatorOptions).to.have.length(2);
+            expect(operatorOptions[0]).to.have.value('is');
+            expect(operatorOptions[1]).to.have.value('is-not');
+
+            // value dropdown can open and has all labels
+            await click(`${filterSelector} .gh-member-label-input .ember-basic-dropdown-trigger`);
+            expect(findAll(`${filterSelector} [data-test-label-filter]`).length, '# of label options').to.equal(5);
+
+            // selecting a value updates table
+            await selectChoose(`${filterSelector} .gh-member-label-input`, label.name);
+
+            expect(findAll('[data-test-list="members-list-item"]').length, `# of filtered member rows - ${label.name}`)
+                .to.equal(3);
+            expect(find('[data-test-table-column="label"]')).to.exist;
+
+            // can delete filter
+            await click('[data-test-delete-members-filter="0"]');
+
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows after delete')
+                .to.equal(7);
+        });
+
         it('can filter by newsletter subscription', async function () {
             // add some members to filter
             this.server.createList('member', 3, {subscribed: true});
