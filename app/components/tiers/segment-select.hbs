@@ -6,11 +6,11 @@
     @allowCreation={{false}}
     @renderInPlace={{this.renderInPlace}}
     @onChange={{this.setSegment}}
-    @class="select-members"
+    @class="select-members gh-tier-token-input"
     @placeholder="Select a tier"
     as |option|
 >
-    <span data-test-visibility-segment-option={{option.name}}>{{option.name}}</span>
+    <span data-test-tiers-segment={{option.name}}>{{option.name}}</span>
 </GhTokenInput>
 
 {{#if @showMemberCount}}

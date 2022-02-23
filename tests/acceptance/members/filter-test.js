@@ -19,6 +19,7 @@ describe('Acceptance: Members filtering', function () {
         this.server.loadFixtures('configs');
         this.server.loadFixtures('settings');
         enableLabsFlag(this.server, 'membersLastSeenFilter');
+        enableLabsFlag(this.server, 'multipleProducts');
 
         // test with stripe connected and email turned on
         // TODO: add these settings to default fixtures
@@ -76,7 +77,6 @@ describe('Acceptance: Members filtering', function () {
             // add a labelled member so we can test the filter includes correctly
             const label = this.server.create('label');
             this.server.createList('member', 3, {labels: [label]});
-
             // add some non-labelled members so we can see the filter excludes correctly
             this.server.createList('member', 4);
 
@@ -120,15 +120,15 @@ describe('Acceptance: Members filtering', function () {
         });
 
         it('can filter by tier', async function () {
-            // add some non-labelled members so we can see the filter excludes correctly
-            this.server.createList('member', 4);
-
             // add some labels to test the selection dropdown
-            // this.server.createList('product', 4);
+            this.server.createList('product', 4);
 
             // add a labelled member so we can test the filter includes correctly
             const product = this.server.create('product');
             this.server.createList('member', 3, {products: [product]});
+
+            // add some non-labelled members so we can see the filter excludes correctly
+            this.server.createList('member', 4);
 
             await visit('/members');
 
@@ -136,9 +136,9 @@ describe('Acceptance: Members filtering', function () {
                 .to.equal(7);
             await click('[data-test-button="members-filter-actions"]');
 
-            const filterSelector = `[data-test-members-filter="1"]`;
+            const filterSelector = `[data-test-members-filter="0"]`;
 
-            await fillIn(`${filterSelector} [data-test-select="members-filter"]`, 'label');
+            await fillIn(`${filterSelector} [data-test-select="members-filter"]`, 'product');
 
             // has the right operators
             const operatorOptions = findAll(`${filterSelector} [data-test-select="members-filter-operator"] option`);
@@ -147,15 +147,15 @@ describe('Acceptance: Members filtering', function () {
             expect(operatorOptions[1]).to.have.value('is-not');
 
             // value dropdown can open and has all labels
-            await click(`${filterSelector} .gh-member-label-input .ember-basic-dropdown-trigger`);
-            expect(findAll(`${filterSelector} [data-test-label-filter]`).length, '# of label options').to.equal(5);
+            await click(`${filterSelector} .gh-tier-token-input .ember-basic-dropdown-trigger`);
+            expect(findAll(`${filterSelector} [data-test-tiers-segment]`).length, '# of label options').to.equal(5);
 
             // selecting a value updates table
-            await selectChoose(`${filterSelector} .gh-member-label-input`, label.name);
+            await selectChoose(`${filterSelector} .gh-tier-token-input`, product.name);
 
-            expect(findAll('[data-test-list="members-list-item"]').length, `# of filtered member rows - ${label.name}`)
+            expect(findAll('[data-test-list="members-list-item"]').length, `# of filtered member rows - ${product.name}`)
                 .to.equal(3);
-            expect(find('[data-test-table-column="label"]')).to.exist;
+            expect(find('[data-test-table-column="product"]')).to.exist;
 
             // can delete filter
             await click('[data-test-delete-members-filter="0"]');
