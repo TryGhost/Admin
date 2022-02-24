@@ -1014,7 +1014,7 @@ textarea.gh-member-details-textarea {
     margin: -12px 0 -8px;
 }
 
-.gh-member-settings .gh-member-feed {
+.gh-member-settings .gh-member-feed-labs {
     margin: 0;
     padding: 16px 20px;
     background: var(--white);
