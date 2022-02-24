@@ -676,7 +676,7 @@ label[for="member-description"] + p {
 .gh-member-details h3 {
     margin: 0;
     padding: 0;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 600;
 }
 
@@ -718,6 +718,11 @@ label[for="member-description"] + p {
     stroke: var(--midgrey);
 }
 
+.gh-member-details-stats-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .gh-member-details-stats {
     display: flex;
     flex-direction: column;
@@ -729,7 +734,7 @@ label[for="member-description"] + p {
     margin-bottom: 1.6rem;
 }
 
-.gh-member-details-stats .gh-main-section-header {
+.gh-member-details-stats-container .gh-main-section-header {
     margin-bottom: 1.6rem;
     border-bottom: 1px solid var(--whitegrey);
 }
@@ -891,31 +896,28 @@ textarea.gh-member-details-textarea {
 }
 
 @media (max-width: 1160px) {
-    .gh-member-settings {
+    .gh-member-settings .gh-main-section {
         display: flex;
         flex-direction: column;
     }
 
-    .gh-member-settings > div {
+    .gh-member-settings .gh-main-section > div {
         float: none;
         width: 100%;
     }
-
+    
     .gh-member-details {
-        order: 1;
+        position: relative;
+        top: unset;
+        left: unset;
     }
+}
 
-    .gh-member-feed {
-        order: 4;
-    }
-
-    .gh-member-internal-info {
-        order: 2;
-        margin-top: 3.2rem;
-    }
-
-    .gh-member-stripe {
-        order: 3;
+@media (min-width: 960px) and (max-width: 1160px),
+(min-width: 600px) and (max-width: 800px) {
+    .gh-member-details-stats {
+        flex-direction: row;
+        justify-content: space-between;
     }
 }
 
@@ -1102,6 +1104,12 @@ textarea.gh-member-details-textarea {
     justify-content: space-between;
 }
 
+@media (max-width: 600px) {
+    .gh-member-feed-detail {
+        flex-direction: column;
+    }
+}
+
 .gh-member-feed-event {
     display: inline-block;
     text-transform: lowercase;
@@ -1115,6 +1123,7 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-member-feed-icon {
+    flex-shrink: 0;
     width: 24px;
     height: 24px;
     margin-right: 1rem;
@@ -2001,6 +2010,13 @@ p.gh-members-import-errordetail:first-of-type {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 24px;
+}
+
+@media (max-width: 600px) {
+    .gh-cp-member-email-name {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
 }
 
 .gh-cp-data-summary:not(:last-of-type) {
