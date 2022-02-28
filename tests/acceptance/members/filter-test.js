@@ -155,7 +155,10 @@ describe('Acceptance: Members filtering', function () {
 
             expect(findAll('[data-test-list="members-list-item"]').length, `# of filtered member rows - ${product.name}`)
                 .to.equal(3);
+            // table shows labels column+data
             expect(find('[data-test-table-column="product"]')).to.exist;
+            expect(findAll('[data-test-table-data="product"]').length).to.equal(3);
+            expect(find('[data-test-table-data="product"]')).to.contain.text(product.name);
 
             // can delete filter
             await click('[data-test-delete-members-filter="0"]');
