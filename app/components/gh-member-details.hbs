@@ -47,7 +47,7 @@
                     Created on {{moment-format @member.createdAtUTC "D MMM YYYY"}}
                 </p>
                 {{#if (feature "membersLastSeenFilter")}}
-                    <p>
+                    <p class="gh-member-last-seen">
                         {{svg-jar "eye"}}
                         {{#if (not (is-empty @member.lastSeenAtUTC))}}
                             Last seen on {{moment-format @member.lastSeenAtUTC "D MMM YYYY"}}
