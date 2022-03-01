@@ -1,43 +1,12 @@
-import windowProxy from 'ghost-admin/utils/window-proxy';
-import {Response} from 'ember-cli-mirage';
-import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
-import {blur, click, currentRouteName, currentURL, fillIn, find, findAll, settled} from '@ember/test-helpers';
+import {click, currentRouteName, currentURL, find, findAll} from '@ember/test-helpers';
+import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {run} from '@ember/runloop';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
-import {timeout} from 'ember-concurrency';
 import {visit} from '../../helpers/visit';
 
-// Grabbed from keymaster's testing code because Ember's `keyEvent` helper
-// is for some reason not triggering the events in a way that keymaster detects:
-// https://github.com/madrobby/keymaster/blob/master/test/keymaster.html#L31
-const modifierMap = {
-    16: 'shiftKey',
-    18: 'altKey',
-    17: 'ctrlKey',
-    91: 'metaKey'
-};
-let keydown = function (code, modifiers, el) {
-    let event = document.createEvent('Event');
-    event.initEvent('keydown', true, true);
-    event.keyCode = code;
-    if (modifiers && modifiers.length > 0) {
-        for (let i in modifiers) {
-            event[modifierMap[modifiers[i]]] = true;
-        }
-    }
-    (el || document).dispatchEvent(event);
-};
-let keyup = function (code, el) {
-    let event = document.createEvent('Event');
-    event.initEvent('keyup', true, true);
-    event.keyCode = code;
-    (el || document).dispatchEvent(event);
-};
-
-describe.skip('Acceptance: Tags', function () {
+describe('Acceptance: Tags', function () {
     let hooks = setupApplicationTest();
     setupMirage(hooks);
 
@@ -45,59 +14,41 @@ describe.skip('Acceptance: Tags', function () {
         await invalidateSession();
         await visit('/tags');
 
-        expect(currentURL()).to.equal('/signin');
+        expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
-    it('redirects to staff page when authenticated as contributor', async function () {
+    it('redirects to posts page when authenticated as contributor', async function () {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
-        await visit('/settings/design');
+        await visit('/tags');
 
-        expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/posts');
     });
 
-    it('redirects to staff page when authenticated as author', async function () {
+    it('redirects to site page when authenticated as author', async function () {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
-        await visit('/settings/design');
+        await visit('/tags');
 
-        expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
     describe('when logged in', function () {
-        let newLocation, originalReplaceState;
-
-        beforeEach(async function () {
+        it('it renders and displays tags on correct list', async function () {
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
-            originalReplaceState = windowProxy.replaceState;
-            windowProxy.replaceState = function (params, title, url) {
-                newLocation = url;
-            };
-            newLocation = undefined;
-
-            return await authenticateSession();
-        });
-
-        afterEach(function () {
-            windowProxy.replaceState = originalReplaceState;
-        });
-
-        it('it renders, can be navigated, can edit, create & delete tags', async function () {
             let tag1 = this.server.create('tag');
-            let tag2 = this.server.create('tag');
+            let internalTag = this.server.create('tag', {name: '#internal-tag', slug: 'hash-internal-tag', visibility: 'internal'});
 
+            await authenticateSession();
             await visit('/tags');
 
-            // it redirects to first tag
-            // expect(currentURL(), 'currentURL').to.equal(`/tags/${tag1.slug}`);
-
-            // it doesn't redirect to first tag
+            // it edoesn't redirect to first tag
             expect(currentURL(), 'currentURL').to.equal('/tags');
 
             // it has correct page title
@@ -107,226 +58,261 @@ describe.skip('Acceptance: Tags', function () {
             expect(find('[data-test-nav="tags"]'), 'highlights nav menu item')
                 .to.have.class('active');
 
-            // it lists all tags
-            expect(findAll('.tags-list .gh-tags-list-item').length, 'tag list count')
-                .to.equal(2);
+            // it expects the Public tags button to be selected
+            expect(find('.gh-contentfilter .gh-btn-group-selected span').textContent, 'public tags button')
+                .to.equal('Public tags');
+
+            // expect to find tag1 with correct title, slug and zero posts
             let tag = find('.tags-list .gh-tags-list-item');
             expect(tag.querySelector('.gh-tag-list-name').textContent, 'tag list item title')
                 .to.equal(tag1.name);
             expect(tag.querySelector('.gh-tag-list-slug span').textContent, 'tag list item tag')
                 .to.equal(tag1.slug);
+            expect(tag.querySelector('.gh-tag-list-posts-count span').textContent, 'tag list item post count')
+                .to.equal('0 posts');
 
-            // it highlights selected tag
-            // expect(find(`a[href="/ghost/tags/${tag1.slug}"]`), 'highlights selected tag')
-            //     .to.have.class('active');
+            // move over to internal tags
+            await visit('/tags?type=internal');
+            // it expects the Internal tags button to be selected
+            expect(find('.gh-contentfilter .gh-btn-group-selected span').textContent, 'internal tags button')
+                .to.equal('Internal tags');
 
-            await visit(`/tags/${tag1.slug}`);
+            // ensure the nav menu is still highlighted
+            expect(find('[data-test-nav="tags"]'), 'highlights nav menu item')
+                .to.have.class('active');
 
-            // second wait is needed for the tag details to settle
+            // expect to find internalTag with correct title and slug
+            let tag2 = find('.tags-list .gh-tags-list-item');
+            expect(tag2.querySelector('.gh-tag-list-name').textContent, 'internal tag list item title')
+                .to.equal(internalTag.name);
+            expect(tag2.querySelector('.gh-tag-list-slug span').textContent, 'internal tag list item tag')
+                .to.equal(internalTag.slug);
+            expect(tag2.querySelector('.gh-tag-list-posts-count span').textContent, 'internal tag list item post count')
+                .to.equal('0 posts');
+        });
 
-            // it shows selected tag form
-            // expect(find('.tag-settings-pane h4').textContent, 'settings pane title')
-            //     .to.equal('Tag settings');
-            expect(find('.gh-tag-basic-settings-form input[name="name"]').value, 'loads correct tag into form')
-                .to.equal(tag1.name);
+        it('it displays the correct post count on the overview page', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            // click the second tag in the list
-            // let tagEditButtons = findAll('.tag-edit-button');
-            // await click(tagEditButtons[tagEditButtons.length - 1]);
+            await authenticateSession();
+            await visit('/tags');
 
-            // it navigates to selected tag
-            // expect(currentURL(), 'url after clicking tag').to.equal(`/tags/${tag2.slug}`);
+            // TODO
+        });
 
-            // it highlights selected tag
-            // expect(find(`a[href="/ghost/tags/${tag2.slug}"]`), 'highlights selected tag')
-            //     .to.have.class('active');
+        it('it displays an error when tag does not exist', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            // it shows selected tag form
-            // expect(find('.tag-settings-pane input[name="name"]').value, 'loads correct tag into form')
-            //     .to.equal(tag2.name);
+            await authenticateSession();
+            await visit('/tags/unknown');
 
-            // simulate up arrow press
-            run(() => {
-                keydown(38);
-                keyup(38);
+            expect(currentRouteName()).to.equal('error'); // TODO: Should be error404?
+            expect(currentURL()).to.equal('/tags/unknown');
+        });
+
+        it('it loads the tag via slug when accessed directly (tag created with slug and description only)', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
+
+            this.server.create('tag', {
+                slug: 'test-tag',
+                description: 'Lorum ipsum dolor sit amet'
             });
 
-            await settled();
+            await authenticateSession();
+            await visit('/tags/test-tag');
 
-            // it navigates to previous tag
-            expect(currentURL(), 'url after keyboard up arrow').to.equal(`/tags/${tag1.slug}`);
+            expect(currentURL(), 'URL after direct load').to.equal('/tags/test-tag');
 
-            // it highlights selected tag
-            // expect(find(`a[href="/ghost/tags/${tag1.slug}"]`), 'selects previous tag')
-            //     .to.have.class('active');
+            // Show correct tag information in specific fields
+            expect(find('.gh-main-section-content input[name="name"]').value, 'loads correct tag name into form')
+                .to.equal('Tag 0');
+            expect(find('.gh-main-section-content input[name="slug"]').value, 'loads correct tag slug into form')
+                .to.equal('test-tag');
+            expect(find('.gh-main-section-content textarea[name="description"]').value, 'loads correct tag description into form')
+                .to.equal('Lorum ipsum dolor sit amet');
 
-            // simulate down arrow press
-            run(() => {
-                keydown(40);
-                keyup(40);
+            // Ensure title and descriptions have correct placeholders when no values are present
+            await click('.gh-btn-expand[name="meta"]');
+            expect(find('.gh-setting-content-extended input[name="metaTitle"]').getAttribute('placeholder'), 'loads correct placeholder for meta title')
+                .to.equal('Tag 0');
+            expect(find('.gh-setting-content-extended textarea[name="metaDescription"]').getAttribute('placeholder'), 'loads correct placeholder for meta description')
+                .to.equal('Lorum ipsum dolor sit amet');
+
+            await click('.gh-btn-expand[name="twitter"]');
+            expect(find('.gh-setting-content-extended input[name="twitterTitle"]').getAttribute('placeholder'), 'loads correct placeholder for twitter title')
+                .to.equal('Tag 0');
+            expect(find('.gh-setting-content-extended textarea[name="twitterDescription"]').getAttribute('placeholder'), 'loads correct placeholder for twitter description')
+                .to.equal('Lorum ipsum dolor sit amet');
+
+            await click('.gh-btn-expand[name="facebook"]');
+            expect(find('.gh-setting-content-extended input[name="ogTitle"]').getAttribute('placeholder'), 'loads correct placeholder for facebook title')
+                .to.equal('Tag 0');
+            expect(find('.gh-setting-content-extended textarea[name="ogDescription"]').getAttribute('placeholder'), 'loads correct placeholder for facebook description')
+                .to.equal('Lorum ipsum dolor sit amet');
+        });
+
+        it('it loads the tag via slug when accessed directly (tag created with custom properties)', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
+            this.server.create('tag', {
+                name: 'Test tag',
+                slug: 'test-tag',
+                description: 'Lorum ipsum dolor sit amet',
+                metaTitle: 'Lorum ipsum  - Meta title',
+                metaDescription: 'Lorum ipsum  - Meta description',
+                twitterTitle: 'Lorum ipsum  - TWitter title',
+                twitterDescription: 'Lorum ipsum  - Twitter description',
+                ogTitle: 'Lorum ipsum  - Facebook title',
+                ogDescription: 'Lorum ipsum  - Facebook description',
+                codeinjectionHead: 'Lorum ipsum  - Code injection head',
+                ogTcodeinjectionFoo: 'Lorum ipsum  - Code injection foot',
+                canonicalUrl: 'https://example.com',
+                accentColor: '123456'
             });
 
-            await settled();
+            await authenticateSession();
+            await visit('/tags/test-tag');
 
-            // it navigates to previous tag
-            expect(currentURL(), 'url after keyboard down arrow').to.equal(`/tags/${tag2.slug}`);
+            expect(currentURL(), 'URL after direct load').to.equal('/tags/test-tag');
 
-            // it highlights selected tag
-            // expect(find(`a[href="/ghost/tags/${tag2.slug}"]`), 'selects next tag')
-            //     .to.have.class('active');
+            // Show correct tag information in specific fields
+            expect(find('.gh-main-section-content input[name="name"]').value, 'loads correct tag name into form')
+                .to.equal('Test tag');
+            expect(find('.gh-main-section-content input[name="accent-color"]').value, 'loads correct accent color into form')
+                .to.equal('123456');
+            expect(find('.gh-main-section-content input[name="slug"]').value, 'loads correct tag slug into form')
+                .to.equal('test-tag');
+            expect(find('.gh-main-section-content textarea[name="description"]').value, 'loads correct tag description into form')
+                .to.equal('Lorum ipsum dolor sit amet');
 
-            // trigger save
-            await fillIn('.tag-settings-pane input[name="name"]', 'New Name');
-            await blur('.tag-settings-pane input[name="name"]');
+            // Ensure titles and descriptions have correct values for specific social platforms
+            await click('.gh-btn-expand[name="meta"]');
+            expect(find('.gh-setting-content-extended input[name="metaTitle"]').value, 'loads correct value for meta title')
+                .to.equal('Lorum ipsum  - Meta title');
+            expect(find('.gh-setting-content-extended textarea[name="metaDescription"]').value, 'loads correct value for meta description')
+                .to.equal('Lorum ipsum  - Meta description');
 
-            // extra timeout needed for Travis - sometimes it doesn't update
-            // quick enough and an extra wait() call doesn't help
-            await timeout(100);
+            await click('.gh-btn-expand[name="twitter"]');
+            expect(find('.gh-setting-content-extended input[name="twitterTitle"]').value, 'loads correct value for twitter title')
+                .to.equal('Lorum ipsum  - TWitter title');
+            expect(find('.gh-setting-content-extended textarea[name="twitterDescription"]').value, 'loads correct value for twitter description')
+                .to.equal('Lorum ipsum  - Twitter description');
 
-            // check we update with the data returned from the server
-            let tags = findAll('.settings-tags .settings-tag');
-            tag = tags[0];
-            expect(tag.querySelector('.tag-title').textContent, 'tag list updates on save')
-                .to.equal('New Name');
-            expect(find('.tag-settings-pane input[name="name"]').value, 'settings form updates on save')
-                .to.equal('New Name');
+            await click('.gh-btn-expand[name="facebook"]');
+            expect(find('.gh-setting-content-extended input[name="ogTitle"]').value, 'loads correct value for facebook title')
+                .to.equal('Lorum ipsum  - Facebook title');
+            expect(find('.gh-setting-content-extended textarea[name="ogDescription"]').value, 'loads correct value for facebook description')
+                .to.equal('Lorum ipsum  - Facebook description');
+        });
 
-            // start new tag
-            await click('.view-actions .gh-btn-green');
+        it('it validates correctly when saving a tag without entering any fields', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
-            // it navigates to the new tag route
-            expect(currentURL(), 'new tag URL').to.equal('/tags/new');
+            await authenticateSession();
+            await visit('/tags/new');
 
-            // it displays the new tag form
-            expect(find('.tag-settings-pane h4').textContent, 'settings pane title')
-                .to.equal('New tag');
+            // Directly click op the save button
+            await click('[data-test-button="save"]');
+
+            expect(find('.gh-main-section-content input[name="name"]').nextElementSibling, 'shows error message for name field')
+                .to.have.class('error');
+        });
+
+        // This test could be heavily approved at least for now tests if the fields contain
+        // the correct information after storing and loading the tag.
+        it('it can navigate, create tags and edit tags', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
+
+            await authenticateSession();
+            await visit('/tags');
+
+            // CREATION OF TAGS
+
+            await click('[data-test-new-tag-button]');
+            expect(currentURL(), 'URL after pressing New Tag button').to.equal('/tags/new');
 
             // all fields start blank
-            findAll('.tag-settings-pane input, .tag-settings-pane textarea').forEach(function (elem) {
+            findAll('.gh-input, .gh-tag-details-textarea, gh-cm-editor-textarea').forEach(function (elem) {
                 expect(elem.value, `input field for ${elem.getAttribute('name')}`)
                     .to.be.empty;
             });
 
-            // save new tag
-            await fillIn('.tag-settings-pane input[name="name"]', 'New tag');
-            await blur('.tag-settings-pane input[name="name"]');
-
-            // extra timeout needed for FF on Linux - sometimes it doesn't update
-            // quick enough, especially on Travis, and an extra wait() call
-            // doesn't help
-            await timeout(100);
-
-            // it redirects to the new tag's URL
-            expect(currentURL(), 'URL after tag creation').to.equal('/tags/new-tag');
-
-            // it adds the tag to the list and selects
-            tags = findAll('.settings-tags .settings-tag');
-            tag = tags[1]; // second tag in list due to alphabetical ordering
-            expect(tags.length, 'tag list count after creation')
-                .to.equal(3);
-
-            // new tag will be second in the list due to alphabetical sorting
-            expect(findAll('.settings-tags .settings-tag')[1].querySelector('.tag-title').textContent.trim(), 'new tag list item title');
-            expect(tag.querySelector('.tag-title').textContent, 'new tag list item title')
-                .to.equal('New tag');
-            expect(find('a[href="/ghost/tags/new-tag"]'), 'highlights new tag')
-                .to.have.class('active');
-
-            // delete tag
-            await click('.settings-menu-delete-button');
-            await click('.fullscreen-modal .gh-btn-red');
-
-            // it redirects to the first tag
-            expect(currentURL(), 'URL after tag deletion').to.equal(`/tags/${tag1.slug}`);
-
-            // it removes the tag from the list
-            expect(findAll('.settings-tags .settings-tag').length, 'tag list count after deletion')
-                .to.equal(2);
-        });
-
-        // TODO: Unskip and fix
-        // skipped because it was failing most of the time on Travis
-        // see https://github.com/TryGhost/Ghost/issues/8805
-        it.skip('loads tag via slug when accessed directly', async function () {
-            this.server.createList('tag', 2);
-
-            await visit('/tags/tag-1');
-
-            expect(currentURL(), 'URL after direct load').to.equal('/tags/tag-1');
-
-            // it loads all other tags
-            expect(findAll('.settings-tags .settings-tag').length, 'tag list count after direct load')
-                .to.equal(2);
-
-            // selects tag in list
-            expect(find('a[href="/ghost/tags/tag-1"]').classList.contains('active'), 'highlights requested tag')
-                .to.be.true;
-
-            // shows requested tag in settings pane
-            expect(find('.tag-settings-pane input[name="name"]').value, 'loads correct tag into form')
-                .to.equal('Tag 1');
-        });
-
-        it('shows the internal tag label', async function () {
-            this.server.create('tag', {name: '#internal-tag', slug: 'hash-internal-tag', visibility: 'internal'});
-
-            await visit('tags/');
-
-            expect(currentURL()).to.equal('/tags/hash-internal-tag');
-
-            expect(findAll('.settings-tags .settings-tag').length, 'tag list count')
-                .to.equal(1);
-
-            let tag = find('.settings-tags .settings-tag');
-
-            expect(tag.querySelectorAll('.label.label-blue').length, 'internal tag label')
-                .to.equal(1);
-
-            expect(tag.querySelector('.label.label-blue').textContent.trim(), 'internal tag label text')
-                .to.equal('internal');
-        });
-
-        it('updates the URL when slug changes', async function () {
-            this.server.createList('tag', 2);
-
-            await visit('/tags/tag-1');
-
-            expect(currentURL(), 'URL after direct load').to.equal('/tags/tag-1');
-
-            // update the slug
-            await fillIn('.tag-settings-pane input[name="slug"]', 'test');
-            await blur('.tag-settings-pane input[name="slug"]');
-
-            // tests don't have a location.hash so we can only check that the
-            // slug portion is updated correctly
-            expect(newLocation, 'URL after slug change').to.equal('test');
-        });
-
-        it('redirects to 404 when tag does not exist', async function () {
-            this.server.get('/tags/slug/unknown/', function () {
-                return new Response(404, {'Content-Type': 'application/json'}, {errors: [{message: 'Tag not found.', type: 'NotFoundError'}]});
+            // fill all fields with exact same value;
+            findAll('.gh-input, .gh-tag-details-textarea, gh-cm-editor-textarea').forEach(function (elem) {
+                elem.value = 'Lorum ipsum';
             });
 
-            await visit('tags/unknown');
+            // save the tag
+            await click('[data-test-button="save"]');
+            await visit('/tags/lorum-ipsum');
 
-            expect(currentRouteName()).to.equal('error404');
-            expect(currentURL()).to.equal('/tags/unknown');
+            // check that all fields have the same value
+            findAll('.gh-input, .gh-tag-details-textarea, gh-cm-editor-textarea').forEach(function (elem) {
+                expect(elem.value, `input field for ${elem.getAttribute('name')}`)
+                    .to.equal('Lorum ipsum');
+            });
+
+            // Now fill all the fields with a new value
+            findAll('.gh-input, .gh-tag-details-textarea, gh-cm-editor-textarea').forEach(function (elem) {
+                elem.value = 'dolor sit amet';
+            });
+
+            // save the tag
+            await click('[data-test-button="save"]');
+            await visit('/tags/lorum-ipsum');
+
+            // check that all fields have the same value
+            findAll('.gh-input, .gh-tag-details-textarea, gh-cm-editor-textarea').forEach(function (elem) {
+                expect(elem.value, `input field for ${elem.getAttribute('name')}`)
+                    .to.equal('dolor sit amet');
+            });
         });
 
-        it('sorts tags correctly', async function () {
-            this.server.create('tag', {name: 'B - Third', slug: 'third'});
-            this.server.create('tag', {name: 'Z - Last', slug: 'last'});
-            this.server.create('tag', {name: '#A - Second', slug: 'second'});
-            this.server.create('tag', {name: 'A - First', slug: 'first'});
+        it('it can navigate and delete tags', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
 
+            this.server.create('tag', {slug: 'to-be-deleted-slug'});
+
+            await authenticateSession();
+            await visit('tags/to-be-deleted-slug');
+
+            await click('[data-test-delete-button]');
+            await click('[data-test-modal-confirm]');
+
+            await visit('/tags/to-be-deleted-slug');
+
+            expect(currentRouteName()).to.equal('error'); // TODO: Should be error404?
+            expect(currentURL()).to.equal('/tags/to-be-deleted-slug');
+        });
+
+        it('sorts tags correctly based on numeric and ignoring the hashtag', async function () {
+            let role = this.server.create('role', {name: 'Administrator'});
+            this.server.create('user', {roles: [role]});
+
+            this.server.create('tag', {name: 'B - Fifth', slug: 'fith'});
+            this.server.create('tag', {name: '#Z - Last', slug: 'last'});
+            this.server.create('tag', {name: 'A - Fourth', slug: 'fourth'});
+            this.server.create('tag', {name: '1 - First', slug: 'First'});
+            this.server.create('tag', {name: '11 - Third', slug: 'Third'});
+            this.server.create('tag', {name: '2 - Second', slug: 'fourth'});
+
+            await authenticateSession();
             await visit('tags');
 
-            let tags = findAll('[data-test-tag]');
+            let tags = findAll('.gh-tag-list-name');
 
-            expect(tags[0].querySelector('[data-test-name]').textContent.trim()).to.equal('A - First');
-            expect(tags[1].querySelector('[data-test-name]').textContent.trim()).to.equal('#A - Second');
-            expect(tags[2].querySelector('[data-test-name]').textContent.trim()).to.equal('B - Third');
-            expect(tags[3].querySelector('[data-test-name]').textContent.trim()).to.equal('Z - Last');
+            expect(tags[0].textContent.trim()).to.equal('1 - First');
+            expect(tags[1].textContent.trim()).to.equal('2 - Second');
+            expect(tags[2].textContent.trim()).to.equal('11 - Third');
+            expect(tags[3].textContent.trim()).to.equal('A - Fourth');
+            expect(tags[4].textContent.trim()).to.equal('B - Fifth');
+            expect(tags[5].textContent.trim()).to.equal('#Z - Last');
         });
     });
 });

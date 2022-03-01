@@ -6,7 +6,7 @@
                 <button class="gh-btn {{if (eq this.type "public") "gh-btn-group-selected"}}" type="button" {{action "changeType" "public"}}><span>Public tags</span></button>
                 <button class="gh-btn {{if (eq this.type "internal") "gh-btn-group-selected"}}" type="button" {{action "changeType" "internal"}}><span>Internal tags</span></button>
             </div>
-            <LinkTo @route="tag.new" class="gh-btn gh-btn-primary"><span>New tag</span></LinkTo>
+            <LinkTo @route="tag.new" class="gh-btn gh-btn-primary" data-test-new-tag-button><span>New tag</span></LinkTo>
         </section>
     </GhCanvasHeader>
 
@@ -25,11 +25,11 @@
             {{else}}
                 <li class="no-posts-box">
                     <div class="no-posts">
-                            {{svg-jar "tags-placeholder" class="gh-tags-placeholder"}}
-                            <h4>Start organizing your content.</h4>
-                            <LinkTo @route="tag.new" class="gh-btn gh-btn-green">
-                                <span>Create a new tag</span>
-                            </LinkTo>
+                        {{svg-jar "tags-placeholder" class="gh-tags-placeholder"}}
+                        <h4>Start organizing your content.</h4>
+                        <LinkTo @route="tag.new" class="gh-btn gh-btn-green">
+                            <span>Create a new tag</span>
+                        </LinkTo>
                     </div>
                 </li>
             {{/if}}

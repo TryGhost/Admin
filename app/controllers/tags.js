@@ -24,7 +24,8 @@ export default class TagsController extends Controller {
     // tags are sorted by name
     @sort('filteredTags', function (tagA, tagB) {
         // ignorePunctuation means the # in internal tag names is ignored
-        return tagA.name.localeCompare(tagB.name, undefined, {ignorePunctuation: true});
+        // numeric and sensitivity ensure that tags starting with 11 are sorted after tags 1-9
+        return tagA.name.localeCompare(tagB.name, undefined, {ignorePunctuation: true, numeric: true, sensitivity: 'base'});
     })
         sortedTags;
 
