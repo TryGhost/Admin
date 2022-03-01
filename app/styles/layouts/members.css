@@ -1031,8 +1031,13 @@ textarea.gh-member-details-textarea {
 
 .gh-member-feed-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    height: 52px;
     padding: 0;
+}
+
+.gh-member-feed-row-labs {
+    height: unset;
 }
 
 .gh-member-feed-activity {
@@ -1088,7 +1093,7 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-member-btn-expandfeed {
-    margin: 8px 0;
+    margin-top: 16px;
 }
 
 .gh-member-feed-row:first-child .gh-member-feed-container {
