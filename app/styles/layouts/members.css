@@ -1023,6 +1023,7 @@ textarea.gh-member-details-textarea {
 }
 
 .gh-member-settings .gh-member-feed-no-data {
+    margin: 0;
     padding: 24px 0 28px;
     background: transparent;
     box-shadow: none;
