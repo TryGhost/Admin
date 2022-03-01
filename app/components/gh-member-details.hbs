@@ -46,6 +46,16 @@
                     {{svg-jar "member-add"}}
                     Created on {{moment-format @member.createdAtUTC "D MMM YYYY"}}
                 </p>
+                {{#if (feature "membersLastSeenFilter")}}
+                    <p>
+                        {{svg-jar "eye"}}
+                        {{#if (not (is-empty @member.lastSeenAtUTC))}}
+                            Last seen on {{moment-format @member.lastSeenAtUTC "D MMM YYYY"}}
+                        {{else}}
+                            <span>Not seen yet</span>
+                        {{/if}}
+                    </p>
+                {{/if}}
             </div>
             {{#if (and (not-eq this.settings.membersSignupAccess "none") (not-eq this.settings.editorDefaultEmailRecipients "disabled"))}}
                 <div class="gh-member-details-stats-container">

@@ -8,7 +8,7 @@
                     <div class="gh-cp-member-email-name">
                         <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="name" @classNames="max-width">
                             <label for="member-name">Name</label>
-                            <GhTextInput @id="member-name" @name="name" @value={{this.scratchMember.name}} @tabindex="1"
+                            <GhTextInput @id="member-name" @name="name" @value={{this.scratchMember.name}} @tabindex="1" @shouldFocus="{{if this.member.isNew true}}"
                                 @focus-out={{action "setProperty" "name" this.scratchMember.name}} data-test-input="member-name" />
                             <GhErrorMessage @errors={{this.member.errors}} @property="name" />
                         </GhFormGroup>
