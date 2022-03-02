@@ -34,6 +34,9 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
     @action
     setup() {
         this.setupTask.perform();
+        this.session.loadServerNotifications();
+        this.modals.open('modals/get-started');
+        this.router.transitionTo('home');
     }
 
     @action
@@ -185,12 +188,12 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
     _afterAuthentication(result) {
         if (this.profileImage) {
             return this._sendImage(result.users[0])
-                .then(() => (this.router.transitionTo('setup.three')))
+                .then(() => (this.router.transitionTo('home')))
                 .catch((resp) => {
                     this.notifications.showAPIError(resp, {key: 'setup.blog-details'});
                 });
         } else {
-            return this.router.transitionTo('setup.three');
+            return this.router.transitionTo('home');
         }
     }
 }

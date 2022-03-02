@@ -28,9 +28,6 @@ describe('Acceptance: Setup', function () {
 
         await visit('/setup/two');
         expect(currentURL()).to.equal('/site');
-
-        await visit('/setup/three');
-        expect(currentURL()).to.equal('/site');
     });
 
     it('redirects to signin if already set up', async function () {
@@ -73,10 +70,9 @@ describe('Acceptance: Setup', function () {
 
             // it highlights first step
             let stepIcons = findAll('.gh-flow-nav .step');
-            expect(stepIcons.length, 'sanity check: three steps').to.equal(3);
+            expect(stepIcons.length, 'sanity check: two steps').to.equal(2);
             expect(stepIcons[0], 'first step').to.have.class('active');
             expect(stepIcons[1], 'second step').to.not.have.class('active');
-            expect(stepIcons[2], 'third step').to.not.have.class('active');
 
             await click('.gh-btn-green');
 
@@ -111,9 +107,9 @@ describe('Acceptance: Setup', function () {
             await fillIn('[data-test-blog-title-input]', 'Blog Title');
             await click('.gh-btn-green');
 
-            // it transitions to step 3
+            // it redirects to the home / "content" screen
             expect(currentURL(), 'url after submitting step two')
-                .to.equal('/setup/three');
+                .to.equal('/dashboard');
 
             // submit button is "disabled"
             expect(find('button[type="submit"]').classList.contains('gh-btn-green'), 'invite button with no emails is white')
@@ -128,10 +124,6 @@ describe('Acceptance: Setup', function () {
 
             // submit the invite form
             await click('button[type="submit"]');
-
-            // it redirects to the home / "content" screen
-            expect(currentURL(), 'url after submitting invites')
-                .to.equal('/dashboard');
 
             // it displays success alert
             expect(findAll('.gh-alert-green').length, 'number of success alerts')
@@ -225,135 +217,6 @@ describe('Acceptance: Setup', function () {
             // we should show an error message
             expect(find('.main-error').textContent, 'error text')
                 .to.have.string('Access Denied from url: unknown.com. Please use the url configured in config.js.');
-        });
-
-        it('handles validation errors in step 3', async function () {
-            let input = '[name="users"]';
-            let postCount = 0;
-            let button, formGroup;
-
-            await invalidateSession();
-            this.server.loadFixtures('roles');
-
-            this.server.post('/invites/', function ({invites}) {
-                let attrs = this.normalizedRequestAttrs();
-
-                postCount += 1;
-
-                // invalid
-                if (postCount === 1) {
-                    return new Response(422, {}, {
-                        errors: [
-                            {
-                                type: 'ValidationError',
-                                message: 'Dummy validation error'
-                            }
-                        ]
-                    });
-                }
-
-                // TODO: duplicated from mirage/config/invites - extract method?
-                attrs.token = `${invites.all().models.length}-token`;
-                attrs.expires = moment.utc().add(1, 'day').valueOf();
-                attrs.createdAt = moment.utc().format();
-                attrs.createdBy = 1;
-                attrs.updatedAt = moment.utc().format();
-                attrs.updatedBy = 1;
-                attrs.status = 'sent';
-
-                return invites.create(attrs);
-            });
-
-            // complete step 2 so we can access step 3
-            await visit('/setup/two');
-            await fillIn('[data-test-email-input]', 'test@example.com');
-            await fillIn('[data-test-name-input]', 'Test User');
-            await fillIn('[data-test-password-input]', 'thisissupersafe');
-            await fillIn('[data-test-blog-title-input]', 'Blog Title');
-            await click('.gh-btn-green');
-
-            // default field/button state
-            formGroup = find('.gh-flow-invite .form-group');
-            button = find('.gh-flow-invite button[type="submit"]');
-
-            expect(formGroup, 'default field has error class')
-                .to.not.have.class('error');
-
-            expect(button.textContent, 'default button text')
-                .to.have.string('Invite some users');
-
-            expect(button, 'default button is disabled')
-                .to.have.class('gh-btn-minor');
-
-            // no users submitted state
-            await click('.gh-flow-invite button[type="submit"]');
-
-            expect(formGroup, 'no users submitted field has error class')
-                .to.have.class('error');
-
-            expect(button.textContent, 'no users submitted button text')
-                .to.have.string('No users to invite');
-
-            expect(button, 'no users submitted button is disabled')
-                .to.have.class('gh-btn-minor');
-
-            // single invalid email
-            await fillIn(input, 'invalid email');
-            await blur(input);
-
-            expect(formGroup, 'invalid field has error class')
-                .to.have.class('error');
-
-            expect(button.textContent, 'single invalid button text')
-                .to.have.string('1 invalid email address');
-
-            expect(button, 'invalid email button is disabled')
-                .to.have.class('gh-btn-minor');
-
-            // multiple invalid emails
-            await fillIn(input, 'invalid email\nanother invalid address');
-            await blur(input);
-
-            expect(button.textContent, 'multiple invalid button text')
-                .to.have.string('2 invalid email addresses');
-
-            // single valid email
-            await fillIn(input, 'invited@example.com');
-            await blur(input);
-
-            expect(formGroup, 'valid field has error class')
-                .to.not.have.class('error');
-
-            expect(button.textContent, 'single valid button text')
-                .to.have.string('Invite 1 user');
-
-            expect(button, 'valid email button is enabled')
-                .to.have.class('gh-btn-green');
-
-            // multiple valid emails
-            await fillIn(input, 'invited1@example.com\ninvited2@example.com');
-            await blur(input);
-
-            expect(button.textContent, 'multiple valid button text')
-                .to.have.string('Invite 2 users');
-
-            // submit invitations with simulated failure on 1 invite
-            await click('.gh-btn-green');
-
-            // it redirects to the home / "content" screen
-            expect(currentURL(), 'url after submitting invites')
-                .to.equal('/dashboard');
-
-            // it displays success alert
-            expect(findAll('.gh-alert-green').length, 'number of success alerts')
-                .to.equal(1);
-
-            // it displays failure alert
-            expect(findAll('.gh-alert-red').length, 'number of failure alerts')
-                .to.equal(1);
-
-            // it opens get-started modal
-            expect(find('[data-test-modal="get-started"]')).to.exist;
         });
     });
 
