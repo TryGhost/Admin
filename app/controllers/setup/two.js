@@ -151,7 +151,9 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
 
                 return this.session.authenticate('authenticator:cookie', data.email, data.password).then(() => {
                     this.set('blogCreated', true);
-                    return this._afterAuthentication(result);
+                    return this.session.populateUser().then(() => {
+                        return this._afterAuthentication(result);
+                    });
                 }).catch((error) => {
                     this._handleAuthenticationError(error);
                 });
@@ -185,12 +187,12 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
     _afterAuthentication(result) {
         if (this.profileImage) {
             return this._sendImage(result.users[0])
-                .then(() => (this.router.transitionTo('home')))
+                .then(() => (this.router.transitionTo('dashboard')))
                 .catch((resp) => {
                     this.notifications.showAPIError(resp, {key: 'setup.blog-details'});
                 });
         } else {
-            return this.router.transitionTo('home');
+            return this.router.transitionTo('dashboard');
         }
     }
 }
