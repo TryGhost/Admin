@@ -34,9 +34,6 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
     @action
     setup() {
         this.setupTask.perform();
-        this.session.loadServerNotifications();
-        this.modals.open('modals/get-started');
-        this.router.transitionTo('home');
     }
 
     @action

@@ -10,7 +10,7 @@ export default class SetupController extends Controller {
     @service ghostPaths;
     @service router;
 
-    @match('router.currentRouteName', /^setup\.(two|three)$/)
+    @match('router.currentRouteName', /^setup\.two$/)
         showBackLink;
 
     @computed('router.currentRouteName')

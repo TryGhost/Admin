@@ -13,7 +13,6 @@ Router.map(function () {
     this.route('setup', function () {
         this.route('one');
         this.route('two');
-        this.route('three');
     });
     this.route('setup.done', {path: '/setup/done'});
 
