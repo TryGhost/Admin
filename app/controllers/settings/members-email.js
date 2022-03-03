@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 export default class MembersEmailController extends Controller {
@@ -9,7 +9,7 @@ export default class MembersEmailController extends Controller {
     @service session;
     @service settings;
 
-    queryParams = ['showEmailDesignSettings']
+    queryParams = ['showEmailDesignSettings'];
 
     // from/supportAddress are set here so that they can be reset to saved values on save
     // to avoid it looking like they've been saved when they have a separate update process

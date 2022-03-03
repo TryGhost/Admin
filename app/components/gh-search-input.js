@@ -6,8 +6,7 @@ import {isBlank, isEmpty} from '@ember/utils';
 import {pluralize} from 'ember-inflector';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
-import {timeout, waitForProperty} from 'ember-concurrency';
+import {task, timeout, waitForProperty} from 'ember-concurrency';
 
 export default class GhSearchInputComponent extends Component {
     @service ajax;
@@ -43,7 +42,7 @@ export default class GhSearchInputComponent extends Component {
         fields: ['slug', 'name'],
         idField: 'slug',
         titleField: 'name'
-    }]
+    }];
 
     @action
     openSelected(selected) {

@@ -97,6 +97,7 @@
 .gh-product-card-empty-state p {
     margin-bottom: 0;
     padding: 3.2rem;
+    color: var(--midgrey);
 }
 
 .gh-product-card-description {
@@ -500,6 +501,14 @@
 .gh-product-benefits .gh-blognav-item {
     position: relative;
     align-items: center;
+}
+
+.gh-product-benefits .gh-blognav-item.gh-blognav-item--error {
+    align-items: flex-start;
+}
+
+.gh-blognav-item--error button.gh-blognav-add {
+    margin-top: 12px;
 }
 
 .gh-product-benefits .gh-blognav-label {

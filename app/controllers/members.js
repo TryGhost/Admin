@@ -1,6 +1,4 @@
 import Controller from '@ember/controller';
-import config from 'ghost-admin/config/environment';
-import fetch from 'fetch';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import moment from 'moment';
 import {A} from '@ember/array';
@@ -9,8 +7,7 @@ import {capitalize} from '@ember/string';
 import {ghPluralize} from 'ghost-admin/helpers/gh-pluralize';
 import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
-import {timeout} from 'ember-concurrency';
+import {task, timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const PAID_PARAMS = [{
@@ -31,6 +28,7 @@ export default class MembersController extends Controller {
     @service feature;
     @service ghostPaths;
     @service membersStats;
+    @service modals;
     @service router;
     @service store;
     @service utils;
@@ -45,8 +43,8 @@ export default class MembersController extends Controller {
     ];
 
     @tracked members = A([]);
-    @tracked searchText = '';
     @tracked searchParam = '';
+    @tracked searchIsFocused = false;
     @tracked filterParam = null;
     @tracked softFilterParam = null;
     @tracked paidParam = null;
@@ -54,10 +52,6 @@ export default class MembersController extends Controller {
     @tracked orderParam = null;
     @tracked modalLabel = null;
     @tracked showLabelModal = false;
-    @tracked showDeleteMembersModal = false;
-    @tracked showUnsubscribeMembersModal = false;
-    @tracked showAddMembersLabelModal = false;
-    @tracked showRemoveMembersLabelModal = false;
     @tracked filters = A([]);
     @tracked softFilters = A([]);
 
@@ -68,22 +62,18 @@ export default class MembersController extends Controller {
     constructor() {
         super(...arguments);
         this._availableLabels = this.store.peekAll('label');
-
-        if (this.isTesting === undefined) {
-            this.isTesting = config.environment === 'test';
-        }
     }
 
     // Computed properties -----------------------------------------------------
 
     get listHeader() {
-        let {searchText, selectedLabel, members} = this;
+        let {searchParam, selectedLabel, members} = this;
 
         if (members.loading) {
             return 'Loading...';
         }
 
-        if (searchText) {
+        if (searchParam) {
             return 'Search result';
         }
 
@@ -98,6 +88,12 @@ export default class MembersController extends Controller {
         }
 
         return count;
+    }
+
+    get hideSearchBar() {
+        return !this.members.length
+            && !this.searchParam
+            && !this.searchIsFocused;
     }
 
     get showingAll() {
@@ -161,7 +157,7 @@ export default class MembersController extends Controller {
     }
 
     get filterColumns() {
-        const defaultColumns = ['name', 'email'];
+        const defaultColumns = ['name', 'email', 'created_at'];
         const availableFilters = this.filters.length ? this.filters : this.softFilters;
         return availableFilters.map((filter) => {
             return filter.type;
@@ -174,10 +170,21 @@ export default class MembersController extends Controller {
         const filterColumnLabelMap = {
             'subscriptions.plan_interval': 'Billing period',
             subscribed: 'Subscribed to email',
-            'subscriptions.status': 'Subscription Status'
+            'subscriptions.status': 'Subscription Status',
+            product: 'Tiers'
         };
         return this.filterColumns.map((d) => {
-            return filterColumnLabelMap[d] ? filterColumnLabelMap[d] : capitalize(d.replace(/_/g, ' '));
+            return {
+                name: d,
+                label: filterColumnLabelMap[d] ? filterColumnLabelMap[d] : capitalize(d.replace(/_/g, ' '))
+            };
+        });
+    }
+
+    includeProductQuery() {
+        const availableFilters = this.filters.length ? this.filters : this.softFilters;
+        return availableFilters.some((f) => {
+            return f.type === 'product';
         });
     }
 
@@ -280,17 +287,6 @@ export default class MembersController extends Controller {
     }
 
     @action
-    addLabel(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        const newLabel = this.store.createRecord('label');
-        this.modalLabel = newLabel;
-        this.showLabelModal = !this.showLabelModal;
-    }
-
-    @action
     editLabel(label, e) {
         if (e) {
             e.preventDefault();
@@ -307,48 +303,52 @@ export default class MembersController extends Controller {
     }
 
     @action
+    bulkAddLabel() {
+        this.modals.open('modals/members/bulk-add-label', {
+            query: this.getApiQueryObject(),
+            onComplete: this.resetAndReloadMembers
+        });
+    }
+
+    @action
+    bulkRemoveLabel() {
+        this.modals.open('modals/members/bulk-remove-label', {
+            query: this.getApiQueryObject(),
+            onComplete: this.resetAndReloadMembers
+        });
+    }
+
+    @action
+    bulkUnsubscribe() {
+        this.modals.open('modals/members/bulk-unsubscribe', {
+            query: this.getApiQueryObject(),
+            onComplete: this.resetAndReloadMembers
+        });
+    }
+
+    @action
+    resetAndReloadMembers() {
+        this.store.unloadAll('member');
+        this.reload();
+    }
+
+    @action
+    bulkDelete() {
+        this.modals.open('modals/members/bulk-delete', {
+            query: this.getApiQueryObject(),
+            onComplete: () => {
+                // reset, clear filters, and reload list and counts
+                this.store.unloadAll('member');
+                this.router.transitionTo('members.index', {queryParams: Object.assign(resetQueryParams('members.index'))});
+                this.membersStats.invalidate();
+                this.membersStats.fetchCounts();
+            }
+        });
+    }
+
+    @action
     changePaidParam(paid) {
         this.paidParam = paid.value;
-    }
-
-    @action
-    toggleDeleteMembersModal() {
-        this.showDeleteMembersModal = !this.showDeleteMembersModal;
-    }
-
-    @action
-    toggleUnsubscribeMembersModal() {
-        this.showUnsubscribeMembersModal = !this.showUnsubscribeMembersModal;
-    }
-
-    @action
-    toggleAddMembersLabelModal() {
-        this.showAddMembersLabelModal = !this.showAddMembersLabelModal;
-    }
-
-    @action
-    toggleRemoveMembersLabelModal() {
-        this.showRemoveMembersLabelModal = !this.showRemoveMembersLabelModal;
-    }
-
-    @action
-    deleteMembers() {
-        return this.deleteMembersTask.perform();
-    }
-
-    @action
-    unsubscribeMembers() {
-        return this.unsubscribeMembersTask.perform();
-    }
-
-    @action
-    addLabelToMembers(selectedLabel) {
-        return this.addLabelToMembersTask.perform(selectedLabel);
-    }
-
-    @action
-    removeLabelFromMembers(selectedLabel) {
-        return this.removeLabelFromMembersTask.perform(selectedLabel);
     }
 
     // Tasks -------------------------------------------------------------------
@@ -368,10 +368,6 @@ export default class MembersController extends Controller {
     *fetchMembersTask(params) {
         // params is undefined when called as a "refresh" of the model
         let {label, paidParam, searchParam, orderParam, filterParam} = typeof params === 'undefined' ? this : params;
-
-        if (!searchParam) {
-            this.resetSearch();
-        }
 
         // use a fixed created_at date so that subsequent pages have a consistent index
         let startDate = new Date();
@@ -403,8 +399,12 @@ export default class MembersController extends Controller {
                 extraFilters: [`created_at:<='${moment.utc(this._startDate).format('YYYY-MM-DD HH:mm:ss')}'`]
             });
             const order = orderParam ? `${orderParam} desc` : `created_at desc`;
-
+            const includes = ['labels'];
+            if (this.includeProductQuery()) {
+                includes.push('products');
+            }
             query = Object.assign({
+                include: includes.join(','),
                 order,
                 limit: range.length,
                 page: range.page
@@ -421,125 +421,7 @@ export default class MembersController extends Controller {
         });
     }
 
-    @task({drop: true})
-    *deleteMembersTask() {
-        const query = new URLSearchParams(this.getApiQueryObject());
-
-        // Trigger download before deleting. Uses the CSV export endpoint but
-        // needs to fetch the file and trigger a download directly rather than
-        // via an iframe. The iframe approach can't tell us when a download has
-        // started/finished meaning we could end up deleting the data before exporting it
-        const exportParams = new URLSearchParams(this.getApiQueryObject());
-        exportParams.set('limit', 'all');
-        const exportUrl = `${ghostPaths().url.api('members/upload')}?${exportParams.toString()}`;
-
-        yield fetch(exportUrl, {method: 'GET'})
-            .then(res => res.blob())
-            .then((blob) => {
-                const blobUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `members.${moment().format('YYYY-MM-DD')}.csv`;
-                document.body.appendChild(a);
-                if (!this.isTesting) {
-                    a.click();
-                }
-                a.remove();
-                URL.revokeObjectURL(blobUrl);
-            });
-
-        // backup downloaded, continue with deletion
-
-        const deleteUrl = `${this.ghostPaths.url.api('members')}?${query}`;
-
-        // response contains details of which members failed to be deleted
-        const response = yield this.ajax.del(deleteUrl);
-
-        // reset and reload
-        this.store.unloadAll('member');
-        this.router.transitionTo('members.index', {queryParams: Object.assign(resetQueryParams('members.index'))});
-        this.membersStats.invalidate();
-        this.membersStats.fetchCounts();
-
-        return response.meta;
-    }
-
-    @task({drop: true})
-    *unsubscribeMembersTask() {
-        const query = new URLSearchParams(this.getApiQueryObject());
-        const unsubscribeUrl = `${this.ghostPaths.url.api('members/bulk')}?${query}`;
-        // response contains details of which members failed to be unsubscribe
-        const response = yield this.ajax.put(unsubscribeUrl, {
-            data: {
-                bulk: {
-                    action: 'unsubscribe',
-                    meta: {}
-                }
-            }
-        });
-
-        // reset and reload
-        this.store.unloadAll('member');
-        this.reload();
-
-        this.membersStats.invalidate();
-        this.membersStats.fetchCounts();
-
-        return response?.bulk?.meta;
-    }
-
-    @task({drop: true})
-    *addLabelToMembersTask(selectedLabel) {
-        const query = new URLSearchParams(this.getApiQueryObject());
-        const addLabelUrl = `${this.ghostPaths.url.api('members/bulk')}?${query}`;
-        const response = yield this.ajax.put(addLabelUrl, {
-            data: {
-                bulk: {
-                    action: 'addLabel',
-                    meta: {
-                        label: {
-                            id: selectedLabel
-                        }
-                    }
-                }
-            }
-        });
-
-        // reset and reload
-        this.store.unloadAll('member');
-        this.reload();
-
-        return response?.bulk?.meta;
-    }
-
-    @task({drop: true})
-    *removeLabelFromMembersTask(selectedLabel) {
-        const query = new URLSearchParams(this.getApiQueryObject());
-        const removeLabelUrl = `${this.ghostPaths.url.api('members/bulk')}?${query}`;
-        const response = yield this.ajax.put(removeLabelUrl, {
-            data: {
-                bulk: {
-                    action: 'removeLabel',
-                    meta: {
-                        label: {
-                            id: selectedLabel
-                        }
-                    }
-                }
-            }
-        });
-
-        // reset and reload
-        this.store.unloadAll('member');
-        this.reload();
-
-        return response?.bulk?.meta;
-    }
     // Internal ----------------------------------------------------------------
-
-    resetSearch() {
-        this.searchText = '';
-    }
 
     resetFilters(params) {
         if (!params?.filterParam) {

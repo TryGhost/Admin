@@ -3,7 +3,7 @@ import moment from 'moment';
 import {action} from '@ember/object';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 export default class GhPublishMenuDraftComponent extends Component {
@@ -64,6 +64,19 @@ export default class GhPublishMenuDraftComponent extends Component {
 
         post.set('publishedAtBlogTime', time);
         return post.validate();
+    }
+
+    // the date-time-picker component has it's own error handling for
+    // invalid date and times but in this case we want the values to make it
+    // to the model to make that invalid
+    @action
+    dateInputDidError(date) {
+        this.setDate(date);
+    }
+
+    @action
+    timeInputDidError(time) {
+        this.setTime(time);
     }
 
     @task

@@ -77,31 +77,33 @@ export default class GhPortalLinks extends Component {
             });
         }
     })
-    fetchProducts;
+        fetchProducts;
 
     @task(function* (id) {
         this.set('copiedPrice', id);
         let data = '';
         if (this.isLink) {
             data = id ? `#/portal/${id}` : `#/portal/`;
+            data = this.siteUrl + `/` + data;
         } else {
             data = id ? `data-portal="${id}"` : `data-portal`;
         }
         copyTextToClipboard(data);
         yield timeout(this.isTesting ? 50 : 3000);
     })
-    copyStaticLink;
+        copyStaticLink;
 
     @task(function* (interval) {
         this.set('copiedSignupInterval', interval);
         let data = '';
         if (this.isLink) {
             data = `#/portal/signup${this.selectedProductIdPath}/${interval}`;
+            data = this.siteUrl + `/` + data;
         } else {
             data = `data-portal="signup${this.selectedProductIdPath}/${interval}"`;
         }
         copyTextToClipboard(data);
         yield timeout(this.isTesting ? 50 : 3000);
     })
-    copyProductSignupLink;
+        copyProductSignupLink;
 }

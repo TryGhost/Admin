@@ -24,14 +24,14 @@ export default class SlackController extends Controller {
     }
 
     @boundOneWay('settings.slack.firstObject')
-    slackSettings;
+        slackSettings;
 
     @empty('slackSettings.url')
-    testNotificationDisabled;
+        testNotificationDisabled;
 
     @action
     save() {
-        this.save.perform();
+        this.saveTask.perform();
     }
 
     @action
@@ -75,8 +75,8 @@ export default class SlackController extends Controller {
             this.set('leaveSettingsTransition', transition);
 
             // if a save is running, wait for it to finish then transition
-            if (this.save.isRunning) {
-                return this.save.last.then(() => {
+            if (this.saveTask.isRunning) {
+                return this.saveTask.last.then(() => {
                     transition.retry();
                 });
             }
@@ -122,14 +122,14 @@ export default class SlackController extends Controller {
             }
         }
     }).drop())
-    save;
+        saveTask;
 
     @(task(function* () {
         let notifications = this.notifications;
         let slackApi = this.get('ghostPaths.url').api('slack', 'test');
 
         try {
-            yield this.save.perform();
+            yield this.saveTask.perform();
             yield this.ajax.post(slackApi);
             notifications.showNotification('Test notification sent', {type: 'info', key: 'slack-test.send.success', description: 'Check your Slack channel for the test message'});
             return true;
@@ -141,5 +141,5 @@ export default class SlackController extends Controller {
             }
         }
     }).drop())
-    sendTestNotification;
+        sendTestNotification;
 }

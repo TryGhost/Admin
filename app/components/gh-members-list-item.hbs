@@ -7,11 +7,11 @@
         <div class="gh-list-data"></div>
         <div class="gh-list-data"></div>
         <div class="gh-list-data"></div>
-        {{#each @filterColumns as |filterColumn|}}
+        {{#each @filterColumns}}
         <div class="gh-list-data"></div>
         {{/each}}
     {{else}}
-        <LinkTo @route="member" @model={{@member}} class="gh-list-data">
+        <LinkTo @route="member" @model={{@member}} class="gh-list-data" data-test-table-data="details">
             <div class="flex items-center">
                 <GhMemberAvatar @member={{@member}} @containerClass="w9 h9 mr3 flex-shrink-0" />
                 <div class="w-80">
@@ -22,10 +22,21 @@
                 </div>
             </div>
         </LinkTo>
+        {{#if (feature "membersTableStatus")}}
+            {{!-- One line: Free tier, or premium tier if there is only one premium tier --}}
+            {{!-- <LinkTo @route="member" @model={{@member}} class="gh-list-data">
+                <div>Free</div>
+            </LinkTo>--}}
 
+            {{!-- Two lines: Premium tier if there are multiple premium tiers --}}
+            {{!-- <LinkTo @route="member" @model={{@member}} class="gh-list-data">
+                <div>Paid</div>
+                <div class="midgrey">Bronze</div>
+            </LinkTo> --}}
+        {{/if}}
         {{#if @newsletterEnabled}}
             {{#if (feature "emailAnalytics")}}
-                <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{unless @member.name "gh-members-list-open-rate-noname"}}">
+                <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{unless @member.name "gh-members-list-open-rate-noname"}}" data-test-table-data="open-rate">
                     {{#if (not (is-empty @member.emailOpenRate))}}
                         <span>{{@member.emailOpenRate}}%</span>
                     {{else}}
@@ -35,7 +46,7 @@
             {{/if}}
         {{/if}}
 
-        <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{unless @member.name "gh-members-geolocation-noname"}}">
+        <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8 {{unless @member.name "gh-members-geolocation-noname"}}" data-test-table-data="location">
             {{#if (and @member.geolocation @member.geolocation.country)}}
                 {{#if (and (eq @member.geolocation.country_code "US") @member.geolocation.region)}}
                     {{@member.geolocation.region}}, US
@@ -51,6 +62,7 @@
             {{/if}}
         </LinkTo>
 
+
         <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8">
             {{#if @member.createdAtTZ}}
                 <div>{{moment-format @member.createdAtTZ "D MMM YYYY"}}</div>
@@ -60,11 +72,9 @@
                 <div class="midlightgrey gh-members-list-subscribed-moment">{{moment-from-now @member.createdAtUTC}}</div>
             {{/if}}
         </LinkTo>
+
         {{#each @filterColumns as |filterColumn|}}
             <GhMembersListItemColumn @member={{@member}} @filterColumn={{filterColumn}} />
-            {{!-- <LinkTo @route="member" @model={{@member}} class="gh-list-data middarkgrey f8">
-                <span class="midlightgrey">Unknown</span>
-            </LinkTo> --}}
         {{/each}}
     {{/if}}
 </tr>

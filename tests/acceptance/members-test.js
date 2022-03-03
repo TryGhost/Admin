@@ -42,8 +42,8 @@ describe('Acceptance: Members', function () {
         });
 
         it('it renders, can be navigated, can edit member', async function () {
-            let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
-            this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').valueOf()});
+            let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss')});
+            this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').format('YYYY-MM-DD HH:mm:ss')});
 
             await visit('/members');
 
@@ -92,7 +92,7 @@ describe('Acceptance: Members', function () {
         });
 
         it('can create a new member', async function () {
-            this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
+            this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss')});
 
             await visit('/members');
 
@@ -157,7 +157,7 @@ describe('Acceptance: Members', function () {
 
             // a filter is needed for the delete-selected button to show
             await click('[data-test-button="members-filter-actions"]');
-            await click('.gh-member-label-input-labs input');
+            await click('.gh-member-label-input input');
             await click(`[data-test-label-filter="${label.name}"]`);
             await click(`[data-test-button="members-apply-filter"]`);
 

@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 
 export default class GhMembersNoMembersComponent extends Component {
     @service session;
     @service store;
     @service notifications;
+    @service settings;
 
     @action
     addYourself() {

@@ -8,7 +8,7 @@ export default class ModalsService extends EPMModalsService {
 
     DEFAULT_OPTIONS = {
         className: 'fullscreen-modal-action fullscreen-modal-wide'
-    }
+    };
 
     MODAL_OPTIONS = {
         'modals/custom-view-form': {
@@ -28,7 +28,7 @@ export default class ModalsService extends EPMModalsService {
             className: 'fullscreen-modal-total-overlay',
             omitBackdrop: true
         }
-    }
+    };
 
     // we manually close modals on backdrop clicks and escape rather than letting focus-trap
     // handle it so we can intercept/abort closing for things like unsaved change confirmations
@@ -76,7 +76,7 @@ export default class ModalsService extends EPMModalsService {
         let shouldClose = true;
 
         for (const elem of (event.path || event.composedPath())) {
-            if (elem.matches?.('.modal-content, .fullscreen-modal-total-overlay, .ember-basic-dropdown-content')) {
+            if (elem.matches?.('.modal-content, .fullscreen-modal-total-overlay, .ember-basic-dropdown-content, a[download]')) {
                 shouldClose = false;
                 break;
             }

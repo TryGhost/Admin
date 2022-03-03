@@ -1,8 +1,10 @@
 <div class="gh-member-import-wrapper {{if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING')) "wide"}}">
+    {{!-- template-lint-disable no-duplicate-landmark-elements --}}
     {{#if (eq this.state 'INIT')}}
         <header class="modal-header" data-test-modal="import-members">
             <h1>Import members</h1>
         </header>
+        <p class="gh-box gh-box-green">Need some help? <a href="https://ghost.org/help/import-members/" target="_blank" rel="noopener noreferrer">Learn more</a> about importing members or <a href="https://static.ghost.org/v4.0.0/files/member-import-template.csv" target="_blank" rel="noopener noreferrer">download a sample CSV file</a>.</p>
     {{/if}}
 
     {{#if (or (eq this.state 'MAPPING') (eq this.state 'UPLOADING'))}}
@@ -104,25 +106,18 @@
         {{/if}}
     </div>
 
-    <div class="modal-footer modal-footer-spread">
+    <div class="modal-footer">
         {{#if (eq this.state 'INIT')}}
             <button class="gh-btn" data-test-button="close-import-members" type="button" {{action "closeModal"}}>
                 <span>Close</span>
             </button>
-            <a
-                class="gh-btn"
-                href="https://static.ghost.org/v4.0.0/files/member-import-template.csv"
-                target="_blank" rel="noopener noreferrer"
-            >
-                <span>Download sample CSV file</span>
-            </a>
         {{/if}}
 
         {{#if (eq this.state 'MAPPING')}}
             <button class="gh-btn" data-test-button="restart-import-members" type="button" {{action "reset"}}>
                 <span>Start over</span>
             </button>
-            <button class="gh-btn gh-btn-green {{unless this.mappingResult.membersCount "disabled"}}" type="button" {{action "upload"}}>
+            <button class="gh-btn gh-btn-green {{unless this.mappingResult.membersCount "disabled"}}" type="button" {{action "upload"}} data-test-button="perform-import">
                 {{#if this.mappingResult.membersCount}}
                     <span>Import {{format-number this.mappingResult.membersCount}} {{gh-pluralize this.mappingResult.membersCount 'member' without-count=true}}</span>
                 {{else}}
@@ -142,7 +137,7 @@
 
         {{#if (eq this.state 'COMPLETE')}}
             {{#if this.importResponse.errorCount}}
-                <a href="{{this.importResponse.errorCsvUrl}}" download="{{this.importResponse.errorCsvName}}" class="gh-btn" data-test-button="restart-import-members">
+                <a href="{{this.importResponse.errorCsvUrl}}" download="{{this.importResponse.errorCsvName}}" class="gh-btn" data-test-button="download-import-errors">
                     <span>Download error file</span>
                 </a>
                 {{#if (eq this.importResponse.importedCount 0)}}

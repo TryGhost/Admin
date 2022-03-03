@@ -1,11 +1,7 @@
 import {paginatedResponse} from '../utils';
 
 export default function mockProducts(server) {
-    server.post('/products/', function ({products}) {
-        let attrs = this.normalizedRequestAttrs();
-
-        return products.create(Object.assign({}, attrs, {id: 99}));
-    });
+    server.post('/products/');
 
     server.get('/products/', paginatedResponse('products'));
 
@@ -21,7 +17,28 @@ export default function mockProducts(server) {
         });
     });
 
-    server.put('/products/:id/');
+    server.put('/products/:id/', function ({products, productBenefits}, {params}) {
+        const attrs = this.normalizedRequestAttrs();
+        const product = products.find(params.id);
+
+        const benefitAttrs = attrs.benefits;
+        delete attrs.benefits;
+
+        product.update(attrs);
+
+        benefitAttrs.forEach((benefit) => {
+            if (benefit.id) {
+                const productBenefit = productBenefits.find(benefit.id);
+                productBenefit.product = product;
+                productBenefit.save();
+            } else {
+                product.createProductBenefit(benefit);
+                product.save();
+            }
+        });
+
+        return product.save();
+    });
 
     server.del('/products/:id/');
 }

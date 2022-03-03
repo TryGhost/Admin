@@ -4,12 +4,10 @@ import {action} from '@ember/object';
 import {tracked} from '@glimmer/tracking';
 
 export default class CsvFileSelect extends Component {
-    labelText = 'Select or drop a CSV file'
+    labelText = 'Select or drop a CSV file';
 
-    @tracked
-    error = null
-    @tracked
-    dragClass = null
+    @tracked error = null;
+    @tracked dragClass = null;
 
     /*
     constructor(...args) {

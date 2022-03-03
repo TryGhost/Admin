@@ -339,6 +339,71 @@
                         </div>
                     </div>
                 </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Tier name</h4>
+                            <p class="gh-expandable-description">
+                                Add Tier names in Account settings (requires Tiers enabled)
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                           <GhFeatureFlag @flag="tierName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Members table status</h4>
+                            <p class="gh-expandable-description">
+                                Add member status/tier to the member's index table
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                           <GhFeatureFlag @flag="membersTableStatus" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Members "Last seen" filter</h4>
+                            <p class="gh-expandable-description">
+                                Filter members by the date they were last seen (logged in or read an email)
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                           <GhFeatureFlag @flag="membersLastSeenFilter" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Members time based filters</h4>
+                            <p class="gh-expandable-description">
+                                Filter members by date fields to answer time-based questions
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                           <GhFeatureFlag @flag="membersTimeFilters" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Selectable portal links</h4>
+                            <p class="gh-expandable-description">
+                                Allow users to copy the full paths in portal settings
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                           <GhFeatureFlag @flag="selectablePortalLinks" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {{/if}}

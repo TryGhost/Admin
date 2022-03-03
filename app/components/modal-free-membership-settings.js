@@ -2,7 +2,7 @@ import ModalBase from 'ghost-admin/components/modal-base';
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 // TODO: update modals to work fully with Glimmer components
@@ -41,7 +41,7 @@ export default class ModalFreeMembershipSettings extends ModalBase {
         validateFreeSignupRedirect() {
             return this._validateSignupRedirect(this.freeSignupRedirect, 'membersFreeSignupRedirect');
         }
-    }
+    };
 
     @task({drop: true})
     *save() {

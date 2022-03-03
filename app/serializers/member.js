@@ -5,9 +5,10 @@ import {EmbeddedRecordsMixin} from '@ember-data/serializer/rest';
 export default class MemberSerializer extends ApplicationSerializer.extend(EmbeddedRecordsMixin) {
     attrs = {
         createdAtUTC: {key: 'created_at'},
+        lastSeenAtUTC: {key: 'last_seen_at'},
         labels: {embedded: 'always'},
         emailRecipients: {embedded: 'always'}
-    }
+    };
 
     serialize(/*snapshot, options*/) {
         let json = super.serialize(...arguments);
@@ -17,6 +18,7 @@ export default class MemberSerializer extends ApplicationSerializer.extend(Embed
         delete json.geolocation;
         delete json.email_recipients;
         delete json.status;
+        delete json.last_seen_at;
 
         // Normalize properties
         json.name = json.name || '';

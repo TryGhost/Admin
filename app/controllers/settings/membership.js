@@ -3,7 +3,7 @@ import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
 import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const CURRENCIES = currencies.map((currency) => {
@@ -33,6 +33,7 @@ export default class MembersAccessController extends Controller {
     @tracked productModel = null;
     @tracked paidSignupRedirect;
     @tracked freeSignupRedirect;
+    @tracked welcomePageURL;
     @tracked stripeMonthlyAmount = 5;
     @tracked stripeYearlyAmount = 50;
     @tracked currency = 'usd';
@@ -143,6 +144,11 @@ export default class MembersAccessController extends Controller {
     }
 
     @action
+    setWelcomePageURL(url) {
+        this.welcomePageURL = url;
+    }
+
+    @action
     validatePaidSignupRedirect() {
         return this._validateSignupRedirect(this.paidSignupRedirect, 'membersPaidSignupRedirect');
     }
@@ -150,6 +156,23 @@ export default class MembersAccessController extends Controller {
     @action
     validateFreeSignupRedirect() {
         return this._validateSignupRedirect(this.freeSignupRedirect, 'membersFreeSignupRedirect');
+    }
+
+    @action
+    validateWelcomePageURL() {
+        const siteUrl = this.siteUrl;
+
+        if (this.welcomePageURL === undefined) {
+            // Not initialised
+            return;
+        }
+
+        if (this.welcomePageURL.href.startsWith(siteUrl)) {
+            const path = this.welcomePageURL.href.replace(siteUrl, '');
+            this.freeProduct.welcomePageURL = path;
+        } else {
+            this.freeProduct.welcomePageURL = this.welcomePageURL.href;
+        }
     }
 
     @action
@@ -236,8 +259,8 @@ export default class MembersAccessController extends Controller {
     @action
     updatePortalPreview({forceRefresh} = {forceRefresh: false}) {
         // TODO: can these be worked out from settings in membersUtils?
-        const monthlyPrice = this.stripeMonthlyAmount * 100;
-        const yearlyPrice = this.stripeYearlyAmount * 100;
+        const monthlyPrice = Math.round(this.stripeMonthlyAmount * 100);
+        const yearlyPrice = Math.round(this.stripeYearlyAmount * 100);
         let portalPlans = this.settings.get('portalPlans') || [];
 
         let isMonthlyChecked = portalPlans.includes('monthly');
@@ -354,6 +377,7 @@ export default class MembersAccessController extends Controller {
                 return;
             }
             const result = yield this.settings.save();
+            yield this.freeProduct.save();
             this.updatePortalPreview(options);
             return result;
         }

@@ -49,8 +49,9 @@
 }
 
 .gh-filter-builder .gh-delete-filter {
-    margin-left: 4px;
     width: 20px;
+    height: 33px;
+    margin-left: 4px;
 }
 
 .gh-filter-builder .gh-delete-filter svg {
@@ -111,8 +112,16 @@
     margin-top: 20px;
 }
 
-.gh-filter-block .label-token-labs{
+.gh-filter-block .label-token {
     margin: 2px !important;
+}
+
+.gh-filter-block .token-segment-product {
+    margin: 2px !important;
+}
+
+.gh-filter-block .token-segment-product .ember-power-select-multiple-remove-btn svg {
+    margin-right: 0!important;
 }
 
 .gh-filter-builder .ember-power-select-multiple-trigger {

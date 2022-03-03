@@ -1,8 +1,9 @@
 import faker from 'faker';
 import moment from 'moment';
+import nql from '@nexes/nql';
 import {Response} from 'ember-cli-mirage';
 import {extractFilterParam, paginateModelCollection} from '../utils';
-import {isEmpty} from '@ember/utils';
+import {underscore} from '@ember/string';
 
 export function mockMembersStats(server) {
     server.get('/members/stats/count', function (db, {queryParams}) {
@@ -61,35 +62,71 @@ export function mockMembersStats(server) {
 }
 
 export default function mockMembers(server) {
-    server.post('/members/', function ({members}) {
-        let attrs = this.normalizedRequestAttrs();
-
-        return members.create(Object.assign({}, attrs, {id: 99}));
-    });
+    server.post('/members/');
 
     server.get('/members/', function ({members}, {queryParams}) {
-        let {filter, page, limit} = queryParams;
+        let {filter, search, page, limit} = queryParams;
 
         page = +page || 1;
         limit = +limit || 15;
 
-        let labelFilter = extractFilterParam('label', filter);
+        let collection = members.all();
 
-        let collection = members.all().filter((member) => {
-            let matchesLabel = true;
-
-            if (!isEmpty(labelFilter)) {
-                matchesLabel = false;
-
-                labelFilter.forEach((slug) => {
-                    if (member.labels.models.find(l => l.slug === slug)) {
-                        matchesLabel = true;
+        if (filter) {
+            const nqlFilter = nql(filter, {
+                expansions: [
+                    {
+                        key: 'label',
+                        replacement: 'labels.slug'
+                    },
+                    {
+                        key: 'product',
+                        replacement: 'products.slug'
                     }
-                });
-            }
+                ]
+            });
 
-            return matchesLabel;
-        });
+            collection = collection.filter((member) => {
+                const serializedMember = {};
+
+                // mirage model keys match our main model keys so we need to transform
+                // camelCase to underscore to match the filter format
+                Object.keys(member.attrs).forEach((key) => {
+                    serializedMember[underscore(key)] = member.attrs[key];
+                });
+
+                // similar deal for associated label models
+                serializedMember.labels = [];
+                member.labels.models.forEach((label) => {
+                    const serializedLabel = {};
+                    Object.keys(label.attrs).forEach((key) => {
+                        serializedLabel[underscore(key)] = label.attrs[key];
+                    });
+                    serializedMember.labels.push(serializedLabel);
+                });
+
+                // similar deal for associated product models
+                serializedMember.products = [];
+                member.products.models.forEach((product) => {
+                    const serializedProduct = {};
+                    Object.keys(product.attrs).forEach((key) => {
+                        serializedProduct[underscore(key)] = product.attrs[key];
+                    });
+                    serializedMember.products.push(serializedProduct);
+                });
+
+                return nqlFilter.queryJSON(serializedMember);
+            });
+        }
+
+        if (search) {
+            const query = search.toLowerCase();
+
+            collection = collection.filter((member) => {
+                return member.name.toLowerCase().indexOf(query) !== -1
+                    || member.email.toLowerCase().indexOf(query) !== -1;
+            });
+        }
 
         return paginateModelCollection('members', collection, page, limit);
     });
@@ -152,6 +189,23 @@ export default function mockMembers(server) {
             filename: `members.${moment().format('YYYY-MM-DD')}.csv`,
             'Content-Type': 'text/csv'
         }, '');
+    });
+
+    server.post('/members/upload/', function ({labels}, request) {
+        const label = labels.create();
+
+        // TODO: parse CSV and create member records
+        for (const kvPair of request.requestBody.entries()) {
+            const [key, value] = kvPair;
+            console.log({key, value}); // eslint-disable-line
+        }
+
+        return new Response(201, {}, {
+            meta: {
+                import_label: label,
+                stats: {imported: 1, invalid: []}
+            }
+        });
     });
 
     server.get('/members/events/', function ({memberActivityEvents}, {queryParams}) {

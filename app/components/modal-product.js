@@ -6,7 +6,7 @@ import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/curre
 import {A as emberA} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const CURRENCIES = currencies.map((currency) => {
@@ -32,7 +32,7 @@ export default class ModalProductPrice extends ModalBase {
     @tracked stripePlanError = '';
     @tracked benefits = emberA([]);
     @tracked newBenefit = null;
-    @tracked welcomePageURL
+    @tracked welcomePageURL;
 
     confirm() {}
 
@@ -99,6 +99,7 @@ export default class ModalProductPrice extends ModalBase {
         return this.config.get('blogUrl');
     }
 
+    // eslint-disable-next-line no-dupe-class-members
     get welcomePageURL() {
         return this.model.product.welcomePageURL;
     }
@@ -257,5 +258,5 @@ export default class ModalProductPrice extends ModalBase {
         closeModal() {
             this.close();
         }
-    }
+    };
 }

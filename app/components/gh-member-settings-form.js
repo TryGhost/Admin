@@ -3,16 +3,16 @@ import moment from 'moment';
 import {action} from '@ember/object';
 import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 export default class extends Component {
-    @service membersUtils
-    @service ghostPaths
-    @service ajax
-    @service store
-    @service feature
-    @service settings
+    @service membersUtils;
+    @service ghostPaths;
+    @service ajax;
+    @service store;
+    @service feature;
+    @service settings;
 
     constructor(...args) {
         super(...args);
@@ -88,6 +88,10 @@ export default class extends Component {
             };
         }
         return null;
+    }
+
+    get isStripeConnected() {
+        return this.settings.get('stripeConnectAccountId');
     }
 
     @action

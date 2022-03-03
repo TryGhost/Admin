@@ -98,14 +98,27 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.2px;
-    color: var(--black);
+    color: var(--midgrey-l1);
     margin: 0;
     padding: 0 0 8px;
     border-bottom: 1px solid var(--whitegrey);
 }
 
+.gh-portal-setting-sectionheading.gh-stripe-connect {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gh-portal-setting-sectionheading.gh-stripe-connect .gh-btn-link {
+    color: #6772E5;
+    text-transform: initial;
+    font-size: 1.25rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
 .gh-portal-setting-section {
-    margin: 0 -24px 3.5vw;
+    margin: 0 -24px 2.4em;
     padding: 0 28px;
 }
 
@@ -255,6 +268,10 @@
 
 .gh-portal-button-icon:hover {
     box-shadow: 0px 0px 0px 1px color-mod(var(--green) a(40%));
+}
+
+.gh-portal-button-icon:hover svg path {
+    stroke: var(--green);
 }
 
 .gh-portal-button-icon.selected-icon {
@@ -523,6 +540,15 @@
     width: 100%;
 }
 
+.gh-portal-page-url-container .page-url-field {
+    font-size: 1.4rem;
+    border: none;
+    padding-left: 0;
+    padding-right: 40px;
+    color: var(--middarkgrey) !important;
+    background: none;
+}
+
 .gh-portal-page-url-container .page-url-slash {
     color: var(--midlightgrey);
     font-weight: 400;
@@ -531,8 +557,14 @@
 .gh-portal-page-url-container .page-url-label {
     max-width: 470px;
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.gh-portal-page-url-container .page-url-label .page-url-label-inner {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    margin: 0 0 -80px 0!important;
+    padding: 0 0 80px 0;
 }
 
 .gh-show-modal-link-form .page-url-label {
@@ -540,7 +572,7 @@
 }
 
 .gh-portal-page-url-container .page-url-disabled {
-    color: var(--midlightgrey);
+    color: var(--midgrey);
     font-weight: 400;
 }
 
