@@ -45,8 +45,14 @@ export default class extends Component {
     }
 
     get products() {
-        let products = this.member.get('products') || [];
         let subscriptions = this.member.get('subscriptions') || [];
+        // Create the products from `subscriptions.price.product`
+        let products = subscriptions
+            .map(subscription => subscription.price.product)
+            .filter((value, index, self) => {
+                // Deduplicate by taking the first object by `id`
+                return typeof value.id !== 'undefined' && self.findIndex(element => element.id === value.id) === index;
+            });
         let subscriptionData = subscriptions.filter((sub) => {
             return !!sub.price;
         }).map((sub) => {
@@ -66,10 +72,7 @@ export default class extends Component {
 
         for (let product of products) {
             let productSubscriptions = subscriptionData.filter((subscription) => {
-                if (subscription.status === 'canceled') {
-                    return false;
-                }
-                return subscription?.price?.product?.product_id === product.id;
+                return subscription?.price?.product?.product_id === product.product_id;
             });
             product.subscriptions = productSubscriptions;
         }

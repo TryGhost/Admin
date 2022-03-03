@@ -110,17 +110,20 @@
                             </h3>
 
                             {{#each product.subscriptions as |sub|}}
-                                <div class="gh-memberproduct-subscription">
+                                <div class="gh-memberproduct-subscription" data-test-block="member-subscription">
                                     <div>
                                         <div>
                                             <span class="gh-cp-memberproduct-pricelabel">{{sub.price.nickname}}</span>
                                             &ndash;
-                                            {{#if sub.cancel_at_period_end}}
+                                            {{#if (eq sub.status "canceled")}}
+                                                <span class="gh-cp-memberproduct-renewal">Ended {{sub.validUntil}}</span>
+                                                <span class="gh-badge archived" data-test-text="member-subscription-status">Cancelled</span>
+                                            {{else if sub.cancel_at_period_end}}
                                                 <span class="gh-cp-memberproduct-renewal">Has access until {{sub.validUntil}}</span>
-                                                <span class="gh-badge archived">Cancelled</span>
+                                                <span class="gh-badge archived" data-test-text="member-subscription-status">Cancelled</span>
                                             {{else}}
                                                 <span class="gh-cp-memberproduct-renewal">Renews {{sub.validUntil}}</span>
-                                                <span class="gh-badge active">Active</span>
+                                                <span class="gh-badge active" data-test-text="member-subscription-status">Active</span>
                                             {{/if}}
                                         </div>
                                         {{#if sub.cancellationReason}}
@@ -189,14 +192,16 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                    {{#if sub.cancel_at_period_end}}
-                                                        <button type="button" {{action "continueSubscription" sub.id}}>
-                                                            <span>Continue subscription</span>
-                                                        </button>
-                                                    {{else}}
-                                                        <button type="button" {{action "cancelSubscription" sub.id}}>
-                                                            <span class="red">Cancel subscription</span>
-                                                        </button>
+                                                    {{#if (not-eq sub.status "canceled")}}
+                                                        {{#if sub.cancel_at_period_end}}
+                                                            <button type="button" {{action "continueSubscription" sub.id}}>
+                                                                <span>Continue subscription</span>
+                                                            </button>
+                                                        {{else}}
+                                                            <button type="button" {{action "cancelSubscription" sub.id}}>
+                                                                <span class="red">Cancel subscription</span>
+                                                            </button>
+                                                        {{/if}}
                                                     {{/if}}
                                                     </li>
                                                 </GhDropdown>
