@@ -236,3 +236,13 @@ svg.gh-date-picker-cal-icon {
     top: 9px;
     font-size: 1.3rem;
 }
+
+.gh-date-picker-with-shortcuts .ember-power-datepicker-content {
+    min-width: 300px;
+}
+
+.gh-date-picker-shortcuts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

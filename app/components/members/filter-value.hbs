@@ -34,12 +34,30 @@
 
 {{else if (eq @filter.type 'last_seen_at')}}
     <GhDatePicker
+        class="gh-date-picker-with-shortcuts"
         @value={{@filter.value}}
         @maxDate={{now}}
         @maxDateError="Must be in the past"
         @onChange={{fn @setFilterValue @filter.type @filter.id}}
         data-test-input="members-filter-value"
-    />
+        as |datepicker|
+    >
+        <div class="flex flex-row">
+            <div class="br1">
+                <ol class="gh-date-picker-shortcuts">
+                    <li><button type="button" {{on "click" (fn datepicker.select (now))}}>Today</button></li>
+                    <li><button type="button" {{on "click" (fn datepicker.select (moment-subtract 1 precision="days"))}}>Yesterday</button></li>
+                    <li><button type="button" {{on "click" (fn datepicker.select (moment-subtract 7 precision="days"))}}>7 days ago</button></li>
+                    <li><button type="button" {{on "click" (fn datepicker.select (moment-subtract 30 precision="days"))}}>30 days ago</button></li>
+                    <li><button type="button" {{on "click" (fn datepicker.select (moment-subtract 90 precision="days"))}}>90 days ago</button></li>
+                </ol>
+            </div>
+            <div class="flex-grow-1">
+                <datepicker.Nav />
+                <datepicker.Days />
+            </div>
+        </div>
+    </GhDatePicker>
 
 {{else if (eq @filter.type 'created_at')}}
     <GhDatePicker
