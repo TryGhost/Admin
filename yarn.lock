@@ -2134,10 +2134,10 @@
     mobiledoc-dom-renderer "0.7.0"
     mobiledoc-text-renderer "0.4.0"
 
-"@tryghost/mongo-knex@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@tryghost/mongo-knex/-/mongo-knex-0.6.0.tgz#82a9ed040a5b577a1d822d4895c44d0c88bf6a3c"
-  integrity sha512-iYgIjQ96MOZYcBPaDKX8csGMzuntlAVWoiOrnKGnbjrZJt3m7pfm+wmSXNOmMgAWkPzSVrbgzFd6GDiFngxUJQ==
+"@tryghost/mongo-knex@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@tryghost/mongo-knex/-/mongo-knex-0.6.1.tgz#3778def78943cd2fde590a3f07ea7dac42977b94"
+  integrity sha512-SHw+G/1mltp11TaHXIc7mMQvrUGChQbh5yORgvDGnPbis+dvH5J2pxDR8MFtQSoakQvi65hMMO6ewwZcp331Nw==
   dependencies:
     debug "^4.3.3"
     lodash "^4.17.21"
@@ -2149,19 +2149,19 @@
   dependencies:
     lodash "^4.17.11"
 
-"@tryghost/nql-lang@0.2.0", "@tryghost/nql-lang@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@tryghost/nql-lang/-/nql-lang-0.2.0.tgz#72fb5086d2f9c0ea1b0d8c6eb0cd01c8f9a8b958"
-  integrity sha512-E5wY3NAIHwNXmnQyf5Uw3GAzeuwxwUiWFbbKf1S/S0cBgibAmbrQFFaKtkKUwT3yRyvJGGcOAcDfKMfujDVjcg==
+"@tryghost/nql-lang@0.2.1", "@tryghost/nql-lang@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@tryghost/nql-lang/-/nql-lang-0.2.1.tgz#cc250ddf6c9397428be98970e6103679b7e8c844"
+  integrity sha512-eIscoHrMxZTboHi+d3I2W6Szgr96X1h7Y923nPCQZ3/3z0zRz0ZqxvycYaW6ThsEhouN2KMHietVnGPIA+jlwQ==
 
-"@tryghost/nql@0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@tryghost/nql/-/nql-0.8.1.tgz#da93525bd446ac31aaee992b942f7564304487dd"
-  integrity sha512-ZC/V+Wsr4z88YPW1f76rDHP8v6N1v+wfZEcCMPHhHFHl3qjXnhne/tu0KhMNAyIqzMuYMh22vj9IBN0bL2NFVA==
+"@tryghost/nql@0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@tryghost/nql/-/nql-0.8.2.tgz#49f1aad94fcebad0cfac4a5f2882a79ad70098e7"
+  integrity sha512-eZlPY3/evBOtelAszS2CJeeUm9cUC9i1cVc2uV5HXAK7G10LDbt75aVjmrTmae0LKJCkyNIbL9Dv8IXpJvpJpQ==
   dependencies:
-    "@tryghost/mongo-knex" "^0.6.0"
+    "@tryghost/mongo-knex" "^0.6.1"
     "@tryghost/mongo-utils" "^0.3.3"
-    "@tryghost/nql-lang" "^0.2.0"
+    "@tryghost/nql-lang" "^0.2.1"
     mingo "^2.2.2"
 
 "@tryghost/string@0.1.23":
