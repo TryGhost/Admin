@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
-import nql from '@nexes/nql-lang';
+import nql from '@tryghost/nql-lang';
 import {TrackedArray} from 'tracked-built-ins';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
@@ -9,7 +9,7 @@ import {tracked} from '@glimmer/tracking';
 
 const FILTER_PROPERTIES = [
     // Basic
-    // {label: 'Name', name: 'name', group: 'Basic'},
+    {label: 'Name', name: 'name', group: 'Basic', valueType: 'text', feature: 'membersContainsFilters'},
     // {label: 'Email', name: 'email', group: 'Basic'},
     // {label: 'Location', name: 'location', group: 'Basic'},
     {label: 'Label', name: 'label', group: 'Basic', valueType: 'array'},
@@ -60,7 +60,13 @@ const NUMBER_RELATION_OPTIONS = [
 ];
 
 const FILTER_RELATIONS_OPTIONS = {
-    // name: MATCH_RELATION_OPTIONS,
+    name: [
+        {label: 'is', name: 'is'},
+        {label: 'contains', name: 'contains'},
+        {label: 'does not contain', name: 'does-not-contain'},
+        {label: 'starts with', name: 'starts-with'},
+        {label: 'ends with', name: 'ends-with'}
+    ],
     // email: MATCH_RELATION_OPTIONS,
     label: MATCH_RELATION_OPTIONS,
     product: MATCH_RELATION_OPTIONS,
@@ -212,6 +218,8 @@ export default class MembersFilter extends Component {
             if (filterProperty.valueType === 'array' && filter.value?.length) {
                 const filterValue = '[' + filter.value.join(',') + ']';
                 query += `${filter.type}:${relationStr}${filterValue}+`;
+            } else if (filterProperty.valueType === 'text') {
+                query += `${filter.type}:${relationStr}'${filter.value}'+`;
             } else if (filterProperty.valueType === 'date') {
                 let filterValue;
 
@@ -337,7 +345,11 @@ export default class MembersFilter extends Component {
             is: '',
             'is-not': '-',
             'is-greater': '>',
-            'is-or-greater': '>='
+            'is-or-greater': '>=',
+            contains: '~',
+            'does-not-contain': '-~',
+            'starts-with': '~^',
+            'ends-with': '~$'
         };
 
         return relationMap[relation] || '';
