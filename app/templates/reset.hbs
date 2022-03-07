@@ -2,6 +2,9 @@
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content fade-in">
             <form id="reset" class="gh-signin" method="post" novalidate="novalidate" {{action "submit" on="submit"}}>
+                <header>
+                    <h1>Reset your password.</h1>
+                </header>
                 <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="newPassword">
                     <span class="gh-input-icon gh-icon-lock">
                         <GhTextInput
@@ -28,7 +31,7 @@
                     </span>
                 </GhFormGroup>
 
-                <GhTaskButton @buttonText="Save new password" @task={{this.resetPassword}} @class="gh-btn gh-btn-blue gh-btn-reset gh-btn-block gh-btn-icon" @type="submit" @autoWidth="false" />
+                <GhTaskButton @buttonText="Save new password" @task={{this.resetPassword}} @class="gh-btn gh-btn-reset gh-btn-block gh-btn-icon" @type="submit" @autoWidth="false" />
             </form>
 
             <p class="main-error">{{this.flowErrors}}&nbsp;</p>

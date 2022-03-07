@@ -40,30 +40,19 @@
 .gh-flow-content {
     display: flex;
     flex-direction: column;
-    max-width: 700px;
+    max-width: 520px;
     width: 100%;
+    margin: 4.8rem 0 8rem;
     color: var(--darkgrey);
-    text-align: center;
     font-size: 1.9rem;
     line-height: 1.5em;
     font-weight: 300;
 }
 
-@media (max-width: 500px) {
-    .gh-flow-content {
-        font-size: 4vw;
-    }
-}
-
-.gh-setup .gh-flow-content {
-    max-width: 520px;
-    margin: 4.8rem 0 8rem;
-    text-align: left;
-}
-
 @media (max-width: 400px) {
-    .gh-setup .gh-flow-content {
+    .gh-flow-content {
         margin: 4rem 0 6rem;
+        font-size: 4vw;
     }
 }
 
@@ -188,11 +177,6 @@
     border-radius: 5px;
     text-align: left;
     box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.1);
-}
-
-.gh-flow-create .gh-btn-create-account span {
-    height: 37px;
-    line-height: 37px;
 }
 
 .gh-flow-content .account-image {
@@ -434,6 +418,8 @@
 }
 
 .gh-setup .gh-flow-form .gh-btn-red,
-.gh-setup .gh-flow-form .gh-btn-red:active {
+.gh-setup .gh-flow-form .gh-btn-red:active,
+.gh-signup .gh-btn-red,
+.gh-signup .gh-btn-red:active {
     background: var(--black) !important;
 }
