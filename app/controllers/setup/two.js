@@ -161,7 +161,7 @@ export default class TwoController extends Controller.extend(ValidationEngine) {
                 this._handleSaveError(error);
             });
         }).catch(() => {
-            this.set('flowErrors', 'Please fill out the form to setup your blog.');
+            this.set('flowErrors', 'Please fill out every field correctly to setup your blog.');
         });
     }
 
