@@ -423,7 +423,7 @@
 .gh-flow.setup .gh-flow-content .response {
     position: absolute;
     right: 0;
-    bottom: -28px;
+    bottom: -24px;
     margin: 0;
     color: #a6b0b3;
     font-size: 1.35rem;
@@ -463,6 +463,7 @@
     text-align: center;
 }
 
-.gh-flow.setup .gh-flow-form .gh-btn-red {
-    background: var(--black);
+.gh-flow.setup .gh-flow-form .gh-btn-red,
+.gh-flow.setup .gh-flow-form .gh-btn-red:active {
+    background: var(--black) !important;
 }
