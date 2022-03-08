@@ -3,7 +3,7 @@
         <section class="gh-flow-content fade-in">
             <form id="reset" class="gh-signin" method="post" novalidate="novalidate" {{action "submit" on="submit"}}>
                 <header>
-                    <div class="gh-site-icon" style="{{site-icon-style}}"></div>
+                    <div class="gh-site-icon" style={{site-icon-style}}></div>
                     <h1>Reset your password.</h1>
                 </header>
                 <GhFormGroup @errors={{this.errors}} @hasValidated={{this.hasValidated}} @property="newPassword">

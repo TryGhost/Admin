@@ -4,7 +4,7 @@
             {{#if this.passwordResetEmailSent}}
                 <div class="gh-auth-email">
                     <header>
-                        <div class="gh-site-icon" style="{{site-icon-style}}"></div>
+                        <div class="gh-site-icon" style={{site-icon-style}}></div>
                         <h1>Update your password.</h1>
                         <p>
                             For security, you need to create a new password. An email has been sent to you with instructions!
@@ -14,7 +14,7 @@
             {{else}}
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
                 <header>
-                    <div class="gh-site-icon" style="{{site-icon-style}}"></div>
+                    <div class="gh-site-icon" style={{site-icon-style}}></div>
                     <h1>Sign in to {{this.config.blogTitle}}.</h1>
                 </header>
                 {{#if this.config.oauth}}
