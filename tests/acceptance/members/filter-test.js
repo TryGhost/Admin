@@ -920,9 +920,64 @@ describe('Acceptance: Members filtering', function () {
             expect(find('[data-test-table-column="name"]')).to.not.exist;
 
             // can handle contains operator in URL
+            let filter = encodeURIComponent(`name:~'hello'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL contains "hello"')
+                .to.equal(1);
+            expect(find(operatorSelect)).to.have.value('contains');
+            expect(find(valueInput)).to.have.value('hello');
+
             // can handle starts-with operator in URL
+            filter = encodeURIComponent(`name:~^'tset'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL starts with "tset"')
+                .to.equal(3);
+            expect(find(operatorSelect)).to.have.value('starts-with');
+            expect(find(valueInput)).to.have.value('tset');
+
             // can handle ends-with operator in URL
+            filter = encodeURIComponent(`name:~$'2'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL ends with "2"')
+                .to.equal(2);
+            expect(find(operatorSelect)).to.have.value('ends-with');
+            expect(find(valueInput)).to.have.value('2');
+
             // can handle does-not-contain operator in URL
+            filter = encodeURIComponent(`name:-~'2'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL does not contain "2"')
+                .to.equal(6);
+            expect(find(operatorSelect)).to.have.value('does-not-contain');
+            expect(find(valueInput)).to.have.value('2');
+
+            // can handle escaped values in URL
+            filter = encodeURIComponent(`name:~'O\\'Nolan'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL contains "O\'Nolan"')
+                .to.equal(1);
+            expect(find(operatorSelect)).to.have.value('contains');
+            expect(find(valueInput)).to.have.value(`O'Nolan`);
+
+            // can handle regex special chars in URL
+            filter = encodeURIComponent(`name:~'test+test'`);
+            await visit('/');
+            await visit(`/members?filter=${filter}`);
+            await click('[data-test-button="members-filter-actions"]');
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - from URL contains "test+test"')
+                .to.equal(0);
+            expect(find(operatorSelect)).to.have.value('contains');
+            expect(find(valueInput)).to.have.value(`test+test`);
         });
 
         it('can filter by next billing date', async function () {

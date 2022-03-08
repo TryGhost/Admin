@@ -294,6 +294,30 @@ export default class MembersFilter extends Component {
                 relation = 'is-or-less';
                 value = nqlValue.$lte;
             }
+
+            if (nqlValue.$regex !== undefined) {
+                const source = nqlValue.$regex.source;
+
+                if (source.indexOf('^') === 0) {
+                    relation = 'starts-with';
+                    value = source.substring(1);
+                } else if (source.indexOf('$') === source.length - 1) {
+                    relation = 'ends-with';
+                    value = source.slice(0, -1);
+                } else {
+                    relation = 'contains';
+                    value = source;
+                }
+
+                value = value.replace(/\\/g, '');
+            }
+
+            if (nqlValue.$not !== undefined) {
+                relation = 'does-not-contain';
+                value = nqlValue.$not.source;
+
+                value = value.replace(/\\/g, '');
+            }
         } else {
             relation = 'is';
             value = nqlValue;
