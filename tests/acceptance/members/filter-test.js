@@ -841,12 +841,13 @@ describe('Acceptance: Members filtering', function () {
             this.server.create('member', {name: 'tset-2'});
             this.server.create('member', {name: 'tset-3'});
             this.server.create('member', {name: 'hello'});
+            this.server.create('member', {name: 'John O\'Nolan'});
             this.server.create('member', {name: null});
 
             await visit('/members');
 
             expect(findAll('[data-test-list="members-list-item"]').length, '# of initial member rows')
-                .to.equal(7);
+                .to.equal(8);
 
             await click('[data-test-button="members-filter-actions"]');
 
@@ -906,7 +907,14 @@ describe('Acceptance: Members filtering', function () {
             // does not contain query works
             await fillIn(operatorSelect, 'does-not-contain');
             expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - does not contain "2"')
-                .to.equal(5);
+                .to.equal(6);
+
+            // can query with escaped chars
+            await fillIn(operatorSelect, 'contains');
+            await fillIn(valueInput, `O'Nolan`);
+            await blur(valueInput);
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - contains "O\'Nolan"')
+                .to.equal(1);
 
             // no duplicate column added (name is included in the "details" column)
             expect(find('[data-test-table-column="name"]')).to.not.exist;

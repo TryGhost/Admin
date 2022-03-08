@@ -217,10 +217,10 @@ export default class MembersFilter extends Component {
 
             if (filterProperty.valueType === 'array' && filter.value?.length) {
                 const filterValue = '[' + filter.value.join(',') + ']';
-                query += `${filter.type}:${relationStr}${filterValue}+`;
+                query += `${filter.type}:${relationStr}[${filterValue}]+`;
             } else if (filterProperty.valueType === 'text') {
-                // TODO: add escaping to string value
-                query += `${filter.type}:${relationStr}'${filter.value}'+`;
+                const filterValue = '\'' + filter.value.replace(/'/g, '\\\'') + '\'';
+                query += `${filter.type}:${relationStr}${filterValue}+`;
             } else if (filterProperty.valueType === 'date') {
                 let filterValue;
 
