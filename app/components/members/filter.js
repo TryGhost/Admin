@@ -217,7 +217,7 @@ export default class MembersFilter extends Component {
 
             if (filterProperty.valueType === 'array' && filter.value?.length) {
                 const filterValue = '[' + filter.value.join(',') + ']';
-                query += `${filter.type}:${relationStr}[${filterValue}]+`;
+                query += `${filter.type}:${relationStr}${filterValue}+`;
             } else if (filterProperty.valueType === 'text') {
                 const filterValue = '\'' + filter.value.replace(/'/g, '\\\'') + '\'';
                 query += `${filter.type}:${relationStr}${filterValue}+`;
