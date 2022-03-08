@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {Response} from 'miragejs';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
@@ -22,9 +21,6 @@ describe('Acceptance: Setup', function () {
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
-
-        await visit('/setup');
-        expect(currentURL()).to.equal('/site');
 
         await visit('/setup');
         expect(currentURL()).to.equal('/site');
@@ -91,27 +87,9 @@ describe('Acceptance: Setup', function () {
             await fillIn('[data-test-blog-title-input]', 'Blog Title');
             await click('[data-test-button="setup"]');
 
-            // it redirects to the home / "content" screen
+            // it redirects to the dashboard
             expect(currentURL(), 'url after submitting account details')
                 .to.equal('/dashboard');
-
-            // submit button is "disabled"
-            expect(find('button[type="submit"]').classList.contains('gh-btn-black'), 'invite button with no emails is white')
-                .to.be.false;
-
-            // fill in a valid email
-            await fillIn('[name="users"]', 'new-user@example.com');
-
-            // submit button is "enabled"
-            expect(find('button[type="submit"]').classList.contains('gh-btn-black'), 'invite button is enabled with valid email address')
-                .to.be.true;
-
-            // submit the invite form
-            await click('button[type="submit"]');
-
-            // it displays success alert
-            expect(findAll('.gh-alert-green').length, 'number of success alerts')
-                .to.equal(1);
         });
 
         it('handles validation errors in setup', async function () {
@@ -162,8 +140,8 @@ describe('Acceptance: Setup', function () {
             // second post - simulated server error
             await click('[data-test-button="setup"]');
 
-            expect(find('.main-error').textContent.trim(), 'error text')
-                .to.be.empty;
+            expect(findAll('.main-error').length, 'main error is not displayed')
+                .to.equal(0);
 
             expect(findAll('.gh-alert-red').length, 'number of alerts')
                 .to.equal(1);
