@@ -835,11 +835,11 @@ describe('Acceptance: Members filtering', function () {
         });
 
         it('can filter by name', async function () {
-            this.server.create('member', {name: 'test-one'});
-            this.server.create('member', {name: 'test-two'});
-            this.server.create('member', {name: 'tset-one'});
-            this.server.create('member', {name: 'tset-two'});
-            this.server.create('member', {name: 'tset-three'});
+            this.server.create('member', {name: 'test-1'});
+            this.server.create('member', {name: 'test-2'});
+            this.server.create('member', {name: 'tset-1'});
+            this.server.create('member', {name: 'tset-2'});
+            this.server.create('member', {name: 'tset-3'});
             this.server.create('member', {name: 'hello'});
             this.server.create('member', {name: null});
 
@@ -898,14 +898,14 @@ describe('Acceptance: Members filtering', function () {
 
             // ends with query works
             await fillIn(operatorSelect, 'ends-with');
-            await fillIn(valueInput, 'two');
+            await fillIn(valueInput, '2');
             await blur(valueInput);
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - ends with "two"')
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - ends with "2"')
                 .to.equal(2);
 
             // does not contain query works
             await fillIn(operatorSelect, 'does-not-contain');
-            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - does not contain "two"')
+            expect(findAll('[data-test-list="members-list-item"]').length, '# of filtered member rows - does not contain "2"')
                 .to.equal(5);
 
             // no duplicate column added (name is included in the "details" column)

@@ -219,9 +219,8 @@ export default class MembersFilter extends Component {
                 const filterValue = '[' + filter.value.join(',') + ']';
                 query += `${filter.type}:${relationStr}${filterValue}+`;
             } else if (filterProperty.valueType === 'text') {
-                // TODO: change value from literal to string
                 // TODO: add escaping to string value
-                query += `${filter.type}:${relationStr}${filter.value}+`;
+                query += `${filter.type}:${relationStr}'${filter.value}'+`;
             } else if (filterProperty.valueType === 'date') {
                 let filterValue;
 
