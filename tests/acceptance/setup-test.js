@@ -23,10 +23,10 @@ describe('Acceptance: Setup', function () {
 
         await authenticateSession();
 
-        await visit('/setup/one');
+        await visit('/setup');
         expect(currentURL()).to.equal('/site');
 
-        await visit('/setup/two');
+        await visit('/setup');
         expect(currentURL()).to.equal('/site');
     });
 
@@ -64,21 +64,9 @@ describe('Acceptance: Setup', function () {
 
             await visit('/setup');
 
-            // it redirects to step one
+            // it redirects to setup
             expect(currentURL(), 'url after accessing /setup')
-                .to.equal('/setup/one');
-
-            // it highlights first step
-            let stepIcons = findAll('.gh-flow-nav .step');
-            expect(stepIcons.length, 'sanity check: two steps').to.equal(2);
-            expect(stepIcons[0], 'first step').to.have.class('active');
-            expect(stepIcons[1], 'second step').to.not.have.class('active');
-
-            await click('.gh-btn-green');
-
-            // it transitions to step two
-            expect(currentURL(), 'url after clicking "Create your account"')
-                .to.equal('/setup/two');
+                .to.equal('/setup');
 
             // email field is focused by default
             // NOTE: $('x').is(':focus') doesn't work in phantomjs CLI runner
@@ -86,7 +74,7 @@ describe('Acceptance: Setup', function () {
             expect(findAll('[data-test-blog-title-input]')[0] === document.activeElement, 'blog title has focus')
                 .to.be.true;
 
-            await click('.gh-btn-green');
+            await click('[data-test-button="setup"]');
 
             // it marks fields as invalid
             expect(findAll('.form-group.error').length, 'number of invalid fields')
@@ -105,7 +93,7 @@ describe('Acceptance: Setup', function () {
             await fillIn('[data-test-name-input]', 'Test User');
             await fillIn('[data-test-password-input]', 'thisissupersafe');
             await fillIn('[data-test-blog-title-input]', 'Blog Title');
-            await click('.gh-btn-green');
+            await click('[data-test-button="setup"]');
 
             // it redirects to the home / "content" screen
             expect(currentURL(), 'url after submitting step two')
@@ -133,7 +121,7 @@ describe('Acceptance: Setup', function () {
             expect(find('[data-test-modal="get-started"]')).to.exist;
         });
 
-        it('handles validation errors in step 2', async function () {
+        it('handles validation errors in setup', async function () {
             let postCount = 0;
 
             await invalidateSession();
@@ -160,8 +148,8 @@ describe('Acceptance: Setup', function () {
                 }
             });
 
-            await visit('/setup/two');
-            await click('.gh-btn-green');
+            await visit('/setup');
+            await click('[data-test-button="setup"]');
 
             // non-server validation
             expect(find('.main-error').textContent.trim(), 'error text')
@@ -188,7 +176,7 @@ describe('Acceptance: Setup', function () {
                 .to.equal(1);
         });
 
-        it('handles invalid origin error on step 2', async function () {
+        it('handles invalid origin error on setup', async function () {
             // mimick the API response for an invalid origin
             this.server.post('/session', function () {
                 return new Response(401, {}, {
@@ -204,7 +192,7 @@ describe('Acceptance: Setup', function () {
             await invalidateSession();
             this.server.loadFixtures('roles');
 
-            await visit('/setup/two');
+            await visit('/setup');
             await fillIn('[data-test-email-input]', 'test@example.com');
             await fillIn('[data-test-name-input]', 'Test User');
             await fillIn('[data-test-password-input]', 'thisissupersafe');
