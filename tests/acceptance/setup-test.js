@@ -64,10 +64,6 @@ describe('Acceptance: Setup', function () {
 
             await visit('/setup');
 
-            // it redirects to setup
-            expect(currentURL(), 'url after accessing /setup')
-                .to.equal('/setup');
-
             // email field is focused by default
             // NOTE: $('x').is(':focus') doesn't work in phantomjs CLI runner
             // https://github.com/ariya/phantomjs/issues/10427
@@ -96,18 +92,18 @@ describe('Acceptance: Setup', function () {
             await click('[data-test-button="setup"]');
 
             // it redirects to the home / "content" screen
-            expect(currentURL(), 'url after submitting step two')
+            expect(currentURL(), 'url after submitting account details')
                 .to.equal('/dashboard');
 
             // submit button is "disabled"
-            expect(find('button[type="submit"]').classList.contains('gh-btn-green'), 'invite button with no emails is white')
+            expect(find('button[type="submit"]').classList.contains('gh-btn-black'), 'invite button with no emails is white')
                 .to.be.false;
 
             // fill in a valid email
             await fillIn('[name="users"]', 'new-user@example.com');
 
             // submit button is "enabled"
-            expect(find('button[type="submit"]').classList.contains('gh-btn-green'), 'invite button is green with valid email address')
+            expect(find('button[type="submit"]').classList.contains('gh-btn-black'), 'invite button is enabled with valid email address')
                 .to.be.true;
 
             // submit the invite form
@@ -116,9 +112,6 @@ describe('Acceptance: Setup', function () {
             // it displays success alert
             expect(findAll('.gh-alert-green').length, 'number of success alerts')
                 .to.equal(1);
-
-            // it opens get-started modal
-            expect(find('[data-test-modal="get-started"]')).to.exist;
         });
 
         it('handles validation errors in setup', async function () {
@@ -161,13 +154,13 @@ describe('Acceptance: Setup', function () {
             await fillIn('[data-test-blog-title-input]', 'Blog Title');
 
             // first post - simulated validation error
-            await click('.gh-btn-green');
+            await click('[data-test-button="setup"]');
 
             expect(find('.main-error').textContent.trim(), 'error text')
                 .to.equal('Server response message');
 
             // second post - simulated server error
-            await click('.gh-btn-green');
+            await click('[data-test-button="setup"]');
 
             expect(find('.main-error').textContent.trim(), 'error text')
                 .to.be.empty;
@@ -197,10 +190,10 @@ describe('Acceptance: Setup', function () {
             await fillIn('[data-test-name-input]', 'Test User');
             await fillIn('[data-test-password-input]', 'thisissupersafe');
             await fillIn('[data-test-blog-title-input]', 'Blog Title');
-            await click('.gh-btn-green');
+            await click('[data-test-button="setup"]');
 
             // button should not be spinning
-            expect(findAll('.gh-btn-green .spinner').length, 'button has spinner')
+            expect(findAll('.gh-btn-signup .spinner').length, 'button has spinner')
                 .to.equal(0);
             // we should show an error message
             expect(find('.main-error').textContent, 'error text')
