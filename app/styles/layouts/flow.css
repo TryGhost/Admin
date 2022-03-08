@@ -56,19 +56,17 @@
     }
 }
 
-.gh-flow-content header {
-    margin: 0 auto;
-    max-width: 520px;
-}
-
 .gh-setup .gh-flow-content header {
     margin: 0 0 1rem;
-    text-align: center;
 }
 
 .gh-setup .gh-flow-content header svg {
     width: 7.2rem;
     margin: 0 0 1rem;
+}
+
+.gh-setup .gh-flow-content h1 {
+    margin-bottom: 0;
 }
 
 .gh-setup .gh-flow-content p {
@@ -85,6 +83,7 @@
 }
 
 .gh-flow-content h1 {
+    margin-bottom: 40px;
     font-size: 4.1rem;
     font-weight: 700;
     line-height: 1.15em;

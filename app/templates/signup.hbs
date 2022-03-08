@@ -3,6 +3,7 @@
     <div class="gh-flow-content-wrap">
         <section class="gh-flow-content">
             <header>
+                <div class="gh-site-icon" style="{{site-icon-style}}"></div>
                 <h1>Create your account.</h1>
             </header>
 
@@ -15,7 +16,7 @@
                             @type="text"
                             @id="display-name"
                             @name="display-name"
-                            @placeholder="Eg. John H. Watson"
+                            @placeholder="Jamie Larson"
                             @autocorrect="off"
                             @autocomplete="name"
                             @value={{readonly this.signupDetails.name}}
@@ -35,7 +36,7 @@
                             @type="text"
                             @id="username"
                             @name="username"
-                            @placeholder="Eg. john@example.com"
+                            @placeholder="jamie@example.com"
                             @autocorrect="off"
                             @autocomplete="username email"
                             @value={{readonly this.signupDetails.email}}
@@ -67,7 +68,7 @@
                     <GhErrorMessage @errors={{this.signupDetails.errors}} @property="password" />
                 </GhFormGroup>
 
-                <GhTaskButton @buttonText="Create Account" @type="submit" @form="signup" @defaultClick={{true}} @runningText="Creating"
+                <GhTaskButton @buttonText="Create Account &rarr;" @type="submit" @form="signup" @defaultClick={{true}} @runningText="Creating"
                     @task={{this.signup}} @class="gh-btn gh-btn-black gh-btn-signup gh-btn-block gh-btn-icon" @tabindex="3" />
             </form>
             {{#if this.flowErrors}}

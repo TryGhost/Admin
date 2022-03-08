@@ -5,12 +5,14 @@
     width: 100%;
 }
 
+.gh-flow-content header,
 .gh-signin header {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.gh-flow-content .gh-site-icon,
 .gh-signin .gh-site-icon {
     margin-bottom: 20px;
     width: 70px;
@@ -129,9 +131,9 @@
     font-size: 1.8rem;
 }
 
-.gh-signin .gh-input:focus {
+.gh-signin .gh-input:focus:not(.gh-signin .gh-input.reset-password:focus) {
     border-color: var(--midgrey) !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* Email notification */
