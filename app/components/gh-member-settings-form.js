@@ -41,11 +41,7 @@ export default class extends Component {
             return false;
         }
 
-        if (this.feature.multipleProducts) {
-            return !!this.productsList?.length;
-        }
-
-        return true;
+        return !!this.productsList?.length;
     }
 
     get isCreatingComplimentary() {
@@ -140,12 +136,6 @@ export default class extends Component {
     @action
     continueSubscription(subscriptionId) {
         this.continueSubscriptionTask.perform(subscriptionId);
-    }
-
-    @action
-    addCompedSubscription() {
-        this.args.setProperty('comped', true);
-        this.args.saveMember();
     }
 
     @task({drop: true})
