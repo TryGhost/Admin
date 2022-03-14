@@ -8,16 +8,31 @@
                     <div class="gh-cp-member-email-name">
                         <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="name" @classNames="max-width">
                             <label for="member-name">Name</label>
-                            <GhTextInput @id="member-name" @name="name" @value={{this.scratchMember.name}} @tabindex="1" @shouldFocus="{{if this.member.isNew true}}"
-                                @focus-out={{action "setProperty" "name" this.scratchMember.name}} data-test-input="member-name" />
+                            <GhTextInput
+                                @id="member-name"
+                                @name="name"
+                                @value={{this.scratchMember.name}}
+                                @tabindex="1"
+                                @shouldFocus="{{if this.member.isNew true}}"
+                                @focus-out={{fn this.setProperty "name" this.scratchMember.name}}
+                                data-test-input="member-name"
+                            />
                             <GhErrorMessage @errors={{this.member.errors}} @property="name" />
                         </GhFormGroup>
 
                         <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="email" @classNames="max-width">
                             <label for="member-email">Email</label>
-                            <GhTextInput @value={{this.scratchMember.email}} @id="member-email" @name="email" @tabindex="2"
-                                @autocapitalize="off" @autocorrect="off" @autocomplete="off"
-                                @focus-out={{action "setProperty" "email" this.scratchMember.email}} data-test-input="member-email"/>
+                            <GhTextInput
+                                @value={{this.scratchMember.email}}
+                                @id="member-email"
+                                @name="email"
+                                @tabindex="2"
+                                @autocapitalize="off"
+                                @autocorrect="off"
+                                @autocomplete="off"
+                                @focus-out={{fn this.setProperty "email" this.scratchMember.email}}
+                                data-test-input="member-email"
+                            />
                             <GhErrorMessage @errors={{this.member.errors}} @property="email" />
                         </GhFormGroup>
                     </div>
@@ -25,7 +40,7 @@
                     <GhFormGroup @classNames="gh-member-labels">
                         <label for="label-input">Labels</label>
                         <GhMemberLabelInput
-                            @onChange={{action "setLabels"}}
+                            @onChange={{this.setLabels}}
                             @allowEdit={{true}}
                             @onLabelEdit={{@onLabelEdit}}
                             @labels={{this.member.labels}}
@@ -36,8 +51,15 @@
 
                     <GhFormGroup @errors={{this.member.errors}} @hasValidated={{this.member.hasValidated}} @property="note" @classNames="mb0 gh-member-note">
                         <label for="member-note">Note <span class="midgrey-d1 fw4">(not visible to member)</span></label>
-                        <GhTextarea @id="member-note" @name="note" @class="gh-member-details-textarea" @tabindex="3"
-                            @value={{this.scratchMember.note}} @focus-out={{action "setProperty" "note" this.scratchMember.note}} data-test-input="member-note" />
+                        <GhTextarea
+                            @id="member-note"
+                            @name="note"
+                            @class="gh-member-details-textarea"
+                            @tabindex="3"
+                            @value={{this.scratchMember.note}}
+                            @focus-out={{fn this.setProperty "note" this.scratchMember.note}}
+                            data-test-input="member-note"
+                        />
                         <GhErrorMessage @errors={{this.member.errors}} @property="note" />
                         <p> Maximum: <b>500</b> characters. You’ve used
                             {{gh-count-down-characters this.scratchMember.note 500}}</p>
@@ -52,8 +74,13 @@
                                 </div>
                                 <div class="for-switch">
                                     <label class="switch" for="subscribed-checkbox">
-                                        <Input @checked={{this.member.subscribed}} @type="checkbox" id="subscribed-checkbox"
-                                            name="subscribed" data-test-checkbox="member-subscribed" />
+                                        <Input
+                                            @checked={{this.member.subscribed}}
+                                            @type="checkbox"
+                                            id="subscribed-checkbox"
+                                            name="subscribed"
+                                            data-test-checkbox="member-subscribed"
+                                        />
                                         <span class="input-toggle-component"></span>
                                     </label>
                                 </div>
@@ -70,31 +97,27 @@
                     <div class="gh-main-section-content grey">
                         <div class="gh-cp-memberproduct-noproduct">
                             {{#unless this.isCreatingComplimentary}}
-                            <div class="gh-members-no-data gh-members-no-subs">
-                                <span class="lightgrey">{{svg-jar "no-data-subscription"}}</span>
-                                <h4>No subscriptions</h4>
-                            </div>
+                                <div class="gh-members-no-data gh-members-no-subs">
+                                    <span class="lightgrey">{{svg-jar "no-data-subscription"}}</span>
+                                    <h4>No subscriptions</h4>
+                                </div>
                             {{/unless}}
 
-                            {{#unless this.member.isNew}}
-                                {{#if this.isAddComplimentaryAllowed}}
-                                    {{#if this.isCreatingComplimentary}}
-                                        <GhLoadingSpinner />
+                            {{#if this.isAddComplimentaryAllowed}}
+                                {{#if this.isCreatingComplimentary}}
+                                    <GhLoadingSpinner />
+                                {{else}}
+                                    {{#if (feature "multipleProducts")}}
+                                        <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{on "click" (toggle-action "showMemberProductModal" this)}}>
+                                            <span>{{svg-jar "add"}} Add complimentary subscription</span>
+                                        </button>
                                     {{else}}
-                                        {{#if (feature "multipleProducts")}}
-                                            {{!-- {{if has multiple products!}} --}}
-                                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action (toggle "showMemberProductModal" this)}}>
-                                                <span>{{svg-jar "add"}} Add complimentary subscription</span>
-                                            </button>
-                                            {{!-- {{/if}} --}}
-                                        {{else}}
-                                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action "addCompedSubscription"}}>
-                                                <span>{{svg-jar "add"}} Add complimentary subscription</span>
-                                            </button>
-                                        {{/if}}
+                                        <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{on "click" this.addCompedSubscription}}>
+                                            <span>{{svg-jar "add"}} Add complimentary subscription</span>
+                                        </button>
                                     {{/if}}
                                 {{/if}}
-                            {{/unless}}
+                            {{/if}}
                         </div>
                     </div>
                 {{/unless}}
@@ -105,7 +128,7 @@
                             <h3 class="gh-memberproduct-name">
                                 {{product.name}}
                                 {{#if (gt product.subscriptions.length 1)}}
-                                <span class="gh-memberproduct-subcount">{{product.subscriptions.length}} subscriptions</span>
+                                    <span class="gh-memberproduct-subcount">{{product.subscriptions.length}} subscriptions</span>
                                 {{/if}}
                             </h3>
 
@@ -164,7 +187,7 @@
                                                 </GhDropdownButton>
                                                 <GhDropdown @name="subscription-menu-complimentary" @tagName="ul" @classNames="product-actions-menu dropdown-menu dropdown-align-right">
                                                     <li>
-                                                        <button type="button" {{action "removeComplimentary" product.id}}>
+                                                        <button type="button" {{on "click" (fn this.removeComplimentary product.id)}}>
                                                             <span class="red">Remove complimentary subscription</span>
                                                         </button>
                                                     </li>
@@ -194,11 +217,11 @@
                                                     <li>
                                                     {{#if (not-eq sub.status "canceled")}}
                                                         {{#if sub.cancel_at_period_end}}
-                                                            <button type="button" {{action "continueSubscription" sub.id}}>
+                                                            <button type="button" {{on "click" (fn this.continueSubscription sub.id)}}>
                                                                 <span>Continue subscription</span>
                                                             </button>
                                                         {{else}}
-                                                            <button type="button" {{action "cancelSubscription" sub.id}}>
+                                                            <button type="button" {{on "click" (fn this.cancelSubscription sub.id)}}>
                                                                 <span class="red">Cancel subscription</span>
                                                             </button>
                                                         {{/if}}
@@ -212,39 +235,39 @@
                             {{/each}}
 
                             {{#if (and (feature "multipleProducts") (eq product.subscriptions.length 0))}}
-                            <div class="gh-memberproduct-subscription">
-                                <div>
+                                <div class="gh-memberproduct-subscription">
                                     <div>
-                                        <span class="gh-cp-memberproduct-pricelabel">Complimentary</span>
-                                        <span class="gh-badge active">Active</span>
-                                    </div>
-                                    <div class="gh-memberproduct-created">Created on</div>
-                                </div>
-                                <div class="flex items-center">
-                                    <div class="gh-product-card-price">
-                                        <div class="flex items-start">
-                                            <span class="currency-symbol">$</span>
-                                            <span class="amount">0</span>
+                                        <div>
+                                            <span class="gh-cp-memberproduct-pricelabel">Complimentary</span>
+                                            <span class="gh-badge active">Active</span>
                                         </div>
-                                        <div class="period">yearly</div>
+                                        <div class="gh-memberproduct-created">Created on</div>
                                     </div>
-                                    <span class="action-menu">
-                                        <GhDropdownButton @dropdownName="subscription-menu-complimentary" @classNames="gh-btn gh-btn-outline gh-btn-icon gh-btn-subscription-action icon-only" @title="Actions">
-                                            <span>
-                                                {{svg-jar "dotdotdot"}}
-                                                <span class="hidden">Subscription menu</span>
-                                            </span>
-                                        </GhDropdownButton>
-                                        <GhDropdown @name="subscription-menu-complimentary" @tagName="ul" @classNames="product-actions-menu dropdown-menu dropdown-align-right">
-                                            <li>
-                                                <button type="button" {{action "removeComplimentary" product.id}}>
-                                                    <span class="red">Remove complimentary subscription</span>
-                                                </button>
-                                            </li>
-                                        </GhDropdown>
-                                    </span>
+                                    <div class="flex items-center">
+                                        <div class="gh-product-card-price">
+                                            <div class="flex items-start">
+                                                <span class="currency-symbol">$</span>
+                                                <span class="amount">0</span>
+                                            </div>
+                                            <div class="period">yearly</div>
+                                        </div>
+                                        <span class="action-menu">
+                                            <GhDropdownButton @dropdownName="subscription-menu-complimentary" @classNames="gh-btn gh-btn-outline gh-btn-icon gh-btn-subscription-action icon-only" @title="Actions">
+                                                <span>
+                                                    {{svg-jar "dotdotdot"}}
+                                                    <span class="hidden">Subscription menu</span>
+                                                </span>
+                                            </GhDropdownButton>
+                                            <GhDropdown @name="subscription-menu-complimentary" @tagName="ul" @classNames="product-actions-menu dropdown-menu dropdown-align-right">
+                                                <li>
+                                                    <button type="button" {{on "click" (fn this.removeComplimentary product.id)}}>
+                                                        <span class="red">Remove complimentary subscription</span>
+                                                    </button>
+                                                </li>
+                                            </GhDropdown>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
                             {{/if}}
 
                             {{#if (not (feature "multipleProducts"))}}
@@ -253,7 +276,7 @@
                                         {{#if this.isCreatingComplimentary}}
                                             <GhLoadingSpinner />
                                         {{else}}
-                                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{action "addCompedSubscription"}}>
+                                            <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{on "click" this.addCompedSubscription}}>
                                                 <span>{{svg-jar "add"}} Add complimentary subscription</span>
                                             </button>
                                         {{/if}}
@@ -269,10 +292,10 @@
                             {{#if this.isCreatingComplimentary}}
                                 <GhLoadingSpinner />
                             {{else}}
-                                    <button
+                                <button
                                     type="button"
                                     class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct"
-                                    {{action (toggle "showMemberProductModal" this)}}
+                                    {{on "click" (toggle-action "showMemberProductModal" this)}}
                                 >
                                     <span>{{svg-jar "add"}} Add complimentary subscription</span>
                                 </button>

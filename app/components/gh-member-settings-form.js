@@ -28,6 +28,10 @@ export default class extends Component {
     }
 
     get isAddComplimentaryAllowed() {
+        if (this.member.get('isNew')) {
+            return false;
+        }
+
         if (!this.membersUtils.isStripeEnabled) {
             return false;
         }
@@ -37,15 +41,20 @@ export default class extends Component {
             return false;
         }
 
-        if (this.feature.get('multipleProducts')) {
+        if (this.feature.multipleProducts) {
             return !!this.productsList?.length;
         }
 
         return true;
     }
 
+    get isCreatingComplimentary() {
+        return this.args.isSaveRunning;
+    }
+
     get products() {
         let subscriptions = this.member.get('subscriptions') || [];
+
         // Create the products from `subscriptions.price.product`
         let products = subscriptions
             .map(subscription => subscription.price.product)
@@ -53,6 +62,7 @@ export default class extends Component {
                 // Deduplicate by taking the first object by `id`
                 return typeof value.id !== 'undefined' && self.findIndex(element => element.id === value.id) === index;
             });
+
         let subscriptionData = subscriptions.filter((sub) => {
             return !!sub.price;
         }).map((sub) => {
@@ -100,10 +110,6 @@ export default class extends Component {
     @action
     setup() {
         this.fetchProducts.perform();
-    }
-
-    get isCreatingComplimentary() {
-        return this.args.isSaveRunning;
     }
 
     @action
