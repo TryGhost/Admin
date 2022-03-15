@@ -173,71 +173,59 @@
                             {{/if}}
 
                             <div class="gh-portal-product-card-pricecontainer" data-test-tierpreview-price>
-                                <div class="gh-portal-product-price">
                                     {{#if this.isFreeProduct}}
-                                        <span class="monthly-price">
+                                    <div class="gh-portal-product-price">
+                                        <span class="currency-sign">{{currency-symbol this.currency}}</span>
+                                        <span class="amount">0</span>
+                                    </div>
+                                    {{else}}
+                                        {{#if this.stripeYearlyAmount}}
+                                        <div class="gh-portal-product-price">
+                                            <span class="currency-sign">{{currency-symbol this.currency}}</span>
+                                            <span class="amount">{{format-number this.stripeYearlyAmount}}</span>
+                                            <span class="billing-period">/year</span>
+                                        </div>
+                                        <span class="gh-portal-discount-label" style="background-color: {{this.settings.accentColor}}">44% discount</span>
+                                        {{else}}
+                                        <div class="gh-portal-product-price placeholder">
                                             <span class="currency-sign">{{currency-symbol this.currency}}</span>
                                             <span class="amount">0</span>
-                                        </span>
-                                    {{else}}
-                                        {{#if this.stripeMonthlyAmount}}
-                                            <span class="monthly-price">
-                                                <span class="currency-sign">{{currency-symbol this.currency}}</span>
-                                                <span class="amount">{{format-number this.stripeMonthlyAmount}}</span>
-                                                <span class="billing-period">/month</span>
-                                            </span>
-                                        {{else}}
-                                            <span class="monthly-price placeholder">
-                                                <span class="currency-sign">{{currency-symbol this.currency}}</span>
-                                                <span class="amount">0</span>
-                                                <span class="billing-period">/month</span>
-                                            </span>
+                                            <span class="billing-period">/year</span>
+                                        </div>
                                         {{/if}}
 
-                                        {{#if this.stripeYearlyAmount}}
-                                            <span class="yearly-price">
-                                                <span class="currency-sign">{{currency-symbol this.currency}}</span>
-                                                <span class="amount">{{format-number this.stripeYearlyAmount}}</span>
-                                                <span class="billing-period">/year</span>
-                                            </span>
-                                        {{else}}
-                                            <span class="yearly-price placeholder">
-                                                <span class="amount">0</span>
-                                                <span class="currency-sign">{{this.currency}}</span>
-                                                <span class="billing-period">/year</span>
-                                            </span>
-                                        {{/if}}
                                     {{/if}}
-                                </div>
                             </div>
                         </div>
 
                         <div class="gh-portal-product-card-details">
-                            {{#if this.product.description}}
-                                <div class="gh-portal-product-description" data-test-tierpreview-description>{{this.product.description}}</div>
-                            {{else}}
-                                {{#if this.isFreeProduct}}
-                                    <div class="placeholder gh-portal-product-description" data-test-tierpreview-description>Free preview of {{this.settings.title}}</div>
+                            <div class="gh-portal-product-card-detaildata">
+                                {{#if this.product.description}}
+                                    <div class="gh-portal-product-description" data-test-tierpreview-description>{{this.product.description}}</div>
                                 {{else}}
-                                    <div class="placeholder gh-portal-product-description" data-test-tierpreview-description>Full access to premium content</div>
-                                {{/if}}
-                            {{/if}}
-
-                            {{#if this.benefits}}
-                                <div class="gh-portal-product-benefits" data-test-tierpreview-benefits>
-                                {{#each this.benefits as |benefitItem index|}}
-                                    <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">{{benefitItem.name}}</div></div>
-                                {{/each}}
-                                </div>
-                            {{else}}
-                                <div class="placeholder gh-portal-product-benefits" data-test-tierpreview-benefits>
                                     {{#if this.isFreeProduct}}
-                                        <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Access to all public posts</div></div>
+                                        <div class="placeholder gh-portal-product-description" data-test-tierpreview-description>Free preview of {{this.settings.title}}</div>
                                     {{else}}
-                                        <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Expert analysis</div></div>
+                                        <div class="placeholder gh-portal-product-description" data-test-tierpreview-description>Full access to premium content</div>
                                     {{/if}}
-                                </div>
-                            {{/if}}
+                                {{/if}}
+
+                                {{#if this.benefits}}
+                                    <div class="gh-portal-product-benefits" data-test-tierpreview-benefits>
+                                    {{#each this.benefits as |benefitItem index|}}
+                                        <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">{{benefitItem.name}}</div></div>
+                                    {{/each}}
+                                    </div>
+                                {{else}}
+                                    <div class="placeholder gh-portal-product-benefits" data-test-tierpreview-benefits>
+                                        {{#if this.isFreeProduct}}
+                                            <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Access to all public posts</div></div>
+                                        {{else}}
+                                            <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Expert analysis</div></div>
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </div>
                         </div>
                         
                     </div>

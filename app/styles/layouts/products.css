@@ -581,6 +581,7 @@
     border-radius: 7px;
     border: 1px solid #e1e1e1;
     min-height: 200px;
+    letter-spacing: normal;
 }
 
 .gh-portal-product-card-header {
@@ -605,7 +606,7 @@
     line-height: 1.4em;
     width: 100%;
     margin-top: 16px;
-    color: var(--grey2);
+    color: #3d3d3d;
 }
 
 .gh-portal-product-card-pricecontainer {
@@ -620,16 +621,10 @@
     margin-top: 16px;
 }
 
-.gh-product-form-tierpreview .price {
+.gh-portal-product-price {
     display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 10px;
-    column-gap: 4px;
-    width: 100%;
-    margin-top: 16px;
+    justify-content: center;
+    color: #1d1d1d;
 }
 
 .gh-portal-product-card-details {
@@ -639,12 +634,15 @@
     width: 100%;
 }
 
+.gh-portal-product-card-detaildata {
+    flex: 1;
+}
+
 .gh-portal-product-price .amount {
-    font-size: 3.5rem;
+    font-size: 3.4rem;
     font-weight: 700;
     line-height: 1em;
     letter-spacing: -1.3px;
-    color: var(--grey0);
 }
 
 .gh-product-form-tierpreview .monthly-price {
@@ -656,34 +654,50 @@
     color: #3d3d3d;
 }
 
-.gh-product-form-tierpreview .monthly-price .period {
-    font-size: 1.3rem;
-    line-height: 1.6em;
-    color: #515151;
-    letter-spacing: 0.3px;
-    margin-left: 2px;
-}
-
-.gh-product-form-tierpreview .yearly-price {
-    font-size: 1.2rem;
-    line-height: 1.6em;
-    color: #aeaeae;
-    text-align: center;
-    margin-top: 4px;
-    letter-spacing: 0.3px;
-    height: 18px;
-    margin-top: -1px;
-}
-
 .gh-product-form-tierpreview .currency-sign {
-    text-transform: uppercase;
-}
-
-.gh-product-form-tierpreview .monthly-price .currency-sign {
     align-self: flex-start;
     font-size: 2.7rem;
     font-weight: 700;
     line-height: 1.115em;
+    text-transform: uppercase;
+}
+
+.gh-product-form-tierpreview .billing-period {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    line-height: 1.6em;
+    color: #686868;
+    letter-spacing: 0.3px;
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+.gh-portal-discount-label {
+    position: relative;
+    font-size: 1.25rem;
+    line-height: 1em;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #1d1d1d;
+    padding: 6px 9px;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 999px;
+    margin-right: -4px;
+    margin-top: -4px;
+    max-height: 24.5px;
+}
+
+.gh-portal-discount-label:before {
+    position: absolute;
+    content: "";
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 999px;
+    opacity: 0.2;
 }
 
 .gh-product-form-tierpreview .gh-portal-product-benefits {
@@ -697,6 +711,7 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
+    color: #3d3d3d;
 }
 
 .gh-portal-product-benefit svg {
@@ -707,17 +722,13 @@
     overflow: visible;
 }
 
-.gh-product-form-tierpreview .gh-portal-product-benefit svg path {
-    stroke-width: 3px;
-}
-
 .gh-product-form-tierpreview .gh-portal-product-benefit polyline,
 .gh-product-form-tierpreview .gh-portal-product-benefit g {
     stroke-width: 3px;
 }
 
 .gh-product-form-tierpreview .gh-portal-benefit-title {
-    
+    letter-spacing: normal;
 }
 
 .gh-product-form-tierpreview .placeholder {
