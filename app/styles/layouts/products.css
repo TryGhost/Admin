@@ -723,7 +723,8 @@
 }
 
 .gh-product-form-tierpreview .gh-portal-product-benefit polyline,
-.gh-product-form-tierpreview .gh-portal-product-benefit g {
+.gh-product-form-tierpreview .gh-portal-product-benefit g,
+.gh-product-form-tierpreview .gh-portal-product-benefit path {
     stroke-width: 3px;
 }
 
