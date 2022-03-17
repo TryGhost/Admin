@@ -107,7 +107,12 @@
                                 {{#if this.isCreatingComplimentary}}
                                     <GhLoadingSpinner />
                                 {{else}}
-                                    <button type="button" class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct" {{on "click" (toggle-action "showMemberProductModal" this)}}>
+                                    <button
+                                        type="button"
+                                        class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct"
+                                        {{on "click" (toggle-action "showMemberProductModal" this)}}
+                                        data-test-button="add-complimentary"
+                                    >
                                         <span>{{svg-jar "add"}} Add complimentary subscription</span>
                                     </button>
                                 {{/if}}
@@ -117,7 +122,7 @@
                 {{/unless}}
 
                 {{#each this.products as |product|}}
-                    <div class="gh-main-section-content grey gh-member-product-container">
+                    <div class="gh-main-section-content grey gh-member-product-container" data-test-product={{or product.id "complimentary"}}>
                         <div class="gh-main-content-card gh-cp-memberproduct {{if (gt product.subscriptions.length 1) "multiple-subs" ""}}">
                             <h3 class="gh-memberproduct-name">
                                 {{product.name}}
@@ -126,8 +131,8 @@
                                 {{/if}}
                             </h3>
 
-                            {{#each product.subscriptions as |sub|}}
-                                <div class="gh-memberproduct-subscription" data-test-block="member-subscription">
+                            {{#each product.subscriptions as |sub index|}}
+                                <div class="gh-memberproduct-subscription" data-test-subscription={{index}}>
                                     <div>
                                         <div>
                                             <span class="gh-cp-memberproduct-pricelabel">{{sub.price.nickname}}</span>
@@ -171,15 +176,25 @@
                                             </div>
                                             <div class="period">{{if (eq sub.price.interval "year") "yearly" "monthly"}}</div>
                                         </div>
+
                                         {{#if sub.isComplimentary}}
                                             <span class="action-menu">
-                                                <GhDropdownButton @dropdownName="subscription-menu-complimentary" @classNames="gh-btn gh-btn-outline gh-btn-icon gh-btn-subscription-action icon-only" @title="Actions">
+                                                <GhDropdownButton
+                                                    @dropdownName="subscription-menu-complimentary"
+                                                    @classNames="gh-btn gh-btn-outline gh-btn-icon gh-btn-subscription-action icon-only"
+                                                    @title="Actions"
+                                                    data-test-button="subscription-actions"
+                                                >
                                                     <span>
                                                         {{svg-jar "dotdotdot"}}
                                                         <span class="hidden">Subscription menu</span>
                                                     </span>
                                                 </GhDropdownButton>
-                                                <GhDropdown @name="subscription-menu-complimentary" @tagName="ul" @classNames="product-actions-menu dropdown-menu dropdown-align-right">
+                                                <GhDropdown
+                                                    @name="subscription-menu-complimentary"
+                                                    @tagName="ul"
+                                                    @classNames="product-actions-menu dropdown-menu dropdown-align-right"
+                                                >
                                                     <li>
                                                         <button
                                                             type="button"
@@ -191,7 +206,6 @@
                                                     </li>
                                                 </GhDropdown>
                                             </span>
-
                                         {{else}}
                                             <span class="action-menu">
                                                 <GhDropdownButton @dropdownName="subscription-menu-{{sub.id}}" @classNames="gh-btn gh-btn-outline gh-btn-icon gh-btn-subscription-action icon-only" @title="Actions">
@@ -280,6 +294,7 @@
                                 type="button"
                                 class="gh-btn gh-btn-text green gh-btn-icon gh-btn-addproduct"
                                 {{on "click" (toggle-action "showMemberProductModal" this)}}
+                                data-test-button="add-complimentary"
                             >
                                 <span>{{svg-jar "add"}} Add complimentary subscription</span>
                             </button>

@@ -36,12 +36,16 @@ export default class extends Component {
             return false;
         }
 
-        let products = this.member.get('products');
-        if (products && products.length > 0) {
+        if (this.member.get('products')?.length > 0) {
             return false;
         }
 
-        return !!this.productsList?.length;
+        // complimentary subscriptions are assigned to products so it only
+        // makes sense to show the "add complimentary" buttons when there's a
+        // product to assign the complimentary subscription to
+        const hasAnActivePaidProduct = !!this.productsList?.length;
+
+        return hasAnActivePaidProduct;
     }
 
     get isCreatingComplimentary() {
@@ -156,7 +160,10 @@ export default class extends Component {
     *removeComplimentaryTask(productId) {
         let url = this.ghostPaths.url.api(`members/${this.member.get('id')}`);
         let products = this.member.get('products') || [];
-        const updatedProducts = products.filter(product => product.id !== productId).map(product => ({id: product.id}));
+
+        const updatedProducts = products
+            .filter(product => product.id !== productId)
+            .map(product => ({id: product.id}));
 
         let response = yield this.ajax.put(url, {
             data: {
