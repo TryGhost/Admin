@@ -96,24 +96,17 @@ export default function mockMembers(server) {
                         serializedMember[underscore(key)] = member.attrs[key];
                     });
 
-                    // similar deal for associated label models
-                    serializedMember.labels = [];
-                    member.labels.models.forEach((label) => {
-                        const serializedLabel = {};
-                        Object.keys(label.attrs).forEach((key) => {
-                            serializedLabel[underscore(key)] = label.attrs[key];
-                        });
-                        serializedMember.labels.push(serializedLabel);
-                    });
+                    // similar deal for associated models
+                    ['labels', 'products', 'subscriptions'].forEach((association) => {
+                        serializedMember[association] = [];
 
-                    // similar deal for associated product models
-                    serializedMember.products = [];
-                    member.products.models.forEach((product) => {
-                        const serializedProduct = {};
-                        Object.keys(product.attrs).forEach((key) => {
-                            serializedProduct[underscore(key)] = product.attrs[key];
+                        member[association].models.forEach((associatedModel) => {
+                            const serializedAssociation = {};
+                            Object.keys(associatedModel.attrs).forEach((key) => {
+                                serializedAssociation[underscore(key)] = associatedModel.attrs[key];
+                            });
+                            serializedMember[association].push(serializedAssociation);
                         });
-                        serializedMember.products.push(serializedProduct);
                     });
 
                     return nqlFilter.queryJSON(serializedMember);
