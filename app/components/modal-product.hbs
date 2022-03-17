@@ -162,7 +162,13 @@
                     {{#if this.isFreeProduct}}
                         <h4 class="gh-main-section-header small bn" data-test-tierpreview-title>Free Membership Preview</h4>
                     {{else}}
-                        <h4 class="gh-main-section-header small bn" data-test-tierpreview-title>Tier Preview</h4>
+                        <div class="gh-product-form-tierpreivew-cadence">
+                            <h4 class="gh-main-section-header small bn" data-test-tierpreview-title>Tier Preview</h4>
+                            <div>
+                                <button class="gh-btn {{if (eq this.previewCadence "monthly") "selected"}}" type="button" {{action "changeCadence" "monthly"}}><span>Monthly</span></button>
+                                <button class="gh-btn {{if (eq this.previewCadence "yearly") "selected"}}" type="button" {{action "changeCadence" "yearly"}}><span>Yearly</span></button>
+                            </div>
+                        </div>
                     {{/if}}
                     <div class="gh-main-section-content">
                         <div class="gh-portal-product-card-header">
@@ -182,10 +188,23 @@
                                         {{#if this.stripeYearlyAmount}}
                                         <div class="gh-portal-product-price">
                                             <span class="currency-sign">{{currency-symbol this.currency}}</span>
-                                            <span class="amount">{{format-number this.stripeYearlyAmount}}</span>
-                                            <span class="billing-period">/year</span>
+                                            {{#if (eq this.previewCadence "monthly")}}
+                                                <span class="amount">
+                                                    {{format-number this.stripeMonthlyAmount}}
+                                                </span>
+                                                <span class="billing-period">/month</span>
+                                            {{else}}
+                                                <span class="amount">
+                                                    {{format-number this.stripeYearlyAmount}}
+                                                </span>
+                                                <span class="billing-period">/year</span>
+                                            {{/if}}
                                         </div>
-                                        <span class="gh-portal-discount-label" style="background-color: {{this.settings.accentColor}}">44% discount</span>
+                                        {{#if (eq this.previewCadence "yearly")}}
+                                            <span class="gh-portal-discount-label">
+                                                <span style="background-color: {{this.settings.accentColor}}"></span>
+                                                44% discount</span>
+                                        {{/if}}
                                         {{else}}
                                         <div class="gh-portal-product-price placeholder">
                                             <span class="currency-sign">{{currency-symbol this.currency}}</span>

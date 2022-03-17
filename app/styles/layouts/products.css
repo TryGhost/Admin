@@ -181,7 +181,6 @@
     line-height: 1;
     margin-right: 2px;
     font-size: 2.2rem;
-    font-weight: 500;
     letter-spacing: 0.1px;
 }
 
@@ -190,7 +189,6 @@
     position: relative;
     top: 2px;
     font-size: 1.4rem;
-    font-weight: 500;
     letter-spacing: 0.4px;
     line-height: 1;
 }
@@ -436,7 +434,7 @@
 
 /* Add/edit product modal */
 .fullscreen-modal-edit-product {
-    max-width: 900px;
+    max-width: 1080px;
 }
 
 .gh-product-modal-content {
@@ -448,7 +446,7 @@
 
 .gh-form-edit-product .gh-main-section {
     margin-bottom: 32px;
-    grid-template-columns: 1fr 0.9fr 1.1fr;
+    grid-template-columns: 1fr 0.8fr 1.2fr;
 }
 
 .gh-form-edit-product .gh-main-section-block {
@@ -645,6 +643,34 @@
     letter-spacing: -1.3px;
 }
 
+.gh-product-form-tierpreivew-cadence {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.gh-product-form-tierpreivew-cadence .gh-btn,
+.gh-product-form-tierpreivew-cadence .gh-btn span {
+    background: transparent !important;
+    padding: 0;
+    line-height: 1em;
+    height: auto;
+    font-size: 1.3rem;
+    color: var(--midlightgrey);
+    margin-left: 4px;
+    font-weight: 400;
+    overflow: unset;
+}
+
+.gh-product-form-tierpreivew-cadence .gh-btn:hover span {
+    color: var(--middarkgrey);
+}
+
+.gh-product-form-tierpreivew-cadence .gh-btn.selected span {
+    font-weight: 500;
+    color: var(--darkgrey);
+}
+
 .gh-product-form-tierpreview .monthly-price {
     display: flex;
     align-items: baseline;
@@ -665,7 +691,7 @@
 .gh-product-form-tierpreview .billing-period {
     align-self: flex-end;
     font-size: 1.5rem;
-    line-height: 1.6em;
+    line-height: 1.4em;
     color: #686868;
     letter-spacing: 0.3px;
     margin-left: 5px;
@@ -688,7 +714,7 @@
     max-height: 24.5px;
 }
 
-.gh-portal-discount-label:before {
+.gh-portal-discount-label span {
     position: absolute;
     content: "";
     display: block;

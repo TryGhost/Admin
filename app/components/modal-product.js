@@ -33,6 +33,7 @@ export default class ModalProductPrice extends ModalBase {
     @tracked benefits = emberA([]);
     @tracked newBenefit = null;
     @tracked welcomePageURL;
+    @tracked previewCadence = 'yearly';
 
     confirm() {}
 
@@ -257,6 +258,10 @@ export default class ModalProductPrice extends ModalBase {
         // needed because ModalBase uses .send() for keyboard events
         closeModal() {
             this.close();
+        },
+
+        changeCadence(cadence) {
+            this.previewCadence = cadence;
         }
     };
 }
