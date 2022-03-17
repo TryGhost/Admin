@@ -34,6 +34,7 @@ export default class ModalProductPrice extends ModalBase {
     @tracked newBenefit = null;
     @tracked welcomePageURL;
     @tracked previewCadence = 'yearly';
+    @tracked discountValue = 0;
 
     confirm() {}
 
@@ -77,6 +78,7 @@ export default class ModalProductPrice extends ModalBase {
             isNew: true,
             name: ''
         });
+        this.calculateDiscount();
     }
 
     @action
@@ -204,6 +206,11 @@ export default class ModalProductPrice extends ModalBase {
         this.newBenefit = ProductBenefitItem.create({isNew: true, name: ''});
     }
 
+    calculateDiscount() {
+        const discount = this.stripeMonthlyAmount ? 100 - Math.floor((this.stripeYearlyAmount / 12 * 100) / this.stripeMonthlyAmount) : 0;
+        this.discountValue = discount > 0 ? discount : 0;
+    }
+
     actions = {
         addBenefit(item) {
             return item.validate().then(() => {
@@ -242,6 +249,7 @@ export default class ModalProductPrice extends ModalBase {
             this.currency = newCurrency;
         },
         validateStripePlans() {
+            this.calculateDiscount();
             this.stripePlanError = undefined;
 
             try {

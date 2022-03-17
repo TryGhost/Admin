@@ -93,7 +93,7 @@
                                         @value={{readonly this.stripeYearlyAmount}}
                                         @type="number"
                                         @input={{action (mut this.stripeYearlyAmount) value="target.value"}}
-                                        @focus-out={{this.validateStripePlans}}
+                                        @focus-out={{action "validateStripePlans"}}
                                         @placeholder=''
                                         data-test-title-input={{true}}
                                     />
@@ -200,10 +200,10 @@
                                                 <span class="billing-period">/year</span>
                                             {{/if}}
                                         </div>
-                                        {{#if (eq this.previewCadence "yearly")}}
+                                        {{#if (and (eq this.previewCadence "yearly") (gt this.discountValue 0))}}
                                             <span class="gh-portal-discount-label">
                                                 <span style="background-color: {{this.settings.accentColor}}"></span>
-                                                44% discount</span>
+                                                {{this.discountValue}}% discount</span>
                                         {{/if}}
                                         {{else}}
                                         <div class="gh-portal-product-price placeholder">
