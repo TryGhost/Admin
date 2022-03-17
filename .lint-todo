@@ -1215,3 +1215,4 @@ remove|ember-template-lint|no-action|46|71|46|71|463c25195e9aee40a1db8ac9a7e2545
 remove|ember-template-lint|no-action|48|8|48|8|48bafc3d5a5d7e6dc9e7318bb679ec77035c2916|1646611200000|1649199600000|1651791600000|app/components/modal-member-product.hbs
 remove|ember-template-lint|no-down-event-binding|48|41|48|41|b3e87879e52edc06bb07f1ad0becc6ec762bbb39|1646611200000|1649199600000|1651791600000|app/components/modal-member-product.hbs
 remove|ember-template-lint|no-invalid-interactive|26|95|26|95|defed375e0064745e03179bf7687ca9aa13f6ac7|1646611200000|1649199600000|1651791600000|app/components/modal-member-product.hbs
+add|ember-template-lint|no-invalid-interactive|28|24|28|24|d7193af2cc72230c56b34863b6f8c0e7fbb1b41e|1647475200000|1650063600000|1652655600000|app/components/modal-member-product.hbs
