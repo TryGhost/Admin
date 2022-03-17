@@ -28,11 +28,11 @@ export default class extends Component {
     }
 
     get isAddComplimentaryAllowed() {
-        if (this.member.get('isNew')) {
+        if (!this.membersUtils.isStripeEnabled) {
             return false;
         }
 
-        if (!this.membersUtils.isStripeEnabled) {
+        if (this.member.get('isNew')) {
             return false;
         }
 
