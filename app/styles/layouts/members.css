@@ -2052,6 +2052,10 @@ p.gh-members-import-errordetail:first-of-type {
     grid-row-gap: 24px;
 }
 
+.gh-member-settings .gh-member-product-container + .gh-member-product-container {
+    padding-top: 0 !important;
+}
+
 .gh-cp-memberproduct {
     margin-bottom: 0 !important;
 }
