@@ -57,10 +57,10 @@ export default class extends Component {
 
         // Create the products from `subscriptions.price.product`
         let products = subscriptions
-            .map(subscription => subscription.price.product)
+            .map(subscription => (subscription.tier || subscription.price.product))
             .filter((value, index, self) => {
                 // Deduplicate by taking the first object by `id`
-                return typeof value.id !== 'undefined' && self.findIndex(element => element.product_id === value.product_id) === index;
+                return typeof value.id !== 'undefined' && self.findIndex(element => (element.id || element.product_id) === (value.id || value.product_id)) === index;
             });
 
         let subscriptionData = subscriptions.filter((sub) => {
@@ -82,7 +82,7 @@ export default class extends Component {
 
         for (let product of products) {
             let productSubscriptions = subscriptionData.filter((subscription) => {
-                return subscription?.price?.product?.product_id === product.product_id;
+                return subscription?.price?.product?.product_id === (product.product_id || product.id);
             });
             product.subscriptions = productSubscriptions;
         }

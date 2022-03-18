@@ -224,8 +224,8 @@ describe('Acceptance: Member details', function () {
         expect(findAll('[data-test-subscription]').length, '# of subscription blocks - after add comped')
             .to.equal(1);
 
-        await click('[data-test-product="complimentary"] [data-test-button="subscription-actions"]');
-        await click('[data-test-product="complimentary"] [data-test-button="remove-complimentary"]');
+        await click('[data-test-product="6213b3f6cb39ebdb03ebd810"] [data-test-button="subscription-actions"]');
+        await click('[data-test-product="6213b3f6cb39ebdb03ebd810"] [data-test-button="remove-complimentary"]');
 
         expect(findAll('[data-test-subscription]').length, '# of subscription blocks - after remove comped')
             .to.equal(0);
@@ -261,5 +261,48 @@ describe('Acceptance: Member details', function () {
             .to.equal(2);
         expect(findAll('[data-test-button="add-complimentary"]').length, '# of add complimentary buttons - after add comped')
             .to.equal(0);
+    });
+
+    it('handles multiple products', async function () {
+        const product2 = this.server.create('product', {
+            name: 'Second product',
+            slug: 'second-product',
+            created_at: '2022-02-21T16:47:02.000Z',
+            updated_at: '2022-03-03T15:37:02.000Z',
+            description: null,
+            monthly_price_id: '6220df272fee0571b5dd0a0a',
+            yearly_price_id: '6220df272fee0571b5dd0a0b',
+            type: 'paid',
+            active: true,
+            welcome_page_url: '/'
+        });
+
+        const member = this.server.create('member', {name: 'Multiple product test'});
+
+        this.server.create('subscription', {member, product, status: 'canceled', price: {id: '1', product: {product_id: product.id}}});
+        this.server.create('subscription', {member, product, status: 'canceled', price: {id: '1', product: {product_id: product.id}}});
+        this.server.create('subscription', {member, product: product2, status: 'canceled', price: {id: '1', product: {product_id: product2.id}}});
+
+        await visit(`/members/${member.id}`);
+
+        // all products and subscriptions are shown
+        expect(findAll('[data-test-product]').length, '# of product blocks').to.equal(2);
+
+        const p1 = `[data-test-product="${product.id}"]`;
+        const p2 = `[data-test-product="${product2.id}"]`;
+
+        expect(find(`${p1} [data-test-text="product-name"]`)).to.contain.text('Ghost Subscription');
+        expect(findAll(`${p1} [data-test-subscription]`).length, '# of product 1 subscription blocks').to.equal(2);
+
+        expect(find(`${p2} [data-test-text="product-name"]`)).to.contain.text('Second product');
+        expect(findAll(`${p2} [data-test-subscription]`).length, '# of product 2 subscription blocks').to.equal(1);
+
+        // can add complimentary
+        expect(findAll('[data-test-button="add-complimentary"]').length, '# of add-complimentary buttons').to.equal(1);
+        await click('[data-test-button="add-complimentary"]');
+        await click(`[data-test-tier-option="${product2.id}"]`);
+        await click('[data-test-button="save-comp-product"]');
+
+        expect(findAll(`${p2} [data-test-subscription]`).length, '# of product 2 subscription blocks after comp added').to.equal(2);
     });
 });

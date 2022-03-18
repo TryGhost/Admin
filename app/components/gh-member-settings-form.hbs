@@ -122,9 +122,9 @@
                 {{/unless}}
 
                 {{#each this.products as |product|}}
-                    <div class="gh-main-section-content grey gh-member-product-container" data-test-product={{or product.id "complimentary"}}>
+                    <div class="gh-main-section-content grey gh-member-product-container" data-test-product={{product.id}}>
                         <div class="gh-main-content-card gh-cp-memberproduct {{if (gt product.subscriptions.length 1) "multiple-subs" ""}}">
-                            <h3 class="gh-memberproduct-name">
+                            <h3 class="gh-memberproduct-name" data-test-text="product-name">
                                 {{product.name}}
                                 {{#if (gt product.subscriptions.length 1)}}
                                     <span class="gh-memberproduct-subcount">{{product.subscriptions.length}} subscriptions</span>
@@ -198,7 +198,7 @@
                                                     <li>
                                                         <button
                                                             type="button"
-                                                            {{on "click" (fn this.removeComplimentary product.product_id)}}
+                                                            {{on "click" (fn this.removeComplimentary (or product.id product.product_id))}}
                                                             data-test-button="remove-complimentary"
                                                         >
                                                             <span class="red">Remove complimentary subscription</span>
