@@ -2105,8 +2105,8 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-memberproduct-list-footer {
     position:relative;
-    margin-top: 12px;
-    margin-bottom: -8px;
+    margin-top: 8px;
+    padding-bottom: 24px;
 }
 
 .gh-memberproduct-list-footer.min-height {
