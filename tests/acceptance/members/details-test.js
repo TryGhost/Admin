@@ -231,5 +231,35 @@ describe('Acceptance: Member details', function () {
             .to.equal(0);
     });
 
-    it('can add complimentary subscription when member has canceled subscriptions');
+    it('can add complimentary subscription when member has canceled subscriptions', async function () {
+        const member = this.server.create('member', {
+            name: 'Comped for canceled sub test',
+            subscriptions: [
+                this.server.create('subscription', {
+                    // product, // _Not_ included as `tier` when subscription is canceled
+                    status: 'canceled',
+                    price: {
+                        id: 'price_1',
+                        product: {
+                            id: 'prod_1',
+                            product_id: product.id
+                        }
+                    }
+                })
+            ]
+        });
+
+        await visit(`/members/${member.id}`);
+
+        expect(findAll('[data-test-button="add-complimentary"]').length, '# of add complimentary buttons')
+            .to.equal(1);
+
+        await click('[data-test-button="add-complimentary"]');
+        await click('[data-test-button="save-comp-product"]');
+
+        expect(findAll('[data-test-subscription]').length, '# of subscription blocks - after add comped')
+            .to.equal(2);
+        expect(findAll('[data-test-button="add-complimentary"]').length, '# of add complimentary buttons - after add comped')
+            .to.equal(0);
+    });
 });

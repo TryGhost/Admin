@@ -60,7 +60,7 @@ export default class extends Component {
             .map(subscription => subscription.price.product)
             .filter((value, index, self) => {
                 // Deduplicate by taking the first object by `id`
-                return typeof value.id !== 'undefined' && self.findIndex(element => element.id === value.id) === index;
+                return typeof value.id !== 'undefined' && self.findIndex(element => element.product_id === value.product_id) === index;
             });
 
         let subscriptionData = subscriptions.filter((sub) => {
