@@ -4,6 +4,7 @@ import ProductBenefitItem from '../models/product-benefit-item';
 import classic from 'ember-classic-decorator';
 import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {A as emberA} from '@ember/array';
+import {htmlSafe} from '@ember/template';
 import {isEmpty} from '@ember/utils';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -35,6 +36,8 @@ export default class ModalProductPrice extends ModalBase {
     @tracked welcomePageURL;
     @tracked previewCadence = 'yearly';
     @tracked discountValue = 0;
+
+    accentColorStyle = '';
 
     confirm() {}
 
@@ -79,6 +82,8 @@ export default class ModalProductPrice extends ModalBase {
             name: ''
         });
         this.calculateDiscount();
+
+        this.accentColorStyle = htmlSafe(`color: ${this.settings.get('accentColor')}`);
     }
 
     @action
