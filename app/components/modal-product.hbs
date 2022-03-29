@@ -83,7 +83,7 @@
                                         @value={{readonly this.stripeMonthlyAmount}}
                                         @type="number"
                                         @input={{action (mut this.stripeMonthlyAmount) value="target.value"}}
-                                        @focus-out={{action "validateStripePlans"}}
+                                        @focus-out={{this.validateStripePlans}}
                                     />
                                     <span class="gh-input-append"><span class="ttu">{{this.currency}}</span>/month</span>
                                 </div>
@@ -93,7 +93,7 @@
                                         @value={{readonly this.stripeYearlyAmount}}
                                         @type="number"
                                         @input={{action (mut this.stripeYearlyAmount) value="target.value"}}
-                                        @focus-out={{action "validateStripePlans"}}
+                                        @focus-out={{this.validateStripePlans}}
                                         @placeholder=''
                                         data-test-title-input={{true}}
                                     />
@@ -165,8 +165,8 @@
                         <div class="gh-product-form-tierpreivew-cadence">
                             <h4 class="gh-main-section-header small bn" data-test-tierpreview-title>Tier Preview</h4>
                             <div>
-                                <button class="gh-btn {{if (eq this.previewCadence "monthly") "selected"}}" type="button" {{action "changeCadence" "monthly"}}><span>Monthly</span></button>
-                                <button class="gh-btn {{if (eq this.previewCadence "yearly") "selected"}}" type="button" {{action "changeCadence" "yearly"}}><span>Yearly</span></button>
+                                <button class="gh-btn {{if (eq this.previewCadence "monthly") "selected"}}" type="button" {{on "click" (fn this.changeCadence "monthly")}}><span>Monthly</span></button>
+                                <button class="gh-btn {{if (eq this.previewCadence "yearly") "selected"}}" type="button" {{on "click" (fn this.changeCadence "yearly")}}><span>Yearly</span></button>
                             </div>
                         </div>
                     {{/if}}

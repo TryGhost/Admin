@@ -216,6 +216,28 @@ export default class ModalProductPrice extends ModalBase {
         this.discountValue = discount > 0 ? discount : 0;
     }
 
+    @action
+    changeCadence(cadence) {
+        this.previewCadence = cadence;
+    }
+
+    @action
+    validateStripePlans() {
+        this.calculateDiscount();
+        this.stripePlanError = undefined;
+
+        try {
+            const yearlyAmount = this.stripeYearlyAmount;
+            const monthlyAmount = this.stripeMonthlyAmount;
+            const symbol = getSymbol(this.currency);
+            if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
+                throw new TypeError(`Subscription amount must be at least ${symbol}1.00`);
+            }
+        } catch (err) {
+            this.stripePlanError = err.message;
+        }
+    }
+
     actions = {
         addBenefit(item) {
             return item.validate().then(() => {
@@ -253,28 +275,9 @@ export default class ModalProductPrice extends ModalBase {
             const newCurrency = event.value;
             this.currency = newCurrency;
         },
-        validateStripePlans() {
-            this.calculateDiscount();
-            this.stripePlanError = undefined;
-
-            try {
-                const yearlyAmount = this.stripeYearlyAmount;
-                const monthlyAmount = this.stripeMonthlyAmount;
-                const symbol = getSymbol(this.currency);
-                if (!yearlyAmount || yearlyAmount < 1 || !monthlyAmount || monthlyAmount < 1) {
-                    throw new TypeError(`Subscription amount must be at least ${symbol}1.00`);
-                }
-            } catch (err) {
-                this.stripePlanError = err.message;
-            }
-        },
         // needed because ModalBase uses .send() for keyboard events
         closeModal() {
             this.close();
-        },
-
-        changeCadence(cadence) {
-            this.previewCadence = cadence;
         }
     };
 }
