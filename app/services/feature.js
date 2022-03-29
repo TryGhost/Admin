@@ -71,6 +71,7 @@ export default class FeatureService extends Service {
     @feature('membersTableStatus') membersTableStatus;
     @feature('selectablePortalLinks') selectablePortalLinks;
     @feature('publishingFlow') publishingFlow;
+    @feature('milestoneEmails') milestoneEmails;
 
     _user = null;
 
