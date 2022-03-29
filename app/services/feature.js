@@ -64,6 +64,7 @@ export default class FeatureService extends Service {
     @feature('tweetGridCard') tweetGridCard;
     @feature('membersTableStatus') membersTableStatus;
     @feature('selectablePortalLinks') selectablePortalLinks;
+    @feature('milestoneEmails') milestoneEmails;
 
     _user = null;
 
