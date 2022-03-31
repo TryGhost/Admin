@@ -62,6 +62,8 @@ export default class ChartEmailOpenRate extends Component {
 
     get chartOptions() {
         return {
+            responsive: true,
+            maintainAspectRatio: true,
             title: {
                 display: false
             },

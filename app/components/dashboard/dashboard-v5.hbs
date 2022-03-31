@@ -4,9 +4,9 @@
         <GhLoadingSpinner />
     {{else}}
         {{#if this.areMembersEnabled}}
-            <section class="gh-dashboard5-section gh-dashboard5-overview">
+            <section class="gh-dashboard5-section gh-dashboard5-anchor">
                 <article class="gh-dashboard5-box">
-                    <Dashboard::V5::ChartTotalMembers @days={{this.days}} />
+                    <Dashboard::V5::ChartAnchor @days={{this.days}} />
                 </article>
                 <div class="prototype-selection">
                     <PowerSelect
@@ -25,18 +25,10 @@
                 </div>
             </section>
 
-            {{#if this.hasPaidTiers}}
+            {{!-- {{#if this.hasPaidTiers}}
                 <div class="gh-dashboard5-paid">
                     <section class="gh-dashboard5-section">
                         <div class="gh-dashboard5-growth">             
-                            <article class="gh-dashboard5-box">
-                                <Dashboard::V5::ChartMonthlyRevenue @days={{this.days}} />
-                            </article>
-
-                            <article class="gh-dashboard5-box">
-                                <Dashboard::V5::ChartTotalPaid @days={{this.days}} />
-                            </article>
-
                             <article class="gh-dashboard5-box">
                                 <Dashboard::V5::ChartPaidMembers @days={{this.days}}/>
                             </article>
@@ -47,7 +39,7 @@
                         </div>
                     </section>
                 </div>
-            {{/if}}
+            {{/if}} --}}
 
             {{#if this.areNewslettersEnabled}}
                 <section class="gh-dashboard5-split is-third">

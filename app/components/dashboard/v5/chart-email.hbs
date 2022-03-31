@@ -6,8 +6,8 @@
         {{!-- <div class="gh-dashboard5-number is-small">{{format-number this.dataSubscribers.paid}} paid</div> --}}
         {{!-- <div class="gh-dashboard5-number is-small">{{format-number this.dataSubscribers.free}} free</div> --}}
 
-        <h4 class="gh-dashboard5-metric is-split">Email</h4>
-        <div class="gh-dashboard5-number">{{format-number this.dataSubscribers.total}}</div>
+        {{!-- <h4 class="gh-dashboard5-metric is-split">Email</h4> --}}
+        <div class="gh-dashboard5-number is-solo">{{format-number this.dataSubscribers.total}}</div>
         <small class="gh-dashboard5-info">Newsletter subscribers</small>
     </div>
 
@@ -23,8 +23,7 @@
             <EmberChart
                 @type={{this.chartType}}
                 @data={{this.chartData}}
-                @options={{this.chartOptions}}
-                @height={{this.chartHeight}} />
+                @options={{this.chartOptions}} />
         {{/if}}
         <div>
             <div class="gh-dashboard5-number">58%</div>

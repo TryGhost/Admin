@@ -53,6 +53,11 @@ export default class ChartPaidMembers extends Component {
 
     get chartOptions() {
         return {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 0
+            },
             title: {
                 display: false
             },
@@ -104,9 +109,5 @@ export default class ChartPaidMembers extends Component {
                 }]
             }
         };
-    }
-
-    get chartHeight() {
-        return 100;
     }
 }
