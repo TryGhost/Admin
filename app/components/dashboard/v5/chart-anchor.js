@@ -9,21 +9,14 @@ export default class ChartAnchor extends Component {
 
     @action
     loadCharts() {
-        // if (this.chartDisplay === 'total') {
-            this.dashboardStats.loadMembersCounts();
-        // }
-        // else if (this.chartDisplay === 'paid') {
-            this.dashboardStats.loadMemberCountStats();
-        // }
-        // else if (this.chartDisplay === 'monthly') {
-            this.dashboardStats.loadMrrStats();
-        // }
+        this.dashboardStats.loadMembersCounts();
+        this.dashboardStats.loadMemberCountStats();
+        this.dashboardStats.loadMrrStats();
     }
 
     @action
     changeChartDisplay(type) {
         this.chartDisplay = type;
-        // this.loadCharts();
     }
 
     get chartShowingTotal() {
@@ -83,6 +76,7 @@ export default class ChartAnchor extends Component {
     }
 
     get chartData() {
+        // default of these would be chartDisplay === 'total'
         let stats = this.dashboardStats.memberCountStats;
         let labels = stats.map(stat => stat.date);
         let data = stats.map(stat => stat.paid + stat.free + stat.comped);
@@ -122,9 +116,6 @@ export default class ChartAnchor extends Component {
         return {
             responsive: true,
             maintainAspectRatio: false,
-            animation: {
-                duration: 0
-            },
             title: {
                 display: false
             },
@@ -181,10 +172,6 @@ export default class ChartAnchor extends Component {
                 }]
             }
         };
-    }
-
-    get chartHeight() {
-        return 100;
     }
 
     calculatePercentage(from, to) {
