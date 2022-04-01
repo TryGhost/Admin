@@ -232,21 +232,30 @@
                                 {{#if this.benefits}}
                                     <div class="gh-portal-product-benefits" data-test-tierpreview-benefits>
                                     {{#each this.benefits as |benefitItem|}}
-                                        <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">{{benefitItem.name}}</div></div>
+                                        <div class="gh-portal-product-benefit">{{svg-jar "check-2"}}
+                                            <div class="gh-portal-benefit-title">{{benefitItem.name}}</div>
+                                        </div>
                                     {{/each}}
                                     </div>
                                 {{else}}
                                     <div class="placeholder gh-portal-product-benefits" data-test-tierpreview-benefits>
                                         {{#if this.isFreeProduct}}
-                                            <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Access to all public posts</div></div>
+                                            <div class="gh-portal-product-benefit">{{svg-jar "check-2"}}
+                                                <div class="gh-portal-benefit-title">
+                                                    Access to all public posts
+                                                </div>
+                                            </div>
                                         {{else}}
-                                            <div class="gh-portal-product-benefit">{{svg-jar "check-2"}} <div class="gh-portal-benefit-title">Expert analysis</div></div>
+                                            <div class="gh-portal-product-benefit">
+                                                {{svg-jar "check-2"}}
+                                                <div class="gh-portal-benefit-title">Expert analysis</div>
+                                            </div>
                                         {{/if}}
                                     </div>
                                 {{/if}}
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
