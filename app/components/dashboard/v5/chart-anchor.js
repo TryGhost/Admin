@@ -53,6 +53,10 @@ export default class ChartAnchor extends Component {
         return this.dashboardStats.memberCounts?.free ?? 0;
     }
 
+    get currentMRR() {
+        return this.dashboardStats.currentMRR ?? 0;
+    }
+
     get hasTrends() {
         return this.dashboardStats.memberCounts !== null && this.dashboardStats.memberCountsTrend !== null;
     }
@@ -67,6 +71,10 @@ export default class ChartAnchor extends Component {
 
     get freeMembersTrend() {
         return this.calculatePercentage(this.dashboardStats.memberCountsTrend.free, this.dashboardStats.memberCounts.free);
+    }
+
+    get mrrTrend() {
+        return this.calculatePercentage(this.dashboardStats.currentMRRTrend, this.dashboardStats.currentMRR);
     }
 
     get chartType() {

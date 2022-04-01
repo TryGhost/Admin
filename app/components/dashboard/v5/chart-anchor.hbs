@@ -19,9 +19,9 @@
     </button>
     <button type="button" {{on "click" (fn this.changeChartDisplay "monthly")}} class={{if this.chartShowingMonthly 'is-selected'}}>
         <div class="gh-dashboard5-number">
-            $32
+            ${{gh-price-amount this.currentMRR}}
             {{#if this.hasTrends}}
-                <Dashboard::v5::parts::ChartPercentage @percentage={{3}}/>
+                <Dashboard::v5::parts::ChartPercentage @percentage={{this.mrrTrend}}/>
             {{/if}}
         </div>
         <small class="gh-dashboard5-info">Monthly revenue (MRR)</small>
