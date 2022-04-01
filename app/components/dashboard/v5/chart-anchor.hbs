@@ -1,8 +1,6 @@
-<div class="gh-dashboard5-stats">
+<div class="gh-dashboard5-stats" {{did-insert this.loadCharts}}>
     <div {{on "click" (fn this.changeChartDisplay "total")}} class={{if this.chartShowingTotal 'is-selected'}}>
-        <div class="gh-dashboard5-number"
-            {{did-insert this.loadCharts}} 
-        >
+        <div class="gh-dashboard5-number">
             {{format-number this.totalMembers}}
             {{#if this.hasTrends}}
                 <Dashboard::v5::parts::ChartPercentage @percentage={{this.totalMembersTrend}}/>
@@ -11,9 +9,7 @@
         <small class="gh-dashboard5-info">{{gh-pluralize this.totalMembers "Total member" without-count=true}}</small>
     </div>
     <div {{on "click" (fn this.changeChartDisplay "paid")}} class={{if this.chartShowingPaid 'is-selected'}}>
-        <div class="gh-dashboard5-number"
-            {{did-insert this.loadCharts}} 
-        >
+        <div class="gh-dashboard5-number">
             {{format-number this.paidMembers}}
             {{#if this.hasTrends}}
                 <Dashboard::v5::parts::ChartPercentage @percentage={{this.paidMembersTrend}}/>
@@ -22,9 +18,7 @@
         <small class="gh-dashboard5-info">{{gh-pluralize this.paidMembers "Paid member" without-count=true}}</small>
     </div>
     <div {{on "click" (fn this.changeChartDisplay "monthly")}} class={{if this.chartShowingMonthly 'is-selected'}}>
-        <div class="gh-dashboard5-number"
-            {{did-insert this.loadCharts}} 
-        >
+        <div class="gh-dashboard5-number">
             $32
             {{#if this.hasTrends}}
                 <Dashboard::v5::parts::ChartPercentage @percentage={{3}}/>
