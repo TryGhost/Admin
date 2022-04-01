@@ -1524,18 +1524,22 @@ a.gh-dashboard-container {
     padding: 28px;
 }
 
-.gh-dashboard5-stats > div {
+.gh-dashboard5-stats > button {
     flex: 1;
     border-left: 2px solid #D6EDF9;
     padding: 2px 0 0 12px;
     margin: 0 8px 0 0;
     transition: all 100ms ease-out;
     cursor: pointer;
+    display: block;
+    text-align: left;
+    padding-left: 13px;
 }
 
-.gh-dashboard5-stats > div.is-selected {
+.gh-dashboard5-stats > button.is-selected {
     border-color: #14b8ff;
     border-width: 3px;
+    padding-left: 12px;
 }
 
 .gh-dashboard5-chart {
