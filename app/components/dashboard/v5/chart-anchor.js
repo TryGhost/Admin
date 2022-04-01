@@ -9,7 +9,6 @@ export default class ChartAnchor extends Component {
 
     @action
     loadCharts() {
-        this.dashboardStats.loadMembersCounts();
         this.dashboardStats.loadMemberCountStats();
         this.dashboardStats.loadMrrStats();
     }
@@ -33,14 +32,13 @@ export default class ChartAnchor extends Component {
 
     get loading() {
         if (this.chartDisplay === 'total') {
-            return this.dashboardStats.memberCounts === null;
-        }
-        else if (this.chartDisplay === 'paid') {
             return this.dashboardStats.memberCountStats === null;
-        }
-        else if (this.chartDisplay === 'monthly') {
+        } else if (this.chartDisplay === 'paid') {
+            return this.dashboardStats.memberCountStats === null;
+        } else if (this.chartDisplay === 'monthly') {
             return this.dashboardStats.mrrStats === null;
         }
+        return true;
     }
 
     get totalMembers() {

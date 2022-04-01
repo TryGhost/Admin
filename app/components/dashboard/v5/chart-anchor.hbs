@@ -2,7 +2,6 @@
     <div {{on "click" (fn this.changeChartDisplay "total")}} class={{if this.chartShowingTotal 'is-selected'}}>
         <div class="gh-dashboard5-number"
             {{did-insert this.loadCharts}} 
-            {{did-update this.loadCharts @days}}
         >
             {{format-number this.totalMembers}}
             {{#if this.hasTrends}}
@@ -14,7 +13,6 @@
     <div {{on "click" (fn this.changeChartDisplay "paid")}} class={{if this.chartShowingPaid 'is-selected'}}>
         <div class="gh-dashboard5-number"
             {{did-insert this.loadCharts}} 
-            {{did-update this.loadCharts @days}}
         >
             {{format-number this.paidMembers}}
             {{#if this.hasTrends}}
@@ -26,7 +24,6 @@
     <div {{on "click" (fn this.changeChartDisplay "monthly")}} class={{if this.chartShowingMonthly 'is-selected'}}>
         <div class="gh-dashboard5-number"
             {{did-insert this.loadCharts}} 
-            {{did-update this.loadCharts @days}}
         >
             $32
             {{#if this.hasTrends}}
