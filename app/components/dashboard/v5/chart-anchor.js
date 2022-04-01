@@ -74,19 +74,24 @@ export default class ChartAnchor extends Component {
     }
 
     get chartData() {
-        // default of these would be chartDisplay === 'total'
-        let stats = this.dashboardStats.memberCountStats;
-        let labels = stats.map(stat => stat.date);
-        let data = stats.map(stat => stat.paid + stat.free + stat.comped);
+        let stats = [];
+        let labels = [];
+        let data = [];
+
+        if (this.chartDisplay === 'total') {
+            stats = this.dashboardStats.filledMemberCountStats;
+            labels = stats.map(stat => stat.date);
+            data = stats.map(stat => stat.paid + stat.free + stat.comped);
+        }
 
         if (this.chartDisplay === 'paid') {
-            stats = this.dashboardStats.memberCountStats;
+            stats = this.dashboardStats.filledMemberCountStats;
             labels = stats.map(stat => stat.date);
             data = stats.map(stat => stat.paid);
         }
 
         if (this.chartDisplay === 'monthly') {
-            stats = this.dashboardStats.mrrStats;
+            stats = this.dashboardStats.filledMrrStats;
             labels = stats.map(stat => stat.date);
             data = stats.map(stat => stat.mrr);
         }
