@@ -11,14 +11,6 @@
                 {{gh-pluralize this.totalMembers "Total member" without-count=true}}
             </small>
         </div>
-        <div id="gh-dashboard5-anchor-total-tooltip" class="gh-dashboard5-tooltip">
-            <div class="gh-dashboard5-number">
-                -
-            </div>
-            <small class="gh-dashboard5-info">
-                -
-            </small>
-        </div>
     </button>
     {{#if this.hasPaidTiers}}
         <button type="button" {{on "click" (fn this.changeChartDisplay "paid")}} class={{if this.chartShowingPaid 'is-selected'}}>
@@ -48,7 +40,7 @@
                         <Dashboard::v5::parts::ChartPercentage @percentage={{this.mrrTrend}}/>
                     {{/if}}
                 </div>
-                <small class="gh-dashboard5-info">MRR</small>
+                <small class="gh-dashboard5-info">Monthly revenue (MRR)</small>
             </div>
             <div id="gh-dashboard5-anchor-monthly-tooltip" class="gh-dashboard5-tooltip">
                 <div class="gh-dashboard5-number">
@@ -71,4 +63,12 @@
             @data={{this.chartData}}
             @options={{this.chartOptions}} />
     {{/if}}
+    <div id="gh-dashboard5-anchor-tooltip">
+        <div id="gh-dashboard5-anchor-tooltip-value">
+            -
+        </div>
+        <small id="gh-dashboard5-anchor-tooltip-label">
+            -
+        </small>
+    </div>
 </div>

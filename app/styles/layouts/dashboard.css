@@ -1094,14 +1094,14 @@ a.gh-dashboard-container {
 .gh-dashboard5-number {
     display: flex;
     align-items: flex-end;
-    font-size: 3rem;
+    font-size: 2.4rem;
     line-height: 4rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--black);
     letter-spacing: -.1px;
     line-height: 1;
     white-space: nowrap;
-    margin: 0 0 4px;
+    margin: 0 0 2px;
     gap: 10px;
 }
 
@@ -1159,11 +1159,11 @@ a.gh-dashboard-container {
 }
 
 .gh-dashboard5-info {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     text-transform: none;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: .2px;
-    margin: 2px 0 0;
+    margin: 0;
     padding: 0;
     color: var(--midgrey);
 }
@@ -1432,16 +1432,17 @@ a.gh-dashboard-container {
 
 .gh-dashboard5-section .prototype-selection {
     position: absolute;
-    top: 18px;
-    right: 12px;
+    top: 12px;
+    right: 0;
 }
 
 .gh-dashboard5-section .ember-power-select-selected-item {
-    color: var(--darkgrey);
-    font-size: 1.1rem;
-    text-transform: uppercase;
+    text-align: right;
+    font-size: 1.2rem;
+    text-transform: none;
     font-weight: 500;
     letter-spacing: .2px;
+    color: var(--midgrey);
     margin: 0 0 8px;
     padding: 0;
 }
@@ -1530,8 +1531,8 @@ a.gh-dashboard-container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 75%;
-    padding: 28px;
+    width: 66%;
+    padding: 20px;
 }
 
 .gh-dashboard5-stats > button {
@@ -1547,7 +1548,7 @@ a.gh-dashboard-container {
 }
 
 .gh-dashboard5-stats > button.is-selected {
-    border-color: #14b8ff;
+    border-color: #5597F9;
     border-width: 3px;
     padding-left: 12px;
 }
@@ -1558,13 +1559,13 @@ a.gh-dashboard-container {
     flex-direction: row;
     justify-content: stretch;
     width: 100%;
-    height: 200px;
+    height: 175px;
 }
 
 .gh-dashboard5-tooltip  {
     position: absolute;
-    top: 2px;
-    left: 12px;
+    bottom: 16px;
+    right: 16px;
     display: none;
 }
 
@@ -1618,11 +1619,12 @@ a.gh-dashboard-container {
 #gh-dashboard5-bar {
     display: none;
     position: absolute;
-    top: 20px;
+    top: 0;
     left: 100px;
     width: 1px;
-    height: calc(100% - 20px);
+    height: 100%;
     background: var(--lightgrey);
+    transition: left 125ms linear;
 }
 
 #gh-dashboard5-bar.is-show {
@@ -1631,4 +1633,40 @@ a.gh-dashboard-container {
 
 #gh-dashboard5 canvas {
     z-index: 99;
+}
+
+#gh-dashboard5-anchor-tooltip {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    opacity: 0;
+    transition: transform 125ms ease-out;
+    transform: translateY(8px);
+}
+
+#gh-dashboard5-anchor-tooltip.is-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#gh-dashboard5-anchor-tooltip-value {
+    text-align: right;
+    font-size: 2rem;
+    line-height: 4rem;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -.1px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+#gh-dashboard5-anchor-tooltip-label {
+    text-align: right;
+    font-size: 1.2rem;
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: .2px;
+    margin: 2px 0 0;
+    padding: 0;
+    color: var(--midgrey);
 }
