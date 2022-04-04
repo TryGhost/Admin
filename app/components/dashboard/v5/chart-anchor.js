@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
+import moment from 'moment';
 
 export default class ChartAnchor extends Component {
     @service dashboardStats;
@@ -16,6 +17,14 @@ export default class ChartAnchor extends Component {
     @action
     changeChartDisplay(type) {
         this.chartDisplay = type;
+        document.getElementById('gh-dashboard5-anchor-selection').classList.remove('is-hide');
+        document.getElementById('gh-dashboard5-anchor-globaldate').classList.remove('is-show');
+        document.getElementById('gh-dashboard5-anchor-total-normal').classList.remove('is-hide', 'is-fade');
+        document.getElementById('gh-dashboard5-anchor-monthly-normal').classList.remove('is-hide', 'is-fade');
+        document.getElementById('gh-dashboard5-anchor-paid-normal').classList.remove('is-hide', 'is-fade');
+        document.getElementById('gh-dashboard5-anchor-total-tooltip').classList.remove('is-show');
+        document.getElementById('gh-dashboard5-anchor-monthly-tooltip').classList.remove('is-show');
+        document.getElementById('gh-dashboard5-anchor-paid-tooltip').classList.remove('is-show');
     }
 
     get chartShowingTotal() {
@@ -112,22 +121,26 @@ export default class ChartAnchor extends Component {
             labels: labels,
             datasets: [{
                 data: data,
-                tension: 0.1,
+                tension: 0,
                 cubicInterpolationMode: 'monotone',
                 fill: true,
                 fillColor: '#F5FBFF',
                 backgroundColor: '#F5FBFF',
                 pointRadius: 0,
                 pointHitRadius: 10,
+                pointBorderColor: '#14b8ff',
+                pointBackgroundColor: '#14b8ff',
+                pointHoverBackgroundColor: '#14b8ff',
+                pointHoverBorderColor: '#14b8ff',
+                pointHoverRadius: 0,
                 borderColor: '#14b8ff',
                 borderJoinStyle: 'miter',
-                maxBarThickness: 20,
-                minBarLength: 2
             }]
         };
     }
 
     get chartOptions() {
+        let that = this;
         return {
             responsive: true,
             maintainAspectRatio: false,
@@ -140,6 +153,71 @@ export default class ChartAnchor extends Component {
             layout: {
                 padding: {
                     top: 20
+                }
+            },
+            hover: {
+                onHover: function (e) {
+                    e.target.style.cursor = 'pointer';
+                }
+            },
+            tooltips: {
+                position: 'average',
+                intersect: false,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+
+                        document.getElementById('gh-dashboard5-anchor-selection').classList.add('is-hide');
+                        document.getElementById('gh-dashboard5-anchor-globaldate').classList.add('is-show');
+                        document.getElementById('gh-dashboard5-anchor-globaldate').innerHTML = moment(tooltipItem.label).format('MMMM Do');
+
+                        if (that.chartDisplay === 'total') {
+                            document.querySelector('#gh-dashboard5-anchor-total-tooltip .gh-dashboard5-number').innerHTML = tooltipItem.value;
+                            document.querySelector('#gh-dashboard5-anchor-total-tooltip .gh-dashboard5-info').innerHTML = 'Total members';
+                            document.getElementById('gh-dashboard5-anchor-total-normal').classList.add('is-hide');
+                            document.getElementById('gh-dashboard5-anchor-total-tooltip').classList.add('is-show');
+                            document.getElementById('gh-dashboard5-anchor-paid-normal').classList.add('is-fade');
+                            document.getElementById('gh-dashboard5-anchor-monthly-normal').classList.add('is-fade');
+                        }
+
+                        if (that.chartDisplay === 'paid') {
+                            document.querySelector('#gh-dashboard5-anchor-paid-tooltip .gh-dashboard5-number').innerHTML = tooltipItem.value;
+                            document.querySelector('#gh-dashboard5-anchor-paid-tooltip .gh-dashboard5-info').innerHTML = 'Paid members';
+                            document.getElementById('gh-dashboard5-anchor-paid-normal').classList.add('is-hide');
+                            document.getElementById('gh-dashboard5-anchor-paid-tooltip').classList.add('is-show');
+                            document.getElementById('gh-dashboard5-anchor-total-normal').classList.add('is-fade');
+                            document.getElementById('gh-dashboard5-anchor-monthly-normal').classList.add('is-fade');
+                        }
+
+                        if (that.chartDisplay === 'monthly') {
+                            document.querySelector('#gh-dashboard5-anchor-monthly-tooltip .gh-dashboard5-number').innerHTML = '$' + tooltipItem.value;
+                            document.querySelector('#gh-dashboard5-anchor-monthly-tooltip .gh-dashboard5-info').innerHTML = 'MRR';
+                            document.getElementById('gh-dashboard5-anchor-monthly-normal').classList.add('is-hide');
+                            document.getElementById('gh-dashboard5-anchor-monthly-tooltip').classList.add('is-show');
+                            document.getElementById('gh-dashboard5-anchor-total-normal').classList.add('is-fade');
+                            document.getElementById('gh-dashboard5-anchor-paid-normal').classList.add('is-fade');
+                        }
+                    }
+                },
+                custom : function(tooltipModel) {
+                    tooltipModel.opacity = 0;
+
+                    if (tooltipModel.body === undefined) {
+                        document.getElementById('gh-dashboard5-anchor-selection').classList.remove('is-hide');
+                        document.getElementById('gh-dashboard5-anchor-globaldate').classList.remove('is-show');
+                        document.getElementById('gh-dashboard5-anchor-total-normal').classList.remove('is-hide', 'is-fade');
+                        document.getElementById('gh-dashboard5-anchor-monthly-normal').classList.remove('is-hide', 'is-fade');
+                        document.getElementById('gh-dashboard5-anchor-paid-normal').classList.remove('is-hide', 'is-fade');
+                        document.getElementById('gh-dashboard5-anchor-total-tooltip').classList.remove('is-show');
+                        document.getElementById('gh-dashboard5-anchor-monthly-tooltip').classList.remove('is-show');
+                        document.getElementById('gh-dashboard5-anchor-paid-tooltip').classList.remove('is-show');
+                        document.getElementById('gh-dashboard5-bar').classList.remove('is-show');
+                    }
+                    else {
+                        document.getElementById('gh-dashboard5-bar').classList.add('is-show');
+                        document.getElementById('gh-dashboard5-bar').style.left = (tooltipModel.x + 8) + 'px';
+                    }
+                    
+                    return;
                 }
             },
             scales: {
@@ -155,7 +233,8 @@ export default class ChartAnchor extends Component {
                         fontColor: '#7C8B9A',
                         padding: 8,
                         precision: 0
-                    }
+                    },
+                    display: true
                 }],
                 xAxes: [{
                     gridLines: {
@@ -183,7 +262,8 @@ export default class ChartAnchor extends Component {
                             quarter: 'MMM DD',
                             year: 'MMM DD'
                         }
-                    }
+                    },
+                    display: true
                 }]
             }
         };

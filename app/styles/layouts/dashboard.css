@@ -1172,6 +1172,16 @@ a.gh-dashboard-container {
     margin: 0 0 20px;
 }
 
+.gh-dashboard5-date {
+    font-size: 1.1rem;
+    text-transform: none;
+    font-weight: 600;
+    letter-spacing: .2px;
+    margin: 2px 0 0;
+    padding: 0;
+    color: var(--midlightgrey); 
+}
+
 .gh-dashboard5-percentage {
     flex: 0;
     background: var(--whitegrey-d1);
@@ -1543,9 +1553,82 @@ a.gh-dashboard-container {
 }
 
 .gh-dashboard5-chart {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: stretch;
     width: 100%;
     height: 200px;
+}
+
+.gh-dashboard5-tooltip  {
+    position: absolute;
+    top: 2px;
+    left: 12px;
+    display: none;
+}
+
+.gh-dashboard5-tooltip.is-show {
+    display: block;
+}
+
+.gh-dashboard5-stats button {
+    position: relative;
+}
+
+.gh-dashboard5-normal {
+    visibility: visible;
+    opacity: 1;
+}
+
+.gh-dashboard5-normal.is-fade {
+    opacity: 0.2;
+}
+
+.gh-dashboard5-normal.is-hide {
+    visibility: hidden;
+}
+
+#gh-dashboard5-anchor-selection {
+    opacity: 1;
+}
+
+#gh-dashboard5-anchor-selection.is-hide {
+    opacity: 0;
+}
+
+#gh-dashboard5-anchor-globaldate {
+    display: none;
+    position: absolute;
+    top: 28px;
+    right: 31px;
+    color: #394047;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: .2px;
+    margin: 0 0 8px;
+    padding: 0;
+}
+
+#gh-dashboard5-anchor-globaldate.is-show {
+    display: block;
+}
+
+#gh-dashboard5-bar {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    width: 1px;
+    height: calc(100% - 20px);
+    background: var(--lightgrey);
+}
+
+#gh-dashboard5-bar.is-show {
+    display: block;
+}
+
+#gh-dashboard5 canvas {
+    z-index: 99;
 }
