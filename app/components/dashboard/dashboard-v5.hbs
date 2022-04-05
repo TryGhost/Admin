@@ -45,14 +45,14 @@
 
             {{#if this.areNewslettersEnabled}}
                 <section class="gh-dashboard5-split is-third">
+                    <section class="gh-dashboard5-section gh-dashboard5-engagement">
+                        <Dashboard::V5::ChartEngagement />
+                    </section>
+
                     <section class="gh-dashboard5-section gh-dashboard5-email">
                         <article class="gh-dashboard5-box">
                             <Dashboard::V5::ChartEmail />
                         </article>
-                    </section>
-
-                    <section class="gh-dashboard5-section gh-dashboard5-engagement">
-                        <Dashboard::V5::ChartEngagement />
                     </section>
                 </section> 
             {{else}}
@@ -79,11 +79,13 @@
             </section>
 
             <section class="gh-dashboard5-section gh-dashboard5-activity">
-                <Dashboard::V5::RecentActivity />
+                <article class="gh-dashboard5-box">
+                    <Dashboard::V5::RecentActivity />
+                </article>
             </section>
         </section>
 
-        <section class="gh-dashboard5-section">
+        {{!-- <section class="gh-dashboard5-section">
             <div class="gh-main-section gh-offers-help">
                 <div class="gh-main-section-block">
                     <div class="gh-main-section-content grey">
@@ -123,7 +125,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
     {{/if}}
     <Dashboard::V5::PrototypeControlPanel />
 </section>

@@ -4,6 +4,8 @@ import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 import moment from 'moment';
 
+const DATE_FORMAT = 'D MMM YYYY';
+
 export default class ChartAnchor extends Component {
     @service dashboardStats;
     @tracked chartDisplay = 'total';
@@ -118,8 +120,8 @@ export default class ChartAnchor extends Component {
                 tension: 0,
                 cubicInterpolationMode: 'monotone',
                 fill: true,
-                fillColor: '#F1F6FC',
-                backgroundColor: '#F1F6FC',
+                fillColor: '#BCD2F2',
+                backgroundColor: '#BCD2F2',
                 pointRadius: 0,
                 pointHitRadius: 10,
                 pointBorderColor: '#5597F9',
@@ -134,7 +136,6 @@ export default class ChartAnchor extends Component {
     }
 
     get chartOptions() {
-        let that = this;
         return {
             responsive: true,
             maintainAspectRatio: false,
@@ -146,7 +147,7 @@ export default class ChartAnchor extends Component {
             },
             layout: {
                 padding: {
-                    top: 20
+                    top: 0
                 }
             },
             hover: {
@@ -155,28 +156,37 @@ export default class ChartAnchor extends Component {
                 }
             },
             tooltips: {
-                position: 'average',
                 intersect: false,
+                mode: 'index',
+                displayColors: false,
+                backgroundColor: '#15171A',
+                xPadding: 7,
+                yPadding: 7,
+                cornerRadius: 5,
+                caretSize: 7,
+                caretPadding: 5,
+                bodyFontSize: 12.5,
+                titleFontSize: 12,
+                titleFontStyle: 'normal',
+                titleFontColor: 'rgba(255, 255, 255, 0.7)',
+                titleMarginBottom: 3,
                 callbacks: {
-                    label: function(tooltipItem, data) {
-                        document.querySelector('#gh-dashboard5-anchor-tooltip-value').innerHTML = tooltipItem.value;
-                        document.querySelector('#gh-dashboard5-anchor-tooltip-label').innerHTML = moment(tooltipItem.label).format('MMMM Do');
-                    }
-                },
-                custom : function(tooltipModel) {
-                    tooltipModel.opacity = 0;
+                    label: (tooltipItems, data) => {
+                        let valueText = data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-                    if (tooltipModel.body === undefined) {
-                        document.querySelector('#gh-dashboard5-anchor-tooltip').classList.remove('is-show');
-                        document.querySelector('#gh-dashboard5-bar').classList.remove('is-show');
+                        if (this.chartDisplay === 'total') {
+                            return `Total members: ${valueText}`;
+                        }
+                        if (this.chartDisplay === 'paid') {
+                            return `Paid members: ${valueText}`;
+                        }
+                        if (this.chartDisplay === 'monthly') {
+                            return `Monthly revenue (MRR): ${valueText}`;
+                        }
+                    },
+                    title: (tooltipItems) => {
+                        return moment(tooltipItems[0].xLabel).format(DATE_FORMAT);
                     }
-                    else {
-                        document.querySelector('#gh-dashboard5-anchor-tooltip').classList.add('is-show');
-                        document.querySelector('#gh-dashboard5-bar').classList.add('is-show');
-                        document.querySelector('#gh-dashboard5-bar').style.left = (tooltipModel.x + 8) + 'px';
-                    }
-                    
-                    return;
                 }
             },
             scales: {
@@ -191,7 +201,8 @@ export default class ChartAnchor extends Component {
                         maxTicksLimit: 5,
                         fontColor: '#7C8B9A',
                         padding: 8,
-                        precision: 0
+                        precision: 0,
+                        beginAtZero: false
                     },
                     display: true
                 }],
@@ -203,10 +214,9 @@ export default class ChartAnchor extends Component {
                     },
                     ticks: {
                         display: false,
-                        maxTicksLimit: 5,
-                        autoSkip: true,
                         maxRotation: 0,
-                        minRotation: 0
+                        minRotation: 0,
+                        beginAtZero: false
                     },
                     type: 'time',
                     time: {
@@ -226,6 +236,10 @@ export default class ChartAnchor extends Component {
                 }]
             }
         };
+    }
+
+    get chartHeight() {
+        return 160;
     }
 
     calculatePercentage(from, to) {

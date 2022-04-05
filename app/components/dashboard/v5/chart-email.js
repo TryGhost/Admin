@@ -55,13 +55,19 @@ export default class ChartEmailOpenRate extends Component {
             datasets: [{
                 data,
                 fill: false,
-                backgroundColor: '#5597F9',
-                tension: 0.1,
+                backgroundColor: '#99BCF0',
+                tension: 0,
                 cubicInterpolationMode: 'monotone',
                 pointRadius: 0,
                 pointHitRadius: 10,
                 borderColor: '#5597F9',
                 borderJoinStyle: 'miter',
+                borderWidth: {
+                    top: 3,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                },
                 maxBarThickness: 15,
                 minBarLength: 2
             }]
@@ -70,11 +76,34 @@ export default class ChartEmailOpenRate extends Component {
 
     get chartOptions() {
         return {
+            responsive: true,
+            maintainAspectRatio: false,
             title: {
                 display: false
             },
             legend: {
                 display: false
+            },
+            hover: {
+                onHover: function (e) {
+                    e.target.style.cursor = 'pointer';
+                }
+            },
+            tooltips: {
+                intersect: false,
+                mode: 'index',
+                displayColors: false,
+                backgroundColor: '#15171A',
+                xPadding: 7,
+                yPadding: 7,
+                cornerRadius: 5,
+                caretSize: 7,
+                caretPadding: 5,
+                bodyFontSize: 12.5,
+                titleFontSize: 12,
+                titleFontStyle: 'normal',
+                titleFontColor: 'rgba(255, 255, 255, 0.7)',
+                titleMarginBottom: 3
             },
             scales: {
                 yAxes: [{
@@ -110,6 +139,6 @@ export default class ChartEmailOpenRate extends Component {
     }
 
     get chartHeight() {
-        return 175;
+        return 150;
     }
 }
