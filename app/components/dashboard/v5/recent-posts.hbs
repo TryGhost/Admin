@@ -5,7 +5,7 @@
     <div class="gh-dashboard5-list-body">
         {{#each this.posts as |post|}}
             <div class="gh-dashboard5-list-item">
-                <LinkTo class="gh-dashboard5-list-post" @route="editor.edit" @models={{array post.displayName post.id}} class="permalink">
+                <LinkTo class="gh-dashboard5-list-post permalink" @route="editor.edit" @models={{array post.displayName post.id}}>
                     {{post.title}}
                 </LinkTo>
             </div>

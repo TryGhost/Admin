@@ -55,21 +55,9 @@ export default class ChartEmailOpenRate extends Component {
             datasets: [{
                 data,
                 fill: false,
-                backgroundColor: '#99BCF0',
-                tension: 0,
+                backgroundColor: '#7BA4F3',
                 cubicInterpolationMode: 'monotone',
-                pointRadius: 0,
-                pointHitRadius: 10,
-                borderColor: '#5597F9',
-                borderJoinStyle: 'miter',
-                borderWidth: {
-                    top: 3,
-                    left: 0,
-                    right: 0,
-                    bottom: 0
-                },
-                maxBarThickness: 15,
-                minBarLength: 2
+                barThickness: 10
             }]
         };
     }

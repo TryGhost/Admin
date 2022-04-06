@@ -1,5 +1,5 @@
 <div class="gh-dashboard5-stats" {{did-insert this.loadCharts}}>
-    <button type="button" {{on "click" (fn this.changeChartDisplay "total")}} class={{if this.chartShowingTotal 'is-selected'}}>
+    <button class="gh-dashboard5-stats-button {{if this.chartShowingTotal 'is-selected'}}" type="button" {{on "click" (fn this.changeChartDisplay "total")}}>
         <Dashboard::v5::parts::ChartMetric
             @label={{gh-pluralize this.totalMembers "Total member" without-count=true}}
             @value={{format-number this.totalMembers}}
@@ -9,7 +9,7 @@
         <div class="gh-dashboard5-stats-highlight"></div>
     </button>
     {{#if this.hasPaidTiers}}
-        <button type="button" {{on "click" (fn this.changeChartDisplay "monthly")}} class={{if this.chartShowingMonthly 'is-selected'}}>
+        <button class="gh-dashboard5-stats-button {{if this.chartShowingMonthly 'is-selected'}}" type="button" {{on "click" (fn this.changeChartDisplay "monthly")}}>
             <Dashboard::v5::parts::ChartMetric
                 @label={{gh-pluralize this.paidMembers "Paid member" without-count=true}}
                 @value={{format-number this.paidMembers}}
@@ -18,7 +18,7 @@
                 @large={{true}} />
             <div class="gh-dashboard5-stats-highlight"></div>
         </button>
-        <button type="button" {{on "click" (fn this.changeChartDisplay "paid")}} class={{if this.chartShowingPaid 'is-selected'}}>
+        <button class="gh-dashboard5-stats-button {{if this.chartShowingPaid 'is-selected'}}" type="button" {{on "click" (fn this.changeChartDisplay "paid")}}>
             <Dashboard::v5::parts::ChartMetric
                 @label="Monthly revenue (MRR)"
                 @value="${{gh-price-amount this.currentMRR}}"
@@ -29,22 +29,23 @@
         </button>
     {{/if}}
 </div>
-<div class="gh-dashboard5-wrapper">
-    <div class="gh-dashboard5-ticks">
-        <span>1,000</span>
-        <span>750</span>
-        <span>500</span>
-        <span>250</span>
-    </div>
-    <div class="gh-dashboard5-chart">
-        {{#if this.loading}}
-            <div class="gh-dashboard5-loading" style={{html-safe (concat "height: " this.chartHeight "px;")}}/>
-        {{else}}
+
+<div class="gh-dashboard5-chart">
+    {{#if this.loading}}
+        <div class="gh-dashboard5-chart-loading" style={{html-safe (concat "height: " this.chartHeight "px;")}}/>
+    {{else}}
+        <div class="gh-dashboard5-chart-ticks">
+            <span>1,000</span>
+            <span>750</span>
+            <span>500</span>
+            <span>250</span>
+        </div>
+        <div class="gh-dashboard5-chart-container">
             <EmberChart
                 @type={{this.chartType}}
                 @data={{this.chartData}}
                 @options={{this.chartOptions}}
                 @height={{this.chartHeight}} />
-        {{/if}}
-    </div>
+        </div>
+    {{/if}}
 </div>
