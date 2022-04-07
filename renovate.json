@@ -20,18 +20,6 @@
     {
       "groupName": "ember core",
       "packageNames": ["ember-source", "ember-cli", "ember-data"]
-    },
-    {
-      "groupName": "disable css",
-      "packagePatterns": [
-        "^postcss",
-        "^css"
-      ],
-      "packageNames": [
-        "autoprefixer",
-        "ember-cli-postcss"
-      ],
-      "enabled": false
     }
   ]
 }
