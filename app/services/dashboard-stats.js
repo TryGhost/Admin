@@ -325,13 +325,26 @@ export default class DashboardStatsService extends Service {
             return;
         }
 
-        let statsUrl = this.ghostPaths.url.api('members/stats/mrr');
+        let statsUrl = this.ghostPaths.url.api('stats/mrr');
         let stats = yield this.ajax.request(statsUrl);
 
-        // @todo: add proper support for all different currencies that are returned
-        this.mrrStats = stats.data[0].data.map((d) => {
-            return {date: d.date, mrr: d.value};
-        });
+        // Only show the highest value currency and filter the other ones out
+        const totals = stats.meta.totals;
+        let currentMax = totals[0];
+        if (!currentMax) {
+            // No valid data
+            this.mrrStats = [];
+            return;
+        }
+
+        for (const total of totals) {
+            if (total.mrr > currentMax.mrr) {
+                currentMax = total;
+            }
+        }
+
+        const useCurrency = currentMax.currency;
+        this.mrrStats = stats.stats.filter(d => d.currency === useCurrency);
     }
 
     loadLastSeen() {
@@ -600,7 +613,23 @@ export default class DashboardStatsService extends Service {
         let currentRangeDate;
 
         if (days === 'all') {
-            currentRangeDate = data.length > 0 ? moment(data[0].date) : moment();
+            const MINIMUM_DAYS = 90;
+            currentRangeDate = moment().subtract(MINIMUM_DAYS - 1, 'days');
+
+            // Make sure all charts are synced correctly and have the same start date when choosing 'all time'
+            if (this.mrrStats !== null && this.mrrStats.length > 0) {
+                const date = moment(this.mrrStats[0].date);
+                if (date.toDate() < currentRangeDate.toDate()) {
+                    currentRangeDate = date;
+                }
+            }
+
+            if (this.memberCountStats !== null && this.memberCountStats.length > 0) {
+                const date = moment(this.memberCountStats[0].date);
+                if (date.toDate() < currentRangeDate.toDate()) {
+                    currentRangeDate = date;
+                }
+            }
         } else {
             currentRangeDate = moment().subtract(days - 1, 'days');
         }
