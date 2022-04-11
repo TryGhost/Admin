@@ -97,12 +97,20 @@ function getAction(event) {
     }
 
     if (event.type === 'subscription_event') {
-        if (event.data.from_plan === null) {
+        if (event.data.type === 'created') {
             return 'started';
         }
-
-        if (event.data.to_plan === null) {
-            return 'cancelled';
+        if (event.data.type === 'updated') {
+            return 'changed';
+        }
+        if (event.data.type === 'canceled') {
+            return 'canceled';
+        }
+        if (event.data.type === 'reactivated') {
+            return 'reactivated';
+        }
+        if (event.data.type === 'expired') {
+            return 'ended';
         }
 
         return 'changed';
