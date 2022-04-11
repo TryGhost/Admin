@@ -125,8 +125,8 @@ input,
 .settings-menu-pane .gh-date-time-picker-date,
 .settings-menu-pane .gh-date-time-picker-time {
     color: var(--darkgrey);
-    border-color: color-mod(var(--lightgrey));
-    background: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
+    background: var(--lightgrey);
 }
 
 input:focus,
@@ -148,7 +148,7 @@ input:focus,
 }
 
 .gh-input-append {
-    border-color: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
 }
 
 .gh-input-group .gh-input:focus + .gh-input-append {
@@ -157,7 +157,7 @@ input:focus,
 
 .gh-input-append,
 .gh-input-append:before {
-    background: color-mod(var(--lightgrey));
+    background: var(--lightgrey);
 }
 
 .gh-input-icon.gh-icon-link svg path {
@@ -183,13 +183,13 @@ input:focus,
 }
 
 .gh-nav-search .ember-power-select-trigger {
-    border-color: color-mod(var(--lightgrey));
-    background: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
+    background: var(--lightgrey);
 }
 
 .ember-power-select-multiple-trigger {
-    border-color: color-mod(var(--lightgrey));
-    background: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
+    background: var(--lightgrey);
 }
 
 .ember-power-select-dropdown {
@@ -199,7 +199,7 @@ input:focus,
 .ember-power-select-dropdown,
 .ember-power-select-options:not([role="group"]),
 .ember-power-select-dropdown.ember-basic-dropdown-content--in-place {
-    border-color: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
     background: var(--whitegrey-l1);
 }
 
@@ -210,7 +210,7 @@ input:focus,
 .ember-basic-dropdown--opened > .ember-power-select-trigger,
 .ember-power-select-trigger[aria-expanded="true"],
 .ember-power-select-search input {
-    border-color: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
 }
 
 .ember-power-calendar-weekdays,
@@ -509,7 +509,7 @@ input:focus,
 }
 
 .gh-unsplash-search:focus {
-    background-color: color-mod(var(--lightgrey));
+    background-color: var(--lightgrey);
 }
 
 .gh-unsplash-zoom {
@@ -630,7 +630,7 @@ input:focus,
 }
 
 .gh-nav-list a {
-    color: color-mod(var(--midgrey));
+    color: var(--midgrey);
 }
 
 .gh-nav-list a:not(.active):not(.gh-secondary-action):hover,
@@ -940,7 +940,7 @@ input:focus,
 }
 
 .gh-members-emailsettings-footer-input {
-    background: color-mod(var(--lightgrey));
+    background: var(--lightgrey);
 }
 
 .gh-email-design-typography .gh-radio-content {
@@ -987,8 +987,8 @@ input:focus,
 
 .gh-portal-page-url-container {
     color: var(--darkgrey);
-    border-color: color-mod(var(--lightgrey));
-    background: color-mod(var(--lightgrey));
+    border-color: var(--lightgrey);
+    background: var(--lightgrey);
 }
 
 .gh-portal-settings-maintabs li:not(:last-of-type) {

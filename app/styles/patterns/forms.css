@@ -225,14 +225,14 @@ select.error {
 .gh-input:focus,
 .gh-input.focus {
     outline: 0;
-    border-color: color-mod(var(--green)) !important;
+    border-color: var(--green) !important;
     box-shadow: inset 0 0 0 1px var(--green);
     background: var(--white);
 }
 
 .error .gh-input:focus,
 .error .gh-input.focus {
-    border-color: color-mod(var(--red)) !important;
+    border-color: var(--red) !important;
     box-shadow: inset 0 0 0 1px var(--red);
 }
 
@@ -758,7 +758,7 @@ textarea {
 }
 
 .form-group:not(.error) .gh-input-group .gh-input:focus + .gh-input-append {
-    border-color: color-mod(var(--green));
+    border-color: var(--green);
     box-shadow: inset 0 0 0 1px var(--green);
 }
 
@@ -786,7 +786,7 @@ textarea {
 
 .form-group.error .gh-input-group .gh-input,
 .form-group.error .gh-input-group .gh-input + .gh-input-append {
-    border-color: color-mod(var(--red));
+    border-color: var(--red);
 }
 
 .form-group.error .gh-input-group .gh-input:focus + .gh-input-append {

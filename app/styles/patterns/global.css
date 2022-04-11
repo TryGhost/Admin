@@ -304,7 +304,7 @@ body {
 }
 
 ::selection {
-    background: color-mod(var(--whitegrey-d1));
+    background: var(--whitegrey-d1);
 }
 
 

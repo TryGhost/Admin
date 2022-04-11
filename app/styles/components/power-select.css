@@ -326,7 +326,7 @@
 .token-segment-product svg path {
     stroke: var(--white);
     fill: var(--white);
-}   
+}
 
 /* Inline input */
 .ember-power-select-inline {
@@ -348,7 +348,7 @@
 
 /* Input with power select */
 .gh-input-with-select-trigger.ember-power-select-trigger--active {
-    border-color: color-mod(var(--green)) !important;
+    border-color: var(--green) !important;
     box-shadow: inset 0 0 0 1px var(--green);
 }
 

@@ -1,85 +1,85 @@
 .bg-lgr-blue {
-    background: linear-gradient(color-mod(var(--blue-l3)), color-mod(var(--blue)));
+    background: linear-gradient(var(--blue-l3), var(--blue));
 }
 .bg-rgr-blue {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--blue-l3)) 0%, color-mod(var(--blue))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--blue-l3) 0%, var(--blue)) 100%;
 }
 
 .bg-lgr-green {
-    background: linear-gradient(color-mod(var(--green-l3)), color-mod(var(--green)));
+    background: linear-gradient(var(--green-l3), var(--green));
 }
 .bg-rgr-green {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--green-l3)) 0%, color-mod(var(--green))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--green-l3) 0%, var(--green)) 100%;
 }
 
 .bg-lgr-purple {
-    background: linear-gradient(color-mod(var(--purple-l3)), color-mod(var(--purple)));
+    background: linear-gradient(var(--purple-l3), var(--purple));
 }
 .bg-rgr-purple {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--purple-l3)) 0%, color-mod(var(--purple))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--purple-l3) 0%, var(--purple)) 100%;
 }
 
 .bg-lgr-yellow {
-    background: linear-gradient(color-mod(var(--yellow-l3)), color-mod(var(--yellow)));
+    background: linear-gradient(var(--yellow-l3), var(--yellow));
 }
 .bg-rgr-yellow {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--yellow-l3)) 0%, color-mod(var(--yellow))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--yellow-l3) 0%, var(--yellow)) 100%;
 }
 
 .bg-lgr-red {
-    background: linear-gradient(color-mod(var(--red-l3)), color-mod(var(--red)));
+    background: linear-gradient(var(--red-l3), var(--red));
 }
 .bg-rgr-red {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--red-l3)) 0%, color-mod(var(--red))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--red-l3) 0%, var(--red)) 100%;
 }
 
 .bg-lgr-pink {
-    background: linear-gradient(color-mod(var(--pink-l3)), color-mod(var(--pink)));
+    background: linear-gradient(var(--pink-l3), var(--pink));
 }
 .bg-rgr-pink {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--pink-l3)) 0%, color-mod(var(--pink))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--pink-l3) 0%, var(--pink)) 100%;
 }
 
 .bg-lgr-whitegrey {
-    background: linear-gradient(color-mod(var(--whitegrey-l2)), color-mod(var(--whitegrey)));
+    background: linear-gradient(var(--whitegrey-l2), var(--whitegrey));
 }
 .bg-rgr-whitegrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--whitegrey-l2)) 0%, color-mod(var(--whitegrey))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--whitegrey-l2) 0%, var(--whitegrey)) 100%;
 }
 
 .bg-lgr-lightgrey {
-    background: linear-gradient(color-mod(var(--lightgrey-l2)), color-mod(var(--lightgrey)));
+    background: linear-gradient(var(--lightgrey-l2), var(--lightgrey));
 }
 .bg-rgr-lightgrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--lightgrey-l2)) 0%, color-mod(var(--lightgrey))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--lightgrey-l2) 0%, var(--lightgrey)) 100%;
 }
 
 .bg-lgr-midlightgrey {
-    background: linear-gradient(color-mod(var(--midlightgrey-l2)), color-mod(var(--midlightgrey)));
+    background: linear-gradient(var(--midlightgrey-l2), var(--midlightgrey));
 }
 .bg-rgr-midlightgrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--midlightgrey-l2)) 0%, color-mod(var(--midlightgrey))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--midlightgrey-l2) 0%, var(--midlightgrey)) 100%;
 }
 
 .bg-lgr-midgrey {
-    background: linear-gradient(color-mod(var(--midgrey-l2)), color-mod(var(--midgrey-d1)));
+    background: linear-gradient(var(--midgrey-l2), var(--midgrey-d1));
 }
 .bg-rgr-midgrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--midgrey-l2)) 0%, color-mod(var(--midgrey-d1))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--midgrey-l2) 0%, var(--midgrey-d1)) 100%;
 }
 
 .bg-lgr-middarkgrey {
-    background: linear-gradient(color-mod(var(--middarkgrey-l2)), color-mod(var(--middarkgrey-d1)));
+    background: linear-gradient(var(--middarkgrey-l2), var(--middarkgrey-d1));
 }
 .bg-rgr-middarkgrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--middarkgrey-l2)) 0%, color-mod(var(--middarkgrey-d1))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--middarkgrey-l2) 0%, var(--middarkgrey-d1)) 100%;
 }
 
 .bg-lgr-darkgrey {
-    background: linear-gradient(color-mod(var(--darkgrey-l2)), color-mod(var(--darkgrey-d2)));
+    background: linear-gradient(var(--darkgrey-l2), var(--darkgrey-d2));
 }
 .bg-rgr-darkgrey {
-    background: radial-gradient(circle farthest-corner at left bottom, color-mod(var(--darkgrey-l2)) 0%, color-mod(var(--darkgrey-d2))) 100%;
+    background: radial-gradient(circle farthest-corner at left bottom, var(--darkgrey-l2) 0%, var(--darkgrey-d2)) 100%;
 }
 
 .bg-image-overlay-top {

@@ -1287,7 +1287,7 @@
 }
 
 .theme-warning .theme-validation-type-label::before {
-    background: color-mod(var(--yellow));
+    background: var(--yellow);
 }
 
 .theme-validation-list ul {

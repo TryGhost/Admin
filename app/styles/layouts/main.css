@@ -418,7 +418,7 @@
 .gh-nav-list .gh-nav-list-h {
     overflow: hidden;
     padding: 10px 27px;
-    color:  color-mod(var(--darkgrey));
+    color: var(--darkgrey);
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
