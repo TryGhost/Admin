@@ -10,6 +10,7 @@ const environment = EmberApp.env();
 const isProduction = environment === 'production';
 
 const autoprefixer = require('autoprefixer');
+const postcssImport = require('postcss-import');
 const tailwind = require('tailwindcss');
 
 const assetLocation = function (fileName) {
@@ -154,9 +155,15 @@ module.exports = function (defaults) {
         },
         postcssOptions: {
             compile: {
-                // track changes in template, css, scss, and tailwind config files
-                cacheInclude: [/.*\.(css|scss|hbs)$/, /.tailwind\/config\.js$/],
+                // track changes in template, css, and tailwind config files
+                cacheInclude: [/.*\.(css|hbs)$/, /.tailwind\/config\.js$/],
                 plugins: [
+                    {
+                        module: postcssImport,
+                        options: {
+                            path: ['app/styles']
+                        }
+                    },
                     {
                         module: autoprefixer,
                         options: {}
