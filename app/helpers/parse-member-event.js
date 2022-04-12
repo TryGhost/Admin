@@ -51,11 +51,7 @@ function getIcon(event) {
     if (event.type === 'subscription_event') {
         icon = 'subscriptions';
 
-        if (event.data.from_plan === null) {
-            icon = 'subscriptions';
-        }
-
-        if (event.data.to_plan === null) {
+        if (event.data.type === 'canceled') {
             icon = 'canceled-subscription';
         }
     }
