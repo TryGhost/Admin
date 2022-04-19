@@ -8,46 +8,10 @@ import {tracked} from '@glimmer/tracking';
 
 const DATE_FORMAT = 'D MMM';
 
-const DAYS_OPTIONS = [{
-    name: '7 Days',
-    value: 7
-}, {
-    name: '30 Days',
-    value: 30
-}, {
-    name: '90 Days',
-    value: 90
-}, {
-    name: 'All Time',
-    value: 'all'
-}];
-
-const PAID_OPTIONS = [{
-    name: 'All members',
-    value: 'total'
-}, {
-    name: 'Paid members',
-    value: 'paid'
-}, {
-    name: 'Free members',
-    value: 'free'
-}];
-
-export default class Anchor extends Component {
+export default class Mrr extends Component {
     @service dashboardStats;
     @service feature;
     @tracked chartDisplay = 'total';
-
-    daysOptions = DAYS_OPTIONS;
-    paidOptions = PAID_OPTIONS;
-
-    get days() {
-        return this.dashboardStats.chartDays;
-    }
-
-    set days(days) {
-        this.dashboardStats.chartDays = days;
-    }
 
     @action
     onInsert() {
@@ -56,99 +20,47 @@ export default class Anchor extends Component {
 
     @action
     loadCharts() {
-        this.dashboardStats.loadMemberCountStats();
         this.dashboardStats.loadMrrStats();
     }
 
-    @action
-    changeChartDisplay(type) {
-        this.chartDisplay = type;
-    }
-
-    @action 
-    onPaidChange(selected) {
-        this.changeChartDisplay(selected.value);
-
-        // The graph won't switch correctly from line -> bar
-        // So we need to recreate it somehow.
-        // Solution: recreate the DOM by using an #if in hbs
-    }
-
-    @action 
-    onDaysChange(selected) {
-        this.days = selected.value;
-    }
-
-    get selectedDaysOption() {
-        return this.daysOptions.find(d => d.value === this.days);
-    }
-
-    get selectedPaidOption() {
-        return this.paidOptions.find(d => d.value === this.chartDisplay) ?? this.paidOptions[0];
-    }
-
     get loading() {
-        return this.dashboardStats.memberCountStats === null;
+        return this.dashboardStats.mrrStats === null;
     }
 
-    get totalMembers() {
-        return this.dashboardStats.memberCounts?.total ?? 0;
+    get currentMRR() {
+        return this.dashboardStats.currentMRR ?? 0;
     }
 
-    get paidMembers() {
-        return this.dashboardStats.memberCounts?.paid ?? 0;
-    }
-
-    get freeMembers() {
-        return this.dashboardStats.memberCounts?.free ?? 0;
+    get mrrTrend() {
+        return this.calculatePercentage(this.dashboardStats.currentMRRTrend, this.dashboardStats.currentMRR);
     }
 
     get hasTrends() {
-        return this.dashboardStats.memberCounts !== null 
-            && this.dashboardStats.memberCountsTrend !== null;
+        return this.dashboardStats.currentMRR !== null
+            && this.dashboardStats.currentMRRTrend !== null;
     }
 
-    get totalMembersTrend() {
-        return this.calculatePercentage(this.dashboardStats.memberCountsTrend.total, this.dashboardStats.memberCounts.total);
-    }
-
-    get paidMembersTrend() {
-        return this.calculatePercentage(this.dashboardStats.memberCountsTrend.paid, this.dashboardStats.memberCounts.paid);
-    }
-
-    get freeMembersTrend() {
-        return this.calculatePercentage(this.dashboardStats.memberCountsTrend.free, this.dashboardStats.memberCounts.free);
-    }
-
-    get hasPaidTiers() {
-        return this.dashboardStats.siteStatus?.hasPaidTiers;
+    get chartTitle() {
+        return 'MRR';
     }
 
     get chartType() {
         return 'line';
     }
 
-    get chartData() {
-        let stats;
-        let labels;
-        let data;
-
-        if (this.chartDisplay === 'paid') {
-            // paid
-            stats = this.dashboardStats.filledMemberCountStats;
-            labels = stats.map(stat => stat.date);
-            data = stats.map(stat => stat.paid);
-        } else if (this.chartDisplay === 'free') {
-            // free
-            stats = this.dashboardStats.filledMemberCountStats;
-            labels = stats.map(stat => stat.date);
-            data = stats.map(stat => stat.free);
-        } else {
-            // total
-            stats = this.dashboardStats.filledMemberCountStats;
-            labels = stats.map(stat => stat.date);
-            data = stats.map(stat => stat.paid + stat.free + stat.comped);
+    get mrrCurrencySymbol() {
+        if (this.dashboardStats.mrrStats === null) {
+            return '';
         }
+        
+        const firstCurrency = this.dashboardStats.mrrStats[0] ? this.dashboardStats.mrrStats[0].currency : 'usd';
+        return getSymbol(firstCurrency);
+    }
+
+    get chartData() {
+        const stats = this.dashboardStats.filledMrrStats;
+        const labels = stats.map(stat => stat.date);
+        const data = stats.map(stat => stat.mrr);
 
         return {
             labels: labels,
@@ -157,8 +69,8 @@ export default class Anchor extends Component {
                 tension: 0,
                 cubicInterpolationMode: 'monotone',
                 fill: true,
-                fillColor: 'rgba(142, 66, 255, 0.05)',
-                backgroundColor: 'rgba(142, 66, 255, 0.05)',
+                fillColor: 'rgba(142, 66, 255, 0.02)',
+                backgroundColor: 'rgba(142, 66, 255, 0.02)',
                 pointRadius: 0,
                 pointHitRadius: 10,
                 pointBorderColor: '#8E42FF',
@@ -172,18 +84,9 @@ export default class Anchor extends Component {
         };
     }
 
-    get mrrCurrencySymbol() {
-        if (this.dashboardStats.mrrStats === null) {
-            return '';
-        }
-        
-        const firstCurrency = this.dashboardStats.mrrStats[0] ? this.dashboardStats.mrrStats[0].currency : 'usd';
-        return getSymbol(firstCurrency);
-    }
-
     get chartOptions() {
         let barColor = this.feature.nightShift ? 'rgba(200, 204, 217, 0.25)' : 'rgba(200, 204, 217, 0.65)';
-    
+
         return {
             responsive: true,
             maintainAspectRatio: false,
@@ -238,6 +141,10 @@ export default class Anchor extends Component {
                             }
                         }
 
+                        if (this.chartDisplay === 'paid') {
+                            returnable = `Paid members: ${valueText}`;
+                        }
+
                         return returnable;
                     },
                     title: (tooltipItems) => {
@@ -250,7 +157,7 @@ export default class Anchor extends Component {
                     display: true,
                     gridLines: {
                         drawTicks: false,
-                        display: true,
+                        display: false,
                         drawBorder: false,
                         color: 'transparent',
                         zeroLineColor: barColor,
@@ -268,7 +175,7 @@ export default class Anchor extends Component {
                     gridLines: {
                         color: barColor,
                         borderDash: [4,4],
-                        display: true,
+                        display: false,
                         drawBorder: true,
                         drawTicks: false,
                         zeroLineWidth: 1,
@@ -277,16 +184,7 @@ export default class Anchor extends Component {
                     },
                     ticks: {
                         display: false,
-                        beginAtZero: true,
-                        callback: function (value, index, values) {
-                            if (index === 0) {
-                                document.getElementById('gh-dashboard5-anchor-date-start').innerHTML = moment(value).format(DATE_FORMAT);
-                            }
-                            if (index === values.length - 1) {
-                                document.getElementById('gh-dashboard5-anchor-date-end').innerHTML = moment(value).format(DATE_FORMAT);
-                            }
-                            return value;
-                        }
+                        beginAtZero: true
                     }
                 }]
             }
@@ -294,11 +192,7 @@ export default class Anchor extends Component {
     }
 
     get chartHeight() {
-        return 200;
-    }
-
-    get chartHeightSmall() {
-        return 200;
+        return 90;
     }
 
     calculatePercentage(from, to) {

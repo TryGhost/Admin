@@ -4,13 +4,13 @@ import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
 const STATUS_OPTIONS = [{
-    name: 'All',
+    name: 'All members',
     value: 'total'
 }, {
-    name: 'Paid',
+    name: 'Paid members',
     value: 'paid'
 }, {
-    name: 'Free',
+    name: 'Free members',
     value: 'free'
 }];
 
@@ -22,6 +22,7 @@ export default class Engagement extends Component {
         this.dashboardStats.lastSeenFilterStatus = this.status;
         this.dashboardStats.loadLastSeen();
         this.dashboardStats.loadMemberCountStats();
+        this.dashboardStats.loadNewsletterSubscribers();
     }
 
     @tracked status = 'total';
@@ -73,5 +74,18 @@ export default class Engagement extends Component {
 
         const percentage = Math.round(part / total * 100);
         return `${percentage}%`;
+    }
+
+    get dataSubscribers() {
+        // @todo: show paid, free, total together
+        return this.dashboardStats.newsletterSubscribers ?? {
+            total: 0,
+            free: 0,
+            paid: 0
+        };
+    }
+
+    get dataEmailsSent() {
+        return this.dashboardStats.emailsSent30d ?? 0;
     }
 }
