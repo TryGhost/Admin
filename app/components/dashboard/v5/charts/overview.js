@@ -3,8 +3,6 @@ import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
-const DATE_FORMAT = 'D MMM';
-
 export default class Overview extends Component {
     @service dashboardStats;
     @service feature;
