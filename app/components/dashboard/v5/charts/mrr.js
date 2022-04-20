@@ -3,7 +3,6 @@ import moment from 'moment';
 import {getSymbol} from 'ghost-admin/utils/currency';
 import {ghPriceAmount} from '../../../../helpers/gh-price-amount';
 import {inject as service} from '@ember/service';
-import {tracked} from '@glimmer/tracking';
 
 const DATE_FORMAT = 'D MMM';
 
