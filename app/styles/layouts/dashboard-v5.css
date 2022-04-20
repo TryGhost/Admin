@@ -297,8 +297,8 @@ Dashboard v5 Metric */
 
 .gh-dashboard5-metric-label {
     align-items: center;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 600;
     line-height: 1em;
     margin: 0 0 10px;
     padding: 0;
@@ -375,14 +375,14 @@ Dashboard v5 List */
 .gh-dashboard5-list-header {
     display: grid;
     grid-template-columns: 55% 15% 30%;
-    padding: 0 0 24px;
+    padding: 0 0 12px;
     border-bottom: 1px solid var(--whitegrey);
 }
 
 .gh-dashboard5-list-title {
     align-items: center;
     font-size: 1.2rem;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: 500;
     letter-spacing: .3px;
     line-height: 1em;
@@ -390,6 +390,19 @@ Dashboard v5 List */
     color: #7c8b9a;
     white-space: nowrap;
     padding: 0 24px 0 0;
+
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1em;
+    margin: 0 0 10px;
+    padding: 0;
+    color: #15171a;
+    white-space: nowrap;
+    letter-spacing: .2px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #626d79;
 }
 
 .gh-dashboard5-list-body {

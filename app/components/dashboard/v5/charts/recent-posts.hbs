@@ -2,7 +2,8 @@
     <article class="gh-dashboard5-box">
         <div class="gh-dashboard5-list" {{did-insert this.loadPosts}}>
             <div class="gh-dashboard5-list-header">
-                <div class="gh-dashboard5-list-title">Recent posts</div>
+                <Dashboard::v5::Parts::Metric
+                        @label="Recent posts" />   
                 <div class="gh-dashboard5-list-title">Sends</div>
                 <div class="gh-dashboard5-list-title">Open rate</div>
             </div>
