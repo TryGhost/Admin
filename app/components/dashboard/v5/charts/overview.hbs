@@ -5,7 +5,7 @@
             <div class="gh-dashboard5-column">
                 <Dashboard::v5::Parts::Metric
                     @label={{gh-pluralize this.totalMembers "Total member" without-count=true}}
-                    @value={{format-number this.totalMembers}}
+                    @value={{this.totalMembersFormatted}}
                     @trends={{this.hasTrends}}
                     @percentage={{this.totalMembersTrend}}
                     @large={{true}} /> 
@@ -13,7 +13,7 @@
             <div class="gh-dashboard5-column">
                 <Dashboard::v5::Parts::Metric
                     @label={{gh-pluralize this.paidMembers "Paid member" without-count=true}}
-                    @value={{format-number this.paidMembers}}
+                    @value={{this.paidMembersFormatted}}
                     @trends={{this.hasTrends}}
                     @percentage={{this.paidMembersTrend}}
                     @large={{true}} /> 
@@ -21,7 +21,7 @@
             <div class="gh-dashboard5-column">
                 <Dashboard::v5::Parts::Metric
                     @label={{gh-pluralize this.freeMembers "Free member" without-count=true}}
-                    @value={{format-number this.freeMembers}}
+                    @value={{this.freeMembersFormatted}}
                     @trends={{this.hasTrends}}
                     @percentage={{this.freeMembersTrend}}
                     @large={{true}} /> 

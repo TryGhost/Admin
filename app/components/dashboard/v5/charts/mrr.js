@@ -44,6 +44,15 @@ export default class Mrr extends Component {
         return getSymbol(firstCurrency);
     }
 
+    get currentMRRFormatted() {
+        if (this.dashboardStats.mrrStats === null) {
+            return '-';
+        }
+
+        const valueText = ghPriceAmount(this.currentMRR);
+        return `${this.mrrCurrencySymbol}${valueText}`;
+    }
+
     get chartData() {
         const stats = this.dashboardStats.filledMrrStats;
         const labels = stats.map(stat => stat.date);
