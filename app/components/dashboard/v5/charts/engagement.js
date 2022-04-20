@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
+import {formatNumber} from '../../../../helpers/format-number';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 
@@ -77,12 +78,11 @@ export default class Engagement extends Component {
     }
 
     get dataSubscribers() {
-        // @todo: show paid, free, total together
-        return this.dashboardStats.newsletterSubscribers ?? {
-            total: 0,
-            free: 0,
-            paid: 0
-        };
+        if (!this.dashboardStats.newsletterSubscribers) {
+            return '-';
+        }
+
+        return formatNumber(this.dashboardStats.newsletterSubscribers[this.status]);
     }
 
     get dataEmailsSent() {

@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
-import {action} from '@ember/object';
 import {getSymbol} from 'ghost-admin/utils/currency';
 import {ghPriceAmount} from '../../../../helpers/gh-price-amount';
 import {inject as service} from '@ember/service';
@@ -11,17 +10,6 @@ const DATE_FORMAT = 'D MMM';
 export default class Mrr extends Component {
     @service dashboardStats;
     @service feature;
-    @tracked chartDisplay = 'total';
-
-    @action
-    onInsert() {
-        this.dashboardStats.loadSiteStatus();
-    }
-
-    @action
-    loadCharts() {
-        this.dashboardStats.loadMrrStats();
-    }
 
     get loading() {
         return this.dashboardStats.mrrStats === null;
@@ -124,28 +112,9 @@ export default class Mrr extends Component {
                 titleMarginBottom: 3,
                 callbacks: {
                     label: (tooltipItems, data) => {
-                        if (this.chartDisplay === 'mrr') {
-                            // Convert integer in cents to value in USD/other currency.
-                            const valueText = ghPriceAmount(data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index]);
-                            return `MRR: ${this.mrrCurrencySymbol}${valueText}`;
-                        }
-
-                        let valueText = data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                        let returnable = valueText;
-
-                        if (this.chartDisplay === 'total') {
-                            if (tooltipItems.datasetIndex === 0) {
-                                returnable = `Total members: ${valueText}`;
-                            } else {
-                                returnable = `Paid members: ${valueText}`;
-                            }
-                        }
-
-                        if (this.chartDisplay === 'paid') {
-                            returnable = `Paid members: ${valueText}`;
-                        }
-
-                        return returnable;
+                        // Convert integer in cents to value in USD/other currency.
+                        const valueText = ghPriceAmount(data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index]);
+                        return `MRR: ${this.mrrCurrencySymbol}${valueText}`;
                     },
                     title: (tooltipItems) => {
                         return moment(tooltipItems[0].xLabel).format(DATE_FORMAT);

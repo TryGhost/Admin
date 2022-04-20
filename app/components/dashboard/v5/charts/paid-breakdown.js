@@ -9,16 +9,10 @@ const DATE_FORMAT = 'D MMM';
 export default class PaidBreakdown extends Component {
     @service dashboardStats;
     @service feature;
-    @tracked chartDisplay = 'total';
-
-    @action
-    onInsert() {
-        this.dashboardStats.loadSiteStatus();
-    }
 
     @action
     loadCharts() {
-        this.dashboardStats.loadMemberCountStats();
+        // todo: load the new data here
     }
 
     get loading() {

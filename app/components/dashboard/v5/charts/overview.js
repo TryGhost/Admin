@@ -6,12 +6,6 @@ import {tracked} from '@glimmer/tracking';
 export default class Overview extends Component {
     @service dashboardStats;
     @service feature;
-    @tracked chartDisplay = 'total';
-
-    @action
-    onInsert() {
-        this.dashboardStats.loadSiteStatus();
-    }
 
     @action
     loadCharts() {

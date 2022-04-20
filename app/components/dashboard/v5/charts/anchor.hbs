@@ -50,10 +50,10 @@
             {{#if this.hasPaidTiers}}
                 <div class="gh-dashboard5-select">
                     <PowerSelect
-                        @selected={{this.selectedPaidOption}}
-                        @options={{this.paidOptions}}
+                        @selected={{this.selectedDisplayOption}}
+                        @options={{this.displayOptions}}
                         @searchEnabled={{false}}
-                        @onChange={{this.onPaidChange}}
+                        @onChange={{this.onDisplayChange}}
                         @triggerComponent="gh-power-select/trigger"
                         @triggerClass="gh-contentfilter-menu-trigger"
                         @dropdownClass="gh-contentfilter-menu-dropdown"

@@ -22,7 +22,7 @@ const DAYS_OPTIONS = [{
     value: 'all'
 }];
 
-const PAID_OPTIONS = [{
+const DISPLAY_OPTIONS = [{
     name: 'All members',
     value: 'total'
 }, {
@@ -39,7 +39,7 @@ export default class Anchor extends Component {
     @tracked chartDisplay = 'total';
 
     daysOptions = DAYS_OPTIONS;
-    paidOptions = PAID_OPTIONS;
+    displayOptions = DISPLAY_OPTIONS;
 
     get days() {
         return this.dashboardStats.chartDays;
@@ -50,28 +50,17 @@ export default class Anchor extends Component {
     }
 
     @action
-    onInsert() {
-        this.dashboardStats.loadSiteStatus();
-    }
-
-    @action
     loadCharts() {
         this.dashboardStats.loadMemberCountStats();
-        this.dashboardStats.loadMrrStats();
-    }
 
-    @action
-    changeChartDisplay(type) {
-        this.chartDisplay = type;
+        if (this.hasPaidTiers) {
+            this.dashboardStats.loadMrrStats();
+        }
     }
 
     @action 
-    onPaidChange(selected) {
-        this.changeChartDisplay(selected.value);
-
-        // The graph won't switch correctly from line -> bar
-        // So we need to recreate it somehow.
-        // Solution: recreate the DOM by using an #if in hbs
+    onDisplayChange(selected) {
+        this.chartDisplay = selected.value;
     }
 
     @action 
@@ -83,8 +72,8 @@ export default class Anchor extends Component {
         return this.daysOptions.find(d => d.value === this.days);
     }
 
-    get selectedPaidOption() {
-        return this.paidOptions.find(d => d.value === this.chartDisplay) ?? this.paidOptions[0];
+    get selectedDisplayOption() {
+        return this.displayOptions.find(d => d.value === this.chartDisplay) ?? this.displayOptions[0];
     }
 
     get loading() {
@@ -137,7 +126,7 @@ export default class Anchor extends Component {
             // paid
             stats = this.dashboardStats.filledMemberCountStats;
             labels = stats.map(stat => stat.date);
-            data = stats.map(stat => stat.paid);
+            data = stats.map(stat => stat.paid + stat.comped);
         } else if (this.chartDisplay === 'free') {
             // free
             stats = this.dashboardStats.filledMemberCountStats;
