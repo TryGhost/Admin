@@ -232,14 +232,46 @@ export default class DashboardStatsService extends Service {
         if (this.memberCountStats === null) {
             return null;
         }
-        return this.fillMissingDates(this.memberCountStats, {paid: 0, free: 0, comped: 0, paidCanceled: 0, paidSubscribed: 0}, this.chartDays);
+        function copyData(obj) {
+            return {
+                paid: obj.paid,
+                free: obj.free,
+                comped: obj.comped,
+                paidCanceled: 0,
+                paidSubscribed: 0
+            };
+        }
+        return this.fillMissingDates(this.memberCountStats, {paid: 0, free: 0, comped: 0, paidCanceled: 0, paidSubscribed: 0}, copyData, this.chartDays);
     }
 
     get filledMrrStats() {
         if (this.mrrStats === null) {
             return null;
         }
-        return this.fillMissingDates(this.mrrStats, {mrr: 0}, this.chartDays);
+        function copyData(obj) {
+            return {
+                mrr: obj.mrr
+            };
+        }
+        return this.fillMissingDates(this.mrrStats, {mrr: 0}, copyData, this.chartDays);
+    }
+
+    get filledSubscriptionCountStats() {
+        if (!this.subscriptionCountStats) {
+            return null;
+        }
+        function copyData(obj) {
+            return {
+                count: obj.count,
+                positiveDelta: 0,
+                negativeDelta: 0
+            };
+        }
+        return this.fillMissingDates(this.subscriptionCountStats, {
+            positiveDelta: 0,
+            negativeDelta: 0,
+            count: 0
+        }, copyData, this.chartDays);
     }
 
     loadSiteStatus() {
@@ -660,7 +692,7 @@ export default class DashboardStatsService extends Service {
      * @param {MemberCountStat|MrrStat} defaultData
      * @param {number|'all'} days Amount of days to fill the graph with
      */
-    fillMissingDates(data, defaultData, days) {
+    fillMissingDates(data, defaultData, copyData, days) {
         let currentRangeDate;
 
         if (days === 'all') {
@@ -703,7 +735,14 @@ export default class DashboardStatsService extends Service {
         while (currentRangeDate.isBefore(endDate)) {
             let dateStr = currentRangeDate.format('YYYY-MM-DD');
             const dataOnDate = data.find(d => d.date === dateStr);
-            lastVal = dataOnDate ? dataOnDate : {...lastVal, date: dateStr, paidCanceled: 0, paidSubscribed: 0};
+            if (dataOnDate) {
+                lastVal = dataOnDate;
+            } else {
+                lastVal = {
+                    date: dateStr,
+                    ...copyData(lastVal)
+                };
+            }
             output.push(lastVal);
             currentRangeDate = currentRangeDate.add(1, 'day');
         }
