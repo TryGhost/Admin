@@ -79,6 +79,9 @@ export default class DashboardStatsService extends Service {
     @tracked
         memberCountStats = null;
 
+    @tracked
+        subscriptionCountStats = null;
+
     /**
      * @type {?MrrStat[]}
      */
@@ -266,6 +269,113 @@ export default class DashboardStatsService extends Service {
         };
     }
 
+    loadPaidMembersByCadence() {
+        this.loadSubscriptionCountStats();
+    }
+
+    loadPaidMembersByTier() {
+        this.loadSubscriptionCountStats();
+    }
+
+
+    loadSubscriptionCountStats() {
+        if (this.paidMembersByCadence && this.paidMembersByTier && this.subscriptionCountStats) {
+            return;
+        }
+        if (this._loadSubscriptionCountStats.isRunning) {
+            // We need to explicitly wait for the already running task instead of dropping it and returning immediately
+            return this._loadSubscriptionCountStats.last;
+        }
+        return this._loadSubscriptionCountStats.perform();
+    }
+
+    /**
+     * Loads the subscriptions count history
+     */
+    @task
+    *_loadSubscriptionCountStats() {
+        this.subscriptionCountStats = null;
+        if (this.dashboardMocks.enabled) {
+            yield this.dashboardMocks.waitRandom();
+
+            if (this.dashboardMocks.subscriptionCountStats === null) {
+                // Note: that this shouldn't happen
+                return null;
+            }
+            this.subscriptionCountStats = this.dashboardMocks.subscriptionCountStats;
+            this.paidMembersByCadence = {...this.dashboardMocks.paidMembersByCadence};
+            this.paidMembersByTier = [...this.dashboardMocks.paidMembersByTier];
+            return;
+        }
+
+        let statsUrl = this.ghostPaths.url.api('stats/subscriptions');
+        let result = yield this.ajax.request(statsUrl);
+
+        const paidMembersByCadence = {};
+
+        for (const cadence of result.meta.cadences) {
+            paidMembersByCadence[cadence] = result.meta.totals.reduce((sum, total) => {
+                if (total.cadence !== cadence) {
+                    return sum;
+                }
+                return sum + total.count;
+            }, 0);
+        }
+
+        yield this.loadPaidProducts();
+
+        const paidMembersByTier = [];
+
+        for (const tier of result.meta.tiers) {
+            const product = this.paidProducts.find(x => x.id === tier);
+            paidMembersByTier.push({
+                tier: {
+                    name: product.name
+                },
+                members: result.meta.totals.reduce((sum, total) => {
+                    if (total.tier !== tier) {
+                        return sum;
+                    }
+                    return sum + total.count;
+                }, 0)
+            });
+        }
+
+        function mergeDates(list, entry) {
+            const [current, ...rest] = list;
+
+            if (!current) {
+                return entry;
+            }
+
+            if (!entry) {
+                return mergeDates(rest, {
+                    date: current.date,
+                    count: current.count,
+                    positiveDelta: current.positive_delta,
+                    negativeDelta: current.negative_delta
+                })
+            }
+
+            if (current.date === entry.date) {
+                return mergeDates(rest, {
+                    date: entry.date,
+                    count: entry.count + current.count,
+                    positiveDelta: entry.positiveDelta + current.positive_delta,
+                    negativeDelta: entry.negativeDelta + current.negative_delta
+                })
+            }
+
+            return [entry].concat(mergeDates(rest));
+        }
+
+        const subscriptionCountStats = mergeDates(result.stats);
+
+        this.paidMembersByCadence = paidMembersByCadence;
+        this.paidMembersByTier = paidMembersByTier;
+        this.subscriptionCountStats = subscriptionCountStats;
+    }
+
     loadMemberCountStats() {
         if (this._loadMemberCountStats.isRunning) {
             // We need to explicitly wait for the already running task instead of dropping it and returning immediately
@@ -390,43 +500,6 @@ export default class DashboardStatsService extends Service {
         this.membersLastSeen7d = result7d;
     }
 
-    loadPaidMembersByCadence() {
-        if (this._loadPaidMembersByCadence.isRunning) {
-            // We need to explicitly wait for the already running task instead of dropping it and returning immediately
-            return this._loadPaidMembersByCadence.last;
-        }
-        return this._loadPaidMembersByCadence.perform();
-    }
-
-    @task
-    *_loadPaidMembersByCadence() {
-        this.paidMembersByCadence = null;
-
-        if (this.dashboardMocks.enabled) {
-            yield this.dashboardMocks.waitRandom();
-            this.paidMembersByCadence = {...this.dashboardMocks.paidMembersByCadence};
-            return;
-        }
-
-        // We can use the total count to save a call to the API
-        if (!this.memberCounts) {
-            yield this.loadMemberCountStats();
-
-            if (!this.memberCounts) {
-                // console.warn('Failed to fetch member count by cadence: total paid is missing');
-                return;
-            }
-        }
-
-        const monthCount = yield this.membersCountCache.count('subscriptions.plan_interval:month+status:paid');
-        const totalCount = this.memberCounts.paid;
-
-        this.paidMembersByCadence = {
-            monthly: monthCount,
-            annual: totalCount - monthCount
-        };
-    }
-
     loadPaidProducts() {
         if (this.paidProducts !== null) {
             return;
@@ -445,42 +518,6 @@ export default class DashboardStatsService extends Service {
             limit: 'all'
         });
         this.paidProducts = data.toArray();
-    }
-
-    loadPaidMembersByTier() {
-        if (this._loadPaidMembersByTier.isRunning) {
-            // We need to explicitly wait for the already running task instead of dropping it and returning immediately
-            return this._loadPaidMembersByTier.last;
-        }
-        return this._loadPaidMembersByTier.perform();
-    }
-
-    @task
-    *_loadPaidMembersByTier() {
-        this.paidMembersByTier = null;
-
-        if (this.dashboardMocks.enabled) {
-            yield this.dashboardMocks.waitRandom();
-            this.paidMembersByTier = this.dashboardMocks.paidMembersByTier.slice();
-            return;
-        }
-
-        yield this.loadPaidProducts();
-        if (!this.paidProducts) {
-            return;
-        }
-
-        const paidMembersByTier = [];
-        
-        for (const product of this.paidProducts) {
-            const members = yield this.membersCountCache.count(`product:[${product.slug}]`);
-            paidMembersByTier.push({
-                tier: product,
-                members
-            });
-        }
-        
-        this.paidMembersByTier = paidMembersByTier;
     }
 
     loadNewsletterSubscribers() {
@@ -597,8 +634,8 @@ export default class DashboardStatsService extends Service {
         await this._loadSiteStatus.cancelAll();
         await this._loadMrrStats.cancelAll();
         await this._loadMemberCountStats.cancelAll();
+        await this._loadSubscriptionCountStats.cancelAll();
         await this._loadLastSeen.cancelAll();
-        await this._loadPaidMembersByCadence.cancelAll();
         await this._loadNewsletterSubscribers.cancelAll();
         await this._loadEmailsSent.cancelAll();
         await this._loadEmailOpenRateStats.cancelAll();
