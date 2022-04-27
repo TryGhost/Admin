@@ -651,33 +651,37 @@
     transition: none;
 }
 
-.modal-fullsettings-tab-expanded {
-    margin: 8px 0 24px;
-    padding: 24px var(--main-layout-area-padding) 16px;
-    background: var(--mainmenu-color-hover-bg);
-}
-
-.modal-fullsettings-form-labs button:hover {
+.modal-fullsettings-tab:hover {
     color: var(--black);
 }
 
-.modal-fullsettings-form-labs button.active {
+.modal-fullsettings-tab.active {
     color: var(--black);
     font-weight: 400;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-.modal-fullsettings-form-labs button:not(.active):hover {
+.modal-fullsettings-tab:not(.active):hover {
     background: var(--mainmenu-color-hover-bg);
 }
 
-.modal-fullsettings-form-labs svg {
+.modal-fullsettings-tab svg {
     margin-right: 17px;
     width: 16px;
     height: 16px;
     line-height: 1;
     transition: none;
     z-index: 999;
+}
+
+.modal-fullsettings-tab-expanded {
+    margin: 8px 0 24px;
+    padding: 24px var(--main-layout-area-padding) 16px;
+    background: var(--mainmenu-color-hover-bg);
+}
+
+.modal-fullsettings-tab-expanded .gh-setting {
+    padding: 12px 0;
 }
 
 .modal-fullsettings-form-labs .gh-nav-button-expand {

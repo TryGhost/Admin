@@ -1058,6 +1058,11 @@
     margin: 4px 0 0;
 }
 
+.gh-newsletters-labs .modal-fullsettings-uploader {
+    flex-grow: 1;
+    margin: 0;
+}
+
 .gh-newsletters-labs .gh-members-emailsettings-footer {
     margin-top: auto;
     margin-bottom: 0;

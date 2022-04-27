@@ -20,7 +20,7 @@
                             >
                                 <div class="modal-fullsettings-uploader">
                                     <div class="gh-header-img-desc">
-                                        <h4 class="modal-fullsettings-title">Header image</h4>
+                                        <label class="modal-fullsettings-title">Header image</label>
                                         <p>Optional, recommended size 1200x600</p>
                                     </div>
                                     {{#if uploader.isUploading}}
@@ -59,7 +59,7 @@
 
                         {{#if this.settings.icon}}
                             <GhFormGroup @classNames="gh-stack-item gh-setting">
-                                <h4 class="modal-fullsettings-title {{unless this.settings.icon "disabled"}}">Publication icon</h4>
+                                <label class="modal-fullsettings-title {{unless this.settings.icon "disabled"}}">Publication icon</label>
                                 <div class="for-switch small {{unless this.settings.icon "disabled"}}">
                                     <label class="switch" for="show-header">
                                         <input
@@ -77,7 +77,7 @@
                         {{/if}}
 
                         <GhFormGroup @classNames="gh-stack-item gh-setting">
-                            <h4 class="modal-fullsettings-title">Publication title</h4>
+                            <label class="modal-fullsettings-title">Publication title</label>
                             <div class="for-switch small">
                                 <label class="switch" for="show-title">
                                     <input
@@ -92,7 +92,7 @@
                             </div>
                         </GhFormGroup>
                         <GhFormGroup @classNames="gh-stack-item gh-setting">
-                            <h4 class="modal-fullsettings-title">Newsletter name</h4>
+                            <label class="modal-fullsettings-title">Newsletter name</label>
                             <div class="for-switch small">
                                 <label class="switch" for="show-header-name">
                                     <input
@@ -120,7 +120,7 @@
                 <div class="modal-fullsettings-tab-expanded">
                     <div class="gh-stack">
                         <GhFormGroup @classNames="gh-stack-item">
-                            <h4 class="modal-fullsettings-title gh-email-design-alignment">Newsletter title style</h4>
+                            <label class="modal-fullsettings-title">Newsletter title style</label>
                             <div class="gh-email-design-typography-wrapper header">
                                 <div class="modal-fullsettings-radiogroup gh-email-design-typography">
                                     <GhFontSelector
@@ -135,7 +135,7 @@
                             </div>
                         </GhFormGroup>
                         <GhFormGroup @classNames="gh-stack-item">
-                            <h4 class="modal-fullsettings-title">Body style</h4>
+                            <label class="modal-fullsettings-title">Body style</label>
                             <div class="gh-email-design-typography-wrapper">
                                 <div class="modal-fullsettings-radiogroup gh-email-design-typography">
                                     <GhFontSelector
@@ -146,7 +146,7 @@
                             </div>
                         </GhFormGroup>
                         <GhFormGroup @classNames="gh-stack-item gh-setting">
-                            <h4 class="modal-fullsettings-title">Feature image</h4>
+                            <label class="modal-fullsettings-title">Feature image</label>
                             <div class="for-switch small">
                                 <label class="switch" for="show-feature-image">
                                     <input
