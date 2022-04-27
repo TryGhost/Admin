@@ -396,7 +396,7 @@
 .gh-portal-settings-previewheader {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
     height: 84px;
     padding: 0 24px;
@@ -409,11 +409,9 @@
 }
 
 .gh-portal-settings-actions {
-    position: absolute;
-    top: 24px;
-    right: 24px;
     display: flex;
     align-items: center;
+    margin-left: 24px;
 }
 
 .gh-portal-preview-wrapper {

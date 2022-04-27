@@ -12,7 +12,7 @@
                     <div class="modal-fullsettings-section-labs">
                         {{#let (eq this.openSection "signup-options") as |isOpen|}}
                             <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "signup-options"}} data-test-nav-toggle="general">
-                                {{svg-jar "paintbrush"}} Signup options
+                                {{svg-jar "credit-card"}} Signup options
                                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
                             </button>
                             {{#liquid-if isOpen}}
@@ -296,7 +296,7 @@
 
                         {{#let (eq this.openSection "account-page") as |isOpen|}}
                             <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "account-page"}} data-test-nav-toggle="general">
-                                {{svg-jar "paintbrush"}} Account page settings
+                                {{svg-jar "members"}} Account page settings
                                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
                             </button>
                             {{#liquid-if isOpen}}
