@@ -41,7 +41,7 @@
                             {{#if (and (feature "multipleNewsletters") (gt @availableNewsletters.length 1))}}
                                 <div class="mb3">
                                     <PowerSelect
-                                        @selected={{@post.newsletter}}
+                                        @selected={{this.selectedNewsletter}}
                                         @options={{@availableNewsletters}}
                                         @onChange={{noop}}
                                         @triggerComponent="gh-power-select/trigger"
