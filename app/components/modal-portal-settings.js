@@ -25,6 +25,7 @@ export default ModalComponent.extend({
     showLeaveSettingsModal: false,
     isPreloading: true,
     changedProducts: null,
+    openSection: null,
     portalPreviewGuid: 'modal-portal-settings',
 
     confirm() {},
@@ -161,6 +162,13 @@ export default ModalComponent.extend({
 
         togglePortalName(showSignupName) {
             this.settings.set('portalName', showSignupName);
+        },
+        toggleSection(section) {
+            if (this.get('openSection') === section) {
+                this.set('openSection', null);
+            } else {
+                this.set('openSection', section);
+            }
         },
 
         confirm() {
