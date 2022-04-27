@@ -1,0 +1,68 @@
+<div class="modal-content">
+    <header class="modal-header">
+        <h1>Create newsletter</h1>
+    </header>
+    <button type="button" class="close" title="Close" {{on "click" @close}}>{{svg-jar "close"}}<span class="hidden">Close</span></button>
+
+    <div class="modal-body">
+        <fieldset class="modal-fullsettings-form">
+            <div class="modal-fullsettings-section">
+                <GhFormGroup @classNames="vertical" @errors={{@data.newsletter.errors}} @hasValidated={{@data.newsletter.hasValidated}} @property="name">
+                    <label for="newsletter-title" class="modal-fullsettings-title">Name</label>
+                    <input
+                        id="newsletter-title"
+                        type="text"
+                        class="gh-input miw-100 form-text"
+                        value={{@data.newsletter.name}}
+                        placeholder="Weekly Roundup"
+                        {{on "input" (fn this.onInput "name")}}
+                    />
+                    <GhErrorMessage @errors={{@data.newsletter.errors}} @property="name" />
+                </GhFormGroup>
+
+                <GhFormGroup @classNames="vertical" @errors={{@data.newsletter.errors}} @hasValidated={{@data.newsletter.hasValidated}} @property="description">
+                    <label for="newsletter-description" class="modal-fullsettings-title">Description</label>
+                    <textarea
+                        id="newsletter-description"
+                        class="gh-input miw-100 form-text"
+                        {{on "input" (fn this.onInput "description")}}
+                    >{{@data.newsletter.description}}</textarea>
+                    <GhErrorMessage @errors={{@data.newsletter.errors}} @property="description" />
+                </GhFormGroup>
+
+                <GhFormGroup>
+                    <label for="opt-in-existing" class="modal-fullsettings-title">Opt-in existing subscribers</label>
+                    <div class="for-switch small">
+                        <div class="container">
+                            <input
+                                type="checkbox"
+                                id="opt-in-existing"
+                                checked={{this.optInExisting}}
+                                {{on "check" this.setOptInExisting}}
+                            >
+                            <button type="button" class="input-toggle-component" {{on "click" this.toggleOptInExisting}}></button>
+                        </div>
+                    </div>
+                </GhFormGroup>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="modal-footer">
+        <button class="gh-btn mr3" type="button" {{on "click" @close}}>
+            <span>Cancel</span>
+        </button>
+
+        <GhTaskButton
+            @buttonText="Create"
+            @runningText="Creating"
+            @successText="Created"
+            @task={{this.saveTask}}
+            @idleClass="gh-btn-primary"
+            @class="gh-btn gh-btn-icon"
+            {{on-key "cmd+s" this.saveViaKeyboard priority=1}}
+            {{on-key "Enter" this.saveViaKeyboard priority=1}}
+            data-test-button="save-newsletter"
+        />
+    </div>
+</div>

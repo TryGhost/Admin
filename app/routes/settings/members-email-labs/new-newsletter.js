@@ -1,6 +1,6 @@
 import AdminRoute from 'ghost-admin/routes/admin';
 import ConfirmUnsavedChangesModal from '../../../components/modals/confirm-unsaved-changes';
-import EditNewsletterModal from '../../../components/modals/newsletters/edit';
+import NewNewsletterModal from '../../../components/modals/newsletters/new';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 
@@ -19,7 +19,7 @@ export default class NewNewsletterRoute extends AdminRoute {
     setupController(controller, model) {
         this.newsletterModal?.close();
 
-        this.newsletterModal = this.modals.open(EditNewsletterModal, {
+        this.newsletterModal = this.modals.open(NewNewsletterModal, {
             newsletter: model,
             afterSave: this.afterSave
         }, {
