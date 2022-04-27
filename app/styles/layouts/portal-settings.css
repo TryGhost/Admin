@@ -396,7 +396,7 @@
 .gh-portal-settings-previewheader {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     position: relative;
     height: 84px;
     padding: 0 24px;
@@ -630,4 +630,13 @@
 
 .gh-portal-settings-sidebar .modal-fullsettings-tab-expanded {
     padding-top: 16px;
+}
+
+.gh-portal-settings-previewheader .gh-preview-page-selector,
+.gh-portal-settings-previewheader .gh-preview-page-selector select {
+    width: 160px;
+}
+
+.gh-portal-settings-previewheader .gh-preview-page-selector svg {
+    top: 16px;
 }

@@ -1943,13 +1943,13 @@ p.theme-validation-details {
     height: 100%;
 }
 
-.gh-design-page-preview-mode,
-.gh-design-page-preview-mode select {
+.gh-preview-page-selector,
+.gh-preview-page-selector select {
     height: 34px;
-    min-width: 128px;
+    min-width: 160px;
 }
 
-.gh-design-page-preview-mode svg {
+.gh-preview-page-selector svg {
     margin-top: -.1em;
 }
 

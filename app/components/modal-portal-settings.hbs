@@ -11,7 +11,7 @@
                 <fieldset class="modal-fullsettings-form-labs">
                     <div class="modal-fullsettings-section-labs">
                         {{#let (eq this.openSection "signup-options") as |isOpen|}}
-                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "signup-options"}} data-test-nav-toggle="general">
+                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "signup-options"}}>
                                 {{svg-jar "credit-card"}} Signup options
                                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
                             </button>
@@ -173,7 +173,7 @@
                         {{/let}}
 
                         {{#let (eq this.openSection "look-and-feel") as |isOpen|}}
-                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "look-and-feel"}} data-test-nav-toggle="general">
+                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "look-and-feel"}}>
                                 {{svg-jar "paintbrush"}} Look & feel
                                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
                             </button>
@@ -295,7 +295,7 @@
                         {{/let}}
 
                         {{#let (eq this.openSection "account-page") as |isOpen|}}
-                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "account-page"}} data-test-nav-toggle="general">
+                            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" onclick={{action "toggleSection" "account-page"}}>
                                 {{svg-jar "members"}} Account page settings
                                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
                             </button>
@@ -330,10 +330,15 @@
         <div class="gh-portal-settings-main">
             <div class="gh-portal-settings-previewheader">
 
-                <div class="gh-btn-group">
-                    <a class="gh-btn {{if (eq this.page "signup") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "signup"}} data-test-link="switch-portal-preview-page"><span>Signup</span></a>
-                    <a class="gh-btn {{if (eq this.page "accountHome") "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "accountHome"}} data-test-link="switch-portal-preview-page"><span>Account</span></a>
-                    <a class="gh-btn {{if this.showLinksPage "gh-btn-group-selected"}}" href="#" {{action "switchPreviewPage" "links"}} data-test-link="switch-portal-preview-page"><span>Links</span></a>
+                <div class="gh-select gh-preview-page-selector">
+                    <OneWaySelect
+                        @value={{this.page}}
+                        @options={{this.availablePages}}
+                        @optionValuePath="name"
+                        @optionLabelPath="label"
+                        @update={{action "switchPreviewPage"}}
+                    />
+                    {{svg-jar "arrow-down-small"}}
                 </div>
 
                 <div class="gh-portal-settings-actions">
