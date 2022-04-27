@@ -11,14 +11,35 @@
                         <button type="button" class="gh-btn gh-btn-icon {{if (eq this.tab "design") "gh-btn-group-selected"}}" {{on "click" (fn this.changeTab "design")}}><span>Design</span></button>
                     </div>
                 </div>
+                <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
+                <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
 
-                {{#if (eq this.tab "settings")}}
-                    <Modals::Newsletters::Edit::Settings
-                        @newsletter={{@data.newsletter}}
-                    />
-                {{else}}
-                    <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} />
-                {{/if}}
+                <div class="modal-fullsettings-section gh-members-emailsettings-footer">
+                    <GhFormGroup>
+                        <div class="gh-members-emailsettings-promotelabel">
+                            <span>{{svg-jar "heart"}}</span>
+                            <div>
+                                <h4 class="modal-fullsettings-title">Promote independent publishing</h4>
+                                <p>Show you’re a part of the indie publishing movement with a small badge in the footer</p>
+                            </div>
+                        </div>
+                        <div class="for-switch small">
+                            <label
+                                class="switch"
+                                for="promote-ghost"
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={{@data.newsletter.showBadge}}
+                                    id="promote-ghost"
+                                    name="promote-ghost"
+                                    {{on "click" (fn this.toggleSetting "showBadge")}}
+                                >
+                                <span class="input-toggle-component"></span>
+                            </label>
+                        </div>
+                    </GhFormGroup>
+                </div>
             </div>
 
             <div class="modal-fullsettings-main">

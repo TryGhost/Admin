@@ -13,6 +13,7 @@ export default class EditNewsletterModal extends Component {
     };
 
     @tracked tab = 'settings';
+    @tracked openSection = null;
 
     willDestroy() {
         super.willDestroy(...arguments);
@@ -30,6 +31,20 @@ export default class EditNewsletterModal extends Component {
         event.preventDefault();
 
         this.saveTask.perform();
+    }
+
+    @action
+    toggleSection(section) {
+        if (this.openSection === section) {
+            this.openSection = null;
+        } else {
+            this.openSection = section;
+        }
+    }
+
+    @action
+    toggleSetting(property, event) {
+        this.args.data.newsletter[property] = event.target.checked;
     }
 
     @task
