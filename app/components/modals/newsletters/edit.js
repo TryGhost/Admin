@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import ConfirmCreateModal from './edit-newsletter/confirm-create';
-import ConfirmNewsletterEmailModal from './edit-newsletter/confirm-newsletter-email';
+import ConfirmCreateModal from './confirm-create';
+import ConfirmNewsletterEmailModal from './confirm-newsletter-email';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
