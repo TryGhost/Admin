@@ -309,7 +309,6 @@ export default class DashboardStatsService extends Service {
         this.loadSubscriptionCountStats();
     }
 
-
     loadSubscriptionCountStats() {
         if (this.paidMembersByCadence && this.paidMembersByTier && this.subscriptionCountStats) {
             return;
@@ -386,7 +385,7 @@ export default class DashboardStatsService extends Service {
                     count: current.count,
                     positiveDelta: current.positive_delta,
                     negativeDelta: current.negative_delta
-                })
+                });
             }
 
             if (current.date === entry.date) {
@@ -395,7 +394,7 @@ export default class DashboardStatsService extends Service {
                     count: entry.count + current.count,
                     positiveDelta: entry.positiveDelta + current.positive_delta,
                     negativeDelta: entry.negativeDelta + current.negative_delta
-                })
+                });
             }
 
             return [entry].concat(mergeDates(rest));
