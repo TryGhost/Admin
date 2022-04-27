@@ -6,10 +6,6 @@
                     <h2 class="modal-fullsettings-heading">
                         {{if @data.newsletter.isNew "Create" "Edit"}} newsletter
                     </h2>
-                    <div class="gh-btn-group">
-                        <button type="button" class="gh-btn gh-btn-icon {{if (eq this.tab "settings") "gh-btn-group-selected"}}" {{on "click" (fn this.changeTab "settings")}}><span>Settings</span></button>
-                        <button type="button" class="gh-btn gh-btn-icon {{if (eq this.tab "design") "gh-btn-group-selected"}}" {{on "click" (fn this.changeTab "design")}}><span>Design</span></button>
-                    </div>
                 </div>
                 <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
                 <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />

@@ -12,17 +12,11 @@ export default class EditNewsletterModal extends Component {
         className: 'fullscreen-modal-full-overlay fullscreen-modal-portal-settings'
     };
 
-    @tracked tab = 'settings';
     @tracked openSection = null;
 
     willDestroy() {
         super.willDestroy(...arguments);
         this.args.data.newsletter.rollbackAttributes();
-    }
-
-    @action
-    changeTab(tab) {
-        this.tab = tab;
     }
 
     @action
