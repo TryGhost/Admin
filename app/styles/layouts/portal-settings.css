@@ -61,12 +61,12 @@
 
 .gh-portal-settings-sidebar {
     padding: 0;
-    width: 380px;
+    width: 400px;
 }
 
 .gh-portal-form-wrapper {
     overflow: hidden;
-    width: 380px;
+    width: 400px;
 }
 
 .gh-portal-settings-form {
@@ -390,14 +390,7 @@
 }
 
 .gh-portal-settings-title {
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    margin: 0;
-    height: 66px;
-    font-size: 1.9rem;
-    font-weight: 600;
-    letter-spacing: -0.1px;
+    padding-bottom: 8px;
 }
 
 .gh-portal-settings-previewheader {
@@ -405,7 +398,7 @@
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    height: 66px;
+    height: 84px;
     padding: 0 24px;
     margin: 0;
     width: 100%;
@@ -417,7 +410,7 @@
 
 .gh-portal-settings-actions {
     position: absolute;
-    top: 16px;
+    top: 24px;
     right: 24px;
     display: flex;
     align-items: center;
@@ -425,7 +418,7 @@
 
 .gh-portal-preview-wrapper {
     overflow: hidden;
-    max-height: calc(100vh - 60px - 66px);
+    max-height: calc(100vh - 60px - 84px);
     height: 100%;
     background: #EDF0F2;
 }
@@ -435,7 +428,7 @@
     flex-grow: 1;
     overflow: hidden;
     background: #EDF0F2;
-    max-height: calc(100vh - 60px - 66px);
+    max-height: calc(100vh - 60px - 84px);
 }
 
 .gh-portal-preview-wrapper .gh-portal-preview-container {
@@ -634,4 +627,8 @@
     background: var(--whitegrey-d2) !important;
     color: var(--darkgrey) !important;
     cursor: auto;
+}
+
+.gh-portal-settings-sidebar .modal-fullsettings-tab-expanded {
+    padding-top: 16px;
 }

@@ -665,7 +665,7 @@
     background: var(--mainmenu-color-hover-bg);
 }
 
-.modal-fullsettings-tab svg {
+.modal-fullsettings-form-labs .modal-fullsettings-tab svg {
     margin-right: 17px;
     width: 16px;
     height: 16px;
@@ -682,6 +682,10 @@
 
 .modal-fullsettings-tab-expanded .gh-setting {
     padding: 12px 0;
+}
+
+.modal-fullsettings-form-labs .for-checkbox .input-toggle-component {
+    background: var(--white);
 }
 
 .modal-fullsettings-form-labs .gh-nav-button-expand {
