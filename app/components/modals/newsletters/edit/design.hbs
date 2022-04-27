@@ -5,7 +5,7 @@
 
         {{#let (eq @openSection "design-header") as |isOpen|}}
             <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-header")}} data-test-nav-toggle="general">
-                {{svg-jar "paintbrush"}} Header
+                {{svg-jar "email-header"}} Header
                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
             </button>
             {{#liquid-if isOpen}}
@@ -113,7 +113,7 @@
 
         {{#let (eq @openSection "design-body") as |isOpen|}}
             <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-body")}} data-test-nav-toggle="general">
-                {{svg-jar "paintbrush"}} Body
+                {{svg-jar "email-body"}} Body
                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
             </button>
             {{#liquid-if isOpen}}
@@ -167,7 +167,7 @@
 
         {{#let (eq @openSection "design-footer") as |isOpen|}}
             <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-footer")}} data-test-nav-toggle="general">
-                {{svg-jar "paintbrush"}} Footer
+                {{svg-jar "email-footer"}} Footer
                 <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
             </button>
             {{#liquid-if isOpen}}
