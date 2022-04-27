@@ -1063,6 +1063,14 @@
     margin: 0;
 }
 
+.gh-newsletters-labs .gh-header-img-uploadicon {
+    background: var(--whitegrey-l2);
+}
+
+.gh-newsletters-labs .gh-email-design-typography-wrapper.header .gh-btn-group {
+    background: var(--whitegrey-d1);
+}
+
 .gh-newsletters-labs .gh-members-emailsettings-footer {
     margin-top: auto;
     margin-bottom: 0;
