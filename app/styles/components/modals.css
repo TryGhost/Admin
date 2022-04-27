@@ -607,7 +607,7 @@
     align-items: center;
     margin: 0;
     padding: 32px;
-    font-size: 1.9rem;
+    font-size: 2rem;
     font-weight: 600;
 }
 
@@ -617,7 +617,6 @@
     flex-grow: 1;
     justify-content: space-between;
     overflow: hidden;
-    margin-top: 2rem;
     overflow-y: auto;
     overflow-x: hidden;
 }
