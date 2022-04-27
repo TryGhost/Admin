@@ -420,14 +420,14 @@
     overflow: hidden;
     max-height: calc(100vh - 60px - 84px);
     height: 100%;
-    background: #EDF0F2;
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(249,249,250,1) 100%);
 }
 
 .gh-portal-preview-container {
     position: relative;
     flex-grow: 1;
     overflow: hidden;
-    background: #EDF0F2;
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(249,249,250,1) 100%);
     max-height: calc(100vh - 60px - 84px);
 }
 
@@ -465,7 +465,8 @@
 }
 
 .gh-portal-links-main h2 {
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.9rem;
 }
 
 .gh-portal-links-main p {
