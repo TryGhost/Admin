@@ -615,8 +615,11 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    justify-content: space-between;
     overflow: hidden;
     margin-top: 2rem;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .modal-fullsettings-section-labs {
@@ -717,11 +720,52 @@
     overflow-y: scroll;
 }
 
+.modal-fullsettings-bottom {
+    position: sticky;
+    -webkit-position: sticky;
+    bottom: -24px;
+    z-index: 9997;
+    height: 164px;
+    -webkit-backface-visibility: hidden;
+}
+
+.modal-fullsettings-bottom::before,
+.modal-fullsettings-bottom::after {
+  content: "";
+  position: sticky;
+  -webkit-position: sticky;
+  display: block;
+  height: 24px;
+}
+
+.modal-fullsettings-bottom::before {
+    z-index: 9998;
+    bottom: 0;
+    background: var(--white);
+}
+
+.modal-fullsettings-bottom::after {
+    bottom: 116px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 -8px 16px -3px rgba(0,0,0,.15);
+}
+
 .modal-fullsettings-footer {
-    margin: auto 0 0;
+    position: sticky;
+    -webkit-position: sticky;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    height: 140px;
+    margin-bottom: -24px;
     padding: var(--main-layout-area-padding);
+    background: var(--white);
 }
 
 .modal-fullsettings-footer .form-group {
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start;
+    padding: 0;
+    margin-bottom: 0;
 }

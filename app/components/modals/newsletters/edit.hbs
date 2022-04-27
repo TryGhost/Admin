@@ -6,35 +6,38 @@
                     {{if @data.newsletter.isNew "Create" "Edit"}} newsletter
                 </h2>
                 <div class="modal-fullsettings-body-labs">
-                    <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
-                    <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
-                </div>
-
-                <div class="modal-fullsettings-section modal-fullsettings-footer">
-                    <GhFormGroup>
-                        <div class="gh-members-emailsettings-promotelabel">
-                            <span>{{svg-jar "heart"}}</span>
-                            <div>
-                                <h4 class="modal-fullsettings-title">Promote independent publishing</h4>
-                                <p>Show you’re a part of the indie publishing movement with a small badge in the footer</p>
-                            </div>
+                    <div class="modal-fullsettings-top">
+                        <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
+                        <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
+                    </div>
+                    <div class="modal-fullsettings-bottom">
+                        <div class="modal-fullsettings-footer">
+                            <GhFormGroup>
+                                <div class="gh-members-emailsettings-promotelabel">
+                                    <span>{{svg-jar "heart"}}</span>
+                                    <div>
+                                        <h4 class="modal-fullsettings-title">Promote independent publishing</h4>
+                                        <p>Show you’re a part of the indie publishing movement with a small badge in the footer</p>
+                                    </div>
+                                </div>
+                                <div class="for-switch small">
+                                    <label
+                                        class="switch"
+                                        for="promote-ghost"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={{@data.newsletter.showBadge}}
+                                            id="promote-ghost"
+                                            name="promote-ghost"
+                                            {{on "click" (fn this.toggleSetting "showBadge")}}
+                                        >
+                                        <span class="input-toggle-component"></span>
+                                    </label>
+                                </div>
+                            </GhFormGroup>
                         </div>
-                        <div class="for-switch small">
-                            <label
-                                class="switch"
-                                for="promote-ghost"
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={{@data.newsletter.showBadge}}
-                                    id="promote-ghost"
-                                    name="promote-ghost"
-                                    {{on "click" (fn this.toggleSetting "showBadge")}}
-                                >
-                                <span class="input-toggle-component"></span>
-                            </label>
-                        </div>
-                    </GhFormGroup>
+                    </div>
                 </div>
             </div>
 
