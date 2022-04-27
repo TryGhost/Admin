@@ -6,8 +6,8 @@
                     {{if @data.newsletter.isNew "Create" "Edit"}} newsletter
                 </h2>
                 <div class="modal-fullsettings-body-labs">
-                    <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
-                    <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
+                    <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
+                    <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{perform this.toggleSection}} />
                 </div>
 
                 <div class="modal-fullsettings-section modal-fullsettings-footer">
