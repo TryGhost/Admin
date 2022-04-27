@@ -1,17 +1,17 @@
-<div>
-    <fieldset class="modal-fullsettings-form">
-        <div class="gh-nav-list gh-nav-main">
-            <h4>Design</h4>
+<fieldset class="modal-fullsettings-form-labs">
+    <h4 class="modal-fullsettings-section-title">Design</h4>
 
-            <div class="modal-fullsettings-section first gh-nav-body gh-nav-design">
+    <div class="modal-fullsettings-section-labs">
 
-                {{#let (eq @openSection "design-header") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-header")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Header
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup @classNames="vertical">
+        {{#let (eq @openSection "design-header") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-header")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Header
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item gh-setting">
                             <GhUploader
                                 @extensions={{this.imageExtensions}}
                                 @paramsHash={{hash purpose="image"}}
@@ -58,25 +58,25 @@
                         </GhFormGroup>
 
                         {{#if this.settings.icon}}
-                        <GhFormGroup>
-                            <h4 class="modal-fullsettings-title {{unless this.settings.icon "disabled"}}">Publication icon</h4>
-                            <div class="for-switch small {{unless this.settings.icon "disabled"}}">
-                                <label class="switch" for="show-header">
-                                    <input
-                                        type="checkbox"
-                                        checked={{and @newsletter.showHeaderIcon this.settings.icon}}
-                                        id="show-header"
-                                        name="show-header"
-                                        disabled={{not this.settings.icon}}
-                                        {{on "click" (fn this.toggleSetting "showHeaderIcon")}}
-                                    >
-                                    <span class="input-toggle-component"></span>
-                                </label>
-                            </div>
-                        </GhFormGroup>
+                            <GhFormGroup @classNames="gh-stack-item gh-setting">
+                                <h4 class="modal-fullsettings-title {{unless this.settings.icon "disabled"}}">Publication icon</h4>
+                                <div class="for-switch small {{unless this.settings.icon "disabled"}}">
+                                    <label class="switch" for="show-header">
+                                        <input
+                                            type="checkbox"
+                                            checked={{and @newsletter.showHeaderIcon this.settings.icon}}
+                                            id="show-header"
+                                            name="show-header"
+                                            disabled={{not this.settings.icon}}
+                                            {{on "click" (fn this.toggleSetting "showHeaderIcon")}}
+                                        >
+                                        <span class="input-toggle-component"></span>
+                                    </label>
+                                </div>
+                            </GhFormGroup>
                         {{/if}}
 
-                        <GhFormGroup>
+                        <GhFormGroup @classNames="gh-stack-item gh-setting">
                             <h4 class="modal-fullsettings-title">Publication title</h4>
                             <div class="for-switch small">
                                 <label class="switch" for="show-title">
@@ -91,7 +91,7 @@
                                 </label>
                             </div>
                         </GhFormGroup>
-                        <GhFormGroup>
+                        <GhFormGroup @classNames="gh-stack-item gh-setting">
                             <h4 class="modal-fullsettings-title">Newsletter name</h4>
                             <div class="for-switch small">
                                 <label class="switch" for="show-header-name">
@@ -106,17 +106,21 @@
                                 </label>
                             </div>
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
 
-                {{#let (eq @openSection "design-body") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-body")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Body
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup @classNames="vertical">
-                            <h4 class="modal-fullsettings-title gh-email-design-alignment">Title style</h4>
+        {{#let (eq @openSection "design-body") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-body")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Body
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item">
+                            <h4 class="modal-fullsettings-title gh-email-design-alignment">Newsletter title style</h4>
                             <div class="gh-email-design-typography-wrapper header">
                                 <div class="modal-fullsettings-radiogroup gh-email-design-typography">
                                     <GhFontSelector
@@ -130,7 +134,7 @@
                                 </div>
                             </div>
                         </GhFormGroup>
-                        <GhFormGroup @classNames="vertical">
+                        <GhFormGroup @classNames="gh-stack-item">
                             <h4 class="modal-fullsettings-title">Body style</h4>
                             <div class="gh-email-design-typography-wrapper">
                                 <div class="modal-fullsettings-radiogroup gh-email-design-typography">
@@ -141,7 +145,7 @@
                                 </div>
                             </div>
                         </GhFormGroup>
-                        <GhFormGroup>
+                        <GhFormGroup @classNames="gh-stack-item gh-setting">
                             <h4 class="modal-fullsettings-title">Feature image</h4>
                             <div class="for-switch small">
                                 <label class="switch" for="show-feature-image">
@@ -156,16 +160,20 @@
                                 </label>
                             </div>
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
 
-                {{#let (eq @openSection "design-footer") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-footer")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Footer
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup @classNames="vertical">
+        {{#let (eq @openSection "design-footer") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "design-footer")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Footer
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item">
                             <label class="modal-fullsettings-title">Email footer</label>
                             <KoenigBasicHtmlInput
                                 @name="footer"
@@ -175,9 +183,9 @@
                             />
                             <p>Any extra information or legal text</p>
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
-            </div>
-        </div>
-    </fieldset>
-</div>
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
+    </div>
+</fieldset>

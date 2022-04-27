@@ -1,16 +1,16 @@
 <div class="modal-content">
     <div class="modal-body modal-fullsettings">
         <div class="modal-fullsettings-body gh-newsletters-labs">
-            <div class="modal-fullsettings-sidebar">
-                <div class="flex items-center justify-between">
-                    <h2 class="modal-fullsettings-heading">
-                        {{if @data.newsletter.isNew "Create" "Edit"}} newsletter
-                    </h2>
+            <div class="modal-fullsettings-sidebar-labs">
+                <h2 class="modal-fullsettings-heading-labs">
+                    {{if @data.newsletter.isNew "Create" "Edit"}} newsletter
+                </h2>
+                <div class="modal-fullsettings-body-labs">
+                    <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
+                    <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
                 </div>
-                <Modals::Newsletters::Edit::Settings @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
-                <Modals::Newsletters::Edit::Design @newsletter={{@data.newsletter}} @openSection={{this.openSection}} @toggleSection={{action this.toggleSection}} />
 
-                <div class="modal-fullsettings-section gh-members-emailsettings-footer">
+                <div class="modal-fullsettings-section modal-fullsettings-footer">
                     <GhFormGroup>
                         <div class="gh-members-emailsettings-promotelabel">
                             <span>{{svg-jar "heart"}}</span>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="modal-fullsettings-main">
-                <div class="modal-fullsettings-main-topbar">
+                <div class="modal-fullsettings-main-topbar-labs">
                     <button class="gh-btn mr3" type="button" {{on "click" @close}}>
                         <span>Cancel</span>
                     </button>

@@ -1,16 +1,16 @@
-<div>
-    <fieldset class="modal-fullsettings-form">
-        <div class="gh-nav-list gh-nav-main">
-            <div class="modal-fullsettings-section first gh-nav-body gh-nav-design">
-                <h4>General settings</h4>
+<fieldset class="modal-fullsettings-form-labs">
+    <div class="modal-fullsettings-section-labs">
+        <h4 class="modal-fullsettings-section-title">General settings</h4>
 
-                {{#let (eq @openSection "name") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "name")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Name and description
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup @classNames="vertical" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="name">
+        {{#let (eq @openSection "name") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "name")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Name and description
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="name">
                             <label for="newsletter-title" class="modal-fullsettings-title">Name</label>
                             <input
                                 id="newsletter-title"
@@ -23,7 +23,7 @@
                             <GhErrorMessage @errors={{@newsletter.errors}} @property="name" />
                         </GhFormGroup>
 
-                        <GhFormGroup @classNames="vertical" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="description">
+                        <GhFormGroup @classNames="gh-stack-item" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="description">
                             <label for="newsletter-description" class="modal-fullsettings-title">Description</label>
                             <textarea
                                 id="newsletter-description"
@@ -32,16 +32,20 @@
                             >{{@newsletter.description}}</textarea>
                             <GhErrorMessage @errors={{@newsletter.errors}} @property="description" />
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
 
-                {{#let (eq @openSection "email") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "email")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Email addresses
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup @classNames="vertical" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderName">
+        {{#let (eq @openSection "email") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "email")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Email addresses
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderName">
                             <label for="newsletter-sender-name" class="modal-fullsettings-title">Sender name</label>
                             <input
                                 id="newsletter-sender-name"
@@ -54,9 +58,9 @@
                             <GhErrorMessage @errors={{@newsletter.errors}} @property="senderName" />
                         </GhFormGroup>
 
-                        <GhFormGroup @classNames="vertical"  @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderEmail">
+                        <GhFormGroup @classNames="gh-stack-item"  @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderEmail">
                             <span class="flex items-center justify-between">
-                                <label for="newsletter-sender-email" class="modal-fullsettings-title ml2">Newsletter email address</label>
+                                <label for="newsletter-sender-email" class="modal-fullsettings-title ml2">Sender email address</label>
                                 <span class="tooltip-top-left" data-tooltip="Defaults to {{full-email-address "noreply"}} if empty">{{svg-jar "info" class="fill-darkgrey w4 h4"}}</span>
                             </span>
                             <input
@@ -70,7 +74,7 @@
                             <GhErrorMessage @errors={{@newsletter.errors}} @property="senderEmail" />
                         </GhFormGroup>
 
-                        <GhFormGroup @classNames="vertical" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderReplyTo">
+                        <GhFormGroup @classNames="gh-stack-item" @errors={{@newsletter.errors}} @hasValidated={{@newsletter.hasValidated}} @property="senderReplyTo">
                             <label for="newsletter-reply-to" class="modal-fullsettings-title">Reply-to email</label>
                             <Inputs::Select
                                 id="newsletter-reply-to"
@@ -83,16 +87,20 @@
                             </Inputs::Select>
                             <GhErrorMessage @errors={{@newsletter.errors}} @property="senderReplyTo" />
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
 
-                {{#let (eq @openSection "members") as |isOpen|}}
-                    <button class="gh-nav-design-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "members")}} data-test-nav-toggle="general">
-                        {{svg-jar "paintbrush"}} Member settings
-                        <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
-                    </button>
-                    {{#liquid-if isOpen}}
-                        <GhFormGroup>
+        {{#let (eq @openSection "members") as |isOpen|}}
+            <button class="modal-fullsettings-tab {{if isOpen "active"}}" type="button" {{on "click" (fn @toggleSection "members")}} data-test-nav-toggle="general">
+                {{svg-jar "paintbrush"}} Member settings
+                <span class="gh-nav-button-expand">{{svg-jar (if isOpen "arrow-up-stroke" "arrow-down-stroke")}}</span>
+            </button>
+            {{#liquid-if isOpen}}
+                <div class="modal-fullsettings-tab-expanded">
+                    <div class="gh-stack">
+                        <GhFormGroup @classNames="gh-stack-item gh-setting">
                             <label for="subscribe-on-signup" class="modal-fullsettings-title">Subscribe new members on signup</label>
                             <div class="for-switch small">
                                 <div class="container">
@@ -106,9 +114,9 @@
                                 </div>
                             </div>
                         </GhFormGroup>
-                    {{/liquid-if}}
-                {{/let}}
-            </div>
-        </div>
-    </fieldset>
-</div>
+                    </div>
+                </div>
+            {{/liquid-if}}
+        {{/let}}
+    </div>
+</fieldset>
