@@ -27,7 +27,7 @@ export default class EditNewsletterModal extends Component {
         this.saveTask.perform();
     }
 
-    @task
+    @action
     toggleSection(section) {
         if (this.openSection === section) {
             this.openSection = null;
