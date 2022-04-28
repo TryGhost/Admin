@@ -376,7 +376,7 @@ export default class DashboardStatsService extends Service {
             const [current, ...rest] = list;
 
             if (!current) {
-                return entry;
+                return [entry];
             }
 
             if (!entry) {
