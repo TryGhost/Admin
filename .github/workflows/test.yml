@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - "v4.*"
-      - "5.0"
-      - "multiple-newsletters"
+      - 4.x
       - main
       - "renovate/*"
 jobs:
