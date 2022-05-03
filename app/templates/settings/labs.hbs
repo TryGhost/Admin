@@ -348,6 +348,15 @@
                          </div>
                      </div>
                  </div>
+                 <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Export your images</h4>
+                            <p class="gh-expandable-description">Download all your locally stored images inside content/images as a single zip file</p>
+                        </div>
+                        <button type="button" class="gh-btn" {{action "downloadFile" "/backups/images/download/"}}><span>Export</span></button>
+                    </div>
+                </div>
             </div>
         </div>
         {{/if}}
