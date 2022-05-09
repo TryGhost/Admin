@@ -1,16 +1,16 @@
 import AdminRoute from 'ghost-admin/routes/admin';
 import {inject as service} from '@ember/service';
 
-export default class ProductsRoute extends AdminRoute {
+export default class TiersRoute extends AdminRoute {
     @service store;
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Settings - Products'
+            titleToken: 'Settings - Tiers'
         };
     }
 
     model() {
-        return this.store.findAll('product', {include: 'stripe_prices'});
+        return this.store.findAll('tier', {include: 'stripe_prices'});
     }
 }

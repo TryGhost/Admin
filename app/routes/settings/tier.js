@@ -2,7 +2,7 @@ import AdminRoute from 'ghost-admin/routes/admin';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 
-export default class ProductRoute extends AdminRoute {
+export default class TierRoute extends AdminRoute {
     @service store;
     @service router;
 
@@ -16,18 +16,18 @@ export default class ProductRoute extends AdminRoute {
     }
 
     model(params) {
-        if (params.product_id) {
-            return this.store.queryRecord('product', {id: params.product_id, include: 'stripe_prices'});
+        if (params.tier_id) {
+            return this.store.queryRecord('tier', {id: params.tier_id, include: 'stripe_prices'});
         } else {
-            return this.store.createRecord('product');
+            return this.store.createRecord('tier');
         }
     }
 
-    setupController(controller, product) {
+    setupController(controller, tier) {
         super.setupController(...arguments);
         if (this._requiresBackgroundRefresh) {
-            if (product.get('id')) {
-                return this.store.queryRecord('product', {id: product.get('id'), include: 'stripe_prices'});
+            if (tier.get('id')) {
+                return this.store.queryRecord('tier', {id: tier.get('id'), include: 'stripe_prices'});
             }
         }
     }
@@ -35,7 +35,7 @@ export default class ProductRoute extends AdminRoute {
     deactivate() {
         super.deactivate(...arguments);
         // clean up newly created records and revert unsaved changes to existing
-        this.controller.product.rollbackAttributes();
+        this.controller.tier.rollbackAttributes();
         this._requiresBackgroundRefresh = true;
     }
 
@@ -46,7 +46,7 @@ export default class ProductRoute extends AdminRoute {
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Settings - Products'
+            titleToken: 'Settings - Tiers'
         };
     }
 
@@ -54,10 +54,10 @@ export default class ProductRoute extends AdminRoute {
         if (transition.from && transition.from.name === this.routeName && transition.targetName) {
             let {controller} = this;
 
-            // product.changedAttributes is always true for new products but number of changed attrs is reliable
-            let isChanged = Object.keys(controller.product.changedAttributes()).length > 0;
+            // tier.changedAttributes is always true for new tiers but number of changed attrs is reliable
+            let isChanged = Object.keys(controller.tier.changedAttributes()).length > 0;
 
-            if (!controller.product.isDeleted && isChanged) {
+            if (!controller.tier.isDeleted && isChanged) {
                 transition.abort();
                 controller.toggleUnsavedChangesModal(transition);
                 return;

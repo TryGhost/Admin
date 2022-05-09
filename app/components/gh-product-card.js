@@ -11,42 +11,42 @@ export default class extends Component {
     @service store;
     @service config;
 
-    @tracked showProductModal = false;
+    @tracked showTierModal = false;
 
-    get product() {
-        return this.args.product;
+    get tier() {
+        return this.args.tier;
     }
 
     get showArchiveOption() {
-        return this.product.type === 'paid' && !!this.product.monthlyPrice;
+        return this.tier.type === 'paid' && !!this.tier.monthlyPrice;
     }
 
-    get productCurrency() {
-        if (this.isFreeProduct) {
-            const firstPaidProduct = this.args.products.find((product) => {
-                return product.type === 'paid';
+    get tierCurrency() {
+        if (this.isFreeTier) {
+            const firstPaidTier = this.args.tiers.find((tier) => {
+                return tier.type === 'paid';
             });
-            return firstPaidProduct?.monthlyPrice?.currency || 'usd';
+            return firstPaidTier?.monthlyPrice?.currency || 'usd';
         } else {
-            return this.product?.monthlyPrice?.currency;
+            return this.tier?.monthlyPrice?.currency;
         }
     }
 
-    get isPaidProduct() {
-        return this.product.type === 'paid';
+    get isPaidTier() {
+        return this.tier.type === 'paid';
     }
 
     get hasCurrencySymbol() {
-        const currencySymbol = getSymbol(this.product?.monthlyPrice?.currency);
+        const currencySymbol = getSymbol(this.tier?.monthlyPrice?.currency);
         return currencySymbol?.length !== 3;
     }
 
-    get isFreeProduct() {
-        return this.product.type === 'free';
+    get isFreeTier() {
+        return this.tier.type === 'free';
     }
 
     @action
-    async openEditProduct(product) {
-        this.args.openEditProduct(product);
+    async openEditTier(tier) {
+        this.args.openEditTier(tier);
     }
 }

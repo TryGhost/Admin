@@ -3,16 +3,16 @@
         <h2 class="gh-canvas-title" data-test-screen-title>
             <LinkTo @route="settings">Settings</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            <LinkTo @route="settings.products">Products</LinkTo>
+            <LinkTo @route="settings.tiers">Tiers</LinkTo>
             <span>{{svg-jar "arrow-right"}}</span>
-            {{#if this.product.name}}
-                {{this.product.name}}
+            {{#if this.tier.name}}
+                {{this.tier.name}}
             {{else}}
-                <span class="midlightgrey">New product</span>
+                <span class="midlightgrey">New tier</span>
             {{/if}}
         </h2>
         <section class="view-actions">
-            <GhTaskButton @buttonText="Save product"
+            <GhTaskButton @buttonText="Save tier"
                 @task={{this.saveTask}}
                 @successText="Saved"
                 @runningText="Saving"
@@ -26,18 +26,18 @@
 
     <section class="gh-main-section">
     <div class="gh-main-section-block">
-        <h4 class="gh-main-section-header small bn">Product details</h4>
-        <div class="gh-main-section-content grey gh-product-details-form">
-            <div class="gh-product-details-fields">
-                <GhFormGroup @errors={{this.product.errors}} @hasValidated={{this.product.hasValidated}} @property="name" @classNames="max-width">
-                    <label for="product-name">Product name</label>
-                    <GhTextInput data-test-input="product-name" @id="product-name" @value={{this.product.name}} />
-                    <GhErrorMessage @errors={{this.product.errors}} @property="name" />
+        <h4 class="gh-main-section-header small bn">Tier details</h4>
+        <div class="gh-main-section-content grey gh-tier-details-form">
+            <div class="gh-tier-details-fields">
+                <GhFormGroup @errors={{this.tier.errors}} @hasValidated={{this.tier.hasValidated}} @property="name" @classNames="max-width">
+                    <label for="tier-name">Tier name</label>
+                    <GhTextInput data-test-input="tier-name" @id="tier-name" @value={{this.tier.name}} />
+                    <GhErrorMessage @errors={{this.tier.errors}} @property="name" />
                 </GhFormGroup>
 
                 <GhFormGroup @property="description" @classNames="max-width">
-                    <label for="product-description">Description</label>
-                    <GhTextInput data-test-input="product-description" @value={{this.product.description}} />
+                    <label for="tier-description">Description</label>
+                    <GhTextInput data-test-input="tier-description" @value={{this.tier.description}} />
                     <GhErrorMessage @property="description" />
                 </GhFormGroup>
 
@@ -50,7 +50,7 @@
                         @validateUrl={{action "validatePaidSignupRedirect"}}
                         @placeholder={{readonly this.siteUrl}}
                     />
-                    <p>Redirect to this URL after signup for this product</p>
+                    <p>Redirect to this URL after signup for this tier</p>
                     <GhErrorMessage
                         @errors={{this.settings.errors}}
                         @property="membersPaidSignupRedirect"
@@ -74,9 +74,9 @@
                     <tr class="gh-list-row {{if this.price.active "" "gh-price-list-archived"}}">
                         <td colspan="4" class="gh-list-data">
                             <div class="gh-price-list-noprices">
-                                <div class="mb2">There are no prices for this product</div>
+                                <div class="mb2">There are no prices for this tier</div>
                                 {{#if this.membersUtils.isStripeEnabled}}
-                                    {{#unless this.product.isNew}}
+                                    {{#unless this.tier.isNew}}
                                         <button type="button" class="gh-btn gh-btn-green" {{action "openNewPrice"}}
                                         disabled={{this.saveTask.isRunning}} >
                                             <span>Add price</span>
@@ -128,7 +128,7 @@
             </ol>
 
             {{#if this.stripePrices}}
-                {{#unless this.product.isNew}}
+                {{#unless this.tier.isNew}}
                     <button type="button" class="gh-btn gh-btn-green" {{action "openNewPrice"}}>
                         <span>Add price</span>
                     </button>
@@ -139,13 +139,13 @@
 
     {{#if this.showPriceModal}}
         <GhFullscreenModal
-            @modal="product-price"
+            @modal="tier-price"
             @model={{hash
                 price=this.priceModel
             }}
             @confirm={{action "savePrice"}}
             @close={{this.closePriceModal}}
-            @modifier="action wide product-ssprice" />
+            @modifier="action wide tier-ssprice" />
     {{/if}}
 
     {{#if this.showUnsavedChangesModal}}
