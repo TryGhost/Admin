@@ -122,7 +122,7 @@ export default class MembersUtilsService extends Service {
         }
 
         if (portalTiers && this.feature.get('multipleProducts')) {
-            settingsParam.append('portalTiers', encodeURIComponent(portalTiers));
+            settingsParam.append('portalProducts', encodeURIComponent(portalTiers));
         }
 
         if (this.settings.get('accentColor') === '' || this.settings.get('accentColor')) {
