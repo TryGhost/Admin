@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Controller from '@ember/controller';
 import RSVP from 'rsvp';
 import config from 'ghost-admin/config/environment';
+import moment from 'moment';
 import {
     UnsupportedMediaTypeError,
     isRequestEntityTooLargeError,
@@ -15,7 +16,6 @@ import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {task, timeout} from 'ember-concurrency';
-import { Moment } from 'moment';
 
 const {Promise} = RSVP;
 
@@ -64,8 +64,6 @@ export default class LabsController extends Controller {
     imageExportReady = false;
     imageExportCreatedAt = null;
     imageExportBusy = false;
-
-
 
     init() {
         super.init(...arguments);
@@ -270,29 +268,30 @@ export default class LabsController extends Controller {
     
     getBackupStatus() {
         this.ajax.request(this.ghostPaths.url.api('backups/images/status/')).then((res) => {
-            if(res.backups){
+            if (res.backups){
                 this.set('imageExportReady', res.backups[0].backup_completed);
                 this.set('imageExportCreatedAt', moment(res.backups[0].created_at).fromNow());
-                this.set('imageExportBusy', res.backups[0].backup_completed === false ? true:false);
+                this.set('imageExportBusy', res.backups[0].backup_completed === false ? true : false);
             }
         });
     }
-
+    
     get backupStatusWatch() {
         this.getBackupStatus();
         setInterval(() => {
-            if(this.imageExportBusy){
+            if (this.imageExportBusy){
                 this.getBackupStatus();
             }
         }, 30000);
-    };
+        return '';
+    }
 
     @action
     startBackupWorker(){
         this.ajax.request(this.ghostPaths.url.api('backups/images/init/')).then((res) => {
-            if(res.backupStarted){
+            if (res.backupStarted){
                 this.set('imageExportReady', false);
-                this.set('imageExportBusy', true)
+                this.set('imageExportBusy', true);
             }
         });
     }
