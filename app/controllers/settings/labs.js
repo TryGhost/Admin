@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Controller from '@ember/controller';
 import RSVP from 'rsvp';
 import config from 'ghost-admin/config/environment';
+import moment from 'moment';
 import {
     UnsupportedMediaTypeError,
     isRequestEntityTooLargeError,
@@ -60,6 +61,9 @@ export default class LabsController extends Controller {
     yamlMimeType = null;
     yamlAccept = null;
     isOAuthConfigurationOpen = false;
+    imageExportReady = false;
+    imageExportCreatedAt = null;
+    imageExportBusy = false;
 
     init() {
         super.init(...arguments);
@@ -260,5 +264,35 @@ export default class LabsController extends Controller {
     reset() {
         this.set('importErrors', null);
         this.set('importSuccessful', false);
+    }
+    
+    getBackupStatus() {
+        this.ajax.request(this.ghostPaths.url.api('backups/images/status/')).then((res) => {
+            if (res.backups){
+                this.set('imageExportReady', res.backups[0].backup_completed);
+                this.set('imageExportCreatedAt', moment(res.backups[0].created_at).fromNow());
+                this.set('imageExportBusy', res.backups[0].backup_completed === false ? true : false);
+            }
+        });
+    }
+    
+    get backupStatusWatch() {
+        this.getBackupStatus();
+        setInterval(() => {
+            if (this.imageExportBusy){
+                this.getBackupStatus();
+            }
+        }, 30000);
+        return '';
+    }
+
+    @action
+    startBackupWorker(){
+        this.ajax.request(this.ghostPaths.url.api('backups/images/init/')).then((res) => {
+            if (res.backupStarted){
+                this.set('imageExportReady', false);
+                this.set('imageExportBusy', true);
+            }
+        });
     }
 }
