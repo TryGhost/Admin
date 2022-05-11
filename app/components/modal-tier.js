@@ -49,17 +49,6 @@ export default class ModalTierPrice extends ModalBase {
         return getCurrencyOptions();
     }
 
-    get tierCurrency() {
-        if (this.isFreeTier) {
-            const firstPaidTier = this.model.tiers?.find((tier) => {
-                return tier.type === 'paid';
-            });
-            return firstPaidTier?.monthlyPrice?.currency || 'usd';
-        } else {
-            return this.tier?.monthlyPrice?.currency;
-        }
-    }
-
     get selectedCurrency() {
         return CURRENCIES.findBy('value', this.currency);
     }
@@ -70,12 +59,12 @@ export default class ModalTierPrice extends ModalBase {
         const monthlyPrice = this.tier.get('monthlyPrice');
         const yearlyPrice = this.tier.get('yearlyPrice');
         if (monthlyPrice) {
-            this.stripeMonthlyAmount = (monthlyPrice.amount / 100);
+            this.stripeMonthlyAmount = (monthlyPrice / 100);
         }
         if (yearlyPrice) {
-            this.stripeYearlyAmount = (yearlyPrice.amount / 100);
+            this.stripeYearlyAmount = (yearlyPrice / 100);
         }
-        this.currency = this.tierCurrency || 'usd';
+        this.currency = this.tier.get('currency') || 'usd';
         this.benefits = this.tier.get('benefits') || emberA([]);
         this.newBenefit = TierBenefitItem.create({
             isNew: true,
@@ -165,22 +154,9 @@ export default class ModalTierPrice extends ModalBase {
         if (!this.isFreeTier) {
             const monthlyAmount = Math.round(this.stripeMonthlyAmount * 100);
             const yearlyAmount = Math.round(this.stripeYearlyAmount * 100);
-            this.tier.set('monthlyPrice', {
-                nickname: 'Monthly',
-                amount: monthlyAmount,
-                active: true,
-                currency: this.currency,
-                interval: 'month',
-                type: 'recurring'
-            });
-            this.tier.set('yearlyPrice', {
-                nickname: 'Yearly',
-                amount: yearlyAmount,
-                active: true,
-                currency: this.currency,
-                interval: 'year',
-                type: 'recurring'
-            });
+            this.tier.set('monthlyPrice', monthlyAmount);
+            this.tier.set('yearlyPrice', yearlyAmount);
+            this.tier.set('currency', this.currency);
         }
         this.tier.set('benefits', this.benefits.filter(benefit => !benefit.get('isBlank')));
         yield this.tier.save();
