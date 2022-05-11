@@ -1135,3 +1135,4 @@ add|ember-template-lint|no-passed-in-event-handlers|45|32|45|32|86b5983929a27ca8
 add|ember-template-lint|no-passed-in-event-handlers|85|40|85|40|dcb4785647a50814bcfce82f8d68ac8dd8f54ec2|1652140800000|1662508800000|1667692800000|app/components/modal-tier.hbs
 add|ember-template-lint|no-passed-in-event-handlers|95|40|95|40|70487c008d7dda453fef82f0140699ee93c0055c|1652140800000|1662508800000|1667692800000|app/components/modal-tier.hbs
 add|ember-template-lint|style-concatenation|205|54|205|54|23293f0c3838b23432d2b2daaf04b34504896d91|1652140800000|1662508800000|1667692800000|app/components/modal-tier.hbs
+add|ember-template-lint|no-action|12|16|12|16|40e7337ccf8501ef3b2fea94812d4de8435286da|1652227200000|1662595200000|1667779200000|app/components/gh-tiers-price-billingperiod.hbs
