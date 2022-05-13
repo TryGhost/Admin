@@ -57,7 +57,7 @@ export default class ApplicationController extends Controller {
         const ghostIdentityUrl = this.ghostPaths.url.api('identities');
 
         this.ajax.request(ghostIdentityUrl).then((response) => {
-            const token = response && response.identities && response.identities[0] && response.identities[0].token;
+            const token = response?.identities?.[0]?.token;
             updateUrl.searchParams.append('jwt', token);
             updateWindow.location.href = updateUrl.toString();
         });
