@@ -335,7 +335,7 @@ export default Component.extend({
             // Set default newsletter recipients
             this.set('sendEmailWhenPublished', this.defaultEmailRecipients);
         } else {
-            this.set('sendEmailWhenPublished', this.post.emailRecipientFilter);
+            this.set('sendEmailWhenPublished', this.post.emailSegment);
         }
     },
 

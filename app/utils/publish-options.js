@@ -274,7 +274,7 @@ export default class PublishOptions {
 
         if (willEmail) {
             adapterOptions.newsletter = this.newsletter.id;
-            adapterOptions.emailRecipientFilter = this.recipientFilter;
+            adapterOptions.emailSegment = this.recipientFilter;
         }
 
         try {
