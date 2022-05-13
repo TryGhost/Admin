@@ -1,6 +1,15 @@
 <GhApp>
     <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
 
+    {{#if (and this.session.user.isOwnerOnly this.showUpdateLink)}}
+    <aside class="gh-update-banner">
+        <div class="gh-alert-content">
+            Your site is ready for a major update!
+        </div>
+        <a href="#" {{on "click" this.openUpdateTab}}>Update to Ghost 5.0!</a>
+    </aside>
+    {{/if}}
+
     <GhAlerts />
 
     <div class="gh-viewport {{if this.ui.showMobileMenu 'mobile-menu-expanded'}}">
