@@ -1182,3 +1182,5 @@ remove|ember-template-lint|no-action|207|63|207|63|682c80ff5163c8e4a2bea89f2066d
 remove|ember-template-lint|no-action|216|59|216|59|a80dd18e18dda6fb6f1f97d87bef2b8c2ce3d847|1652054400000|1662422400000|1665014400000|app/templates/settings/membership.hbs
 remove|ember-template-lint|no-passed-in-event-handlers|206|52|206|52|dcb4785647a50814bcfce82f8d68ac8dd8f54ec2|1652054400000|1662422400000|1665014400000|app/templates/settings/membership.hbs
 remove|ember-template-lint|no-passed-in-event-handlers|216|52|216|52|70487c008d7dda453fef82f0140699ee93c0055c|1652054400000|1662422400000|1665014400000|app/templates/settings/membership.hbs
+remove|ember-template-lint|no-action|59|49|59|49|caf96338bbfda1006cc9251eacd9d9eee883df44|1652054400000|1662422400000|1665014400000|app/templates/editor.hbs
+remove|ember-template-lint|no-action|60|44|60|44|1731ed4d2ac62556bb83fbc378686e26ca605687|1652054400000|1662422400000|1665014400000|app/templates/editor.hbs
