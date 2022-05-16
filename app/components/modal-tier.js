@@ -36,6 +36,8 @@ export default class ModalTierPrice extends ModalBase {
     @tracked welcomePageURL;
     @tracked previewCadence = 'yearly';
     @tracked discountValue = 0;
+    @tracked hasSaved = false;
+    @tracked savedBenefits;
 
     accentColorStyle = '';
 
@@ -56,6 +58,7 @@ export default class ModalTierPrice extends ModalBase {
     init() {
         super.init(...arguments);
         this.tier = this.model.tier;
+        this.savedBenefits = this.model.tier?.get('benefits');
         const monthlyPrice = this.tier.get('monthlyPrice');
         const yearlyPrice = this.tier.get('yearlyPrice');
         if (monthlyPrice) {
@@ -117,7 +120,9 @@ export default class ModalTierPrice extends ModalBase {
 
     @action
     close(event) {
-        this.reset();
+        if (!this.hasSaved) {
+            this.reset();
+        }
         event?.preventDefault?.();
         this.closeModal();
     }
@@ -133,8 +138,8 @@ export default class ModalTierPrice extends ModalBase {
 
     reset() {
         this.newBenefit = TierBenefitItem.create({isNew: true, name: ''});
-        const savedBenefits = this.tier.benefits?.filter(benefit => !!benefit.id) || emberA([]);
-        this.tier.set('benefits', savedBenefits);
+        const finalBenefits = this.savedBenefits || emberA([]);
+        this.tier.set('benefits', finalBenefits);
     }
 
     @task({drop: true})
@@ -160,7 +165,7 @@ export default class ModalTierPrice extends ModalBase {
         }
         this.tier.set('benefits', this.benefits.filter(benefit => !benefit.get('isBlank')));
         yield this.tier.save();
-
+        this.hasSaved = true;
         yield this.confirm();
         this.send('closeModal');
     }
