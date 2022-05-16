@@ -17,7 +17,7 @@
                 </PowerSelect>
             </div>
         {{else}}
-            <Dashboard::v5::Parts::Metric
+            <Dashboard::Parts::Metric
                 @label="Total members"
                 @value={{format-number this.totalMembers}}
                 @trends={{this.hasTrends}}
@@ -60,9 +60,9 @@
 
             {{#if this.hasPaidTiers}}
                 <article class="gh-dashboard5-minicharts">
-                    <Dashboard::v5::Charts::PaidMrr />
-                    <Dashboard::v5::Charts::PaidBreakdown />
-                    <Dashboard::v5::Charts::PaidMix />
+                    <Dashboard::Charts::PaidMrr />
+                    <Dashboard::Charts::PaidBreakdown />
+                    <Dashboard::Charts::PaidMix />
                 </article>
             {{/if}}
         </div>

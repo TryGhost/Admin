@@ -14,7 +14,7 @@ const DAYS_OPTIONS = [{
     value: 90 + 1
 }];
 
-export default class DashboardDashboardV5Component extends Component {
+export default class DashboardController extends Component {
     @service dashboardStats;
 
     daysOptions = DAYS_OPTIONS;

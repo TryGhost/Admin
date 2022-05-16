@@ -2,12 +2,12 @@
     <article class="gh-dashboard5-box">
         <div class="gh-dashboard5-tabs">
             <button type="button" class="gh-dashboard5-tab {{if this.postsTabSelected 'is-selected'}}" {{on "click" this.changeTabToPosts}}>
-                <Dashboard::v5::Parts::Metric
+                <Dashboard::Parts::Metric
                     @label="Recent posts" /> 
             </button>
             {{#if this.areMembersEnabled}}
                 <button type="button" class="gh-dashboard5-tab {{if this.activityTabSelected 'is-selected'}}" {{on "click" this.changeTabToActivity}}>
-                    <Dashboard::v5::Parts::Metric
+                    <Dashboard::Parts::Metric
                         @label="Member activity" /> 
                 </button>          
             {{/if}}

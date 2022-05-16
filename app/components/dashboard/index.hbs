@@ -4,32 +4,32 @@
     {{else}}
         {{#if this.areMembersEnabled}}
             {{#if this.hasPaidTiers}}
-                <Dashboard::V5::Charts::Overview />
+                <Dashboard::Charts::Overview />
             {{/if}}
 
             <div class="gh-dashboard5-group {{if this.isTotalMembersZero 'is-zero'}}">
-                <Dashboard::V5::Charts::Anchor />
+                <Dashboard::Charts::Anchor />
 
                 {{#if this.areNewslettersEnabled}}
-                    <Dashboard::V5::Charts::Engagement />
+                    <Dashboard::Charts::Engagement />
                 {{/if}}
 
                 {{#if this.isTotalMembersZero}}
-                    <Dashboard::V5::Parts::Zero />
+                    <Dashboard::Parts::Zero />
                 {{/if}}
             </div>
         {{/if}}
 
-        <Dashboard::V5::Charts::Recents />
+        <Dashboard::Charts::Recents />
 
         <div class="gh-dashboard5-split gh-dashboard5-box is-secondary">
-            <Dashboard::V5::Resources::Resources />
-            <Dashboard::V5::Resources::Newsletter />
+            <Dashboard::Resources::Resources />
+            <Dashboard::Resources::Newsletter />
         </div>
         <div class="gh-dashboard5-split">
-            <Dashboard::V5::Resources::StaffPicks />
-            <Dashboard::V5::Resources::WhatsNew />
-            <Dashboard::V5::Resources::Community />
+            <Dashboard::Resources::StaffPicks />
+            <Dashboard::Resources::WhatsNew />
+            <Dashboard::Resources::Community />
         </div>
     {{/if}}
 
@@ -53,5 +53,5 @@
 </section>
 
 {{#if (enable-developer-experiments)}}
-    <Dashboard::V5::Prototype::ControlPanel />
+    <Dashboard::Prototype::ControlPanel />
 {{/if}}
