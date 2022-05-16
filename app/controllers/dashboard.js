@@ -20,6 +20,11 @@ export default class DashboardController extends Controller {
     daysOptions = DAYS_OPTIONS;
 
     initialise() {
+        // empty
+    }
+
+    @action
+    loadCharts() {
         this.dashboardStats.loadSiteStatus();
     }
 
