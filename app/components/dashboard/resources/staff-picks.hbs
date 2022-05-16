@@ -1,24 +1,24 @@
-<section class="gh-dashboard5-resource gh-dashboard5-staff-picks" {{did-insert this.load}}>
-    <article class="gh-dashboard5-resource-box">
-        <div class="gh-dashboard5-resource-title is-large has-border">
+<section class="gh-dashboard-resource gh-dashboard-staff-picks" {{did-insert this.load}}>
+    <article class="gh-dashboard-resource-box">
+        <div class="gh-dashboard-resource-title is-large has-border">
             <h4>Staff picks</h4>
             <p>Hand picked stories from around the web, published with Ghost.</p>
         </div>
-        <div class="gh-dashboard5-resource-body">
-            <div class="gh-dashboard5-list">
+        <div class="gh-dashboard-resource-body">
+            <div class="gh-dashboard-list">
                 {{#if (not (or this.loading this.error))}}
-                    <div class="gh-dashboard5-list-body">
+                    <div class="gh-dashboard-list-body">
                         {{#each this.staffPicks as |entry|}}
-                            <div class="gh-dashboard5-list-item">
-                                <a class="gh-dashboard5-list-post permalink" href={{set-query-params entry.link utm_source='ghost'}} target="_blank" rel="noopener noreferrer">
-                                    <span class="gh-dashboard5-list-link">
+                            <div class="gh-dashboard-list-item">
+                                <a class="gh-dashboard-list-post permalink" href={{set-query-params entry.link utm_source='ghost'}} target="_blank" rel="noopener noreferrer">
+                                    <span class="gh-dashboard-list-link">
                                         <span>{{entry.title}}</span>
                                     </span>
-                                    <div class="gh-dashboard5-resource-secondary">{{entry.creator}}</div>
+                                    <div class="gh-dashboard-resource-secondary">{{entry.creator}}</div>
                                 </a>
                             </div>
                         {{else}}
-                            <div class="gh-dashboard5-list-empty">
+                            <div class="gh-dashboard-list-empty">
                                 <p>No staff picks yet.</p>
                             </div>
                         {{/each}}
@@ -26,7 +26,7 @@
                 {{/if}}
             </div>
         </div>
-        <div class="gh-dashboard5-resource-footer">
+        <div class="gh-dashboard-resource-footer">
             <a href="https://twitter.com/ghoststaffpicks" target="_blank" rel="noopener noreferrer">{{svg-jar "twitter-logo"}} <span>Follow on Twitter</span></a>
         </div>
     </article>

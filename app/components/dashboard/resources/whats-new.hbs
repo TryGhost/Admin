@@ -1,24 +1,24 @@
-<section class="gh-dashboard5-resource gh-dashboard5-whats-new" {{did-insert this.load}}>
-    <article class="gh-dashboard5-resource-box">
-        <div class="gh-dashboard5-resource-title is-large has-border">
+<section class="gh-dashboard-resource gh-dashboard-whats-new" {{did-insert this.load}}>
+    <article class="gh-dashboard-resource-box">
+        <div class="gh-dashboard-resource-title is-large has-border">
             <h4>What's new</h4>
             <p>All the latest improvements.</p>
         </div>
-        <div class="gh-dashboard5-resource-body">
-             <div class="gh-dashboard5-list {{if this.whatsNew.hasNew "has-new"}}">
+        <div class="gh-dashboard-resource-body">
+             <div class="gh-dashboard-list {{if this.whatsNew.hasNew "has-new"}}">
                 {{#if (not (or this.loading this.error))}}
-                    <div class="gh-dashboard5-list-body">
+                    <div class="gh-dashboard-list-body">
                         {{#each this.entries as |entry|}}
-                            <div class="gh-dashboard5-list-item">
-                                <LinkTo class="gh-dashboard5-list-post" @route="whatsnew" @query={{hash entry=entry.slug}}>
-                                    <span class="gh-dashboard5-list-link">
+                            <div class="gh-dashboard-list-item">
+                                <LinkTo class="gh-dashboard-list-post" @route="whatsnew" @query={{hash entry=entry.slug}}>
+                                    <span class="gh-dashboard-list-link">
                                         <span>{{entry.title}}</span>
                                     </span>
-                                    <div class="gh-dashboard5-resource-secondary">{{moment-format entry.published_at "D MMM YYYY"}}</div>
+                                    <div class="gh-dashboard-resource-secondary">{{moment-format entry.published_at "D MMM YYYY"}}</div>
                                 </LinkTo>    
                             </div>
                         {{else}}
-                            <div class="gh-dashboard5-list-empty">
+                            <div class="gh-dashboard-list-empty">
                                 <p>No new features yet.</p>
                             </div>
                         {{/each}}
@@ -26,7 +26,7 @@
                 {{/if}}
             </div>
         </div>
-        <div class="gh-dashboard5-resource-footer">
+        <div class="gh-dashboard-resource-footer">
             <LinkTo @route="whatsnew" @query={{hash entry=null}} class="green">See more features &rarr;</LinkTo>
         </div>
     </article>
