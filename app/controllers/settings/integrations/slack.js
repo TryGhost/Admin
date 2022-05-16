@@ -20,8 +20,10 @@ export default class SlackController extends Controller {
         super.init(...arguments);
     }
 
-    @empty('slackUrl')
-        testNotificationDisabled;
+    get testNotificationDisabled() {
+        const slackUrl = this.settings.get('slackUrl');
+        return !slackUrl;
+    }
 
     @action
     save() {
@@ -74,8 +76,10 @@ export default class SlackController extends Controller {
             yield this.settings.validate();
             return yield this.settings.save();
         } catch (error) {
-            this.notifications.showAPIError(error);
-            throw error;
+            if (error) {
+                this.notifications.showAPIError(error);
+                throw error;
+            }
         }
     }).drop())
         saveTask;
@@ -90,10 +94,12 @@ export default class SlackController extends Controller {
             notifications.showNotification('Test notification sent', {type: 'info', key: 'slack-test.send.success', description: 'Check your Slack channel for the test message'});
             return true;
         } catch (error) {
-            notifications.showAPIError(error, {key: 'slack-test:send'});
+            if (error) {
+                notifications.showAPIError(error, {key: 'slack-test:send'});
 
-            if (!isInvalidError(error)) {
-                throw error;
+                if (!isInvalidError(error)) {
+                    throw error;
+                }
             }
         }
     }).drop())
