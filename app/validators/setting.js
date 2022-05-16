@@ -3,7 +3,7 @@ import validator from 'validator';
 import {isBlank} from '@ember/utils';
 
 export default BaseValidator.create({
-    properties: ['title', 'description', 'password'],
+    properties: ['title', 'description', 'password', 'slackUrl'],
     title(model) {
         let title = model.get('title');
 
