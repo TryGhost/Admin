@@ -8,7 +8,7 @@
             <header class="gh-editor-header br2 pe-none">
                 <div class="flex items-center pe-auto h-100">
                     {{#if this.ui.isFullScreen}}
-                        <LinkTo @route={{pluralize this.post.displayName }} class="gh-editor-back-button" data-test-link={{pluralize this.post.displayName}}>
+                        <LinkTo @route={{pluralize this.post.displayName }} class="gh-btn-editor gh-editor-back-button" data-test-link={{pluralize this.post.displayName}}>
                             <span>
                                 {{svg-jar "arrow-left"}}
                                 {{capitalize (pluralize this.post.displayName)}}
@@ -26,40 +26,15 @@
                     </div>
                 </div>
 
-                <section class="flex" style="pointer-events: auto">
+                <section class="flex items-center pe-auto h-100">
                     {{#unless this.post.isNew}}
-                        {{#if this.session.user.isContributor}}
-                            {{#if this.post.isDraft}}
-                                <div {{on-key "cmd+p" this.openPostPreview}}>
-                                    <button type="button" class="gh-btn gh-editor-preview-trigger" {{on "click" this.openPostPreviewModal}}>
-                                        <span>Preview</span>
-                                    </button>
-                                </div>
-                            {{/if}}
-
-                            <GhTaskButton @buttonText="Save"
-                                @task={{this.save}}
-                                @runningText="Saving"
-                                @class="gh-btn gh-btn-icon gh-btn-editor contributor-save-button"
-                                data-test-contributor-save />
-                        {{else}}
-                            {{#if (feature "publishingFlow")}}
-                                <EditorLabs::PublishManagement
-                                    @post={{this.post}}
-                                    @hasUnsavedChanges={{this.hasDirtyAttributes}}
-                                    @beforePublish={{perform this.beforeSaveTask}}
-                                    @afterPublish={{this.afterSave}}
-                                    @saveTask={{this.saveTask}}
-                                />
-                            {{else}}
-                                <GhPublishmenu
-                                    @post={{this.post}}
-                                    @postStatus={{this.post.status}}
-                                    @saveTask={{this.saveTask}}
-                                    @setSaveType={{action "setSaveType"}}
-                                    @onOpen={{action "cancelAutosave"}} />
-                            {{/if}}
-                        {{/if}}
+                        <EditorLabs::PublishManagement
+                            @post={{this.post}}
+                            @hasUnsavedChanges={{this.hasDirtyAttributes}}
+                            @beforePublish={{perform this.beforeSaveTask}}
+                            @afterPublish={{this.afterSave}}
+                            @saveTask={{this.saveTask}}
+                        />
 
                         {{#unless this.showSettingsMenu}}
                             <div class="settings-menu-toggle-spacer"></div>

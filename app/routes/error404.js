@@ -12,8 +12,7 @@ export default class Error404Route extends Route {
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Error',
-            mainClasses: ['gh-main-white']
+            titleToken: 'Error'
         };
     }
 }

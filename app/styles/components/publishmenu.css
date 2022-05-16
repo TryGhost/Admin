@@ -20,189 +20,6 @@
     outline: 0;
 }
 
-
-.gh-publishmenu {
-    position: relative;
-    z-index: 1000;
-    display: inherit;
-    margin-right: 8px;
-}
-
-@media (max-width: 500px) {
-    .gh-publishmenu {
-        margin-right: 0;
-    }
-}
-
-.gh-publishmenu .sent {
-    display: block;
-    height: 34px;
-    margin-top: -2px;
-    color: var(--darkgrey);
-    font-size: 1.35rem;
-    font-weight: 500;
-    line-height: 34px;
-    letter-spacing: .2px;
-}
-
-.gh-publishmenu-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin: 5px 0 20px 0;
-    padding: 0px;
-    width: 344px;
-    background-color: #fff;
-    background-clip: padding-box;
-    border-radius: 4px;
-    list-style: none;
-    text-align: left;
-    text-transform: none;
-    font-size: 1.4rem;
-    font-weight: normal;
-    will-change: transform, opacity;
-    z-index: 99999; /* needs to sit on top of preview modal */
-    /* box-shadow: 0 0 0 1px rgba(99,114,130,0.06), 0 8px 16px rgba(27,39,51,0.08); */
-    box-shadow: var(--box-shadow-m);
-}
-
-.gh-publishmenu-dropdown.ember-basic-dropdown--transitioning-in {
-    animation: fade-in-scale 0.2s;
-    animation-fill-mode: forwards;
-}
-
-.gh-publishmenu-dropdown.ember-basic-dropdown--transitioning-out {
-    animation: fade-out 0.5s;
-    animation-fill-mode: forwards;
-}
-
-.gh-publishmenu-heading {
-    margin: 0 0 15px 0;
-    padding: 20px 20px 0;
-    font-size: 1.7rem;
-    font-weight: 400;
-    line-height: 1.25em;
-}
-
-.gh-publishmenu-select {
-    display: inline-block;
-}
-
-.gh-publishmenu-select .ember-power-select-inline {
-    padding-right: 3px;
-    color: var(--black);
-    font-size: 1.7rem;
-    font-weight: 500;
-    line-height: 1.25em;
-}
-
-.gh-publishmenu-select .ember-power-select-inline svg {
-    width: 9px !important;
-    height: 5.6px !important;
-    margin: 0 !important;
-}
-
-.gh-publishmenu-select .ember-power-select-inline svg path {
-    stroke: var(--black) !important;
-    stroke-width: 4;
-}
-
-.gh-publishmenu-select-dropdown {
-    width: unset !important;
-    min-width: min-content !important;
-    margin-top: 4px;
-    border-top: 1px solid var(--input-border-color) !important;
-    font-size: 1.4rem;
-    white-space: nowrap;
-    border-radius: 3px !important;
-}
-
-.gh-publishmenu-content:not(.gh-publishmenu-content.no-border) {
-    border-bottom: var(--whitegrey) 1px solid;
-}
-
-.gh-publishmenu-footer {
-    margin: 15px 0 0 0;
-    padding: 0 20px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.gh-publishmenu-button {
-    float: right;
-    margin-left: 8px;
-}
-
-.gh-publishmenu-radio {
-    display: flex;
-    margin: 20px 0;
-}
-
-.gh-publishmenu-section {
-    padding: 0 20px;
-    border-top: var(--whitegrey) 1px solid;
-}
-
-.gh-publishmenu-section.no-border {
-    border-top: 0;
-}
-
-.gh-publishmenu-radio-button {
-    flex-shrink: 0;
-    position: relative;
-    width: 15px;
-    height: 15px;
-    border: color-mod(var(--whitegrey) l(-10%)) 1px solid;
-    border-radius: 100%;
-    background: #fff;
-}
-
-.gh-publishmenu-radio-content {
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 0 15px;
-    width: 100%;
-}
-
-.gh-publishmenu-radio-label {
-    display: block;
-    font-size: 1.4rem;
-    line-height: 1.2em;
-    font-weight: 500;
-}
-
-.gh-publishmenu-radio-desc {
-    font-size: 1.3rem;
-    line-height: 1.4em;
-    font-weight: 300;
-    color: var(--midgrey-l1);
-    margin-top: 2px;
-}
-
-.gh-publishmenu-radio-label:hover,
-.gh-publishmenu-radio-button:hover {
-    cursor: pointer;
-}
-
-.gh-publishmenu-radio.active .gh-publishmenu-radio-button {
-    border-color: var(--black);
-    background: var(--black);
-}
-
-.gh-publishmenu-radio.active .gh-publishmenu-radio-button:before {
-    display: block;
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 7px;
-    height: 7px;
-    background: var(--white);
-    border-radius: 100%;
-    box-shadow: rgba(0,0,0,0.25) 0 1px 3px;
-}
-
 .gh-date-time-picker {
     position: relative;
     display: flex;
@@ -290,47 +107,6 @@
     color: var(--red);
 }
 
-.gh-publishmenu-email {
-    margin: 15px 0;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.gh-publishmenu-email .gh-box {
-    padding: 12px 16px;
-    font-size: 1.3rem;
-    line-height: 1.5em;
-}
-
-.gh-publishmenu-email .select-members {
-    margin-bottom: .2rem;
-}
-
-.gh-publishmenu-email .segment-totals {
-    color: var(--midgrey-l1);
-    font-size: 1.3rem;
-    font-weight: 300;
-}
-
-.for-checkbox .gh-publishmenu-email-checkbox {
-    margin-right: 0;
-    margin-top: -2px;
-    background: var(--white);
-}
-
-.gh-publishmenu-email-label.disabled {
-    pointer-events: none;
-}
-
-.gh-publishmenu-content .for-switch.pe-none {
-    opacity: 0.6;
-}
-
-.gh-publishmenu-email-info {
-    margin: 15px 0;
-    color: var(--midgrey);
-}
-
 .gh-publish-send-to {
     display: flex;
 }
@@ -412,30 +188,6 @@
     font-size: 1.3rem;
 }
 
-.gh-publishmenu-checkbox-disabled {
-    color: var(--midlightgrey);
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-.gh-publishmenu-checkbox-disabled p {
-    color: var(--midgrey) !important;
-}
-
-.gh-publishmenu-newsletter-trigger {
-    padding: 7px 10px;
-}
-
-.gh-publishmenu-newsletter-trigger.disabled span {
-    opacity: .5;
-}
-
-.gh-publishmenu-newsletter-trigger svg {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-}
-
 .gh-publish-newsletter-dropdown {
     z-index: 99999;
 }
@@ -471,6 +223,8 @@
 @media (max-width: 1024px) {
     .gh-publish-header {
         z-index: 100;
+        display: flex;
+        align-items: center;
         height: 64px;
         margin: 0;
         padding: 0;
@@ -524,10 +278,17 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 640px;
+    width: 100%;
+    max-width: 688px;
     margin: 0 auto 8rem;
-    padding-top: 11vw;
     margin-bottom: 11vw;
+    padding: 11vw 24px 0;
+}
+
+@media (max-width: 1024px) {
+    .gh-publish-settings-container {
+        padding-top: 10vh;
+    }
 }
 
 .gh-publish-title {
@@ -539,9 +300,21 @@
     line-height: 1.2em;
 }
 
+@media (max-width: 560px) {
+    .gh-publish-title {
+        font-size: 3.6rem;
+    }
+}
+
 .gh-publish-settings {
     margin: 1rem 0 5.2rem;
     width: 100%;
+}
+
+@media (max-width: 560px) {
+    .gh-publish-settings {
+        margin: 1rem 0 3.2rem;
+    }
 }
 
 .gh-publish-setting {
@@ -600,10 +373,17 @@
 
 .gh-publish-setting-trigger {
     width: max-content;
+    text-align: left;
     color: var(--black);
     font-size: 1.8rem;
     font-weight: 400;
     line-height: 1.35em;
+}
+
+@media (max-width: 560px) {
+    .gh-publish-setting-trigger {
+        font-size: 1.7rem;
+    }
 }
 
 .gh-publish-setting-trigger .gh-selected-newsletter {
@@ -615,8 +395,10 @@
 }
 
 .gh-publish-setting-form {
-    margin: 1.6rem 0 4rem;
+    margin: 1.6rem 0;
+    padding-bottom: 2.4rem;
     background-color: var(--white);
+    overflow-x: auto;
 }
 
 .gh-publish-setting-form.last {
@@ -692,6 +474,7 @@
     cursor: pointer;
     background: none;
     border-radius: 21px;
+    white-space: nowrap;
 }
 
 .gh-publish-types .gh-radio-button:checked + label,
@@ -726,6 +509,7 @@
 
 .gh-publish-setting-form .gh-date-time-picker-date {
     height: 38px;
+    min-width: 120px;
     margin: 0;
     padding: 8px 12px;
     font-size: 1.4rem;
@@ -734,6 +518,7 @@
 .gh-publish-setting-form .gh-date-time-picker-time {
     width: unset;
     height: 38px;
+    min-width: 120px;
     margin: 0;
     padding: 8px 12px;
     font-size: 1.4rem;
