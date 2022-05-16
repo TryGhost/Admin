@@ -12,7 +12,6 @@ export default class TierSerializer extends ApplicationSerializer {
             json.yearly_price = Math.round(json.yearly_price);
         }
 
-
         return json;
     }
 }
