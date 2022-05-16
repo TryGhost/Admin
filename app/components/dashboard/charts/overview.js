@@ -5,7 +5,6 @@ import {inject as service} from '@ember/service';
 
 export default class Overview extends Component {
     @service dashboardStats;
-    @service feature;
 
     @action
     loadCharts() {
