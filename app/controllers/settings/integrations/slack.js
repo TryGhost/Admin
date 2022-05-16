@@ -1,6 +1,5 @@
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
-import {empty} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
