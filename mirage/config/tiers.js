@@ -17,7 +17,7 @@ export default function mockTiers(server) {
         });
     });
 
-    server.put('/tiers/:id/', function ({tiers, tierBenefits}, {params}) {
+    server.put('/tiers/:id/', function ({tiers}, {params}) {
         const attrs = this.normalizedRequestAttrs();
         const tier = tiers.find(params.id);
 
