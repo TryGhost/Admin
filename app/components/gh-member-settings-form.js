@@ -69,10 +69,10 @@ export default class extends Component {
 
         // Create the tiers from `subscriptions.price.tier`
         let tiers = subscriptions
-            .map(subscription => (subscription.tier || subscription.price.tier))
+            .map(subscription => (subscription.tier || subscription.price.tier || subscription.price.product))
             .filter((value, index, self) => {
                 // Deduplicate by taking the first object by `id`
-                return typeof value.id !== 'undefined' && self.findIndex(element => (element.tier_id || element.id) === (value.tier_id || value.id)) === index;
+                return typeof value.id !== 'undefined' && self.findIndex(element => (element.tier_id || element.product_id || element.id) === (value.tier_id || value.product_id || value.id)) === index;
             });
 
         let subscriptionData = subscriptions.filter((sub) => {
@@ -93,7 +93,7 @@ export default class extends Component {
         });
         return tiers.map((tier) => {
             let tierSubscriptions = subscriptionData.filter((subscription) => {
-                return subscription?.price?.tier?.tier_id === (tier.tier_id || tier.id);
+                return (subscription.tier?.id ?? subscription?.price?.tier?.tier_id ?? subscription?.price?.product?.product_id) === (tier.tier_id || tier.product_id || tier.id);
             });
             return {
                 ...tier,
