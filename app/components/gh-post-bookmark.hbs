@@ -15,11 +15,6 @@
                     <div class="gh-post-bookmark-site-icon"><img src={{get-setting "icon"}} alt="" role="presentation" /></div>
                 {{/if}}
                 <div class="gh-post-bookmark-site-title">{{get-setting "title"}}</div>
-                {{#if @post.primaryAuthor.profileImage}}
-                    <div class="gh-post-bookmark-author-image">
-                        <img src={{@post.primaryAuthor.profileImage}} alt="" role="presentation" />
-                    </div>
-                {{/if}}
                 <div class="gh-post-bookmark-authors">{{post-author-names @post}}</div>
             </div>
         </div>
