@@ -8,7 +8,7 @@ module.exports = function (environment) {
         modulePrefix: 'ghost-admin',
         environment,
         get rootURL() {
-            return `https://unpkg.com/@tryghost/admin@${version}/`;
+            return `https://unpkg.com/@tryghost/admin@${version}/dist/`;
         },
         locationType: 'trailing-hash',
         EmberENV: {
