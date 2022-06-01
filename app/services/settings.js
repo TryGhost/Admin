@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import Service, {inject as service} from '@ember/service';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import classic from 'ember-classic-decorator';
 import {get} from '@ember/object';
 

@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
+import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
 import {action, computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {tagName} from '@ember-decorators/component';

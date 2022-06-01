@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
-import envConfig from 'ghost-admin/config/environment';
+import envConfig from '@tryghost/admin/config/environment';
 import {action} from '@ember/object';
-import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
+import {currencies, getCurrencyOptions, getSymbol} from '@tryghost/admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';

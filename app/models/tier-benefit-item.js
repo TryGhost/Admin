@@ -1,5 +1,5 @@
 import EmberObject, {computed} from '@ember/object';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import {isBlank} from '@ember/utils';
 
 export default EmberObject.extend(ValidationEngine, {

@@ -1,6 +1,6 @@
 import EmberObject from '@ember/object';
-import UnauthenticatedRoute from 'ghost-admin/routes/unauthenticated';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import UnauthenticatedRoute from '@tryghost/admin/routes/unauthenticated';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import classic from 'ember-classic-decorator';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';

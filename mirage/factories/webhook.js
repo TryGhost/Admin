@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {AVAILABLE_EVENTS} from 'ghost-admin/helpers/event-name';
+import {AVAILABLE_EVENTS} from '@tryghost/admin/helpers/event-name';
 import {Factory} from 'miragejs';
 
 export default Factory.extend({

@@ -1,4 +1,4 @@
-import AdminRoute from 'ghost-admin/routes/admin';
+import AdminRoute from '@tryghost/admin/routes/admin';
 import VerifyEmail from '../../components/modals/settings/verify-email';
 import {inject as service} from '@ember/service';
 

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import {UnsupportedMediaTypeError} from 'ghost-admin/services/ajax';
+import {UnsupportedMediaTypeError} from '@tryghost/admin/services/ajax';
 import {action} from '@ember/object';
 import {tracked} from '@glimmer/tracking';
 

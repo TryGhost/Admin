@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import {action} from '@ember/object';
 import {isArray as isEmberArray} from '@ember/array';
-import {isVersionMismatchError} from 'ghost-admin/services/ajax';
+import {isVersionMismatchError} from '@tryghost/admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';

@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import {get} from '@ember/object';
-import {mostRecentlyUpdated} from 'ghost-admin/helpers/most-recently-updated';
+import {mostRecentlyUpdated} from '@tryghost/admin/helpers/most-recently-updated';
 
 export default class GhMembersListItemColumn extends Component {
     constructor(...args) {

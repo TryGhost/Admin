@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmailFailedError from 'ghost-admin/errors/email-failed-error';
+import EmailFailedError from '@tryghost/admin/errors/email-failed-error';
 import classic from 'ember-classic-decorator';
 import validator from 'validator';
 import {action, computed} from '@ember/object';

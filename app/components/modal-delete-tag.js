@@ -1,4 +1,4 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
+import ModalComponent from '@tryghost/admin/components/modal-base';
 import {alias} from '@ember/object/computed';
 import {computed} from '@ember/object';
 import {task} from 'ember-concurrency';

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
+import {getNonDecimal, getSymbol} from '@tryghost/admin/utils/currency';
 
 export default function parseMemberEvent(event, hasMultipleNewsletters) {
     let subject = event.data.member.name || event.data.member.email;

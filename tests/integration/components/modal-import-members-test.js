@@ -1,6 +1,6 @@
 import Pretender from 'pretender';
 import Service from '@ember/service';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, find, findAll, render, waitFor} from '@ember/test-helpers';

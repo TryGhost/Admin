@@ -1,29 +1,29 @@
 // TODO: remove usage of Ember Data's private `Errors` class when refactoring validations
 // eslint-disable-next-line
-import CustomViewValidator from 'ghost-admin/validators/custom-view';
+import CustomViewValidator from '@tryghost/admin/validators/custom-view';
 import DS from 'ember-data'; // eslint-disable-line
-import IntegrationValidator from 'ghost-admin/validators/integration';
-import InviteUserValidator from 'ghost-admin/validators/invite-user';
-import LabelValidator from 'ghost-admin/validators/label';
-import MemberValidator from 'ghost-admin/validators/member';
+import IntegrationValidator from '@tryghost/admin/validators/integration';
+import InviteUserValidator from '@tryghost/admin/validators/invite-user';
+import LabelValidator from '@tryghost/admin/validators/label';
+import MemberValidator from '@tryghost/admin/validators/member';
 import Mixin from '@ember/object/mixin';
 import Model from '@ember-data/model';
-import NavItemValidator from 'ghost-admin/validators/nav-item';
-import NewsletterValidator from 'ghost-admin/validators/newsletter';
-import OfferValidator from 'ghost-admin/validators/offer';
-import PostValidator from 'ghost-admin/validators/post';
+import NavItemValidator from '@tryghost/admin/validators/nav-item';
+import NewsletterValidator from '@tryghost/admin/validators/newsletter';
+import OfferValidator from '@tryghost/admin/validators/offer';
+import PostValidator from '@tryghost/admin/validators/post';
 import RSVP from 'rsvp';
-import ResetValidator from 'ghost-admin/validators/reset';
-import SettingValidator from 'ghost-admin/validators/setting';
-import SetupValidator from 'ghost-admin/validators/setup';
-import SigninValidator from 'ghost-admin/validators/signin';
-import SignupValidator from 'ghost-admin/validators/signup';
-import SnippetValidator from 'ghost-admin/validators/snippet';
-import TagSettingsValidator from 'ghost-admin/validators/tag-settings';
-import TierBenefitItemValidator from 'ghost-admin/validators/tier-benefit-item';
-import TierValidator from 'ghost-admin/validators/tier';
-import UserValidator from 'ghost-admin/validators/user';
-import WebhookValidator from 'ghost-admin/validators/webhook';
+import ResetValidator from '@tryghost/admin/validators/reset';
+import SettingValidator from '@tryghost/admin/validators/setting';
+import SetupValidator from '@tryghost/admin/validators/setup';
+import SigninValidator from '@tryghost/admin/validators/signin';
+import SignupValidator from '@tryghost/admin/validators/signup';
+import SnippetValidator from '@tryghost/admin/validators/snippet';
+import TagSettingsValidator from '@tryghost/admin/validators/tag-settings';
+import TierBenefitItemValidator from '@tryghost/admin/validators/tier-benefit-item';
+import TierValidator from '@tryghost/admin/validators/tier';
+import UserValidator from '@tryghost/admin/validators/user';
+import WebhookValidator from '@tryghost/admin/validators/webhook';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
 
 const {Errors} = DS;

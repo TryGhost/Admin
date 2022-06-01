@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import NavItem from 'ghost-admin/models/navigation-item';
+import NavItem from '@tryghost/admin/models/navigation-item';
 import {assert, expect} from 'chai';
 import {describe, it} from 'mocha';
 import {run} from '@ember/runloop';

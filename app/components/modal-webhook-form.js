@@ -1,6 +1,6 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
-import Webhook from 'ghost-admin/models/webhook';
-import {AVAILABLE_EVENTS} from 'ghost-admin/helpers/event-name';
+import ModalComponent from '@tryghost/admin/components/modal-base';
+import Webhook from '@tryghost/admin/models/webhook';
+import {AVAILABLE_EVENTS} from '@tryghost/admin/helpers/event-name';
 import {alias} from '@ember/object/computed';
 import {camelize} from '@ember/string';
 import {inject as service} from '@ember/service';

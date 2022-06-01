@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import envConfig from 'ghost-admin/config/environment';
+import envConfig from '@tryghost/admin/config/environment';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';

@@ -1,11 +1,11 @@
 import ConfirmEditorLeaveModal from '../components/modals/editor/confirm-leave';
 import Controller, {inject as controller} from '@ember/controller';
 import DeletePostModal from '../components/modals/delete-post';
-import PostModel from 'ghost-admin/models/post';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import PostModel from '@tryghost/admin/models/post';
+import boundOneWay from '@tryghost/admin/utils/bound-one-way';
 import classic from 'ember-classic-decorator';
-import config from 'ghost-admin/config/environment';
-import isNumber from 'ghost-admin/utils/isNumber';
+import config from '@tryghost/admin/config/environment';
+import isNumber from '@tryghost/admin/utils/isNumber';
 import moment from 'moment';
 import {action, computed} from '@ember/object';
 import {alias, mapBy} from '@ember/object/computed';
@@ -14,7 +14,7 @@ import {dropTask, enqueueTask, restartableTask, task, taskGroup, timeout} from '
 import {htmlSafe} from '@ember/template';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
-import {isHostLimitError, isServerUnreachableError, isVersionMismatchError} from 'ghost-admin/services/ajax';
+import {isHostLimitError, isServerUnreachableError, isVersionMismatchError} from '@tryghost/admin/services/ajax';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
 

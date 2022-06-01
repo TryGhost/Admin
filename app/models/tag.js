@@ -1,5 +1,5 @@
 import Model, {attr} from '@ember-data/model';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import {equal} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 

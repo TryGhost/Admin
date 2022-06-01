@@ -5,7 +5,7 @@ const {version} = require('../package.json');
 
 module.exports = function (environment) {
     let ENV = {
-        modulePrefix: 'ghost-admin',
+        modulePrefix: '@tryghost/admin',
         environment,
         get rootURL() {
             return `https://unpkg.com/@tryghost/admin@${version}/dist/`;

@@ -1,4 +1,4 @@
-import ModalBase from 'ghost-admin/components/modal-base';
+import ModalBase from '@tryghost/admin/components/modal-base';
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';

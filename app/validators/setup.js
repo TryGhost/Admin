@@ -1,4 +1,4 @@
-import NewUserValidator from 'ghost-admin/validators/new-user';
+import NewUserValidator from '@tryghost/admin/validators/new-user';
 import validator from 'validator';
 
 export default NewUserValidator.create({

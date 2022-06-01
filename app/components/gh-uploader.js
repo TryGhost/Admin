@@ -1,13 +1,13 @@
 import Component from '@ember/component';
 import EmberObject, {get} from '@ember/object';
 import classic from 'ember-classic-decorator';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import {
     ICON_EXTENSIONS,
     ICON_MIME_TYPES,
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from 'ghost-admin/components/gh-image-uploader';
+} from '@tryghost/admin/components/gh-image-uploader';
 import {all, task} from 'ember-concurrency';
 import {isArray} from '@ember/array';
 import {isEmpty} from '@ember/utils';

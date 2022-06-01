@@ -1,8 +1,8 @@
 import Component from '@ember/component';
-import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
+import ShortcutsMixin from '@tryghost/admin/mixins/shortcuts';
 import classic from 'ember-classic-decorator';
-import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
-import formatMarkdown from 'ghost-admin/utils/format-markdown';
+import ctrlOrCmd from '@tryghost/admin/utils/ctrl-or-cmd';
+import formatMarkdown from '@tryghost/admin/utils/format-markdown';
 import {action, computed} from '@ember/object';
 import {assign} from '@ember/polyfills';
 import {classNameBindings, classNames} from '@ember-decorators/component';

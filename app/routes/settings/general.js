@@ -1,4 +1,4 @@
-import AdminRoute from 'ghost-admin/routes/admin';
+import AdminRoute from '@tryghost/admin/routes/admin';
 import RSVP from 'rsvp';
 import {inject as service} from '@ember/service';
 

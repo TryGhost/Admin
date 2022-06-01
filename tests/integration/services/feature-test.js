@@ -1,7 +1,7 @@
 import EmberError from '@ember/error';
-import FeatureService, {feature} from 'ghost-admin/services/feature';
+import FeatureService, {feature} from '@tryghost/admin/services/feature';
 import Pretender from 'pretender';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';

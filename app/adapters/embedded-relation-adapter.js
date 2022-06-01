@@ -1,4 +1,4 @@
-import BaseAdapter from 'ghost-admin/adapters/base';
+import BaseAdapter from '@tryghost/admin/adapters/base';
 import classic from 'ember-classic-decorator';
 import {get} from '@ember/object';
 import {isNone} from '@ember/utils';

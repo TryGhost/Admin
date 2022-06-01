@@ -1,5 +1,5 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ModalComponent from '@tryghost/admin/components/modal-base';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import moment from 'moment';
 import unparse from '@tryghost/members-csv/lib/unparse';
 import {
@@ -7,7 +7,7 @@ import {
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
-} from 'ghost-admin/services/ajax';
+} from '@tryghost/admin/services/ajax';
 import {computed} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {isBlank} from '@ember/utils';

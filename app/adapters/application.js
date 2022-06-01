@@ -1,4 +1,4 @@
-import EmbeddedRelationAdapter from 'ghost-admin/adapters/embedded-relation-adapter';
+import EmbeddedRelationAdapter from '@tryghost/admin/adapters/embedded-relation-adapter';
 import classic from 'ember-classic-decorator';
 
 @classic

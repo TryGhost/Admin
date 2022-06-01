@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
-import EmailFailedError from 'ghost-admin/errors/email-failed-error';
+import EmailFailedError from '@tryghost/admin/errors/email-failed-error';
 import {CONFIRM_EMAIL_MAX_POLL_LENGTH, CONFIRM_EMAIL_POLL_LENGTH} from '../../publish-management';
 import {htmlSafe} from '@ember/template';
-import {isServerUnreachableError} from 'ghost-admin/services/ajax';
+import {isServerUnreachableError} from '@tryghost/admin/services/ajax';
 import {task, timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {mostRecentlyUpdated} from 'ghost-admin/helpers/most-recently-updated';
+import {mostRecentlyUpdated} from '@tryghost/admin/helpers/most-recently-updated';
 
 describe('Unit: Helper: most-recently-updated', function () {
     it('returns most recent - updatedAtUTC', function () {

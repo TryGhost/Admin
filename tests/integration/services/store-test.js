@@ -1,6 +1,6 @@
 import Pretender from 'pretender';
-import config from 'ghost-admin/config/environment';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import config from '@tryghost/admin/config/environment';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupTest} from 'ember-mocha';

@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import classic from 'ember-classic-decorator';
-import config from 'ghost-admin/config/environment';
+import config from '@tryghost/admin/config/environment';
 import moment from 'moment';
 import {run} from '@ember/runloop';
 

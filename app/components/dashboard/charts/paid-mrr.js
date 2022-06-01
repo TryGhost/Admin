@@ -2,7 +2,7 @@
 
 import Component from '@glimmer/component';
 import moment from 'moment';
-import {getSymbol} from 'ghost-admin/utils/currency';
+import {getSymbol} from '@tryghost/admin/utils/currency';
 import {ghPriceAmount} from '../../../helpers/gh-price-amount';
 import {inject as service} from '@ember/service';
 

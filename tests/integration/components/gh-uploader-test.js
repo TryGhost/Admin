@@ -1,5 +1,5 @@
 import Pretender from 'pretender';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, find, findAll, render, settled, waitFor, waitUntil} from '@ember/test-helpers';

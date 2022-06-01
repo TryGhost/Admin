@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import flattenGroupedOptions from 'ghost-admin/utils/flatten-grouped-options';
+import flattenGroupedOptions from '@tryghost/admin/utils/flatten-grouped-options';
 import {action} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {inject as service} from '@ember/service';

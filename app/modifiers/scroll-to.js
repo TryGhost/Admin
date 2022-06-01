@@ -1,4 +1,4 @@
-import getScrollParent from 'ghost-admin/utils/get-scroll-parent';
+import getScrollParent from '@tryghost/admin/utils/get-scroll-parent';
 import {modifier} from 'ember-modifier';
 
 export default modifier((element, positional, {shouldScroll = true}) => {

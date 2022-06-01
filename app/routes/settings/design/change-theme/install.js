@@ -1,4 +1,4 @@
-import AdminRoute from 'ghost-admin/routes/admin';
+import AdminRoute from '@tryghost/admin/routes/admin';
 import InstallThemeModal from '../../../../components/modals/design/install-theme';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';

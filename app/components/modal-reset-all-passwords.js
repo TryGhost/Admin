@@ -1,4 +1,4 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
+import ModalComponent from '@tryghost/admin/components/modal-base';
 import {fetch} from 'fetch';
 import {not} from '@ember/object/computed';
 import {inject as service} from '@ember/service';

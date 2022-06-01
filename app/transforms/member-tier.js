@@ -1,4 +1,4 @@
-import MemberTier from 'ghost-admin/models/member-tier';
+import MemberTier from '@tryghost/admin/models/member-tier';
 import Transform from '@ember-data/serializer/transform';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
 

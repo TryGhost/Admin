@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import EmberObject, {action, computed, defineProperty} from '@ember/object';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import boundOneWay from '@tryghost/admin/utils/bound-one-way';
 import classic from 'ember-classic-decorator';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
