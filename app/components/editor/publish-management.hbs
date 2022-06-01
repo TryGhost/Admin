@@ -1,72 +1,11 @@
-{{#if this.publishOptions.user.isContributor}}
-    {{#if @post.isDraft}}
-        <button
-            type="button"
-            class="gh-btn gh-btn-editor gh-editor-preview-trigger"
-            {{on "click" this.openPreview}}
-            {{on-key "cmd+p" this.togglePreview}}
-            data-test-button="contributor-preview"
-        >
-            <span>Preview</span>
-        </button>
-    {{/if}}
-
-    <GhTaskButton
-        @buttonText="Save"
-        @task={{this.saveTask}}
-        @runningText="Saving"
-        @class="gh-btn gh-btn-icon gh-btn-editor gh-editor-save-trigger contributor-save-button"
-        data-test-button="contributor-save" />
-{{else}}
-    {{#if @post.isDraft}}
-        <button
-            type="button"
-            class="gh-btn gh-btn-editor gh-editor-preview-trigger"
-            {{on "click" this.openPreview}}
-            {{on-key "cmd+p" this.togglePreview}}
-            data-test-button="publish-preview"
-        >
-            <span>Preview</span>
-        </button>
-
-        <button
-            type="button"
-            class="gh-btn gh-btn-editor darkgrey gh-publish-trigger"
-            {{on "click" this.openPublishFlow}}
-            {{on-key "cmd+shift+p"}}
-            disabled={{this.publishOptions.isLoading}}
-            data-test-button="publish-flow"
-        >
-            <span>Publish</span>
-        </button>
-    {{else}}
-        <GhTaskButton
-            @task={{this.saveTask}}
-            @buttonText="Update"
-            @runningText="Updating..."
-            @successText="Updated"
-            @class="gh-btn gh-btn-editor gh-editor-save-trigger gh-publish-trigger"
-            @idleClass="green"
-            @runningClass="midlightgrey"
-            @successClass="midlightgrey"
-            @failureClass="red"
-            @showIcon={{false}}
-            @disabled={{if @hasUnsavedChanges false true}}
-            @autoReset={{true}}
-            data-test-button="publish-save"
-        />
-
-        {{#if (not (and @post.isSent (not @post.isPublished)))}}
-            <button
-                type="button"
-                class="gh-btn gh-btn-editor darkgrey gh-publish-trigger"
-                {{on "click" this.openUpdateFlow}}
-                data-test-button="update-flow"
-            >
-                <span>
-                    {{if @post.isScheduled "Unschedule" "Unpublish"}}
-                </span>
-            </button>
-        {{/if}}
-    {{/if}}
-{{/if}}
+{{yield (hash
+    post=@post
+    publishOptions=this.publishOptions
+    openPreview=this.openPreview
+    togglePreview=this.togglePreview
+    saveTask=this.saveTask
+    saveButtonTaskGroup=this.saveButtonTaskGroup
+    hasUnsavedChanges=@hasUnsavedChanges
+    openPublishFlow=this.openPublishFlow
+    openUpdateFlow=this.openUpdateFlow
+)}}
