@@ -20,7 +20,10 @@
     "build": "ember build",
     "test": "ember exam --split 2 --parallel",
     "lint:js": "eslint .",
-    "lint:hbs": "ember-template-lint ."
+    "lint:hbs": "ember-template-lint .",
+    "preship": "yarn lint:js && yarn lint:hbs",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish; fi",
+    "prepublishOnly": "ember build -prod"
   },
   "engines": {
     "node": "^14.17.0 || ^16.13.0"
