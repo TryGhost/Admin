@@ -22,8 +22,8 @@
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
     "preship": "yarn lint:js && yarn lint:hbs",
-    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish; fi",
-    "prepublishOnly": "ember build -prod"
+    "prepack": "ember build -prod",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish; fi"
   },
   "engines": {
     "node": "^14.17.0 || ^16.13.0"
