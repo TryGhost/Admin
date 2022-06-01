@@ -35,22 +35,24 @@
         }
     </style>
 
-    {{content-for "minifiedInProductionCss"}}
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/ghost.css">
 
     {{content-for "head-footer"}}
 </head>
 <body>
 
-<div class="ember-load-indicator">
-    <div class="gh-loading-content">
-        <div class="gh-loading-spinner"></div>
+    <div class="ember-load-indicator">
+        <div class="gh-loading-content">
+            <div class="gh-loading-spinner"></div>
+        </div>
     </div>
-</div>
 
-{{content-for "body"}}
+    {{content-for "body"}}
 
-{{content-for "body-footer"}}
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/ghost.js"></script>
 
-{{content-for "minifiedInProductionJs"}}
+    {{content-for "body-footer"}}
 </body>
 </html>

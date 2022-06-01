@@ -16,13 +16,6 @@ const postcssCustomMedia = require('postcss-custom-media');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
-const assetLocation = function (fileName) {
-    if (isProduction) {
-        fileName = fileName.replace('.', '.min.');
-    }
-    return `/assets/${fileName}`;
-};
-
 const codemirrorAssets = function () {
     let codemirrorFiles = [
         'lib/codemirror.js',
@@ -124,17 +117,12 @@ module.exports = function (defaults) {
         },
         outputPaths: {
             app: {
-                html: isProduction ? 'index.min.html' : 'index.html',
-                js: assetLocation('ghost.js'),
+                js: 'assets/ghost.js',
                 css: {
-                    app: assetLocation('ghost.css'),
+                    app: 'assets/ghost.css',
                     // TODO: find a way to use the .min file with the lazyLoader
                     'app-dark': 'assets/ghost-dark.css'
                 }
-            },
-            vendor: {
-                js: assetLocation('vendor.js'),
-                css: assetLocation('vendor.css')
             }
         },
         fingerprint: {
