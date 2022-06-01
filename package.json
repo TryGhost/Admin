@@ -22,7 +22,7 @@
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
     "preship": "yarn lint:js && yarn lint:hbs",
-    "prepack": "ember build -prod",
+    "prepublishOnly": "yarn build -prod",
     "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish; fi"
   },
   "engines": {
