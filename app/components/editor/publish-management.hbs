@@ -40,22 +40,21 @@
             <span>Publish</span>
         </button>
     {{else}}
-        {{#if (or @hasUnsavedChanges this.saveButtonTaskGroup.isRunning)}}
-            <GhTaskButton
-                @task={{this.saveTask}}
-                @buttonText="Update"
-                @runningText="Updating..."
-                @successText="Updated"
-                @class="gh-btn gh-btn-editor gh-editor-save-trigger gh-publish-trigger"
-                @idleClass="green"
-                @runningClass="midlightgrey"
-                @successClass="midlightgrey"
-                @failureClass="red"
-                @showIcon={{false}}
-                @autoReset={{false}}
-                data-test-button="publish-save"
-            />
-        {{/if}}
+        <GhTaskButton
+            @task={{this.saveTask}}
+            @buttonText="Update"
+            @runningText="Updating..."
+            @successText="Updated"
+            @class="gh-btn gh-btn-editor gh-editor-save-trigger gh-publish-trigger"
+            @idleClass="green"
+            @runningClass="midlightgrey"
+            @successClass="midlightgrey"
+            @failureClass="red"
+            @showIcon={{false}}
+            @disabled={{if @hasUnsavedChanges false true}}
+            @autoReset={{true}}
+            data-test-button="publish-save"
+        />
 
         {{#if (not (and @post.isSent (not @post.isPublished)))}}
             <button
