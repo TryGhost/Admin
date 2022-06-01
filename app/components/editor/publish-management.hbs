@@ -43,7 +43,9 @@
         {{#if (or @hasUnsavedChanges this.saveButtonTaskGroup.isRunning)}}
             <GhTaskButton
                 @task={{this.saveTask}}
-                @runningText="Saving..."
+                @buttonText="Update"
+                @runningText="Updating..."
+                @successText="Updated"
                 @class="gh-btn gh-btn-editor gh-editor-save-trigger gh-publish-trigger"
                 @idleClass="green"
                 @runningClass="midlightgrey"
@@ -55,13 +57,17 @@
             />
         {{/if}}
 
-        <button
-            type="button"
-            class="gh-btn gh-btn-editor darkgrey gh-publish-trigger"
-            {{on "click" this.openUpdateFlow}}
-            data-test-button="update-flow"
-        >
-            <span>Update</span>
-        </button>
+        {{#if (not (and @post.isSent (not @post.isPublished)))}}
+            <button
+                type="button"
+                class="gh-btn gh-btn-editor darkgrey gh-publish-trigger"
+                {{on "click" this.openUpdateFlow}}
+                data-test-button="update-flow"
+            >
+                <span>
+                    {{if @post.isScheduled "Unschedule" "Unpublish"}}
+                </span>
+            </button>
+        {{/if}}
     {{/if}}
 {{/if}}
