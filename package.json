@@ -1,6 +1,6 @@
 {
   "name": "@tryghost/admin",
-  "version": "5.4.0",
+  "version": "0.0.1",
   "description": "Ember.js admin client for Ghost",
   "author": "Ghost Foundation",
   "homepage": "http://ghost.org",
