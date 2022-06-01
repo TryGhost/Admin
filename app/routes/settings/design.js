@@ -1,4 +1,4 @@
-import AdminRoute from 'ghost-admin/routes/authenticated';
+import AdminRoute from '@tryghost/admin/routes/authenticated';
 import {inject as service} from '@ember/service';
 
 export default class SettingsDesignRoute extends AdminRoute {

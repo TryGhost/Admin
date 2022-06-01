@@ -1,4 +1,4 @@
-import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
+import ctrlOrCmd from '@tryghost/admin/utils/ctrl-or-cmd';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {
     beforeEach,

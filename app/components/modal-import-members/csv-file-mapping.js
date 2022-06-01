@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import MemberImportError from 'ghost-admin/errors/member-import-error';
+import MemberImportError from '@tryghost/admin/errors/member-import-error';
 import papaparse from 'papaparse';
 import {action} from '@ember/object';
 import {isNone} from '@ember/utils';

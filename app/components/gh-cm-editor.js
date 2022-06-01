@@ -4,7 +4,7 @@ import {classNameBindings} from '@ember-decorators/component';
 import {inject as service} from '@ember/service';
 /* global CodeMirror */
 import Component from '@ember/component';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import boundOneWay from '@tryghost/admin/utils/bound-one-way';
 import {assign} from '@ember/polyfills';
 import {bind, once, scheduleOnce} from '@ember/runloop';
 import {task} from 'ember-concurrency';

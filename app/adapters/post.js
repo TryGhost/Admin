@@ -1,4 +1,4 @@
-import ApplicationAdapter from 'ghost-admin/adapters/application';
+import ApplicationAdapter from '@tryghost/admin/adapters/application';
 
 export default class Post extends ApplicationAdapter {
     // posts and pages now include everything by default

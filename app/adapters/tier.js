@@ -1,4 +1,4 @@
-import ApplicationAdapter from 'ghost-admin/adapters/application';
+import ApplicationAdapter from '@tryghost/admin/adapters/application';
 import classic from 'ember-classic-decorator';
 
 @classic

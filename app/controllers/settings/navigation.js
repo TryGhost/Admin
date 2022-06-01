@@ -4,7 +4,7 @@ import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import $ from 'jquery';
 import Controller from '@ember/controller';
-import NavigationItem from 'ghost-admin/models/navigation-item';
+import NavigationItem from '@tryghost/admin/models/navigation-item';
 import RSVP from 'rsvp';
 import {task} from 'ember-concurrency';
 

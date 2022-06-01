@@ -1,14 +1,14 @@
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import {AjaxError, InvalidError} from 'ember-ajax/errors';
-import {ServerUnreachableError} from 'ghost-admin/services/ajax';
+import {ServerUnreachableError} from '@tryghost/admin/services/ajax';
 import {describe, it} from 'mocha';
 import {A as emberA} from '@ember/array';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
 import {setupTest} from 'ember-mocha';
 
-import {GENERIC_ERROR_MESSAGE} from 'ghost-admin/services/notifications';
+import {GENERIC_ERROR_MESSAGE} from '@tryghost/admin/services/notifications';
 
 // notifications service determines if a notification is a model instance by
 // checking `notification.constructor.modelName === 'notification'`

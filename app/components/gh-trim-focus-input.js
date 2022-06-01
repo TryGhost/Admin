@@ -1,4 +1,4 @@
-import GhostTextInput from 'ghost-admin/components/gh-text-input';
+import GhostTextInput from '@tryghost/admin/components/gh-text-input';
 import classic from 'ember-classic-decorator';
 
 /**

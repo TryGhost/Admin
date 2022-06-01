@@ -1,5 +1,5 @@
 import LiquidContainer from 'liquid-fire/components/liquid-container';
-import config from 'ghost-admin/config/environment';
+import config from '@tryghost/admin/config/environment';
 
 export default LiquidContainer.extend({
     init() {

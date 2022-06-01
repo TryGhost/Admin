@@ -1,4 +1,4 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
 
 export default class DashboardRoute extends AuthenticatedRoute {
     async beforeModel() {

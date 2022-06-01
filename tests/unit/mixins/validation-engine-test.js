@@ -4,7 +4,7 @@ import {
     it
 } from 'mocha';
 // import EmberObject from 'ember-object';
-// import ValidationEngineMixin from 'ghost-admin/mixins/validation-engine';
+// import ValidationEngineMixin from '@tryghost/admin/mixins/validation-engine';
 
 describe('ValidationEngineMixin', function () {
     describe('#validate', function () {

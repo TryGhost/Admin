@@ -1,3 +1,3 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
+import ModalComponent from '@tryghost/admin/components/modal-base';
 
 export default ModalComponent.extend({});

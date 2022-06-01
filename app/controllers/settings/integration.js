@@ -1,10 +1,10 @@
 import Controller from '@ember/controller';
-import config from 'ghost-admin/config/environment';
-import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
+import config from '@tryghost/admin/config/environment';
+import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from 'ghost-admin/components/gh-image-uploader';
+} from '@tryghost/admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';

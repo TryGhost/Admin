@@ -1,6 +1,6 @@
 import AjaxServiceSupport from 'ember-ajax/mixins/ajax-support';
 import RESTAdapter from '@ember-data/adapter/rest';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 import {inject as service} from '@ember/service';
 import {underscore} from '@ember/string';
 

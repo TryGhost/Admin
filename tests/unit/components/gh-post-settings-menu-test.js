@@ -1,7 +1,7 @@
 // /* eslint-disable camelcase */
 // import EmberObject from '@ember/object';
 // import RSVP from 'rsvp';
-// import boundOneWay from 'ghost-admin/utils/bound-one-way';
+// import boundOneWay from '@tryghost/admin/utils/bound-one-way';
 // import {describe, it} from 'mocha';
 // import {expect} from 'chai';
 // import {run} from '@ember/runloop';

@@ -1,6 +1,6 @@
 import {action} from '@ember/object';
 /* eslint-disable camelcase */
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
 
 export default class UserRoute extends AuthenticatedRoute {
     model(params) {

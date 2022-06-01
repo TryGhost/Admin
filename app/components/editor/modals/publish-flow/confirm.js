@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import moment from 'moment';
 import {htmlSafe} from '@ember/template';
 import {isArray} from '@ember/array';
-import {isServerUnreachableError} from 'ghost-admin/services/ajax';
+import {isServerUnreachableError} from '@tryghost/admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';

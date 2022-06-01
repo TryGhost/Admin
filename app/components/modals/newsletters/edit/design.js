@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import {IMAGE_EXTENSIONS} from 'ghost-admin/components/gh-image-uploader';
+import {IMAGE_EXTENSIONS} from '@tryghost/admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 

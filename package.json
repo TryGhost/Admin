@@ -1,5 +1,5 @@
 {
-  "name": "ghost-admin",
+  "name": "@tryghost/admin",
   "version": "5.4.0",
   "description": "Ember.js admin client for Ghost",
   "author": "Ghost Foundation",
@@ -25,6 +25,12 @@
   "engines": {
     "node": "^14.17.0 || ^16.13.0"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "unpkg": "dist/index.html",
   "devDependencies": {
     "@babel/eslint-parser": "7.18.2",
     "@babel/plugin-proposal-class-properties": "7.17.12",
@@ -153,7 +159,6 @@
   },
   "ember-addon": {
     "paths": [
-      "lib/asset-delivery",
       "lib/koenig-editor"
     ]
   },

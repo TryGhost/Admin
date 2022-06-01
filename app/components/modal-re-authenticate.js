@@ -1,7 +1,7 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ModalComponent from '@tryghost/admin/components/modal-base';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import {htmlSafe} from '@ember/template';
-import {isVersionMismatchError} from 'ghost-admin/services/ajax';
+import {isVersionMismatchError} from '@tryghost/admin/services/ajax';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';

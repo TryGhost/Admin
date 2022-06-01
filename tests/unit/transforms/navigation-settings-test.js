@@ -1,4 +1,4 @@
-import NavigationItem from 'ghost-admin/models/navigation-item';
+import NavigationItem from '@tryghost/admin/models/navigation-item';
 import {describe, it} from 'mocha';
 import {A as emberA} from '@ember/array';
 import {expect} from 'chai';

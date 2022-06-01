@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import ValidationStateMixin from 'ghost-admin/mixins/validation-state';
+import ValidationStateMixin from '@tryghost/admin/mixins/validation-state';
 import classic from 'ember-classic-decorator';
 import {classNameBindings} from '@ember-decorators/component';
 import {computed} from '@ember/object';

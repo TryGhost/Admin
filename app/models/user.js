@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import BaseModel from './base';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import {attr, hasMany} from '@ember-data/model';
 import {computed} from '@ember/object';
 import {equal, or} from '@ember/object/computed';

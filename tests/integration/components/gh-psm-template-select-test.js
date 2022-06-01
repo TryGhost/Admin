@@ -4,7 +4,7 @@ import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {find, render} from '@ember/test-helpers';
 import {setupRenderingTest} from 'ember-mocha';
-import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
+import {startMirage} from '@tryghost/admin/initializers/ember-cli-mirage';
 
 describe('Integration: Component: gh-psm-template-select', function () {
     setupRenderingTest();

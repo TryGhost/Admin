@@ -1,4 +1,4 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
 import {pluralize} from 'ember-inflector';
 
 export default class EditRoute extends AuthenticatedRoute {

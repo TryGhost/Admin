@@ -1,4 +1,4 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
 import {inject as service} from '@ember/service';
 
 export default class SettingsRoute extends AuthenticatedRoute {

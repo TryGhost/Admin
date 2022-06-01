@@ -1,6 +1,6 @@
-import ModalComponent from 'ghost-admin/components/modal-base';
+import ModalComponent from '@tryghost/admin/components/modal-base';
 import {and} from '@ember/object/computed';
-import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
+import {resetQueryParams} from '@tryghost/admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 

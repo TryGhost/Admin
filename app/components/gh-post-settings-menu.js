@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import boundOneWay from '@tryghost/admin/utils/bound-one-way';
 import classic from 'ember-classic-decorator';
 import moment from 'moment';
 import {action, computed} from '@ember/object';

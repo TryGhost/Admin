@@ -1,5 +1,5 @@
 import Model, {attr, hasMany} from '@ember-data/model';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
+import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 

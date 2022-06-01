@@ -1,6 +1,6 @@
 import EmberRouter from '@ember/routing/router';
-import config from 'ghost-admin/config/environment';
-import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import config from '@tryghost/admin/config/environment';
+import ghostPaths from '@tryghost/admin/utils/ghost-paths';
 
 const Router = EmberRouter.extend({
     location: config.locationType, // use HTML5 History API instead of hash-tag based URLs
@@ -43,7 +43,7 @@ Router.map(function () {
     this.route('settings.general', {path: '/settings/general'});
     this.route('settings.membership', {path: '/settings/members'});
     this.route('settings.code-injection', {path: '/settings/code-injection'});
-    
+
     // redirect from old /settings/members-email to /settings/newsletters
     this.route('settings.members-email', {path: '/settings/members-email'});
     this.route('settings.newsletters', {path: '/settings/newsletters'}, function () {

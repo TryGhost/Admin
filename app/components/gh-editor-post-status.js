@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
-import config from 'ghost-admin/config/environment';
+import config from '@tryghost/admin/config/environment';
 import {action, get} from '@ember/object';
-import {formatPostTime} from 'ghost-admin/helpers/gh-format-post-time';
+import {formatPostTime} from '@tryghost/admin/helpers/gh-format-post-time';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';

@@ -1,4 +1,4 @@
-import NavItem from 'ghost-admin/models/navigation-item';
+import NavItem from '@tryghost/admin/models/navigation-item';
 import hbs from 'htmlbars-inline-precompile';
 import {click, find, render, triggerEvent} from '@ember/test-helpers';
 import {describe, it} from 'mocha';

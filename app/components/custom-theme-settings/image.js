@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from 'ghost-admin/components/gh-image-uploader';
+} from '@tryghost/admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {camelize} from '@ember/string';
 import {guidFor} from '@ember/object/internals';

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import config from 'ghost-admin/config/environment';
+import config from '@tryghost/admin/config/environment';
 import fetch from 'fetch';
 import moment from 'moment';
 import {action} from '@ember/object';

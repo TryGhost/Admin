@@ -8,7 +8,7 @@ import {isBlank} from '@ember/utils';
 import {
     isMaintenanceError,
     isVersionMismatchError
-} from 'ghost-admin/services/ajax';
+} from '@tryghost/admin/services/ajax';
 import {tracked} from '@glimmer/tracking';
 
 // Notification keys take the form of "noun.verb.message", eg:

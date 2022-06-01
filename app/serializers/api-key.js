@@ -1,4 +1,4 @@
-import ApplicationSerializer from 'ghost-admin/serializers/application';
+import ApplicationSerializer from '@tryghost/admin/serializers/application';
 
 export default class ApiKeySerializer extends ApplicationSerializer {
     attrs = {
