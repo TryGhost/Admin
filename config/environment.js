@@ -1,11 +1,15 @@
 /* eslint-env node */
 'use strict';
 
+const {version} = require('../package.json');
+
 module.exports = function (environment) {
     let ENV = {
         modulePrefix: 'ghost-admin',
         environment,
-        rootURL: '',
+        get rootURL() {
+            return `https://unpkg.com/@tryghost/admin@${version}/`;
+        },
         locationType: 'trailing-hash',
         EmberENV: {
             FEATURES: {
