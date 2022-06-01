@@ -1,4 +1,4 @@
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 
 export default function () {
     // allow any local requests outside of the namespace (configured below) to hit the real server

@@ -1,7 +1,7 @@
 import CustomViewFormModal from '../components/modals/custom-view-form';
 import EmberObject, {action} from '@ember/object';
 import Service, {inject as service} from '@ember/service';
-import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {isArray} from '@ember/array';
 import {observes} from '@ember-decorators/object';
 import {task} from 'ember-concurrency';

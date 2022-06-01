@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
-import EmailFailedError from '@tryghost/admin/errors/email-failed-error';
+import EmailFailedError from 'ghost-admin/errors/email-failed-error';
 import PreviewModal from './modals/preview';
 import PublishFlowModal from './modals/publish-flow';
-import PublishOptionsResource from '@tryghost/admin/helpers/publish-options';
+import PublishOptionsResource from 'ghost-admin/helpers/publish-options';
 import UpdateFlowModal from './modals/update-flow';
-import envConfig from '@tryghost/admin/config/environment';
+import envConfig from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
 import {capitalize} from '@ember/string';
 import {inject as service} from '@ember/service';

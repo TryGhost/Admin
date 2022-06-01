@@ -1,7 +1,7 @@
-import ModalComponent from '@tryghost/admin/components/modal-base';
+import ModalComponent from 'ghost-admin/components/modal-base';
 import moment from 'moment';
 // TODO: expose this via a helper
-import {IMAGE_EXTENSIONS} from '@tryghost/admin/components/gh-image-uploader';
+import {IMAGE_EXTENSIONS} from 'ghost-admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';

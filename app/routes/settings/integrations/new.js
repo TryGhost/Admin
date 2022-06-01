@@ -1,4 +1,4 @@
-import AdminRoute from '@tryghost/admin/routes/admin';
+import AdminRoute from 'ghost-admin/routes/admin';
 import CustomIntegrationLimitsModal from '../../../components/modals/limits/custom-integration';
 import NewCustomIntegrationModal from '../../../components/modals/new-custom-integration';
 import {action} from '@ember/object';

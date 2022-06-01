@@ -3,13 +3,13 @@
 
 import $ from 'jquery';
 import Controller, {inject as controller} from '@ember/controller';
-import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import classic from 'ember-classic-decorator';
 import {action} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {htmlSafe} from '@ember/template';
 import {isArray as isEmberArray} from '@ember/array';
-import {isVersionMismatchError} from '@tryghost/admin/services/ajax';
+import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 

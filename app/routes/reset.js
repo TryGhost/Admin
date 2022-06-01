@@ -1,4 +1,4 @@
-import UnauthenticatedRoute from '@tryghost/admin/routes/unauthenticated';
+import UnauthenticatedRoute from 'ghost-admin/routes/unauthenticated';
 import {inject as service} from '@ember/service';
 
 export default class ResetRoute extends UnauthenticatedRoute {

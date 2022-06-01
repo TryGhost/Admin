@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
-import {resetQueryParams} from '@tryghost/admin/helpers/reset-query-params';
+import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import Model, {attr} from '@ember-data/model';
-import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {and} from '@ember/object/computed';
 
 export default Model.extend(ValidationEngine, {

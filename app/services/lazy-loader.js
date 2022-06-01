@@ -1,7 +1,7 @@
 import RSVP from 'rsvp';
 import Service, {inject as service} from '@ember/service';
 import classic from 'ember-classic-decorator';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 
 @classic
 export default class LazyLoaderService extends Service {

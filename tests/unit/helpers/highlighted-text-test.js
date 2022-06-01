@@ -5,7 +5,7 @@ import {
 import {expect} from 'chai';
 import {
     highlightedText
-} from '@tryghost/admin/helpers/highlighted-text';
+} from 'ghost-admin/helpers/highlighted-text';
 
 describe('Unit: Helper: highlighted-text', function () {
     it('works', function () {

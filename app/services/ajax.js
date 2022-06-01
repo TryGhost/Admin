@@ -1,6 +1,6 @@
 import AjaxService from 'ember-ajax/services/ajax';
 import classic from 'ember-classic-decorator';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 import moment from 'moment';
 import {AjaxError, isAjaxError, isForbiddenError} from 'ember-ajax/errors';
 import {captureMessage} from '@sentry/browser';

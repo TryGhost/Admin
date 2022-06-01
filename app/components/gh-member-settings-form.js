@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
 import {action} from '@ember/object';
-import {getNonDecimal, getSymbol} from '@tryghost/admin/utils/currency';
+import {getNonDecimal, getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';

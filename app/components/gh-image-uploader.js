@@ -1,11 +1,11 @@
 import Component from '@ember/component';
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {
     UnsupportedMediaTypeError,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError,
     isVersionMismatchError
-} from '@tryghost/admin/services/ajax';
+} from 'ghost-admin/services/ajax';
 import {computed, get} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {isArray} from '@ember/array';

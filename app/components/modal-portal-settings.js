@@ -1,6 +1,6 @@
-import ConfirmEmailModal from '@tryghost/admin/modals/settings/confirm-email';
-import ModalComponent from '@tryghost/admin/components/modal-base';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
+import ConfirmEmailModal from 'ghost-admin/components/modals/settings/confirm-email';
+import ModalComponent from 'ghost-admin/components/modal-base';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {action, computed} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';

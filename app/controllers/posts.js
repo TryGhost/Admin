@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import classic from 'ember-classic-decorator';
-import {DEFAULT_QUERY_PARAMS} from '@tryghost/admin/helpers/reset-query-params';
+import {DEFAULT_QUERY_PARAMS} from 'ghost-admin/helpers/reset-query-params';
 import {action, computed, get} from '@ember/object';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';

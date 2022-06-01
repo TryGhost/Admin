@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import ApplicationSerializer from '@tryghost/admin/serializers/application';
+import ApplicationSerializer from 'ghost-admin/serializers/application';
 
 export default class ActionSerializer extends ApplicationSerializer {
     attrs = {

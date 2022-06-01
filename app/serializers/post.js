@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import ApplicationSerializer from '@tryghost/admin/serializers/application';
+import ApplicationSerializer from 'ghost-admin/serializers/application';
 import {EmbeddedRecordsMixin} from '@ember-data/serializer/rest';
 
 export default class PostSerializer extends ApplicationSerializer.extend(EmbeddedRecordsMixin) {

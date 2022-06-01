@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
-import boundOneWay from '@tryghost/admin/utils/bound-one-way';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
-import isNumber from '@tryghost/admin/utils/isNumber';
+import boundOneWay from 'ghost-admin/utils/bound-one-way';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
+import isNumber from 'ghost-admin/utils/isNumber';
 import validator from 'validator';
-import windowProxy from '@tryghost/admin/utils/window-proxy';
+import windowProxy from 'ghost-admin/utils/window-proxy';
 import {action, computed} from '@ember/object';
 import {alias, and, not, or, readOnly} from '@ember/object/computed';
 import {isArray as isEmberArray} from '@ember/array';

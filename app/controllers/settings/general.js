@@ -3,12 +3,12 @@ import {action, computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
-import generatePassword from '@tryghost/admin/utils/password-generator';
+import generatePassword from 'ghost-admin/utils/password-generator';
 import validator from 'validator';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from '@tryghost/admin/components/gh-image-uploader';
+} from 'ghost-admin/components/gh-image-uploader';
 import {task} from 'ember-concurrency';
 
 function randomPassword() {

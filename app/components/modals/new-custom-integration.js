@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import {A} from '@ember/array';
 import {action} from '@ember/object';
-import {isHostLimitError} from '@tryghost/admin/services/ajax';
+import {isHostLimitError} from 'ghost-admin/services/ajax';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';

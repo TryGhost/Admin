@@ -1,8 +1,8 @@
 import Component from '@ember/component';
 import SearchModal from '../modals/search';
-import ShortcutsMixin from '@tryghost/admin/mixins/shortcuts';
+import ShortcutsMixin from 'ghost-admin/mixins/shortcuts';
 import classic from 'ember-classic-decorator';
-import ctrlOrCmd from '@tryghost/admin/utils/ctrl-or-cmd';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import {action} from '@ember/object';
 import {and, equal, match, or, reads} from '@ember/object/computed';
 import {getOwner} from '@ember/application';

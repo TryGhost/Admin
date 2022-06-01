@@ -5,7 +5,7 @@ import {blur, click, currentRouteName, fillIn, find, findAll, visit} from '@embe
 import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
-import {versionMismatchResponse} from '@tryghost/admin/mirage/utils';
+import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
 let htmlErrorResponse = function () {
     return new Response(

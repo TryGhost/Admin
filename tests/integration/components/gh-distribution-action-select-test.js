@@ -4,7 +4,7 @@ import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {render, settled} from '@ember/test-helpers';
 import {setupRenderingTest} from 'ember-mocha';
-import {startMirage} from '@tryghost/admin/initializers/ember-cli-mirage';
+import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 
 describe('Integration: Component: gh-distribution-action-select', function () {
     setupRenderingTest();

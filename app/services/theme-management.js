@@ -1,8 +1,8 @@
 import Service, {inject as service} from '@ember/service';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 import {action} from '@ember/object';
 import {isEmpty} from '@ember/utils';
-import {isThemeValidationError} from '@tryghost/admin/services/ajax';
+import {isThemeValidationError} from 'ghost-admin/services/ajax';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 

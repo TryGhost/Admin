@@ -1,4 +1,4 @@
-import ctrlOrCmd from '@tryghost/admin/utils/ctrl-or-cmd';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import moment from 'moment';
 import sinon from 'sinon';
 import {Response} from 'miragejs';

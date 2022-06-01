@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import {
     UnsupportedMediaTypeError,
     isThemeValidationError
-} from '@tryghost/admin/services/ajax';
+} from 'ghost-admin/services/ajax';
 import {action} from '@ember/object';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';

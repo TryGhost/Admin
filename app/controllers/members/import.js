@@ -1,6 +1,6 @@
 import Controller, {inject as controller} from '@ember/controller';
 import {action} from '@ember/object';
-import {resetQueryParams} from '@tryghost/admin/helpers/reset-query-params';
+import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 
 export default class ImportController extends Controller {

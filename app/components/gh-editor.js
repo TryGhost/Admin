@@ -3,7 +3,7 @@ import classic from 'ember-classic-decorator';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from '@tryghost/admin/components/gh-image-uploader';
+} from 'ghost-admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {classNameBindings} from '@ember-decorators/component';
 import {inject as service} from '@ember/service';

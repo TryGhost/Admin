@@ -1,5 +1,5 @@
 import Pretender from 'pretender';
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {dasherize} from '@ember/string';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';

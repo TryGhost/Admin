@@ -6,7 +6,7 @@ import {clickTrigger, selectChoose, typeInSearch} from 'ember-power-select/test-
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {setupRenderingTest} from 'ember-mocha';
-import {startMirage} from '@tryghost/admin/initializers/ember-cli-mirage';
+import {startMirage} from 'ghost-admin/initializers/ember-cli-mirage';
 import {timeout} from 'ember-concurrency';
 
 // NOTE: although Mirage has posts<->tags relationship and can respond

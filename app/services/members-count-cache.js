@@ -1,7 +1,7 @@
 import Service, {inject as service} from '@ember/service';
 import moment from 'moment';
 import {action} from '@ember/object';
-import {ghPluralize} from '@tryghost/admin/helpers/gh-pluralize';
+import {ghPluralize} from 'ghost-admin/helpers/gh-pluralize';
 import {task} from 'ember-concurrency';
 
 export default class MembersCountCacheService extends Service {

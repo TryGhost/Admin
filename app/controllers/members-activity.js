@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import {EMAIL_EVENTS, NEWSLETTER_EVENTS} from '@tryghost/admin/helpers/members-event-filter';
+import {EMAIL_EVENTS, NEWSLETTER_EVENTS} from 'ghost-admin/helpers/members-event-filter';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';

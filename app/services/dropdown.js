@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import classic from 'ember-classic-decorator';
 // This is used by the dropdown initializer to manage closing & toggling
-import BodyEventListener from '@tryghost/admin/mixins/body-event-listener';
+import BodyEventListener from 'ghost-admin/mixins/body-event-listener';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 

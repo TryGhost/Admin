@@ -1,4 +1,4 @@
-import ModalComponent from '@tryghost/admin/components/modal-base';
+import ModalComponent from 'ghost-admin/components/modal-base';
 import RSVP from 'rsvp';
 
 export default ModalComponent.extend({

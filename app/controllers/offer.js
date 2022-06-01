@@ -1,10 +1,10 @@
 import ArchiveOfferModal from '../components/modals/offers/archive';
 import Controller, {inject as controller} from '@ember/controller';
 import UnarchiveOfferModal from '../components/modals/offers/unarchive';
-import config from '@tryghost/admin/config/environment';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
+import config from 'ghost-admin/config/environment';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {action} from '@ember/object';
-import {getSymbol} from '@tryghost/admin/utils/currency';
+import {getSymbol} from 'ghost-admin/utils/currency';
 import {ghPriceAmount} from '../helpers/gh-price-amount';
 import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';

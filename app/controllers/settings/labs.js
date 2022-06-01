@@ -3,12 +3,12 @@ import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
 import RSVP from 'rsvp';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 import {
     UnsupportedMediaTypeError,
     isRequestEntityTooLargeError,
     isUnsupportedMediaTypeError
-} from '@tryghost/admin/services/ajax';
+} from 'ghost-admin/services/ajax';
 import {action} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';

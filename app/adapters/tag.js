@@ -1,5 +1,5 @@
-import ApplicationAdapter from '@tryghost/admin/adapters/application';
-import SlugUrl from '@tryghost/admin/utils/slug-url';
+import ApplicationAdapter from 'ghost-admin/adapters/application';
+import SlugUrl from 'ghost-admin/utils/slug-url';
 import classic from 'ember-classic-decorator';
 
 @classic

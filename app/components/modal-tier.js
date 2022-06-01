@@ -1,8 +1,8 @@
 import EmberObject, {action} from '@ember/object';
-import ModalBase from '@tryghost/admin/components/modal-base';
+import ModalBase from 'ghost-admin/components/modal-base';
 import TierBenefitItem from '../models/tier-benefit-item';
 import classic from 'ember-classic-decorator';
-import {currencies, getCurrencyOptions, getSymbol} from '@tryghost/admin/utils/currency';
+import {currencies, getCurrencyOptions, getSymbol} from 'ghost-admin/utils/currency';
 import {A as emberA} from '@ember/array';
 import {htmlSafe} from '@ember/template';
 import {isEmpty} from '@ember/utils';

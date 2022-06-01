@@ -1,4 +1,4 @@
-import {countDownCharacters} from '@tryghost/admin/helpers/gh-count-down-characters';
+import {countDownCharacters} from 'ghost-admin/helpers/gh-count-down-characters';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 

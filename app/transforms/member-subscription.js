@@ -1,4 +1,4 @@
-import MemberSubscription from '@tryghost/admin/models/member-subscription';
+import MemberSubscription from 'ghost-admin/models/member-subscription';
 import Transform from '@ember-data/serializer/transform';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
 

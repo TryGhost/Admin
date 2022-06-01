@@ -1,4 +1,4 @@
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 

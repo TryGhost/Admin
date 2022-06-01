@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 import {action, computed} from '@ember/object';
 import {isBlank} from '@ember/utils';
 import {reads} from '@ember/object/computed';

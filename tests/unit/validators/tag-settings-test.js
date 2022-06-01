@@ -1,11 +1,11 @@
 import EmberObject from '@ember/object';
-import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {
     describe,
     it
 } from 'mocha';
 import {expect} from 'chai';
-// import validator from '@tryghost/admin/validators/tag-settings';
+// import validator from 'ghost-admin/validators/tag-settings';
 import {run} from '@ember/runloop';
 
 const Tag = EmberObject.extend(ValidationEngine, {

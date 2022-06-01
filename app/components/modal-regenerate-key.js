@@ -1,4 +1,4 @@
-import ModalComponent from '@tryghost/admin/components/modal-base';
+import ModalComponent from 'ghost-admin/components/modal-base';
 import {alias} from '@ember/object/computed';
 import {capitalize} from '@ember/string';
 import {inject as service} from '@ember/service';

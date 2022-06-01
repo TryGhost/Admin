@@ -1,4 +1,4 @@
-import ValidationStatusContainer from '@tryghost/admin/components/gh-validation-status-container';
+import ValidationStatusContainer from 'ghost-admin/components/gh-validation-status-container';
 import classic from 'ember-classic-decorator';
 import {classNames} from '@ember-decorators/component';
 

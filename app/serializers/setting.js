@@ -1,4 +1,4 @@
-import ApplicationSerializer from '@tryghost/admin/serializers/application';
+import ApplicationSerializer from 'ghost-admin/serializers/application';
 import {pluralize} from 'ember-inflector';
 
 export default class Setting extends ApplicationSerializer {

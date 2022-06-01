@@ -1,5 +1,5 @@
-import ModalComponent from '@tryghost/admin/components/modal-base';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
+import ModalComponent from 'ghost-admin/components/modal-base';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';

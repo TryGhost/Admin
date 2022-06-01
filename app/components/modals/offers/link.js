@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import config from '@tryghost/admin/config/environment';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
+import config from 'ghost-admin/config/environment';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 

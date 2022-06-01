@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import sinon from 'sinon';
 import {beforeEach, describe, it} from 'mocha';
 import {expect} from 'chai';

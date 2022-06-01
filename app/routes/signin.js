@@ -2,7 +2,7 @@
 // eslint-disable-next-line
 import DS from 'ember-data';
 import EmberObject from '@ember/object';
-import UnauthenticatedRoute from '@tryghost/admin/routes/unauthenticated';
+import UnauthenticatedRoute from 'ghost-admin/routes/unauthenticated';
 
 const {Errors} = DS;
 

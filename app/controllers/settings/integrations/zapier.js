@@ -4,8 +4,8 @@ import {alias} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
-import config from '@tryghost/admin/config/environment';
-import copyTextToClipboard from '@tryghost/admin/utils/copy-text-to-clipboard';
+import config from 'ghost-admin/config/environment';
+import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
 import {task, timeout} from 'ember-concurrency';
 
 @classic

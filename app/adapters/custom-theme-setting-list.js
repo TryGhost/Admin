@@ -1,4 +1,4 @@
-import ApplicationAdapter from '@tryghost/admin/adapters/application';
+import ApplicationAdapter from 'ghost-admin/adapters/application';
 
 export default class CustomThemeSettingListAdapter extends ApplicationAdapter {
     // we use `custom-theme-setting-list` model as a workaround for saving all

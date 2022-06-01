@@ -1,4 +1,4 @@
-import AdminRoute from '@tryghost/admin/routes/admin';
+import AdminRoute from 'ghost-admin/routes/admin';
 import ConfirmUnsavedChangesModal from '../../../components/modals/confirm-unsaved-changes';
 import EditNewsletterModal from '../../../components/modals/newsletters/edit';
 import {action} from '@ember/object';

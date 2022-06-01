@@ -1,5 +1,5 @@
-import AdminRoute from '@tryghost/admin/routes/admin';
-import ViewThemeModal from '@tryghost/admin/components/modals/design/view-theme';
+import AdminRoute from 'ghost-admin/routes/admin';
+import ViewThemeModal from 'ghost-admin/components/modals/design/view-theme';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 

@@ -1,8 +1,8 @@
 import AuthConfiguration from 'ember-simple-auth/configuration';
 import Route from '@ember/routing/route';
-import ShortcutsRoute from '@tryghost/admin/mixins/shortcuts-route';
-import ctrlOrCmd from '@tryghost/admin/utils/ctrl-or-cmd';
-import windowProxy from '@tryghost/admin/utils/window-proxy';
+import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
+import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
+import windowProxy from 'ghost-admin/utils/window-proxy';
 import {InitSentryForEmber} from '@sentry/ember';
 import {
     isAjaxError,
@@ -13,7 +13,7 @@ import {isArray as isEmberArray} from '@ember/array';
 import {
     isMaintenanceError,
     isVersionMismatchError
-} from '@tryghost/admin/services/ajax';
+} from 'ghost-admin/services/ajax';
 import {inject as service} from '@ember/service';
 
 function K() {

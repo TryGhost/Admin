@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
+import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 

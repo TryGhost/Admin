@@ -1,6 +1,6 @@
 import Controller, {inject as controller} from '@ember/controller';
 import EmberObject, {action, defineProperty} from '@ember/object';
-import boundOneWay from '@tryghost/admin/utils/bound-one-way';
+import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import moment from 'moment';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';

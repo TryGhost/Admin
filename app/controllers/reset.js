@@ -1,6 +1,6 @@
 /* eslint-disable ghost/ember/alias-model-in-controller */
 import Controller from '@ember/controller';
-import ValidationEngine from '@tryghost/admin/mixins/validation-engine';
+import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {computed} from '@ember/object';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';

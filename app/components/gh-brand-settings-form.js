@@ -1,11 +1,11 @@
 import Component from '@glimmer/component';
-import config from '@tryghost/admin/config/environment';
+import config from 'ghost-admin/config/environment';
 import {
     ICON_EXTENSIONS,
     ICON_MIME_TYPES,
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
-} from '@tryghost/admin/components/gh-image-uploader';
+} from 'ghost-admin/components/gh-image-uploader';
 import {action} from '@ember/object';
 import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';

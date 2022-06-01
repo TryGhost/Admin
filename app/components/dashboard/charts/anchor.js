@@ -3,7 +3,7 @@
 import Component from '@glimmer/component';
 import moment from 'moment';
 import {action} from '@ember/object';
-import {getSymbol} from '@tryghost/admin/utils/currency';
+import {getSymbol} from 'ghost-admin/utils/currency';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 

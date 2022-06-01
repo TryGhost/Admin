@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
-import {formatPostTime} from '@tryghost/admin/helpers/gh-format-post-time';
+import {formatPostTime} from 'ghost-admin/helpers/gh-format-post-time';
 import {inject as service} from '@ember/service';
 import {tracked} from '@glimmer/tracking';
 

@@ -1,4 +1,4 @@
-import AuthenticatedRoute from '@tryghost/admin/routes/authenticated';
+import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 

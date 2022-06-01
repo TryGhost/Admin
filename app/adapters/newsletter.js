@@ -1,4 +1,4 @@
-import ApplicationAdapter from '@tryghost/admin/adapters/application';
+import ApplicationAdapter from 'ghost-admin/adapters/application';
 
 export default class Newsletter extends ApplicationAdapter {
     buildIncludeURL(store, modelName, id, snapshot, requestType, query) {

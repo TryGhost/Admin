@@ -1,6 +1,6 @@
 import EmberRouter from '@ember/routing/router';
-import config from '@tryghost/admin/config/environment';
-import ghostPaths from '@tryghost/admin/utils/ghost-paths';
+import config from 'ghost-admin/config/environment';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 
 const Router = EmberRouter.extend({
     location: config.locationType, // use HTML5 History API instead of hash-tag based URLs
