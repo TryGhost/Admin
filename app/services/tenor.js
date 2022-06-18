@@ -6,8 +6,8 @@ import {isEmpty} from '@ember/utils';
 import {task, taskGroup, timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
-const API_URL = 'https://g1.tenor.com';
-const API_VERSION = 'v1';
+const API_URL = 'https://tenor.googleapis.com';
+const API_VERSION = 'v2';
 const DEBOUNCE_MS = 600;
 
 export default class TenorService extends Service {
@@ -17,14 +17,18 @@ export default class TenorService extends Service {
     @tracked columns = null;
     @tracked error = null;
     @tracked gifs = new TrackedArray([]);
-    @tracked searchTerm = '';
-    @tracked loadedType = 'trending';
+    @tracked searchTerm = 'excited';
+    @tracked loadedType = 'search';
 
     _columnHeights = [];
     _nextPos = null;
 
     get apiKey() {
-        return this.config.get('tenor.publicReadOnlyApiKey');
+        return this.config.get('tenor.apiKey');
+    }
+
+    get clientId() {
+        return this.config.get('tenor.clientId');
     }
 
     get contentfilter() {
@@ -94,9 +98,10 @@ export default class TenorService extends Service {
 
     @task({group: 'loadingTasks'})
     *loadTrendingTask() {
-        this.loadedType = 'trending';
+        this.loadedType = 'search';
 
         yield this._makeRequest(this.loadedType, {params: {
+            q: 'excited',
             media_filter: 'minimal'
         }});
     }
@@ -134,6 +139,7 @@ export default class TenorService extends Service {
 
         const params = new URLSearchParams(options.params);
         params.set('key', this.apiKey);
+        params.set('client_key', this.clientId);
         params.set('contentfilter', this.contentfilter);
 
         url.search = params.toString();
@@ -144,10 +150,18 @@ export default class TenorService extends Service {
         this.error = '';
 
         return fetch(url)
-            .then(response => this._checkStatus(response))
-            .then(response => response.json())
-            .then(response => this._extractPagination(response))
-            .then(response => this._addGifsFromResponse(response))
+            .then((response) => {
+                return this._checkStatus(response);
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                return this._extractPagination(response);
+            })
+            .then((response) => {
+                return this._addGifsFromResponse(response);
+            })
             .catch((e) => {
                 // if the error text isn't already set then we've get a connection error from `fetch`
                 if (!options.ignoreErrors && !this.error) {
@@ -192,8 +206,9 @@ export default class TenorService extends Service {
 
     _addGif(gif) {
         // re-calculate ratio for later use
-        const [width, height] = gif.media[0].tinygif.dims;
+        const [width, height] = gif.media_formats.tinygif.dims;
         gif.ratio = height / width;
+
 
         // add to general gifs list
         this.gifs.push(gif);
