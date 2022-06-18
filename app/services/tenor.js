@@ -150,18 +150,10 @@ export default class TenorService extends Service {
         this.error = '';
 
         return fetch(url)
-            .then((response) => {
-                return this._checkStatus(response);
-            })
-            .then((response) => {
-                return response.json();
-            })
-            .then((response) => {
-                return this._extractPagination(response);
-            })
-            .then((response) => {
-                return this._addGifsFromResponse(response);
-            })
+            .then(response => this._checkStatus(response))
+            .then(response => response.json())
+            .then(response => this._extractPagination(response))
+            .then(response => this._addGifsFromResponse(response))
             .catch((e) => {
                 // if the error text isn't already set then we've get a connection error from `fetch`
                 if (!options.ignoreErrors && !this.error) {
