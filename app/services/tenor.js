@@ -201,7 +201,6 @@ export default class TenorService extends Service {
         const [width, height] = gif.media_formats.tinygif.dims;
         gif.ratio = height / width;
 
-
         // add to general gifs list
         this.gifs.push(gif);
 
