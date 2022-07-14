@@ -282,15 +282,6 @@
                                                 @value={{readonly this.supportAddress}}
                                                 @input={{action "setSupportAddress" value="target.value"}}
                                             />
-                                            <GhTaskButton
-                                                @buttonText="Update support address"
-                                                @runningText="Sending..."
-                                                @successText="Confirmation email sent"
-                                                @disabled={{this.disableUpdateSupportAddressButton}}
-                                                @task={{this.updateSupportAddress}}
-                                                @class="gh-btn gh-btn-green gh-btn-icon gh-btn-textfield-group gh-portal-emailupdate-button"
-                                                data-test-button="update-support-address"
-                                            />
                                         </div>
                                         <p>How members can reach you for help with their account (public)</p>
                                     </GhFormGroup>
