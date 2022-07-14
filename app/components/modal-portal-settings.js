@@ -355,6 +355,10 @@ export default ModalComponent.extend({
     saveTask: task(function* () {
         this.send('validateFreeSignupRedirect');
         this.send('validatePaidSignupRedirect');
+
+        this.settings.errors.remove('members_support_address');
+        this.settings.hasValidated.removeObject('members_support_address');
+
         if (this.settings.get('errors').length !== 0) {
             return;
         }
@@ -370,14 +374,29 @@ export default ModalComponent.extend({
         );
 
         const newEmail = this.settings.get('membersSupportAddress');
-        const result = yield this.settings.save();
-        if (result._meta?.sent_email_verification) {
-            yield this.modals.open(ConfirmEmailModal, {
-                newEmail,
-                currentEmail: this.settings.get('membersSupportAddress')
-            });
-        }
 
-        this.closeModal();
+        try {
+            const result = yield this.settings.save();
+            if (result._meta?.sent_email_verification) {
+                yield this.modals.open(ConfirmEmailModal, {
+                    newEmail,
+                    currentEmail: this.settings.get('membersSupportAddress')
+                });
+            }
+
+            this.closeModal();
+        } catch (error) {
+            // Do we have an error that we can show inline?
+            if (error.payload && error.payload.errors) {
+                for (const payloadError of error.payload.errors) {
+                    if (payloadError.type === 'ValidationError' && payloadError.property && (payloadError.context || payloadError.message)) {
+                        // Context has a better error message for validation errors
+                        this.settings.errors.add(payloadError.property, payloadError.context || payloadError.message);
+                        this.settings.hasValidated.pushObject(payloadError.property);
+                    }
+                }
+            }
+            throw error;
+        }
     }).drop()
 });
