@@ -191,6 +191,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 1.5rem;
+    letter-spacing: 0;
     line-height: 1.3em;
     font-weight: 700;
     color: var(--black);
@@ -287,6 +288,7 @@
     padding: 0;
     word-break: break-all;
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
     line-height: 1.2em;
     max-width: 160px;
@@ -942,6 +944,7 @@
 
     .gh-nav-list {
         font-size: 1.5rem;
+        letter-spacing: 0;
     }
 
     .gh-nav-list-h {
@@ -1349,6 +1352,7 @@
 
 .gh-expandable-header .gh-expandable-title {
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
     color: var(--black);
     margin: 0;
@@ -1963,6 +1967,7 @@ section.gh-ds h2 {
     grid-column: 2;
     margin: 0 0 6px;
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
 }
 

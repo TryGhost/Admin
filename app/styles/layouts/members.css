@@ -977,6 +977,7 @@ textarea.gh-member-details-textarea {
 
 .gh-members-no-data h4 {
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
     color: var(--middarkgrey);
 }
@@ -1535,6 +1536,7 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-member-import-result-summary p strong {
     font-size: 1.5rem;
+    letter-spacing: 0;
 }
 
 .gh-member-import-errorlist {
@@ -1823,6 +1825,7 @@ p.gh-members-import-errordetail:first-of-type {
 
 .gh-members-emailpreview-faux .strong {
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 500;
     color: var(--darkgrey);
 }

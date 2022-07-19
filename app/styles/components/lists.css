@@ -157,6 +157,7 @@ ul.nostyle li {
 .gh-list h3 {
     margin: 0 0 3px 0;
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
 }
 

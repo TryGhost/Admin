@@ -365,10 +365,12 @@ h4 {
 
 h5 {
     font-size: 1.5rem;
+    letter-spacing: 0;
 }
 
 h6 {
     font-size: 1.5rem;
+    letter-spacing: 0;
 }
 
 .gh-heading-xs {
