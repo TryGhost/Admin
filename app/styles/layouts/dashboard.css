@@ -648,7 +648,7 @@ Dashboard List */
     white-space: nowrap;
     font-size: 1.1rem;
     font-weight: 500;
-    letter-spacing: 0.1px;
+    letter-spacing: 0.03em;
     color: var(--midgrey);
     padding: 0 20px 8px 0;
     text-transform: uppercase;

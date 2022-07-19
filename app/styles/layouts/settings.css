@@ -144,8 +144,8 @@
     color: var(--black);
     text-transform: uppercase;
     font-weight: 500;
-    letter-spacing: 0.35px;
-    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    font-size: 1.1rem;
     padding: 8px 0;
     border-bottom: 1px solid var(--main-color-area-divider);
     margin: 0 0 0 1px;
