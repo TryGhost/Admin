@@ -436,7 +436,8 @@
     transition: none;
     font-weight: 400;
     padding: 7px var(--mainmenu-padding) 7px calc(var(--mainmenu-padding) + 7px);
-    font-size: 1.45rem;
+    font-size: 1.4rem;
+    height: 34px;
     margin: 0;
     border-radius: 0;
     box-sizing: border-box;
@@ -534,13 +535,17 @@
     stroke: color-mod(var(--darkgrey) l(-5%));
 }
 
+.gh-nav-list a[data-test-nav='posts'] svg {
+    margin-top: -3px;
+}
+
 .gh-nav-list .gh-secondary-action {
     position: absolute;
     z-index: 999;
     padding: 10px;
     margin: 0;
     right: 12px;
-    top: -11px;
+    top: 0px;
     opacity: 0;
     transition: opacity ease 0.2s;
 }
@@ -643,7 +648,7 @@
 
 .gh-nav-view-list a {
     position: relative;
-    padding-left: calc(var(--mainmenu-padding) + 42px);
+    padding-left: calc(var(--mainmenu-padding) + 40px);
 }
 
 .gh-nav-viewname {
