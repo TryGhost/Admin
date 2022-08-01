@@ -16,7 +16,7 @@ const FullScreenModalComponent = Component.extend({
         return `modal-${this.modal || 'unknown'}`;
     }),
 
-    modalClasses: computed('modifiers', function () {
+    modalClasses: computed('modifier', function () {
         let modalClass = 'fullscreen-modal';
         let modifiers = (this.modifier || '').split(' ');
         let modalClasses = emberA([modalClass]);
@@ -32,6 +32,7 @@ const FullScreenModalComponent = Component.extend({
     }),
 
     didInsertElement() {
+        this._super(...arguments);
         run.schedule('afterRender', this, function () {
             this.dropdown.closeDropdowns();
         });

@@ -5,12 +5,7 @@ import {inject as service} from '@ember/service';
 
 export default Authenticator.extend({
     ajax: service(),
-    config: service(),
-    feature: service(),
     ghostPaths: service(),
-    settings: service(),
-    tour: service(),
-    whatsNew: service(),
 
     sessionEndpoint: computed('ghostPaths.apiRoot', function () {
         return `${this.ghostPaths.apiRoot}/session`;
@@ -29,24 +24,7 @@ export default Authenticator.extend({
             dataType: 'text'
         };
 
-        return this.ajax.post(this.sessionEndpoint, options).then((authResult) => {
-            // TODO: remove duplication with application.afterModel
-            let preloadPromises = [
-                this.config.fetchAuthenticated(),
-                this.feature.fetch(),
-                this.settings.fetch(),
-                this.tour.fetchViewed()
-            ];
-
-            // kick off background update of "whats new"
-            // - we don't want to block the router for this
-            // - we need the user details to know what the user has seen
-            this.whatsNew.fetchLatest.perform();
-
-            return RSVP.all(preloadPromises).then(() => {
-                return authResult;
-            });
-        });
+        return this.ajax.post(this.sessionEndpoint, options);
     },
 
     invalidate() {

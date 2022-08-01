@@ -1,5 +1,5 @@
 import windowProxy from 'ghost-admin/utils/window-proxy';
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {click, currentRouteName, currentURL, fillIn, findAll, visit} from '@ember/test-helpers';
@@ -24,7 +24,7 @@ describe('Acceptance: Authentication', function () {
         });
         it('redirects to setup when setup isn\'t complete', async function () {
             await visit('settings/labs');
-            expect(currentURL()).to.equal('/setup/one');
+            expect(currentURL()).to.equal('/setup');
         });
     });
 
@@ -56,7 +56,7 @@ describe('Acceptance: Authentication', function () {
             }));
 
             await authenticateSession();
-            await visit('/staff');
+            await visit('/settings/staff');
 
             // running `visit(url)` inside windowProxy.replaceLocation breaks
             // the async behaviour so we need to run `visit` here to simulate

@@ -35,6 +35,11 @@ module.exports = function (environment) {
 
         moment: {
             includeTimezone: 'all'
+        },
+
+        '@sentry/ember': {
+            disablePerformance: true,
+            sentry: {}
         }
     };
 

@@ -1,74 +1,39 @@
-import $ from 'jquery';
+import ConfirmEmailModal from './modals/settings/confirm-email';
 import ModalComponent from 'ghost-admin/components/modal-base';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
-import {alias, reads} from '@ember/object/computed';
-import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
-import {run} from '@ember/runloop';
+import {action, computed} from '@ember/object';
+import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 const ICON_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
 
-const ICON_MAPPING = [
-    {
-        icon: 'portal-icon-1',
-        value: 'icon-1'
-    },
-    {
-        icon: 'portal-icon-2',
-        value: 'icon-2'
-    },
-    {
-        icon: 'portal-icon-3',
-        value: 'icon-3'
-    },
-    {
-        icon: 'portal-icon-4',
-        value: 'icon-4'
-    },
-    {
-        icon: 'portal-icon-5',
-        value: 'icon-5'
-    }
-];
-
 export default ModalComponent.extend({
-    settings: service(),
-    membersUtils: service(),
     config: service(),
+    modals: service(),
+    membersUtils: service(),
+    settings: service(),
+    store: service(),
+    session: service(),
+    feature: service(),
+    ghostPaths: service(),
+    ajax: service(),
+
     page: 'signup',
     iconExtensions: null,
-    defaultButtonIcons: null,
     isShowModalLink: true,
     customIcon: null,
     showLinksPage: false,
     showLeaveSettingsModal: false,
+    isPreloading: true,
+    changedTiers: null,
+    openSection: null,
+    portalPreviewGuid: 'modal-portal-settings',
+
     confirm() {},
 
-    allowSelfSignup: alias('settings.membersAllowFreeSignup'),
-
-    isStripeConfigured: reads('membersUtils.isStripeEnabled'),
-
-    buttonIcon: computed('settings.portalButtonIcon', function () {
-        const defaultIconKeys = this.defaultButtonIcons.map(buttonIcon => buttonIcon.value);
-        return (this.settings.get('portalButtonIcon') || defaultIconKeys[0]);
-    }),
-
     backgroundStyle: computed('settings.accentColor', function () {
-        let color = this.get('settings.accentColor') || '#ffffff';
+        let color = this.settings.get('accentColor') || '#ffffff';
         return htmlSafe(`background-color: ${color}`);
-    }),
-
-    colorPickerValue: computed('settings.accentColor', function () {
-        return this.get('settings.accentColor') || '#ffffff';
-    }),
-
-    accentColor: computed('settings.accentColor', function () {
-        let color = this.get('settings.accentColor');
-        if (color && color[0] === '#') {
-            return color.slice(1);
-        }
-        return color;
     }),
 
     showModalLinkOrAttribute: computed('isShowModalLink', function () {
@@ -78,28 +43,20 @@ export default ModalComponent.extend({
         return `data-portal`;
     }),
 
-    portalPreviewUrl: computed('buttonIcon', 'page', 'isFreeChecked', 'isMonthlyChecked', 'isYearlyChecked', 'settings.{portalName,portalButton,portalButtonSignupText,portalButtonStyle,accentColor}', function () {
-        const baseUrl = this.config.get('blogUrl');
-        const portalBase = '/#/portal/preview';
-        const settingsParam = new URLSearchParams();
-        const signupButtonText = this.settings.get('portalButtonSignupText') || '';
-        settingsParam.append('button', this.settings.get('portalButton'));
-        settingsParam.append('name', this.settings.get('portalName'));
-        settingsParam.append('isFree', this.isFreeChecked);
-        settingsParam.append('isMonthly', this.isMonthlyChecked);
-        settingsParam.append('isYearly', this.isYearlyChecked);
-        settingsParam.append('page', this.page);
-        if (this.buttonIcon) {
-            settingsParam.append('buttonIcon', encodeURIComponent(this.buttonIcon));
-        }
-        settingsParam.append('signupButtonText', encodeURIComponent(signupButtonText));
-        if (this.settings.get('accentColor') === '' || this.settings.get('accentColor')) {
-            settingsParam.append('accentColor', encodeURIComponent(`${this.settings.get('accentColor')}`));
-        }
-        if (this.settings.get('portalButtonStyle')) {
-            settingsParam.append('buttonStyle', encodeURIComponent(this.settings.get('portalButtonStyle')));
-        }
-        return `${baseUrl}${portalBase}?${settingsParam.toString()}`;
+    portalPreviewUrl: computed('page', 'model.tiers.[]', 'changedTiers.[]', 'membersUtils.{isFreeChecked,isMonthlyChecked,isYearlyChecked}', 'settings.{portalName,portalButton,portalButtonIcon,portalButtonSignupText,portalButtonStyle,accentColor,portalPlans.[]}', function () {
+        const options = this.getProperties(['page']);
+        options.portalTiers = this.model.tiers?.filter((tier) => {
+            return tier.get('visibility') === 'public'
+                && tier.get('active') === true
+                && tier.get('type') === 'paid';
+        }).map((tier) => {
+            return tier.id;
+        });
+        const freeTier = this.model.tiers?.find((tier) => {
+            return tier.type === 'free';
+        });
+        options.isFreeChecked = freeTier?.visibility === 'public';
+        return this.membersUtils.getPortalPreviewUrl(options);
     }),
 
     showIconSetting: computed('selectedButtonStyle', function () {
@@ -112,61 +69,84 @@ export default ModalComponent.extend({
         return selectedButtonStyle.includes('text');
     }),
 
-    isFreeChecked: computed('settings.portalPlans.[]', 'allowSelfSignup', function () {
-        const allowedPlans = this.settings.get('portalPlans') || [];
-        return (this.allowSelfSignup && allowedPlans.includes('free'));
-    }),
-
-    isMonthlyChecked: computed('settings.portalPlans.[]', 'isStripeConfigured', function () {
-        const allowedPlans = this.settings.get('portalPlans') || [];
-        return (this.isStripeConfigured && allowedPlans.includes('monthly'));
-    }),
-
-    isYearlyChecked: computed('settings.portalPlans.[]', 'isStripeConfigured', function () {
-        const allowedPlans = this.settings.get('portalPlans') || [];
-        return (this.isStripeConfigured && allowedPlans.includes('yearly'));
-    }),
-
     selectedButtonStyle: computed('settings.portalButtonStyle', function () {
         return this.buttonStyleOptions.find((buttonStyle) => {
             return (buttonStyle.name === this.settings.get('portalButtonStyle'));
         });
     }),
 
+    isFreeChecked: computed('settings.{portalPlans.[],membersSignupAccess}', function () {
+        const allowedPlans = this.settings.get('portalPlans') || [];
+        return (this.settings.get('membersSignupAccess') === 'all' && allowedPlans.includes('free'));
+    }),
+    isMonthlyChecked: computed('settings.portalPlans.[]', 'membersUtils.paidMembersEnabled', function () {
+        const allowedPlans = this.settings.get('portalPlans') || [];
+        return (this.membersUtils.paidMembersEnabled && allowedPlans.includes('monthly'));
+    }),
+    isYearlyChecked: computed('settings.portalPlans.[]', 'membersUtils.paidMembersEnabled', function () {
+        const allowedPlans = this.settings.get('portalPlans') || [];
+        return (this.membersUtils.paidMembersEnabled && allowedPlans.includes('yearly'));
+    }),
+    tiers: computed('model.tiers.[]', 'changedTiers.[]', 'isPreloading', function () {
+        const paidTiers = this.model.tiers?.filter(tier => tier.type === 'paid' && tier.active === true);
+        if (this.isPreloading || !paidTiers?.length) {
+            return [];
+        }
+
+        const tiers = paidTiers.map((tier) => {
+            return {
+                id: tier.id,
+                name: tier.name,
+                checked: tier.visibility === 'public'
+            };
+        });
+        return tiers;
+    }),
+
+    showPortalPrices: computed('tiers', function () {
+        const visibleTiers = this.model.tiers?.filter((tier) => {
+            return tier.visibility === 'public' && tier.type === 'paid';
+        });
+
+        return !!visibleTiers?.length;
+    }),
+
     init() {
         this._super(...arguments);
-        this.set('hidePreviewFrame', true);
         this.buttonStyleOptions = [
             {name: 'icon-and-text', label: 'Icon and text'},
             {name: 'icon-only', label: 'Icon only'},
             {name: 'text-only', label: 'Text only'}
         ];
-        this.defaultButtonIcons = ICON_MAPPING;
+        this.availablePages = [{
+            name: 'signup',
+            label: 'Signup'
+        }, {
+            name: 'accountHome',
+            label: 'Account'
+        }, {
+            name: 'links',
+            label: 'Links'
+        }];
         this.iconExtensions = ICON_EXTENSIONS;
-        const portalButtonIcon = this.settings.get('portalButtonIcon') || '';
-        const defaultIconKeys = this.defaultButtonIcons.map(buttonIcon => buttonIcon.value);
-        if (portalButtonIcon && !defaultIconKeys.includes(portalButtonIcon)) {
-            this.set('customIcon', this.settings.get('portalButtonIcon'));
-        }
-        this.siteUrl = this.config.get('blogUrl');
+        this.changedTiers = [];
+        this.set('supportAddress', this.parseEmailAddress(this.settings.get('membersSupportAddress')));
     },
 
     didInsertElement() {
         this._super(...arguments);
-        run.later(this, function () {
-            this.set('hidePreviewFrame', false);
-        }, 1200);
+        this.settings.get('errors').clear();
     },
 
     actions: {
         toggleFreePlan(isChecked) {
             this.updateAllowedPlan('free', isChecked);
         },
-        toggleMonthlyPlan(isChecked) {
-            this.updateAllowedPlan('monthly', isChecked);
+        togglePlan(plan, event) {
+            this.updateAllowedPlan(plan, event.target.checked);
         },
-        toggleYearlyPlan(isChecked) {
-            this.updateAllowedPlan('yearly', isChecked);
+        toggleTier(tierId, event) {
+            this.updateAllowedTier(tierId, event.target.checked);
         },
         togglePortalButton(showButton) {
             this.settings.set('portalButton', showButton);
@@ -174,6 +154,13 @@ export default ModalComponent.extend({
 
         togglePortalName(showSignupName) {
             this.settings.set('portalName', showSignupName);
+        },
+        toggleSection(section) {
+            if (this.get('openSection') === section) {
+                this.set('openSection', null);
+            } else {
+                this.set('openSection', section);
+            }
         },
 
         confirm() {
@@ -186,12 +173,12 @@ export default ModalComponent.extend({
         },
 
         switchPreviewPage(page) {
-            if (page === 'links') {
+            if (page.name === 'links') {
                 this.set('showLinksPage', true);
                 this.set('page', '');
             } else {
                 this.set('showLinksPage', false);
-                this.set('page', page);
+                this.set('page', page.name);
             }
         },
 
@@ -202,16 +189,10 @@ export default ModalComponent.extend({
             }
         },
 
-        updateAccentColor(color) {
-            this._validateAccentColor(color);
-        },
-
-        validateAccentColor() {
-            this._validateAccentColor(this.get('accentColor'));
-        },
         setButtonStyle(buttonStyle) {
             this.settings.set('portalButtonStyle', buttonStyle.name);
         },
+
         setSignupButtonText(event) {
             this.settings.set('portalButtonSignupText', event.target.value);
         },
@@ -234,18 +215,12 @@ export default ModalComponent.extend({
          * @param  {MouseEvent} event - MouseEvent fired by the button click
          */
         triggerFileDialog(event) {
-            // simulate click to open file dialog
-            // using jQuery because IE11 doesn't support MouseEvent
-            $(event.target)
-                .closest('.gh-setting-action')
-                .find('input[type="file"]')
-                .click();
+            event?.target.closest('.gh-setting-action')?.querySelector('input[type="file"]')?.click();
         },
 
         deleteCustomIcon() {
             this.set('customIcon', null);
-            const defaultIconKeys = ICON_MAPPING.map(buttonIcon => buttonIcon.value);
-            this.settings.set('portalButtonIcon', defaultIconKeys[0]);
+            this.settings.set('portalButtonIcon', this.membersUtils.defaultIconKeys[0]);
         },
 
         selectDefaultIcon(icon) {
@@ -256,67 +231,121 @@ export default ModalComponent.extend({
             this.set('showLeaveSettingsModal', false);
         },
 
-        openStripeSettings() {
-            this.model.openStripeSettings();
-            this.closeModal();
+        openStripeConnect() {
+            this.isWaitingForStripeConnection = true;
+            this.model.openStripeConnect();
         },
 
         leaveSettings() {
             this.closeModal();
+        },
+
+        validateFreeSignupRedirect() {
+            return this._validateSignupRedirect(this.freeSignupRedirect, 'membersFreeSignupRedirect');
+        },
+
+        validatePaidSignupRedirect() {
+            return this._validateSignupRedirect(this.paidSignupRedirect, 'membersPaidSignupRedirect');
+        },
+
+        setSupportAddress(supportAddress) {
+            this.set('supportAddress', supportAddress);
+
+            if (this.config.emailDomain && supportAddress === `noreply@${this.config.emailDomain}`) {
+                this.settings.set('membersSupportAddress', 'noreply');
+            } else {
+                this.settings.set('membersSupportAddress', supportAddress);
+            }
         }
+    },
+
+    parseEmailAddress(address) {
+        const emailAddress = address || 'noreply';
+        // Adds default domain as site domain
+        if (emailAddress.indexOf('@') < 0 && this.config.emailDomain) {
+            return `${emailAddress}@${this.config.emailDomain}`;
+        }
+        return emailAddress;
     },
 
     updateAllowedPlan(plan, isChecked) {
-        const allowedPlans = this.settings.get('portalPlans') || [];
+        const portalPlans = this.settings.get('portalPlans') || [];
+        const allowedPlans = [...portalPlans];
+        const freeTier = this.model.tiers.find(p => p.type === 'free');
 
         if (!isChecked) {
             this.settings.set('portalPlans', allowedPlans.filter(p => p !== plan));
+            if (plan === 'free') {
+                freeTier.set('visibility', 'none');
+            }
         } else {
             allowedPlans.push(plan);
-            this.settings.set('portalPlans', [...allowedPlans]);
+            this.settings.set('portalPlans', allowedPlans);
+            if (plan === 'free') {
+                freeTier.set('visibility', 'public');
+            }
         }
     },
 
-    _validateAccentColor(color) {
-        let newColor = color;
-        let oldColor = this.get('settings.accentColor');
-        let errMessage = '';
-
-        // reset errors and validation
-        this.get('settings.errors').remove('accentColor');
-        this.get('settings.hasValidated').removeObject('accentColor');
-
-        if (newColor === '') {
-            // Clear out the accent color
-            run.schedule('afterRender', this, function () {
-                this.settings.set('accentColor', '');
-                this.set('accentColor', '');
-            });
-            return;
-        }
-
-        // accentColor will be null unless the user has input something
-        if (!newColor) {
-            newColor = oldColor;
-        }
-
-        if (newColor[0] !== '#') {
-            newColor = `#${newColor}`;
-        }
-
-        if (newColor.match(/#[0-9A-Fa-f]{6}$/)) {
-            this.set('settings.accentColor', '');
-            run.schedule('afterRender', this, function () {
-                this.set('settings.accentColor', newColor);
-                this.set('accentColor', newColor.slice(1));
-            });
+    updateAllowedTier(tierId, isChecked) {
+        const tier = this.model.tiers.find(p => p.id === tierId);
+        if (!isChecked) {
+            tier.set('visibility', 'none');
         } else {
-            errMessage = 'The color should be in valid hex format';
-            this.get('settings.errors').add('accentColor', errMessage);
-            this.get('settings.hasValidated').pushObject('accentColor');
+            tier.set('visibility', 'public');
+        }
+        let portalTiers = this.model.tiers.filter((p) => {
+            return p.visibility === 'public';
+        }).map(p => p.id);
+        this.set('changedTiers', portalTiers);
+    },
+
+    _validateSignupRedirect(url, type) {
+        let errMessage = `Please enter a valid URL`;
+        this.settings.get('errors').remove(type);
+        this.settings.get('hasValidated').removeObject(type);
+
+        if (url === null) {
+            this.settings.get('errors').add(type, errMessage);
+            this.settings.get('hasValidated').pushObject(type);
+            return false;
+        }
+
+        if (url === undefined) {
+            // Not initialised
             return;
         }
+
+        if (url.href.startsWith(this.siteUrl)) {
+            const path = url.href.replace(this.siteUrl, '');
+            this.settings.set(type, path);
+        } else {
+            this.settings.set(type, url.href);
+        }
     },
+
+    finishPreloading: action(async function () {
+        if (this.model.preloadTask?.isRunning) {
+            await this.model.preloadTask;
+        }
+
+        const portalButtonIcon = this.settings.get('portalButtonIcon') || '';
+        if (portalButtonIcon && !this.membersUtils.defaultIconKeys.includes(portalButtonIcon)) {
+            this.set('customIcon', this.settings.get('portalButtonIcon'));
+        }
+
+        this.siteUrl = this.config.get('blogUrl');
+        this.set('isPreloading', false);
+    }),
+
+    refreshAfterStripeConnected: action(async function () {
+        if (this.isWaitingForStripeConnection) {
+            await this.finishPreloading();
+            this.notifyPropertyChange('page'); // force preview url to recompute
+            this.set('portalPreviewGuid', Date.now().valueOf()); // force preview re-render
+            this.isWaitingForStripeConnection = false;
+        }
+    }),
 
     copyLinkOrAttribute: task(function* () {
         copyTextToClipboard(this.showModalLinkOrAttribute);
@@ -324,7 +353,50 @@ export default ModalComponent.extend({
     }),
 
     saveTask: task(function* () {
-        yield this.settings.save();
-        this.closeModal();
+        this.send('validateFreeSignupRedirect');
+        this.send('validatePaidSignupRedirect');
+
+        this.settings.errors.remove('members_support_address');
+        this.settings.hasValidated.removeObject('members_support_address');
+
+        if (this.settings.get('errors').length !== 0) {
+            return;
+        }
+
+        // Save tier visibility if changed
+        yield Promise.all(
+            this.model.tiers.filter((tier) => {
+                const changedAttrs = tier.changedAttributes();
+                return !!changedAttrs.visibility;
+            }).map((tier) => {
+                return tier.save();
+            })
+        );
+
+        const newEmail = this.settings.get('membersSupportAddress');
+
+        try {
+            const result = yield this.settings.save();
+            if (result._meta?.sent_email_verification) {
+                yield this.modals.open(ConfirmEmailModal, {
+                    newEmail,
+                    currentEmail: this.settings.get('membersSupportAddress')
+                });
+            }
+
+            this.closeModal();
+        } catch (error) {
+            // Do we have an error that we can show inline?
+            if (error.payload && error.payload.errors) {
+                for (const payloadError of error.payload.errors) {
+                    if (payloadError.type === 'ValidationError' && payloadError.property && (payloadError.context || payloadError.message)) {
+                        // Context has a better error message for validation errors
+                        this.settings.errors.add(payloadError.property, payloadError.context || payloadError.message);
+                        this.settings.hasValidated.pushObject(payloadError.property);
+                    }
+                }
+            }
+            throw error;
+        }
     }).drop()
 });

@@ -1,7 +1,7 @@
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import moment from 'moment';
 import windowProxy from 'ghost-admin/utils/window-proxy';
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {afterEach, beforeEach, describe, it} from 'mocha';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {
@@ -27,7 +27,7 @@ describe('Acceptance: Staff', function () {
 
     it('redirects to signin when not authenticated', async function () {
         await invalidateSession();
-        await visit('/staff');
+        await visit('/settings/staff');
 
         expect(currentURL()).to.equal('/signin');
     });
@@ -39,9 +39,9 @@ describe('Acceptance: Staff', function () {
         this.server.create('user', {slug: 'no-access'});
 
         await authenticateSession();
-        await visit('/staff/no-access');
+        await visit('/settings/staff/no-access');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-user');
     });
 
     it('redirects correctly when authenticated as author', async function () {
@@ -51,9 +51,9 @@ describe('Acceptance: Staff', function () {
         this.server.create('user', {slug: 'no-access'});
 
         await authenticateSession();
-        await visit('/staff/no-access');
+        await visit('/settings/staff/no-access');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-user');
     });
 
     it('redirects correctly when authenticated as editor', async function () {
@@ -63,9 +63,9 @@ describe('Acceptance: Staff', function () {
         this.server.create('user', {slug: 'no-access'});
 
         await authenticateSession();
-        await visit('/staff/no-access');
+        await visit('/settings/staff/no-access');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff');
+        expect(currentURL(), 'currentURL').to.equal('/settings/staff');
     });
 
     describe('when logged in as admin', function () {
@@ -90,10 +90,10 @@ describe('Acceptance: Staff', function () {
             let user1 = this.server.create('user');
             let user2 = this.server.create('user');
 
-            await visit('/staff');
+            await visit('/settings/staff');
 
             // doesn't do any redirecting
-            expect(currentURL(), 'currentURL').to.equal('/staff');
+            expect(currentURL(), 'currentURL').to.equal('/settings/staff');
 
             // it has correct page title
             expect(document.title, 'page title').to.equal('Staff - Test Blog');
@@ -125,29 +125,29 @@ describe('Acceptance: Staff', function () {
             await click(`[data-test-user-id="${user2.id}"]`);
 
             // url is correct
-            expect(currentURL(), 'url after clicking user').to.equal(`/staff/${user2.slug}`);
+            expect(currentURL(), 'url after clicking user').to.equal(`/settings/staff/${user2.slug}`);
 
             // title is correct
             expect(document.title, 'title after clicking user').to.equal('Staff - User - Test Blog');
 
             // view title should exist and be linkable and active
             expect(
-                find('[data-test-screen-title] a[href="/ghost/staff"]').classList.contains('active'),
+                find('[data-test-screen-title] a[href="/ghost/settings/staff"]').classList.contains('active'),
                 'has linkable url back to staff main page'
             ).to.be.true;
 
             await click('[data-test-screen-title] a');
 
             // url should be /staff again
-            expect(currentURL(), 'url after clicking back').to.equal('/staff');
+            expect(currentURL(), 'url after clicking back').to.equal('/settings');
         });
 
         it('can manage invites', async function () {
-            await visit('/staff');
+            await visit('/settings/staff');
 
             // invite user button exists
             expect(
-                find('.view-actions .gh-btn-green'),
+                find('.view-actions .gh-btn-primary'),
                 'invite people button'
             ).to.exist;
 
@@ -182,46 +182,28 @@ describe('Acceptance: Staff', function () {
             ).to.equal(0);
 
             // click the invite people button
-            await click('.view-actions .gh-btn-green');
-
-            let roleOptions = findAll('.fullscreen-modal select[name="role"] option');
-
-            function checkOwnerExists() {
-                for (let i in roleOptions) {
-                    if (roleOptions[i].tagName === 'option' && roleOptions[i].text === 'Owner') {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            function checkSelectedIsAuthor() {
-                for (let i in roleOptions) {
-                    if (roleOptions[i].selected) {
-                        return roleOptions[i].text === 'Author';
-                    }
-                }
-                return false;
-            }
+            await click('[data-test-button="invite-staff-user"]');
 
             // modal is displayed
             expect(
-                find('.fullscreen-modal h1').textContent.trim(),
+                find('[data-test-modal="invite-staff-user"]'),
                 'correct modal is displayed'
-            ).to.equal('Invite a New User');
+            ).to.exist;
 
             // number of roles is correct
             expect(
-                findAll('.fullscreen-modal select[name="role"] option').length,
+                findAll('[data-test-option]').length,
                 'number of selectable roles'
-            ).to.equal(3);
+            ).to.equal(4);
 
-            expect(checkOwnerExists(), 'owner role isn\'t available').to.be.false;
-            expect(checkSelectedIsAuthor(), 'author role is selected initially').to.be.true;
+            expect(
+                find('[data-test-option="Contributor"]'),
+                'contributor role is selected initially'
+            ).to.have.class('active');
 
             // submit valid invite form
             await fillIn('.fullscreen-modal input[name="email"]', 'invite1@example.com');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-button="send-user-invite"]');
 
             // modal closes
             expect(
@@ -243,7 +225,7 @@ describe('Acceptance: Staff', function () {
             expect(
                 find('[data-test-invite-id="2"] [data-test-role-name]').textContent.trim(),
                 'displayed role of first invite'
-            ).to.equal('Author');
+            ).to.equal('Contributor');
 
             expect(
                 find('[data-test-invite-id="2"] [data-test-invite-description]').textContent,
@@ -257,10 +239,10 @@ describe('Acceptance: Staff', function () {
             ).to.equal(2);
 
             // submit new invite with different role
-            await click('.view-actions .gh-btn-green');
+            await click('.view-actions .gh-btn-primary');
             await fillIn('.fullscreen-modal input[name="email"]', 'invite2@example.com');
-            await fillIn('.fullscreen-modal select[name="role"]', '2');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-option="Editor"]');
+            await click('[data-test-button="send-user-invite"]');
 
             // number of invites increases
             expect(
@@ -280,9 +262,9 @@ describe('Acceptance: Staff', function () {
             ).to.equal('Editor');
 
             // submit invite form with existing user
-            await click('.view-actions .gh-btn-green');
+            await click('.view-actions .gh-btn-primary');
             await fillIn('.fullscreen-modal input[name="email"]', 'admin@example.com');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-button="send-user-invite"]');
 
             // validation message is displayed
             expect(
@@ -292,7 +274,7 @@ describe('Acceptance: Staff', function () {
 
             // submit invite form with existing invite
             await fillIn('.fullscreen-modal input[name="email"]', 'invite1@example.com');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-button="send-user-invite"]');
 
             // validation message is displayed
             expect(
@@ -302,7 +284,7 @@ describe('Acceptance: Staff', function () {
 
             // submit invite form with an invalid email
             await fillIn('.fullscreen-modal input[name="email"]', 'test');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-button="send-user-invite"]');
 
             // validation message is displayed
             expect(
@@ -333,9 +315,9 @@ describe('Acceptance: Staff', function () {
             ).to.equal('invite1@example.com');
 
             // add another invite to test ordering on resend
-            await click('.view-actions .gh-btn-green');
+            await click('.view-actions .gh-btn-primary');
             await fillIn('.fullscreen-modal input[name="email"]', 'invite3@example.com');
-            await click('.fullscreen-modal .gh-btn-green');
+            await click('[data-test-button="send-user-invite"]');
 
             // new invite should be last in the list
             expect(
@@ -376,7 +358,7 @@ describe('Acceptance: Staff', function () {
         });
 
         it('can manage suspended users', async function () {
-            await visit('/staff');
+            await visit('/settings/staff');
             await click(`[data-test-user-id="${suspendedUser.id}"]`);
 
             expect(find('[data-test-suspended-badge]')).to.exist;
@@ -421,7 +403,7 @@ describe('Acceptance: Staff', function () {
             user2.posts = [post];
             user2.save();
 
-            await visit('/staff');
+            await visit('/settings/staff');
             await click(`[data-test-user-id="${user1.id}"]`);
 
             // user deletion displays modal
@@ -445,7 +427,7 @@ describe('Acceptance: Staff', function () {
             ).to.be.true;
 
             // deleting a user with posts
-            await visit('/staff');
+            await visit('/settings/staff');
             await click(`[data-test-user-id="${user2.id}"]`);
 
             await click('button.delete');
@@ -457,7 +439,7 @@ describe('Acceptance: Staff', function () {
 
             await click('[data-test-button="confirm-delete-user"]');
             // redirected to staff page
-            expect(currentURL()).to.equal('/staff');
+            expect(currentURL()).to.equal('/settings/staff');
 
             // deleted user is not in list
             expect(
@@ -490,9 +472,9 @@ describe('Acceptance: Staff', function () {
 
             it('input fields reset and validate correctly', async function () {
                 // test user name
-                await visit('/staff/test-1');
+                await visit('/settings/staff/test-1');
 
-                expect(currentURL(), 'currentURL').to.equal('/staff/test-1');
+                expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-1');
                 expect(find('[data-test-name-input]').value, 'current user name').to.equal('Test User');
 
                 expect(find('[data-test-save-button]').textContent.trim(), 'save button text').to.equal('Save');
@@ -803,9 +785,9 @@ describe('Acceptance: Staff', function () {
             });
 
             it('warns when leaving without saving', async function () {
-                await visit('/staff/test-1');
+                await visit('/settings/staff/test-1');
 
-                expect(currentURL(), 'currentURL').to.equal('/staff/test-1');
+                expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-1');
 
                 await fillIn('[data-test-slug-input]', 'another slug');
                 await blur('[data-test-slug-input]');
@@ -826,9 +808,9 @@ describe('Acceptance: Staff', function () {
 
                 expect(currentURL(), 'currentURL').to.equal('/settings/staff');
 
-                await visit('/staff/test-1');
+                await visit('/settings/staff/test-1');
 
-                expect(currentURL(), 'currentURL').to.equal('/staff/test-1');
+                expect(currentURL(), 'currentURL').to.equal('/settings/staff/test-1');
 
                 // settings were not saved
                 expect(find('[data-test-slug-input]').value).to.be.equal('test-1');
@@ -838,7 +820,7 @@ describe('Acceptance: Staff', function () {
 
         describe('own user', function () {
             it('requires current password when changing password', async function () {
-                await visit(`/staff/${admin.slug}`);
+                await visit(`/settings/staff/${admin.slug}`);
 
                 // test the "old password" field is validated
                 await click('[data-test-save-pw-button]');
@@ -881,10 +863,10 @@ describe('Acceptance: Staff', function () {
                 return new Response(404, {'Content-Type': 'application/json'}, {errors: [{message: 'User not found.', type: 'NotFoundError'}]});
             });
 
-            await visit('/staff/unknown');
+            await visit('/settings/staff/unknown');
 
             expect(currentRouteName()).to.equal('error404');
-            expect(currentURL()).to.equal('/staff/unknown');
+            expect(currentURL()).to.equal('/settings/staff/unknown');
         });
     });
 
@@ -908,13 +890,13 @@ describe('Acceptance: Staff', function () {
             return await authenticateSession();
         });
 
-        it('can access the staff page', async function () {
+        it('is redirected to user profile page', async function () {
             this.server.create('user', {roles: [adminRole]});
             this.server.create('invite', {role: authorRole});
 
-            await visit('/staff');
+            await visit('/settings/staff');
 
-            expect(currentRouteName()).to.equal('staff.index');
+            expect(currentRouteName()).to.equal('settings.staff.user');
             expect(findAll('.gh-alert').length).to.equal(0);
         });
     });

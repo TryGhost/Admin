@@ -2,14 +2,37 @@
 /* ---------------------------------------------------------- */
 .gh-signin, .gh-auth-email {
     position: relative;
-    margin: 30px auto;
-    padding: 40px;
-    max-width: 400px;
     width: 100%;
-    background: #fff;
-    border-radius: 5px;
-    text-align: left;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.05), 0 20px 45px -10px rgba(0, 0, 0, 0.1);
+}
+
+.gh-flow-content header,
+.gh-signin header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gh-flow-content .gh-site-icon,
+.gh-signin .gh-site-icon {
+    margin-bottom: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: transparent;
+    background-size: 70px;
+    border-radius: 3px;
+}
+
+.gh-signin h1 {
+    font-size: 4.1rem;
+    font-weight: 600;
+    letter-spacing: -.025em;
+    line-height: 1.15em;
+    font-weight: 700;
+    color: var(--black);
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .gh-signin .form-group {
@@ -18,6 +41,47 @@
 
 .gh-signin .gh-btn {
     margin: 0;
+}
+
+.gh-signin .gh-btn-login,
+.gh-signin .gh-btn-reset,
+.gh-setup .gh-btn-signup,
+.gh-signup .gh-btn-signup {
+    height: 54px;
+    border-radius: 8px;
+    line-height: 54px;
+    margin-top: 40px;
+    max-width: unset;
+    font-weight: 300;
+    transition: all 0.4s ease;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.gh-signin .gh-btn-login span,
+.gh-signin .gh-btn-reset span,
+.gh-setup .gh-btn-signup span,
+.gh-signup .gh-btn-signup span {
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.gh-signin .gh-btn-reset {
+    background: var(--black) !important;
+    margin-top: 20px;
+}
+
+.gh-signin .gh-btn-login svg.gh-icon-spinner rect {
+    fill: #fff !important;
+}
+
+.gh-signin .gh-btn-login:hover,
+.gh-signup .gh-btn-signup:hover {
+    opacity: 0.9;
+}
+
+.gh-signin label {
+    font-size: 1.3rem;
+    font-weight: 600 !important;
 }
 
 .forgotten-wrap {
@@ -30,18 +94,18 @@
 
 .forgotten-wrap .forgotten-link {
     position: absolute;
-    top: 7px;
+    top: 12px;
     right: 1px;
-    bottom: 7px;
+    bottom: 12px;
     border-left: color-mod(var(--lightgrey) l(-5%) s(-10%)) 1px solid;
     border-radius: 0;
 }
 
 .forgotten-link span {
     height: 19px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 19px;
-    padding: 0 11px 0 12px;
+    padding: 0 15px 0 16px;
     margin-top: -1px;
     color: var(--midlightgrey);
 }
@@ -52,7 +116,7 @@
 }
 
 .forgotten-link:hover span {
-    color: var(--blue);
+    color: var(--black);
 }
 
 .forgotten-link:active {
@@ -60,137 +124,27 @@
     text-decoration: underline;
 }
 
+.gh-signin input,
+.gh-signin input:-webkit-autofill::first-line {
+    padding: 12px 16px;
+    height: 54px;
+    border-radius: 8px;
+    font-size: 1.8rem;
+}
+
+.gh-signin .gh-input:focus:not(.gh-signin .gh-input.reset-password:focus),
+.gh-signup .gh-input:focus {
+    border-color: var(--midgrey) !important;
+    box-shadow: none !important;
+}
 
 /* Email notification */
 /* ---------------------------------------------------------- */
-.gh-auth-animation-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid var(--lightgrey);
-    animation: 0.5s forwards 0.6s containerFadeIn;
-    opacity: 0;
-}
 
-@keyframes containerFadeIn {
-    0% { 
-        opacity: 0;
-    }
-    100% { 
-        opacity: 1;
-    }
-}
-
-.gh-auth-email-animation {
-    position: relative;
-    width: 122px;
-    height: 125px;
-    margin-bottom: -24px;
-    animation: 0.5s forwards 0.6s envelopeFadeIn;
-    opacity: 0;
-}
-
-@keyframes envelopeFadeIn {
-    0% { 
-        transform: translateY(-6px);
-        opacity: 0;
-    }
-    100% { 
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.gh-auth-email-animation .gh-auth-envelope-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.gh-auth-email-animation .gh-auth-envelope-front {
-    position: absolute;
-    top: 48px;
-    left: 0;
-    z-index: 100;
-}
-
-.gh-auth-email-animation .gh-auth-paper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: absolute;
-    top: 40px;
-    left: 15px;
-    width: 90px;
-    height: 82px;
-    background: white;
-    border: 1px solid #C5D2D9;
-    border-radius: 4px;
-    animation: 1.2s ease forwards 1.15s paperIn;
-}
-
-.gh-auth-email-animation .gh-auth-lock {
-    margin-top: 15px;
-    width: 40px;
-    height: 40px;
-    opacity: 0;
-    animation: 0.45s forwards 1.35s lockIn;
-}
-
-@keyframes paperIn {
-    0% { 
-        transform: scale(1,1) translateY(0); 
-    }
-    10% { 
-        transform: scale(1.05,.95) translateY(0); 
-    }
-    30% { 
-        transform: scale(.95,1.05) translateY(-32px); 
-    }
-    50% { 
-        transform: scale(1,1) translateY(-27px); 
-    }
-    100% { 
-        transform: scale(1,1) translateY(-27px); 
-    }
-}
-
-@keyframes lockIn {
-    0% { 
-        transform: scale(1) translateY(2px); 
-        opacity: 0;
-    }
-    60% { 
-        transform: scale(1.1) translateY(-2px); 
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1) translateY(0px);
-        opacity: 1;
-    }
-}
-
-.gh-auth-lock-body {
-    margin-top: 48px;
-    animation: 0.5s forwards 0.2s bodyFadeIn;
-    opacity: 0;
-}
-
-.gh-auth-lock-body p {
-    color: var(--midgrey);
-    margin: 0;
-    padding: 0;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.4em;
+.gh-auth-email header {
     text-align: center;
 }
 
-@keyframes bodyFadeIn {
-    0% { 
-        opacity: 0;
-    }
-    100% { 
-        opacity: 1;
-    }
+.gh-auth-email p {
+    color: var(--midgrey);
 }

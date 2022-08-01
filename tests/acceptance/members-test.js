@@ -1,8 +1,7 @@
 import moment from 'moment';
-import wait from 'ember-test-helpers/wait';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
-import {blur, click, currentRouteName, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
+import {blur, click, currentURL, fillIn, find, findAll, settled} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
@@ -20,7 +19,7 @@ describe('Acceptance: Members', function () {
         expect(currentURL()).to.equal('/signin');
     });
 
-    it('redirects non-admins to posts', async function () {
+    it('redirects non-admins to site', async function () {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role]});
 
@@ -42,29 +41,13 @@ describe('Acceptance: Members', function () {
             return await authenticateSession();
         });
 
-        it('shows sidebar link which navigates to members list', async function () {
-            await visit('/settings/labs/members');
-            await click('#labs-members');
-            await visit('/');
-
-            expect(find('[data-test-nav="members"]'), 'sidebar link')
-                .to.exist;
-
-            await click('[data-test-nav="members"]');
-
-            expect(currentURL()).to.equal('/members');
-            expect(currentRouteName()).to.equal('members.index');
-            expect(find('[data-test-screen-title]')).to.have.text('Members');
-        });
-
         it('it renders, can be navigated, can edit member', async function () {
-            let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
-            this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').valueOf()});
+            let member1 = this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss')});
+            this.server.create('member', {createdAt: moment.utc().subtract(2, 'day').format('YYYY-MM-DD HH:mm:ss')});
 
             await visit('/members');
 
-            // second wait is needed for the vertical-collection to settle
-            await wait();
+            await settled();
 
             // lands on correct page
             expect(currentURL(), 'currentURL').to.equal('/members');
@@ -73,28 +56,32 @@ describe('Acceptance: Members', function () {
             expect(document.title, 'page title').to.equal('Members - Test Blog');
 
             // it lists all members
-            expect(findAll('.members-list .gh-members-list-item').length, 'members list count')
+            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
                 .to.equal(2);
 
-            let member = find('.members-list .gh-members-list-item');
+            let member = find('[data-test-list="members-list-item"]');
             expect(member.querySelector('.gh-members-list-name').textContent, 'member list item title')
                 .to.equal(member1.name);
+
+            // it does not add ?include=email_recipients
+            const membersRequests = this.server.pretender.handledRequests.filter(r => r.url.match(/\/members\/(\?|$)/));
+            expect(membersRequests[0].url).to.not.have.string('email_recipients');
 
             await visit(`/members/${member1.id}`);
 
             // // second wait is needed for the member details to settle
-            await wait();
+            await settled();
 
             // it shows selected member form
-            expect(find('.gh-member-settings-primary input[name="name"]').value, 'loads correct member into form')
+            expect(find('[data-test-input="member-name"]').value, 'loads correct member into form')
                 .to.equal(member1.name);
 
-            expect(find('.gh-member-settings-primary input[name="email"]').value, 'loads correct email into form')
+            expect(find('[data-test-input="member-email"]').value, 'loads correct email into form')
                 .to.equal(member1.email);
 
             // trigger save
-            await fillIn('.gh-member-settings-primary input[name="name"]', 'New Name');
-            await blur('.gh-member-settings-primary input[name="name"]');
+            await fillIn('[data-test-input="member-name"]', 'New Name');
+            await blur('[data-test-input="member-name"]');
 
             await click('[data-test-button="save"]');
 
@@ -104,19 +91,16 @@ describe('Acceptance: Members', function () {
 
             await click('[data-test-link="members-back"]');
 
-            await wait();
-
             // lands on correct page
             expect(currentURL(), 'currentURL').to.equal('/members');
         });
 
         it('can create a new member', async function () {
-            this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').valueOf()});
+            this.server.create('member', {createdAt: moment.utc().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss')});
 
             await visit('/members');
 
-            // second wait is needed for the vertical-collection to settle
-            await wait();
+            await settled();
 
             // lands on correct page
             expect(currentURL(), 'currentURL').to.equal('/members');
@@ -125,7 +109,7 @@ describe('Acceptance: Members', function () {
             expect(document.title, 'page title').to.equal('Members - Test Blog');
 
             // it lists all members
-            expect(findAll('.members-list .gh-members-list-item').length, 'members list count')
+            expect(findAll('[data-test-list="members-list-item"]').length, 'members list count')
                 .to.equal(1);
 
             //  start new member
@@ -144,21 +128,76 @@ describe('Acceptance: Members', function () {
             });
 
             // save new member
-            await fillIn('.gh-member-settings-primary input[name="name"]', 'New Name');
-            await blur('.gh-member-settings-primary input[name="name"]');
+            await fillIn('[data-test-input="member-name"]', 'New Name');
+            await blur('[data-test-input="member-name"]');
 
-            await fillIn('.gh-member-settings-primary input[name="email"]', 'example@domain.com');
-            await blur('.gh-member-settings-primary input[name="email"]');
+            await fillIn('[data-test-input="member-email"]', 'example@domain.com');
+            await blur('[data-test-input="member-email"]');
 
             await click('[data-test-button="save"]');
 
-            await wait();
-
-            expect(find('.gh-member-settings-primary input[name="name"]').value, 'name has been preserved')
+            expect(find('[data-test-input="member-name"]').value, 'name has been preserved')
                 .to.equal('New Name');
 
-            expect(find('.gh-member-settings-primary input[name="email"]').value, 'email has been preserved')
+            expect(find('[data-test-input="member-email"]').value, 'email has been preserved')
                 .to.equal('example@domain.com');
+        });
+
+        it('can bulk delete members', async function () {
+            // members to be kept
+            this.server.createList('member', 6);
+
+            // imported members to be deleted
+            const label = this.server.create('label');
+            this.server.createList('member', 5, {labels: [label]});
+
+            await visit('/members');
+
+            expect(findAll('[data-test-member]').length).to.equal(11);
+
+            await click('[data-test-button="members-actions"]');
+
+            expect(find('[data-test-button="delete-selected"]')).to.not.exist;
+
+            // a filter is needed for the delete-selected button to show
+            await click('[data-test-button="members-filter-actions"]');
+            await fillIn('[data-test-members-filter="0"] [data-test-select="members-filter"]', 'label');
+            await click('.gh-member-label-input input');
+            await click(`[data-test-label-filter="${label.name}"]`);
+            await click(`[data-test-button="members-apply-filter"]`);
+
+            expect(findAll('[data-test-member]').length).to.equal(5);
+            expect(currentURL()).to.equal('/members?filter=label%3A%5Blabel-0%5D');
+
+            await click('[data-test-button="members-actions"]');
+
+            expect(find('[data-test-button="delete-selected"]')).to.exist;
+
+            await click('[data-test-button="delete-selected"]');
+
+            expect(find('[data-test-modal="delete-members"]')).to.exist;
+            expect(find('[data-test-text="delete-count"]')).to.have.text('5 members');
+
+            // ensure export endpoint gets hit with correct query params when deleting
+            let exportQueryParams;
+            this.server.get('/members/upload', (schema, request) => {
+                exportQueryParams = request.queryParams;
+            });
+
+            await click('[data-test-button="confirm"]');
+
+            expect(exportQueryParams).to.deep.equal({filter: 'label:[label-0]', limit: 'all'});
+
+            expect(find('[data-test-text="deleted-count"]')).to.have.text('5 members');
+            expect(find('[data-test-button="confirm"]')).to.not.exist;
+
+            // members filter is reset
+            expect(currentURL()).to.equal('/members');
+            expect(findAll('[data-test-member]').length).to.equal(6);
+
+            await click('[data-test-button="close-modal"]');
+
+            expect(find('[data-test-modal="delete-members"]')).to.not.exist;
         });
     });
 });

@@ -6,18 +6,20 @@ import {
     isUnsupportedMediaTypeError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-import {computed} from '@ember/object';
-import {get} from '@ember/object';
-import {htmlSafe} from '@ember/string';
+import {computed, get} from '@ember/object';
+import {htmlSafe} from '@ember/template';
 import {isArray} from '@ember/array';
 import {isBlank} from '@ember/utils';
-import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 
-export const IMAGE_MIME_TYPES = 'image/gif,image/jpg,image/jpeg,image/png,image/svg+xml';
-export const IMAGE_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
+export const IMAGE_MIME_TYPES = 'image/gif,image/jpg,image/jpeg,image/png,image/svg+xml,image/webp';
+export const IMAGE_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png', 'svg', 'svgz', 'webp'];
 export const IMAGE_PARAMS = {purpose: 'image'};
+
+export const ICON_EXTENSIONS = ['gif', 'ico', 'jpg', 'jpeg', 'png', 'svg', 'svgz', 'webp'];
+export const ICON_MIME_TYPES = 'image/x-icon,image/vnd.microsoft.icon,image/gif,image/jpg,image/jpeg,image/png,image/svg+xml,image/webp';
+export const ICON_PARAMS = {purpose: 'icon'};
 
 export default Component.extend({
     ajax: service(),
@@ -114,6 +116,8 @@ export default Component.extend({
     },
 
     didReceiveAttrs() {
+        this._super(...arguments);
+
         let image = this.image;
         this.set('url', image);
     },
@@ -198,7 +202,9 @@ export default Component.extend({
         if (event.lengthComputable) {
             run(() => {
                 let percentage = Math.round((event.loaded / event.total) * 100);
-                this.set('uploadPercentage', percentage);
+                if (!this.isDestroyed && !this.isDestroying) {
+                    this.set('uploadPercentage', percentage);
+                }
             });
         }
     },
@@ -296,7 +302,7 @@ export default Component.extend({
         let extensions = this.extensions;
         let [, extension] = (/(?:\.([^.]+))?$/).exec(file.name);
 
-        if (!isEmberArray(extensions)) {
+        if (!isArray(extensions)) {
             extensions = extensions.split(',');
         }
 

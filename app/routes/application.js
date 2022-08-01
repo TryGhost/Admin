@@ -1,10 +1,9 @@
-import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import AuthConfiguration from 'ember-simple-auth/configuration';
-import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
 import windowProxy from 'ghost-admin/utils/window-proxy';
+import {InitSentryForEmber} from '@sentry/ember';
 import {
     isAjaxError,
     isNotFoundError,
@@ -15,7 +14,6 @@ import {
     isMaintenanceError,
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
-import {run} from '@ember/runloop';
 import {inject as service} from '@ember/service';
 
 function K() {
@@ -27,17 +25,18 @@ let shortcuts = {};
 shortcuts.esc = {action: 'closeMenus', scope: 'default'};
 shortcuts[`${ctrlOrCmd}+s`] = {action: 'save', scope: 'all'};
 
-export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
+export default Route.extend(ShortcutsRoute, {
     ajax: service(),
     config: service(),
     feature: service(),
     ghostPaths: service(),
     notifications: service(),
     router: service(),
+    session: service(),
     settings: service(),
-    tour: service(),
     ui: service(),
     whatsNew: service(),
+    billing: service(),
 
     shortcuts,
 
@@ -45,39 +44,24 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
 
     init() {
         this._super(...arguments);
+
         this.router.on('routeDidChange', () => {
             this.notifications.displayDelayed();
         });
+
+        this.ui.initBodyDragHandlers();
     },
 
-    beforeModel() {
-        return this.config.fetchUnauthenticated();
+    async beforeModel() {
+        await this.session.setup();
+        return this.prepareApp();
     },
 
-    afterModel(model, transition) {
+    async afterModel(model, transition) {
         this._super(...arguments);
 
         if (this.get('session.isAuthenticated')) {
-            this.set('appLoadTransition', transition);
-            transition.send('loadServerNotifications');
-
-            // return the feature/settings load promises so that we block until
-            // they are loaded to enable synchronous access everywhere
-            return RSVP.all([
-                this.config.fetchAuthenticated(),
-                this.feature.fetch(),
-                this.settings.fetch(),
-                this.tour.fetchViewed()
-            ]).then((results) => {
-                this._appLoaded = true;
-
-                // kick off background update of "whats new"
-                // - we don't want to block the router for this
-                // - we need the user details to know what the user has seen
-                this.whatsNew.fetchLatest.perform();
-
-                return results;
-            });
+            this.session.appLoadTransition = transition;
         }
 
         this._appLoaded = true;
@@ -89,35 +73,12 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         },
 
         didTransition() {
-            this.set('appLoadTransition', null);
+            this.session.appLoadTransition = null;
             this.send('closeMenus');
-        },
-
-        signedIn() {
-            this.notifications.clearAll();
-            this.send('loadServerNotifications', true);
         },
 
         authorizationFailed() {
             windowProxy.replaceLocation(AuthConfiguration.rootURL);
-        },
-
-        loadServerNotifications(isDelayed) {
-            if (this.get('session.isAuthenticated')) {
-                this.get('session.user').then((user) => {
-                    if (!user.get('isAuthorOrContributor')) {
-                        this.store.findAll('notification', {reload: true}).then((serverNotifications) => {
-                            serverNotifications.forEach((notification) => {
-                                if (notification.get('top') || notification.get('custom')) {
-                                    this.notifications.handleNotification(notification, isDelayed);
-                                } else {
-                                    this.upgradeStatus.handleUpgradeNotification(notification);
-                                }
-                            });
-                        });
-                    }
-                });
-            }
         },
 
         // noop default for unhandled save (used from shortcuts)
@@ -187,27 +148,43 @@ export default Route.extend(ApplicationRouteMixin, ShortcutsRoute, {
         }
     },
 
-    sessionAuthenticated() {
-        if (this.get('session.skipAuthSuccessHandler')) {
-            return;
-        }
-
-        // standard ESA post-sign-in redirect
-        this._super(...arguments);
-
-        // trigger post-sign-in background behaviour
-        this.get('session.user').then((user) => {
-            this.send('signedIn', user);
-        });
+    willDestroy() {
+        this.ui.cleanupBodyDragHandlers();
     },
 
-    sessionInvalidated() {
-        let transition = this.appLoadTransition;
+    async prepareApp() {
+        await this.config.fetchUnauthenticated();
 
-        if (transition) {
-            transition.send('authorizationFailed');
-        } else {
-            run.scheduleOnce('routerTransitions', this, 'send', 'authorizationFailed');
+        // init Sentry here rather than app.js so that we can use API-supplied
+        // sentry_dsn and sentry_env rather than building it into release assets
+        if (this.config.get('sentry_dsn')) {
+            InitSentryForEmber({
+                dsn: this.config.get('sentry_dsn'),
+                environment: this.config.get('sentry_env'),
+                release: `ghost@${this.config.get('version')}`,
+                beforeSend(event) {
+                    event.tags = event.tags || {};
+                    event.tags.shown_to_user = event.tags.shown_to_user || false;
+                    event.tags.grammarly = !!document.querySelector('[data-gr-ext-installed]');
+                    return event;
+                }
+            });
+        }
+
+        if (this.session.isAuthenticated) {
+            try {
+                await this.session.populateUser();
+            } catch (e) {
+                await this.session.invalidate();
+            }
+
+            await this.session.postAuthPreparation();
+        }
+
+        if (this.config.get('hostSettings.forceUpgrade')) {
+            // enforce opening the BMA in a force upgrade state
+            this.billing.openBillingWindow(this.router.currentURL, '/pro');
         }
     }
+
 });

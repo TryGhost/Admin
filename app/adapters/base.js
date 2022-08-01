@@ -1,10 +1,10 @@
 import AjaxServiceSupport from 'ember-ajax/mixins/ajax-support';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import RESTAdapter from '@ember-data/adapter/rest';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {inject as service} from '@ember/service';
+import {underscore} from '@ember/string';
 
-export default RESTAdapter.extend(DataAdapterMixin, AjaxServiceSupport, {
+export default RESTAdapter.extend(AjaxServiceSupport, {
     host: window.location.origin,
     namespace: ghostPaths().apiRoot.slice(1),
 
@@ -23,6 +23,11 @@ export default RESTAdapter.extend(DataAdapterMixin, AjaxServiceSupport, {
         }
 
         return this.ajax(this.buildURL(type.modelName, id), 'GET', {data: query});
+    },
+
+    pathForType() {
+        const type = this._super(...arguments);
+        return underscore(type);
     },
 
     buildURL() {

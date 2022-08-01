@@ -1,5 +1,5 @@
 <section class="gh-canvas">
-    <GhCanvasHeader class="gh-canvas-header post-header">
+    <GhCanvasHeader class="gh-canvas-header break tablet post-header">
         <GhCustomViewTitle @title="Pages" @query={{reset-query-params "posts"}} />
 
         <section class="view-actions">
@@ -22,18 +22,16 @@
                 @onOrderChange={{action "changeOrder"}}
             />
 
-            <LinkTo @route="editor.new" @model="page" class="gh-btn gh-btn-green" data-test-new-page-button={{true}}><span>New page</span></LinkTo>
+            <LinkTo @route="editor.new" @model="page" class="gh-btn gh-btn-primary view-actions-top-row" data-test-new-page-button={{true}}><span>New page</span></LinkTo>
         </section>
     </GhCanvasHeader>
 
-    <section class="content-list">
+    <section class="view-container content-list">
         <ol class="gh-list {{unless this.postsInfinityModel "no-posts"}}">
             {{#if this.postsInfinityModel}}
                 <li class="gh-list-row header">
-                    <div class="gh-list-header no-padding">{{!--Favorite indicator column: no header--}}</div>
                     <div class="gh-list-header gh-posts-title-header">Title</div>
                     <div class="gh-list-header gh-posts-status-header">Status</div>
-                    <div class="gh-list-header gh-posts-lastupdate-header">Last update</div>
                 </li>
             {{/if}}
 
@@ -46,13 +44,13 @@
                     <div class="no-posts">
                         {{#if this.showingAll}}
                             {{svg-jar "pages-placeholder" class="gh-pages-placeholder"}}
-                            <h3>You haven't created any pages yet!</h3>
-                            <LinkTo @route="editor.new" @model="page" class="gh-btn gh-btn-green gh-btn-lg">
+                            <h4>Tell the world about yourself.</h4>
+                            <LinkTo @route="editor.new" @model="page" class="gh-btn gh-btn-green">
                                 <span>Create a new page</span>
                             </LinkTo>
                         {{else}}
-                            <h3>No pages match the current filter</h3>
-                            <LinkTo @route="pages" @query={{hash type=null author=null tag=null}} class="gh-btn gh-btn-lg">
+                            <h4>No pages match the current filter</h4>
+                            <LinkTo @route="pages" @query={{hash type=null author=null tag=null}} class="gh-btn">
                                 <span>Show all pages</span>
                             </LinkTo>
                         {{/if}}

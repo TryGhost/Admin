@@ -6,18 +6,18 @@
 /* ---------------------------------------------------------- */
 
 .user-actions-cog {
-    margin-right: 10px
+    margin-right: 10px;
+    color: var(--darkgrey);
 }
 
 .user-actions-cog svg {
-    height: 13px;
-    width: 13px;
-    fill: var(--midgrey);
+    height: 16px;
+    width: 16px;
     margin-right: 0;
 }
 
 .user-actions-cog svg path {
-    stroke: initial;
+    stroke: var(--darkgrey);
 }
 
 .user-actions-menu {
@@ -48,8 +48,6 @@
     margin-bottom: 30px;
     background: #fafafa no-repeat center center;
     background-size: cover;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
 }
 
 .user-cover-edit {
@@ -73,12 +71,12 @@
 }
 
 .user-details-bottom,
-.user-details-password {
+.user-details-form {
     max-width: 540px;
     margin: 2vw auto 0;
 }
 
-.user-details-password {
+.user-details-form {
     border-top: 1px solid var(--lightgrey);
     padding-top: 4vw;
     margin-bottom: -2vw;
@@ -150,4 +148,49 @@
     line-height: 100px;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+/* User roles modal
+/* ---------------------------------------------------------- */
+
+@media (max-height: 740px) {
+    .fullscreen-modal-change-role {
+        overflow-y: auto;
+    }
+    .fullscreen-modal-change-role .modal-content {
+        box-shadow: none !important;
+    }
+}
+
+/* Delete user modal
+/* ---------------------------------------------------------- */
+
+.gh-transfer-tag strong {
+    color: var(--midgrey);
+    font-weight: 600;
+}
+
+/* Notifications */
+.user-settings-heading {
+    border-top: 1px solid var(--lightgrey);
+    padding-top: 4vw;
+    margin-top: 4vw;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.3em;
+}
+
+.user-setting-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.user-setting-toggle label {
+    margin-bottom: 0;
+}
+
+.user-setting-toggle p {
+    margin-top: 0;
 }

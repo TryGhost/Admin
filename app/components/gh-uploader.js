@@ -1,8 +1,14 @@
 import Component from '@ember/component';
-import EmberObject from '@ember/object';
+import EmberObject, {get} from '@ember/object';
+import classic from 'ember-classic-decorator';
 import ghostPaths from 'ghost-admin/utils/ghost-paths';
+import {
+    ICON_EXTENSIONS,
+    ICON_MIME_TYPES,
+    IMAGE_EXTENSIONS,
+    IMAGE_MIME_TYPES
+} from 'ghost-admin/components/gh-image-uploader';
 import {all, task} from 'ember-concurrency';
-import {get} from '@ember/object';
 import {isArray} from '@ember/array';
 import {isEmpty} from '@ember/utils';
 import {run} from '@ember/runloop';
@@ -26,21 +32,22 @@ const MAX_SIMULTANEOUS_UPLOADS = 2;
  * @property {string} url - url relative to Ghost root,eg "/content/images/2017/05/my-image.png"
  */
 
-const UploadTracker = EmberObject.extend({
-    file: null,
-    total: 0,
-    loaded: 0,
+@classic
+class UploadTracker extends EmberObject {
+    file = null;
+    total = 0;
+    loaded = 0;
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.total = this.file && this.file.size || 0;
-    },
+    }
 
     update({loaded, total}) {
         this.total = total;
         this.loaded = loaded;
     }
-});
+}
 
 export default Component.extend({
     ajax: service(),
@@ -55,6 +62,7 @@ export default Component.extend({
     paramsHash: null,
     resourceName: 'images',
     uploadUrl: null,
+    requestMethod: 'post',
 
     // Interal attributes
     errors: null, // [{fileName: 'x', message: 'y'}, ...]
@@ -89,6 +97,11 @@ export default Component.extend({
         if (!this.paramsHash) {
             this.set('paramsHash', {purpose: 'image'});
         }
+
+        this.set('imageExtensions', IMAGE_EXTENSIONS);
+        this.set('imageMimeTypes', IMAGE_MIME_TYPES);
+        this.set('iconExtensions', ICON_EXTENSIONS);
+        this.set('iconMimeTypes', ICON_MIME_TYPES);
     },
 
     didReceiveAttrs() {
@@ -105,11 +118,25 @@ export default Component.extend({
     },
 
     actions: {
+        registerFileInput(input) {
+            this.fileInput = input;
+        },
+
+        triggerFileDialog() {
+            if (!this.fileInput) {
+                // eslint-disable-next-line
+                console.error('When using uploader.triggerFileDialog you must call uploader.registerFileInput first');
+                return;
+            }
+
+            this.fileInput.click();
+        },
+
         setFiles(files, resetInput) {
             this._setFiles(files);
 
             if (resetInput) {
-                resetInput();
+                this.fileInput = resetInput();
             }
         },
 
@@ -218,11 +245,12 @@ export default Component.extend({
         let ajax = this.ajax;
         let formData = this._getFormData(file);
         let url = `${ghostPaths().apiRoot}${this.uploadUrl}`;
+        let metadata = null;
 
         try {
-            this.onUploadStart(file);
+            metadata = yield Promise.resolve(this.onUploadStart(file));
 
-            let response = yield ajax.post(url, {
+            let response = yield ajax[this.requestMethod](url, {
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -270,13 +298,13 @@ export default Component.extend({
             };
 
             this.uploadUrls[index] = result;
-            this.onUploadSuccess(result);
+            this.onUploadSuccess(result, metadata);
 
             return true;
         } catch (error) {
             // grab custom error message if present
-            let message = error.payload.errors && error.payload.errors[0].message || '';
-            let context = error.payload.errors && error.payload.errors[0].context || '';
+            let message = error.payload && error.payload.errors && error.payload.errors[0].message || '';
+            let context = error.payload && error.payload.errors && error.payload.errors[0].context || '';
 
             // fall back to EmberData/ember-ajax default message for error type
             if (!message) {
@@ -291,7 +319,7 @@ export default Component.extend({
 
             // TODO: check for or expose known error types?
             this.errors.pushObject(result);
-            this.onUploadFailure(result);
+            this.onUploadFailure(result, metadata);
         }
     }).maxConcurrency(MAX_SIMULTANEOUS_UPLOADS).enqueue(),
 

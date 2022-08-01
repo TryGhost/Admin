@@ -3,41 +3,46 @@
 
 .gh-box {
     position: relative;
+    margin-top: 3px;
     padding: 12px 10px 14px 40px;
-    border: 1px solid transparent;
-    border-left-width: 5px;
-    color: var(--midgrey);
+    border: 1px solid var(--blue);
+    color: var(--darkgrey);
     line-height: 1.55em;
     letter-spacing: 0.2px;
-    background: #fff;
-    border-radius: 5px;
-    border-color: var(--whitegrey);
-    box-shadow: 0 6px 10px -8px rgba(0,0,0,.15)
+    background: color-mod(var(--blue) a(4%));
+    border-radius: 3px;
 }
 
 .gh-box a {
-    color: var(--middarkgrey);
-    text-decoration: underline;
+    color: var(--black);
+    font-weight: 500;
 }
 
 .gh-box svg:first-of-type {
     position: absolute;
     left: 12px;
     width: auto;
-}
-
-.gh-box-tip {
-    border-left-color: var(--blue);
+    fill: var(--blue);
 }
 
 .gh-box-tip svg:first-of-type {
     top: 12px;
     height: 2rem;
-    fill: var(--blue);
+}
+
+.gh-box-green {
+    padding: 12px 24px;
+    background: color-mod(var(--green) a(4%));
+    border-color: color-mod(var(--green) a(60%));
+}
+
+.gh-box-green a {
+    color: var(--green-d1);
 }
 
 .gh-box-alert {
-    border-left-color: color-mod(var(--yellow) l(-8%) s(+10%));
+    border-color: var(--yellow);
+    background: color-mod(var(--yellow) a(4%));
 }
 
 .gh-box-alert svg:first-of-type {
@@ -47,7 +52,8 @@
 }
 
 .gh-box-error {
-    border-left-color: var(--red);
+    border: 1px solid var(--red);
+    background: color-mod(var(--red) a(3%));
 }
 
 .gh-box-error svg:first-of-type {
@@ -56,6 +62,19 @@
     fill: var(--red);
 }
 
-.gh-box-error-border {
-    border-left: 5px solid var(--red);
+.gh-content-box {
+    line-height: 1.4em;
+    border: none;
+    background: var(--main-color-content-greybg);
+    border-radius: 3px;
 }
+
+.gh-content-box a {
+    color: var(--green-d1);
+}
+
+.gh-content-box.pa { padding: 16px; }
+.gh-content-box.pt { padding-top: 16px; }
+.gh-content-box.pr { padding-right: 16px; }
+.gh-content-box.pb { padding-bottom: 16px; }
+.gh-content-box.pl { padding-left: 16px; }

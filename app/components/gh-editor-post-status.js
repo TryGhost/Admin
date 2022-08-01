@@ -1,15 +1,16 @@
 import Component from '@glimmer/component';
 import config from 'ghost-admin/config/environment';
+import {action, get} from '@ember/object';
 import {formatPostTime} from 'ghost-admin/helpers/gh-format-post-time';
-import {get} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
-import {timeout} from 'ember-concurrency';
+import {task, timeout} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 export default class GhEditorPostStatusComponent extends Component {
     @service clock;
     @service settings;
+
+    @tracked isHovered = false;
 
     @tracked _isSaving = false;
 
@@ -25,23 +26,24 @@ export default class GhEditorPostStatusComponent extends Component {
         return this._isSaving;
     }
 
-    get scheduledText() {
+    get scheduledTime() {
         // force a recompute every second
         get(this.clock, 'second');
 
-        let text = [];
-        const sendEmailWhenPublished = this.args.post.emailRecipientFilter;
-        if (sendEmailWhenPublished && sendEmailWhenPublished !== 'none') {
-            text.push(`and sent to ${sendEmailWhenPublished} members`);
-        }
-
-        let formattedTime = formatPostTime(
+        return formatPostTime(
             this.args.post.publishedAtUTC,
             {timezone: this.settings.get('timezone'), scheduled: true}
         );
-        text.push(formattedTime);
+    }
 
-        return text.join(' ');
+    @action
+    onMouseover() {
+        this.isHovered = true;
+    }
+
+    @action
+    onMouseleave() {
+        this.isHovered = false;
     }
 
     @task({drop: true})

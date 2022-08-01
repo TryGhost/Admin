@@ -1,7 +1,7 @@
 /* Tag list
 /* ---------------------------------------------------------- */
 a.gh-tag-list-posts-count:hover {
-    color: color-mod(var(--blue) l(-25%) s(+15%));
+    color: color-mod(var(--green) l(-25%) s(+15%));
 }
 
 textarea.gh-tag-details-textarea {
@@ -9,8 +9,8 @@ textarea.gh-tag-details-textarea {
 }
 
 .gh-tags-placeholder {
-    width: 118px;
-    margin: -30px 0 15px;
+    width: 60px;
+    fill: var(--lightgrey);
 }
 
 .gh-tag-list-slug {
@@ -24,11 +24,6 @@ textarea.gh-tag-details-textarea {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.tags-view {
-    max-width: 1220px;
-    margin: 0 auto;
 }
 
 /* Mobile style of tag list */
@@ -134,19 +129,40 @@ textarea.gh-tag-details-textarea {
 /* Tag details
 /* ---------------------------------------------------------- */
 
+.gh-tag-basic-settings-form {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 0;
+}
+
 .gh-tag-image-uploader .gh-image-uploader {
     margin: 4px 0 0;
-    border: 1px solid var(--lightgrey);
+    background: transparent;
+    border: 1px solid var(--whitegrey-d2);
     min-height: 147px;
 }
 
 .gh-tag-setting-codeinjection .CodeMirror {
     padding: 0 !important;
     min-height: 240px;
+    background: var(--white);
+    color: var(--darkgrey);
+    border: 1px solid var(--whitegrey);
+    border-radius: 4px;
+    margin-bottom: 24px;
+}
+
+.gh-tag-setting-codeinjection .CodeMirror-gutters {
+    background-color: var(--whitegrey-l2);
+    border-right: 1px solid var(--lightgrey);
 }
 
 .gh-tag-setting-codeinjection .CodeMirror-scroll {
     min-height: 240px;
+}
+
+.gh-tag-setting-codeinjection .CodeMirror-cursor {
+    border: 1px solid var(--midgrey);
 }
 
 label.gh-tag-setting-codeheader {
@@ -160,6 +176,58 @@ label.gh-tag-setting-codeheader {
     max-width: 620px;
     width: 100%;
 }
+
+.gh-tag-settings-colorcontainer .input-color input {
+    position: relative;
+    width: 112px;
+    padding: 3px 4px 3px 54px;
+    font-size: 1.3rem;
+}
+
+.gh-tag-settings-colorcontainer .input-color::after {
+    left: 44px;
+}
+
+.gh-tag-settings-colorcontainer .color-picker-horizontal-divider {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 1px;
+    top: 0;
+    left: 37px;
+    bottom: 0;
+    background: var(--input-border-color);
+}
+
+.gh-tag-settings-colorcontainer .input-color input:focus + .color-picker-horizontal-divider {
+    top: 2px;
+    bottom: 2px;
+}
+
+.gh-tag-settings-colorcontainer .color-box-container {
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    overflow: hidden;
+    top: 2px;
+    left: 2px;
+    margin: 1px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.gh-tag-settings-colorcontainer .color-box-container .color-picker {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+}
+
 
 .gh-tag-settings-colorcontainer {
     flex-basis: 112px;

@@ -1,6 +1,6 @@
 {{#if this.icon}}
     <div class="sticky" style="top: {{this.iconTop}}px; margin-bottom: {{this.iconTop}}px">
-        {{svg-jar this.icon class=this.iconClass}}
+        <span data-tooltip={{@iconTooltip}}>{{svg-jar this.icon class=this.iconClass}}</span>
     </div>
     <div style="margin-top: -{{this.iconTop}}px"></div>
 {{/if}}
@@ -8,6 +8,8 @@
 {{yield (hash
     CaptionInput=(component "koenig-caption-input"
         captureInput=this.isSelected
+        deselectCard=this.deselectCard
+        selectCard=this.selectCard
         addParagraphAfterCard=this.addParagraphAfterCard
         moveCursorToPrevSection=this.moveCursorToPrevSection
         moveCursorToNextSection=this.moveCursorToNextSection
@@ -24,14 +26,14 @@
         <KgActionBar @class="absolute" @style={{this.toolbarStyle}} @isVisible={{this.shouldShowToolbar}} @instantClose={{this.koenigUi.inputHasFocus}}>
             {{#each this.toolbar.items as |item|}}
                 {{#if item.divider}}
-                    <li class="ma0 kg-action-bar-divider bg-darkgrey-d2 h5" role="separator"></li>
+                    <li class="ma0 ml1 mr1 kg-action-bar-divider bg-darkgrey-l2 h5" role="separator"></li>
                 {{else}}
                     <li class="ma0 lh-solid">
                         <button
                             type="button"
                             title={{item.title}}
                             class="dib dim-lite link h9 w9 nudge-top--1 justify-center {{item.buttonClass}}"
-                            onmousedown={{action item.action}}
+                            {{on "mousedown" (action item.action)}}
                         >
                             {{#if item.icon}}{{svg-jar item.icon class=(concat item.iconClass (if item.text " mr2") " w4 h4")}} {{/if}}{{item.text}}
                         </button>
@@ -41,7 +43,7 @@
 
             {{#if showSnippetIcon}}
                 {{#if this.toolbar.items}}
-                    <li class="ma0 lh-solid kg-action-bar-divider bg-darkgrey-l2 h5" role="separator"></li>
+                    <li class="ma0 ml1 mr1 lh-solid kg-action-bar-divider bg-darkgrey-l2 h5" role="separator"></li>
                 {{/if}}
                 <li class="ma0 lh-solid">
                     <button

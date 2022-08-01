@@ -1,40 +1,8 @@
 import moment from 'moment';
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {dasherize} from '@ember/string';
-import {isArray} from '@ember/array';
+import {extractFilterParam, paginateModelCollection} from '../utils';
 import {isBlank, isEmpty} from '@ember/utils';
-import {paginateModelCollection} from '../utils';
-
-function normalizeBooleanParams(arr) {
-    if (!isArray(arr)) {
-        return arr;
-    }
-
-    return arr.map((i) => {
-        if (i === 'true') {
-            return true;
-        } else if (i === 'false') {
-            return false;
-        } else {
-            return i;
-        }
-    });
-}
-
-// TODO: use GQL to parse filter string?
-function extractFilterParam(param, filter) {
-    let filterRegex = new RegExp(`${param}:(.*?)(?:\\+|$)`);
-    let match;
-
-    let [, result] = filter.match(filterRegex) || [];
-    if (result.startsWith('[')) {
-        match = result.replace(/^\[|\]$/g, '').split(',');
-    } else if (result) {
-        match = [result];
-    }
-
-    return normalizeBooleanParams(match);
-}
 
 // NOTE: mirage requires Model objects when saving relationships, however the
 // `attrs` on POST/PUT requests will contain POJOs for authors and tags so we
@@ -103,14 +71,20 @@ export default function mockPosts(server) {
         });
     });
 
-    server.put('/posts/:id/', function ({posts, users, tags}, {params}) {
-        let attrs = this.normalizedRequestAttrs();
-        let post = posts.find(params.id);
+    server.put('/posts/:id/', function ({newsletters, posts, users, tags}, {params, queryParams}) {
+        const attrs = this.normalizedRequestAttrs();
+        const post = posts.find(params.id);
 
         attrs.authors = extractAuthors(attrs, users);
         attrs.tags = extractTags(attrs, tags);
 
         attrs.updatedAt = moment.utc().toDate();
+
+        if (queryParams.newsletter) {
+            const newsletter = newsletters.findBy({slug: queryParams.newsletter});
+            post.newsletter = newsletter;
+            post.save();
+        }
 
         return post.update(attrs);
     });

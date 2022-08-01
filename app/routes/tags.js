@@ -1,31 +1,21 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
-import ShortcutsRoute from 'ghost-admin/mixins/shortcuts-route';
 
-export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
-    queryParams: {
+export default class TagsRoute extends AuthenticatedRoute {
+    queryParams = {
         type: {
             refreshModel: true,
             replace: true
         }
-    },
-
-    shortcuts: null,
-
-    init() {
-        this._super(...arguments);
-        this.shortcuts = {
-            c: 'newTag'
-        };
-    },
+    };
 
     // authors aren't allowed to manage tags
     beforeModel() {
-        this._super(...arguments);
+        super.beforeModel(...arguments);
 
-        return this.get('session.user')
-            .then(this.transitionAuthor());
-    },
+        if (this.session.user.isAuthorOrContributor) {
+            return this.transitionTo('home');
+        }
+    }
 
     // set model to a live array so all tags are shown and created/deleted tags
     // are automatically added/removed. Also load all tags in the background,
@@ -38,17 +28,11 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, ShortcutsRoute, {
         } else {
             return tags;
         }
-    },
-
-    actions: {
-        newTag() {
-            this.transitionTo('tag.new');
-        }
-    },
+    }
 
     buildRouteInfoMetadata() {
         return {
             titleToken: 'Tags'
         };
     }
-});
+}

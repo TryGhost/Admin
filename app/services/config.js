@@ -1,23 +1,26 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import Service, {inject as service} from '@ember/service';
+import classic from 'ember-classic-decorator';
 import timezoneData from '@tryghost/timezone-data';
 import {computed} from '@ember/object';
 
 // ember-cli-shims doesn't export _ProxyMixin
 const {_ProxyMixin} = Ember;
 
-export default Service.extend(_ProxyMixin, {
-    ajax: service(),
-    ghostPaths: service(),
-    session: service(),
+@classic
+export default class ConfigService extends Service.extend(_ProxyMixin) {
+    @service ajax;
+    @service ghostPaths;
 
-    content: null,
+    @service session;
+
+    content = null;
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.content = {};
-    },
+    }
 
     fetch() {
         let promises = [];
@@ -29,7 +32,7 @@ export default Service.extend(_ProxyMixin, {
         }
 
         return RSVP.all(promises);
-    },
+    }
 
     fetchUnauthenticated() {
         let siteUrl = this.ghostPaths.url.api('site');
@@ -44,7 +47,7 @@ export default Service.extend(_ProxyMixin, {
         }).then(() => {
             this.notifyPropertyChange('content');
         });
-    },
+    }
 
     fetchAuthenticated() {
         let configUrl = this.ghostPaths.url.api('config');
@@ -53,18 +56,39 @@ export default Service.extend(_ProxyMixin, {
         }).then(() => {
             this.notifyPropertyChange('content');
         });
-    },
+    }
 
-    availableTimezones: computed(function () {
+    @computed
+    get availableTimezones() {
         return RSVP.resolve(timezoneData);
-    }),
+    }
 
-    blogDomain: computed('blogUrl', function () {
+    @computed('blogUrl')
+    get blogDomain() {
         let blogUrl = this.get('blogUrl');
         let blogDomain = blogUrl
             .replace(/^https?:\/\//, '')
             .replace(/\/?$/, '');
 
         return blogDomain;
-    })
-});
+    }
+
+    @computed('blogDomain')
+    get emailDomain() {
+        let blogDomain = this.blogDomain || '';
+        const domainExp = blogDomain.match(new RegExp('^([^/:?#]+)(?:[/:?#]|$)', 'i'));
+        const domain = (domainExp && domainExp[1]) || '';
+        if (domain.startsWith('www.')) {
+            return domain.replace(/^(www)\.(?=[^/]*\..{2,5})/, '');
+        }
+        return domain;
+    }
+
+    getSiteUrl(path) {
+        const siteUrl = new URL(this.get('blogUrl'));
+        const subdir = siteUrl.pathname.endsWith('/') ? siteUrl.pathname : `${siteUrl.pathname}/`;
+        const fullPath = `${subdir}${path.replace(/^\//, '')}`;
+
+        return `${siteUrl.origin}${fullPath}`;
+    }
+}

@@ -1,4 +1,4 @@
-/* Unsplash Integration
+/* Unsplash+Tenor Integration
 /* ---------------------------------------------------------- */
 
 
@@ -196,6 +196,7 @@
     align-items: center;
     min-width: 0;
     font-size: 1.5rem;
+    letter-spacing: 0;
     line-height: 1.15em;
 }
 
@@ -280,4 +281,26 @@
 
 .gh-unsplash-zoom .gh-unsplash-photo-overlay {
     opacity: 1;
+}
+
+/* Tenor Integration
+/* ---------------------------------------------------------- */
+
+.gh-tenor-gif {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 24px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.gh-tenor-gif-highlighted {
+    box-shadow: 0 0 0 3px var(--green);
+}
+
+.gh-tenor-logo {
+    display: inline-block;
+    width: 100px;
+    margin-right: 20px;
 }

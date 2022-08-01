@@ -22,34 +22,34 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
-    it('redirects to staff page when authenticated as contributor', async function () {
+    it('redirects to home page when authenticated as contributor', async function () {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/amp');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/posts');
     });
 
-    it('redirects to staff page when authenticated as author', async function () {
+    it('redirects to home page when authenticated as author', async function () {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/amp');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
-    it('redirects to staff page when authenticated as editor', async function () {
+    it('redirects to home page when authenticated as editor', async function () {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/amp');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
     describe('when logged in', function () {
@@ -66,19 +66,19 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             // has correct url
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
 
-            // AMP is enabled by default
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
+            // AMP is disabled by default
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
 
             await click('[data-test-amp-checkbox]');
 
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
 
             await click('[data-test-save-button]');
 
             let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(lastRequest.requestBody);
 
-            expect(params.settings.findBy('key', 'amp').value).to.equal(false);
+            expect(params.settings.findBy('key', 'amp').value).to.equal(true);
 
             // CMD-S shortcut works
             await click('[data-test-amp-checkbox]');
@@ -93,8 +93,8 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             let [newRequest] = this.server.pretender.handledRequests.slice(-1);
             params = JSON.parse(newRequest.requestBody);
 
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
-            expect(params.settings.findBy('key', 'amp').value).to.equal(true);
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
+            expect(params.settings.findBy('key', 'amp').value).to.equal(false);
         });
 
         it('warns when leaving without saving', async function () {
@@ -103,28 +103,28 @@ describe('Acceptance: Settings - Integrations - AMP', function () {
             // has correct url
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/amp');
 
-            // AMP is enabled by default
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox default').to.be.true;
+            // AMP is disabled by default
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox default').to.be.false;
 
             await click('[data-test-amp-checkbox]');
 
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox after click').to.be.false;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox after click').to.be.true;
 
-            await visit('/staff');
+            await visit('/settings/staff');
 
             expect(findAll('.fullscreen-modal').length, 'unsaved changes modal exists').to.equal(1);
 
             // Leave without saving
             await click('.fullscreen-modal [data-test-leave-button]');
 
-            expect(currentURL(), 'currentURL after leave without saving').to.equal('/staff');
+            expect(currentURL(), 'currentURL after leave without saving').to.equal('/settings/staff');
 
             await visit('/settings/integrations/amp');
 
             expect(currentURL(), 'currentURL after return').to.equal('/settings/integrations/amp');
 
             // settings were not saved
-            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.true;
+            expect(find('[data-test-amp-checkbox]').checked, 'AMP checkbox').to.be.false;
         });
     });
 });

@@ -1,15 +1,15 @@
 .ember-power-select-trigger {
     padding: 0 16px 0 8px;
-    border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-5%));
+    border: var(--input-border);
     border-radius: var(--border-radius);
     background: transparent;
 }
 
 .ember-power-select-trigger:focus, .ember-power-select-trigger--active {
-    border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-5%));
+    border: var(--input-border);
 }
 
-.ember-power-select-trigger svg {
+.ember-power-select-trigger:not(.gh-setting-dropdown):not(.ember-power-select-multiple-trigger) svg {
     height: 4px;
     width: 6.11px;
     margin-left: 2px;
@@ -17,7 +17,7 @@
     vertical-align: middle;
 }
 
-.ember-power-select-trigger svg path {
+.ember-power-select-trigger:not(.gh-setting-dropdown):not(.ember-power-select-multiple-trigger) svg path {
     stroke: var(--darkgrey);
 }
 
@@ -33,7 +33,7 @@
 .ember-power-select-trigger[aria-expanded="true"],
 .ember-power-select-search input {
     outline: 0;
-    border-color: color-mod(var(--whitegrey) a(70%) s(-10%));
+    border-color: var(--input-border-color);
 }
 
 .ember-power-select-dropdown {
@@ -41,7 +41,7 @@
     z-index: 1000;
     box-sizing: border-box;
     margin: 0;
-    border: 1px solid color-mod(var(--whitegrey) a(70%) s(-10%));
+    border: var(--input-border);
     border-top: 0 none;
     background: #fff;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -52,6 +52,16 @@
     padding: 4px 0;
     border-bottom-color: color-mod(var(--whitegrey) a(70%) s(-10%));
     border-top: 1px solid color-mod(var(--whitegrey) a(70%) s(-10%));
+}
+
+.ember-power-select-dropdown.ember-basic-dropdown-content--below {
+    border: 1px solid var(--input-border-color);
+    border-top: none;
+}
+
+.ember-power-select-dropdown.ember-basic-dropdown-content--above {
+    border-top: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .ember-power-select-option {
@@ -73,6 +83,10 @@
 
 .ember-power-select-options:not([role="group"]) {
     max-height: 50vh;
+}
+
+.ember-power-select-options li {
+    margin-bottom: 0;
 }
 
 .ember-power-select-search input {
@@ -103,25 +117,17 @@
 .ember-power-select-group .ember-power-select-group-name {
     position: relative;
     display: inline-block;
-    padding: 7px 12px;
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px 8px;
     cursor: default;
+    border-top: 1px solid var(--list-color-divider);
     text-transform: uppercase;
     color: var(--midlightgrey);
     white-space: nowrap;
     letter-spacing: 0.1px;
     font-size: 1.2rem;
     font-weight: 500;
-}
-
-.ember-power-select-group .ember-power-select-group-name:after {
-    content: "";
-    position: absolute;
-    top: 60%;
-    left: calc(100% - 3px);
-    display: block;
-    width: calc(540px - 100%);
-    height: 1px;
-    border-bottom: color-mod(var(--lightgrey) l(-5%)) 1px solid;
 }
 
 @media (max-width: 900px) {
@@ -134,6 +140,10 @@
     .ember-power-select-group .ember-power-select-group-name:after {
         width: calc(80vw - 45px - 100%);
     }
+}
+
+.ember-power-select-options .ember-power-select-group:first-child .ember-power-select-group-name {
+    border-top: none;
 }
 
 .ember-power-select-group:first-of-type .ember-power-select-group-name {
@@ -169,6 +179,20 @@
     color: var(--darkgrey);
 }
 
+/* Reset - Useful for custom trigger components */
+.ember-power-select-trigger-reset {
+    padding: 0;
+    border: none;
+    border-radius: unset;
+    line-height: 0;
+    min-height: fit-content;
+}
+.ember-power-select-trigger-reset:focus,
+.ember-power-select-trigger-reset--active {
+    border: none;
+}
+
+
 /*
     HACK: ember-power-select has no separate class for the loading message
     Issue: https://github.com/cibernox/ember-power-select/issues/479
@@ -187,38 +211,39 @@
 .ember-power-select-multiple-trigger {
     background: #fff;
     padding: 4px;
-    border: rgb(214, 227, 235) 1px solid;
+    border: var(--input-border);
     border-radius: 3px;
     outline: none;
 }
 
 .ember-power-select-multiple-option {
     margin: 2px;
-    padding: 2px 6px;
-    border: 1px solid #3fb0ef;
+    padding: 2px 6px 3px;
     border-radius: 3px;
     font-size: 0.93em;
     font-weight: 500;
-    color: white;
-    background: #3fb0ef;
+    border: 1px solid transparent;
+    color: var(--darkgrey);
+    background: var(--whitegrey-d1);
 }
 
 .ember-power-select-multiple-remove-btn {
-    padding: 2px 1px;
+    padding: 2px;
 }
 
 .ember-power-select-multiple-remove-btn:not(:hover) {
-    opacity: 0.75;
+    opacity: 1;
 }
 
 .ember-power-select-multiple-remove-btn svg {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
 }
 
 .ember-power-select-multiple-remove-btn svg path {
-    stroke: white;
-    fill: white;
+    stroke-width: 2px;
+    stroke: var(--black);
+    fill: var(--black);
 }
 
 .ember-power-select-trigger-multiple-input {
@@ -244,24 +269,179 @@
     max-height: 172px; /* 5.5 options */
 }
 
+/* Recipient Token input with groups */
+.gh-token-input.select-members-recipient .ember-power-select-options[role="group"] {
+    max-height: unset;
+}
+
+.ember-power-select-options[role="listbox"] {
+    overflow-x: hidden;
+}
+
 /* Tag input */
 
-.tag-token--internal {
-    background: color-mod(var(--blue) alpha(0.1));
-    color: var(--blue);
+.tag-token:not(.tag-token--internal) {
+    position: relative;
+    color: var(--accent-color);
+    background: none;
+}
+  
+.tag-token:not(.tag-token--internal)::after {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    content: "";
+    border-radius: 3px;
+    background: var(--accent-color);
+    opacity: 0.15;
+}
+
+.tag-token span {
+    position: relative;
+    z-index: 2;
+    opacity: 0.8;
+}
+
+.tag-token svg path {
+    stroke: var(--accent-color);
+    fill: var(--accent-color);
 }
 
 .tag-token--internal svg path {
-    stroke: var(--blue);
-    fill: var(--blue);
+    stroke: var(--black);
+    fill: var(--black);
 }
 
-/* Inside settings / Mailgun region */
-/* TODO: make these general styles? */
+/* Author input */
 
-.gh-labs-mailgun-region .ember-power-select-trigger {
-    padding: 6px 12px;
+#author-list ul li:first-of-type {
+    position: relative;
+    color: var(--accent-color);
+    background: none;
 }
-.gh-labs-mailgun-region .ember-power-select-selected-item {
-    margin-left: 0;
+
+#author-list ul li:first-of-type::after {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    content: "";
+    border-radius: 3px;
+    background: var(--accent-color);
+    opacity: 0.15;
+}
+
+#author-list ul li:first-of-type span {
+    position: relative;
+    z-index: 2;
+    opacity: 0.8;
+}
+
+#author-list ul li:first-of-type svg path {
+    stroke: var(--accent-color);
+    fill: var(--accent-color);
+}
+
+/* Segment input */
+
+.token-segment-status-free {
+    border: 1px solid var(--green-d1);
+    color: var(--white);
+    background: var(--green-d1);
+}
+
+.token-segment-status-paid {
+    border: 1px solid var(--pink-d1);
+    color: var(--white);
+    background: var(--pink-d1);
+}
+
+.token-segment-label {
+    border: 1px solid var(--whitegrey-d1);
+    color: var(--darkgrey);
+    background: var(--whitegrey-d1);
+}
+
+.token-segment-label svg path {
+    stroke: var(--middarkgrey);
+    fill: var(--middarkgrey);
+}
+
+.token-segment-tier {
+    background: var(--black);
+    color: var(--white);
+}
+
+.token-segment-status-free svg path,
+.token-segment-status-paid svg path,
+.token-segment-tier svg path {
+    stroke: var(--white);
+    fill: var(--white);
+}
+
+/* Inline input */
+.ember-power-select-inline {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-height: auto;
+    vertical-align: bottom;
+    font-weight: 600;
+    line-height: 1.6em;
+    cursor: pointer;
+}
+
+.ember-power-select-inline.ember-power-select-trigger--active,
+.ember-power-select-inline.ember-power-select-trigger:focus {
+    border: 0;
+}
+
+/* Input with power select */
+.gh-input-with-select-trigger.ember-power-select-trigger--active {
+    border-color: color-mod(var(--green)) !important;
+    box-shadow: inset 0 0 0 1px var(--green);
+}
+
+.gh-input-with-select-input {
+    border: none;
+    width: 100%;
+    line-height: normal;
+}
+
+.gh-input-with-select-input:active,
+.gh-input-with-select-input:focus {
+    border: none;
+    outline: 0;
+}
+
+.gh-snippet-dropdown {
+    margin-top: -1px;
+    border-top: 1px solid var(--input-border-color) !important;
+}
+
+.gh-snippet-dropdown li:not(.ember-power-select-group) {
+    padding: 8px 12px;
+}
+
+.gh-snippet-dropdown .ember-power-select-group-name {
+    margin-top: 0;
+}
+
+.gh-btn-create-snippet {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2px 0;
+    color: var(--green-d1);
+    font-weight: 500;
+}
+
+.gh-btn-create-snippet svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    fill: var(--green-d1)
 }

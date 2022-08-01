@@ -1,5 +1,5 @@
 import ModalComponent from 'ghost-admin/components/modal-base';
-import {computed} from '@ember/object';
+import {and} from '@ember/object/computed';
 import {resetQueryParams} from 'ghost-admin/helpers/reset-query-params';
 import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
@@ -11,11 +11,7 @@ export default ModalComponent.extend({
     showDeleteLabelModal: false,
 
     confirm() {},
-    label: computed.and('model', 'model.label'),
-
-    init() {
-        this._super(...arguments);
-    },
+    label: and('model', 'model.label'),
 
     willDestroyElement() {
         this._super(...arguments);
@@ -28,8 +24,13 @@ export default ModalComponent.extend({
             this.label.rollbackAttributes();
             this.set('showDeleteLabelModal', true);
         },
+
         validate(property) {
             return this.label.validate({property});
+        },
+
+        confirm() {
+            return this.saveTask.perform();
         }
     },
 
@@ -56,7 +57,7 @@ export default ModalComponent.extend({
             }
 
             let savedLabel = yield label.save();
-            this.notifications.showNotification('Label saved'.htmlSafe());
+            this.notifications.showNotification('Label saved');
             this.send('closeModal');
             return savedLabel;
         } catch (error) {
@@ -74,7 +75,7 @@ export default ModalComponent.extend({
         try {
             yield label.destroyRecord();
             let routeName = this.router.currentRouteName;
-            this.notifications.showNotification('Label deleted'.htmlSafe());
+            this.notifications.showNotification('Label deleted');
             this.send('closeModal');
             this.router.transitionTo(routeName, {queryParams: resetQueryParams(routeName)});
         } catch (error) {

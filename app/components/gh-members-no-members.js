@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 
 export default class GhMembersNoMembersComponent extends Component {
     @service session;
     @service store;
     @service notifications;
+    @service settings;
 
     @action
     addYourself() {
@@ -16,10 +17,12 @@ export default class GhMembersNoMembersComponent extends Component {
     @task({drop: true})
     *addTask() {
         const user = yield this.session.user;
+        const defaultNewsletters = yield this.store.query('newsletter', {filter: 'status:active+subscribe_on_signup:true+visibility:members'});
 
         const member = this.store.createRecord('member', {
             email: user.get('email'),
-            name: user.get('name')
+            name: user.get('name'),
+            newsletters: defaultNewsletters
         });
 
         try {
@@ -29,7 +32,7 @@ export default class GhMembersNoMembersComponent extends Component {
                 this.args.afterCreate();
             }
 
-            this.notifications.showNotification('Member added'.htmlSafe(),
+            this.notifications.showNotification('Member added',
                 {
                     description: 'You\'ve successfully added yourself as a member.'
                 }

@@ -1,7 +1,9 @@
 import Pretender from 'pretender';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
+import {settled} from '@ember/test-helpers';
 import {setupTest} from 'ember-mocha';
 
 describe('Unit: Model: invite', function () {
@@ -18,12 +20,18 @@ describe('Unit: Model: invite', function () {
             server.shutdown();
         });
 
-        it('resend hits correct endpoint', function () {
+        it('resend hits correct endpoints', async function () {
             let store = this.owner.lookup('service:store');
-            let model = store.createRecord('invite');
+            let model = store.createRecord('invite', {
+                id: 42
+            });
             let role;
 
-            server.post('/ghost/api/v3/admin/invites/', function () {
+            server.delete(`${ghostPaths().apiRoot}/invites/42`, function () {
+                return [204, {}, '{}'];
+            });
+
+            server.post(`${ghostPaths().apiRoot}/invites/`, function () {
                 return [200, {}, '{}'];
             });
 
@@ -33,13 +41,13 @@ describe('Unit: Model: invite', function () {
                 model.set('role', role);
                 model.resend();
             });
+            await settled();
 
             expect(
                 server.handledRequests.length,
                 'number of requests'
-            ).to.equal(1);
-
-            let [lastRequest] = server.handledRequests;
+            ).to.equal(2);
+            let [, lastRequest] = server.handledRequests;
             let requestBody = JSON.parse(lastRequest.requestBody);
             let [invite] = requestBody.invites;
 

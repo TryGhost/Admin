@@ -1,13 +1,12 @@
-import $ from 'jquery';
 import Pretender from 'pretender';
 import Service from '@ember/service';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import {click, find, findAll, render, settled, triggerEvent, waitFor} from '@ember/test-helpers';
+import {click, find, findAll, render, waitFor} from '@ember/test-helpers';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {fileUpload} from '../../helpers/file-upload';
-import {run} from '@ember/runloop';
 import {setupRenderingTest} from 'ember-mocha';
 
 const notificationsStub = Service.extend({
@@ -17,13 +16,13 @@ const notificationsStub = Service.extend({
 });
 
 const stubSuccessfulUpload = function (server, delay = 0) {
-    server.post('/ghost/api/v3/admin/members/upload/', function () {
+    server.post(`${ghostPaths().apiRoot}/members/upload/`, function () {
         return [200, {'Content-Type': 'application/json'}, '{"url":"/content/images/test.png"}'];
     }, delay);
 };
 
 const stubFailedUpload = function (server, code, error, delay = 0) {
-    server.post('/ghost/api/v3/admin/members/upload/', function () {
+    server.post(`${ghostPaths().apiRoot}/members/upload/`, function () {
         return [code, {'Content-Type': 'application/json'}, JSON.stringify({
             errors: [{
                 type: error,
@@ -40,7 +39,7 @@ describe('Integration: Component: modal-import-members-test', function () {
 
     beforeEach(function () {
         server = new Pretender();
-        this.set('uploadUrl', '/ghost/api/v3/admin/members/upload/');
+        this.set('uploadUrl', `${ghostPaths().apiRoot}/members/upload/`);
 
         this.owner.register('service:notifications', notificationsStub);
     });
@@ -73,7 +72,7 @@ describe('Integration: Component: modal-import-members-test', function () {
         await click('.gh-btn-green');
 
         expect(server.handledRequests.length).to.equal(1);
-        expect(server.handledRequests[0].url).to.equal('/ghost/api/v3/admin/members/upload/');
+        expect(server.handledRequests[0].url).to.equal(`${ghostPaths().apiRoot}/members/upload/`);
     });
 
     it('displays server error', async function () {
@@ -103,7 +102,7 @@ describe('Integration: Component: modal-import-members-test', function () {
     });
 
     it('handles file too large error directly from the web server', async function () {
-        server.post('/ghost/api/v3/admin/members/upload/', function () {
+        server.post(`${ghostPaths().apiRoot}/members/upload/`, function () {
             return [413, {}, ''];
         });
         await render(hbs`{{modal-import-members}}`);
@@ -131,7 +130,7 @@ describe('Integration: Component: modal-import-members-test', function () {
     });
 
     it('handles unknown failure', async function () {
-        server.post('/ghost/api/v3/admin/members/upload/', function () {
+        server.post(`${ghostPaths().apiRoot}/members/upload/`, function () {
             return [500, {'Content-Type': 'application/json'}, ''];
         });
         await render(hbs`{{modal-import-members}}`);
@@ -178,34 +177,16 @@ describe('Integration: Component: modal-import-members-test', function () {
         expect(showAPIError.called).to.be.false;
     });
 
-    it('handles drag over/leave', async function () {
-        await render(hbs`{{modal-import-members}}`);
-
-        run(() => {
-            // eslint-disable-next-line new-cap
-            let dragover = $.Event('dragover', {
-                dataTransfer: {
-                    files: []
-                }
-            });
-            $(find('.gh-image-uploader')).trigger(dragover);
-        });
-
-        await settled();
-
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.true;
-
-        await triggerEvent('.gh-image-uploader', 'dragleave');
-
-        expect(find('.gh-image-uploader').classList.contains('-drag-over'), 'has drag-over class').to.be.false;
-    });
-
     it('validates extension by default', async function () {
-        stubSuccessfulUpload(server);
+        stubFailedUpload(server, 415);
 
         await render(hbs`{{modal-import-members}}`);
 
-        await fileUpload('input[type="file"]', ['membersfile'], {name: 'test.txt'});
+        await fileUpload('input[type="file"]', ['name,email\r\nmembername,memberemail@example.com'], {name: 'test.csv'});
+
+        // Wait for async CSV parsing to finish
+        await waitFor('table', {timeout: 50});
+        await click('.gh-btn-green');
 
         expect(findAll('.failed').length, 'error message is displayed').to.equal(1);
         expect(find('.failed').textContent).to.match(/The file type you uploaded is not supported/);

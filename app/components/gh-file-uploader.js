@@ -6,7 +6,7 @@ import {
     isVersionMismatchError
 } from 'ghost-admin/services/ajax';
 import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
+import {htmlSafe} from '@ember/template';
 import {isBlank} from '@ember/utils';
 import {isArray as isEmberArray} from '@ember/array';
 import {run} from '@ember/runloop';
@@ -145,6 +145,11 @@ export default Component.extend({
             this.set('file', null);
             this.set('uploadPercentage', 0);
             this.set('failureMessage', null);
+        },
+
+        retry() {
+            this.send('reset');
+            this.send('fileSelected', ...arguments);
         }
     },
 
@@ -210,7 +215,7 @@ export default Component.extend({
     },
 
     _uploadProgress(event) {
-        if (event.lengthComputable) {
+        if (event.lengthComputable && !this.isDestroyed && !this.isDestroying) {
             run(() => {
                 let percentage = Math.round((event.loaded / event.total) * 100);
                 this.set('uploadPercentage', percentage);

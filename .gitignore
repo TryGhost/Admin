@@ -38,14 +38,23 @@ Session.vim
 
 # compiled output
 /dist
+/dist-test
 /tmp
 
 # dependencies
 /node_modules
 /bower_components
 
+# IDE
+.idea/*
+*.iml
+*.sublime-*
+.vscode/*
+
 # misc
-./env*
+/.env*
+/.pnp*
+/.eslintcache
 /connect.lock
 /coverage/
 /libpeerconnection.log

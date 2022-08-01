@@ -9,6 +9,8 @@ import MemberValidator from 'ghost-admin/validators/member';
 import Mixin from '@ember/object/mixin';
 import Model from '@ember-data/model';
 import NavItemValidator from 'ghost-admin/validators/nav-item';
+import NewsletterValidator from 'ghost-admin/validators/newsletter';
+import OfferValidator from 'ghost-admin/validators/offer';
 import PostValidator from 'ghost-admin/validators/post';
 import RSVP from 'rsvp';
 import ResetValidator from 'ghost-admin/validators/reset';
@@ -16,9 +18,10 @@ import SettingValidator from 'ghost-admin/validators/setting';
 import SetupValidator from 'ghost-admin/validators/setup';
 import SigninValidator from 'ghost-admin/validators/signin';
 import SignupValidator from 'ghost-admin/validators/signup';
-import SlackIntegrationValidator from 'ghost-admin/validators/slack-integration';
 import SnippetValidator from 'ghost-admin/validators/snippet';
 import TagSettingsValidator from 'ghost-admin/validators/tag-settings';
+import TierBenefitItemValidator from 'ghost-admin/validators/tier-benefit-item';
+import TierValidator from 'ghost-admin/validators/tier';
 import UserValidator from 'ghost-admin/validators/user';
 import WebhookValidator from 'ghost-admin/validators/webhook';
 import {A as emberA, isArray as isEmberArray} from '@ember/array';
@@ -37,25 +40,7 @@ export default Mixin.create({
     // or by calling `this.validate()` without the model property.
     // in that case the model will be the class that the ValidationEngine
     // was mixed into, i.e. the controller or Ember Data model.
-    validators: {
-        customView: CustomViewValidator,
-        inviteUser: InviteUserValidator,
-        navItem: NavItemValidator,
-        post: PostValidator,
-        reset: ResetValidator,
-        setting: SettingValidator,
-        setup: SetupValidator,
-        signin: SigninValidator,
-        signup: SignupValidator,
-        slackIntegration: SlackIntegrationValidator,
-        tag: TagSettingsValidator,
-        user: UserValidator,
-        member: MemberValidator,
-        integration: IntegrationValidator,
-        webhook: WebhookValidator,
-        label: LabelValidator,
-        snippet: SnippetValidator
-    },
+    validators: null,
 
     // This adds the Errors object to the validation engine, and shouldn't affect
     // ember-data models because they essentially use the same thing
@@ -69,6 +54,29 @@ export default Mixin.create({
         this._super(...arguments);
         this.set('errors', Errors.create());
         this.set('hasValidated', emberA());
+
+        this.validators = {
+            customView: CustomViewValidator,
+            inviteUser: InviteUserValidator,
+            navItem: NavItemValidator,
+            tierBenefitItem: TierBenefitItemValidator,
+            post: PostValidator,
+            reset: ResetValidator,
+            setting: SettingValidator,
+            setup: SetupValidator,
+            signin: SigninValidator,
+            signup: SignupValidator,
+            tag: TagSettingsValidator,
+            user: UserValidator,
+            member: MemberValidator,
+            integration: IntegrationValidator,
+            webhook: WebhookValidator,
+            label: LabelValidator,
+            snippet: SnippetValidator,
+            tier: TierValidator,
+            offer: OfferValidator,
+            newsletter: NewsletterValidator
+        };
     },
 
     /**

@@ -1,12 +1,24 @@
+/* Plain text lists */
+ul.nostyle {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.nostyle li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Tabular data lists */
 .gh-list {
+    display: table;
     margin: 0;
     padding: 0;
     list-style: none;
     background: var(--white);
-    display: table;
     width: 100%;
-    border-radius: 5px;
-    box-shadow: var(--shadow-1);
+    border-bottom: var(--main-color-area-divider) 1px solid;
 }
 
 .gh-list.tabbed {
@@ -16,31 +28,6 @@
 
 .gh-list-row {
     display: table-row;
-}
-
-.gh-list-row:not(.header):not(.loading):hover .gh-list-cell,
-.gh-list-row:not(.header):not(.loading):hover .gh-list-data {
-    background: var(--whitegrey-l2);
-}
-
-.gh-list-row:first-of-type .gh-list-cell:first-child,
-.gh-list-row:first-of-type .gh-list-data:first-child {
-    border-top-left-radius: 5px;
-}
-
-.gh-list-row:first-of-type .gh-list-cell:last-child,
-.gh-list-row:first-of-type .gh-list-data:last-child {
-    border-top-right-radius: 5px;
-}
-
-.gh-list-row:last-of-type .gh-list-cell:first-child,
-.gh-list-row:last-of-type .gh-list-data:first-child {
-    border-bottom-left-radius: 5px;
-}
-
-.gh-list-row:last-of-type .gh-list-cell:last-child,
-.gh-list-row:last-of-type .gh-list-data:last-child {
-    border-bottom-right-radius: 5px;
 }
 
 .gh-list-row:not(.header):first-of-type {
@@ -61,20 +48,23 @@
 .gh-list-header {
     display: table-cell;
     vertical-align: middle;
-    border-bottom: var(--lightgrey) 1px solid;
-    font-size: 1.2rem;
+    border-bottom: var(--main-color-area-divider) 1px solid;
+    font-size: 1.1rem;
     font-weight: 500;
-    letter-spacing: 0.1px;
-    color: var(--midgrey);
-    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--black);
     padding: 10px 20px;
+    text-transform: uppercase;
     white-space: nowrap;
-    background: var(--whitegrey-l2);
+}
+
+.gh-list-row.header.empty .gh-list-header {
+    padding: 0;
 }
 
 .gh-list:not(.tabbed) .gh-list-header:first-child {
     border-top-left-radius: 5px;
-    padding-left: 16px;
+    padding-left: 0;
 }
 
 .gh-list:not(.tabbed) .gh-list-header:last-child {
@@ -88,6 +78,11 @@
     padding: 16px 20px;
     border-top: var(--whitegrey) 1px solid;
     transition: none !important;
+    font-size: 1.3rem;
+}
+
+.gh-list.small .gh-list-data {
+    padding: 8px 20px;
 }
 
 .gh-list-row:nth-of-type(2) .gh-list-data {
@@ -95,7 +90,7 @@
 }
 
 .gh-list-row .gh-list-data:first-child {
-    padding-left: 16px;
+    padding-left: 0;
 }
 
 .gh-list-data.show-on-hover > *,
@@ -107,6 +102,14 @@
 .gh-list-row:hover .gh-list-data.show-on-hover > *,
 .gh-list-row:hover .gh-list-cell.show-on-hover > * {
     opacity: 1;
+}
+
+.gh-list-row:not(.loading):hover .gh-list-data:first-of-type {
+    background: linear-gradient(315deg, var(--whitegrey-l2) 60%, var(--white) 100%);
+}
+
+.gh-list-row:not(.loading):hover .gh-list-data:not(:first-of-type) {
+    background: var(--whitegrey-l2);
 }
 
 .gh-list-data.align-right,
@@ -154,7 +157,12 @@
 .gh-list h3 {
     margin: 0 0 3px 0;
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 600;
+}
+
+.gh-list a:not(.gh-btn) {
+    color: var(--black);
 }
 
 
@@ -162,6 +170,10 @@
 /* --------------------------------------------------- */
 
 @media (max-width: 1000px) {
+    .gh-list {
+        border-bottom: none;
+    }
+
     .gh-list-header {
         display: none;
     }
@@ -239,6 +251,12 @@
     flex-grow: 1;
 }
 
+.gh-list-chevron a {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
 
 /* Fake loading list
 /* -------------------------------------------------- */
@@ -293,4 +311,120 @@
     max-width: 320px;
     height: 9px;
     margin-top: 8px;
+}
+
+/* Horizontally scrolling list */
+.gh-list-scrolling {
+    position: relative;
+    overflow: auto;
+    max-width: calc(100% + 96px);
+    height: calc(100vh - 129px);
+    margin: 0 -48px -81px;
+    padding: 0 48px;
+}
+
+.gh-list-scrolling table {
+    position: relative;
+    border-collapse: inherit;
+    margin: 0;
+    border-bottom: none;
+}
+
+.gh-list-scrolling thead tr {
+    position: sticky;
+    background: var(--main-bg-color);
+    z-index: 2;
+    top: 0;
+}
+
+.gh-list-scrolling thead th {
+    vertical-align: middle;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--black);
+    border-bottom: var(--whitegrey) 1px solid;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--main-bg-color);
+}
+
+.gh-list-scrolling thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    border-bottom: none;
+    padding: 0 60px 0 0;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 90%, rgba(255,255,255,0) 100%);
+}
+
+.gh-list-scrolling thead th:first-child::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: green;
+}
+
+.gh-list-scrolling tbody .gh-list-data:first-child {
+    position: sticky;
+    left: 0;
+    border-bottom: none;
+    background: var(--main-bg-color);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 90%, rgba(255,255,255,0) 100%);
+    padding: 0 60px 0 0;
+}
+
+.gh-list-scrolling thead th:first-child::before,
+.gh-list-scrolling tbody .gh-list-data:first-child::before {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 1px;
+    background: var(--whitegrey);
+}
+
+.gh-list-scrolling td:not(.wrap),
+.gh-list-scrolling th:not(.wrap),
+.gh-list-scrolling a:not(.wrap) {
+    white-space: nowrap;
+}
+
+.gh-list-scrolling tbody th{
+    position: sticky;
+    left: 0;
+}
+
+.gh-list-scrolling tbody .gh-list-data {
+    border-top: none;
+    border-bottom: var(--whitegrey) 1px solid;
+}
+
+.gh-list-scrolling tbody tr:hover > a:first-of-type {
+    background: linear-gradient(315deg, var(--whitegrey-l2) 60%, var(--white) 100%);
+}
+
+.gh-list-scrolling tbody tr:hover > a:not(:first-of-type) {
+    background: var(--whitegrey-l2);
+}
+
+@media (max-width: 800px) {
+    .gh-list-scrolling {
+        max-width: calc(100% + 8vw);
+        height: calc(100vh - 193px);
+        margin-left: 0;
+        margin-right: -4vw;
+        padding-left: 0;
+        padding-right: 4vw;
+    }
+}
+
+@media (min-width: 1450px) {
+    .gh-list-scrolling {
+        height: calc(100vh - 96px);
+    }
 }

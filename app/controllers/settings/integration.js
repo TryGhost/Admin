@@ -5,51 +5,57 @@ import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
 } from 'ghost-admin/components/gh-image-uploader';
-import {alias} from '@ember/object/computed';
-import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
+import {action} from '@ember/object';
+import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
+import {tracked} from '@glimmer/tracking';
 
-export default Controller.extend({
-    config: service(),
-    ghostPaths: service(),
+export default class IntegrationController extends Controller {
+    @service config;
+    @service ghostPaths;
 
-    imageExtensions: IMAGE_EXTENSIONS,
-    imageMimeTypes: IMAGE_MIME_TYPES,
-    showRegenerateKeyModal: false,
-    selectedApiKey: null,
-    isApiKeyRegenerated: false,
+    imageExtensions = IMAGE_EXTENSIONS;
+    imageMimeTypes = IMAGE_MIME_TYPES;
 
-    init() {
-        this._super(...arguments);
+    @tracked showDeleteIntegrationModal = false;
+    @tracked showRegenerateKeyModal = false;
+    @tracked showUnsavedChangesModal = false;
+    @tracked selectedApiKey = null;
+    @tracked isApiKeyRegenerated = false;
+    @tracked webhookToDelete;
+
+    constructor() {
+        super(...arguments);
         if (this.isTesting === undefined) {
             this.isTesting = config.environment === 'test';
         }
-    },
+    }
 
-    integration: alias('model'),
+    get integration() {
+        return this.model;
+    }
 
-    apiUrl: computed(function () {
+    get apiUrl() {
         let origin = window.location.origin;
         let subdir = this.ghostPaths.subdir;
         let url = this.ghostPaths.url.join(origin, subdir);
 
         return url.replace(/\/$/, '');
-    }),
+    }
 
-    regeneratedKeyType: computed('isApiKeyRegenerated', 'selectedApiKey', function () {
+    get regeneratedKeyType() {
         if (this.isApiKeyRegenerated) {
-            return this.get('selectedApiKey.type');
+            return this.selectedApiKey.type;
         }
         return null;
-    }),
+    }
 
-    allWebhooks: computed(function () {
+    get allWebhooks() {
         return this.store.peekAll('webhook');
-    }),
+    }
 
-    filteredWebhooks: computed('integration.id', 'allWebhooks.@each.{isNew,isDeleted}', function () {
+    get filteredWebhooks() {
         return this.allWebhooks.filter((webhook) => {
             let matchesIntegration = webhook.belongsTo('integration').id() === this.integration.id;
 
@@ -57,9 +63,9 @@ export default Controller.extend({
                 && !webhook.isNew
                 && !webhook.isDeleted;
         });
-    }),
+    }
 
-    iconImageStyle: computed('integration.iconImage', function () {
+    get iconImageStyle() {
         let url = this.integration.iconImage;
         if (url) {
             let styles = [
@@ -72,115 +78,161 @@ export default Controller.extend({
         }
 
         return htmlSafe('');
-    }),
+    }
 
-    actions: {
-        triggerIconFileDialog() {
-            let input = document.querySelector('input[type="file"][name="iconImage"]');
-            input.click();
-        },
+    @action
+    triggerIconFileDialog(event) {
+        event.preventDefault();
+        let input = document.querySelector('input[type="file"][name="iconImage"]');
+        input.click();
+    }
 
-        setIconImage([image]) {
-            this.integration.set('iconImage', image.url);
-        },
+    @action
+    updateProperty(property, event) {
+        this.integration.set(property, event.target.value);
+    }
 
-        save() {
-            return this.save.perform();
-        },
+    @action
+    validateProperty(property) {
+        this.integration.validate({property});
+    }
 
-        toggleUnsavedChangesModal(transition) {
-            let leaveTransition = this.leaveScreenTransition;
+    @action
+    setIconImage([image]) {
+        this.integration.set('iconImage', image.url);
+    }
 
-            if (!transition && this.showUnsavedChangesModal) {
-                this.set('leaveScreenTransition', null);
-                this.set('showUnsavedChangesModal', false);
-                return;
-            }
+    @action
+    save() {
+        return this.saveTask.perform();
+    }
 
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveScreenTransition', transition);
+    @action
+    toggleUnsavedChangesModal(transition) {
+        let leaveTransition = this.leaveScreenTransition;
 
-                // if a save is running, wait for it to finish then transition
-                if (this.save.isRunning) {
-                    return this.save.last.then(() => {
-                        transition.retry();
-                    });
-                }
-
-                // we genuinely have unsaved data, show the modal
-                this.set('showUnsavedChangesModal', true);
-            }
-        },
-
-        leaveScreen() {
-            let transition = this.leaveScreenTransition;
-
-            if (!transition) {
-                this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
-                return;
-            }
-
-            // roll back changes on model props
-            this.integration.rollbackAttributes();
-
-            return transition.retry();
-        },
-
-        deleteIntegration() {
-            this.integration.destroyRecord();
-        },
-
-        confirmIntegrationDeletion() {
-            this.set('showDeleteIntegrationModal', true);
-        },
-
-        cancelIntegrationDeletion() {
-            this.set('showDeleteIntegrationModal', false);
-        },
-
-        confirmRegenerateKeyModal(apiKey) {
-            this.set('showRegenerateKeyModal', true);
-            this.set('isApiKeyRegenerated', false);
-            this.set('selectedApiKey', apiKey);
-        },
-
-        cancelRegenerateKeyModal() {
-            this.set('showRegenerateKeyModal', false);
-        },
-
-        regenerateKey() {
-            this.set('isApiKeyRegenerated', true);
-        },
-
-        confirmWebhookDeletion(webhook) {
-            this.set('webhookToDelete', webhook);
-        },
-
-        cancelWebhookDeletion() {
-            this.set('webhookToDelete', null);
-        },
-
-        deleteWebhook() {
-            return this.webhookToDelete.destroyRecord();
+        if (!transition && this.showUnsavedChangesModal) {
+            this.leaveScreenTransition = null;
+            this.showUnsavedChangesModal = false;
+            return;
         }
-    },
 
-    save: task(function* () {
-        return yield this.integration.save();
-    }),
+        if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
+            this.leaveScreenTransition = transition;
 
-    copyContentKey: task(function* () {
+            // if a save is running, wait for it to finish then transition
+            if (this.saveTask.isRunning) {
+                return this.saveTask.last.then(() => {
+                    transition.retry();
+                });
+            }
+
+            // we genuinely have unsaved data, show the modal
+            this.showUnsavedChangesModal = true;
+        }
+    }
+
+    @action
+    leaveScreen(event) {
+        event?.preventDefault();
+        let transition = this.leaveScreenTransition;
+
+        if (!transition) {
+            this.notifications.showAlert('Sorry, there was an error in the application. Please let the Ghost team know what happened.', {type: 'error'});
+            return;
+        }
+
+        // roll back changes on model props
+        this.integration.rollbackAttributes();
+
+        return transition.retry();
+    }
+
+    @action
+    deleteIntegration(event) {
+        event?.preventDefault();
+        this.integration.destroyRecord();
+    }
+
+    @action
+    confirmIntegrationDeletion(event) {
+        event?.preventDefault();
+        this.showDeleteIntegrationModal = true;
+    }
+
+    @action
+    cancelIntegrationDeletion(event) {
+        event?.preventDefault();
+        this.showDeleteIntegrationModal = false;
+    }
+
+    @action
+    confirmRegenerateKeyModal(apiKey, event) {
+        event?.preventDefault();
+        this.showRegenerateKeyModal = true;
+        this.isApiKeyRegenerated = false;
+        this.selectedApiKey = apiKey;
+    }
+
+    @action
+    cancelRegenerateKeyModal(event) {
+        event?.preventDefault();
+        this.showRegenerateKeyModal = false;
+    }
+
+    @action
+    regenerateKey(event) {
+        event?.preventDefault();
+        this.isApiKeyRegenerated = true;
+    }
+
+    @action
+    confirmWebhookDeletion(webhook, event) {
+        event?.preventDefault();
+        this.webhookToDelete = webhook;
+    }
+
+    @action
+    cancelWebhookDeletion(event) {
+        event?.preventDefault();
+        this.webhookToDelete = null;
+    }
+
+    @action
+    deleteWebhook(event) {
+        event?.preventDefault();
+        return this.webhookToDelete.destroyRecord();
+    }
+
+    @task
+    *saveTask() {
+        try {
+            return yield this.integration.save();
+        } catch (e) {
+            if (e === undefined) {
+                // validation error
+                return false;
+            }
+
+            throw e;
+        }
+    }
+
+    @task
+    *copyContentKey() {
         copyTextToClipboard(this.integration.contentKey.secret);
         yield timeout(this.isTesting ? 50 : 3000);
-    }),
+    }
 
-    copyAdminKey: task(function* () {
+    @task
+    *copyAdminKey() {
         copyTextToClipboard(this.integration.adminKey.secret);
         yield timeout(this.isTesting ? 50 : 3000);
-    }),
+    }
 
-    copyApiUrl: task(function* () {
+    @task
+    *copyApiUrl() {
         copyTextToClipboard(this.apiUrl);
         yield timeout(this.isTesting ? 50 : 3000);
-    })
-});
+    }
+}

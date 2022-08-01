@@ -1,5 +1,5 @@
 import {helper} from '@ember/component/helper';
-import {htmlSafe} from '@ember/string';
+import {htmlSafe} from '@ember/template';
 
 export function countCharacters(params) {
     if (!params || !params.length) {
@@ -18,7 +18,7 @@ export function countCharacters(params) {
     if (length > 180) {
         el.style.color = '#f05230';
     } else {
-        el.style.color = '#738a94';
+        el.style.color = '#45C32E';
     }
 
     el.innerHTML = 200 - length;

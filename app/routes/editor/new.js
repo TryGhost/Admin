@@ -1,6 +1,6 @@
 import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
 
-export default AuthenticatedRoute.extend({
+export default class NewRoute extends AuthenticatedRoute {
     model(params, transition) {
         let {type: modelName} = params;
 
@@ -9,21 +9,19 @@ export default AuthenticatedRoute.extend({
             return this.replaceWith('error404', {path, status: 404});
         }
 
-        return this.get('session.user').then(user => (
-            this.store.createRecord(modelName, {authors: [user]})
-        ));
-    },
+        return this.store.createRecord(modelName, {authors: [this.session.user]});
+    }
 
     // there's no specific controller for this route, instead all editor
     // handling is done on the editor route/controler
     setupController(controller, newPost) {
         let editor = this.controllerFor('editor');
         editor.setPost(newPost);
-    },
+    }
 
     buildRouteInfoMetadata() {
         return {
             mainClasses: ['editor-new']
         };
     }
-});
+}

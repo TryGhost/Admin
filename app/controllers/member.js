@@ -3,7 +3,7 @@ import EmberObject, {action, defineProperty} from '@ember/object';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import moment from 'moment';
 import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const SCRATCH_PROPS = ['name', 'email', 'note'];
@@ -21,13 +21,42 @@ export default class MemberController extends Controller {
     @tracked showDeleteMemberModal = false;
     @tracked showImpersonateMemberModal = false;
     @tracked showUnsavedChangesModal = false;
+    @tracked modalLabel = null;
+    @tracked showLabelModal = false;
 
     leaveScreenTransition = null;
+
+    constructor() {
+        super(...arguments);
+        this._availableLabels = this.store.peekAll('label');
+    }
 
     // Computed properties -----------------------------------------------------
 
     get member() {
         return this.model;
+    }
+
+    get labelModalData() {
+        let label = this.modalLabel;
+        let labels = this.availableLabels;
+
+        return {
+            label,
+            labels
+        };
+    }
+
+    get availableLabels() {
+        let labels = this._availableLabels
+            .filter(label => !label.isNew)
+            .filter(label => label.id !== null)
+            .sort((labelA, labelB) => labelA.name.localeCompare(labelB.name, undefined, {ignorePunctuation: true}));
+        let options = labels.toArray();
+
+        options.unshiftObject({name: 'All labels', slug: null});
+
+        return options;
     }
 
     set member(member) {
@@ -48,6 +77,22 @@ export default class MemberController extends Controller {
     }
 
     // Actions -----------------------------------------------------------------
+
+    @action
+    toggleLabelModal() {
+        this.showLabelModal = !this.showLabelModal;
+    }
+
+    @action
+    editLabel(label, e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        let modalLabel = this.availableLabels.findBy('slug', label);
+        this.modalLabel = modalLabel;
+        this.showLabelModal = !this.showLabelModal;
+    }
 
     @action
     setProperty(propKey, value) {
@@ -78,7 +123,8 @@ export default class MemberController extends Controller {
         };
         return this.member.destroyRecord(options).then(() => {
             this.members.refreshData();
-            return this.transitionToRoute('members');
+            this.transitionToRoute('members');
+            return;
         }, (error) => {
             return this.notifications.showAPIError(error, {key: 'member.delete'});
         });
@@ -146,8 +192,9 @@ export default class MemberController extends Controller {
     *fetchMemberTask(memberId) {
         this.isLoading = true;
 
-        this.member = yield this.store.findRecord('member', memberId, {
-            reload: true
+        this.member = yield this.store.queryRecord('member', {
+            id: memberId,
+            include: 'tiers'
         });
 
         this.isLoading = false;
@@ -158,7 +205,7 @@ export default class MemberController extends Controller {
     _saveMemberProperty(propKey, newValue) {
         let currentValue = this.member.get(propKey);
 
-        if (newValue) {
+        if (newValue && typeof newValue === 'string') {
             newValue = newValue.trim();
         }
 

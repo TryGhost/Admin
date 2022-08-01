@@ -1,23 +1,22 @@
-<div class="gh-contentfilter" ...attributes>
-    {{#unless @currentUser.isContributor}}
-        <div class="gh-contentfilter-menu gh-contentfilter-type {{if @selectedType.value "gh-contentfilter-selected"}}" data-test-type-select="true">
-            <PowerSelect
-                @selected={{@selectedType}}
-                @options={{@availableTypes}}
-                @searchEnabled={{false}}
-                @onChange={{@onTypeChange}}
-                @triggerComponent="gh-power-select/trigger"
-                @triggerClass="gh-contentfilter-menu-trigger"
-                @dropdownClass="gh-contentfilter-menu-dropdown"
-                @matchTriggerWidth={{false}}
-                as |type|
-            >
-                {{#if type.name}}{{type.name}}{{else}}<span class="red">Unknown type</span>{{/if}}
-            </PowerSelect>
-        </div>
-    {{/unless}}
+<div class="gh-contentfilter view-actions-bottom-row" ...attributes>
+    
+    <div class="gh-contentfilter-menu gh-contentfilter-type {{if @selectedType.value "gh-contentfilter-selected"}}" data-test-type-select="true">
+        <PowerSelect
+            @selected={{@selectedType}}
+            @options={{@availableTypes}}
+            @searchEnabled={{false}}
+            @onChange={{@onTypeChange}}
+            @triggerComponent="gh-power-select/trigger"
+            @triggerClass="gh-contentfilter-menu-trigger"
+            @dropdownClass="gh-contentfilter-menu-dropdown"
+            @matchTriggerWidth={{false}}
+            as |type|
+        >
+            {{#if type.name}}{{type.name}}{{else}}<span class="red">Unknown type</span>{{/if}}
+        </PowerSelect>
+    </div>
 
-    {{#if this.feature.members}}
+    {{#unless @currentUser.isContributor}}
         <div class="gh-contentfilter-menu gh-contentfilter-visibility {{if @selectedVisibility.value "gh-contentfilter-selected"}}" data-test-visibility-select="true">
             <PowerSelect
                 @selected={{@selectedVisibility}}
@@ -33,7 +32,7 @@
                 {{#if visibility.name}}{{visibility.name}}{{else}}<span class="red">Unknown visibility</span>{{/if}}
             </PowerSelect>
         </div>
-    {{/if}}
+    {{/unless}}
 
     {{#unless @currentUser.isAuthorOrContributor}}
         <div class="gh-contentfilter-menu gh-contentfilter-author {{if @selectedAuthor.slug "gh-contentfilter-selected"}}" data-test-author-select="true">
@@ -95,20 +94,20 @@
             {{#if this.customViews.activeView}}
                 <button
                     type="button"
-                    class="gh-contentfilter-menu-trigger gh-contentfilter-button"
+                    class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
                     title="Edit current view..."
                     data-test-button="edit-view"
-                    {{on "click" this.customViews.toggleFormModal}}
+                    {{on "click" this.customViews.editView}}
                 >
                     {{svg-jar "edit-view"}}
                 </button>
             {{else}}
                 <button
                     type="button"
-                    class="gh-contentfilter-menu-trigger gh-contentfilter-button"
+                    class="gh-contentfilter-menu-trigger gh-contentfilter-button gh-btn-save-view"
                     title="Save as view..."
                     data-test-button="add-view"
-                    {{on "click" this.customViews.toggleFormModal}}
+                    {{on "click" this.customViews.editView}}
                 >
                     {{svg-jar "add-view"}}
                 </button>

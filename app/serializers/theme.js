@@ -1,5 +1,5 @@
 import ApplicationSerializer from './application';
 
-export default ApplicationSerializer.extend({
-    primaryKey: 'name'
-});
+export default class Theme extends ApplicationSerializer {
+    primaryKey = 'name';
+}

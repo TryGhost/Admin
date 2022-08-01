@@ -1,6 +1,6 @@
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
-import {click, currentRouteName, currentURL, fillIn, find, findAll, triggerEvent} from '@ember/test-helpers';
+import {blur, click, currentRouteName, currentURL, fillIn, find, findAll} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
@@ -22,34 +22,34 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
 
-        it('redirects /integrations/ to staff page when authenticated as contributor', async function () {
+        it('redirects /integrations/ to home page when authenticated as contributor', async function () {
             let role = this.server.create('role', {name: 'Contributor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+            expect(currentURL(), 'currentURL').to.equal('/posts');
         });
 
-        it('redirects /integrations/ to staff page when authenticated as author', async function () {
+        it('redirects /integrations/ to home page when authenticated as author', async function () {
             let role = this.server.create('role', {name: 'Author'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+            expect(currentURL(), 'currentURL').to.equal('/site');
         });
 
-        it('redirects /integrations/ to staff page when authenticated as editor', async function () {
+        it('redirects /integrations/ to home page when authenticated as editor', async function () {
             let role = this.server.create('role', {name: 'Editor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff');
+            expect(currentURL(), 'currentURL').to.equal('/site');
         });
 
         it('redirects /integrations/:id/ to signin when not authenticated', async function () {
@@ -59,46 +59,48 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             expect(currentURL(), 'currentURL').to.equal('/signin');
         });
 
-        it('redirects /integrations/:id/ to staff page when authenticated as contributor', async function () {
+        it('redirects /integrations/:id/ to home page when authenticated as contributor', async function () {
             let role = this.server.create('role', {name: 'Contributor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+            expect(currentURL(), 'currentURL').to.equal('/posts');
         });
 
-        it('redirects /integrations/:id/ to staff page when authenticated as author', async function () {
+        it('redirects /integrations/:id/ to home page when authenticated as author', async function () {
             let role = this.server.create('role', {name: 'Author'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+            expect(currentURL(), 'currentURL').to.equal('/site');
         });
 
-        it('redirects /integrations/:id/ to staff page when authenticated as editor', async function () {
+        it('redirects /integrations/:id/ to home page when authenticated as editor', async function () {
             let role = this.server.create('role', {name: 'Editor'});
             this.server.create('user', {roles: [role], slug: 'test-user'});
 
             await authenticateSession();
             await visit('/settings/integrations/1');
 
-            expect(currentURL(), 'currentURL').to.equal('/staff');
+            expect(currentURL(), 'currentURL').to.equal('/site');
         });
     });
 
     describe('navigation', function () {
         beforeEach(async function () {
+            this.server.loadFixtures('settings');
+
             let role = this.server.create('role', {name: 'Administrator'});
             this.server.create('user', {roles: [role]});
 
             return await authenticateSession();
         });
 
-        it('renders correctly', async function () {
+        it('renders defaults correctly', async function () {
             await visit('/settings/integrations');
 
             // slack is not configured in the fixtures
@@ -107,7 +109,18 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
                 'slack app status'
             ).to.equal('Configure');
 
-            // amp is enabled in the fixtures
+            // amp is disabled in the fixtures
+            expect(
+                find('[data-test-app="amp"] [data-test-app-status]').textContent.trim(),
+                'amp app status'
+            ).to.equal('Configure');
+        });
+
+        it('renders AMP active state', async function () {
+            this.server.db.settings.update({key: 'amp', value: true});
+            await visit('/settings/integrations');
+
+            // amp switches to active when enabled
             expect(
                 find('[data-test-app="amp"] [data-test-app-status]').textContent.trim(),
                 'amp app status'
@@ -329,7 +342,7 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             ).to.be.empty;
 
             await fillIn('[data-test-input="name"]', '');
-            await triggerEvent('[data-test-input="name"]', 'blur');
+            await await blur('[data-test-input="name"]');
 
             expect(
                 find('[data-test-error="name"]').textContent,
@@ -344,7 +357,7 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             ).to.equal('Integration 1');
 
             await fillIn('[data-test-input="name"]', 'Test Integration');
-            await triggerEvent('[data-test-input="name"]', 'blur');
+            await await blur('[data-test-input="name"]');
 
             expect(
                 find('[data-test-error="name"]').textContent.trim(),
@@ -352,7 +365,7 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
             ).to.be.empty;
 
             await fillIn('[data-test-input="description"]', 'Description for Test Integration');
-            await triggerEvent('[data-test-input="description"]', 'blur');
+            await await blur('[data-test-input="description"]');
             await click('[data-test-button="save"]');
 
             // changes are reflected in the integrations list
@@ -455,7 +468,8 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
                 .to.have.string('Not triggered');
 
             // click edit webhook link
-            await click('[data-test-webhook-row="1"] [data-test-link="edit-webhook"]');
+            await click('[data-test-webhook-row="1"] [data-test-newsletter-menu-trigger]');
+            await click('[data-test-link="edit-webhook"]');
 
             // modal appears and has correct title
             expect(find('[data-test-modal="webhook-form"]')).to.exist;
@@ -469,7 +483,7 @@ describe('Acceptance: Settings - Integrations - Custom', function () {
 
             await visit('/settings/integrations/1');
             await click('[data-test-input="description"]');
-            await triggerEvent('[data-test-input="description"]', 'blur');
+            await await blur('[data-test-input="description"]');
             await click('[data-test-link="integrations-back"]');
 
             expect(

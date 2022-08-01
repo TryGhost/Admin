@@ -3,30 +3,27 @@
         <section class="gh-flow-content">
             {{#if this.passwordResetEmailSent}}
                 <div class="gh-auth-email">
-                    <div class="gh-auth-animation-container">
-                        <div class="gh-auth-email-animation">
-                            {{svg-jar "locked-email-back" class="gh-auth-envelope-back"}}
-                            {{svg-jar "locked-email-front" class="gh-auth-envelope-front"}}
-                            <div class="gh-auth-paper">
-                                {{svg-jar "locked-email-lock" class="gh-auth-lock"}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gh-auth-lock-body">
+                    <header>
+                        <div class="gh-site-icon" style={{site-icon-style}}></div>
+                        <h1>Update your password.</h1>
                         <p>
-                            For security, you need to create a new password. An email has been sent to you with instructions!
+                            For security, you need to create a new password. An email has been sent to you with instructions.
                         </p>
-                    </div>
+                    </header>
                 </div>
             {{else}}
             <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{action "authenticate" on="submit"}}>
+                <header>
+                    <div class="gh-site-icon" style={{site-icon-style}}></div>
+                    <h1>Sign in to {{this.config.blogTitle}}.</h1>
+                </header>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
+                    <label>Email address</label>
                     <span class="gh-input-icon gh-icon-mail">
-                        {{svg-jar "email"}}
                         <GhTrimFocusInput
                             @class="email"
                             @type="email"
-                            @placeholder="Email Address"
+                            @placeholder="jamie@example.com"
                             @name="identification"
                             @autocapitalize="off"
                             @autocorrect="off"
@@ -39,12 +36,12 @@
                     </span>
                 </GhFormGroup>
                 <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="password">
+                    <label>Password</label>
                     <span class="gh-input-icon gh-icon-lock forgotten-wrap">
-                        {{svg-jar "lock"}}
                         <GhTextInput
                             @class="password"
                             @type="password"
-                            @placeholder="Password"
+                            @placeholder="•••••••••••••••"
                             @name="password"
                             @tabindex="2"
                             @autocomplete="current-password"
@@ -66,12 +63,13 @@
                     </span>
                 </GhFormGroup>
 
-                <GhTaskButton @buttonText="Sign in"
+                <GhTaskButton @buttonText="Sign in &rarr;"
                     @task={{this.validateAndAuthenticate}}
                     @showSuccess={{false}}
-                    @class="login gh-btn gh-btn-blue gh-btn-block gh-btn-icon"
+                    @class="login gh-btn gh-btn-login gh-btn-block gh-btn-icon js-login-button"
                     @type="submit"
-                    @tabindex="3" />
+                    @tabindex="3"
+                    style={{accent-color-background}} />
             </form>
 
             <p class="main-error">{{if this.flowErrors this.flowErrors}}&nbsp;</p>

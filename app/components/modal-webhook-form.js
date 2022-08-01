@@ -8,6 +8,7 @@ import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
     router: service(),
+    feature: service(),
 
     availableEvents: null,
     error: null,
@@ -24,6 +25,7 @@ export default ModalComponent.extend({
     },
 
     didReceiveAttrs() {
+        this._super(...arguments);
         if (this.webhook.isNew) {
             this.set('buttonText', 'Create');
             this.set('successText', 'Created');

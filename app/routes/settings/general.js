@@ -1,18 +1,10 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
+import AdminRoute from 'ghost-admin/routes/admin';
 import RSVP from 'rsvp';
 import {inject as service} from '@ember/service';
 
-export default AuthenticatedRoute.extend(CurrentUserSettings, {
+export default AdminRoute.extend({
     config: service(),
     settings: service(),
-
-    beforeModel() {
-        this._super(...arguments);
-        return this.get('session.user')
-            .then(this.transitionAuthor())
-            .then(this.transitionEditor());
-    },
 
     model() {
         return RSVP.hash({

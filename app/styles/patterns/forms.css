@@ -3,9 +3,9 @@
 
 form label {
     display: block;
-    color: var(--darkgrey);
+    color: var(--black);
     font-size: 1.3rem;
-    font-weight: 600;
+    font-weight: 500;
     user-select: text;
 }
 
@@ -35,20 +35,48 @@ input {
     user-select: text;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+    display: none;
+}
+
+
+input[type=number] {
+    appearance: textfield;
+}
+
 ::-webkit-input-placeholder {
-    color: color-mod(var(--midgrey) l(+18%));
+    color: var(--midlightgrey);
     font-weight: 400;
 }
 
 :-ms-input-placeholder {
-    color: color-mod(var(--midgrey) l(+18%));
+    color: var(--midlightgrey);
     font-weight: 400;
+}
+
+::-moz-placeholder {
+    color: var(--midlightgrey);
+    font-weight: 400;
+    opacity: 1;
 }
 
 .error .response {
     color: var(--red);
 }
 
+.disabled-overlay {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.form-col2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 24px;
+}
 
 /* Form Groups
 /* ---------------------------------------------------------- */
@@ -61,20 +89,29 @@ input {
     user-select: text;
 }
 
+.form-group.no-margin {
+    margin-bottom: 0;
+}
+
 .form-group.right {
     text-align: right;
 }
 
 .form-group p {
     margin: 4px 0 0 0;
-    color: var(--midgrey);
-    font-size: 1.3rem;
+    color: var(--midgrey-d1);
+    font-size: 1.25rem;
     font-weight: 400;
+}
+
+.form-group p.green {
+    color: var(--green);
 }
 
 .form-group h3 {
     margin-bottom: 1.6em;
     font-size: 1.5rem;
+    letter-spacing: 0;
 }
 
 .form-group label {
@@ -83,6 +120,12 @@ input {
 
 .form-group.max-width {
     max-width: 100%;
+}
+
+.form-group.pa5 {
+    max-width: 100%;
+    padding-left: calc(var(--grid-size) * 5);
+    padding-right: calc(var(--grid-size) * 5);
 }
 
 .form-group.mb0 {
@@ -99,6 +142,24 @@ input {
 /* Input Icons
 /* ---------------------------------------------------------- */
 
+.gh-input svg {
+    position: absolute;
+    top: 50%;
+    right: 1.2rem;
+    left: inherit;
+    width: 12px;
+    height: 6px;
+    margin-top: -0.2em;
+    transform: inherit;
+    pointer-events: none;
+
+    speak: none;
+}
+
+.gh-input svg path {
+    stroke: var(--midlightgrey);
+}
+
 .gh-input-icon {
     position: relative;
     display: block;
@@ -108,7 +169,6 @@ input {
     position: absolute;
     top: 50%;
     left: 10px;
-    z-index: 2;
     width: 14px;
     height: 14px;
     fill: color-mod(var(--lightgrey) l(-15%) s(-10%));
@@ -141,6 +201,7 @@ select {
     background: var(--input-bg-color);
     color: var(--darkgrey);
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 400;
     user-select: text;
     border-radius: var(--border-radius);
@@ -166,14 +227,20 @@ select.error {
 .gh-input:focus,
 .gh-input.focus {
     outline: 0;
-    border-color: color-mod(var(--blue));
-    box-shadow: inset 0 0 0 1px var(--blue);
+    border-color: color-mod(var(--green)) !important;
+    box-shadow: inset 0 0 0 1px var(--green);
     background: var(--white);
+}
+
+.error .gh-input:focus,
+.error .gh-input.focus {
+    border-color: color-mod(var(--red)) !important;
+    box-shadow: inset 0 0 0 1px var(--red);
 }
 
 .gh-select:focus,
 select:focus {
-    background: color-mod(var(--input-bg-color) l(-3%));
+    border-color: var(--lightgrey-d1);
 }
 
 textarea {
@@ -187,10 +254,26 @@ textarea {
     resize: vertical;
 }
 
-.gh-input[disabled] {
-    background: var(--whitegrey-l2);
-    color: var(--midlightgrey);
+.gh-input[disabled],
+.gh-select select[disabled] {
+    background: color-mod(var(--input-bg-color) l(-1%));
+    color: var(--midlightgrey-d2);
     border-color: var(--whitegrey);
+    opacity: 1.0;
+}
+
+.gh-select select[disabled] {
+    cursor: auto;
+}
+
+.gh-input-percentage-label {
+    display: block;
+    content: "hello";
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    font-size: 1.3rem;
+    color: var(--midgrey);
 }
 
 
@@ -230,12 +313,17 @@ textarea {
     height: 18px;
     margin-right: 7px;
     border: 1px solid color-mod(var(--lightgrey) l(-5%) s(-10%));
-    background: color-mod(var(--lightgrey) l(+4%));
+    background: var(--lightgrey);
 }
 
 .for-checkbox label:hover input:not(:checked) + .input-toggle-component,
 .for-radio label:hover input:not(:checked) + .input-toggle-component {
     border-color: color-mod(var(--lightgrey) l(-15%) s(-10%));
+}
+
+.for-checkbox .input-toggle-component {
+    border-color: var(--lightgrey);
+    background: var(--lightgrey);
 }
 
 .for-checkbox .input-toggle-component {
@@ -262,8 +350,8 @@ textarea {
 }
 
 .for-checkbox input:checked + .input-toggle-component {
-    border-color: color-mod(var(--green) lightness(-10%));
-    background: var(--green);
+    border-color: var(--black);
+    background: var(--black);
 }
 
 .for-checkbox input:checked + .input-toggle-component:before {
@@ -302,14 +390,14 @@ textarea {
 
 .gh-radio {
     display: flex;
-    margin: 0 0 20px;
+    margin: 0 0 24px;
 }
 
 .gh-radio-button {
     flex-shrink: 0;
     position: relative;
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
     border: color-mod(var(--lightgrey) l(-10%)) 1px solid;
     border-radius: 100%;
     background: #fff;
@@ -325,14 +413,15 @@ textarea {
 .gh-radio-label {
     font-size: 1.4rem;
     line-height: 1.2em;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .gh-radio-desc {
+    margin: 4px 0 0;
+    color: var(--midgrey);
     font-size: 1.3rem;
-    line-height: 1.4em;
-    font-weight: 300;
-    color: color-mod(var(--midgrey) l(+10%));
+    line-height: 1.2em;
+    font-weight: 400;
 }
 
 .gh-radio-label:hover,
@@ -341,8 +430,8 @@ textarea {
 }
 
 .gh-radio.active .gh-radio-button {
-    border-color: color-mod(var(--blue) l(-12%));
-    background: var(--blue);
+    border-color: color-mod(var(--black) l(-12%));
+    background: var(--black);
 }
 
 .gh-radio.active .gh-radio-button:before {
@@ -351,9 +440,9 @@ textarea {
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 7px;
-    height: 7px;
-    background: #fff;
+    width: 9px;
+    height: 9px;
+    background: var(--white);
     border-radius: 100%;
     box-shadow: rgba(0,0,0,0.25) 0 1px 3px;
 }
@@ -469,11 +558,10 @@ textarea {
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--whitegrey-l2);
-    border: 1px solid color-mod(var(--lightgrey) l(-3%));
+    background: var(--lightgrey);
     transition: .3s;
-    width: 50px !important;
-    height: 28px !important;
+    width: 48px !important;
+    height: 26px !important;
     border-radius: 999px;
     transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -492,13 +580,12 @@ textarea {
     top: 2px !important;
     background-color: white;
     transition: .3s;
-    box-shadow: 0 1px 2px rgba(0,0,0,.1);
-    border: 1px solid color-mod(var(--lightgrey) l(-3%));
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
     border-radius: 999px;
 }
 
 .for-switch input:checked + .input-toggle-component {
-    background: var(--green);
+    background: var(--black);
     border-color: transparent;
 }
 
@@ -519,14 +606,32 @@ textarea {
 }
 
 .for-switch.small .input-toggle-component:before {
-    height: 16px !important;
-    width: 16px !important;
+    height: 18px !important;
+    width: 18px !important;
 }
 
 .for-switch.small input:checked + .input-toggle-component:before {
     transform: translateX(16px);
 }
 
+.for-switch.x-small .input-toggle-component {
+    width: 34px !important;
+    height: 20px !important;
+}
+
+.for-switch.x-small .input-toggle-component:before {
+    height: 16px !important;
+    width: 16px !important;
+}
+
+.for-switch.x-small input:checked + .input-toggle-component:before {
+    transform: translateX(14px);
+}
+
+.for-switch.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 
 /* Select
 /* ---------------------------------------------------------- */
@@ -613,13 +718,8 @@ textarea {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    padding-right: 0;
+    padding-right: 2px;
     min-width: 0; /* Firefox fix */
-}
-
-.gh-input-group .gh-input:focus + .gh-input-append {
-    border-color: color-mod(var(--blue));
-    box-shadow: inset 0 0 0 1px var(--blue);
 }
 
 .gh-input-group .gh-input:focus + .gh-input-append,
@@ -637,6 +737,7 @@ textarea {
     background: var(--input-bg-color);
     color: var(--darkgrey);
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 400;
     user-select: text;
     border-radius: var(--border-radius);
@@ -647,6 +748,21 @@ textarea {
     border-bottom-left-radius: 0;
     flex: 1;
     color: var(--midlightgrey);
+}
+
+@media (max-width: 430px) {
+    .gh-input-append {
+        padding: 6px 8px;
+    }
+}
+
+.gh-expandable-content .gh-input-append {
+    border-color: var(--whitegrey-d1);
+}
+
+.form-group:not(.error) .gh-input-group .gh-input:focus + .gh-input-append {
+    border-color: color-mod(var(--green));
+    box-shadow: inset 0 0 0 1px var(--green);
 }
 
 .gh-input-append:before {
@@ -665,10 +781,95 @@ textarea {
 }
 
 .gh-input-group .gh-btn span {
-    height: 36px;
-    line-height: 36px;
+    height: 38px;
+    line-height: 38px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.form-group.error .gh-input-group .gh-input,
+.form-group.error .gh-input-group .gh-input + .gh-input-append {
+    border-color: color-mod(var(--red));
+}
+
+.form-group.error .gh-input-group .gh-input:focus + .gh-input-append {
+    box-shadow: inset 0 0 0 1px var(--red);
+}
+
+
+/* Email newsletter design settings
+/* -------------------------------------------------------- */
+.form-rich-radio .gh-radio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: -1px 0 0;
+    padding: 0;
+}
+
+.form-rich-radio .gh-radio-content {
+    border: 1px solid var(--whitegrey);
+    margin: 0 -32px 0 0;
+}
+
+.form-rich-radio .gh-radio:first-of-type .gh-radio-content {
+    border-radius: 3px 3px 0 0;
+}
+
+.form-rich-radio .gh-radio:last-of-type .gh-radio-content {
+    border-radius: 0 0 3px 3px;
+}
+
+.form-rich-radio .active .gh-radio-content {
+    border: 1px solid transparent;
+    box-shadow: 0px 0px 0px 2px var(--green);
+    z-index: 9999;
+}
+
+.form-rich-radio .gh-radio-button {
+    margin-right: 12px;
+    opacity: 0;
+}
+
+.form-rich-radio .gh-radio-label {
+    position: relative;
+    padding: 12px 40px 12px 14px;
+}
+
+.form-rich-radio .gh-radio-label .description h4 {
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em;
+}
+
+.form-rich-radio .gh-radio-label .description p {
+    font-size: 1.3rem !important;
+    font-weight: 400;
+    line-height: 1.45em;
+    margin: 0;
+    padding: 0;
+}
+
+.form-rich-radio .check {
+    position: absolute;
+    top: calc(50% - 7px);
+    right: 12px;
+    color: var(--darkgrey);
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    overflow: visible;
+}
+
+.form-rich-radio .check path {
+    stroke-width: 2px;
+}
+
+.form-rich-radio .gh-radio:not(.active) .check {
+    display: none;
 }
 
 

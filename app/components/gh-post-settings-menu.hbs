@@ -1,31 +1,25 @@
-<div class="settings-menu-container">
+<div
+    class="settings-menu-container {{if (and this.isViewingSubview (not (eq this.subview "email-settings"))) "settings-menu-container-wide"}}"
+    {{did-insert this.setSidebarWidthFromElement}}
+    {{did-update this.setSidebarWidthFromElement this.isViewingSubview}}
+>
     <div id="entry-controls">
-        <div class="{{if this.isViewingSubview 'settings-menu-pane-out-left' 'settings-menu-pane-in'}} settings-menu settings-menu-pane">
+        <div class="settings-menu settings-menu-pane settings-menu-pane-main">
             <div class="settings-menu-header">
                 <h4>{{capitalize this.post.displayName}} settings</h4>
-                <button aria-label="Close" class="close settings-menu-header-action" {{action "closeMenus" target=this.ui}} data-test-close-settings-menu>
-                    {{svg-jar "close"}}<span class="hidden">Close</span>
-                </button>
             </div>
             <div class="settings-menu-content">
-                <GhImageUploaderWithPreview
-                    @image={{this.post.featureImage}}
-                    @text={{concat "Upload " this.post.displayName " image"}}
-                    @allowUnsplash={{true}}
-                    @update={{action "setCoverImage"}}
-                    @remove={{action "clearCoverImage"}}
-                />
-                <form>
+                <form aria-label="Post settings">
                 <div class="form-group">
                     <label for="url">{{capitalize this.post.displayName}} URL</label>
                     {{!-- new posts don't have a preview link --}}
                     {{#unless this.post.isNew}}
-                        {{#if this.post.isPublished}}
-                        <a class="post-view-link" target="_blank" href="{{this.post.url}}">
+                        {{#if (or this.post.isPublished this.post.isSent)}}
+                        <a class="post-view-link" target="_blank" href="{{this.post.url}}" rel="noopener noreferrer">
                             View {{this.post.displayName}} {{svg-jar "external"}}
                         </a>
-                        {{else}}
-                        <a class="post-view-link" target="_blank" href="{{this.post.previewUrl}}">
+                        {{else if this.post.isScheduled}}
+                        <a class="post-view-link" target="_blank" href="{{this.post.previewUrl}}" rel="noopener noreferrer">
                             Preview {{svg-jar "external"}}
                         </a>
                         {{/if}}
@@ -42,11 +36,15 @@
                             @focus-out={{action "updateSlug" this.slugValue}}
                             @stopEnterKeyDownPropagation={{true}} />
                     </div>
-                    <GhUrlPreview @slug={{this.slugValue}} @tagName="p" @classNames="description" />
+                    {{#if this.post.isSent}}
+                        <GhUrlPreview @prefix="email" @slug={{this.uuidValue}} @tagName="p" @classNames="description" />
+                    {{else}}
+                        <GhUrlPreview @slug={{this.slugValue}} @tagName="p" @classNames="description" />
+                    {{/if}}
                 </div>
 
                 <div class="form-group">
-                    {{#if (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime)}}
+                    {{#if (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime this.post.isSent)}}
                         <label>Publish date</label>
                     {{else}}
                         <label>Scheduled date</label>
@@ -61,9 +59,9 @@
                         @timeErrorProperty="publishedAtBlogTime"
                         @maxDate="now"
                         @disabled={{this.post.isScheduled}}
-                        @isActive={{and this.showSettingsMenu (not this.isViewingSubview)}}
+                        @isActive={{not this.isViewingSubview}}
                     />
-                    {{#unless (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime)}}
+                    {{#unless (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime this.post.isSent)}}
                     <p>Use the publish menu to re-schedule</p>
                     {{/unless}}
                 </div>
@@ -75,12 +73,23 @@
                 </div>
                 {{/unless}}
 
-
-                {{#if (and this.feature.members this.showVisibilityInput)}}
-                    <div class="form-group">
-                        <label for="visibility-input">Post access</label>
+                {{#if this.showVisibilityInput}}
+                    <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="visibility">
+                        <label for="visibility-input">{{capitalize @post.displayName}} access</label>
                         <GhPsmVisibilityInput @post={{this.post}} @triggerId="visibility-input" />
-                    </div>
+                    </GhFormGroup>
+
+                    {{#if (eq this.post.visibility "tiers")}}
+                        <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="tiers" @class="nt3">
+                            <GhPostSettingsMenu::VisibilitySegmentSelect
+                                @tiers={{this.post.tiers}}
+                                @onChange={{action "setVisibility"}}
+                                @renderInPlace={{true}}
+                                @hideOptionsWhenAllSelected={{true}}
+                            />
+                            <GhErrorMessage @errors={{this.post.errors}} @property="tiers" data-test-error="tiers" />
+                        </GhFormGroup>
+                    {{/if}}
                 {{/if}}
 
 
@@ -108,38 +117,38 @@
                 {{/unless}}
 
                 <ul class="nav-list nav-list-block">
-                    <li class="nav-list-item" {{action "showSubview" "meta-data"}} data-test-button="meta-data">
-                        <button type="button">
+                    <li class="nav-list-item">
+                        <button type="button" {{action "showSubview" "meta-data"}} data-test-button="meta-data">
                             <b>Meta data</b>
                             <span>Extra content for search engines</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
-                    <li class="nav-list-item" {{action "showSubview" "twitter-data"}} data-test-button="twitter-data">
-                        <button type="button">
+                    <li class="nav-list-item">
+                        <button type="button"  {{action "showSubview" "twitter-data"}} data-test-button="twitter-data">
                             <b>Twitter card</b>
-                            <span>Customise structured data for Twitter</span>
+                            <span>Customize structured data for Twitter</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
-                    <li class="nav-list-item" {{action "showSubview" "facebook-data"}} data-test-button="facebook-data">
-                        <button type="button">
+                    <li class="nav-list-item">
+                        <button type="button" {{action "showSubview" "facebook-data"}} data-test-button="facebook-data">
                             <b>Facebook card</b>
-                            <span>Customise Open Graph data</span>
+                            <span>Customize Open Graph data</span>
                         </button>
                         {{svg-jar "arrow-right"}}
                     </li>
-                    {{#if (and this.feature.members (eq this.post.displayName "post") showEmailNewsletter)}}
-                        <li class="nav-list-item" {{action "showSubview" "email-settings"}} data-test-button="email-settings">
-                            <button type="button">
+                    {{#if (and this.post.isPost this.showEmailNewsletter (not-eq this.settings.membersSignupAccess "none") (not-eq this.settings.editorDefaultEmailRecipients "disabled"))}}
+                        <li class="nav-list-item">
+                            <button type="button" {{action "showSubview" "email-settings"}} data-test-button="email-settings">
                                 <b>Email newsletter</b>
-                                <span>Customise email settings</span>
+                                <span>Customize email settings</span>
                             </button>
                             {{svg-jar "arrow-right"}}
                         </li>
                     {{/if}}
-                    <li class="nav-list-item" {{action "showSubview" "codeinjection"}} data-test-button="codeinjection">
-                        <button type="button">
+                    <li class="nav-list-item">
+                        <button type="button" {{action "showSubview" "codeinjection"}} data-test-button="codeinjection">
                             <b>Code injection</b>
                             <span>Add styles/scripts to the header &amp; footer</span>
                         </button>
@@ -168,37 +177,38 @@
                     @onTemplateSelect={{action (mut this.post.customTemplate)}} />
 
                 {{#unless this.post.isNew}}
-                    <button type="button" class="gh-btn gh-btn-hover-red gh-btn-icon settings-menu-delete-button" {{action "deletePost"}}><span>{{svg-jar "trash"}} Delete {{this.post.displayName}}</span></button>
+                    <button type="button" class="gh-btn gh-btn-hover-red gh-btn-icon settings-menu-delete-button" {{action "deletePostInternal"}}><span>{{svg-jar "trash"}} Delete {{this.post.displayName}}</span></button>
                 {{/unless}}
 
                 </form>
             </div>{{! .settings-menu-content }}
         </div>{{! .post-settings-menu }}
 
-        <div class="{{if this.isViewingSubview 'settings-menu-pane-in' 'settings-menu-pane-out-right'}} settings-menu settings-menu-pane">
+        {{#if this.isViewingSubview}}
+        <div class="settings-menu settings-menu-pane {{unless (eq this.subview "email-settings") "settings-menu-pane-wide"}}">
             <div class="active">
-                {{#if this.isViewingSubview}}
                     {{#if (eq this.subview "meta-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
+                            <button aria-label="Close meta data panel" class="back settings-menu-header-action" data-test-button="close-psm-subview" type="button" {{action "closeSubview"}}>{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
                             <h4>Meta data</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content">
-                            <form {{action "discardEnter" on="submit"}}>
+                            <form {{action "discardEnter" on="submit"}} aria-label="Meta data settings">
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="metaTitle">
                                     <label for="meta-title">Meta title</label>
                                     <GhTextInput
                                         @class="post-setting-meta-title"
                                         @id="meta-title"
                                         @name="post-setting-meta-title"
+                                        @placeholder={{this.seoTitle}}
                                         @value={{readonly this.metaTitleScratch}}
                                         @input={{action (mut this.metaTitleScratch) value="target.value"}}
                                         @focus-out={{action "setMetaTitle" this.metaTitleScratch}}
                                         @stopEnterKeyDownPropagation={{true}}
                                         data-test-field="meta-title" />
-                                    <p>Recommended: <b>70</b> characters. You’ve used {{gh-count-down-characters this.metaTitleScratch 70}}</p>
+                                    <p>Recommended: <b>60</b> characters. You’ve used {{gh-count-down-characters this.metaTitleScratch 60}}</p>
                                     <GhErrorMessage @errors={{this.post.errors}} @property="meta-title" />
                                 </GhFormGroup>
 
@@ -208,12 +218,13 @@
                                         @class="post-setting-meta-description"
                                         @id="meta-description"
                                         @name="post-setting-meta-description"
+                                        @placeholder={{truncate this.seoDescription 150}}
                                         @value={{readonly this.metaDescriptionScratch}}
                                         @input={{action (mut this.metaDescriptionScratch) value="target.value"}}
                                         @focus-out={{action "setMetaDescription" this.metaDescriptionScratch}}
                                         @stopEnterKeyDownPropagation="true"
                                         data-test-field="meta-description" />
-                                    <p>Recommended: <b>156</b> characters. You’ve used {{gh-count-down-characters this.metaDescriptionScratch 156}}</p>
+                                    <p>Recommended: <b>145</b> characters. You’ve used {{gh-count-down-characters this.metaDescriptionScratch 145}}</p>
                                     <GhErrorMessage @errors={{this.post.errors}} @property="meta-description" />
                                 </GhFormGroup>
 
@@ -222,6 +233,7 @@
                                     <GhTextInput
                                         @class="post-setting-canonicalUrl"
                                         @name="post-setting-canonicalUrl"
+                                        @placeholder={{this.post.url}}
                                         @value={{readonly this.canonicalUrlScratch}}
                                         @input={{action (mut this.canonicalUrlScratch) value="target.value"}}
                                         @focus-out={{action "setCanonicalUrl" this.canonicalUrlScratch}}
@@ -232,10 +244,16 @@
 
                                 <div class="form-group">
                                     <label>Search Engine Result Preview</label>
-                                    <div class="seo-preview">
-                                        <div class="seo-preview-title">{{truncate this.seoTitle 70}}</div>
-                                        <div class="seo-preview-link">{{truncate this.seoURL 70}}</div>
-                                        <div class="seo-preview-description">{{truncate this.seoDescription 300}}</div>
+                                    <div class="gh-seo-container">
+                                        <div class="gh-seo-preview">
+                                            <div class="flex mb7">
+                                                {{svg-jar "google"}}
+                                                <div class="gh-seo-search-bar">{{svg-jar "google-search"}}</div>
+                                            </div>
+                                            <div class="gh-seo-preview-link">{{this.seoURL}}</div>
+                                            <div class="gh-seo-preview-title">{{truncate this.seoTitle 60}}</div>
+                                            <div class="gh-seo-preview-desc">{{moment-format (now) "DD MMM YYYY"}} — {{truncate this.seoDescription 149}}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -244,14 +262,14 @@
 
                     {{#if (eq this.subview "twitter-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
+                            <button aria-label="Close Twitter card panel" class="back settings-menu-header-action" data-test-button="close-psm-subview" type="button" {{action "closeSubview"}}>{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
                             <h4>Twitter card</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content">
 
-                            <form {{action "discardEnter" on="submit"}}>
+                            <form {{action "discardEnter" on="submit"}} aria-label="Twitter card settings">
                                 <GhImageUploaderWithPreview
                                     @image={{this.post.twitterImage}}
                                     @text="Add Twitter image"
@@ -280,7 +298,7 @@
                                         @class="post-setting-twitter-description"
                                         @id="twitter-description"
                                         @name="post-setting-twitter-description"
-                                        @placeholder={{truncate this.twitterDescription 155}}
+                                        @placeholder={{truncate this.twitterDescription 150}}
                                         @stopEnterKeyDownPropagation="true"
                                         @value={{readonly this.twitterDescriptionScratch}}
                                         @input={{action (mut this.twitterDescriptionScratch) value="target.value"}}
@@ -290,20 +308,17 @@
                                 </GhFormGroup>
 
                                 <div class="form-group">
-                                    <label>Preview</label>
-                                    <div class="gh-twitter-preview">
+                                    <label>Twitter preview</label>
+                                    <div class="gh-social-twitter-post-preview">
                                         {{#if this.twitterImage}}
-                                        <div class="gh-twitter-preview-image" style={{background-image-style this.twitterImage}}></div>
+                                            <div class="gh-social-twitter-preview-image" style={{background-image-style this.twitterImage}}></div>
                                         {{/if}}
-                                        <div class="gh-twitter-preview-content">
-                                            <div class="gh-twitter-preview-title">{{this.twitterTitle}}</div>
-                                            <div class="gh-twitter-preview-description">{{truncate this.twitterDescription 155}}</div>
-                                            <div class="gh-twitter-preview-footer">
-                                                <div class="gh-twitter-preview-footer-left">
-                                                    {{this.config.blogDomain}}
-                                                </div>
-                                                <div class="gh-twitter-preview-footer-right">
-                                                </div>
+                                        <div class="gh-social-twitter-preview-content">
+                                            <div class="gh-social-twitter-preview-title">{{this.twitterTitle}}</div>
+                                            <div class="gh-social-twitter-preview-desc">{{truncate this.twitterDescription}}</div>
+                                            <div class="gh-social-twitter-preview-meta">
+                                                {{svg-jar "twitter-link"}}
+                                                {{this.config.blogDomain}}
                                             </div>
                                         </div>
                                     </div>
@@ -316,21 +331,20 @@
                     {{#if (eq this.subview "email-settings")}}
                         <GhPostSettingsMenu::Email
                             @post={{this.post}}
-                            @savePostTask={{this.savePost}}
-                            @toggleEmailPreviewModal={{this.toggleEmailPreviewModal}}
+                            @savePostTask={{this.savePostTask}}
                             @close={{action "closeSubview"}}
                         />
                     {{/if}}
 
                     {{#if (eq this.subview "facebook-data")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
+                            <button aria-label="Close Facebook card panel" class="back settings-menu-header-action" data-test-button="close-psm-subview" type="button" {{action "closeSubview"}}>{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
                             <h4>Facebook card</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content">
-                            <form {{action "discardEnter" on="submit"}}>
+                            <form {{action "discardEnter" on="submit"}} aria-label="Facebook card settings">
                                 <GhImageUploaderWithPreview
                                     @image={{this.post.ogImage}}
                                     @text="Add Facebook image"
@@ -358,7 +372,7 @@
                                     <GhTextarea
                                         @class="post-setting-og-description"
                                         @id="og-description" @name="post-setting-og-description"
-                                        @placeholder={{truncate this.facebookDescription 160}}
+                                        @placeholder={{truncate this.facebookDescription 150}}
                                         @value={{readonly this.ogDescriptionScratch}}
                                         @input={{action (mut this.ogDescriptionScratch) value="target.value"}}
                                         @focus-out={{action "setOgDescription" this.ogDescriptionScratch}}
@@ -368,20 +382,19 @@
                                 </GhFormGroup>
 
                                 <div class="form-group">
-                                    <label>Preview</label>
-                                    <div class="gh-og-preview">
+                                    <label>Facebook preview</label>
+                                    <div class="gh-social-og-preview no-container">
                                         {{#if this.facebookImage}}
-                                        <div class="gh-og-preview-image" style={{background-image-style this.facebookImage}}></div>
+                                            <div class="gh-social-og-preview-image" style={{background-image-style this.facebookImage}}></div>
                                         {{/if}}
-                                        <div class="gh-og-preview-content">
-                                            <div class="gh-og-preview-title">{{truncate this.facebookTitle 88}}</div>
-                                            <div class="gh-og-preview-description">{{truncate this.facebookDescription 300}}</div>
-                                            <div class="gh-og-preview-footer">
-                                                <div class="gh-og-preview-footer-left">
-                                                    {{this.config.blogDomain}} <span class="gh-og-preview-footer-left-divider">|</span> by <span class="gh-og-preview-footer-author">{{author-names this.post.authors}}</span>
+                                        <div class="gh-social-og-preview-bookmark">
+                                            {{!-- Ensures description is hidden if title exceeds one line --}}
+                                            <div class="gh-social-og-preview-content">
+                                                <div class="gh-social-og-preview-meta">
+                                                    {{this.config.blogDomain}}
                                                 </div>
-                                                <div class="gh-og-preview-footer-right">
-                                                </div>
+                                                <div class="gh-social-og-preview-title">{{truncate this.facebookTitle}}</div>
+                                                <div class="gh-social-og-preview-desc">{{truncate this.facebookDescription}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -393,13 +406,13 @@
 
                     {{#if (eq this.subview "codeinjection")}}
                         <div class="settings-menu-header subview">
-                            <button aria-label="Back" {{action "closeSubview"}} class="back settings-menu-header-action" data-test-button="close-psm-subview">{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
+                            <button aria-label="Close code injection panel" class="back settings-menu-header-action" data-test-button="close-psm-subview" type="button" {{action "closeSubview"}}>{{svg-jar "arrow-left"}}<span class="hidden">Back</span></button>
                             <h4>Code injection</h4>
                             <div style="width:23px;"></div>
                         </div>
 
                         <div class="settings-menu-content settings-menu-content-codeinjection">
-                            <form {{action "discardEnter" on="submit"}}>
+                            <form {{action "discardEnter" on="submit"}} aria-label="Code injection settings">
                                 <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="codeinjectionHead">
                                     <label for="codeinjection-head">{{capitalize this.post.displayName}} header <code>\{{ghost_head}}</code></label>
                                     <GhCmEditor @value={{this.codeinjectionHeadScratch}}
@@ -428,24 +441,8 @@
                             </form>
                         </div>
                     {{/if}}
-                {{/if}}
             </div>
         </div>
+        {{/if}}
     </div>
 </div>
-
-{{!--
-    _showThrobbers is on a timer so that throbbers don't get positioned until
-    the slide-in animation has finished and it gets toggled when the meta
-    pane is shown
---}}
-{{#if this._showThrobbers}}
-    {{#unless this.session.user.isAuthorOrContributor}}
-        <GhTourItem @throbberId="featured-post"
-            @target="label[for='featured'] p"
-            @throbberAttachment="middle middle"
-            @throbberOffset="0px -20px"
-            @popoverTriangleClass="bottom-right"
-        />
-    {{/unless}}
-{{/if}}

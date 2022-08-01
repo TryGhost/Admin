@@ -1,14 +1,14 @@
-import Mirage from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {authenticateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
-import {click, currentRouteName, fillIn, find, findAll, visit} from '@ember/test-helpers';
+import {blur, click, currentRouteName, fillIn, find, findAll, visit} from '@ember/test-helpers';
 import {expect} from 'chai';
 import {setupApplicationTest} from 'ember-mocha';
 import {setupMirage} from 'ember-cli-mirage/test-support';
 import {versionMismatchResponse} from 'ghost-admin/mirage/utils';
 
 let htmlErrorResponse = function () {
-    return new Mirage.Response(
+    return new Response(
         504,
         {'Content-Type': 'text/html'},
         '<!DOCTYPE html><head><title>Server Error</title></head><body>504 Gateway Timeout</body></html>'
@@ -36,8 +36,8 @@ describe('Acceptance: Error Handling', function () {
 
                 await visit('/posts');
                 await click('.posts-list li:nth-of-type(2) a'); // select second post
-                await click('[data-test-publishmenu-trigger]');
-                await click('[data-test-publishmenu-save]'); // "Save post"
+                await fillIn('[data-test-editor-title-input]', 'Updated post');
+                await blur('[data-test-editor-title-input]');
 
                 // has the refresh to update alert
                 expect(findAll('.gh-alert').length).to.equal(1);
@@ -64,21 +64,6 @@ describe('Acceptance: Error Handling', function () {
                 expect(findAll('.gh-alert').length).to.equal(1);
                 expect(find('.gh-alert').textContent).to.match(/refresh/);
             });
-
-            it('displays alert and aborts the transition when an ember-ajax error is thrown whilst navigating', async function () {
-                await visit('/tags');
-
-                this.server.get('/settings/', versionMismatchResponse);
-
-                await click('[data-test-nav="settings"]');
-
-                // navigation is blocked
-                expect(currentRouteName()).to.equal('settings.general_loading');
-
-                // has the refresh to update alert
-                expect(findAll('.gh-alert').length).to.equal(1);
-                expect(find('.gh-alert').textContent).to.match(/refresh/);
-            });
         });
 
         describe('logged out', function () {
@@ -88,7 +73,7 @@ describe('Acceptance: Error Handling', function () {
                 await visit('/signin');
                 await fillIn('[name="identification"]', 'test@example.com');
                 await fillIn('[name="password"]', 'password');
-                await click('.gh-btn-blue');
+                await click('.js-login-button');
 
                 // has the refresh to update alert
                 expect(findAll('.gh-alert').length).to.equal(1);
@@ -112,8 +97,8 @@ describe('Acceptance: Error Handling', function () {
             this.server.create('post');
 
             await visit('/editor/post/1');
-            await click('[data-test-publishmenu-trigger]');
-            await click('[data-test-publishmenu-save]');
+            await fillIn('[data-test-editor-title-input]', 'Updated post');
+            await blur('[data-test-editor-title-input]');
 
             expect(findAll('.gh-alert').length).to.equal(1);
             expect(find('.gh-alert').textContent).to.not.match(/html>/);
@@ -123,9 +108,12 @@ describe('Acceptance: Error Handling', function () {
         it('handles ember-ajax HTML response', async function () {
             this.server.del('/themes/foo/', htmlErrorResponse);
 
-            await visit('/settings/design');
-            await click('[data-test-theme-id="foo"] [data-test-theme-delete-button]');
-            await click('.fullscreen-modal [data-test-delete-button]');
+            await visit('/settings/design/change-theme');
+
+            await click('[data-test-button="toggle-advanced"]');
+            await click('[data-test-theme-id="foo"] [data-test-button="actions"]');
+            await click('[data-test-actions-for="foo"] [data-test-button="delete"]');
+            await click('[data-test-modal="delete-theme"] [data-test-button="confirm"]');
 
             expect(findAll('.gh-alert').length).to.equal(1);
             expect(find('.gh-alert').textContent).to.not.match(/html>/);

@@ -19,7 +19,8 @@ export default BaseValidator.create({
         'twitterDescription',
         'publishedAtBlogTime',
         'publishedAtBlogDate',
-        'emailSubject'
+        'emailSubject',
+        'featureImageAlt'
     ],
 
     title(model) {
@@ -62,6 +63,20 @@ export default BaseValidator.create({
     customExcerpt(model) {
         if (!validator.isLength(model.customExcerpt || '', 0, 300)) {
             model.errors.add('customExcerpt', 'Excerpt cannot be longer than 300 characters.');
+            this.invalidate();
+        }
+    },
+
+    visibility(model) {
+        if (isBlank(model.visibility) && !model.isNew) {
+            model.errors.add('visibility', 'Please select at least one tier');
+            this.invalidate();
+        }
+    },
+
+    tiers(model) {
+        if (model.visibility === 'tiers' && !model.isNew && isEmpty(model.tiers)) {
+            model.errors.add('tiers', 'Please select at least one tier');
             this.invalidate();
         }
     },
@@ -170,9 +185,7 @@ export default BaseValidator.create({
         if (isEmpty(model.errors.errorsFor('publishedAtBlogTime'))) {
             let status = model.statusScratch || model.status;
             let now = moment();
-            let publishedAtUTC = model.publishedAtUTC;
             let publishedAtBlogTZ = model.publishedAtBlogTZ;
-            let matchesExisting = publishedAtUTC && publishedAtBlogTZ.isSame(publishedAtUTC);
             let isInFuture = publishedAtBlogTZ.isSameOrAfter(now.add(2, 'minutes'));
 
             // draft/published must be in past
@@ -180,12 +193,18 @@ export default BaseValidator.create({
                 model.errors.add('publishedAtBlogDate', 'Must be in the past');
                 this.invalidate();
 
-            // scheduled must be at least 2 mins in the future
-            // ignore if it matches publishedAtUTC as that is likely an update of a scheduled post
-            } else if (status === 'scheduled' && !matchesExisting && !isInFuture) {
+            // scheduled must be at least 2 mins in the future when first scheduling
+            } else if ((model.changedAttributes().status || model.changedAttributes().publishedAtUTC) && status === 'scheduled' && !isInFuture) {
                 model.errors.add('publishedAtBlogDate', 'Must be at least 2 mins in the future');
                 this.invalidate();
             }
+        }
+    },
+
+    featureImageAlt(model) {
+        if (!validator.isLength(model.featureImageAlt || '', 0, 125)) {
+            model.errors.add('featureImageAlt', 'Feature image alt text cannot be longer than 125 characters.');
+            this.invalidate();
         }
     }
 });

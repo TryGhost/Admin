@@ -1,136 +1,138 @@
 {{#if this.post}}
-    <GhEditor
-        @tagName="section"
-        @class="gh-editor gh-view"
-        as |editor|
-    >
-        <header class="gh-editor-header br2 pe-none {{editor.headerClass}} {{if this.infoMessage "bg-white"}}">
-            <div class="flex items-center pe-auto">
-                {{#if this.ui.isFullScreen}}
-                    <div class="{{ui-text "ts"}} h9 br b--lightgrey pl3 pr4 flex items-center br2 br--left {{unless this.infoMessage "bg-white"}}">
-                        <LinkTo @route={{pluralize this.post.displayName }} @classNames="blue link fw4 flex items-center" data-test-link={{pluralize this.post.displayName}}>
-                            {{svg-jar "arrow-left" class="w3 fill-blue mr1 nudge-right--2"}}
-                            {{capitalize (pluralize this.post.displayName)}}
-                        </LinkTo>
+    <div class="flex flex-row">
+        <GhEditor
+            @tagName="section"
+            @class="gh-editor gh-view relative"
+            as |editor|
+        >
+            <header class="gh-editor-header br2 pe-none">
+                <Editor::PublishManagement
+                    @post={{this.post}}
+                    @hasUnsavedChanges={{this.hasDirtyAttributes}}
+                    @beforePublish={{perform this.beforeSaveTask}}
+                    @afterPublish={{this.afterSave}}
+                    @saveTask={{this.saveTask}}
+                    as |publishManagement|
+                >
+                    <div class="flex items-center pe-auto h-100">
+                        {{#if this.ui.isFullScreen}}
+                            <LinkTo @route={{pluralize this.post.displayName }} class="gh-btn-editor gh-editor-back-button" data-test-link={{pluralize this.post.displayName}}>
+                                <span>
+                                    {{svg-jar "arrow-left"}}
+                                    {{capitalize (pluralize this.post.displayName)}}
+                                </span>
+                            </LinkTo>
+                        {{/if}}
+                        <div class="gh-editor-post-status">
+                            <span>
+                                <GhEditorPostStatus
+                                    @post={{this.post}}
+                                    @hasDirtyAttributes={{this.hasDirtyAttributes}}
+                                    @isSaving={{or this.autosaveTask.isRunning this.saveTasks.isRunning}}
+                                    @openUpdateFlow={{publishManagement.openUpdateFlow}}
+                                />
+                            </span>
+                        </div>
                     </div>
-                {{/if}}
-                <div class="flex items-center pl4 pr4 f8 nudge-left--1 h9 br2 br--right {{unless this.infoMessage "bg-white"}}">
-                    <span class="fw4 midgrey-l2">
-                        <GhEditorPostStatus
-                            @post={{this.post}}
-                            @isSaving={{or this.autosave.isRunning this.saveTasks.isRunning}}
-                        />
-                    </span>
+
+                    <section class="flex items-center pe-auto h-100">
+                        {{#unless this.post.isNew}}
+                            <Editor::PublishButtons @publishManagement={{publishManagement}} />
+
+                            {{#unless this.showSettingsMenu}}
+                                <div class="settings-menu-toggle-spacer"></div>
+                            {{/unless}}
+                        {{/unless}}
+                    </section>
+                </Editor::PublishManagement>
+            </header>
+
+            {{!--
+                gh-koenig-editor acts as a wrapper around the title input and
+                koenig editor canvas to support Ghost-specific editor behaviour
+            --}}
+            <GhKoenigEditor
+                @title={{readonly this.post.titleScratch}}
+                @titleAutofocus={{this.shouldFocusTitle}}
+                @titlePlaceholder={{concat (capitalize this.post.displayName) " title"}}
+                @onTitleChange={{this.updateTitleScratch}}
+                @onTitleBlur={{perform this.saveTitleTask}}
+                @body={{readonly this.post.scratch}}
+                @bodyPlaceholder={{concat "Begin writing your " this.post.displayName "..."}}
+                @onBodyChange={{this.updateScratch}}
+                @headerOffset={{editor.headerHeight}}
+                @scrollContainerSelector=".gh-koenig-editor"
+                @scrollOffsetBottomSelector=".gh-mobile-nav-bar"
+                @onEditorCreated={{this.setKoenigEditor}}
+                @onWordCountChange={{this.updateWordCount}}
+                @snippets={{this.snippets}}
+                @saveSnippet={{if this.canManageSnippets this.saveSnippet}}
+                @updateSnippet={{if this.canManageSnippets this.toggleUpdateSnippetModal}}
+                @deleteSnippet={{if this.canManageSnippets this.toggleDeleteSnippetModal}}
+                @featureImage={{this.post.featureImage}}
+                @featureImageAlt={{this.post.featureImageAlt}}
+                @featureImageCaption={{this.post.featureImageCaption}}
+                @setFeatureImage={{this.setFeatureImage}}
+                @setFeatureImageAlt={{this.setFeatureImageAlt}}
+                @setFeatureImageCaption={{this.setFeatureImageCaption}}
+                @clearFeatureImage={{this.clearFeatureImage}}
+                @cardOptions={{hash
+                    post=this.post
+                }}
+                @postType={{this.post.displayName}}
+            />
+
+            <div class="gh-editor-wordcount-container">
+                <div class="gh-editor-wordcount">
+                    {{gh-pluralize this.wordCount.wordCount "word"}}
                 </div>
+                <a href="https://ghost.org/help/using-the-editor/" class="flex" target="_blank" rel="noopener noreferrer">{{svg-jar "help"}}</a>
             </div>
 
-            {{#if this.infoMessage}}
-            <div class="gh-koenig-info miw88 flex flex-auto justify-center" style="pointer-events: auto">
-                <div class="midgrey inline-flex tracked-1 center pa1 pl4 pr4 br3 justify-center items-start {{if (eq editor.headerClass "gh-editor-header-small") "bg-white"}}">
-                    {{svg-jar "idea" class="w7 h7 fill-blue"}}
-                    <p class="ma0 pa0 ml1 nudge-top--2">
-                        {{this.infoMessage}}
-                        <button type="button" class="blue fw5" {{action (mut this.infoMessage "")}}>Got it</button>
-                    </p>
-                </div>
-            </div>
-            {{/if}}
+        </GhEditor>
 
-            <section class="view-actions br2 {{unless this.infoMessage "bg-white"}}" style="pointer-events: auto">
-                {{#unless this.post.isNew}}
-                    {{#if this.session.user.isContributor}}
-                        <GhTaskButton @buttonText="Save"
-                            @task={{this.save}}
-                            @runningText="Saving"
-                            @class="gh-btn gh-btn-blue gh-btn-icon contributor-save-button"
-                            data-test-contributor-save=true />
-                    {{else}}
-                        <GhPublishmenu
-                            @post={{this.post}}
-                            @postStatus={{this.post.status}}
-                            @saveTask={{this.save}}
-                            @setSaveType={{action "setSaveType"}}
-                            @onOpen={{action "cancelAutosave"}}
-                            @backgroundTask={{this.backgroundLoader}}
-                            @memberCount={{this.memberCount}} />
-                    {{/if}}
-                {{/unless}}
+        {{#if this.showSettingsMenu}}
+            <GhPostSettingsMenu
+                @post={{this.post}}
+                @deletePost={{this.openDeletePostModal}}
+                @updateSlugTask={{this.updateSlugTask}}
+                @savePostTask={{this.savePostTask}}
+            />
+        {{/if}}
+    </div>
 
-                <button type="button" class="post-settings" title="Settings" {{action "openSettingsMenu" target=this.ui}} data-test-psm-trigger>
-                    {{svg-jar "settings"}}
-                </button>
-            </section>
-        </header>
-
-        {{!--
-            gh-koenig-editor acts as a wrapper around the title input and
-            koenig editor canvas to support Ghost-specific editor behaviour
-        --}}
-        <GhKoenigEditor
-            @title={{readonly this.post.titleScratch}}
-            @titlePlaceholder={{concat (capitalize this.post.displayName) " Title"}}
-            @onTitleChange={{action "updateTitleScratch"}}
-            @onTitleBlur={{action (perform this.saveTitle)}}
-            @body={{readonly this.post.scratch}}
-            @bodyPlaceholder={{concat "Begin writing your " this.post.displayName "..."}}
-            @bodyAutofocus={{this.shouldFocusEditor}}
-            @onBodyChange={{action "updateScratch"}}
-            @headerOffset={{editor.headerHeight}}
-            @scrollContainerSelector=".gh-koenig-editor"
-            @scrollOffsetTopSelector=".gh-editor-header-small"
-            @scrollOffsetBottomSelector=".gh-mobile-nav-bar"
-            @onEditorCreated={{action "setKoenigEditor"}}
-            @onWordCountChange={{action "updateWordCount"}}
-            @snippets={{this.snippets}}
-            @saveSnippet={{if this.canManageSnippets this.saveSnippet}}
-            @deleteSnippet={{if this.canManageSnippets this.toggleDeleteSnippetModal}}
-        />
-
-        <div class="absolute flex items-center br3 bg-white {{if editor.headerClass "right-4 bottom-4" "right-6 bottom-6"}}">
-            <div class="midgrey-l2 {{if editor.headerClass "f-supersmall pl2 pr2" "f8 pl4 pr3"}} fw4">
-                {{gh-pluralize this.wordCount.wordCount "word"}}
-            </div>
-            <a href="https://ghost.org/faq/using-the-editor/" class="flex {{if editor.headerClass "pa2" "pa3"}}" target="_blank">{{svg-jar "help" class="w4 h4 stroke-midgrey-l2"}}</a>
-        </div>
-
-    </GhEditor>
-
-    {{#if this.showDeletePostModal}}
-        <GhFullscreenModal @modal="delete-post"
-            @model={{hash post=this.post onSuccess=(route-action 'redirectToContentScreen' this.post.displayName)}}
-            @close={{action "toggleDeletePostModal"}}
-            @modifier="action wide" />
-    {{/if}}
-
-    {{#if this.showLeaveEditorModal}}
-        <GhFullscreenModal @modal="leave-editor"
-            @confirm={{action "leaveEditor"}}
-            @close={{action "toggleLeaveEditorModal"}}
-            @modifier="action wide" />
-    {{/if}}
+    <button type="button" class="settings-menu-toggle gh-btn gh-btn-editor gh-btn-icon icon-only gh-btn-action-icon" title="Settings" {{on "click" this.toggleSettingsMenu}} data-test-psm-trigger>
+        {{#if this.showSettingsMenu}}
+            <span class="settings-menu-open">{{svg-jar "sidemenu-open"}}</span>
+        {{else}}
+            <span>{{svg-jar "sidemenu"}}</span>
+        {{/if}}
+    </button>
 
     {{#if this.showReAuthenticateModal}}
         <GhFullscreenModal @modal="re-authenticate"
-            @close={{action "toggleReAuthenticateModal"}}
+            @close={{this.toggleReAuthenticateModal}}
             @modifier="action wide" />
-    {{/if}}
-
-    {{#if this.showEmailPreviewModal}}
-        <GhFullscreenModal @modal="post-email-preview"
-            @model={{this.post}}
-            @close={{action "toggleEmailPreviewModal"}}
-            @modifier="full-overlay email-preview" />
     {{/if}}
 
     {{#if this.showUpgradeModal}}
         <GhFullscreenModal
             @modal="upgrade-host-limit"
             @model={{hash
-                message=hostLimitError.context
-                details=hostLimitError.details
-                upgradeLink=hostLimitError.help
+                message=this.hostLimitError.context
+                details=this.hostLimitError.details
             }}
-            @close={{action "closeUpgradeModal"}}
+            @close={{this.closeUpgradeModal}}
+            @modifier="action wide"
+        />
+    {{/if}}
+
+    {{#if this.snippetToUpdate}}
+        <GhFullscreenModal
+            @modal="update-snippet"
+            @model={{this.snippetToUpdate}}
+            @confirm={{this.updateSnippet}}
+            @close={{this.toggleUpdateSnippetModal}}
             @modifier="action wide"
         />
     {{/if}}
@@ -144,17 +146,6 @@
             @modifier="action wide"
         />
     {{/if}}
-
-    <LiquidWormhole>
-        <GhPostSettingsMenu
-            @post={{this.post}}
-            @showSettingsMenu={{this.ui.showSettingsMenu}}
-            @toggleEmailPreviewModal={{action "toggleEmailPreviewModal"}}
-            @deletePost={{action "toggleDeletePostModal"}}
-            @updateSlug={{this.updateSlug}}
-            @savePost={{this.savePost}}
-        />
-    </LiquidWormhole>
 {{/if}}
 
 {{outlet}}

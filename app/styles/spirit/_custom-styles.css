@@ -191,7 +191,10 @@ button, .btn-base {
     content: attr(data-tooltip);
     text-align: center;
     font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.4em;
     letter-spacing: 0.2px;
+    text-transform: initial;
     transform: translate(-50%, 5px);
 }
 
@@ -206,13 +209,14 @@ button, .btn-base {
 }
 
 .tooltip-left:before {
-    bottom: 2px;
-    left: calc(100% + 6px);
-    transform: translate(-4px, 0);
+    right: calc(1rem + 100%);
+    bottom: 50%;
+    left: auto;
+    transform: translateY(50%);
 }
 
 .tooltip-left:hover:before {
-    transform: translate(0, 0);
+    transform: translateY(50%);
 }
 
 .tooltip-bottom:before {
@@ -236,6 +240,16 @@ button, .btn-base {
 
 .tooltip-centered:hover:before {
     transform: translate(0, -50%);
+}
+
+.tooltip-top-left:before {
+    right: calc(-16px + 100%);
+    left: auto;
+    transform: translateY(50%);
+}
+
+.tooltip-top-left:hover:before {
+    transform: translate(0, 0);
 }
 
 
@@ -355,8 +369,4 @@ button, .btn-base {
     animation-name: bounce-2;
     animation-iteration-count: infinite;
     animation-duration: 0.7s;
-}
-
-.bg-grouped-table {
-    background: var(--white);
 }

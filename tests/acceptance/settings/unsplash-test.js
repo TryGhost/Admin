@@ -22,34 +22,34 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
-    it('redirects to staff page when authenticated as contributor', async function () {
+    it('redirects to home page when authenticated as contributor', async function () {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/posts');
     });
 
-    it('redirects to staff page when authenticated as author', async function () {
+    it('redirects to home page when authenticated as author', async function () {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
-    it('redirects to staff page when authenticated as editor', async function () {
+    it('redirects to home page when authenticated as editor', async function () {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/unsplash');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
     describe('when logged in', function () {
@@ -66,39 +66,37 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             // has correct url
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
 
-            // verify we don't have an unsplash setting fixture loaded
-            expect(
-                this.server.db.settings.where({key: 'unsplash'}),
-                'initial server settings'
-            ).to.be.empty;
-
             // it's enabled by default when settings is empty
-            expect(
-                find('[data-test-checkbox="unsplash"]').checked,
-                'checked by default'
-            ).to.be.true;
+            expect(find('[data-test-unsplash-checkbox]').checked, 'checked by default').to.be.true;
+
+            await click('[data-test-unsplash-checkbox]');
+
+            expect(find('[data-test-unsplash-checkbox]').checked, 'unsplash checkbox').to.be.false;
 
             // trigger a save
             await click('[data-test-save-button]');
 
             // server should now have an unsplash setting
-            let [setting] = this.server.db.settings.where({key: 'unsplash'});
-            expect(setting, 'unsplash setting after save').to.exist;
-            expect(setting.value).to.equal('{"isActive":true}');
+            let [lastRequest] = this.server.pretender.handledRequests.slice(-1);
+            let params = JSON.parse(lastRequest.requestBody);
 
-            // disable
-            await click('[data-test-checkbox="unsplash"]');
+            expect(params.settings.findBy('key', 'unsplash').value).to.equal(false);
 
             // save via CMD-S shortcut
+            await click('[data-test-unsplash-checkbox]');
             await triggerEvent('.gh-app', 'keydown', {
                 keyCode: 83, // s
                 metaKey: ctrlOrCmd === 'command',
                 ctrlKey: ctrlOrCmd === 'ctrl'
             });
 
-            // server should have an updated setting
-            [setting] = this.server.db.settings.where({key: 'unsplash'});
-            expect(setting.value).to.equal('{"isActive":false}');
+            // we've already saved in this test so there's no on-screen indication
+            // that we've had another save, check the request was fired instead
+            let [newRequest] = this.server.pretender.handledRequests.slice(-1);
+            params = JSON.parse(newRequest.requestBody);
+
+            expect(find('[data-test-unsplash-checkbox]').checked, 'AMP checkbox').to.be.true;
+            expect(params.settings.findBy('key', 'unsplash').value).to.equal(true);
         });
 
         it('warns when leaving without saving', async function () {
@@ -107,30 +105,28 @@ describe('Acceptance: Settings - Integrations - Unsplash', function () {
             // has correct url
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
 
-            expect(
-                find('[data-test-checkbox="unsplash"]').checked,
-                'checked by default'
-            ).to.be.true;
+            // AMP is enabled by default
+            expect(find('[data-test-unsplash-checkbox]').checked, 'AMP checkbox default').to.be.true;
 
-            await click('[data-test-checkbox="unsplash"]');
+            await click('[data-test-unsplash-checkbox]');
 
-            expect(find('[data-test-checkbox="unsplash"]').checked, 'Unsplash checkbox').to.be.false;
+            expect(find('[data-test-unsplash-checkbox]').checked, 'Unsplash checkbox').to.be.false;
 
             await visit('/settings/labs');
 
-            expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
+            expect(findAll('.fullscreen-modal').length, 'unsaved changes modal exists').to.equal(1);
 
             // Leave without saving
             await click('.fullscreen-modal [data-test-leave-button]');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/labs');
+            expect(currentURL(), 'currentURL after leave without saving').to.equal('/settings/labs');
 
             await visit('/settings/integrations/unsplash');
 
             expect(currentURL(), 'currentURL').to.equal('/settings/integrations/unsplash');
 
             // settings were not saved
-            expect(find('[data-test-checkbox="unsplash"]').checked, 'Unsplash checkbox').to.be.true;
+            expect(find('[data-test-unsplash-checkbox]').checked, 'Unsplash checkbox').to.be.true;
         });
     });
 });

@@ -1,21 +1,24 @@
 import Component from '@ember/component';
-import {computed} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
+import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
 
-export default Component.extend({
-    router: service(),
-    config: service(),
-    ghostPaths: service(),
-    ajax: service(),
-    billing: service(),
+@classic
+export default class GhBillingUpdateButton extends Component {
+    @service router;
+    @service config;
+    @service ghostPaths;
+    @service ajax;
+    @service billing;
 
-    subscription: null,
+    subscription = null;
 
-    showUpgradeButton: computed.equal('billing.subscription.status', 'trialing'),
+    @reads('billing.subscription.isActiveTrial')
+        showUpgradeButton;
 
-    actions: {
-        openBilling() {
-            this.billing.openBillingWindow(this.router.currentURL, '/billing/plans');
-        }
+    @action
+    openBilling() {
+        this.billing.openBillingWindow(this.router.currentURL, '/pro/billing/plans');
     }
-});
+}

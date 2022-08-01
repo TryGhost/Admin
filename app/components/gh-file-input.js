@@ -1,9 +1,16 @@
 import XFileInput from 'emberx-file-input/components/x-file-input';
+import classic from 'ember-classic-decorator';
 
 // TODO: remove this override and use {{x-file-input}} directly once we've
 // upgraded to emberx-file-input@1.2.0
 
-export default XFileInput.extend({
+@classic
+export default class GhFileInput extends XFileInput {
+    didInsertElement() {
+        super.didInsertElement(...arguments);
+        this.onInsert?.(this.element.querySelector('input[type="file"]'));
+    }
+
     change(e) {
         let action = this.action;
         let files = this.files(e);
@@ -11,7 +18,7 @@ export default XFileInput.extend({
         if (files.length && action) {
             action(files, this.resetInput.bind(this));
         }
-    },
+    }
 
     /**
     * Gets files from event object.
@@ -21,8 +28,8 @@ export default XFileInput.extend({
     * @param {$.Event || Event}
     */
     files(e) {
-        return (e.originalEvent || e).testingFiles || e.target.files;
-    },
+        return (e.originalEvent || e).testingFiles || e.originalEvent?.files || e.target.files;
+    }
 
     /**
     * Resets the value of the input so you can select the same file
@@ -37,6 +44,10 @@ export default XFileInput.extend({
         let input = this.element.querySelector('.x-file--input');
         input.removeAttribute('value');
         input.value = null;
-        input.parentNode.replaceChild(input.cloneNode(true), input);
+
+        const clone = input.cloneNode(true);
+        input.parentNode.replaceChild(clone, input);
+
+        return clone;
     }
-});
+}

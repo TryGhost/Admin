@@ -26,7 +26,7 @@ describe('Unit: Controller: editor', function () {
 
             expect(controller.get('post.slug')).to.equal('');
 
-            await controller.get('generateSlug').perform();
+            await controller.generateSlugTask.perform();
 
             expect(controller.get('post.slug')).to.equal('title-slug');
         });
@@ -44,13 +44,13 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.slug')).to.equal('whatever');
 
             controller.set('post.titleScratch', '(Untitled)');
-            await controller.get('generateSlug').perform();
+            await controller.generateSlugTask.perform();
 
             expect(controller.get('post.slug')).to.equal('whatever');
         });
     });
 
-    describe('saveTitle', function () {
+    describe('saveTitleTask', function () {
         beforeEach(function () {
             this.controller = this.owner.lookup('controller:editor');
             this.controller.set('target', {send() {}});
@@ -60,7 +60,7 @@ describe('Unit: Controller: editor', function () {
             let {controller} = this;
 
             controller.set('target', {send() {}});
-            defineProperty(controller, 'generateSlug', task(function * () {
+            defineProperty(controller, 'generateSlugTask', task(function * () {
                 this.set('post.slug', 'test-slug');
                 yield RSVP.resolve();
             }));
@@ -70,7 +70,7 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.titleScratch')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'test');
-            await controller.get('saveTitle').perform();
+            await controller.saveTitleTask.perform();
 
             expect(controller.get('post.titleScratch')).to.equal('test');
             expect(controller.get('post.slug')).to.equal('test-slug');
@@ -80,7 +80,7 @@ describe('Unit: Controller: editor', function () {
             let {controller} = this;
 
             controller.set('target', {send() {}});
-            defineProperty(controller, 'generateSlug', task(function * () {
+            defineProperty(controller, 'generateSlugTask', task(function * () {
                 this.set('post.slug', 'test-slug');
                 yield RSVP.resolve();
             }));
@@ -91,7 +91,7 @@ describe('Unit: Controller: editor', function () {
 
             controller.set('post.titleScratch', 'New Title');
 
-            await controller.get('saveTitle').perform();
+            await controller.saveTitleTask.perform();
 
             expect(controller.get('post.titleScratch')).to.equal('New Title');
             expect(controller.get('post.slug')).to.equal('test-slug');
@@ -101,7 +101,7 @@ describe('Unit: Controller: editor', function () {
             let {controller} = this;
 
             controller.set('target', {send() {}});
-            defineProperty(controller, 'generateSlug', task(function * () {
+            defineProperty(controller, 'generateSlugTask', task(function * () {
                 expect(false, 'generateSlug should not be called').to.equal(true);
                 yield RSVP.resolve();
             }));
@@ -115,7 +115,7 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.titleScratch')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'test');
-            await controller.get('saveTitle').perform();
+            await controller.saveTitleTask.perform();
 
             expect(controller.get('post.titleScratch')).to.equal('test');
             expect(controller.get('post.slug')).to.not.be.ok;
@@ -125,7 +125,7 @@ describe('Unit: Controller: editor', function () {
             let {controller} = this;
 
             controller.set('target', {send() {}});
-            defineProperty(controller, 'generateSlug', task(function * () {
+            defineProperty(controller, 'generateSlugTask', task(function * () {
                 expect(false, 'generateSlug should not be called').to.equal(true);
                 yield RSVP.resolve();
             }));
@@ -135,7 +135,7 @@ describe('Unit: Controller: editor', function () {
             expect(controller.get('post.title')).to.not.be.ok;
 
             controller.set('post.titleScratch', 'title');
-            await controller.get('saveTitle').perform();
+            await controller.saveTitleTask.perform();
 
             expect(controller.get('post.titleScratch')).to.equal('title');
             expect(controller.get('post.slug')).to.not.be.ok;

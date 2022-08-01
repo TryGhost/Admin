@@ -1,13 +1,15 @@
 {
   "extends": [
     "@tryghost:quietJS",
-    "@tryghost:groupCSS"
+    "@tryghost:groupCSS",
+    "@tryghost:disableTryGhostAutomerge"
   ],
   "ignoreDeps": [
     "ember-drag-drop",
     "normalize.css",
     "validator",
-    "codemirror"
+    "codemirror",
+    "faker"
   ],
   "ignorePaths": ["lib/koenig-editor/package.json"],
   "packageRules": [
@@ -20,8 +22,16 @@
       "packageNames": ["ember-source", "ember-cli", "ember-data"]
     },
     {
-      "groupName": "ember testing",
-      "packageNames": ["ember-mocha", "ember-exam", "testem"]
+      "groupName": "disable css",
+      "packagePatterns": [
+        "^postcss",
+        "^css"
+      ],
+      "packageNames": [
+        "autoprefixer",
+        "ember-cli-postcss"
+      ],
+      "enabled": false
     }
   ]
 }

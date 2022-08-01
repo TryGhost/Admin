@@ -9,12 +9,22 @@ export default Model.extend(ValidationEngine, {
     name: attr('string'),
     email: attr('string'),
     note: attr('string'),
+    status: attr('string'),
     createdAtUTC: attr('moment-utc'),
-    stripe: attr('member-subscription'),
+    lastSeenAtUTC: attr('moment-utc'),
+    subscriptions: attr('member-subscription'),
     subscribed: attr('boolean', {defaultValue: true}),
-    labels: hasMany('label', {embedded: 'always', async: false}),
     comped: attr('boolean', {defaultValue: false}),
     geolocation: attr('json-string'),
+    emailCount: attr('number', {defaultValue: 0}),
+    emailOpenedCount: attr('number', {defaultValue: 0}),
+    emailOpenRate: attr('number'),
+    avatarImage: attr('string'),
+
+    tiers: attr('member-tier'),
+    newsletters: hasMany('newsletter', {embedded: 'always', async: false}),
+
+    labels: hasMany('label', {embedded: 'always', async: false}),
 
     ghostPaths: service(),
     ajax: service(),
@@ -32,7 +42,7 @@ export default Model.extend(ValidationEngine, {
     },
 
     fetchSigninUrl: task(function* () {
-        let url = this.get('ghostPaths.url').api('members', this.get('id'), 'signin_urls');
+        let url = this.get('ghostPaths.url').api('members', this.id, 'signin_urls');
 
         let response = yield this.ajax.request(url);
 

@@ -1,10 +1,11 @@
 import EmberError from '@ember/error';
 import FeatureService, {feature} from 'ghost-admin/services/feature';
 import Pretender from 'pretender';
-import wait from 'ember-test-helpers/wait';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {run} from '@ember/runloop';
+import {settled} from '@ember/test-helpers';
 import {setupTest} from 'ember-mocha';
 
 function stubSettings(server, labs, validSave = true) {
@@ -17,11 +18,11 @@ function stubSettings(server, labs, validSave = true) {
         }
     ];
 
-    server.get('/ghost/api/v3/admin/settings/', function () {
+    server.get(`${ghostPaths().apiRoot}/settings/`, function () {
         return [200, {'Content-Type': 'application/json'}, JSON.stringify({settings})];
     });
 
-    server.put('/ghost/api/v3/admin/settings/', function (request) {
+    server.put(`${ghostPaths().apiRoot}/settings/`, function (request) {
         let statusCode = (validSave) ? 200 : 400;
         let response = (validSave) ? request.requestBody : JSON.stringify({
             errors: [{
@@ -47,11 +48,11 @@ function stubUser(server, accessibility, validSave = true) {
         }]
     }];
 
-    server.get('/ghost/api/v3/admin/users/me/', function () {
+    server.get(`${ghostPaths().apiRoot}/users/me/`, function () {
         return [200, {'Content-Type': 'application/json'}, JSON.stringify({users})];
     });
 
-    server.put('/ghost/api/v3/admin/users/1/', function (request) {
+    server.put(`${ghostPaths().apiRoot}/users/1/`, function (request) {
         let statusCode = (validSave) ? 200 : 400;
         let response = (validSave) ? request.requestBody : JSON.stringify({
             errors: [{
@@ -83,11 +84,14 @@ describe('Integration: Service: feature', function () {
         server.shutdown();
     });
 
-    it('loads labs and user settings correctly', function () {
+    it('loads labs and user settings correctly', async function () {
         stubSettings(server, {testFlag: true});
         stubUser(server, {testUserFlag: true});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
 
@@ -97,11 +101,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns false for set flag with config false and labs false', function () {
+    it('returns false for set flag with config false and labs false', async function () {
         stubSettings(server, {testFlag: false});
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', false);
@@ -112,11 +119,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns true for set flag with config true and labs false', function () {
+    it('returns true for set flag with config true and labs false', async function () {
         stubSettings(server, {testFlag: false});
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', true);
@@ -127,11 +137,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns true for set flag with config false and labs true', function () {
+    it('returns true for set flag with config false and labs true', async function () {
         stubSettings(server, {testFlag: true});
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', false);
@@ -142,11 +155,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns true for set flag with config true and labs true', function () {
+    it('returns true for set flag with config true and labs true', async function () {
         stubSettings(server, {testFlag: true});
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', true);
@@ -157,11 +173,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns false for set flag with accessibility false', function () {
+    it('returns false for set flag with accessibility false', async function () {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
 
@@ -171,11 +190,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('returns true for set flag with accessibility true', function () {
+    it('returns true for set flag with accessibility true', async function () {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: true});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
 
@@ -185,11 +207,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('saves labs setting correctly', function () {
+    it('saves labs setting correctly', async function () {
         stubSettings(server, {testFlag: false});
         stubUser(server, {testUserFlag: false});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', false);
@@ -201,18 +226,21 @@ describe('Integration: Service: feature', function () {
                 service.set('testFlag', true);
             });
 
-            return wait().then(() => {
+            return settled().then(() => {
                 expect(server.handlers[1].numberOfCalls).to.equal(1);
                 expect(service.get('testFlag')).to.be.true;
             });
         });
     });
 
-    it('saves accessibility setting correctly', function () {
+    it('saves accessibility setting correctly', async function () {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
 
@@ -223,18 +251,21 @@ describe('Integration: Service: feature', function () {
                 service.set('testUserFlag', true);
             });
 
-            return wait().then(() => {
+            return settled().then(() => {
                 expect(server.handlers[3].numberOfCalls).to.equal(1);
                 expect(service.get('testUserFlag')).to.be.true;
             });
         });
     });
 
-    it('notifies for server errors on labs save', function () {
+    it('notifies for server errors on labs save', async function () {
         stubSettings(server, {testFlag: false}, false);
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', false);
@@ -246,7 +277,7 @@ describe('Integration: Service: feature', function () {
                 service.set('testFlag', true);
             });
 
-            return wait().then(() => {
+            return settled().then(() => {
                 expect(
                     server.handlers[1].numberOfCalls,
                     'PUT call is made'
@@ -262,11 +293,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('notifies for server errors on accessibility save', function () {
+    it('notifies for server errors on accessibility save', async function () {
         stubSettings(server, {});
         stubUser(server, {testUserFlag: false}, false);
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
 
@@ -277,7 +311,7 @@ describe('Integration: Service: feature', function () {
                 service.set('testUserFlag', true);
             });
 
-            return wait().then(() => {
+            return settled().then(() => {
                 expect(
                     server.handlers[3].numberOfCalls,
                     'PUT call is made'
@@ -293,11 +327,14 @@ describe('Integration: Service: feature', function () {
         });
     });
 
-    it('notifies for validation errors', function () {
+    it('notifies for validation errors', async function () {
         stubSettings(server, {testFlag: false}, true, false);
         stubUser(server, {});
 
         addTestFlag();
+
+        let session = this.owner.lookup('service:session');
+        await session.populateUser();
 
         let service = this.owner.lookup('service:feature');
         service.get('config').set('testFlag', false);
@@ -311,7 +348,7 @@ describe('Integration: Service: feature', function () {
                 }, EmberError, 'threw validation error');
             });
 
-            return wait().then(() => {
+            return settled().then(() => {
                 // ensure validation is happening before the API is hit
                 expect(server.handlers[1].numberOfCalls).to.equal(0);
                 expect(service.get('testFlag')).to.be.false;

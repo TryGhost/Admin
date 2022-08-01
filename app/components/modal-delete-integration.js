@@ -5,6 +5,7 @@ import {task} from 'ember-concurrency';
 
 export default ModalComponent.extend({
     router: service(),
+    feature: service(),
     notifications: service(),
     integration: alias('model'),
     actions: {

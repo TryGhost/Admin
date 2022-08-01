@@ -3,11 +3,11 @@ import Model, {attr, belongsTo, hasMany} from '@ember-data/model';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import boundOneWay from 'ghost-admin/utils/bound-one-way';
 import moment from 'moment';
-import {compare} from '@ember/utils';
+import {compare, isBlank} from '@ember/utils';
 // eslint-disable-next-line ghost/ember/no-observers
+import {BLANK_DOC} from 'koenig-editor/components/koenig-editor';
 import {computed, observer} from '@ember/object';
 import {equal, filterBy, reads} from '@ember/object/computed';
-import {isBlank} from '@ember/utils';
 import {on} from '@ember/object/evented';
 import {inject as service} from '@ember/service';
 
@@ -79,7 +79,6 @@ export default Model.extend(Comparable, ValidationEngine, {
     excerpt: attr('string'),
     customExcerpt: attr('string'),
     featured: attr('boolean', {defaultValue: false}),
-    featureImage: attr('string'),
     canonicalUrl: attr('string'),
     codeinjectionFoot: attr('string', {defaultValue: ''}),
     codeinjectionHead: attr('string', {defaultValue: ''}),
@@ -92,11 +91,10 @@ export default Model.extend(Comparable, ValidationEngine, {
     twitterDescription: attr('string'),
     emailSubject: attr('string'),
     html: attr('string'),
-    locale: attr('string'),
     visibility: attr('string'),
     metaDescription: attr('string'),
     metaTitle: attr('string'),
-    mobiledoc: attr('json-string'),
+    mobiledoc: attr('json-string', {defaultValue: () => JSON.parse(JSON.stringify(BLANK_DOC))}),
     plaintext: attr('string'),
     publishedAtUTC: attr('moment-utc'),
     slug: attr('string'),
@@ -106,11 +104,17 @@ export default Model.extend(Comparable, ValidationEngine, {
     updatedBy: attr('number'),
     url: attr('string'),
     uuid: attr('string'),
-    emailRecipientFilter: attr('string', {defaultValue: 'none'}),
+    emailSegment: attr('members-segment-string', {defaultValue: null}),
+    emailOnly: attr('boolean', {defaultValue: false}),
+
+    featureImage: attr('string'),
+    featureImageAlt: attr('string'),
+    featureImageCaption: attr('string'),
 
     authors: hasMany('user', {embedded: 'always', async: false}),
     createdBy: belongsTo('user', {async: true}),
     email: belongsTo('email', {async: false}),
+    newsletter: belongsTo('newsletter', {embedded: 'always', async: false}),
     publishedBy: belongsTo('user', {async: true}),
     tags: hasMany('tag', {embedded: 'always', async: false}),
 
@@ -141,13 +145,24 @@ export default Model.extend(Comparable, ValidationEngine, {
     ogTitleScratch: boundOneWay('ogTitle'),
     twitterDescriptionScratch: boundOneWay('twitterDescription'),
     twitterTitleScratch: boundOneWay('twitterTitle'),
-
+    tiers: attr('member-tier'),
     emailSubjectScratch: boundOneWay('emailSubject'),
 
     isPublished: equal('status', 'published'),
     isDraft: equal('status', 'draft'),
     internalTags: filterBy('tags', 'isInternal', true),
     isScheduled: equal('status', 'scheduled'),
+    isSent: equal('status', 'sent'),
+
+    isPost: equal('displayName', 'post'),
+    isPage: equal('displayName', 'page'),
+
+    hasEmail: computed('email', 'emailOnly', function () {
+        return this.email !== null || this.emailOnly;
+    }),
+    willEmail: computed('isScheduled', 'newsletter', 'email', function () {
+        return this.isScheduled && !!this.newsletter && !this.email;
+    }),
 
     previewUrl: computed('uuid', 'ghostPaths.url', 'config.blogUrl', function () {
         let blogUrl = this.get('config.blogUrl');
@@ -159,6 +174,38 @@ export default Model.extend(Comparable, ValidationEngine, {
             return '';
         }
         return this.get('ghostPaths.url').join(blogUrl, previewKeyword, uuid);
+    }),
+
+    isPublic: computed('visibility', function () {
+        return this.visibility === 'public' ? true : false;
+    }),
+
+    visibilitySegment: computed('visibility', 'isPublic', 'tiers', function () {
+        if (this.isPublic) {
+            return this.settings.get('defaultContentVisibility') === 'paid' ? 'status:-free' : 'status:free,status:-free';
+        } else {
+            if (this.visibility === 'members') {
+                return 'status:free,status:-free';
+            }
+            if (this.visibility === 'paid') {
+                return 'status:-free';
+            }
+            if (this.visibility === 'tiers' && this.tiers) {
+                let filter = this.tiers.map((tier) => {
+                    return `tier:${tier.slug}`;
+                }).join(',');
+                return filter;
+            }
+            return this.visibility;
+        }
+    }),
+
+    fullRecipientFilter: computed('newsletter.recipientFilter', 'emailSegment', function () {
+        if (!this.newsletter) {
+            return this.emailSegment;
+        }
+
+        return `${this.newsletter.recipientFilter}+(${this.emailSegment})`;
     }),
 
     // check every second to see if we're past the scheduled time

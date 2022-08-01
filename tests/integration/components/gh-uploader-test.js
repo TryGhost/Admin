@@ -1,4 +1,5 @@
 import Pretender from 'pretender';
+import ghostPaths from 'ghost-admin/utils/ghost-paths';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import {click, find, findAll, render, settled, waitFor, waitUntil} from '@ember/test-helpers';
@@ -8,13 +9,13 @@ import {expect} from 'chai';
 import {setupRenderingTest} from 'ember-mocha';
 
 const stubSuccessfulUpload = function (server, delay = 0) {
-    server.post('/ghost/api/v3/admin/images/upload/', function () {
+    server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
         return [200, {'Content-Type': 'application/json'}, '{"images": [{"url": "/content/images/test.png"}]}'];
     }, delay);
 };
 
 const stubFailedUpload = function (server, code, error, delay = 0) {
-    server.post('/ghost/api/v3/admin/images/upload/', function () {
+    server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
         return [code, {'Content-Type': 'application/json'}, JSON.stringify({
             errors: [{
                 type: error,
@@ -50,7 +51,7 @@ describe('Integration: Component: gh-uploader', function () {
 
             let [lastRequest] = server.handledRequests;
             expect(server.handledRequests.length).to.equal(1);
-            expect(lastRequest.url).to.equal('/ghost/api/v3/admin/images/upload/');
+            expect(lastRequest.url).to.equal(`${ghostPaths().apiRoot}/images/upload/`);
             // requestBody is a FormData object
             // this will fail in anything other than Chrome and Firefox
             // https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility
@@ -73,7 +74,7 @@ describe('Integration: Component: gh-uploader', function () {
             this.set('files', [createFile(), createFile()]);
             await settled();
 
-            expect(this.get('uploadStarted').calledOnce).to.be.true;
+            expect(this.uploadStarted.calledOnce).to.be.true;
         });
 
         it('triggers onUploadSuccess when a file uploads', async function () {
@@ -84,10 +85,10 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             // triggered for each file
-            expect(this.get('fileUploaded').calledTwice).to.be.true;
+            expect(this.fileUploaded.calledTwice).to.be.true;
 
             // filename and url is passed in arg
-            let firstCall = this.get('fileUploaded').getCall(0);
+            let firstCall = this.fileUploaded.getCall(0);
             expect(firstCall.args[0].fileName).to.equal('file1.png');
             expect(firstCall.args[0].url).to.equal('/content/images/test.png');
         });
@@ -102,10 +103,10 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.get('uploadsFinished').calledOnce).to.be.true;
+            expect(this.uploadsFinished.calledOnce).to.be.true;
 
             // array of filenames and urls is passed in arg
-            let [result] = this.get('uploadsFinished').getCall(0).args;
+            let [result] = this.uploadsFinished.getCall(0).args;
             expect(result.length).to.equal(2);
             expect(result[0].fileName).to.equal('file1.png');
             expect(result[0].url).to.equal('/content/images/test.png');
@@ -128,14 +129,14 @@ describe('Integration: Component: gh-uploader', function () {
 
             await settled();
 
-            let [results] = this.get('uploadsFinished').getCall(1).args;
+            let [results] = this.uploadsFinished.getCall(1).args;
             expect(results.length).to.equal(1);
             expect(results[0].fileName).to.equal('file2.png');
         });
 
         it('onComplete returns results in same order as selected', async function () {
             // first request has a delay to simulate larger file
-            server.post('/ghost/api/v3/admin/images/upload/', function () {
+            server.post(`${ghostPaths().apiRoot}/images/upload/`, function () {
                 // second request has no delay to simulate small file
                 stubSuccessfulUpload(server, 0);
 
@@ -151,7 +152,7 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            let [results] = this.get('uploadsFinished').getCall(0).args;
+            let [results] = this.uploadsFinished.getCall(0).args;
             expect(results.length).to.equal(2);
             expect(results[0].fileName).to.equal('file1.png');
         });
@@ -252,12 +253,12 @@ describe('Integration: Component: gh-uploader', function () {
             await waitFor('.cancel-button');
             await click('.cancel-button');
 
-            expect(this.get('cancelled').calledOnce, 'onCancel triggered').to.be.true;
-            expect(this.get('complete').notCalled, 'onComplete triggered').to.be.true;
+            expect(this.cancelled.calledOnce, 'onCancel triggered').to.be.true;
+            expect(this.complete.notCalled, 'onComplete triggered').to.be.true;
         });
 
         it('uploads to supplied `uploadUrl`', async function () {
-            server.post('/ghost/api/v3/admin/images/', function () {
+            server.post(`${ghostPaths().apiRoot}/images/`, function () {
                 return [200, {'Content-Type': 'application/json'}, '{"images": [{"url": "/content/images/test.png"}]'];
             });
 
@@ -266,7 +267,7 @@ describe('Integration: Component: gh-uploader', function () {
             await settled();
 
             let [lastRequest] = server.handledRequests;
-            expect(lastRequest.url).to.equal('/ghost/api/v3/admin/images/');
+            expect(lastRequest.url).to.equal(`${ghostPaths().apiRoot}/images/`);
         });
 
         it('passes supplied paramName in request', async function () {
@@ -292,7 +293,7 @@ describe('Integration: Component: gh-uploader', function () {
             this.set('files', [createFile(['test'], {name: 'test.png'})]);
             await settled();
 
-            let [onFailedResult] = this.get('onFailed').firstCall.args;
+            let [onFailedResult] = this.onFailed.firstCall.args;
             expect(onFailedResult.length).to.equal(1);
             expect(onFailedResult[0].fileName, 'onFailed file name').to.equal('test.png');
             expect(onFailedResult[0].message, 'onFailed message').to.match(/not supported/);
@@ -310,7 +311,7 @@ describe('Integration: Component: gh-uploader', function () {
             this.set('files', [createFile(['test'], {name: 'test.png'})]);
             await settled();
 
-            let [onFailedResult] = this.get('onFailed').firstCall.args;
+            let [onFailedResult] = this.onFailed.firstCall.args;
             expect(onFailedResult.length).to.equal(1);
             expect(onFailedResult[0].fileName).to.equal('test.png');
             expect(onFailedResult[0].message).to.equal('test.png failed test validation');
@@ -355,10 +356,10 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.get('uploadFailed').calledOnce).to.be.true;
-            expect(this.get('uploadComplete').calledOnce).to.be.true;
+            expect(this.uploadFailed.calledOnce).to.be.true;
+            expect(this.uploadComplete.calledOnce).to.be.true;
 
-            let [failures] = this.get('uploadFailed').firstCall.args;
+            let [failures] = this.uploadFailed.firstCall.args;
             expect(failures.length).to.equal(2);
             expect(failures[0].fileName).to.equal('file1.png');
             expect(failures[0].message).to.equal('Error: No upload for you');
@@ -379,13 +380,13 @@ describe('Integration: Component: gh-uploader', function () {
             ]);
             await settled();
 
-            expect(this.get('uploadFail').calledTwice).to.be.true;
+            expect(this.uploadFail.calledTwice).to.be.true;
 
-            let [firstFailure] = this.get('uploadFail').firstCall.args;
+            let [firstFailure] = this.uploadFail.firstCall.args;
             expect(firstFailure.fileName).to.equal('file1.png');
             expect(firstFailure.message).to.equal('Error: No upload for you');
 
-            let [secondFailure] = this.get('uploadFail').secondCall.args;
+            let [secondFailure] = this.uploadFail.secondCall.args;
             expect(secondFailure.fileName).to.equal('file2.png');
             expect(secondFailure.message).to.equal('Error: No upload for you');
         });

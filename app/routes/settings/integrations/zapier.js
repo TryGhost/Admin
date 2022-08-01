@@ -1,26 +1,27 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from '../../../mixins/current-user-settings';
+import AdminRoute from 'ghost-admin/routes/admin';
 import {inject as service} from '@ember/service';
 
-export default AuthenticatedRoute.extend(CurrentUserSettings, {
-    router: service(),
+export default class ZapierRoute extends AdminRoute {
+    @service router;
+    @service config;
 
-    init() {
-        this._super(...arguments);
+    constructor() {
+        super(...arguments);
         this.router.on('routeWillChange', () => {
             if (this.controller) {
                 this.controller.set('selectedApiKey', null);
                 this.controller.set('isApiKeyRegenerated', false);
             }
         });
-    },
+    }
 
     beforeModel() {
-        this._super(...arguments);
-        return this.get('session.user')
-            .then(this.transitionAuthor())
-            .then(this.transitionEditor());
-    },
+        super.beforeModel(...arguments);
+
+        if (this.config.get('hostSettings.limits.customIntegrations.disabled')) {
+            return this.transitionTo('settings.integrations');
+        }
+    }
 
     model(params, transition) {
         // use the integrations controller to fetch all integrations and pick
@@ -29,11 +30,11 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
         return this
             .controllerFor('settings.integrations')
             .integrationModelHook('slug', 'zapier', this, transition);
-    },
+    }
 
     buildRouteInfoMetadata() {
         return {
             titleToken: 'Zapier'
         };
     }
-});
+}

@@ -42,7 +42,7 @@ export default Controller.extend(ValidationEngine, {
 
     resetPassword: task(function* () {
         let credentials = this.getProperties('newPassword', 'ne2Password', 'token');
-        let authUrl = this.get('ghostPaths.url').api('authentication', 'passwordreset');
+        let authUrl = this.get('ghostPaths.url').api('authentication', 'password_reset');
 
         this.set('flowErrors', '');
         this.hasValidated.addObjects(['newPassword', 'ne2Password']);
@@ -52,10 +52,10 @@ export default Controller.extend(ValidationEngine, {
             try {
                 let resp = yield this.ajax.put(authUrl, {
                     data: {
-                        passwordreset: [credentials]
+                        password_reset: [credentials]
                     }
                 });
-                this.notifications.showAlert(resp.passwordreset[0].message, {type: 'warn', delayed: true, key: 'password.reset'});
+                this.notifications.showAlert(resp.password_reset[0].message, {type: 'warn', delayed: true, key: 'password.reset'});
                 this.session.authenticate('authenticator:cookie', this.email, credentials.newPassword);
                 return true;
             } catch (error) {

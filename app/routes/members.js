@@ -1,28 +1,25 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
+import AdminRoute from 'ghost-admin/routes/admin';
 import {inject as service} from '@ember/service';
 
-export default class MembersRoute extends AuthenticatedRoute {
+export default class MembersRoute extends AdminRoute {
     @service store;
+    @service feature;
 
     queryParams = {
         label: {refreshModel: true},
         searchParam: {refreshModel: true, replace: true},
-        paidParam: {refreshModel: true}
+        paidParam: {refreshModel: true},
+        orderParam: {refreshModel: true},
+        filterParam: {refreshModel: true}
     };
 
-    // redirect to posts screen if:
-    // - TODO: members is disabled?
-    // - logged in user isn't owner/admin
     beforeModel() {
         super.beforeModel(...arguments);
-        return this.session.user.then((user) => {
-            if (!user.isOwnerOrAdmin) {
-                return this.transitionTo('home');
-            }
-        });
+        // - TODO: redirect if members is disabled?
     }
 
     model(params) {
+        this.controllerFor('members').resetFilters(params);
         return this.controllerFor('members').fetchMembersTask.perform(params);
     }
 
@@ -34,7 +31,9 @@ export default class MembersRoute extends AuthenticatedRoute {
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Members'
+            titleToken: 'Members',
+            mainClasses: ['gh-main-fullwidth']
+
         };
     }
 }

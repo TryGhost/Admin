@@ -1,37 +1,21 @@
 /* eslint-disable camelcase */
 import ApplicationSerializer from 'ghost-admin/serializers/application';
 import {EmbeddedRecordsMixin} from '@ember-data/serializer/rest';
-import {pluralize} from 'ember-inflector';
 
-export default ApplicationSerializer.extend(EmbeddedRecordsMixin, {
+export default class PostSerializer extends ApplicationSerializer.extend(EmbeddedRecordsMixin) {
     // settings for the EmbeddedRecordsMixin.
-    attrs: {
+    attrs = {
         authors: {embedded: 'always'},
         tags: {embedded: 'always'},
         publishedAtUTC: {key: 'published_at'},
         createdAtUTC: {key: 'created_at'},
         updatedAtUTC: {key: 'updated_at'},
-        email: {embedded: 'always'}
-    },
-
-    normalizeSingleResponse(store, primaryModelClass, payload) {
-        let root = this.keyForAttribute(primaryModelClass.modelName);
-        let pluralizedRoot = pluralize(primaryModelClass.modelName);
-
-        if (payload[pluralizedRoot]) {
-            payload[root] = payload[pluralizedRoot][0];
-            delete payload[pluralizedRoot];
-        }
-
-        return this._super(...arguments);
-    },
-
-    normalizeArrayResponse() {
-        return this._super(...arguments);
-    },
+        email: {embedded: 'always'},
+        newsletter: {embedded: 'always'}
+    };
 
     serialize(/*snapshot, options*/) {
-        let json = this._super(...arguments);
+        let json = super.serialize(...arguments);
 
         // Inserted locally as a convenience.
         delete json.author_id;
@@ -40,13 +24,26 @@ export default ApplicationSerializer.extend(EmbeddedRecordsMixin, {
         delete json.url;
         delete json.send_email_when_published;
         delete json.email_recipient_filter;
+        delete json.email;
+        delete json.newsletter;
         // Deprecated property (replaced with data.authors)
         delete json.author;
 
         if (json.visibility === null) {
             delete json.visibility;
+            delete json.visibility_filter;
+            delete json.tiers;
+        }
+
+        if (json.visibility === 'tiers') {
+            delete json.visibility_filter;
+        }
+
+        if (json.visibility === 'tiers' && !json.tiers?.length) {
+            delete json.visibility;
+            delete json.tiers;
         }
 
         return json;
     }
-});
+}

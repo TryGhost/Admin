@@ -19,8 +19,13 @@ export default ModalComponent.extend({
         this._signinUrlUpdateTask.perform();
     },
 
+    actions: {
+        // noop - we don't want the enter key doing anything
+        confirm() {}
+    },
+
     copySigninUrl: task(function* () {
-        copyTextToClipboard(this.get('signinUrl'));
+        copyTextToClipboard(this.signinUrl);
         yield timeout(1000);
         return true;
     }),

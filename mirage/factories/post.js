@@ -1,4 +1,4 @@
-import {Factory} from 'ember-cli-mirage';
+import {Factory} from 'miragejs';
 import {isEmpty} from '@ember/utils';
 
 export default Factory.extend({
@@ -12,7 +12,6 @@ export default Factory.extend({
     featured: false,
     featureImage(i) { return `/content/images/2015/10/post-${i}.jpg`; },
     html(i) { return `<p>HTML for post ${i}.</p>`; },
-    locale: null,
     visibility: 'public',
     metaDescription(i) { return `Meta description for post ${i}.`; },
     metaTitle(i) { return `Meta Title for post ${i}`; },
@@ -24,7 +23,7 @@ export default Factory.extend({
     publishedAt: '2015-12-19T16:25:07.000Z',
     publishedBy: 1,
     status(i) {
-        let statuses = ['draft', 'published', 'scheduled'];
+        let statuses = ['draft', 'published', 'scheduled','sent'];
         return statuses[i % statuses.length];
     },
     title(i) { return `Post ${i}`; },

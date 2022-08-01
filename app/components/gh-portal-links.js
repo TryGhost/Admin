@@ -1,54 +1,109 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import copyTextToClipboard from 'ghost-admin/utils/copy-text-to-clipboard';
-import {computed} from '@ember/object';
+import {action, computed} from '@ember/object';
 import {inject as service} from '@ember/service';
+import {tagName} from '@ember-decorators/component';
 import {task, timeout} from 'ember-concurrency';
 
-export default Component.extend({
-    config: service(),
-    tagName: '',
-    isLink: true,
+@classic
+@tagName('')
+export default class GhPortalLinks extends Component {
+    @service config;
+    @service store;
+    @service settings;
 
-    toggleValue: computed('isLink', function () {
+    isLink = true;
+    prices = null;
+    copiedPrice = null;
+    copiedSignupInterval = null;
+    selectedTier = null;
+    tiers = null;
+
+    @computed('isLink')
+    get toggleValue() {
         return this.isLink ? 'Data attributes' : 'Links';
-    }),
+    }
 
-    sectionHeaderLabel: computed('isLink', function () {
+    @computed('isLink')
+    get sectionHeaderLabel() {
         return this.isLink ? 'Link' : 'Data attribute';
-    }),
+    }
+
+    @computed('selectedTier')
+    get selectedTierIdPath() {
+        const selectedTier = this.selectedTier;
+        if (selectedTier) {
+            return `/${selectedTier.name}`;
+        }
+        return '';
+    }
+
+    @computed('tiers.[]')
+    get tierOptions() {
+        if (this.tiers) {
+            return this.tiers.map((tier) => {
+                return {
+                    label: tier.name,
+                    name: tier.id
+                };
+            });
+        }
+        return [];
+    }
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         this.siteUrl = this.config.get('blogUrl');
-    },
+    }
 
-    actions: {
-        toggleShowLinks() {
-            this.toggleProperty('isLink');
+    @action
+    toggleShowLinks() {
+        this.toggleProperty('isLink');
+    }
+
+    @action
+    setSelectedTier(tier) {
+        this.set('selectedTier', tier);
+    }
+
+    @task(function* () {
+        const tiers = yield this.store.query('tier', {filter: 'type:paid', include: 'monthly_price,yearly_price'}) || [];
+        this.set('tiers', tiers);
+        if (tiers.length > 0) {
+            this.set('selectedTier', {
+                name: tiers.firstObject.id,
+                label: tiers.firstObject.name
+            });
         }
-    },
-    copyDefault: task(function* (data) {
-        copyTextToClipboard(data);
-        yield timeout(this.isTesting ? 50 : 3000);
-    }),
-    copySignup: task(function* (data) {
-        copyTextToClipboard(data);
-        yield timeout(this.isTesting ? 50 : 3000);
-    }),
-    copySignin: task(function* (data) {
-        copyTextToClipboard(data);
-        yield timeout(this.isTesting ? 50 : 3000);
-    }),
-    copyAccountHome: task(function* (data) {
-        copyTextToClipboard(data);
-        yield timeout(this.isTesting ? 50 : 3000);
-    }),
-    copyAccountPlans: task(function* (data) {
-        copyTextToClipboard(data);
-        yield timeout(this.isTesting ? 50 : 3000);
-    }),
-    copyAccountProfile: task(function* (data) {
+    })
+        fetchTiers;
+
+    @task(function* (id) {
+        this.set('copiedPrice', id);
+        let data = '';
+        if (this.isLink) {
+            data = id ? `#/portal/${id}` : `#/portal/`;
+            data = this.siteUrl + `/` + data;
+        } else {
+            data = id ? `data-portal="${id}"` : `data-portal`;
+        }
         copyTextToClipboard(data);
         yield timeout(this.isTesting ? 50 : 3000);
     })
-});
+        copyStaticLink;
+
+    @task(function* (interval) {
+        this.set('copiedSignupInterval', interval);
+        let data = '';
+        if (this.isLink) {
+            data = `#/portal/signup${this.selectedTierIdPath}/${interval}`;
+            data = this.siteUrl + `/` + data;
+        } else {
+            data = `data-portal="signup${this.selectedTierIdPath}/${interval}"`;
+        }
+        copyTextToClipboard(data);
+        yield timeout(this.isTesting ? 50 : 3000);
+    })
+        copyTierSignupLink;
+}

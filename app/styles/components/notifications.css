@@ -4,8 +4,8 @@
 /* Base notification style */
 .gh-notifications {
     position: absolute;
-    bottom: 28px;
-    left: 20px;
+    bottom: 30px;
+    left: 30px;
     z-index: 7000;
     display: flex;
     flex-direction: column;
@@ -18,8 +18,8 @@
     margin-top: 8px;
     padding: 4px 8px;
     width: 286px;
-    background: color-mod(var(--blue) s(+10%));
-    border-radius: 22px;
+    background: var(--black);
+    border-radius: 6px;
     box-shadow:
         0 1.1px 2.3px rgba(0, 0, 0, 0.028),
         0 3.8px 7.8px rgba(0, 0, 0, 0.042),
@@ -228,14 +228,6 @@
 .gh-alert-close svg {
     height: 12px;
     width: 12px;
-}
-
-.gh-alert-close:hover {
-    color: var(--red);
-}
-
-.gh-alert-close svg:hover {
-    fill: var(--red);
 }
 
 

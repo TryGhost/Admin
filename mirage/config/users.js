@@ -1,4 +1,4 @@
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {paginateModelCollection} from '../utils';
 
 export default function mockUsers(server) {
@@ -69,4 +69,12 @@ export default function mockUsers(server) {
     });
 
     server.del('/users/:id/');
+
+    // Dummy Personal Token to pass tests
+    server.get('/users/me/token', () => ({
+        apiKey: {
+            id: '1',
+            secret: '2'
+        }
+    }));
 }

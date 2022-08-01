@@ -25,7 +25,7 @@ const GhTaskButton = Component.extend({
         'isSuccessClass',
         'isFailureClass'
     ],
-    attributeBindings: ['disabled', 'form', 'type', 'tabindex'],
+    attributeBindings: ['disabled', 'form', 'type', 'tabindex', 'data-test-button'],
 
     task: null,
     taskArgs: undefined,
@@ -34,12 +34,14 @@ const GhTaskButton = Component.extend({
     buttonText: 'Save',
     idleClass: '',
     runningClass: '',
+    showIcon: true,
     showSuccess: true, // set to false if you want the spinner to show until a transition occurs
     autoReset: true, // set to false if you want don't want task button to reset after timeout
     successText: 'Saved',
     successClass: 'gh-btn-green',
     failureText: 'Retry',
     failureClass: 'gh-btn-red',
+    unlinkedTask: false,
 
     isTesting: undefined,
 
@@ -83,22 +85,23 @@ const GhTaskButton = Component.extend({
         }
 
         let value = this.get('task.last.value');
-        return (taskName === lastTaskName) && !isBlank(value) && value !== false;
+        return (taskName === lastTaskName) && !isBlank(value) && value !== false && value !== 'canceled';
     }),
 
     isSuccessClass: computed('isSuccess', function () {
         return this.isSuccess ? this.successClass : '';
     }),
 
-    isFailure: computed('hasRun', 'isRunning', 'isSuccess', 'task.last.error', function () {
+    isFailure: computed('hasRun', 'isRunning', 'isSuccess', 'task.last.{value,error}', function () {
         let taskName = this.get('task.name');
         let lastTaskName = this.get('task.last.task.name');
+        const lastTaskValue = this.task?.last?.value;
 
         if (!this.hasRun || this.isRunning || this.isSuccess) {
             return false;
         }
 
-        return (taskName === lastTaskName) && this.get('task.last.error') !== undefined;
+        return (taskName === lastTaskName) && this.get('task.last.error') !== undefined && lastTaskValue !== 'canceled';
     }),
 
     isFailureClass: computed('isFailure', function () {
@@ -180,7 +183,16 @@ const GhTaskButton = Component.extend({
 
     _handleMainTask: task(function* () {
         this._resetButtonState.cancelAll();
-        yield this.task.perform(this.taskArgs);
+
+        // if the task button will be removed by the result of the task then
+        // it needs to be marked as unlinked to ensure it runs to completion
+        // and ember-concurrency doesn't output self-cancel warnings
+        if (this.unlinkedTask) {
+            yield this.task.unlinked().perform(this.taskArgs);
+        } else {
+            yield this.task.perform(this.taskArgs);
+        }
+
         const isTaskSuccess = this.get('task.last.isSuccessful') && this.get('task.last.value');
         if (this.autoReset && this.showSuccess && isTaskSuccess) {
             this._resetButtonState.perform();

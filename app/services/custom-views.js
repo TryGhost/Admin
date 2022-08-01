@@ -1,10 +1,10 @@
+import CustomViewFormModal from '../components/modals/custom-view-form';
 import EmberObject, {action} from '@ember/object';
-import Service from '@ember/service';
+import Service, {inject as service} from '@ember/service';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
 import {isArray} from '@ember/array';
 import {observes} from '@ember-decorators/object';
-import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency-decorators';
+import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
 const VIEW_COLORS = [
@@ -103,12 +103,12 @@ let isViewEqual = function (viewA, viewB) {
 };
 
 export default class CustomViewsService extends Service {
+    @service modals;
     @service router;
     @service session;
     @service settings;
 
     @tracked viewList = [];
-    @tracked showFormModal = false;
 
     constructor() {
         super(...arguments);
@@ -116,13 +116,13 @@ export default class CustomViewsService extends Service {
     }
 
     // eslint-disable-next-line ghost/ember/no-observers
-    @observes('settings.sharedViews', 'session.isAuthenticated')
+    @observes('settings.sharedViews', 'session.{isAuthenticated,user}')
     async updateViewList() {
         let {settings, session} = this;
 
         // avoid fetching user before authenticated otherwise the 403 can fire
         // during authentication and cause errors during setup/signin
-        if (!session.isAuthenticated) {
+        if (!session.isAuthenticated || !session.user) {
             return;
         }
 
@@ -143,11 +143,6 @@ export default class CustomViewsService extends Service {
         }));
 
         this.viewList = viewList;
-    }
-
-    @action
-    toggleFormModal() {
-        this.showFormModal = !this.showFormModal;
     }
 
     @task
@@ -230,8 +225,13 @@ export default class CustomViewsService extends Service {
         });
     }
 
+    @action
     editView() {
-        return CustomView.create(this.activeView || this.newView());
+        const customView = CustomView.create(this.activeView || this.newView());
+
+        return this.modals.open(CustomViewFormModal, {
+            customView
+        });
     }
 
     async _saveViewSettings() {

@@ -1,5 +1,5 @@
-import {Collection, RestSerializer} from 'ember-cli-mirage';
-import {pluralize} from 'ember-cli-mirage/utils/inflector';
+import {Collection, RestSerializer} from 'miragejs';
+import {pluralize} from 'ember-inflector';
 import {underscore} from '@ember/string';
 
 export default RestSerializer.extend({
@@ -24,9 +24,7 @@ export default RestSerializer.extend({
     },
 
     serialize(object, request) {
-        // Ember expects pluralized responses for the post, user, and invite models,
-        // and this shortcut will ensure that those models are pluralized
-        if (this.isModel(object) && ['post', 'user', 'invite'].includes(object.modelName)) {
+        if (this.isModel(object)) {
             object = new Collection(object.modelName, [object]);
         }
 

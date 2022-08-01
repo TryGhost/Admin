@@ -1,10 +1,9 @@
 import $ from 'jquery';
 import Ember from 'ember';
 import EmberError from '@ember/error';
-import RSVP from 'rsvp';
 import Service, {inject as service} from '@ember/service';
-import {computed} from '@ember/object';
-import {set} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import {computed, set} from '@ember/object';
 
 export function feature(name, options = {}) {
     let {user, onChange} = options;
@@ -20,10 +19,6 @@ export function feature(name, options = {}) {
                 enabled = this.get(`config.${name}`);
             } else {
                 enabled = this.get(`labs.${name}`) || false;
-            }
-
-            if (options.developer) {
-                enabled = enabled && this.get('config.enableDeveloperExperiments');
             }
 
             return enabled;
@@ -42,20 +37,35 @@ export function feature(name, options = {}) {
     }));
 }
 
-export default Service.extend({
-    store: service(),
-    config: service(),
-    session: service(),
-    settings: service(),
-    notifications: service(),
-    lazyLoader: service(),
+@classic
+export default class FeatureService extends Service {
+    @service store;
+    @service config;
 
-    members: feature('members'),
-    nightShift: feature('nightShift', {user: true, onChange: '_setAdminTheme'}),
+    @service session;
+    @service settings;
 
-    _user: null,
+    @service notifications;
+    @service lazyLoader;
 
-    labs: computed('settings.labs', function () {
+    // features
+    @feature('emailAnalytics') emailAnalytics;
+
+    // user-specific flags
+    @feature('nightShift', {user: true, onChange: '_setAdminTheme'})
+        nightShift;
+
+    // labs flags
+    @feature('urlCache') urlCache;
+    @feature('beforeAfterCard') beforeAfterCard;
+    @feature('comments') comments;
+    @feature('newsletterPaywall') newsletterPaywall;
+    @feature('explore') explore;
+
+    _user = null;
+
+    @computed('settings.labs')
+    get labs() {
         let labs = this.get('settings.labs');
 
         try {
@@ -63,9 +73,10 @@ export default Service.extend({
         } catch (e) {
             return {};
         }
-    }),
+    }
 
-    accessibility: computed('_user.accessibility', function () {
+    @computed('_user.accessibility')
+    get accessibility() {
         let accessibility = this.get('_user.accessibility');
 
         try {
@@ -73,17 +84,14 @@ export default Service.extend({
         } catch (e) {
             return {};
         }
-    }),
+    }
 
     fetch() {
-        return RSVP.hash({
-            settings: this.settings.fetch(),
-            user: this.get('session.user')
-        }).then(({user}) => {
-            this.set('_user', user);
+        return this.settings.fetch().then(() => {
+            this.set('_user', this.session.user);
             return this._setAdminTheme().then(() => true);
         });
-    },
+    }
 
     update(key, value, options = {}) {
         let serviceProperty = options.user ? 'accessibility' : 'labs';
@@ -92,6 +100,12 @@ export default Service.extend({
 
         // set the new key value for either the labs property or the accessibility property
         set(featureObject, key, value);
+
+        if (options.requires && value === true) {
+            options.requires.forEach((flag) => {
+                set(featureObject, flag, true);
+            });
+        }
 
         // update the 'labs' or 'accessibility' key of the model
         model.set(serviceProperty, JSON.stringify(featureObject));
@@ -114,7 +128,7 @@ export default Service.extend({
 
             return this.get(`${serviceProperty}.${key}`);
         });
-    },
+    }
 
     _setAdminTheme(enabled) {
         let nightShift = enabled;
@@ -125,11 +139,9 @@ export default Service.extend({
 
         return this.lazyLoader.loadStyle('dark', 'assets/ghost-dark.css', true).then(() => {
             $('link[title=dark]').prop('disabled', !nightShift);
-            $('link[title=light]').prop('disabled', nightShift);
         }).catch(() => {
             //TODO: Also disable toggle from settings and Labs hover
             $('link[title=dark]').prop('disabled', true);
-            $('link[title=light]').prop('disabled', false);
         });
     }
-});
+}

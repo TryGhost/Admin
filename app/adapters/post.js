@@ -1,19 +1,30 @@
 import ApplicationAdapter from 'ghost-admin/adapters/application';
 
-export default ApplicationAdapter.extend({
+export default class Post extends ApplicationAdapter {
     // posts and pages now include everything by default
     buildIncludeURL(store, modelName, id, snapshot, requestType, query) {
-        let url = this.buildURL(modelName, id, snapshot, requestType, query);
-        let parsedUrl = new URL(url);
+        const url = this.buildURL(modelName, id, snapshot, requestType, query);
+        const parsedUrl = new URL(url);
 
-        if (snapshot && snapshot.adapterOptions && snapshot.adapterOptions.sendEmailWhenPublished) {
-            parsedUrl.searchParams.append('email_recipient_filter', snapshot.adapterOptions.sendEmailWhenPublished);
+        if (snapshot?.adapterOptions?.newsletter) {
+            const newsletter = snapshot.adapterOptions.newsletter;
+            parsedUrl.searchParams.append('newsletter', newsletter);
+
+            let emailSegment = snapshot?.adapterOptions?.emailSegment;
+
+            if (emailSegment) {
+                if (emailSegment === 'status:free,status:-free') {
+                    emailSegment = 'all';
+                }
+
+                parsedUrl.searchParams.append('email_segment', emailSegment);
+            }
         }
 
         return parsedUrl.toString();
-    },
+    }
 
     buildQuery(store, modelName, options) {
         return options;
     }
-});
+}

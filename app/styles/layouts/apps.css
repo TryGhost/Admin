@@ -18,7 +18,9 @@
     justify-content: space-between;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
-    margin: 4px 0 2.4vw;
+    background: var(--whitegrey-l1);
+    padding: 24px;
+    border-radius: 3px;
 }
 
 .id-item {
@@ -103,21 +105,6 @@
 }
 
 /* Built-in integrations */
-
-.apps-grid-container {
-    margin: 2vw 0 0;
-}
-
-.apps-grid-title {
-    display: block;
-    margin: 1vw 0 5px 1px;
-    color: var(--midlightgrey);
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 0.35px;
-    font-size: 1.2rem;
-}
-
 .apps-first-header,
 .apps-first-header .apps-grid-title {
     margin-top: 0px;
@@ -127,9 +114,6 @@
     display: flex;
     flex-flow: row wrap;
     align-items: flex-start;
-    border-radius: 5px;
-    background: var(--white);
-    box-shadow: var(--shadow-1);
 }
 
 .apps-grid-note {
@@ -163,9 +147,9 @@
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    padding: 16px 16px;
+    padding: 16px 4px;
     height: 65px;
-    border-top: var(--lightgrey) 1px solid;
+    border-bottom: var(--whitegrey) 1px solid;
     transition: background 0.3s ease;
 }
 
@@ -184,16 +168,6 @@
         min-height: auto;
         height: auto;
     }
-}
-
-.apps-grid-cell:first-of-type {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-.apps-grid-cell:last-of-type {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
 }
 
 .apps-grid-cell:first-of-type .apps-card-app {
@@ -216,6 +190,15 @@
     align-items: center;
 }
 
+.apps-card-right svg {
+    margin-left: 15px;
+    height: 14px;
+}
+
+.apps-card-right svg path {
+    fill: var(--midgrey);
+}
+
 .apps-configured {
     display: flex;
     align-items: center;
@@ -234,8 +217,8 @@
 
 .apps-configured a {
     display: inline-block;
-    padding: 0 4px;
-    border-radius: 4px;
+    padding: 2px 6px;
+    border-radius: 3px;
 }
 
 .apps-configured-action {
@@ -260,7 +243,7 @@
 .apps-card-meta {
     display: flex;
     flex-direction: column;
-    padding-right: 70px;
+    padding-right: 40px;
 }
 @media (max-width: 500px) {
     .apps-card-meta {
@@ -275,13 +258,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 1.5rem;
-    line-height: 1.15em;
+    letter-spacing: 0;
+    line-height: 1.3em;
     font-weight: 600;
 }
 @media (max-width: 500px) {
     .apps-card-app-title {
         white-space: normal;
         font-size: 1.5rem;
+        letter-spacing: 0;
     }
 }
 
@@ -306,7 +291,7 @@
 }
 @media (min-width: 600px) and (max-width: 1460px) {
     .apps-card-app-desc {
-        padding-right: 80px;
+        padding-right: 24px;
     }
 }
 
@@ -322,26 +307,27 @@
     width: 100%;
 }
 
-/* Slack
+/* Details
 /* ---------------------------------------------------------- */
 
 .app-grid {
     display: flex;
-    flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     align-content: flex-start;
-    margin-bottom: 30px;
+    margin-top: 24px;
 }
 
 .app-icon {
     position: relative;
-    flex: 0 0 48px;
-    width: 48px;
-    height: 48px;
+    flex: 1 0 56px;
+    width: 56px;
+    min-width: 56px;
+    height: 56px;
     background-position: center center;
     background-size: cover;
     border-radius: 10%;
+    margin-right: 32px;
 }
 
 .app-icon img {
@@ -349,17 +335,17 @@
 }
 
 .app-cell h3 {
-    margin: 0;
-    color: var(--darkgrey);
-    font-size: 2.4rem;
-    font-weight: 500;
+    margin: 4px 0 0;
+    color: var(--black);
+    font-size: 2.1rem;
+    font-weight: 600;
 }
 
 .app-cell p {
     margin: 0;
     margin-bottom: 5px;
     color: var(--midgrey);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.4em;
 }
 
@@ -380,6 +366,158 @@
     border-color: rgb(223, 225, 227);
 }
 
+.app-api-buttons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: -3px;
+    right: -3px;
+}
+
+.app-api-personal-token-buttons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 5px;
+}
+
+.app-button-regenerate {
+    height: 26px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--lightgrey);
+    border-radius: 3px;
+    padding: 5px 8px;
+    margin-right: 8px;
+    background: var(--white);
+}
+
+.app-button-copy {
+    height: 26px;
+    display: flex;
+    align-items: center;
+    background: var(--black);
+    font-size: 1.2rem;
+    padding: 4px 12px;
+    color: var(--white);
+    font-weight: 500;
+    border-radius: 3px;
+}
+
+/* Zapier templates */
+/* ---------------------------------------------------------- */
+.gh-zapier-data-container {
+    margin: 1.6em 0;
+}
+
+.gh-zapier-data-container .gh-zapier-data {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 500px) {
+    .gh-zapier-data-container .gh-zapier-data {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.gh-zapier-data .data-label {
+    width: 128px;
+    height: 36px;
+    padding: 8px 8px 8px 0;
+    color: var(--midgrey);
+    font-size: 1.4rem;
+    line-height: 1.45;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.gh-zapier-data .data {
+    width: 100%;
+    height: 36px;
+    padding: 8px;
+    color: var(--darkgrey);
+    font-size: 1.4rem;
+    line-height: 1.45;
+    font-weight: 500;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.gh-zapier-data .data.highlight-hover:hover {
+    background: var(--whitegrey-l1);
+}
+
+@media (max-width: 500px) {
+    .gh-zapier-data .data {
+        padding: 4px 0;
+    }
+
+    .gh-zapier-data .data.highlight-hover:hover {
+        background: transparent;
+    }
+}
+
+.gh-zapier-data .admin-key,
+.gh-zapier-data .api-url {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.gh-settings-zapier-templates .apps-grid-cell:hover {
+    background: var(--white);
+}
+
+.zapier-template-link:hover {
+    border-color: #f04600;
+}
+
+.zapier-template-link span {
+    transition: all 0.2s ease;
+    transition-property: color;
+}
+
+.zapier-template-link:hover span {
+    color: #f04600;
+}
+
+.gh-settings-zapier-templates .apps-card-app-title {
+    margin-left: 8px;
+    white-space: unset;
+}
+
+.gh-settings-zapier-templates .apps-card-app {
+    height: 68px;
+}
+
+.gh-settings-zapier-templates .gh-card-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.zapier-footer,
+.zapier-footer a {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: var(--midgrey);
+    font-size: 1.3rem;
+}
+
+.zapier-footer figure {
+    margin: 0 0 2px;
+    width: 47px;
+    height: 47px;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 15%;
+}
 
 /* Custom Integrations
 /* ---------------------------------------------------------- */
@@ -389,4 +527,66 @@
 
 .new-webhook-cell:hover {
     background: var(--whitegrey-l2);
+}
+
+.app-custom-icon-container {
+    margin-right: 32px;
+}
+
+.app-custom-icon {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 117px;
+    width: 117px;
+    margin: 0;
+    border-radius: 3px;
+    border: 1px solid var(--whitegrey-d1);
+    background: var(--white);
+    padding: 24px;
+}
+
+.app-custom-icon-uploadlabel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--white);
+    border-radius: 3px;
+    text-align: center;
+    background-color: var(--black);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.app-custom-api-table {
+    margin-bottom: 0;
+}
+
+.app-custom-api-table .data-label {
+    width: 160px;
+}
+
+.app-custom-api-table .data.highlight-hover:hover {
+    background: var(--white) !important;
+}
+
+.apps-card-app-orb {
+    width: 32px;
+    height: 32px;
+}
+
+.apps-card-app-orb.rot-1 {
+    transform: rotate(90deg);
+}
+
+.apps-card-app-orb.rot-2 {
+    transform: rotate(180deg);
+}
+
+.apps-card-app-orb.rot-3 {
+    transform: rotate(270deg);
 }

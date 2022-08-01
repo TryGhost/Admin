@@ -6,20 +6,24 @@
     @deselectCard={{action this.deselectCard}}
     @onDeselect={{action "onDeselect"}}
     @editCard={{action this.editCard}}
-    @saveAsSnippet={{if this.payload.html this.saveAsSnippet}}
+    @saveAsSnippet={{if this.payload.type this.saveAsSnippet}}
     @toolbar={{this.toolbar}}
     @hasEditMode={{false}}
-    @showSelectedOutline={{this.payload.html}}
+    @showSelectedOutline={{this.payload.type}}
     @addParagraphAfterCard={{this.addParagraphAfterCard}}
     @moveCursorToPrevSection={{this.moveCursorToPrevSection}}
     @moveCursorToNextSection={{this.moveCursorToNextSection}}
     @editor={{this.editor}}
     as |card|
 >
-    {{#if this.payload.html}}
+    {{#if this.payload.type}}
         <div class="kg-card-hover">
             <div class="koenig-embed-{{this.payload.type}} flex justify-center relative" data-kg-embed>
-                <iframe class="bn miw-100" scrolling="no"></iframe>
+                {{#if (eq this.payload.type "nft")}}
+                    <KoenigCardEmbed::Nft @payload={{this.payload}} />
+                {{else}}
+                    <iframe class="bn miw-100" scrolling="no"></iframe>
+                {{/if}}
                 <div class="koenig-card-click-overlay ba b--transparent" data-kg-overlay></div>
             </div>
 

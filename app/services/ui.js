@@ -1,7 +1,12 @@
 import Service, {inject as service} from '@ember/service';
-import {get} from '@ember/object';
+import {
+    Color,
+    darkenToContrastThreshold,
+    lightenToContrastThreshold
+} from '@tryghost/color-utils';
+import {action, get} from '@ember/object';
 import {isEmpty} from '@ember/utils';
-import {not, or, reads} from '@ember/object/computed';
+import {tracked} from '@glimmer/tracking';
 
 function collectMetadataClasses(transition, prop) {
     let oldClasses = [];
@@ -33,23 +38,61 @@ function updateBodyClasses(transition) {
     });
 }
 
-export default Service.extend({
-    config: service(),
-    dropdown: service(),
-    mediaQueries: service(),
-    router: service(),
+export default class UiService extends Service {
+    @service config;
+    @service dropdown;
+    @service feature;
+    @service mediaQueries;
+    @service router;
+    @service settings;
 
-    isFullScreen: false,
-    showMobileMenu: false,
-    showSettingsMenu: false,
-    mainClass: '',
+    @tracked contextualNavMenu = null;
+    @tracked isFullScreen = false;
+    @tracked mainClass = '';
+    @tracked showMobileMenu = false;
 
-    hasSideNav: not('isSideNavHidden'),
-    isMobile: reads('mediaQueries.isMobile'),
-    isSideNavHidden: or('isFullScreen', 'isMobile'),
+    get isMobile() {
+        return this.mediaQueries.isMobile;
+    }
 
-    init() {
-        this._super(...arguments);
+    get isSideNavHidden() {
+        return this.isFullScreen || this.isMobile;
+    }
+
+    get hasSideNav() {
+        return !this.isSideNavHidden;
+    }
+
+    get backgroundColor() {
+        // hardcoded background colors because
+        // grabbing color from .gh-main with getComputedStyle always returns #ffffff
+        return this.feature.nightShift ? '#151719' : '#ffffff';
+    }
+
+    get adjustedAccentColor() {
+        const accentColor = Color(this.settings.get('accentColor'));
+        const backgroundColor = Color(this.backgroundColor);
+
+        // WCAG contrast. 1 = lowest contrast, 21 = highest contrast
+        const accentContrast = accentColor.contrast(backgroundColor);
+
+        if (accentContrast > 2) {
+            return accentColor.hex();
+        }
+
+        let adjustedAccentColor = accentColor;
+
+        if (this.feature.nightShift) {
+            adjustedAccentColor = lightenToContrastThreshold(accentColor, backgroundColor, 2);
+        } else {
+            adjustedAccentColor = darkenToContrastThreshold(accentColor, backgroundColor, 2);
+        }
+
+        return adjustedAccentColor.hex();
+    }
+
+    constructor() {
+        super(...arguments);
 
         this.router.on('routeDidChange', (transition) => {
             updateBodyClasses(transition);
@@ -57,30 +100,32 @@ export default Service.extend({
             this.updateDocumentTitle();
 
             let {newClasses: mainClasses} = collectMetadataClasses(transition, 'mainClasses');
-            this.set('mainClass', mainClasses.join(' '));
+            this.mainClass = mainClasses.join(' ');
         });
-    },
+    }
 
+    @action
     closeMenus() {
         this.dropdown.closeDropdowns();
-        this.setProperties({
-            showSettingsMenu: false,
-            showMobileMenu: false
-        });
-    },
+        this.showMobileMenu = false;
+    }
 
+    @action
     closeMobileMenu() {
-        this.set('showMobileMenu', false);
-    },
+        this.showMobileMenu = false;
+    }
 
+    @action
     openMobileMenu() {
-        this.set('showMobileMenu', true);
-    },
+        this.showMobileMenu = true;
+    }
 
-    openSettingsMenu() {
-        this.set('showSettingsMenu', true);
-    },
+    @action
+    setMainClass(mainClass) {
+        this.mainClass = mainClass;
+    }
 
+    @action
     updateDocumentTitle() {
         let {currentRoute} = this.router;
         let tokens = [];
@@ -106,27 +151,49 @@ export default Service.extend({
         } else {
             window.document.title = blogTitle;
         }
-    },
-
-    actions: {
-        closeMenus() {
-            this.closeMenus();
-        },
-
-        closeMobileMenu() {
-            this.closeMobileMenu();
-        },
-
-        openMobileMenu() {
-            this.openMobileMenu();
-        },
-
-        openSettingsMenu() {
-            this.openSettingsMenu();
-        },
-
-        setMainClass(cls) {
-            this.set('mainClass', cls);
-        }
     }
-});
+
+    @action
+    initBodyDragHandlers() {
+        // when any drag event is occurring we add `data-user-is-dragging` to the
+        // body element so that we can have dropzones start listening to pointer
+        // events allowing us to have interactive elements "underneath" drop zones
+        this.bodyDragEnterHandler = (event) => {
+            if (!event.dataTransfer) {
+                return;
+            }
+
+            document.body.dataset.userIsDragging = true;
+            window.clearTimeout(this.dragTimer);
+        };
+
+        this.bodyDragLeaveHandler = (event) => {
+            // only remove document-level "user is dragging" indicator when leaving the document
+            if (event.screenX !== 0 || event.screenY !== 0) {
+                return;
+            }
+
+            window.clearTimeout(this.dragTimer);
+            this.dragTimer = window.setTimeout(() => {
+                delete document.body.dataset.userIsDragging;
+            }, 50);
+        };
+
+        this.cancelDrag = () => {
+            delete document.body.dataset.userIsDragging;
+        };
+
+        document.body.addEventListener('dragenter', this.bodyDragEnterHandler, {capture: true});
+        document.body.addEventListener('dragleave', this.bodyDragLeaveHandler, {capture: true});
+        document.body.addEventListener('dragend', this.cancelDrag, {capture: true});
+        document.body.addEventListener('drop', this.cancelDrag, {capture: true});
+    }
+
+    @action
+    cleanupBodyDragHandlers() {
+        document.body.removeEventListener('dragenter', this.bodyDragEnterHandler, {capture: true});
+        document.body.removeEventListener('dragleave', this.bodyDragLeaveHandler, {capture: true});
+        document.body.removeEventListener('dragend', this.cancelDrag, {capture: true});
+        document.body.removeEventListener('drop', this.cancelDrag, {capture: true});
+    }
+}

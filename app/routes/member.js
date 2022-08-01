@@ -1,27 +1,17 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import classic from 'ember-classic-decorator';
+import AdminRoute from 'ghost-admin/routes/admin';
 import {action} from '@ember/object';
 import {inject as service} from '@ember/service';
 
-@classic
-export default class MembersRoute extends AuthenticatedRoute {
+export default class MembersRoute extends AdminRoute {
+    @service feature;
     @service router;
 
     _requiresBackgroundRefresh = true;
 
-    init() {
-        super.init(...arguments);
+    constructor() {
+        super(...arguments);
         this.router.on('routeWillChange', (transition) => {
             this.showUnsavedChangesModal(transition);
-        });
-    }
-
-    beforeModel() {
-        super.beforeModel(...arguments);
-        return this.session.user.then((user) => {
-            if (!user.isOwnerOrAdmin) {
-                return this.transitionTo('home');
-            }
         });
     }
 
@@ -29,7 +19,7 @@ export default class MembersRoute extends AuthenticatedRoute {
         this._requiresBackgroundRefresh = false;
 
         if (params.member_id) {
-            return this.store.findRecord('member', params.member_id, {reload: true});
+            return this.store.queryRecord('member', {id: params.member_id, include: 'tiers'});
         } else {
             return this.store.createRecord('member');
         }
@@ -38,6 +28,8 @@ export default class MembersRoute extends AuthenticatedRoute {
     setupController(controller, member) {
         super.setupController(...arguments);
         if (this._requiresBackgroundRefresh) {
+            // `member` is passed directly in `<LinkTo>` so it can be a proxy
+            // object used by the sparse list requiring the use of .get()
             controller.fetchMemberTask.perform(member.get('id'));
         }
     }

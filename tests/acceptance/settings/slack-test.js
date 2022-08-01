@@ -1,5 +1,5 @@
-import Mirage from 'ember-cli-mirage';
 import ctrlOrCmd from 'ghost-admin/utils/ctrl-or-cmd';
+import {Response} from 'miragejs';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {beforeEach, describe, it} from 'mocha';
 import {blur, click, currentURL, fillIn, find, findAll, triggerEvent} from '@ember/test-helpers';
@@ -19,34 +19,34 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
-    it('redirects to staff page when authenticated as contributor', async function () {
+    it('redirects to home page when authenticated as contributor', async function () {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/posts');
     });
 
-    it('redirects to staff page when authenticated as author', async function () {
+    it('redirects to home page when authenticated as author', async function () {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
-    it('redirects to staff page when authenticated as editor', async function () {
+    it('redirects to home page when authenticated as editor', async function () {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/integrations/slack');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
     describe('when logged in', function () {
@@ -80,10 +80,12 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
 
             let [newRequest] = this.server.pretender.handledRequests.slice(-1);
             let params = JSON.parse(newRequest.requestBody);
-            let [result] = JSON.parse(params.settings.findBy('key', 'slack').value);
 
-            expect(result.url).to.equal('https://hooks.slack.com/services/1275958430');
-            expect(result.username).to.equal('SlackBot');
+            let urlResult = params.settings.findBy('key', 'slack_url').value;
+            let usernameResult = params.settings.findBy('key', 'slack_username').value;
+
+            expect(urlResult).to.equal('https://hooks.slack.com/services/1275958430');
+            expect(usernameResult).to.equal('SlackBot');
             expect(find('[data-test-error="slack-url"]'), 'inline validation response')
                 .to.not.exist;
 
@@ -95,7 +97,7 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
                 .to.not.exist;
 
             this.server.put('/settings/', function () {
-                return new Mirage.Response(422, {}, {
+                return new Response(422, {}, {
                     errors: [
                         {
                             type: 'ValidationError',
@@ -123,14 +125,14 @@ describe('Acceptance: Settings - Integrations - Slack', function () {
             await fillIn('[data-test-slack-url-input]', 'https://hooks.slack.com/services/1275958430');
             await blur('[data-test-slack-url-input]');
 
-            await visit('/settings/design');
+            await visit('/settings');
 
             expect(findAll('.fullscreen-modal').length, 'modal exists').to.equal(1);
 
             // Leave without saving
             await click('.fullscreen-modal [data-test-leave-button]');
 
-            expect(currentURL(), 'currentURL').to.equal('/settings/design');
+            expect(currentURL(), 'currentURL').to.equal('/settings');
 
             await visit('/settings/integrations/slack');
 

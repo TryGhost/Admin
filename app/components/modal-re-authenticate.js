@@ -1,7 +1,6 @@
-import $ from 'jquery';
 import ModalComponent from 'ghost-admin/components/modal-base';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
-import {htmlSafe} from '@ember/string';
+import {htmlSafe} from '@ember/template';
 import {isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {reads} from '@ember/object/computed';
 import {inject as service} from '@ember/service';
@@ -43,7 +42,8 @@ export default ModalComponent.extend(ValidationEngine, {
     _passwordConfirm() {
         // Manually trigger events for input fields, ensuring legacy compatibility with
         // browsers and password managers that don't send proper events on autofill
-        $('#login').find('input').trigger('change');
+        const inputs = document.querySelectorAll('#login input');
+        inputs.forEach(input => input.dispatchEvent(new Event('change')));
 
         this.set('authenticationError', null);
 

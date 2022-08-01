@@ -9,7 +9,7 @@ const Funnel = require('broccoli-funnel');
 const environment = EmberApp.env();
 const isProduction = environment === 'production';
 
-const postcssEasyImport = require('postcss-easy-import');
+const postcssImport = require('postcss-import');
 const postcssCustomProperties = require('postcss-custom-properties');
 const postcssColorModFunction = require('postcss-color-mod-function');
 const postcssCustomMedia = require('postcss-custom-media');
@@ -104,20 +104,28 @@ const simplemdeAssets = function () {
     return config;
 };
 
-let blacklist = [];
+let denylist = [];
 if (process.env.CI) {
-    blacklist.push('ember-cli-eslint');
+    denylist.push('ember-cli-eslint');
 }
 
 module.exports = function (defaults) {
     let app = new EmberApp(defaults, {
-        addons: {blacklist},
+        addons: {denylist},
+        babel: {
+            plugins: [
+                require.resolve('babel-plugin-transform-react-jsx')
+            ]
+        },
         'ember-cli-babel': {
             optional: ['es6.spec.symbols'],
             includePolyfill: false
         },
         'ember-composable-helpers': {
-            only: ['optional', 'toggle']
+            only: ['join', 'optional', 'pick', 'toggle', 'toggle-action']
+        },
+        'ember-promise-modals': {
+            excludeCSS: true
         },
         outputPaths: {
             app: {
@@ -158,7 +166,7 @@ module.exports = function (defaults) {
                 enabled: true,
                 plugins: [
                     {
-                        module: postcssEasyImport,
+                        module: postcssImport,
                         options: {
                             path: ['app/styles']
                         }
@@ -195,6 +203,7 @@ module.exports = function (defaults) {
                 ]
             }
         },
+        sourcemaps: {enabled: true},
         svgJar: {
             strategy: 'inline',
             stripPath: false,
@@ -216,6 +225,18 @@ module.exports = function (defaults) {
                     }},
                     {moveGroupAttrsToElems: false}
                 ]
+            }
+        },
+        autoImport: {
+            webpack: {
+                node: {
+                    util: true,
+                    fs: 'empty',
+                    path: true
+                }
+            },
+            alias: {
+                'react-mobiledoc-editor': 'react-mobiledoc-editor/dist/main.js'
             }
         }
     });
@@ -243,6 +264,17 @@ module.exports = function (defaults) {
         app.import('vendor/codemirror/lib/codemirror.js', {type: 'test'});
         app.import('vendor/simplemde/debug/simplemde.js', {type: 'test'});
     }
+
+    // Support react components
+    // adds React and ReactDOM to window.
+    app.import({
+        development: 'node_modules/react/umd/react.development.js',
+        production: 'node_modules/react/umd/react.production.min.js'
+    });
+    app.import({
+        development: 'node_modules/react-dom/umd/react-dom.development.js',
+        production: 'node_modules/react-dom/umd/react-dom.production.min.js'
+    });
 
     return app.toTree();
 };

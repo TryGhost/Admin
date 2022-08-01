@@ -1,8 +1,7 @@
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
+import AdminRoute from 'ghost-admin/routes/admin';
 import {inject as service} from '@ember/service';
 
-export default AuthenticatedRoute.extend(CurrentUserSettings, {
+export default AdminRoute.extend({
     router: service(),
 
     init() {
@@ -14,13 +13,6 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
                 this.controller.set('isApiKeyRegenerated', false);
             }
         });
-    },
-
-    beforeModel() {
-        this._super(...arguments);
-        return this.get('session.user')
-            .then(this.transitionAuthor())
-            .then(this.transitionEditor());
     },
 
     model(params, transition) {
@@ -52,8 +44,8 @@ export default AuthenticatedRoute.extend(CurrentUserSettings, {
             // route - we want to allow editing webhooks without showing the
             // "unsaved changes" confirmation modal
             let isExternalRoute =
-                // allow sub-routes of settings.integration
-                !(transition.targetName || '').match(/^settings\.integration\./)
+                // allow sub-routes of integration
+                !(transition.targetName || '').match(/^integration\./)
                 // do not allow changes in integration
                 // .to will be the index, so use .to.parent to get the route with the params
                 || transition.to.parent.params.integration_id !== controller.integration.id;

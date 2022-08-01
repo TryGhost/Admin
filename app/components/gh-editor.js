@@ -1,117 +1,75 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import {
     IMAGE_EXTENSIONS,
     IMAGE_MIME_TYPES
 } from 'ghost-admin/components/gh-image-uploader';
-import {debounce, run} from '@ember/runloop';
+import {action} from '@ember/object';
+import {classNameBindings} from '@ember-decorators/component';
 import {inject as service} from '@ember/service';
 
-export default Component.extend({
-    ui: service(),
-
-    classNameBindings: [
-        'isDraggedOver:-drag-over',
-        'isFullScreen:gh-editor-fullscreen',
-        'isPreview:gh-editor-preview'
-    ],
+@classic
+@classNameBindings(
+    'isDraggedOver:-drag-over',
+    'isFullScreen:gh-editor-fullscreen',
+    'isPreview:gh-editor-preview'
+)
+export default class GhEditor extends Component {
+    @service feature;
+    @service ui;
 
     // Internal attributes
-    droppedFiles: null,
-    headerClass: '',
-    headerHeight: 0,
-    imageExtensions: IMAGE_EXTENSIONS,
-    imageMimeTypes: IMAGE_MIME_TYPES,
-    isDraggedOver: false,
-    isFullScreen: false,
-    isSplitScreen: false,
-    uploadedImageUrls: null,
+    droppedFiles = null;
+
+    headerHeight = 0;
+    imageExtensions = IMAGE_EXTENSIONS;
+    imageMimeTypes = IMAGE_MIME_TYPES;
+    isDraggedOver = false;
+    isFullScreen = false;
+    isSplitScreen = false;
+    uploadedImageUrls = null;
 
     // Private
-    _dragCounter: 0,
-    _onResizeHandler: null,
-    _viewActionsWidth: 190,
+    _dragCounter = 0;
 
-    init() {
-        this._super(...arguments);
-        this._onResizeHandler = (evt) => {
-            debounce(this, this._setHeaderClass, evt, 100);
-        };
-    },
+    _onResizeHandler = null;
+    _viewActionsWidth = 190;
 
-    didInsertElement() {
-        this._super(...arguments);
-        window.addEventListener('resize', this._onResizeHandler);
-        this._setHeaderClass();
-    },
+    @action
+    toggleFullScreen(isFullScreen) {
+        this.set('isFullScreen', isFullScreen);
+        this.ui.set('isFullScreen', isFullScreen);
+    }
 
-    willDestroyElement() {
-        this._super(...arguments);
-        window.removeEventListener('resize', this._onResizeHandler);
-    },
+    @action
+    togglePreview(isPreview) {
+        this.set('isPreview', isPreview);
+    }
 
-    actions: {
-        toggleFullScreen(isFullScreen) {
-            this.set('isFullScreen', isFullScreen);
-            this.ui.set('isFullScreen', isFullScreen);
-            run.scheduleOnce('afterRender', this, this._setHeaderClass);
-        },
+    @action
+    toggleSplitScreen(isSplitScreen) {
+        this.set('isSplitScreen', isSplitScreen);
+    }
 
-        togglePreview(isPreview) {
-            this.set('isPreview', isPreview);
-        },
+    @action
+    uploadImages(fileList, resetInput) {
+        // convert FileList to an array so that resetting the input doesn't
+        // clear the file references before upload actions can be triggered
+        let files = Array.from(fileList);
+        this.set('droppedFiles', files);
+        resetInput();
+    }
 
-        toggleSplitScreen(isSplitScreen) {
-            this.set('isSplitScreen', isSplitScreen);
-            run.scheduleOnce('afterRender', this, this._setHeaderClass);
-        },
+    @action
+    uploadComplete(uploads) {
+        this.set('uploadedImageUrls', uploads.mapBy('url'));
+        this.set('droppedFiles', null);
+    }
 
-        uploadImages(fileList, resetInput) {
-            // convert FileList to an array so that resetting the input doesn't
-            // clear the file references before upload actions can be triggered
-            let files = Array.from(fileList);
-            this.set('droppedFiles', files);
-            resetInput();
-        },
-
-        uploadComplete(uploads) {
-            this.set('uploadedImageUrls', uploads.mapBy('url'));
-            this.set('droppedFiles', null);
-        },
-
-        uploadCancelled() {
-            this.set('droppedFiles', null);
-        }
-    },
-
-    _setHeaderClass() {
-        let editorTitle = this.element.querySelector('.gh-editor-title, .kg-title-input');
-        let smallHeaderClass = 'gh-editor-header-small';
-        let newHeaderClass = '';
-
-        this._editorTitleElement = editorTitle;
-
-        if (this.isSplitScreen) {
-            this.set('headerClass', smallHeaderClass);
-            return;
-        }
-
-        if (editorTitle) {
-            let boundingRect = editorTitle.getBoundingClientRect();
-            let maxRight = window.innerWidth - this._viewActionsWidth;
-
-            if (boundingRect.right >= maxRight) {
-                newHeaderClass = smallHeaderClass;
-            }
-        }
-
-        if (newHeaderClass !== this.headerClass) {
-            // grab height of header so that we can pass it as an offset to other
-            // editor components
-            run.scheduleOnce('afterRender', this, this._setHeaderHeight);
-        }
-
-        this.set('headerClass', newHeaderClass);
-    },
+    @action
+    uploadCancelled() {
+        this.set('droppedFiles', null);
+    }
 
     _setHeaderHeight() {
         if (this.headerClass && this._editorTitleElement) {
@@ -120,7 +78,7 @@ export default Component.extend({
         }
 
         this.set('headerHeight', 0);
-    },
+    }
 
     // dragOver is needed so that drop works
     dragOver(event) {
@@ -137,7 +95,7 @@ export default Component.extend({
 
         event.preventDefault();
         event.stopPropagation();
-    },
+    }
 
     // dragEnter is needed so that the drag class is correctly removed
     dragEnter(event) {
@@ -153,7 +111,7 @@ export default Component.extend({
         this._dragCounter += 1;
 
         this.set('isDraggedOver', true);
-    },
+    }
 
     dragLeave(event) {
         event.preventDefault();
@@ -163,7 +121,7 @@ export default Component.extend({
         if (this._dragCounter === 0) {
             this.set('isDraggedOver', false);
         }
-    },
+    }
 
     drop(event) {
         event.preventDefault();
@@ -176,4 +134,4 @@ export default Component.extend({
             this.set('droppedFiles', event.dataTransfer.files);
         }
     }
-});
+}

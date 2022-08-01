@@ -1,4 +1,6 @@
 import PostsController from './posts';
+import classic from 'ember-classic-decorator';
+import {action} from '@ember/object';
 
 const TYPES = [{
     name: 'All pages',
@@ -17,16 +19,28 @@ const TYPES = [{
     value: 'featured'
 }];
 
-/* eslint-disable ghost/ember/alias-model-in-controller */
-export default PostsController.extend({
-    init() {
-        this._super(...arguments);
-        this.availableTypes = TYPES;
-    },
+const ORDERS = [{
+    name: 'Newest',
+    value: null
+}, {
+    name: 'Oldest',
+    value: 'published_at asc'
+}, {
+    name: 'Recently updated',
+    value: 'updated_at desc'
+}];
 
-    actions: {
-        openEditor(page) {
-            this.transitionToRoute('editor.edit', 'page', page.get('id'));
-        }
+/* eslint-disable ghost/ember/alias-model-in-controller */
+@classic
+export default class PagesController extends PostsController {
+    init() {
+        super.init(...arguments);
+        this.availableTypes = TYPES;
+        this.availableOrders = ORDERS;
     }
-});
+
+    @action
+    openEditor(page) {
+        this.transitionToRoute('editor.edit', 'page', page.get('id'));
+    }
+}

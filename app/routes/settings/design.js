@@ -1,64 +1,50 @@
-import $ from 'jquery';
-import AuthenticatedRoute from 'ghost-admin/routes/authenticated';
-import CurrentUserSettings from 'ghost-admin/mixins/current-user-settings';
-import RSVP from 'rsvp';
+import AdminRoute from 'ghost-admin/routes/authenticated';
 import {inject as service} from '@ember/service';
 
-export default AuthenticatedRoute.extend(CurrentUserSettings, {
-    settings: service(),
-
-    beforeModel() {
-        this._super(...arguments);
-        return this.get('session.user')
-            .then(this.transitionAuthor());
-    },
+export default class SettingsDesignRoute extends AdminRoute {
+    @service customThemeSettings;
+    @service feature;
+    @service modals;
+    @service settings;
+    @service themeManagement;
+    @service ui;
+    @service session;
 
     model() {
-        return RSVP.hash({
-            settings: this.settings.reload(),
-            themes: this.store.findAll('theme')
-        });
-    },
+        // background refresh of preview
+        // not doing it on the 'index' route so that we don't reload going to/from the index,
+        // any actions performed on child routes that need a refresh should trigger it explicitly
+        this.themeManagement.updatePreviewHtmlTask.perform();
 
-    setupController(controller) {
-        controller.set('themes', this.store.peekAll('theme'));
-        this.controller.send('reset');
-    },
+        // wait for settings to be loaded - we need the data to be present before display
+        return Promise.all([
+            this.settings.reload(),
+            this.customThemeSettings.load()
+        ]);
+    }
+
+    beforeModel() {
+        super.beforeModel(...arguments);
+
+        const user = this.session.user;
+
+        if (!user.isAdmin) {
+            return this.transitionTo('settings.staff.user', user);
+        }
+    }
+
+    activate() {
+        this.ui.contextualNavMenu = 'design';
+    }
 
     deactivate() {
-        this._super(...arguments);
-        this.controller.set('leaveSettingsTransition', null);
-        this.controller.set('showLeaveSettingsModal', false);
-    },
-
-    actions: {
-        save() {
-            // since shortcuts are run on the route, we have to signal to the components
-            // on the page that we're about to save.
-            $('.page-actions .gh-btn-blue').focus();
-
-            this.controller.send('save');
-        },
-
-        willTransition(transition) {
-            let controller = this.controller;
-            let modelIsDirty = controller.dirtyAttributes;
-
-            if (modelIsDirty) {
-                transition.abort();
-                controller.send('toggleLeaveSettingsModal', transition);
-                return;
-            }
-        },
-
-        activateTheme(theme) {
-            return this.controller.send('activateTheme', theme);
-        }
-    },
+        this.ui.contextualNavMenu = null;
+    }
 
     buildRouteInfoMetadata() {
         return {
-            titleToken: 'Settings - Design'
+            titleToken: 'Settings - Design',
+            mainClasses: ['gh-main-fullwidth']
         };
     }
-});
+}

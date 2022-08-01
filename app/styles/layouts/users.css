@@ -5,13 +5,6 @@
     background: none;
 }
 
-.gh-invited-users .apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
-.gh-invited-users .apps-grid-cell:hover .apps-card-app {
-    border-color: var(--lightgrey);
-    padding-left: 0;
-    margin-left: 16px;
-}
-
 .gh-invited-users .gh-badge {
     text-transform: none;
 }
@@ -37,6 +30,12 @@
 
     .gh-invited-users .apps-configured a {
         margin-bottom: 7px
+    }
+}
+
+@media (max-width: 600px) {
+    .gh-user-arrow-icon {
+        display: none;
     }
 }
 
@@ -72,7 +71,6 @@
     background-position: center center;
     background-size: cover;
     border-radius: 100%;
-    box-shadow: var(--white) 0 0 0 3px;
 }
 
 .user-list-item-figure img {
@@ -85,7 +83,6 @@
 }
 
 .gh-team .apps-configured {
-    flex-wrap: wrap;
     justify-content: flex-end;
 }
 
@@ -113,9 +110,9 @@
 }
 
 .gh-badge.administrator {
-    background: color-mod(var(--purple) a(15%));
+    background: color-mod(var(--pink) a(15%));
     text-transform: uppercase;
-    color: var(--purple-d2);
+    color: var(--pink-d2);
 }
 
 .gh-badge.editor {
@@ -140,6 +137,7 @@
     background: var(--lightgrey);
     text-transform: uppercase;
     color: var(--middarkgrey);
+    margin-left: 1.2rem;
 }
 
 .gh-badge.locked {
@@ -149,54 +147,123 @@
 /* User invitation modal
 /* ---------------------------------------------------------- */
 
+@media (max-height: 900px) {
+    .fullscreen-modal-invite-user {
+        overflow-y: auto;
+    }
+    .fullscreen-modal-invite-user .modal-content {
+        box-shadow: none !important;
+    }
+}
+
+.gh-modal-invite-user {
+    margin: -32px -32px 0;
+    padding: 32px 32px 0;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
 .invite-new-user .modal-content {
     width: 100%;
     max-width: 600px;
 }
 
-.invite-new-user .form-group {
+.gh-roles-container .form-group {
     margin-bottom: 0;
     padding: 0;
 }
 
-.invite-new-user .form-group label {
+.gh-roles-container .form-group label {
     position: static;
     display: block;
     text-align: left;
 }
 
-.invite-new-user .form-group:nth-of-type(1) {
-    float: left;
-    width: 60%;
-}
-
-@media (max-width: 500px) {
-    .invite-new-user .form-group:nth-of-type(1) {
-        float: none;
-        width: 100%;
-    }
-}
-
-.invite-new-user .form-group:nth-of-type(2) {
-    float: left;
-    margin-left: 10px;
-    width: 35%;
-}
-
-@media (max-width: 500px) {
-    .invite-new-user .form-group:nth-of-type(2) {
-        float: none;
-        margin-top: 10px;
-        margin-left: 0;
-        width: 100%;
-    }
-}
-
-.invite-new-user .form-group input {
+.gh-roles-container .form-group input {
     width: 100%;
 }
 
-.invite-new-user .gh-btn-green {
+.invite-new-user .gh-roles-container {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0 0;
+}
+
+.invite-new-user p {
+    margin: 4px 0 20px;
+    color: var(--midgrey);
+    font-size: 1.3rem;
+    line-height: 1.2em;
+    font-weight: 400;
+}
+
+.gh-roles-container .gh-radio {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--list-color-divider);
+}
+
+.gh-roles-container .gh-radio:first-child {
+    padding-top: 20px;
+}
+
+.gh-roles-container .gh-radio svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--midgrey);
+    margin-left: 2px;
+}
+
+.gh-roles-container .gh-radio-content {
+    margin-right: 2.4rem;
+}
+
+.gh-roles-container .popover {
+    width: 97%;
+    border: 1px solid var(--whitegrey-d1);
+    color: var(--darkgrey);
+    box-shadow: var(--shadow-3);
+}
+
+.gh-roles-container .popover-arrow {
+    display: none;
+}
+
+.gh-roles-container .popover table {
+    margin: .6em 0;
+}
+
+.gh-roles-container .popover td.left {
+    padding-right: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.gh-roles-container .gh-btn-black,
+.gh-roles-container .gh-btn-green {
     margin: 0;
     width: 100%;
+}
+
+/* Reset all passwords modal
+/* ---------------------------------------------------------- */
+
+.gh-modal-reset-passwords .for-checkbox .input-toggle-component {
+    background: var(--white);
+}
+
+.gh-modal-reset-passwords h4 {
+    margin-bottom: .4rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.4em;
+}
+
+.gh-modal-reset-passwords p {
+    margin: 0 0 2em;
+}
+
+.gh-modal-reset-passwords .description {
+    color: var(--midgrey);
+    font-size: 1.4rem;
+    font-weight: 300;
 }

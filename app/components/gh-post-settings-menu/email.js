@@ -1,76 +1,80 @@
 import Component from '@ember/component';
 import EmailFailedError from 'ghost-admin/errors/email-failed-error';
+import classic from 'ember-classic-decorator';
 import validator from 'validator';
-import {action} from '@ember/object';
+import {action, computed} from '@ember/object';
 import {alias, not, oneWay, or} from '@ember/object/computed';
-import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
+import {htmlSafe} from '@ember/template';
 import {inject as service} from '@ember/service';
 import {task, timeout} from 'ember-concurrency';
 
 const RETRY_EMAIL_POLL_LENGTH = 1000;
 const RETRY_EMAIL_MAX_POLL_LENGTH = 15 * 1000;
 
-export default Component.extend({
-    ajax: service(),
-    ghostPaths: service(),
-    notifications: service(),
-    session: service(),
-    settings: service(),
-    config: service(),
+@classic
+export default class Email extends Component {
+    @service ajax;
+    @service ghostPaths;
+    @service notifications;
+    @service session;
+    @service settings;
+    @service config;
 
-    post: null,
-    sendTestEmailError: '',
-    savePostTask: null,
+    post = null;
+    sendTestEmailError = '';
+    savePostTask = null;
+    close() {}
 
-    close() {},
-    toggleEmailPreviewModal() {},
+    @or('emailSubjectScratch', 'post.title')
+        emailSubject;
 
-    emailSubject: or('emailSubjectScratch', 'post.title'),
-    emailSubjectScratch: alias('post.emailSubjectScratch'),
+    @alias('post.emailSubjectScratch')
+        emailSubjectScratch;
 
-    testEmailAddress: oneWay('session.user.email'),
+    @oneWay('session.user.email')
+        testEmailAddress;
 
-    mailgunError: not('mailgunIsEnabled'),
+    @not('mailgunIsEnabled')
+        mailgunError;
 
-    mailgunIsEnabled: computed('settings.{mailgunApiKey,mailgunDomain,mailgunBaseUrl}', 'config.mailgunIsConfigured', function () {
+    @computed(
+        'settings.{mailgunApiKey,mailgunDomain,mailgunBaseUrl}',
+        'config.mailgunIsConfigured'
+    )
+    get mailgunIsEnabled() {
         return this.get('settings.mailgunApiKey') && this.get('settings.mailgunDomain') && this.get('settings.mailgunBaseUrl') || this.get('config.mailgunIsConfigured');
-    }),
+    }
 
-    actions: {
-        setEmailSubject(emailSubject) {
-            // Grab the post and current stored email subject
-            let post = this.post;
-            let currentEmailSubject = post.get('emailSubject');
+    @action
+    setEmailSubject(emailSubject) {
+        // Grab the post and current stored email subject
+        let post = this.post;
+        let currentEmailSubject = post.get('emailSubject');
 
-            // If the subject entered matches the stored email subject, do nothing
-            if (currentEmailSubject === emailSubject) {
+        // If the subject entered matches the stored email subject, do nothing
+        if (currentEmailSubject === emailSubject) {
+            return;
+        }
+
+        // If the subject entered is different, set it as the new email subject
+        post.set('emailSubject', emailSubject);
+
+        // Make sure the email subject is valid and if so, save it into the post
+        return post.validate({property: 'emailSubject'}).then(() => {
+            if (post.get('isNew')) {
                 return;
             }
 
-            // If the subject entered is different, set it as the new email subject
-            post.set('emailSubject', emailSubject);
+            return this.savePostTask.perform();
+        });
+    }
 
-            // Make sure the email subject is valid and if so, save it into the post
-            return post.validate({property: 'emailSubject'}).then(() => {
-                if (post.get('isNew')) {
-                    return;
-                }
+    @action
+    discardEnter() {
+        return false;
+    }
 
-                return this.savePostTask.perform();
-            });
-        },
-
-        discardEnter() {
-            return false;
-        }
-    },
-
-    toggleEmailPreview: action(function () {
-        this.toggleEmailPreviewModal();
-    }),
-
-    sendTestEmail: task(function* () {
+    @(task(function* () {
         try {
             const resourceId = this.post.id;
             const testEmail = this.testEmailAddress.trim();
@@ -78,18 +82,19 @@ export default Component.extend({
                 this.set('sendTestEmailError', 'Please enter a valid email');
                 return false;
             }
-            if (!this.get('mailgunIsEnabled')) {
+            if (!this.mailgunIsEnabled) {
                 this.set('sendTestEmailError', 'Please verify your email settings');
                 return false;
             }
             this.set('sendTestEmailError', '');
-            const url = this.ghostPaths.url.api('/email_preview/posts', resourceId);
+            const url = this.ghostPaths.url.api('/email_previews/posts', resourceId);
             const data = {emails: [testEmail]};
             const options = {
                 data,
                 dataType: 'json'
             };
-            return yield this.ajax.post(url, options);
+            yield this.ajax.post(url, options);
+            return true;
         } catch (error) {
             if (error) {
                 let message = 'Email could not be sent, verify mail settings';
@@ -104,9 +109,10 @@ export default Component.extend({
                 this.set('sendTestEmailError', message);
             }
         }
-    }).drop(),
+    }).drop())
+        sendTestEmail;
 
-    retryEmail: task(function* () {
+    @task(function* () {
         let {email} = this.post;
 
         if (email && email.status === 'failed') {
@@ -125,9 +131,11 @@ export default Component.extend({
                 if (email.status === 'failed') {
                     throw new EmailFailedError(email.error);
                 }
+                pollTimeout += RETRY_EMAIL_POLL_LENGTH;
             }
         }
 
         return true;
     })
-});
+        retryEmail;
+}

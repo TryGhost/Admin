@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
+import {dasherize} from '@ember/string';
 import {isBlank} from '@ember/utils';
 
 export default function mockAuthentication(server) {
@@ -8,9 +9,9 @@ export default function mockAuthentication(server) {
         return new Response(201);
     });
 
-    server.post('/authentication/passwordreset', function (schema, request) {
-        let {passwordreset} = JSON.parse(request.requestBody);
-        let email = passwordreset[0].email;
+    server.post('/authentication/password_reset', function (schema, request) {
+        let {password_reset} = JSON.parse(request.requestBody);
+        let email = password_reset[0].email;
 
         if (email === 'unknown@example.com') {
             return new Response(404, {}, {
@@ -23,7 +24,7 @@ export default function mockAuthentication(server) {
             });
         } else {
             return {
-                passwordreset: [
+                password_reset: [
                     {message: 'Check your email for further instructions.'}
                 ]
             };
@@ -55,7 +56,7 @@ export default function mockAuthentication(server) {
         attrs.roles = [role];
 
         if (!isBlank(attrs.email)) {
-            attrs.slug = attrs.email.split('@')[0].dasherize();
+            attrs.slug = dasherize(attrs.email.split('@')[0]);
         }
 
         // NOTE: server does not use the user factory to fill in blank fields

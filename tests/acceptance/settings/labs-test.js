@@ -20,34 +20,34 @@ describe('Acceptance: Settings - Labs', function () {
         expect(currentURL(), 'currentURL').to.equal('/signin');
     });
 
-    it('redirects to staff page when authenticated as contributor', async function () {
+    it('redirects to home page when authenticated as contributor', async function () {
         let role = this.server.create('role', {name: 'Contributor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/posts');
     });
 
-    it('redirects to staff page when authenticated as author', async function () {
+    it('redirects to home page when authenticated as author', async function () {
         let role = this.server.create('role', {name: 'Author'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff/test-user');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
-    it('redirects to staff page when authenticated as editor', async function () {
+    it('redirects to home page when authenticated as editor', async function () {
         let role = this.server.create('role', {name: 'Editor'});
         this.server.create('user', {roles: [role], slug: 'test-user'});
 
         await authenticateSession();
         await visit('/settings/labs');
 
-        expect(currentURL(), 'currentURL').to.equal('/staff');
+        expect(currentURL(), 'currentURL').to.equal('/site');
     });
 
     describe('when logged in', function () {
@@ -82,7 +82,7 @@ describe('Acceptance: Settings - Labs', function () {
             await visit('/settings/labs');
 
             // successful upload
-            this.server.post('/redirects/json/', {}, 200);
+            this.server.post('/redirects/upload/', {}, 200);
 
             await fileUpload(
                 '[data-test-file-input="redirects"] input',
@@ -123,7 +123,7 @@ describe('Acceptance: Settings - Labs', function () {
             ).to.have.string('Upload redirects');
 
             // failed upload
-            this.server.post('/redirects/json/', {
+            this.server.post('/redirects/upload/', {
                 errors: [{
                     type: 'BadRequestError',
                     message: 'Test failure message'
@@ -175,7 +175,7 @@ describe('Acceptance: Settings - Labs', function () {
             ).to.have.string('Upload redirects');
 
             // successful upload clears error
-            this.server.post('/redirects/json/', {}, 200);
+            this.server.post('/redirects/upload/', {}, 200);
             await fileUpload(
                 '[data-test-file-input="redirects"] input',
                 ['test'],
@@ -188,7 +188,7 @@ describe('Acceptance: Settings - Labs', function () {
             await click('[data-test-link="download-redirects"]');
 
             let iframe = document.querySelector('#iframeDownload');
-            expect(iframe.getAttribute('src')).to.have.string('/redirects/json/');
+            expect(iframe.getAttribute('src')).to.have.string('/redirects/download/');
         });
 
         it('can upload/download routes.yaml', async function () {
@@ -313,12 +313,8 @@ describe('Acceptance: Settings - Labs', function () {
             return await authenticateSession();
         });
 
-        it('sets the mailgunBaseUrl to the default', async function () {
-            await visit('/settings/labs/members');
-
-            await click('[data-test-toggle="enable-members"]');
-
-            await click('[data-test-toggle-membersemail]');
+        it.skip('sets the mailgunBaseUrl to the default', async function () {
+            await visit('/settings/members');
 
             await fillIn('[data-test-mailgun-api-key-input]', 'i_am_an_api_key');
             await fillIn('[data-test-mailgun-domain-input]', 'https://domain.tld');

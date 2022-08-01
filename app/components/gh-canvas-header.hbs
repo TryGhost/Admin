@@ -1,7 +1,8 @@
-<header
-    {{did-insert (action "initScrollWatch")}}
-    {{will-destroy (action "clearScrollWatch")}}
+<div
+    {{on-scroll this.onScroll scrollContainer=".gh-main"}}
     ...attributes
 >
-    {{yield}}
-</header>
+    <header class="gh-canvas-header-content">
+        {{yield}}
+    </header>
+</div>

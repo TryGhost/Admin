@@ -1,13 +1,13 @@
-import Route from '@ember/routing/route';
+import AdminRoute from 'ghost-admin/routes/admin';
 
-export default Route.extend({
+export default class NewRoute extends AdminRoute {
     model() {
         let integration = this.modelFor('settings.integration');
         return this.store.createRecord('webhook', {integration});
-    },
+    }
 
     deactivate() {
-        this._super(...arguments);
+        super.deactivate(...arguments);
         this.controller.webhook.rollbackAttributes();
     }
-});
+}

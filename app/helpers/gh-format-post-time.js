@@ -3,7 +3,7 @@ import moment from 'moment';
 import {assert} from '@ember/debug';
 import {inject as service} from '@ember/service';
 
-export function formatPostTime(timeago, {timezone = 'ect/UTC', draft, scheduled, published}) {
+export function formatPostTime(timeago, {timezone = 'etc/UTC', draft, scheduled, published}) {
     if (draft) {
         // No special handling for drafts, just use moment.from
         return moment(timeago).from(moment.utc());
@@ -38,9 +38,9 @@ export function formatPostTime(timeago, {timezone = 'ect/UTC', draft, scheduled,
         return time.format(`HH:mm [${utcOffset}] [Yesterday]`);
     }
 
-    // if scheduled for tomorrow, render the time + Tomorrow
+    // if scheduled for tomorrow, render the time + tomorrow
     if (scheduled && time.isSame(now.clone().add(1, 'days').startOf('day'), 'day')) {
-        return time.format(`[at] HH:mm [${utcOffset}] [Tomorrow]`);
+        return time.format(`[at] HH:mm [${utcOffset}] [tomorrow]`);
     }
 
     // Else, render just the date if published, or the time & date if scheduled

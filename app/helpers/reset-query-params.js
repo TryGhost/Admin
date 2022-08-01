@@ -18,7 +18,13 @@ export const DEFAULT_QUERY_PARAMS = {
     'members.index': {
         label: null,
         paid: null,
-        search: ''
+        search: null,
+        filter: null,
+        order: null
+    },
+    'members-activity': {
+        excludedEvents: null,
+        member: null
     }
 };
 

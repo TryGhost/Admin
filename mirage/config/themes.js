@@ -1,4 +1,4 @@
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 
 let themeCount = 1;
 
@@ -32,6 +32,27 @@ export default function mockThemes(server) {
     server.put('/themes/:theme/activate/', function ({themes}, {params}) {
         themes.all().update('active', false);
         let theme = themes.findBy({name: params.theme}).update({active: true});
+
+        return {themes: [theme]};
+    });
+
+    server.post('/themes/install/', function ({themes}, {queryParams}) {
+        themes.all().update('active', false);
+
+        const themeName = queryParams.ref.replace('TryGhost/', '');
+
+        let theme = themes.findBy({name: themeName});
+        if (theme) {
+            theme.update({active: true});
+        } else {
+            theme = themes.create({
+                name: themeName,
+                package: {
+                    name: themeName,
+                    version: '0.1'
+                }
+            });
+        }
 
         return {themes: [theme]};
     });

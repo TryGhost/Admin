@@ -1,8 +1,6 @@
-import Service from '@ember/service';
-import {action} from '@ember/object';
+import Service, {inject as service} from '@ember/service';
+import {action, set} from '@ember/object';
 import {observes} from '@ember-decorators/object';
-import {inject as service} from '@ember/service';
-import {set} from '@ember/object';
 import {tracked} from '@glimmer/tracking';
 
 const DEFAULT_SETTINGS = {
@@ -23,16 +21,15 @@ export default class NavigationService extends Service {
     }
 
     // eslint-disable-next-line ghost/ember/no-observers
-    @observes('session.isAuthenticated', 'session.user.accessibility')
+    @observes('session.{isAuthenticated,user}', 'session.user.accessibility')
     async updateSettings() {
         // avoid fetching user before authenticated otherwise the 403 can fire
         // during authentication and cause errors during setup/signin
-        if (!this.session.isAuthenticated) {
+        if (!this.session.isAuthenticated || !this.session.user) {
             return;
         }
 
-        let user = await this.session.user;
-        let userSettings = JSON.parse(user.get('accessibility')) || {};
+        let userSettings = JSON.parse(this.session.user.accessibility || '{}') || {};
         this.settings = userSettings.navigation || Object.assign({}, DEFAULT_SETTINGS);
     }
 
@@ -51,7 +48,7 @@ export default class NavigationService extends Service {
     }
 
     async _saveNavigationSettings() {
-        let user = await this.session.user;
+        let user = this.session.user;
         let userSettings = JSON.parse(user.get('accessibility')) || {};
         userSettings.navigation = this.settings;
         user.set('accessibility', JSON.stringify(userSettings));

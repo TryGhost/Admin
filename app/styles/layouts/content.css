@@ -34,6 +34,7 @@
     padding: 13px 1px 0;
     color: color-mod(var(--midgrey) l(+8%));
     font-size: 1.5rem;
+    letter-spacing: 0;
     font-weight: 400;
     letter-spacing: 0.3px;
 }
@@ -47,45 +48,50 @@
 .gh-contentfilter-menu-trigger:focus,
 .gh-contentfilter-menu-trigger--active {
     background: var(--white);
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 400;
     color: var(--darkgrey);
     letter-spacing: 0.2px;
-    height: 33px;
-    padding: 5px 10px 6px 10px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.01), 0 1px 2px rgba(0, 0, 0, 0.05);
+    height: 34px;
+    padding: 6px 12px 6px;
+    margin-right: 8px;
     outline: none;
     border: none;
-    border-right: 1px solid var(--whitegrey-l2);
-    border-radius: 0;
+    border-radius: 2px !important;
     white-space: nowrap;
     transition: all 0.25s ease;
+    overflow: hidden;
 }
 
 .gh-contentfilter-menu-trigger:hover {
     cursor: pointer;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
     color: var(--darkgrey);
-}
-
-.gh-contentfilter-type .gh-contentfilter-menu-trigger {
-    border-top-left-radius: 4px !important;
-    border-bottom-left-radius: 4px !important;
-}
-
-.gh-contentfilter-menu:last-of-type .gh-contentfilter-menu-trigger {
-    border-top-right-radius: 4px !important;
-    border-bottom-right-radius: 4px !important;
+    background: var(--whitegrey);
 }
 
 .gh-contentfilter-selected .gh-contentfilter-menu-trigger,
 .gh-contentfilter-selected .gh-contentfilter-menu-trigger:hover {
-    color: var(--blue);
-    font-weight: 500;
+    font-weight: 600;
+    background: var(--whitegrey-l1);
+}
+
+.gh-contentfilter-selected:not(.no-highlight) .gh-contentfilter-menu-trigger,
+.gh-contentfilter-selected:not(.no-highlight) .gh-contentfilter-menu-trigger:hover {
+    color: var(--green)
+}
+
+.gh-canvas-header.grey .gh-contentfilter-menu-trigger,
+.gh-canvas-header.grey .gh-contentfilter-menu-trigger:focus,
+.gh-canvas-header.grey .gh-contentfilter-menu-trigger--active {
+    background: var(--main-color-content-greybg);
 }
 
 .gh-contentfilter-menu-trigger svg path {
-    stroke: color-mod(var(--midgrey) l(-7%));
+    stroke: var(--black);
+}
+
+.gh-btn-save-view svg {
+    margin-top: 3px !important;
 }
 
 .gh-contentfilter .ember-power-select-selected-item,
@@ -98,7 +104,7 @@
     margin-top: 6px;
     padding: 6px 0;
     border: none !important;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 7px 20px -5px rgba(0,0,0,.15);
     border-radius: 5px !important;
 }
@@ -124,16 +130,18 @@
     width: 18px;
     height: 18px;
     margin: 2px 0 0;
+    color: var(--black);
 }
 
 .gh-contentfilter-actions svg g {
-    stroke: var(--middarkgrey);
+    stroke: var(--black);
 }
 
 .gh-contentfilter-button {
     display: flex;
     height: 33px;
     line-height: 33px;
+    background: color-mod(var(--whitegrey-l1) l(-3%));
 }
 
 
@@ -160,16 +168,32 @@
     padding-left: 10px;
 }
 
-.gh-posts-status-header {
-    width: 160px;
+.gh-posts-sends-header,
+.gh-posts-opens-header {
+    width: 120px;
 }
 
-.gh-posts-lastupdate-header {
-    width: 160px;
+.gh-posts-status-header {
+    width: 140px;
 }
 
 .gh-post-list-title {
     padding-left: 10px;
+}
+
+.gh-post-list-external {
+    width: 13px;
+    height: 13px;
+    margin-left: 6px;
+    opacity: 0;
+}
+
+.gh-post-list-external path {
+    fill: var(--midgrey);
+}
+
+.gh-list-row:hover .gh-post-list-external {
+    opacity: 1;
 }
 
 .gh-post-list-featured {
@@ -179,14 +203,18 @@
 }
 
 .gh-post-list-updated,
-.gh-post-list-author {
+.gh-post-list-author,
+.gh-post-list-recipients,
+.gh-post-list-opens {
     color: var(--middarkgrey);
     font-size: 1.3rem;
 }
 
 .gh-content-entry-title {
+    display: flex;
+    align-items: center;
     margin: 0 0 3px 0;
-    font-size: 1.5rem;
+    font-size: 1.6rem !important;
     font-weight: 600;
 }
 
@@ -201,7 +229,7 @@
     color: var(--middarkgrey);
 }
 
-.gh-schedule-time {
+.gh-schedule-plan {
     color: var(--green-d1);
 }
 
@@ -219,6 +247,10 @@
     margin-right: 3px;
 }
 
+.gh-content-email-stats-mobile {
+    display: none;
+}
+
 .gh-content-status-draft,
 .gh-content-status-published,
 .gh-content-status-scheduled,
@@ -226,18 +258,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 19px;
-    padding: 0 4px;
+    height: 20px;
+    padding: 0 9px;
 }
 
 .gh-content-status-published {
-    color: var(--midgrey);
-    background: var(--lightgrey);
-    display: inline-block;
-    border-radius: 3px;
+    color: var(--midgrey-d1);
+    background: var(--whitegrey);
+    border-radius: 999px;
     text-transform: uppercase;
     font-size: 1.2rem;
-    padding: 0 3px;
     font-weight: 500;
 }
 
@@ -261,16 +291,33 @@
 }
 
 .gh-content-status-emailed {
-    display: inline-block;
     margin: 0px 6px;
-    background: var(--lightgrey);
-    padding-right: 5px;
-    border-radius: 3px;
+    color: var(--midgrey-d1);
+    background: var(--whitegrey);
+    border-radius: 999px;
 }
 
-.gh-content-status-emailed svg {
+.gh-content-status-emailed svg,
+.gh-content-status-published svg,
+.gh-content-status-scheduled svg {
     width: 12px;
     height: 12px;
+}
+
+.gh-content-status-emailed svg path,
+.gh-content-status-published svg path {
+    stroke: var(--midgrey-d1);
+    stroke-width: 2;
+}
+
+.gh-content-status-scheduled svg path {
+    stroke: var(--green-d2);
+    stroke-width: 2;
+}
+
+.gh-content-status-published svg,
+.gh-content-status-scheduled svg {
+    margin-left: 6px;
 }
 
 .gh-content-status-emailed.error {
@@ -286,13 +333,13 @@
 }
 
 .gh-posts-placeholder {
-    width: 120px;
-    margin: -30px 0 15px;
+    width: 60px;
+    fill: var(--lightgrey);
 }
 
 .gh-pages-placeholder {
-    width: 118px;
-    margin: -30px 0 15px;
+    width: 60px;
+    fill: var(--lightgrey);
 }
 
 .gh-post-list-email {
@@ -305,7 +352,7 @@
     .gh-posts-list-item {
         display: flex;
         flex-wrap: wrap;
-        border-bottom: 1px solid var(--lightgrey);
+        border-bottom: 1px solid var(--whitegrey);
         margin: 0;
     }
 
@@ -340,11 +387,12 @@
         padding: 20px 28px 4px;
     }
 
-    .gh-post-list-status {
+    .gh-post-list-status,
+    .gh-post-list-recipients,
+    .gh-post-list-opens {
         display: inline-block;
-        order: 3;
         border: none;
-        padding: 0 4px 20px 28px;
+        padding: 0 4px 20px 0;
         font-size: 1.3rem;
         max-width: 140px;
         white-space: nowrap;
@@ -352,9 +400,21 @@
         text-overflow: ellipsis;
     }
 
+    .gh-post-list-status {
+        order: 3;
+    }
+
+    .gh-post-list-recipients {
+        order: 4;
+    }
+
+    .gh-post-list-opens {
+        order: 5;
+    }
+
     .gh-post-list-updated {
         display: inline-block;
-        order: 4;
+        order: 6;
         border: none;
         padding: 0 4px 20px;
         font-size: 1.3rem;
@@ -366,7 +426,7 @@
 
     .gh-post-list-author {
         display: inline-block;
-        order: 5;
+        order: 7;
         border: none;
         padding: 0 4px 20px 0;
         font-size: 1.3rem;
@@ -385,30 +445,12 @@
         display: none;
     }
 
-    .post-header {
-        justify-content: flex-end;
-        min-height: 120px;
+    .gh-content-email-stats {
+        display: none;
     }
 
-    .post-header .gh-canvas-title {
-        position: absolute;
-        top: 29px;
-        left: 21px;
-    }
-
-    .post-header .view-actions {
-        flex-direction: column;
-        align-items: flex-end;
-        margin-top: 18px;
-        overflow-y: hidden;
-    }
-
-    .post-header .view-actions .gh-contentfilter {
-        order: 2;
-        margin: 10px 0 -20px;
-        padding: 6px 2px 26px 22px;
-        max-width: calc(100vw - 10px);
-        overflow-x: auto;
+    .gh-content-email-stats-mobile {
+        display: inherit;
     }
 }
 
@@ -452,6 +494,7 @@
 .no-posts {
     background: none;
     box-shadow: none;
+    border: none !important;
 }
 
 .no-posts + .infinity-loader {
@@ -465,21 +508,19 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    padding: 0;
-    height: calc(100vh - 140px);
+    padding: 0 0 24px;
+    height: calc(100vh - 200px);
 }
 
 .no-posts-box .no-posts {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -32px;
 }
 
-.no-posts-box .no-posts h3 {
-    margin-bottom: 20px;
-    color: var(--midgrey);
-    font-size: 2em;
-    font-weight: 300;
+.no-posts-box .no-posts h4 {
+    margin: 32px 0;
 }
 
 

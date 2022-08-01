@@ -1,16 +1,28 @@
 /* eslint-env node */
 module.exports = {
     root: true,
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
+        allowImportExportEverywhere: false,
         ecmaFeatures: {
-            legacyDecorators: true
+            globalReturn: false,
+            legacyDecorators: true,
+            jsx: true
+        },
+        requireConfigFile: false,
+        babelOptions: {
+            plugins: [
+                '@babel/plugin-proposal-class-properties',
+                ['@babel/plugin-proposal-decorators', {legacy: true}],
+                'babel-plugin-transform-react-jsx'
+            ]
         }
     },
     plugins: [
-        'ghost'
+        'ghost',
+        'react'
     ],
     extends: [
         'plugin:ghost/ember'
@@ -34,6 +46,9 @@ module.exports = {
 
         // disable linting of mixins until we migrate away
         'ghost/ember/no-mixins': 'off',
-        'ghost/ember/no-new-mixins': 'off'
+        'ghost/ember/no-new-mixins': 'off',
+
+        'react/jsx-uses-react': 'error',
+        'react/jsx-uses-vars': 'error'
     }
 };

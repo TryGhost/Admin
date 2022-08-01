@@ -1,4 +1,4 @@
-import {Response} from 'ember-cli-mirage';
+import {Response} from 'miragejs';
 import {authenticateSession, invalidateSession} from 'ember-simple-auth/test-support';
 import {
     beforeEach,
@@ -62,7 +62,7 @@ describe('Acceptance: Signin', function () {
             expect(findAll('input[name="password"]').length, 'password input field')
                 .to.equal(1);
 
-            await click('.gh-btn-blue');
+            await click('.js-login-button');
 
             expect(findAll('.form-group.error').length, 'number of invalid fields')
                 .to.equal(2);
@@ -72,7 +72,7 @@ describe('Acceptance: Signin', function () {
 
             await fillIn('[name="identification"]', 'test@example.com');
             await fillIn('[name="password"]', 'invalid');
-            await click('.gh-btn-blue');
+            await click('.js-login-button');
 
             expect(currentURL(), 'current url').to.equal('/signin');
 
@@ -91,8 +91,8 @@ describe('Acceptance: Signin', function () {
 
             await fillIn('[name="identification"]', 'test@example.com');
             await fillIn('[name="password"]', 'thisissupersafe');
-            await click('.gh-btn-blue');
-            expect(currentURL(), 'currentURL').to.equal('/site');
+            await click('.js-login-button');
+            expect(currentURL(), 'currentURL').to.equal('/dashboard');
         });
     });
 });

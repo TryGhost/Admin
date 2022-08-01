@@ -1,10 +1,14 @@
 import AjaxService from 'ember-ajax/services/ajax';
+import classic from 'ember-classic-decorator';
 import config from 'ghost-admin/config/environment';
-import {AjaxError, isAjaxError} from 'ember-ajax/errors';
+import moment from 'moment';
+import {AjaxError, isAjaxError, isForbiddenError} from 'ember-ajax/errors';
+import {captureMessage} from '@sentry/browser';
 import {get} from '@ember/object';
 import {isArray as isEmberArray} from '@ember/array';
 import {isNone} from '@ember/utils';
 import {inject as service} from '@ember/service';
+import {timeout} from 'ember-concurrency';
 
 const JSON_CONTENT_TYPE = 'application/json';
 const GHOST_REQUEST = /\/ghost\/api\//;
@@ -144,32 +148,47 @@ export function isEmailError(errorOrStatus, payload) {
 
 /* end: custom error types */
 
-let ajaxService = AjaxService.extend({
-    session: service(),
+export class AcceptedResponse {
+    constructor(data) {
+        this.data = data;
+    }
+}
+
+export function isAcceptedResponse(errorOrStatus) {
+    if (errorOrStatus === 202) {
+        return true;
+    }
+    return false;
+}
+
+@classic
+class ajaxService extends AjaxService {
+    @service config;
+    @service session;
 
     // flag to tell our ESA authenticator not to try an invalidate DELETE request
     // because it's been triggered by this service's 401 handling which means the
     // DELETE would fail and get stuck in an infinite loop
     // TODO: find a more elegant way to handle this
-    skipSessionDeletion: false,
+    skipSessionDeletion = false;
 
     get headers() {
         return {
             'X-Ghost-Version': config.APP.version,
             'App-Pragma': 'no-cache'
         };
-    },
+    }
 
     init() {
-        this._super(...arguments);
+        super.init(...arguments);
         if (this.isTesting === undefined) {
             this.isTesting = config.environment === 'test';
         }
-    },
+    }
 
-    // ember-ajax recognises `application/vnd.api+json` as a JSON-API request
-    // and formats appropriately, we want to handle `application/json` the same
-    _makeRequest(hash) {
+    async _makeRequest(hash) {
+        // ember-ajax recognizes `application/vnd.api+json` as a JSON-API request
+        // and formats appropriately, we want to handle `application/json` the same
         if (isJSONContentType(hash.contentType) && hash.type !== 'GET') {
             if (typeof hash.data === 'object') {
                 hash.data = JSON.stringify(hash.data);
@@ -178,8 +197,65 @@ let ajaxService = AjaxService.extend({
 
         hash.withCredentials = true;
 
-        return this._super(hash);
-    },
+        // attempt retries for 15 seconds in two situations:
+        // 1. Server Unreachable error from the browser (code 0), typically from short internet blips
+        // 2. Maintenance error from Ghost, upgrade in progress so API is temporarily unavailable
+
+        let success = false;
+        let errorName = null;
+        let attempts = 0;
+        let startTime = new Date();
+        let retryingMs = 0;
+        const maxRetryingMs = 15_000;
+        const retryPeriods = [500, 1000];
+        const retryErrorChecks = [this.isServerUnreachableError, this.isMaintenanceError];
+
+        const getErrorData = () => {
+            const data = {
+                errorName,
+                attempts,
+                totalSeconds: moment().diff(moment(startTime), 'seconds')
+            };
+            if (this._responseServer) {
+                data.server = this._responseServer;
+            }
+            return data;
+        };
+
+        const makeRequest = super._makeRequest.bind(this);
+
+        while (retryingMs <= maxRetryingMs && !success) {
+            try {
+                const result = await makeRequest(hash);
+                success = true;
+
+                if (attempts !== 0 && this.config.get('sentry_dsn')) {
+                    captureMessage('Request took multiple attempts', {extra: getErrorData()});
+                }
+
+                return result;
+            } catch (error) {
+                errorName = error.response?.constructor?.name;
+                retryingMs = (new Date()) - startTime;
+
+                // avoid retries in tests because it slows things down and is not expected in mocks
+                // isTesting can be overridden in individual tests if required
+                if (this.isTesting) {
+                    throw error;
+                }
+
+                if (retryErrorChecks.some(check => check(error.response)) && retryingMs <= maxRetryingMs) {
+                    await timeout(retryPeriods[attempts] || retryPeriods[retryPeriods.length - 1]);
+                    attempts += 1;
+                } else if (attempts > 0 && this.config.get('sentry_dsn')) {
+                    captureMessage('Request failed after multiple attempts', {extra: getErrorData()});
+                    throw error;
+                } else {
+                    throw error;
+                }
+            }
+        }
+    }
 
     handleResponse(status, headers, payload, request) {
         if (this.isVersionMismatchError(status, headers, payload)) {
@@ -198,19 +274,27 @@ let ajaxService = AjaxService.extend({
             return new HostLimitError(payload);
         } else if (this.isEmailError(status, headers, payload)) {
             return new EmailError(payload);
+        } else if (this.isAcceptedResponse(status)) {
+            return new AcceptedResponse(payload);
         }
 
         let isGhostRequest = GHOST_REQUEST.test(request.url);
         let isAuthenticated = this.get('session.isAuthenticated');
         let isUnauthorized = this.isUnauthorizedError(status, headers, payload);
+        let isForbidden = isForbiddenError(status, headers, payload);
 
-        if (isAuthenticated && isGhostRequest && isUnauthorized) {
+        // used when reporting connection errors, helps distinguish CDN
+        if (isGhostRequest) {
+            this._responseServer = headers.server;
+        }
+
+        if (isAuthenticated && isGhostRequest && (isUnauthorized || (isForbidden && payload.errors?.[0].message === 'Authorization failed'))) {
             this.skipSessionDeletion = true;
             this.session.invalidate();
         }
 
-        return this._super(...arguments);
-    },
+        return super.handleResponse(...arguments);
+    }
 
     normalizeErrorResponse(status, headers, payload) {
         if (payload && typeof payload === 'object') {
@@ -231,41 +315,45 @@ let ajaxService = AjaxService.extend({
             }
         }
 
-        return this._super(status, headers, payload);
-    },
+        return super.normalizeErrorResponse(status, headers, payload);
+    }
 
     isVersionMismatchError(status, headers, payload) {
         return isVersionMismatchError(status, payload);
-    },
+    }
 
     isServerUnreachableError(status) {
         return isServerUnreachableError(status);
-    },
+    }
 
     isRequestEntityTooLargeError(status) {
         return isRequestEntityTooLargeError(status);
-    },
+    }
 
     isUnsupportedMediaTypeError(status) {
         return isUnsupportedMediaTypeError(status);
-    },
+    }
 
     isMaintenanceError(status, headers, payload) {
         return isMaintenanceError(status, payload);
-    },
+    }
 
     isThemeValidationError(status, headers, payload) {
         return isThemeValidationError(status, payload);
-    },
+    }
 
     isHostLimitError(status, headers, payload) {
         return isHostLimitError(status, payload);
-    },
+    }
 
     isEmailError(status, headers, payload) {
         return isEmailError(status, payload);
     }
-});
+
+    isAcceptedResponse(status) {
+        return isAcceptedResponse(status);
+    }
+}
 
 // we need to reopen so that internal methods use the correct contentType
 ajaxService.reopen({
