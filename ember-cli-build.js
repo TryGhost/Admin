@@ -216,6 +216,7 @@ module.exports = function (defaults) {
             }
         },
         autoImport: {
+            publicAssetURL: 'assets/',
             webpack: {
                 resolve: {
                     fallback: {
