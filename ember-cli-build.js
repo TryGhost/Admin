@@ -6,6 +6,7 @@ const concat = require('broccoli-concat');
 const mergeTrees = require('broccoli-merge-trees');
 const Terser = require('broccoli-terser-sourcemap');
 const Funnel = require('broccoli-funnel');
+const webpack = require('webpack');
 const environment = EmberApp.env();
 const isProduction = environment === 'production';
 const isTesting = environment === 'test';
@@ -221,10 +222,16 @@ module.exports = function (defaults) {
             webpack: {
                 resolve: {
                     fallback: {
+                        util: require.resolve('util'),
                         path: require.resolve('path-browserify'),
                         fs: false
                     }
-                }
+                },
+                plugins: [
+                    new webpack.ProvidePlugin({
+                        process: 'process/browser'
+                    })
+                ]
             },
             alias: {
                 'react-mobiledoc-editor': 'react-mobiledoc-editor/dist/main.js'
