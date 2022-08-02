@@ -8,6 +8,7 @@ const Terser = require('broccoli-terser-sourcemap');
 const Funnel = require('broccoli-funnel');
 const environment = EmberApp.env();
 const isProduction = environment === 'production';
+const isTesting = environment === 'test';
 
 const postcssImport = require('postcss-import');
 const postcssCustomProperties = require('postcss-custom-properties');
@@ -216,7 +217,7 @@ module.exports = function (defaults) {
             }
         },
         autoImport: {
-            publicAssetURL: 'assets/',
+            publicAssetURL: isTesting ? undefined : 'assets/',
             webpack: {
                 resolve: {
                     fallback: {
