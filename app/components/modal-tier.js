@@ -256,6 +256,11 @@ export default class ModalTierPrice extends ModalBase {
             const newCurrency = event.value;
             this.currency = newCurrency;
         },
+
+        setTrialPeriodDays(event) {
+            const value = parseInt(event.target.value);
+            this.tier.set('trialPeriodDays', value);
+        },
         // needed because ModalBase uses .send() for keyboard events
         closeModal() {
             this.close();

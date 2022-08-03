@@ -125,9 +125,10 @@
                             </div>
                             <div class="gh-input-group">
                                 <GhTextInput
-                                        @value={{readonly this.tier.trial}}
+                                        @value={{readonly this.tier.trialPeriodDays}}
                                         @type="number"
-                                        @input={{action (mut this.tier.trial) value="target.value"}}
+                                        {{!-- @input={{action (mut this.tier.trialPeriodDays) value="target.value"}} --}}
+                                        @input={{action "setTrialPeriodDays"}}
                                         @name="trial"
                                         @id="trial"
                                         @class="gh-input"
