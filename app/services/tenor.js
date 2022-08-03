@@ -16,6 +16,7 @@ export default class TenorService extends Service {
     @tracked columnCount = 4;
     @tracked columns = null;
     @tracked error = null;
+    @tracked htmlError = null;
     @tracked gifs = new TrackedArray([]);
     @tracked searchTerm = '';
     @tracked loadedType = '';
