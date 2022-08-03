@@ -159,6 +159,13 @@ export default class TenorService extends Service {
                 if (!options.ignoreErrors && !this.error) {
                     this.error = 'Uh-oh! Trouble reaching the Tenor API, please check your connection';
                 }
+
+                if (this.error && this.error.startsWith('API key not valid')) {
+                    // Added an html error field, so that we don't pass raw API errors from tenor to triple-braces in the frontend
+                    this.htmlError = `This version of the Tenor API is no longer supported.<br />
+Please generate a new API key and update your configuration by following our
+<a href="https://ghost.org/docs/config/#tenor" target="_blank" rel="noopener noreferrer"> documentation here</a>.`;
+                }
                 console.error(e); // eslint-disable-line
             });
     }
@@ -171,8 +178,8 @@ export default class TenorService extends Service {
 
         let responseText;
 
-        if (response.headers.map['content-type'] === 'application/json') {
-            responseText = await response.json().then(json => json.errors[0]);
+        if (response.headers.map['content-type'].startsWith('application/json')) {
+            responseText = await response.json().then(json => json.error.message || json.error);
         } else if (response.headers.map['content-type'] === 'text/xml') {
             responseText = await response.text();
         }
