@@ -17,8 +17,8 @@ export default class TenorService extends Service {
     @tracked columns = null;
     @tracked error = null;
     @tracked gifs = new TrackedArray([]);
-    @tracked searchTerm = 'excited';
-    @tracked loadedType = 'search';
+    @tracked searchTerm = '';
+    @tracked loadedType = '';
 
     _columnHeights = [];
     _nextPos = null;
@@ -98,7 +98,7 @@ export default class TenorService extends Service {
 
     @task({group: 'loadingTasks'})
     *loadTrendingTask() {
-        this.loadedType = 'search';
+        this.loadedType = 'featured';
 
         yield this._makeRequest(this.loadedType, {params: {
             q: 'excited',
