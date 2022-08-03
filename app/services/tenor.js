@@ -160,9 +160,8 @@ export default class TenorService extends Service {
 
                 if (this.error && this.error.startsWith('API key not valid')) {
                     // Added an html error field, so that we don't pass raw API errors from tenor to triple-braces in the frontend
-                    this.htmlError = `This version of the Tenor API is no longer supported.<br />
-Please generate a new API key and update your configuration by following our
-<a href="https://ghost.org/docs/config/#tenor" target="_blank" rel="noopener noreferrer"> documentation here</a>.`;
+                    this.htmlError = `This version of the Tenor API is no longer supported. Please update your API key by following our
+<a href="https://ghost.org/docs/config/#tenor" target="_blank" rel="noopener noreferrer"> documentation here</a>.<br />`;
                 }
                 console.error(e); // eslint-disable-line
             });
