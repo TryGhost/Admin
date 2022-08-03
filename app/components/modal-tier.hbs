@@ -106,7 +106,23 @@
                         </GhFormGroup>
                         {{#if (feature 'freeTrial')}}
                         <GhFormGroup @errors={{this.errors}} @property="trial" data-test-formgroup="trial">
-                            <label for="monthlyPrice" class="fw6">Free trial</label>
+                            <div class="form-group mb0 for-checkbox">
+                                <label
+                                    class="checkbox"
+                                    for="free-plan"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={{this.stripePlanError}}
+                                        id="free-plan"
+                                        name="free-plan"
+                                        class="gh-input post-settings-featured"
+                                        {{!-- {{on "click" (action "togglePlan" "free")}} --}}
+                                    >
+                                    <span class="input-toggle-component"></span>
+                                    <label for="trial" class="fw6">Free trial</label>
+                                </label>
+                            </div>
                             <div class="gh-input-group">
                                 <GhTextInput
                                         @value={{readonly this.tier.trial}}
