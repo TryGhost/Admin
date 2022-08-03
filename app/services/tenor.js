@@ -24,11 +24,8 @@ export default class TenorService extends Service {
     _nextPos = null;
 
     get apiKey() {
+        // @TODO confirm this!
         return this.config.get('tenor.apiKey');
-    }
-
-    get clientId() {
-        return this.config.get('tenor.clientId');
     }
 
     get contentfilter() {
@@ -139,7 +136,7 @@ export default class TenorService extends Service {
 
         const params = new URLSearchParams(options.params);
         params.set('key', this.apiKey);
-        params.set('client_key', this.clientId);
+        params.set('client_key', 'ghost-editor');
         params.set('contentfilter', this.contentfilter);
 
         url.search = params.toString();
