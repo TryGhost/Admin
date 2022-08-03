@@ -1586,7 +1586,7 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.36"
 
-"@glimmer/component@1.1.2", "@glimmer/component@^1.0.2", "@glimmer/component@^1.0.4":
+"@glimmer/component@1.1.2", "@glimmer/component@^1.0.4":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@glimmer/component/-/component-1.1.2.tgz#892ec0c9f0b6b3e41c112be502fde073cf24d17c"
   integrity sha512-XyAsEEa4kWOPy+gIdMjJ8XlzA3qrGH55ZDv6nA16ibalCR17k74BI0CztxuRds+Rm6CtbUVgheCVlcCULuqD7A==
@@ -1708,7 +1708,7 @@
     "@handlebars/parser" "~2.0.0"
     simple-html-tokenizer "^0.5.11"
 
-"@glimmer/tracking@^1.0.2", "@glimmer/tracking@^1.0.4":
+"@glimmer/tracking@^1.0.4":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.1.2.tgz#74e71be07b0a7066518d24044d2665d0cf8281eb"
   integrity sha512-cyV32zsHh+CnftuRX84ALZpd2rpbDrhLhJnTXn9W//QpqdRZ5rdMsxSY9fOsj0CKEc706tmEU299oNnDc0d7tA==
@@ -6383,7 +6383,7 @@ ember-ajax@5.1.1:
     ember-cli-babel "^7.5.0"
     najax "^1.0.7"
 
-ember-assign-helper@0.4.0:
+ember-assign-helper@0.4.0, ember-assign-helper@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/ember-assign-helper/-/ember-assign-helper-0.4.0.tgz#f0a313033656c0d2cbbcb29d55b9cd13f04bc7c1"
   integrity sha512-GKHhT4HD2fhtDnuBk6eCdCA8XGew9hY7TVs8zjrykegiI7weC0CGtpJscmIG3O0gEEb0d07UTkF2pjfNGLx4Nw==
@@ -6516,10 +6516,10 @@ ember-auto-import@^1.11.3, ember-auto-import@^1.12.0:
     typescript-memoize "^1.0.0-alpha.3"
     walk-sync "^0.3.3"
 
-ember-basic-dropdown@4.0.5, ember-basic-dropdown@^3.0.11, ember-basic-dropdown@^3.0.17:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-4.0.5.tgz#7369fc3d3cd774223510b89ba2ace44b62da5112"
-  integrity sha512-cD0cnL4gjoNNGJ+kMNtGlsikan5v5aVWp5Mkv8fgnLS96EGhmAMlTiRBexmyzK+4Zbe+xOlZKNQva4bZ7FrQGQ==
+ember-basic-dropdown@6.0.1, ember-basic-dropdown@^3.0.11, "ember-basic-dropdown@^3.1.0 || ^4.0.2":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-6.0.1.tgz#9844b8b263033c916e193fb15b91517a00192db0"
+  integrity sha512-8cmqHvho7fToAv2pauzLd3y9fUVtMu0+eBwsevjiuTdWUPLvkIvn745NbT5aempVmxfMq0oQLhjzK8VUd4gxaw==
   dependencies:
     "@ember/render-modifiers" "^2.0.4"
     "@embroider/macros" "^1.2.0"
@@ -6530,9 +6530,10 @@ ember-basic-dropdown@4.0.5, ember-basic-dropdown@^3.0.11, ember-basic-dropdown@^
     ember-cli-htmlbars "^6.0.1"
     ember-cli-typescript "^4.2.1"
     ember-element-helper "^0.6.0"
-    ember-get-config "^1.0.2"
+    ember-get-config "^1.0.2 || ^2.0.0"
     ember-maybe-in-element "^2.0.3"
-    ember-style-modifier "^0.7.0"
+    ember-modifier "^3.2.7"
+    ember-style-modifier "^0.8.0"
     ember-truth-helpers "^2.1.0 || ^3.0.0"
 
 ember-classic-decorator@3.0.0:
@@ -6981,7 +6982,7 @@ ember-cli-typescript@^3.1.3, ember-cli-typescript@^3.1.4:
     stagehand "^1.0.0"
     walk-sync "^2.0.0"
 
-ember-cli-typescript@^4.1.0, ember-cli-typescript@^4.2.1:
+ember-cli-typescript@^4.1.0, ember-cli-typescript@^4.2.0, ember-cli-typescript@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-4.2.1.tgz#54d08fc90318cc986f3ea562f93ce58a6cc4c24d"
   integrity sha512-0iKTZ+/wH6UB/VTWKvGuXlmwiE8HSIGcxHamwNhEC5x1mN3z8RfvsFZdQWYUzIWFN2Tek0gmepGRPTwWdBYl/A==
@@ -7341,7 +7342,7 @@ ember-fetch@8.1.1:
     node-fetch "^2.6.1"
     whatwg-fetch "^3.6.2"
 
-ember-get-config@:
+ember-get-config@, "ember-get-config@^1.0.2 || ^2.0.0":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-2.1.1.tgz#bede76c25d95dbefab8d30064abf7aa00bc19235"
   integrity sha512-uNmv1cPG/4qsac8oIf5txJ2FZ8p88LEpG4P3dNcjsJS98Y8hd0GPMFwVqpnzI78Lz7VYRGQWY4jnE4qm5R3j4g==
@@ -7357,14 +7358,6 @@ ember-get-config@:
     broccoli-file-creator "^1.1.1"
     ember-cli-babel "^7.26.6"
     ember-cli-htmlbars "^5.7.1"
-
-ember-get-config@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-1.1.0.tgz#731e192f1fe8022e06c0dbcbe5622fb8c4c78b87"
-  integrity sha512-diD+HwwY8QqpEk5DnDYfH7onYwl6NOgr1qv1ENbXih+/iiWYUVS/e0S/PlM7A4gdorD9spn1bnisnTLTf49Wpw==
-  dependencies:
-    "@embroider/macros" "^0.50.0 || ^1.0.0"
-    ember-cli-babel "^7.26.6"
 
 "ember-getowner-polyfill@^1.1.0 || ^2.0.0", ember-getowner-polyfill@^2.0.0, ember-getowner-polyfill@^2.0.1:
   version "2.2.0"
@@ -7489,7 +7482,7 @@ ember-modifier-manager-polyfill@^1.2.0:
     ember-cli-version-checker "^2.1.2"
     ember-compatibility-helpers "^1.2.0"
 
-ember-modifier@3.2.7, "ember-modifier@^2.1.2 || ^3.0.0", "ember-modifier@^2.1.2 || ^3.1.0 || ^4.0.0", ember-modifier@^3.0.0:
+ember-modifier@3.2.7, "ember-modifier@^2.1.2 || ^3.0.0", "ember-modifier@^2.1.2 || ^3.1.0 || ^4.0.0", ember-modifier@^3.2.7:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/ember-modifier/-/ember-modifier-3.2.7.tgz#f2d35b7c867cbfc549e1acd8d8903c5ecd02ea4b"
   integrity sha512-ezcPQhH8jUfcJQbbHji4/ZG/h0yyj1jRDknfYue/ypQS8fM8LrGcCMo0rjDZLzL1Vd11InjNs3BD7BdxFlzGoA==
@@ -7548,18 +7541,19 @@ ember-power-datepicker@cibernox/ember-power-datepicker:
     ember-decorators "^6.1.1"
     ember-power-calendar "^0.16.3"
 
-ember-power-select@4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-4.1.5.tgz#8bf4b77a5577972ac7793d7ac81580f79154d122"
-  integrity sha512-J/WJau0fXBl6VGocctUKElK2vJYMzUfk2AqD61ezGVLF65aobo8G4BJuQoIZJr6dl2++fuNWHjO5iz8dHEAVPQ==
+ember-power-select@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-5.0.4.tgz#4af485fb7e1e1eca1bedd523892c82c672935dac"
+  integrity sha512-FLVShZr3cYdLzymP+/0rXkfH5tD/FD958kynY86MWvn7ZyL2tXowlgVKY08n+PJHdo/vCrzqubRYckvXRSH6Bg==
   dependencies:
-    "@glimmer/component" "^1.0.2"
-    "@glimmer/tracking" "^1.0.2"
-    ember-assign-helper "^0.3.0"
-    ember-basic-dropdown "^3.0.17"
-    ember-cli-babel "^7.23.0"
-    ember-cli-htmlbars "^5.3.1"
-    ember-cli-typescript "^4.1.0"
+    "@embroider/util" "^1.0.0"
+    "@glimmer/component" "^1.0.4"
+    "@glimmer/tracking" "^1.0.4"
+    ember-assign-helper "^0.4.0"
+    ember-basic-dropdown "^3.1.0 || ^4.0.2"
+    ember-cli-babel "^7.26.0"
+    ember-cli-htmlbars "^6.0.0"
+    ember-cli-typescript "^4.2.0"
     ember-concurrency ">=1.0.0 <3"
     ember-concurrency-decorators "^2.0.0"
     ember-text-measurer "^0.6.0"
@@ -7667,13 +7661,13 @@ ember-source@3.24.0:
     semver "^6.1.1"
     silent-error "^1.1.1"
 
-ember-style-modifier@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/ember-style-modifier/-/ember-style-modifier-0.7.0.tgz#85b3dfd7e4bc2bd546df595f2dab4fb141cf7d87"
-  integrity sha512-iDzffiwJcb9j6gu3g8CxzZOTvRZ0BmLMEFl+uyqjiaj72VVND9+HbLyQRw1/ewPAtinhSktxxTTdwU/JO+stLw==
+ember-style-modifier@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/ember-style-modifier/-/ember-style-modifier-0.8.0.tgz#ef46b3f288e63e3d850418ea8dc6f7b12edde721"
+  integrity sha512-I7M+oZ+poYYOP7n521rYv7kkYZbxotL8VbtHYxLQ3tasRZYQJ21qfu3vVjydSjwyE3w7EZRgKngBoMhKSAEZnw==
   dependencies:
     ember-cli-babel "^7.26.6"
-    ember-modifier "^3.0.0"
+    ember-modifier "^3.2.7"
 
 ember-svg-jar@2.3.4:
   version "2.3.4"
