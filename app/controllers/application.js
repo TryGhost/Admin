@@ -16,6 +16,7 @@ export default class ApplicationController extends Controller {
     @service router;
     @service session;
     @service settings;
+    @service store;
     @service ui;
 
     @reads('config.hostSettings.update.enabled')
@@ -45,6 +46,20 @@ export default class ApplicationController extends Controller {
 
         return (router.currentRouteName !== 'error404' || session.isAuthenticated)
                 && !router.currentRouteName.match(/(signin|signup|setup|reset)/);
+    }
+
+    get ownerUserNameOrEmail() {
+        let user = this.store.peekAll('user').findBy('isOwnerOnly', true);
+
+        if (user) {
+            if (user.name) {
+                return user.name;
+            } else if (user.email) {
+                return user.email;
+            }
+        }
+
+        return null;
     }
 
     @action

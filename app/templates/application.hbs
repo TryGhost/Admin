@@ -1,12 +1,24 @@
 <GhApp>
     <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
 
-    {{#if (and this.session.user.isOwnerOnly this.showUpdateLink)}}
+    {{#if (and this.session.user.isAdmin this.showUpdateLink)}}
     <aside class="gh-update-banner">
-        <div class="gh-alert-content">
-            Your site is ready for a major update!
-        </div>
-        <a href="#" {{on "click" this.openUpdateTab}}>Update to Ghost 5.0 &rarr;</a>
+        {{#if this.session.user.isOwnerOnly}}
+            <div class="gh-alert-content">
+                You're missing out on new features, update by January 31st.
+            </div>
+            <a href="#" {{on "click" this.openUpdateTab}}>Update to Ghost 5.0 &rarr;</a>
+        {{else}}
+            <div class="gh-alert-content">
+                Your Ghost install is ready for a major update!
+                {{#if this.ownerUserNameOrEmail}}
+                    {{this.ownerUserNameOrEmail}}
+                {{else}}
+                    Your Site Owner
+                {{/if}}
+                will need to log in to do this.
+            </div>
+        {{/if}}
     </aside>
     {{/if}}
 

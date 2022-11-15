@@ -2078,7 +2078,7 @@ section.gh-ds h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #15171A;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--pink) 100%);;
     color: rgba(255, 255, 255, 0.95);
     padding: 14px;
 }
